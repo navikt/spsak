@@ -10,8 +10,7 @@
 
 
 
-	<!-- <xsd:element name="personopplysningerES" type="po:PersonopplysningerEngangsstoenad" 
-		/> -->
+	<xsd:element name="personopplysningerEngangsstoenad" type="po:PersonopplysningerEngangsstoenad"/>
 
 	<xsd:complexType name="PersonopplysningerEngangsstoenad">
 		<xsd:complexContent>

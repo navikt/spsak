@@ -6,6 +6,8 @@
             elementFormDefault="qualified">
     <xsd:import schemaLocation="../felles-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:felles:v2"/>
 
+    <xsd:element name="vilkaarsgrunnlag" type="vg:Vilkaarsgrunnlag" />
+
     <xsd:complexType abstract="true" name="Vilkaarsgrunnlag" />
 
     <xsd:complexType name="VilkaarsgrunnlagFoedsel">

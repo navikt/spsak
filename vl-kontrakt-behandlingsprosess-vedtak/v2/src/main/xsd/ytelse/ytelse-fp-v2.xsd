@@ -8,6 +8,9 @@
 			elementFormDefault="qualified">
 	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:felles:v2" schemaLocation="../felles-v2.xsd"/>
 	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:v2" schemaLocation="ytelse-v2.xsd"/>
+
+	<xsd:element name="YtelseForeldrepenger" type="ytfp:YtelseForeldrepenger" />
+
 	<xsd:complexType name="YtelseForeldrepenger">
 		<xsd:complexContent>
 			<xsd:extension base="yt:Ytelse">

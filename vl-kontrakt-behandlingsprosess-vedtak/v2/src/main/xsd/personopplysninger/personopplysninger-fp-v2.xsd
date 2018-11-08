@@ -10,7 +10,7 @@
 	<xsd:import schemaLocation="personopplysninger-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v2" />
 
 
-    <xsd:element name="po" type="po:PersonopplysningerForeldrepenger"/>
+    <xsd:element name="PersonopplysningerForeldrepenger" type="po:PersonopplysningerForeldrepenger"/>
 
 
 	<xsd:complexType name="PersonopplysningerForeldrepenger">

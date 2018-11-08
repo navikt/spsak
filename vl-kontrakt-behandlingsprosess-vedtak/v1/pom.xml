@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>behandlingsprosess-vedtak-pom</artifactId>
-        <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+        <groupId>no.nav.sykepenger.kontrakter</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,23 +12,58 @@
     <artifactId>behandlingsprosess-vedtak-v1</artifactId>
     <packaging>jar</packaging>
     <name>Foreldrepenger kontrakt (FPSAK) - behandlingsprosess-vedtak-v1</name>
+
     <build>
         <plugins>
-            <!-- Plugin required to build java classes from XSD using XJC -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.14.0</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>xjc</goal>
+                            <goal>generate</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <addGeneratedAnnotation>true</addGeneratedAnnotation>
+                    <bindings>
+                        <binding>
+                            <fileset>
+                                <directory>src/main/xjb</directory>
+                                <includes>
+                                    <include>*.xjb</include>
+                                </includes>
+                            </fileset>
+                        </binding>
+                    </bindings>
+                    <extension>true</extension>
+                    <args>
+                        <arg>-no-header</arg>
+                        <arg>-npa</arg>
+                        <arg>-Xinheritance</arg>
+                        <arg>-Xannotate</arg>
+                    </args>
+                    <schemaDirectory>src/main/xsd</schemaDirectory>
+                    <schemaIncludes>
+                        <include>**/*.xsd</include>
+                    </schemaIncludes>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics</artifactId>
+                            <version>1.11.1</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics-annotate</artifactId>
+                            <version>1.1.0</version>
+                        </plugin>
+
+                    </plugins>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>

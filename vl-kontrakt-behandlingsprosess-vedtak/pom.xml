@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+    <groupId>no.nav.sykepenger.kontrakter</groupId>
     <artifactId>behandlingsprosess-vedtak-pom</artifactId>
     <version>${revision}${sha1}${changelist}</version>
     <packaging>pom</packaging>
@@ -13,16 +13,22 @@
     </modules>
 
     <properties>
-	<revision>2.4</revision>
+	<revision>0.0.1</revision>
 	<sha1></sha1>
 	<changelist>-SNAPSHOT</changelist>
 	<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.12</junit.version>
         <assertj.version>3.8.0</assertj.version>
-        <felles.integrasjon.version>2.3_20180924093111_d3b44f7</felles.integrasjon.version>
         <jaxb2.basics.version>1.11.1</jaxb2.basics.version>
     </properties>
+
+    <scm>
+        <connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-behandlingsprosess-vedtak.git</connection>
+        <developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-behandlingsprosess-vedtak.git</developerConnection>
+        <url>http://stash.devillo.no/projects/VEDFP/repos/vl-kontrakt-behandlingsprosess-vedtak/browse</url>
+    </scm>
+
 
     <dependencies>
        
@@ -44,16 +50,6 @@
             <version>${jaxb2.basics.version}</version>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>no.nav.vedtak.felles.integrasjon</groupId>
-                <artifactId>felles-integrasjon-webservice</artifactId>
-                <version>${felles.integrasjon.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
@@ -118,11 +114,6 @@
                     <configuration>
                         <classifier>jaxb</classifier>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>jaxb2-maven-plugin</artifactId>
-                    <version>2.3.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

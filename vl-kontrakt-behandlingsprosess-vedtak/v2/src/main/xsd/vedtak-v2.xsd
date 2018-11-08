@@ -16,7 +16,7 @@
 			<xsd:element name="behandlingsTema" type="felles:KodeverksOpplysning"/>
 			<xsd:element name="ansvarligSaksbehandlerIdent" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="ansvarligBeslutterIdent" type="xsd:string" minOccurs="0"/>
-			<xsd:element name="behandlendeEnhet" type="xsd:string"/>
+			<xsd:element name="behandlendeEnhet" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="soeknadsdato" type="xsd:date" minOccurs="0"/>
 			<xsd:element name="klagedato" type="xsd:date" minOccurs="0"/>
 			<xsd:element name="vedtaksdato" type="xsd:date">
@@ -127,7 +127,7 @@
 	<xsd:complexType name="Beregningsresultat">
 		<xsd:sequence>
 			<xsd:element name="beregningsgrunnlag" type="vedtak:Beregningsgrunnlag"/>
-			<xsd:element name="uttak" type="vedtak:Uttak"/>
+			<xsd:element name="uttak" type="vedtak:Uttak" minOccurs="0"/>
 			<xsd:element name="tilkjentYtelse" type="vedtak:TilkjentYtelse"/>
 		</xsd:sequence>
 	</xsd:complexType>

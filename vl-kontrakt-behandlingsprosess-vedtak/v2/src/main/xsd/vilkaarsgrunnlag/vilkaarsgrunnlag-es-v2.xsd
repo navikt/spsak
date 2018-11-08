@@ -10,20 +10,6 @@
     <xsd:import schemaLocation="../felles-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:felles:v2"/>
     <xsd:import schemaLocation="../personopplysninger/personopplysninger-es-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:es:v2"/>
 
-    <!--
-    <xsd:element name="allElements">
-      <xsd:complexType>
-        <xsd:sequence>
-          <xsd:element name="foedsel" type="vg:VilkaarsgrunnlagFoedsel" />
-          <xsd:element name="adopsjon" type="vg:VilkaarsgrunnlagAdopsjon" />
-          <xsd:element name="medlemskap" type="vg:VilkaarsgrunnlagMedlemskap" />
-          <xsd:element name="soekersoppplikt" type="vg:VilkaarsgrunnlagSoekersopplysningsplikt" />
-          <xsd:element name="soeknadsfrist" type="vg:VilkaarsgrunnlagSoeknadsfrist" />
-        </xsd:sequence>
-      </xsd:complexType>
-    </xsd:element>
-     -->
-
     <xsd:complexType name="VilkaarsgrunnlagFoedsel">
         <xsd:complexContent>
             <xsd:extension base="ve:VilkaarsgrunnlagFoedsel"/>

@@ -8,7 +8,7 @@
     <xsd:import schemaLocation="ytelse-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:v2"/>
 	<xsd:import schemaLocation="../felles-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:felles:v2" />
 
-  <xsd:element name="engangstoenadYtelse" type="ytes:YtelseEngangsstoenad" />
+  <xsd:element name="ytelseEngangsstoenad" type="ytes:YtelseEngangsstoenad" />
 
   <xsd:complexType name="YtelseEngangsstoenad">
     <xsd:complexContent>

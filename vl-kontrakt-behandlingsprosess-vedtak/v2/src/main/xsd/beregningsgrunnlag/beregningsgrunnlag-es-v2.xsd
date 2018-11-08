@@ -8,14 +8,14 @@
     <xsd:import schemaLocation="beregningsgrunnlag-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:v2"/>
 	<xsd:import schemaLocation="../felles-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:felles:v2" />
 
-  <!-- <xsd:element name="beregningsgrunnlagES" type="bg:BeregningsgrunnlagEngangsstoenad" />  -->
+   <xsd:element name="BeregningsgrunnlagEngangsstoenad" type="bg:BeregningsgrunnlagEngangsstoenad"/>
 
   <xsd:complexType name="BeregningsgrunnlagEngangsstoenad">
     <xsd:complexContent>
       <xsd:extension base="be:Beregningsgrunnlag">
         <xsd:sequence>
-          <xsd:element name="antallBarn" type="felles:IntOpplysning" />
-          <xsd:element name="sats" type="xsd:int" />
+          <xsd:element name="antallBarn" type="felles:IntOpplysning" minOccurs="0"/>
+          <xsd:element name="sats" type="felles:LongOpplysning" minOccurs="0" />
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>

@@ -9,8 +9,7 @@
     <xsd:import schemaLocation="personopplysninger-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v2"/>
     <xsd:import schemaLocation="../felles-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:felles:v2"/>
 
-    <!-- <xsd:element name="personopplysningerES" type="po:PersonopplysningerEngangsstoenad"
-        /> -->
+    <xsd:element name="PersonopplysningerDvhEngangsstoenad" type="po:PersonopplysningerDvhEngangsstoenad"/>
 
     <xsd:complexType name="PersonopplysningerDvhEngangsstoenad">
         <xsd:complexContent>

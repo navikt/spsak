@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>behandlingsprosess-vedtak-pom</artifactId>
-        <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+        <groupId>no.nav.sykepenger.kontrakter</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,13 +12,6 @@
     <artifactId>behandlingsprosess-vedtak-v2</artifactId>
     <packaging>jar</packaging>
     <name>Foreldrepenger kontrakt (FPSAK) - behandlingsprosess-vedtak-v2</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
-            <artifactId>felles-integrasjon-webservice</artifactId>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
