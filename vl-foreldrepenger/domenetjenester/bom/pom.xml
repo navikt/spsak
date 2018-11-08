@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>no.nav.foreldrepenger</groupId>
+		<groupId>no.nav.sykepenger</groupId>
 		<artifactId>domenetjenester-pom</artifactId>
         <version>${revision}${sha1}${changelist}</version>
 	</parent>
@@ -15,125 +15,125 @@
 	<dependencies>
 		<!-- håndeterer behandlingskontroll utenfor BOM -->
 		<!--<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>dokumentarkiv</artifactId>
         </dependency>-->
 		
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>dokumentarkiv</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>familie-hendelse</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>skjaeringstidspunkt</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>uttaksplan</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>dokumentbestiller</artifactId>
         </dependency>
 		 <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>arbeidsforhold</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>inngangsvilkar</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>kompletthetsjekk</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>kontrollerfakta</artifactId>
         </dependency>
         
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>medlem</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>okonomistotte</artifactId>
         </dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>person</artifactId>
 		</dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>produksjonsstyring</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>registerinnhenting</artifactId>
         </dependency>
 		
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling</artifactId>
         </dependency>
 		
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-kriterier</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-status</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-gjenopptagelse</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-revurdering</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>beregning-ytelse</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-innsyn</artifactId>
         </dependency>
         
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>vedtak</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>beregningsgrunnlag</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>uttak</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>virksomhet</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>mottak</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>ytelse-fordeling</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-soknadsfrist-foreldrepenger</artifactId>
         </dependency>
     </dependencies>

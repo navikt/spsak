@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>no.nav.vedtak.felles</groupId>
+	<groupId>no.nav.spvedtak.felles</groupId>
 	<artifactId>felles</artifactId>
 	<version>${revision}${sha1}${changelist}</version>
 	<packaging>pom</packaging>
@@ -19,7 +19,7 @@
 	</modules>
 
 	<properties>
-		<revision>3.0</revision>
+		<revision>0.0.1</revision>
 		<sha1></sha1>
 		<changelist>-SNAPSHOT</changelist>
 		<java.version>10</java.version>
@@ -126,43 +126,43 @@
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-feil</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-feil</artifactId>
 				<type>test-jar</type>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-util</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-log</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-db</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-bom</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+				<groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
 				<artifactId>felles-sikkerhet</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+				<groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
 				<artifactId>felles-sikkerhet-testutilities</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -512,7 +512,7 @@
 
 			<!-- Andre 3djepart avhengigheter -->
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-testutilities</artifactId>
 				<version>${project.version}</version>
 			</dependency>

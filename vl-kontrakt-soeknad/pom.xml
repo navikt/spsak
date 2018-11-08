@@ -2,14 +2,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+    <groupId>no.nav.sykepenger.kontrakter</groupId>
     <artifactId>soeknad-v1</artifactId>
     <version>${revision}${sha1}${changelist}</version>
     <packaging>message-specification</packaging>
     <name>Foreldrepenger kontrakt (FPSAK) - soeknad</name>
 
     <properties>
-        <revision>1.0</revision>
+        <revision>0.0.1</revision>
         <sha1></sha1>
         <changelist>-SNAPSHOT</changelist>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>

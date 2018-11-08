@@ -5,7 +5,7 @@
 
     <parent>
         <artifactId>domenetjenester-pom</artifactId>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
 
@@ -16,71 +16,71 @@
     <dependencies>
 		<!-- Domenetjeneste avhengigheter -->
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>person</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>familie-hendelse</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>beregningsgrunnlag</artifactId>
         </dependency>
 
         <!-- Prosjektinterne avhengigheter -->
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-bom</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-domene</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingskontroll-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>produksjonsstyring</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>uttak</artifactId>
         </dependency>
 		
 		<!-- Integrasjon avhengigheter -->
         <dependency>
-            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>dokumentproduksjon-klient</artifactId>
         </dependency>
         
         <!-- Infrastrukturtjeneste avhengigheter -->
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>batch</artifactId>
         </dependency>
         
 		<!-- Kontrakter -->
 		<dependency>
-            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>dokumentbestiller-v1</artifactId>
             <classifier>jaxb</classifier>
         </dependency>
 		
         <!-- Test -->
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-testutilities</artifactId>
             <scope>test</scope>
         </dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingskontroll</artifactId>
 			<scope>test</scope>
         </dependency>

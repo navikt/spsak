@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
         <artifactId>behandlingskontroll-pom</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
@@ -15,17 +15,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-bom</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-testutilities</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingskontroll-api</artifactId>
         </dependency>
 
@@ -34,7 +34,7 @@
             eller noen andre ting så har du antagelig tenkt helt feil. Snakk med en voksen - eller risiker å bli hengt ut på neste Teknisk Review. -->
 
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-testutilities</artifactId>
             <scope>test</scope>
         </dependency>

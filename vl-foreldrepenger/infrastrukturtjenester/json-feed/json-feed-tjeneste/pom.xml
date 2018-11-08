@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>json-feed-pom</artifactId>
-		<groupId>no.nav.foreldrepenger</groupId>
+		<groupId>no.nav.sykepenger</groupId>
 		<version>${revision}${sha1}${changelist}</version>
 	</parent>
 	<packaging>jar</packaging>
@@ -13,34 +13,34 @@
 	<name>FPSAK :: Infrastrukturtjenester - Json-Feed - Tjeneste</name>
 	<dependencies>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingslager-domene</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingskontroll-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<groupId>no.nav.sykepenger.kontrakter</groupId>
 			<artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>felles-integrasjon-rest-klient</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<groupId>no.nav.sykepenger.kontrakter</groupId>
 			<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
 		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingskontroll</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-testutilities</artifactId>
             <scope>test</scope>
         </dependency>

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>no.nav.foreldrepenger</groupId>
+		<groupId>no.nav.sykepenger</groupId>
 		<artifactId>web</artifactId>
 		<version>${revision}${sha1}${changelist}</version>
 	</parent>
@@ -32,122 +32,122 @@
 
 		<!-- Prosjekt avhengigheter -->
 		<dependency>
-			<groupId>no.nav.vedtak.felles</groupId>
+			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-behandlingsprosess-prosesstask-rest-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<groupId>no.nav.sykepenger.kontrakter</groupId>
 			<artifactId>soeknad-v1</artifactId>
 			<classifier>jaxb</classifier>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<groupId>no.nav.sykepenger.kontrakter</groupId>
 			<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<groupId>no.nav.sykepenger.kontrakter</groupId>
 			<artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<groupId>no.nav.sykepenger.kontrakter</groupId>
 			<artifactId>abonnent-v1</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<groupId>no.nav.sykepenger.kontrakter</groupId>
 			<artifactId>fordel-v1</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+			<groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
 			<artifactId>felles-sikkerhet</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.vedtak.felles</groupId>
+			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-util</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>i18n</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>migreringer</artifactId>
 			<scope>compile</scope>
 		</dependency>
 
 
 		<dependency>
-			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>kodeverk-klient</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>kodeverk</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>historikk</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>foreldrepengersak-tjeneste</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandle-foreldrepengersak-tjeneste</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>felles-integrasjon-bom</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingsprosess-bom</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>json-feed-tjeneste</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>domenetjenester-bom</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>pep</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingslager-testutilities</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>batch</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>vedtak</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>vedtak-innsyn</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>vurder-fagsystem</artifactId>
 		</dependency>
 
 		<!-- REST + WebService -->
 		<dependency>
-			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>felles-integrasjon-rest</artifactId>
 		</dependency>
 
@@ -219,7 +219,7 @@
 			<artifactId>metrics-healthchecks</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>datavarehus-tjeneste</artifactId>
 		</dependency>
 		<dependency>
@@ -302,12 +302,12 @@
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-testutilities</artifactId>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-sikkerhet-testutilities</artifactId>
 				<scope>test</scope>
 			</dependency>

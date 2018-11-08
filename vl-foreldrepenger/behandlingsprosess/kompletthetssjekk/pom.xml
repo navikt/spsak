@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>no.nav.foreldrepenger</groupId>
+		<groupId>no.nav.sykepenger</groupId>
 		<artifactId>behandlingsprosess-pom</artifactId>
         <version>${revision}${sha1}${changelist}</version>
 	</parent>
@@ -15,19 +15,19 @@
 	<dependencies>
 		<!-- Felles BOM avhengigheter -->
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>kompletthetsjekk</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingskontroll-api</artifactId>
 		</dependency>
 
 		<!-- Interne -->
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingslager-domene</artifactId>
 		</dependency>
 

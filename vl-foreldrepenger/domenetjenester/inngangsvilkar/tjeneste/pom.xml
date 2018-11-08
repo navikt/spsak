@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
         <artifactId>inngangsvilkar-pom</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
@@ -12,49 +12,49 @@
 
     <dependencies>
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-feil</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-util</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-db</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>inngangsvilkar-regelmodell</artifactId>
         </dependency>
 
         <!-- Domenetjenester avhengigheter -->
 
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>medlem</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>arbeidsforhold</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>kontrollerfakta</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>kompletthetsjekk</artifactId>
         </dependency>
         
         <!-- Prosjekt avhengigheter -->
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-domene</artifactId>
         </dependency>
         
@@ -70,12 +70,12 @@
 
         <!-- Test avhengigheter -->
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-testutilities</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingskontroll</artifactId>
             <scope>test</scope>
         </dependency>

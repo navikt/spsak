@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+    <groupId>no.nav.sykepenger.kontrakter</groupId>
     <artifactId>fpoppdrag-pom</artifactId>
     <version>${revision}${sha1}${changelist}</version>
     <modules>
@@ -12,7 +12,7 @@
     <name>Økonomi kontrakt (FPOPPDRAG) - oppdrag</name>
 
     <properties>
-        <revision>1.0</revision>
+        <revision>0.0.1</revision>
         <sha1></sha1>
         <changelist>-SNAPSHOT</changelist>
 	    <java.version>10</java.version>

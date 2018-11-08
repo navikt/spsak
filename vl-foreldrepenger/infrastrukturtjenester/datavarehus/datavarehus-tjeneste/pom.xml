@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>no.nav.foreldrepenger</groupId>
+		<groupId>no.nav.sykepenger</groupId>
 		<artifactId>datavarehus</artifactId>
 		<version>${revision}${sha1}${changelist}</version>
 	</parent>
@@ -17,64 +17,64 @@
 	<dependencies>
 		<!-- Prosjekt -->
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>datavarehus-domene</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingslager-domene</artifactId>
 		</dependency>
 
 		<!-- Prosjekt interne avhengigheter -->
 		<dependency>
-			<groupId>no.nav.vedtak.felles</groupId>
+			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-bom</artifactId>
 		</dependency>
 
 		<!-- Domenetjenester avhengigheter -->
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingskontroll-api</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>felles-integrasjon-webservice</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>inngangsvilkar-regelmodell</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>kompletthetsjekk</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>okonomistotte</artifactId>
 		</dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>vedtak-xml</artifactId>
         </dependency>
 
 		<!-- Kontrakter -->
 		<!--<dependency>-->
-			<!--<groupId>no.nav.foreldrepenger.kontrakter</groupId>-->
+			<!--<groupId>no.nav.sykepenger.kontrakter</groupId>-->
 			<!--<artifactId>behandlingsprosess-vedtak-v1</artifactId>-->
 			<!--<classifier>jaxb</classifier>-->
 		<!--</dependency>-->
 
 		<!-- Test avhengigheter -->
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingslager-testutilities</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingskontroll</artifactId>
 			<scope>test</scope>
 		</dependency>

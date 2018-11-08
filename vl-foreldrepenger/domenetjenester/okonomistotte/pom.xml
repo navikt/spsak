@@ -3,7 +3,7 @@
 
     <parent>
         <artifactId>domenetjenester-pom</artifactId>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
 
@@ -17,46 +17,46 @@
         
         <!-- Prosjekt -->
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-bom</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>batch</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-domene</artifactId>
         </dependency>
          <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>person</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>okonomistotte-v1</artifactId>
             <classifier>jaxb</classifier>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>grensesnittavstemming-v1</artifactId>
             <classifier>jaxb</classifier>
         </dependency>
      
         <dependency>
-            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>felles-integrasjon-jms</artifactId>
         </dependency>
 
         <!-- Test -->
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-testutilities</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>uttak</artifactId>
         </dependency>
     </dependencies>

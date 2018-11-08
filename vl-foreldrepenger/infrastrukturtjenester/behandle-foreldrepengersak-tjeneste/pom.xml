@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
 		<artifactId>infrastrukturtjenester-pom</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
@@ -14,11 +14,11 @@
     <dependencies>
         <!-- Domenetjenester -->
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>person</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling</artifactId>
         </dependency>
 
@@ -31,39 +31,39 @@
 
         <!-- Prosjekt -->
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-bom</artifactId>
         </dependency>
 
         <!-- Integrasjon -->
         <dependency>
-            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>behandlesak-klient</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>sak-klient</artifactId>
         </dependency>
         
         <!-- Infrastrukturtjenester -->
         <dependency>
-            <groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+            <groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
             <artifactId>felles-sikkerhet</artifactId>
         </dependency>
 
         <!-- Test avhengigheter -->
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-testutilities</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-testutilities</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>datavarehus-tjeneste</artifactId>
         </dependency>
 		

@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>no.nav.foreldrepenger</groupId>
+	<groupId>no.nav.sykepenger</groupId>
 	<artifactId>fpsak</artifactId>
 	<packaging>pom</packaging>
 	<name>FPSAK :: Root</name>
@@ -44,9 +44,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<vl-kontrakt-fp-feed.version>2.4_20180624193200_e3f7030</vl-kontrakt-fp-feed.version>
-		<vl-kontrakt-vedtak.version>2.4_20181013093411_4b9f621</vl-kontrakt-vedtak.version>
-		<vl-foreldrepenger-uttak-regler.version>1.2_20181031091805_3fa859d</vl-foreldrepenger-uttak-regler.version>
+		<vl-kontrakt-fp-feed.version>0.0.1-SNAPSHOT</vl-kontrakt-fp-feed.version>
+		<vl-kontrakt-vedtak.version>0.0.1-SNAPSHOT</vl-kontrakt-vedtak.version>
+		<vl-foreldrepenger-uttak-regler.version>0.0.1-SNAPSHOT</vl-foreldrepenger-uttak-regler.version>
 	</properties>
 
 	<prerequisites>
@@ -62,34 +62,34 @@
             
 			<!-- Felles biblioteker - Importerte avhengigheter -->
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles</artifactId>
-				<version>3.0_20181101080622_5b806ed</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-behandlingsprosess</artifactId>
-				<version>3.0_20181102081224_9d8a7a4</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>felles-integrasjon-pom</artifactId>
-				<version>3.0_20181106130319_355ae40</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>uttak-regler</artifactId>
 				<version>${vl-foreldrepenger-uttak-regler.version}</version>
 			</dependency>
 			<dependency>
-                <groupId>no.nav.foreldrepenger</groupId>
+                <groupId>no.nav.sykepenger</groupId>
                 <artifactId>uttak-regler</artifactId>
                 <version>${vl-foreldrepenger-uttak-regler.version}</version>
                 <classifier>sources</classifier>
@@ -98,370 +98,370 @@
 
 			<!-- Prosjektets egne biblioteker -->
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>felles-kodeverk</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>migreringer</artifactId>
 				<version>${project.version}</version>
 				<type>test-jar</type>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>migreringer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>i18n</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>batch</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>vedtakslager-domene</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>domenetjenester-bom</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingslager-domene</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>json-feed-domene</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>json-feed-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>foreldrepengersak-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandle-dokumentforsendelse-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandle-foreldrepengersak-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-bom</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-innhent-registeropplysninger</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-kompletthetssjekk</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-avklare-fakta</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-beregningsgrunnlag</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-uttak</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-soknadsfrist-foreldrepenger</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-vedtak</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>behandlingsprosess-vedtak-v1</artifactId>
 				<version>${vl-kontrakt-vedtak.version}</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>behandlingsprosess-vedtak-v2</artifactId>
 				<version>${vl-kontrakt-vedtak.version}</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>fordel-v1</artifactId>
 				<version>2.3_20181019122308_f1ced3f</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
 				<version>${vl-kontrakt-fp-feed.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
 				<version>${vl-kontrakt-fp-feed.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>abonnent-v1</artifactId>
 				<version>2.0_20180624192358_8b33f6f</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-iverksette-vedtak</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-foresla-vedtak</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-varsel-revurdering</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-klage</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-simulering</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingskontroll-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingskontroll</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-beregn-ytelse</artifactId>
 				<version>${project.version}</version>
 			</dependency>
             <dependency>
-                <groupId>no.nav.foreldrepenger</groupId>
+                <groupId>no.nav.sykepenger</groupId>
                 <artifactId>behandlingsprosess-lopende-medlemskap</artifactId>
                 <version>${project.version}</version>
             </dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-inngangsvilkar</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>inngangsvilkar-regelmodell</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>inngangsvilkar</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-vurder-innsyn</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>datavarehus-domene</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>uttak</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandling-soknadsfrist-foreldrepenger</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>virksomhet</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>mottak</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>oppgavebehandling</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>beregningsgrunnlag</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>beregningsgrunnlag-regelmodell</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>beregning-ytelse</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>beregning-ytelse-regelmodell</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>produksjonsstyring</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>registerinnhenting</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>person</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>familie-hendelse</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>skjaeringstidspunkt</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>uttaksplan</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>ytelse-fordeling</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>vedtak</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>vedtak-innsyn</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>vedtak-xml</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>arbeidsforhold</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>medlem</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>kompletthetsjekk</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>kontrollerfakta</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandling</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandling-kriterier</artifactId>
 				<version>${project.version}</version>
 			</dependency>
             <dependency>
-                <groupId>no.nav.foreldrepenger</groupId>
+                <groupId>no.nav.sykepenger</groupId>
                 <artifactId>behandling-status</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandling-revurdering</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandling-gjenopptagelse</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandling-innsyn</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>pep</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -477,22 +477,22 @@
 				<version>2.0_20181105115918_47dcace</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>kodeverk</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>historikk</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>datavarehus-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>vurder-fagsystem</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -507,77 +507,77 @@
 			<!-- NB: Definer scope der det brukes, ikke her. -->
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>web-apidoc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>web-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>web-webapp</artifactId>
 				<type>jar</type>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>dokumentbestiller</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>dokumentbestiller-xsd</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>okonomistotte</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>opptjeningsvilkar</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>opptjeningsvilkar-regelmodell</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>okonomistotte-v1</artifactId>
 				<version>2.0_20180730135256_2912e61</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>inntektsmelding-v1</artifactId>
 				<version>2.4_20180925124533_8df3d6a</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>grensesnittavstemming-v1</artifactId>
 				<version>2.3_20180507114256_2ed2065</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>dokumentbestiller-v1</artifactId>
 				<version>2.0_20181102144509_7e0802f</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingslager-testutilities</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger</groupId>
+				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>dokumentarkiv</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -611,13 +611,13 @@
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
 				<version>2.3_20180507113926_0beea2f</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>soeknad-v1</artifactId>
 				<version>1.0_20181102085631_678475a</version>
 				<classifier>jaxb</classifier>

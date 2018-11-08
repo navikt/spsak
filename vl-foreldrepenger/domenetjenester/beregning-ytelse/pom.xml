@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>domenetjenester-pom</artifactId>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
 

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
         <artifactId>vedtakslager-pom</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
@@ -15,13 +15,13 @@
     <dependencies>
         <!-- Prosjekt -->
        <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-domene</artifactId>
         </dependency>
 
         <!-- Test avhengigheter -->
         <dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>migreringer</artifactId>
 			<type>test-jar</type>
 			<scope>test</scope>

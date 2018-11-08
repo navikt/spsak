@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+	<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 	<artifactId>felles-integrasjon-pom</artifactId>
 	<version>${revision}${sha1}${changelist}</version>
 	<packaging>pom</packaging>
@@ -49,7 +49,7 @@
 	</modules>
 
 	<properties>
-		<revision>3.0</revision>
+		<revision>0.0.1</revision>
 		<sha1></sha1>
 		<changelist>-SNAPSHOT</changelist>
 
@@ -63,7 +63,7 @@
 
 		<additionalparam>-Xdoclint:none</additionalparam>
 
-		<vl-felles.version>3.0_20181101080622_5b806ed</vl-felles.version>
+		<vl-felles.version>0.0.1-SNAPSHOT</vl-felles.version>
 
 		<ibmmq.version>8.0.0.4</ibmmq.version>
 
@@ -111,7 +111,7 @@
 		<dependencies>
 
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles</artifactId>
 				<version>${vl-felles.version}</version>
 				<scope>import</scope>
@@ -127,155 +127,155 @@
 
 			<!-- reaktor -->
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>felles-integrasjon-jms</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>felles-integrasjon-rest</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>felles-integrasjon-rest-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>felles-integrasjon-webservice</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>felles-integrasjon-bom</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>ldap-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>aktoer-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>person-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>behandlesak-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>sakogbehandling-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>infotrygdberegningsgrunnlag-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>infotrygdsak-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>dokumentproduksjon-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>journal-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>inngaaendejournal-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>behandleinngaaendejournal-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>behandleoppgave-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>sak-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>inntekt-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>medl-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>meldekortutbetalingsgrunnlag-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>arbeidsfordeling-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>oppgave-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>sigrun-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>arbeidsforhold-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>organisasjon-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>unleash-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>kodeverk-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>mottainngaaendeforsendelse-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>behandlejournal-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>

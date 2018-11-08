@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>no.nav.vedtak.felles</groupId>
+        <groupId>no.nav.spvedtak.felles</groupId>
         <artifactId>felles</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
@@ -14,23 +14,23 @@
 
     <dependencies>
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-db</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-util</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-log</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-feil</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+            <groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
             <artifactId>felles-sikkerhet</artifactId>
         </dependency>
 

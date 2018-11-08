@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>no.nav.foreldrepenger</groupId>
+    <groupId>no.nav.sykepenger</groupId>
     <artifactId>uttak-regler</artifactId>
     <version>${revision}${sha1}${changelist}</version>
     <packaging>jar</packaging>
 
     <properties>
-        <revision>1.2</revision>
+        <revision>0.0.1</revision>
         <sha1></sha1>
         <changelist>-SNAPSHOT</changelist>
 			<java.version>1.8</java.version>

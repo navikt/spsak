@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>fpoppdrag-pom</artifactId>
-        <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+        <groupId>no.nav.sykepenger.kontrakter</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>

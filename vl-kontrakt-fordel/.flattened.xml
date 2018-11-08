@@ -2,15 +2,10 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+  <groupId>no.nav.sykepenger.kontrakter</groupId>
   <artifactId>fordel-v1</artifactId>
-  <version>2.3-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <name>Foreldrepenger kontrakt (FPSAK) - fordel</name>
-  <scm>
-    <connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-fordel.git</connection>
-    <developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-fordel.git</developerConnection>
-    <url>http://stash.devillo.no/projects/VEDFP/repos/vl-kontrakt-fordel/browse</url>
-  </scm>
   <distributionManagement>
     <repository>
       <id>m2internal</id>
@@ -25,17 +20,26 @@
   </distributionManagement>
   <properties>
     <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-    <junit.version>4.12</junit.version>
-    <changelist>-SNAPSHOT</changelist>
+    <jackson.version>2.9.0</jackson.version>
     <maven.javadoc.skip>true</maven.javadoc.skip>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <sha1></sha1>
-    <revision>2.3</revision>
     <assertj.version>3.8.0</assertj.version>
-    <jackson.version>2.9.0</jackson.version>
+    <felles.sikkerhet.version>0.0.1-SNAPSHOT</felles.sikkerhet.version>
+    <junit.version>4.12</junit.version>
     <javax.validation.version>1.1.0.Final</javax.validation.version>
-    <felles.sikkerhet.version>2.3_20180624190523_05c0e9b</felles.sikkerhet.version>
+    <revision>0.0.1</revision>
+    <sha1></sha1>
+    <changelist>-SNAPSHOT</changelist>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jvnet.mimepull</groupId>
+        <artifactId>mimepull</artifactId>
+        <version>1.9.10</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>javax.validation</groupId>
@@ -50,9 +54,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+      <groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
       <artifactId>felles-sikkerhet</artifactId>
-      <version>2.3_20180624190523_05c0e9b</version>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

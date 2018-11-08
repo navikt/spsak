@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
         <artifactId>behandlingskontroll-pom</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
@@ -15,17 +15,17 @@
     <dependencies>
         <!-- Felles/integrasjon -->
         <dependency>
-            <groupId>no.nav.vedtak.felles</groupId>
+            <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-behandlingsprosess-prosesstask-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>unleash-klient</artifactId>
         </dependency>
 
         <!-- Interne avhengigheter -->
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
     		<artifactId>behandlingslager-domene</artifactId>
     	</dependency>
 

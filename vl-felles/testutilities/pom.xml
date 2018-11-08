@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>no.nav.vedtak.felles</groupId>
+        <groupId>no.nav.spvedtak.felles</groupId>
         <artifactId>felles</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
@@ -13,7 +13,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+			<groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
 			<artifactId>felles-sikkerhet-testutilities</artifactId>
 			<scope>compile</scope>
 		</dependency>
@@ -23,7 +23,7 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.vedtak.felles</groupId>
+			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-bom</artifactId>
 			<scope>compile</scope>
 		</dependency>
@@ -91,7 +91,7 @@
 
 		<!-- test dependencies-->
 		<dependency>
-			<groupId>no.nav.vedtak.felles</groupId>
+			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-feil</artifactId>
 			<scope>test</scope>
 			<type>test-jar</type>

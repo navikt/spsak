@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>no.nav.foreldrepenger</groupId>
+		<groupId>no.nav.sykepenger</groupId>
 		<artifactId>behandlingslager-pom</artifactId>
 		<version>${revision}${sha1}${changelist}</version>
     </parent>
@@ -13,29 +13,29 @@
 
 	<dependencies>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>felles-kodeverk</artifactId>
         </dependency>
 		<dependency>
-			<groupId>no.nav.vedtak.felles</groupId>
+			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-behandlingsprosess-prosesstask</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>i18n</artifactId>
 		</dependency>
 
 
 		<!-- TODO: Midlertidig til vi får håndtert datavarehus bedre (trenger å inkludere datavarehus-orm i persistence.xml)-->
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>datavarehus-domene</artifactId>
 		</dependency>
 
 		<!-- TODO: Skal ikke ligge her (men trenger å inkludere json-feed-orm i persistence.xml)-->
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>json-feed-domene</artifactId>
         </dependency>
 
@@ -48,7 +48,7 @@
 			<artifactId>validation-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.vedtak.felles</groupId>
+			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-util</artifactId>
 		</dependency>
         <dependency>
@@ -58,7 +58,7 @@
 		
 		<!-- Test -->
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>migreringer</artifactId>
 			<type>test-jar</type>
 			<scope>test</scope>

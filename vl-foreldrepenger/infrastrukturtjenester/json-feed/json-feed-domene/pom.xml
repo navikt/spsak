@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>no.nav.foreldrepenger</groupId>
+		<groupId>no.nav.sykepenger</groupId>
 		<artifactId>json-feed-pom</artifactId>
 		<version>${revision}${sha1}${changelist}</version>
 	</parent>
@@ -15,12 +15,12 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>no.nav.vedtak.felles</groupId>
+			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-bom</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.foreldrepenger</groupId>
+			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>migreringer</artifactId>
 			<type>test-jar</type>
 			<scope>test</scope>

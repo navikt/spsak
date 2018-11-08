@@ -4,7 +4,7 @@
 
     <parent>
         <artifactId>fpsak</artifactId>
-        <groupId>no.nav.foreldrepenger</groupId>
+        <groupId>no.nav.sykepenger</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
 

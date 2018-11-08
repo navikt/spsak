@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>no.nav.vedtak.felles</groupId>
+        <groupId>no.nav.spvedtak.felles</groupId>
         <artifactId>felles-behandlingsprosess</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>

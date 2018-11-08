@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+    <groupId>no.nav.sykepenger.kontrakter</groupId>
     <artifactId>fordel-v1</artifactId>
     <version>${revision}${sha1}${changelist}</version>
     <packaging>jar</packaging>
     <name>Foreldrepenger kontrakt (FPSAK) - fordel</name>
 
     <properties>
-	<revision>2.3</revision>
+	<revision>0.0.1</revision>
 	<sha1></sha1>
 	<changelist>-SNAPSHOT</changelist>
 	<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
@@ -18,8 +18,19 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <jackson.version>2.9.0</jackson.version>
         <javax.validation.version>1.1.0.Final</javax.validation.version>
-        <felles.sikkerhet.version>2.3_20180624190523_05c0e9b</felles.sikkerhet.version>
+        <felles.sikkerhet.version>0.0.1-SNAPSHOT</felles.sikkerhet.version>
     </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jvnet.mimepull</groupId>
+                <artifactId>mimepull</artifactId>
+                <version>1.9.10</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -35,7 +46,7 @@
             <scope>provided</scope>
         </dependency>    
         <dependency>
-            <groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+            <groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
             <artifactId>felles-sikkerhet</artifactId>
 			<version>${felles.sikkerhet.version}</version>
             <scope>provided</scope>

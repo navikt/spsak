@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>no.nav.vedtak.felles</groupId>
+		<groupId>no.nav.spvedtak.felles</groupId>
 		<artifactId>felles</artifactId>
 		<version>${revision}${sha1}${changelist}</version>
 	</parent>
 
-	<groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+	<groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
 	<artifactId>felles-sikkerhet-pom</artifactId>
 	<name>Felles :: Sikkerhet Pom</name>
 	<packaging>pom</packaging>

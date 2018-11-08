@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>no.nav.vedtak.felles</groupId>
+	<groupId>no.nav.spvedtak.felles</groupId>
 	<artifactId>felles-behandlingsprosess</artifactId>
 	<version>${revision}${sha1}${changelist}</version>
 	<packaging>pom</packaging>
@@ -14,7 +14,7 @@
 	</modules>
 
 	<properties>
-		<revision>3.0</revision>
+		<revision>0.0.1</revision>
 		<sha1></sha1>
 		<changelist>-SNAPSHOT</changelist>
 		<java.version>10</java.version>
@@ -25,7 +25,7 @@
 
 		<additionalparam>-Xdoclint:none</additionalparam>
 		
-		<vl-felles.version>3.0_20181101080622_5b806ed</vl-felles.version>
+		<vl-felles.version>0.0.1-SNAPSHOT</vl-felles.version>
 
 	</properties>
 
@@ -34,7 +34,7 @@
 
 			<!-- Felles biblioteker -->
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles</artifactId>
 				<version>${vl-felles.version}</version>
 				<scope>import</scope>
@@ -43,28 +43,28 @@
 			
 			<!-- prosjektavhengigheter -->
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-behandlingsprosess-prosesstask-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-behandlingsprosess-prosesstask</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-behandlingsprosess-prosesstask-rest-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>migreringer</artifactId>
 				<version>${project.version}</version>
 				<type>test-jar</type>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.vedtak.felles</groupId>
+				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>migreringer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
