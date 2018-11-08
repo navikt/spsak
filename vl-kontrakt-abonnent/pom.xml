@@ -21,13 +21,6 @@
         <felles.sikkerhet.version>2.3_20180624190523_05c0e9b</felles.sikkerhet.version>
     </properties>
 
-    <scm>
-        <connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-abonnent.git</connection>
-        <developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-abonnent.git</developerConnection>
-        <url>http://stash.devillo.no/projects/VEDFP/repos/vl-kontrakt-abonnent/browse</url>
-    </scm>
-
-
     <dependencies>
         <dependency>
             <groupId>javax.validation</groupId>

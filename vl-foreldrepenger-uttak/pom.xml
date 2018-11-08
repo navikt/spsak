@@ -340,11 +340,6 @@
             </distributionManagement>
         </profile>
     </profiles>
-    <scm>
-        <connection>scm:git:ssh://git@stash.devillo.no:7999/vedfp/vl-foreldrepenger-uttak.git</connection>
-        <developerConnection>scm:git:ssh://git@stash.devillo.no:7999/vedfp/vl-foreldrepenger-uttak.git</developerConnection>
-        <url>http://stash.devillo.no/projects/VEDFP/repos/vl-foreldrepenger-uttak</url>
-    </scm>
 
     <distributionManagement>
         <repository>

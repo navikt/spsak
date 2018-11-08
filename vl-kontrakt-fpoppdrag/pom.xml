@@ -26,12 +26,6 @@
         <jaxb2.basics.version>1.11.1</jaxb2.basics.version>
     </properties>
 
-    <scm>
-        <connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-fpoppdrag.git</connection>
-        <developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-fpoppdrag.git</developerConnection>
-        <url>http://stash.devillo.no/projects/VEDFP/repos/vl-kontrakt-fpoppdrag/browse</url>
-    </scm>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

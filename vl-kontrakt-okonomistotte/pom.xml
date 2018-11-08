@@ -22,13 +22,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <scm>
-        <connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-okonomistotte.git</connection>
-        <developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-okonomistotte.git</developerConnection>
-        <url>http://stash.devillo.no/projects/VEDFP/repos/vl-kontrakt-okonomistotte/browse</url>
-    </scm>
-
-
     <dependencies>
        
         <dependency>

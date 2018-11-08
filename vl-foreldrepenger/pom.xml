@@ -10,13 +10,6 @@
 	<name>FPSAK :: Root</name>
 	<version>${revision}${sha1}${changelist}</version>
 
-	<scm>
-		<connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-foreldrepenger.git</connection>
-		<developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-foreldrepenger.git</developerConnection>
-		<url>http://stash.devillo.no/projects/VEDFP/repos/vl-foreldrepenger/browse</url>
-		<tag>vl-foreldrepenger-1.0.0</tag>
-	</scm>
-
 	<modules>
 		<module>migreringer</module>
 

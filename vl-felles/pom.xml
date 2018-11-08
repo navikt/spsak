@@ -901,11 +901,6 @@
 			</build>
 		</profile>
 	</profiles>
-	<scm>
-		<connection>scm:git:ssh://git@stash.devillo.no:7999/vedfp/vl-felles.git</connection>
-		<developerConnection>scm:git:ssh://git@stash.devillo.no:7999/vedfp/vl-felles.git</developerConnection>
-		<url>http://stash.devillo.no/projects/VEDFP/repos/vl-felles</url>
-	</scm>
 	<distributionManagement>
 		<repository>
 			<id>m2internal</id>

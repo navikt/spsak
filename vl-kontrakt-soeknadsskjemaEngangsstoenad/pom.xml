@@ -21,13 +21,6 @@
         <felles.sikkerhet.version>2.0.29</felles.sikkerhet.version>
     </properties>
 
-    <scm>
-        <connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-soeknadsskjemaEngangsstoenad.git</connection>
-        <developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-soeknadsskjemaEngangsstoenad.git</developerConnection>
-        <url>http://stash.devillo.no/projects/VEDFP/repos/vl-kontrakt-soeknadsskjemaEngangsstoenad/browse</url>
-    </scm>
-
-
     <dependencies>
        
         <dependency>

@@ -741,14 +741,6 @@
 		</profile>
 	</profiles>
 
-
-	<scm>
-		<connection>scm:git:ssh://git@stash.devillo.no:7999/vedfp/vl-felles-integrasjon.git</connection>
-		<developerConnection>scm:git:ssh://git@stash.devillo.no:7999/vedfp/vl-felles-integrasjon.git
-        </developerConnection>
-		<url>http://stash.devillo.no/projects/VEDFP/repos/vl-felles-integrasjon</url>
-	</scm>
-
 	<distributionManagement>
 		<repository>
 			<id>m2internal</id>
