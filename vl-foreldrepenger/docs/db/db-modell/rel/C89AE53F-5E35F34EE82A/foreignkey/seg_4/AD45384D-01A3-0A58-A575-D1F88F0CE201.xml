@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_4" id="AD45384D-01A3-0A58-A575-D1F88F0CE201" containerWithKeyObject="D913ABEC-6812-6B86-BF73-066C5BFFEA93" localFKIndex="FE030DF5-C906-420F-4720-628E2548E709" name="FK_YF_DOKUMENTASJON_PERIODE_9">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9E8A3F47-324F-6E33-3C4A-16DB7B17E05A</importedID>
+<referredTableLongName>FPSAK.YF_DOKUMENTASJON_PERIODER</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>74DC4464-ACD5-F85E-F1CB-97EFF49115DF</referredTableID>
+<keyObject>1F09BB5F-F0FF-74F9-1731-A739FE35F7BD</keyObject>
+<referredKeyID>1F09BB5F-F0FF-74F9-1731-A739FE35F7BD</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

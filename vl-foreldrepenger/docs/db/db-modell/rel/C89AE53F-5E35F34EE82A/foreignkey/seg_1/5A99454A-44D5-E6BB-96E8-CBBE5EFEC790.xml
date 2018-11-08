@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="5A99454A-44D5-E6BB-96E8-CBBE5EFEC790" containerWithKeyObject="679B0AAA-2A7E-8295-977E-9478949C9377" localFKIndex="EEAEEC24-1407-5DB0-3BA1-440340C59444" name="FK_AKSJONSPUNKT_DEF_2">
+<sourceDDLFile>V112__VILKAR_TIL_VURDERING_nye_tabeller.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8AC0FF24-E157-34D8-43E3-40303BC3EEA5</importedID>
+<referredTableLongName>VURDERINGSPUNKT_DEF</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>7791FE3F-9EF1-7EBD-E00D-4B76A3C95BA7</referredTableID>
+<keyObject>E304EEBE-E5DA-CBE6-8BF5-A6B8C05F74CA</keyObject>
+<referredKeyID>E304EEBE-E5DA-CBE6-8BF5-A6B8C05F74CA</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>KODE</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

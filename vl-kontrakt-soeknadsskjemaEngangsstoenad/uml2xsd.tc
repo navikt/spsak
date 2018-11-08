@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><TransformationConfiguration forwardTransformation="com.ibm.xtools.transform.uml.xsd.umltoxsd.transform.root" reverseTransformation="com.ibm.xtools.transform.xsd.uml.Xsd2umlTransformation" reverseTransformationEnabled="false" version="8.0.0">
+<!--xtools2_universal_type_manager-->
+<!--Rational Software Architect Designer 9.5-->
+<Property id="/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8QResourceTableDefaultFile" value="@45,=@com.ibm.xtools.transform.core.metatype.stringv1"/>
+<Property id="/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8QResourceTableDefaultFolder" value="@45,=@com.ibm.xtools.transform.core.metatype.stringno/nav/melding/virksomhet/soeknadsskjemaEngangsstoenad/v1"/>
+<Property id="/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8QResourceTableFile" value="@45,=@com.ibm.xtools.transform.core.metatype.stringv1"/>
+<Property id="/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8QResourceTableFileDefaultNamespace" value="@45,=@com.ibm.xtools.transform.core.metatype.stringhttp://nav.no/melding/virksomhet/soeknadsskjemaEngangsstoenad/v1"/>
+<Property id="/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8QResourceTableFileExtension" value="@45,=@com.ibm.xtools.transform.core.metatype.stringxsd"/>
+<Property id="/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8QResourceTableFileNamespace" value="@45,=@com.ibm.xtools.transform.core.metatype.stringhttp://nav.no/melding/virksomhet/soeknadsskjemaEngangsstoenad/v1"/>
+<Property id="/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8QResourceTableFolder" value="@45,=@com.ibm.xtools.transform.core.metatype.stringno/nav/melding/virksomhet/soeknadsskjemaEngangsstoenad/v1"/>
+<Property id="/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8QResourceTableQName" value="@45,=@com.ibm.xtools.transform.core.metatype.stringmeldingsmodell::no::nav::melding::virksomhet::soeknadsskjemaEngangsstoenad::v1"/>
+<Property id="AuroSaveRule" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="AuroValidateRule" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="AuxiliarySources" value="@49,0@com.ibm.xtools.transform.core.metatype.Collectionjava.util.ArrayList&lt;ELEM_START&gt;"/>
+<Property id="AuxiliaryTargets" value="@49,0@com.ibm.xtools.transform.core.metatype.Collectionjava.util.ArrayList&lt;ELEM_START&gt;"/>
+<Property id="AuxiliaryTargetsChecks" value="@49,0@com.ibm.xtools.transform.core.metatype.Collectionjava.util.ArrayList&lt;ELEM_START&gt;"/>
+<Property id="CONTEXT_SOURCE" value="@49,78@com.ibm.xtools.transform.core.metatype.Collectionmeldingsmodell::no::nav::melding::virksomhet::soeknadsskjemaEngangsstoenad::v1java.util.ArrayList,226&lt;ELEM_START&gt;@47,78@com.ibm.xtools.uml.transform.core.metatype.uml2meldingsmodell::no::nav::melding::virksomhet::soeknadsskjemaEngangsstoenad::v1platform:/resource/soeknadsskjemaEngangsstoenad/meldingsdefinisjon.emx#_-h7vjgM5EeezPvjCIudB8Q"/>
+<Property id="CONTEXT_TARGET_CONTAINER" value="@45,=@com.ibm.xtools.transform.core.metatype.folder/nav-virksomhet-soeknadsskjemaEngangsstoenad-v1-meldingsdefinisjon/src/main/xsd"/>
+<Property id="DCMP" value="@43,10@com.ibm.xtools.transform.core.metatype.DCMPConceptual1"/>
+<Property id="EnableOutputCustomization" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="EnableReverseTransformation" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="EnableXSDSort" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="FORWARD_TRANSFORMATION_EXTENSIONS_STATUS" value="@42,54@com.ibm.xtools.transform.core.metatype.Mapcom.ibm.xtools.transform.uml2.xsd.globalElements=falsejava.util.HashMap,99,57&lt;ELEM_START&gt;@45,=@com.ibm.xtools.transform.core.metatype.stringcom.ibm.xtools.transform.uml2.xsd.globalElements,@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="GenerateAssociations" value="@45,=@com.ibm.xtools.transform.core.metatype.stringfalse"/>
+<Property id="ManySourcesToOneTarget" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="MergeKind" value="@45,=@com.ibm.xtools.transform.core.metatype.choice2"/>
+<Property id="MergeWarning" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="OpenReportDialog" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="PARENT_CONFIG_URIS" value="@49,0@com.ibm.xtools.transform.core.metatype.Collectionjava.util.ArrayList&lt;ELEM_START&gt;"/>
+<Property id="REVERSE_TRANSFORMATION_EXTENSIONS_STATUS" value="@42,0@com.ibm.xtools.transform.core.metatype.Mapjava.util.HashMap&lt;ELEM_START&gt;"/>
+<Property id="RsaVersion" value="@45,=@com.ibm.xtools.transform.core.metatype.string7.5.0.0"/>
+<Property id="ShowWarningsInReportDialog" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="TRANSFORM_REVERSE_SILENT" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="com.ibm.xtools.transform.merge.option" value="@45,=@com.ibm.xtools.transform.core.metatype.stringAlways_Overwrite"/>
+<Property id="convertNestedClassImplicitly" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="convertRichToPlainText" value="@45,=@com.ibm.xtools.transform.core.metatype.choice1"/>
+<Property id="followJavaConventions" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="generateFolderForSchema" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="logTrace" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="processDataTypesStyle" value="@45,=@com.ibm.xtools.transform.core.metatype.choice1"/>
+<Property id="processUnmarkedClass" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="processUnmarkedPackage" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="replaceUML" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="reverseNsFirstSegment" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="schemaImport" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+<Property id="silentlyAddRule" value="@46,=@com.ibm.xtools.transform.core.metatype.booleantrue"/>
+<Property id="targetFolder" value="@45,=@com.ibm.xtools.transform.core.metatype.choice1"/>
+<Property id="targetNamespace" value="@45,=@com.ibm.xtools.transform.core.metatype.string"/>
+<Property id="targetNamespacePrefix" value="@45,=@com.ibm.xtools.transform.core.metatype.string"/>
+<Property id="useWidStyle" value="@46,=@com.ibm.xtools.transform.core.metatype.booleanfalse"/>
+</TransformationConfiguration>

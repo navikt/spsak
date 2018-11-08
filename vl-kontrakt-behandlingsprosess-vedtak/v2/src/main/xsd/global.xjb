@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings version="2.1"
+               xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:annox="http://annox.dev.java.net"
+               jaxb:extensionBindingPrefixes="annox" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc">
+
+    <jaxb:globalBindings optionalProperty="wrapper">
+        <xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="no.nav.foreldrepenger.vedtak.v2.adapter.DateAdapter" />
+        <xjc:javaType name="java.time.LocalDateTime" xmlType="xs:dateTime" adapter="no.nav.foreldrepenger.vedtak.v2.adapter.DateTimeAdapter" />
+    </jaxb:globalBindings>
+
+    <jaxb:bindings schemaLocation="./vedtak-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:element[@name='vedtak']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./beregningsgrunnlag/beregningsgrunnlag-es-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='BeregningsgrunnlagEngangsstoenad']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./beregningsgrunnlag/beregningsgrunnlag-fp-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='BeregningsgrunnlagForeldrepenger']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./vilkaarsgrunnlag/vilkaarsgrunnlag-es-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagFoedsel']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagAdopsjon']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagMedlemskap']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagSoeknadsfrist']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagSoekersopplysningsplikt']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./vilkaarsgrunnlag/vilkaarsgrunnlag-fp-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagFoedsel']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagAdopsjon']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagMedlemskap']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagOpptjening']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagSoeknadsfrist']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xs:complexType[@name='VilkaarsgrunnlagSoekersopplysningsplikt']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+
+    <jaxb:bindings schemaLocation="./ytelse/ytelse-es-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='YtelseEngangsstoenad']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./ytelse/ytelse-fp-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='YtelseForeldrepenger']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./uttak/uttak-fp-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='UttakForeldrepenger']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./personopplysninger/personopplysninger-dvh-es-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='PersonopplysningerDvhEngangsstoenad']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./personopplysninger/personopplysninger-dvh-fp-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='PersonopplysningerDvhForeldrepenger']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./personopplysninger/personopplysninger-es-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='PersonopplysningerEngangsstoenad']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./personopplysninger/personopplysninger-fp-v2.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='PersonopplysningerForeldrepenger']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+</jaxb:bindings>

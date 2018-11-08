@@ -1,0 +1,90 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="IAY_REFUSJON" directorySegmentName="seg_2" id="E06CBF10-52FD-BD39-05E1-A4D2B360499C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="ENDRET_TID" id="04E38E34-F261-24FD-8860-AD588D807837">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="REFUSJONSBELOEP_MND" id="0B9EC32F-B85D-23CA-57CC-32D58BFB3557">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ID" id="2EA76CCE-57C1-1DF8-E15C-D016F1B1DE57">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="OPPRETTET_TID" id="37969A8D-3899-E5D0-E388-B6362529784F">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="INNTEKTSMELDING_ID" id="95B0C627-27CE-E34E-5146-80FA67840C51">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="VERSJON" id="A55C6D22-0482-40E7-9A30-5EDC62C6F3DD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="ENDRET_AV" id="BC1AF9EF-7811-FE74-8616-7B37E7EA1FEE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="FOM" id="D9C6E130-16AC-0002-C09B-F5AA8AC25107">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="OPPRETTET_AV" id="DC4AF58F-DB3E-8BFA-FD29-DE6C204C4217">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_IAY_REFUSJON_1" id="3B0EABEA-718A-00F1-34A3-09EB25473913">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_IAY_REFUSJON" id="A39FFE47-C75F-8108-9535-4DA4EE9733F3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_IAY_REFUSJON_1" id="9A6C3A0E-F0E2-8659-B6D8-82CEACD875D2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:37 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_IAY_REFUSJON" id="5088A250-EC0E-04CE-DAC8-84D31D95ED74">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

@@ -1,0 +1,12 @@
+= Regeltjenester
+
+Reglene organiseres i regelkomponenter (enkeltvilkår) og komponentene tjenesteorienteres
+slik at hver komponent blir en egen regeltjeneste, f.eks Vurder adopsjonsvilkår for
+engangsstønad. På denne måten vil både selvbetjenings- og vedtaksløsning kunne benytte regler
+fra samme regelkomponent.
+
+Input til regeltjenestene består av data oppgitt av søkeren, data hentet fra andre systemer,
+samt data saksbehandleren har avklart. Svaret fra regeltjenestene inneholder informasjon om
+status (oppfylt, ikke oppfylt...) og en begrunnelse på status (merknad).
+
+include::{generated}/regler.adoc[]

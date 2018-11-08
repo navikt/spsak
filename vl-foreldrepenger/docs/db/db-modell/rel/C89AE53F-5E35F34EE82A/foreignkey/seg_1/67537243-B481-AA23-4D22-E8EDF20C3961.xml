@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="67537243-B481-AA23-4D22-E8EDF20C3961" containerWithKeyObject="072C1581-5095-FA08-36E0-7E4A2D30E699" localFKIndex="0A4FFB9E-DF38-DFFB-A8DF-03667758F3CB" name="FK_FAGSAK_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4CA6BC31-514D-84D3-4E96-A64DCC650CB5</importedID>
+<referredTableLongName>KODELISTE</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>4CA0BB59-0385-62F9-9853-162203186ACE</referredTableID>
+<keyObject>EA34921C-061D-1863-E596-069E0FF5CDA0</keyObject>
+<referredKeyID>EA34921C-061D-1863-E596-069E0FF5CDA0</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>kode,kodeverk</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

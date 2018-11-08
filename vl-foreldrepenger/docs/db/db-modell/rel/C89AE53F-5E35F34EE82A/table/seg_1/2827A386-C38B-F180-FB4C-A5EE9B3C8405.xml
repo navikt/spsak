@@ -1,0 +1,164 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="2827A386-C38B-F180-FB4C-A5EE9B3C8405" name="BEREGNING_RESULTAT">
+<sourceDDLFile>V008__BEHANDLING_RESULTAT_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:56 UTC</createdTime>
+<commentInRDBMS>Toppnivå for et beregningsresultat</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0136262A-7777-1C37-A46A-A261274E42BF</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="9F1A8B39-B101-3D1E-3C7C-40C55DD0E4E7">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="original_behandling_id" id="F44863D4-6B26-FBFA-4DFE-1C982E0EF811">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK: BEHANDLING Fremmednøkkel til behandlingen denne raden i tabellen hører til</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BAFFE3D7-4C9A-16C7-E863-22159E65F609" referredColumn="1F9D74A0-4099-8281-5539-25E58BF82F1E"/>
+</associations>
+</Column>
+<Column name="versjon" id="7D2CE2D0-24DB-4575-D850-0AEC5FA80303">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_av" id="02AAD75C-DE78-1925-3DA1-59D027D0F1B5">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="B54BDBE0-9522-213D-DE14-B181E336AEF7">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="5C8DACC4-040D-E7B9-2876-89599CE9244E">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="613AA51D-003E-2B68-137E-C20AA1460A5E">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="overstyrt" id="B9A922B6-55EE-5D4B-DCF5-4A4EB7804C90">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Flagg som angir om beregningsresultatet er overstyrt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<domain>DDE9EA65-0ABC-22D6-E48C-14F6F3367114</domain>
+<listOfValues>
+<valueDef value="J" description=""/>
+<valueDef value="N" description=""/>
+</listOfValues>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="85C1FA85-5EB9-1931-AEA5-AEDB3962C2CB" name="PK_BEREGNING_RESULTAT">
+<sourceDDLFile>V008__BEHANDLING_RESULTAT_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9F1A8B39-B101-3D1E-3C7C-40C55DD0E4E7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5C69220D-1070-BD8A-77D8-4560B81A2CAF" name="IDX_BEREGNING_RESULTAT_1">
+<sourceDDLFile>V008__BEHANDLING_RESULTAT_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F44863D4-6B26-FBFA-4DFE-1C982E0EF811"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A009A68A-333E-9E7F-263A-BF744DBB5C97" name="PK_BEREGNING_RESULTAT">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9F1A8B39-B101-3D1E-3C7C-40C55DD0E4E7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B6B5B23D-B0EA-0B65-6057-4054FE177FE5" name="FK_BEREGNING_RESULTAT_1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F44863D4-6B26-FBFA-4DFE-1C982E0EF811"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

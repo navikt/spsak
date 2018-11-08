@@ -1,0 +1,144 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="DD41E24E-E3CE-6F35-0DE8-FD7FA07A2CCC" name="BEREGNINGSRESULTAT_FP">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Aggregat for tilkjent ytelse</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4E8E3340-2D4A-8072-C029-7542BD2B2024</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="3746CF36-BECA-A891-8301-B55577C9C618">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>730C7473-CC75-BCAB-8175-2E9D9696295A</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERSJON" id="C41CA110-F4AB-7E87-350B-749892C1E9BB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>223E03C0-88ED-96A5-CDE4-0E4495CDD318</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="B797CEB0-74E7-F359-64EC-28A97AFAE16F">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4EDEAE73-7FDE-4F17-FD2B-3A0A7741C3D4</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="40B6E1EC-5772-E64A-8038-EEDDEB96E575">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>5A8ED732-E89C-9B61-1F5F-8099BA054E57</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="959D8BC6-EA08-E545-5E8A-5B5890E863E8">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>509A981F-1D8D-E189-914F-2BFEC0921CDE</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="B23FF68D-5103-6C73-7709-2040F44CEDCA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>3C93F28A-9098-779B-60B1-AE40042A9A57</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REGEL_INPUT" id="A2251EE9-C92F-9456-AA9A-E27C2D65C0A9">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Input til beregningsregel for tilkjent ytelse, JSON</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6190E859-D143-5283-18A3-B03BEC087628</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<ownDataTypeParameters>4000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REGEL_SPORING" id="95B1FB8C-27E8-3874-F5F5-BF663006C25C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Logg fra beregningsregel for tilkjent ytelse, JSON</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>EB5EB4AC-0CFB-59DC-F4F5-8B0FF84A1D9F</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<ownDataTypeParameters>4000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="CCFB207D-DCE4-A50B-6A57-438A3AC4D723" name="PK_BEREGNINGSRESULTAT_FP">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1529C985-99B3-58ED-AC71-D3369430ECB4</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3746CF36-BECA-A891-8301-B55577C9C618"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D589BF39-5A36-04DC-BAA0-E06C7E92B918" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_BEREGNINGSRESULTAT_FP">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6934E188-0AA7-8F58-9170-468A8CFD9C4A</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3746CF36-BECA-A891-8301-B55577C9C618"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

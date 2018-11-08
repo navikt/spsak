@@ -1,0 +1,808 @@
+{
+  "tables" : [ {
+    "name" : "AKSJONSPUNKT_DVH",
+    "erDelTabell" : false,
+    "type" : "TABLE",
+    "comment" : "En transaksjonstabell med alle endringer på aksjonspunkt tilknytte en behandling.",
+    "columns" : [ {
+      "primaryKey" : false,
+      "name" : "BEHANDLING_STEG_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Timestamp som forteller nå transaksjonen inntraff. ",
+      "primaryKey" : false,
+      "name" : "TRANS_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Id til aksjonspunkt",
+      "primaryKey" : false,
+      "name" : "AKSJONSPUNKT_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "BEHANDLING_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Et tidsstempel når transaksjonen er funksjonelt gyldig fra.",
+      "primaryKey" : false,
+      "name" : "FUNKSJONELL_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Behandlende enhet.",
+      "primaryKey" : false,
+      "name" : "BEHANDLENDE_ENHET_KODE",
+      "type" : "VARCHAR2",
+      "size" : 10,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Opprettet_av eller endret_av i VL",
+      "primaryKey" : false,
+      "name" : "ENDRET_AV",
+      "type" : "VARCHAR2",
+      "size" : 20,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Ansvarlig beslutningstager for aksjonspunktet.",
+      "primaryKey" : false,
+      "name" : "ANSVARLIG_BESLUTTER",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Saksbehandler ansvarlig for aksjonspunktet om det finnes. ",
+      "primaryKey" : false,
+      "name" : "ANSVARLIG_SAKSBEHANDLER",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Aksjonspunkt definisjon",
+      "primaryKey" : false,
+      "name" : "AKSJONSPUNKT_DEF",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Aksjonspunkt status",
+      "primaryKey" : false,
+      "name" : "AKSJONSPUNKT_STATUS",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "defaultValue" : "'N' ",
+      "primaryKey" : false,
+      "name" : "TOTRINN_BEHANDLING",
+      "type" : "CHAR",
+      "size" : 1,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "TOTRINN_BEHANDLING_GODKJENT",
+      "type" : "CHAR",
+      "size" : 1,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Primær nøkkel for aksjonspunkt transaksjoner",
+      "primaryKey" : true,
+      "name" : "TRANS_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    } ],
+    "kodeliste" : false,
+    "kodeverk" : false,
+    "table" : true,
+    "rows" : [ ]
+  }, {
+    "name" : "BEHANDLING_DVH",
+    "erDelTabell" : false,
+    "type" : "TABLE",
+    "comment" : "En transaksjonstabell med alle endringer på behandlingen.",
+    "columns" : [ {
+      "comment" : "Timestamp som forteller nå transaksjonen inntraff. ",
+      "primaryKey" : false,
+      "name" : "TRANS_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Id til Behandling",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Id til Fagsak",
+      "primaryKey" : false,
+      "name" : "FAGSAK_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "VEDTAK_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Dato da fagsaken ble opprettet",
+      "primaryKey" : false,
+      "name" : "OPPRETTET_DATO",
+      "type" : "DATE",
+      "size" : 7,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Et tidsstempel når transaksjonen er funksjonelt gyldig fra.",
+      "primaryKey" : false,
+      "name" : "FUNKSJONELL_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Behandlingsresultat type.",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_RESULTAT_TYPE",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Behandlingstype",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_TYPE",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Behandlingsstatus",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_STATUS",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Enheten som sitter på behandlinge på dette tidspunktet.",
+      "primaryKey" : false,
+      "name" : "BEHANDLENDE_ENHET",
+      "type" : "VARCHAR2",
+      "size" : 10,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Kodeverk: UTLAND, NASJONAL. ",
+      "primaryKey" : false,
+      "name" : "UTLANDSTILSNITT",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Opprettet_av eller endret_av i VL",
+      "primaryKey" : false,
+      "name" : "ENDRET_AV",
+      "type" : "VARCHAR2",
+      "size" : 20,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Ansvarlige saksbehandler.",
+      "primaryKey" : false,
+      "name" : "ANSVARLIG_BESLUTTER",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Ansvarlig besluttningstager",
+      "primaryKey" : false,
+      "name" : "ANSVARLIG_SAKSBEHANDLER",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "defaultValue" : "'N' ",
+      "primaryKey" : false,
+      "name" : "TOTRINNSBEHANDLING",
+      "type" : "CHAR",
+      "size" : 1,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Primær nøkkel for behandling transaksjoner",
+      "primaryKey" : true,
+      "name" : "TRANS_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    } ],
+    "kodeliste" : false,
+    "kodeverk" : false,
+    "table" : true,
+    "rows" : [ ]
+  }, {
+    "name" : "BEHANDLING_STEG_DVH",
+    "erDelTabell" : false,
+    "type" : "TABLE",
+    "comment" : "En transaksjonstabell av alle endringer på behandlingen steg.",
+    "columns" : [ {
+      "comment" : "Timestamp som forteller nå transaksjonen inntraff. ",
+      "primaryKey" : false,
+      "name" : "TRANS_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "BEHANDLING_STEG_TILSTAND.ID",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_STEG_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "BEHANDLING_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Et tidsstempel når transaksjonen er funksjonelt gyldig fra.",
+      "primaryKey" : false,
+      "name" : "FUNKSJONELL_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Opprettet_av eller endret_av i VL",
+      "primaryKey" : false,
+      "name" : "ENDRET_AV",
+      "type" : "VARCHAR2",
+      "size" : 20,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Steg type",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_STEG_TYPE",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Steg status",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_STEG_STATUS",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Primær nøkkel for behandling steg transaksjoner",
+      "primaryKey" : true,
+      "name" : "TRANS_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    } ],
+    "kodeliste" : false,
+    "kodeverk" : false,
+    "table" : true,
+    "rows" : [ ]
+  }, {
+    "name" : "BEHANDLING_VEDTAK_DVH",
+    "erDelTabell" : false,
+    "type" : "TABLE",
+    "comment" : "En transaksjonstabell med alle endringer på behandlingsvedtak.",
+    "columns" : [ {
+      "comment" : "Timestamp som forteller nå transaksjonen inntraff. ",
+      "primaryKey" : false,
+      "name" : "TRANS_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "VEDTAK_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Id til behandling",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Dato da vedtak ble opprettet",
+      "primaryKey" : false,
+      "name" : "OPPRETTET_DATO",
+      "type" : "DATE",
+      "size" : 7,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Et tidsstempel når transaksjonen er funksjonelt gyldig fra.",
+      "primaryKey" : false,
+      "name" : "FUNKSJONELL_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Datoen da vedtaket ble vedtatt.",
+      "primaryKey" : false,
+      "name" : "VEDTAK_DATO",
+      "type" : "DATE",
+      "size" : 7,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Iverksettingsstatus",
+      "primaryKey" : false,
+      "name" : "IVERKSETTING_STATUS",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Enheten som godkjener vedtaket. ",
+      "primaryKey" : false,
+      "name" : "GODKJENNENDE_ENHET",
+      "type" : "VARCHAR2",
+      "size" : 10,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Opprettet_av eller endret_av i VL",
+      "primaryKey" : false,
+      "name" : "ENDRET_AV",
+      "type" : "VARCHAR2",
+      "size" : 20,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Ansvarlig beslutningstager",
+      "primaryKey" : false,
+      "name" : "ANSVARLIG_BESLUTTER",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Ansvarlig saksbehandler",
+      "primaryKey" : false,
+      "name" : "ANSVARLIG_SAKSBEHANDLER",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "VEDTAK_RESULTAT_TYPE_KODE",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Primær nøkkel for behandling vedtak transaksjoner",
+      "primaryKey" : true,
+      "name" : "TRANS_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    } ],
+    "kodeliste" : false,
+    "kodeverk" : false,
+    "table" : true,
+    "rows" : [ ]
+  }, {
+    "name" : "FAGSAK_DVH",
+    "erDelTabell" : false,
+    "type" : "TABLE",
+    "comment" : "En transaksjonstabell med alle endringer på fagsaken.",
+    "columns" : [ {
+      "comment" : "Timestamp som forteller nå transaksjonen inntraff. ",
+      "primaryKey" : false,
+      "name" : "TRANS_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Id til Fagsak",
+      "primaryKey" : false,
+      "name" : "FAGSAK_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Bruker id til fagsaken",
+      "primaryKey" : false,
+      "name" : "BRUKER_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Aktørid til bruker",
+      "primaryKey" : false,
+      "name" : "BRUKER_AKTOER_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Dato da fagsaken ble opprettet",
+      "primaryKey" : false,
+      "name" : "OPPRETTET_DATO",
+      "type" : "DATE",
+      "size" : 7,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Et tidsstempel når transaksjonen er funksjonelt gyldig fra.",
+      "primaryKey" : false,
+      "name" : "FUNKSJONELL_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Saksnummer som åpent for saksbehandler",
+      "primaryKey" : false,
+      "name" : "SAKSNUMMER",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Samme som opprettet_av eller endret_av i VL",
+      "primaryKey" : false,
+      "name" : "ENDRET_AV",
+      "type" : "VARCHAR2",
+      "size" : 20,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Fagsaksstatus",
+      "primaryKey" : false,
+      "name" : "FAGSAK_STATUS",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Fagssaksytelse",
+      "primaryKey" : false,
+      "name" : "FAGSAK_YTELSE",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Fagssaksårsak",
+      "primaryKey" : false,
+      "name" : "FAGSAK_AARSAK",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "EPS_AKTOER_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Primær nøkkel for fagsak transaksjoner",
+      "primaryKey" : true,
+      "name" : "TRANS_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    } ],
+    "kodeliste" : false,
+    "kodeverk" : false,
+    "table" : true,
+    "rows" : [ ]
+  }, {
+    "name" : "KONTROLL_DVH",
+    "erDelTabell" : false,
+    "type" : "TABLE",
+    "columns" : [ {
+      "comment" : "Sist leste id fra fagsak_dvh",
+      "primaryKey" : false,
+      "name" : "FAGSAK_TRANS_ID_MAX",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Sist leste id fra behandling_dvh",
+      "primaryKey" : false,
+      "name" : "BEH_TRANS_ID_MAX",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Sist leste id fra behandling_steg_dvh",
+      "primaryKey" : false,
+      "name" : "BEH_STEG_TRANS_ID_MAX",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Sist leste id fra aksjonspunkt_dvh",
+      "primaryKey" : false,
+      "name" : "BEH_AKSJONS_TRANS_ID_MAX",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Sist leste id fra behandlings_vedtak_dvh",
+      "primaryKey" : false,
+      "name" : "BEH_VEDTAKS_TRANS_ID_MAX",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Et flagg som forteller om det har forekommet en oppdatering av historiske, tidliger leste transaksjoner. ",
+      "defaultValue" : "'N' ",
+      "primaryKey" : false,
+      "name" : "LAST_FLAGG",
+      "type" : "CHAR",
+      "size" : 1,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Meta-data tabell som forteller hva siste leste trans id for de forskjellig transaksjonstabellene som er blitt lest av DVH. ",
+      "primaryKey" : true,
+      "name" : "ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    } ],
+    "kodeliste" : false,
+    "kodeverk" : false,
+    "table" : true,
+    "rows" : [ ]
+  }, {
+    "name" : "schema_version",
+    "erDelTabell" : false,
+    "type" : "TABLE",
+    "columns" : [ {
+      "primaryKey" : false,
+      "name" : "VERSION",
+      "type" : "VARCHAR2",
+      "size" : 50,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "DESCRIPTION",
+      "type" : "VARCHAR2",
+      "size" : 200,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "TYPE",
+      "type" : "VARCHAR2",
+      "size" : 20,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "SCRIPT",
+      "type" : "VARCHAR2",
+      "size" : 1000,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "CHECKSUM",
+      "type" : "NUMBER",
+      "size" : 38,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "INSTALLED_BY",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "defaultValue" : "CURRENT_TIMESTAMP ",
+      "primaryKey" : false,
+      "name" : "INSTALLED_ON",
+      "type" : "TIMESTAMP(6)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "EXECUTION_TIME",
+      "type" : "NUMBER",
+      "size" : 38,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "SUCCESS",
+      "type" : "NUMBER",
+      "size" : 1,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : true,
+      "name" : "INSTALLED_RANK",
+      "type" : "NUMBER",
+      "size" : 38,
+      "nullable" : false,
+      "foreignKey" : false
+    } ],
+    "kodeliste" : false,
+    "kodeverk" : false,
+    "table" : true,
+    "rows" : [ ]
+  }, {
+    "name" : "VEDTAK_UTBETALING_DVH",
+    "erDelTabell" : false,
+    "type" : "TABLE",
+    "comment" : "En tabell med med informasjon om alle vedtak fattet i VL, inkluderer utbetalingsinfo",
+    "columns" : [ {
+      "comment" : "Timestamp som forteller nå transaksjonen inntraff.",
+      "primaryKey" : false,
+      "name" : "TRANS_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "XML for Vedtak og utbetaling.",
+      "primaryKey" : false,
+      "name" : "XML_CLOB",
+      "type" : "CLOB",
+      "size" : 4000,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Id til Fagsak.",
+      "primaryKey" : false,
+      "name" : "FAGSAK_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Id til Behandling.",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Id til Vedtak.",
+      "primaryKey" : false,
+      "name" : "VEDTAK_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Type behandling.",
+      "primaryKey" : false,
+      "name" : "BEHANDLING_TYPE",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Type søknad, fødsel eller adopsjon.",
+      "primaryKey" : false,
+      "name" : "SOEKNAD_TYPE",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "primaryKey" : false,
+      "name" : "FAGSAK_TYPE",
+      "type" : "VARCHAR2",
+      "size" : 100,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Dato vedtaket ble fattet.",
+      "primaryKey" : false,
+      "name" : "VEDTAK_DATO",
+      "type" : "DATE",
+      "size" : 7,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Et tidsstempel når transaksjonen er funksjonelt gyldig fra.",
+      "primaryKey" : false,
+      "name" : "FUNKSJONELL_TID",
+      "type" : "TIMESTAMP(3)",
+      "size" : 11,
+      "nullable" : false,
+      "foreignKey" : false
+    }, {
+      "comment" : "Opprettet_av eller endret_av i VL",
+      "primaryKey" : false,
+      "name" : "ENDRET_AV",
+      "type" : "VARCHAR2",
+      "size" : 20,
+      "nullable" : true,
+      "foreignKey" : false
+    }, {
+      "comment" : "Primær nøkkel",
+      "primaryKey" : true,
+      "name" : "TRANS_ID",
+      "type" : "NUMBER",
+      "size" : 19,
+      "nullable" : false,
+      "foreignKey" : false
+    } ],
+    "kodeliste" : false,
+    "kodeverk" : false,
+    "table" : true,
+    "rows" : [ ]
+  } ]
+}

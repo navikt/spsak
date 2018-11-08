@@ -1,0 +1,155 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="KLAGE_VURDERING_RESULTAT" directorySegmentName="seg_0" id="D62F2BBC-6AE9-15A5-5117-193E96D032C3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>1CD3021F-D092-EF0B-7CE8-34B39A4371F2</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="klagevurdering" id="1195E2A3-D3FF-780C-06F8-FB133C44C04A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kl_klage_medhold_aarsak" id="259F03B3-BD9D-7193-5C67-F0851E1430CE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<columnExpression>&apos;KLAGE_MEDHOLD_AARSAK&apos;</columnExpression>
+</ColumnProxy>
+<ColumnProxy name="opprettet_tid" id="26F7DC56-C32D-36F5-B128-D4878F3A0B6E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="klage_medhold_aarsak" id="4109B171-C0E2-5471-B215-8019B19E392E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="endret_tid" id="54721997-9931-AEB6-E591-9A5D6D74E0C3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="klage_vurdert_av" id="56A17B36-3961-DE6A-4471-190624CEE751">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="begrunnelse" id="58E9E8DF-63B7-965D-350C-1FDE1F12BF65">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kl_klage_avvist_aarsak" id="7C47281D-F644-FE56-6162-2D62AF55B352">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<columnExpression>&apos;KLAGE_AVVIST_AARSAK&apos;</columnExpression>
+</ColumnProxy>
+<ColumnProxy name="klage_avvist_aarsak" id="86240126-B60B-A16C-C02A-D3BCE23680B2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kl_klagevurdering" id="A13C09A8-B933-0754-3FBD-055AEDEC1933">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<columnExpression>&apos;KLAGEVURDERING&apos;</columnExpression>
+</ColumnProxy>
+<ColumnProxy name="id" id="AA4F3F79-E39A-54D9-D166-F9A947E90312">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_av" id="B379CDDA-8803-915C-ECF1-40428A9D9242">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="endret_av" id="C4F01151-FB5F-82DB-5960-CDE99CB91C06">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="behandling_id" id="DEF6B42C-83D8-FC99-ABBB-D07730EF6A1D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kl_klage_vurdert_av" id="E4704637-71A1-0A1A-11DB-379C70B48F56">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<columnExpression>&apos;KLAGE_VURDERT_AV&apos;</columnExpression>
+</ColumnProxy>
+<ColumnProxy name="VEDTAKSDATO_PAKLAGD_BEHANDLING" id="FC8F4A30-C07F-5082-8D74-01E50C13AABD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_KLAGE_VURDERING_RESULTAT_6" id="608D0EDE-7CEB-9D12-C62F-514905CB034E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_KLAGE_VURDERING_RESULTAT" id="67C53DFD-B26C-1529-A094-E0DFB9718F47">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_KLAGE_VURDERING_RESULTAT_3" id="6878639E-54FD-4190-C4BE-9858A6221E6D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_KLAGE_VURDERING_RESULTAT_5" id="892FE7C1-7437-70B2-8F82-2C90170D5299">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_KLAGE_VURDERING_RESULTAT_2" id="BFB3DE18-BCD0-D4FC-2251-4EA31A734264">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_KLAGE_VURDERING_RESULTAT_1" id="C0FCB8D7-07D9-98D1-50F7-C6550E5173F3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_KLAGE_VURDERING_RESULTAT_4" id="DAEFC0B1-1C63-50CD-65DA-DFACAB1E3190">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_KLAGE_VURDERING_RESULTAT" id="D2197B1A-8068-3549-5149-7530DAE7958E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<indexSegment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

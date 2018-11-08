@@ -1,0 +1,73 @@
+{
+  "root" : {
+    "id" : "5b7bce85-7070-4a57-95af-d4d3926e8db4",
+    "ruleId" : "FP_VK 23.1",
+    "ruleDescription" : "Sammenstill Arbeid aktivitet med Inntekt, og Mellomliggende perioder",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "5b7bce85-7070-4a57-95af-d4d3926e8db4",
+    "ruleId" : "FP_VK 23.1",
+    "ruleDescription" : "Sammenstill Arbeid aktivitet med Inntekt, og Mellomliggende perioder",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "10aba88b-0243-4066-adcc-f0fa45f316ff",
+    "ruleId" : "SjekkInntektSamsvarerMedArbeidAktivitet",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "7a53c865-0fed-4c57-8993-c28a8e807215",
+    "ruleId" : "SjekkMellomliggendePerioderForArbeid",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "0c181372-e385-4acc-af7e-a9bfea11842a",
+    "ruleId" : "BeregnOpptjening",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "572e7477-075c-4af7-a176-eab84e6d0298",
+    "ruleId" : "FP_VK 23.2",
+    "ruleDescription" : "Hvis tilstrekkelig opptjening",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "4c97b6b0-d7d5-4ac8-8c13-9460f62576fc",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3f72c338-05e7-4c2f-b994-caff52792131",
+    "ruleId" : "SjekkTilstrekkeligOpptjeningInklAntatt",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "5b7bce85-7070-4a57-95af-d4d3926e8db4",
+    "target" : "10aba88b-0243-4066-adcc-f0fa45f316ff"
+  }, {
+    "source" : "5b7bce85-7070-4a57-95af-d4d3926e8db4",
+    "target" : "7a53c865-0fed-4c57-8993-c28a8e807215"
+  }, {
+    "source" : "5b7bce85-7070-4a57-95af-d4d3926e8db4",
+    "target" : "0c181372-e385-4acc-af7e-a9bfea11842a"
+  }, {
+    "source" : "572e7477-075c-4af7-a176-eab84e6d0298",
+    "target" : "4c97b6b0-d7d5-4ac8-8c13-9460f62576fc",
+    "role" : ""
+  }, {
+    "source" : "572e7477-075c-4af7-a176-eab84e6d0298",
+    "target" : "3f72c338-05e7-4c2f-b994-caff52792131",
+    "role" : "ellers"
+  }, {
+    "source" : "5b7bce85-7070-4a57-95af-d4d3926e8db4",
+    "target" : "572e7477-075c-4af7-a176-eab84e6d0298"
+  } ]
+}

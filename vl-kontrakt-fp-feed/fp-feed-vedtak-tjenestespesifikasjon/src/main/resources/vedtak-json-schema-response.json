@@ -1,0 +1,119 @@
+{
+  "$id": "http://example.com/example.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "tittel": {
+      "$id": "/properties/tittel",
+      "type": "string",
+      "title": "Tittel på JSON-feeden"
+    },
+    "inneholderFlereElementer": {
+      "$id": "/properties/inneholderFlereElementer",
+      "type": "boolean",
+      "title": "Har feeden flere elementer ",
+      "default": false,
+      "examples": [
+        true
+      ]
+    },
+    "elementer": {
+      "$id": "/properties/elementer",
+      "type": "array",
+      "items": {
+        "$id": "/properties/elementer/items",
+        "type": "object",
+        "properties": {
+          "type": {
+            "$id": "/properties/elementer/items/properties/type",
+            "type": "string",
+            "title": "Type forretningshendelse",
+            "examples": [
+              "ForeldrepengerInnvilget_v1"
+            ],
+            "enum": [
+              "ForeldrepengerInnvilget_v1",
+              "ForeldrepengerEndret_v1",
+              "ForeldrepengerOpphoert_v1"
+            ]
+          },
+          "sekvensId": {
+            "$id": "/properties/elementer/items/properties/sekvensId",
+            "type": "integer",
+            "title": "Sekvensnummer",
+            "description": "Unik løpenummer for feeden. Stigende rekkefølge. Det kan være hull i rekkefølgen",
+            "examples": [
+              1
+            ]
+          },
+          "innhold": {
+            "$id": "/properties/elementer/items/properties/innhold",
+            "type": "object",
+            "properties": {
+              "aktoerId": {
+                "$id": "/properties/elementer/items/properties/innhold/properties/aktoerId",
+                "type": "string",
+                "title": "AkterId for hendelsen "
+              },
+              "foersteStoenadsdag": {
+                "$id": "/properties/elementer/items/properties/innhold/properties/foersteStoenadsdag",
+                "type": "string",
+                "format": "date",
+                "title": "Første stønadsdag for ytelsen",
+                "examples": [
+                  "2018-04-18"
+                ]
+              },
+              "sisteStoenadsdag": {
+                "$id": "/properties/elementer/items/properties/innhold/properties/sisteStoenadsdag",
+                "type": "string",
+                "format": "date",
+                "title": "Siste stønadsdag for ytelsen",
+                "examples": [
+                  "2018-04-18"
+                ]
+              },
+              "gsakId": {
+                "$id": "/properties/elementer/items/properties/innhold/properties/gsakId",
+                "type": "string",
+                "title": "Saksnummeret i GSAK"
+              }
+            },
+            "required": [
+              "aktoerId",
+              "foersteStoenadsdag"
+            ]
+          },
+          "metadata": {
+            "$id": "/properties/elementer/items/properties/metadata",
+            "type": "object",
+            "properties": {
+              "opprettetDato": {
+                "$id": "/properties/elementer/items/properties/metadata/properties/opprettetDato",
+                "type": "string",
+                "format": "date-time",
+                "title": "Tidspunkt hendelsen var opprettet",
+                "examples": [
+                  "2018-04-18T09:03:29.202"
+                ]
+              }
+            },
+            "required": [
+              "opprettetDato"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "sekvensId",
+          "innhold",
+          "metadata"
+        ]
+      }
+    }
+  },
+  "required": [
+    "tittel",
+    "elementer"
+  ]
+}

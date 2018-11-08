@@ -1,0 +1,119 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="GR_MEDLEMSKAP_VILKAR_PERIODE" directorySegmentName="seg_2" id="C73FD72B-E292-2B59-D11B-1279BF16AC6C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:28 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>1CD3021F-D092-EF0B-7CE8-34B39A4371F2</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="ENDRET_TID" id="04FCA3BB-4CD9-D8F8-5D07-3B00F304EDFA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="OPPRETTET_TID" id="173A4DCB-D473-2BFA-A27F-762A79BE0287">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="MEDLEMSKAP_VILKAR_PERIODE_ID" id="1F969415-8E4D-187E-B181-9FF88B02EEAE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="AKTIV" id="3A1759AB-F439-9612-92CE-DF6DC7EB8EB2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;N&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="VILKAR_RESULTAT_ID" id="4FA5CA2B-EC0E-8592-B96E-3FFBBA86964B">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ID" id="67071CB5-C347-BADA-1403-1C6FE11442CA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ENDRET_AV" id="7A921C4C-732A-5082-1F60-64D4C4F50CAB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="OPPRETTET_AV" id="C0BBBAD1-2C32-EB4E-B327-48A040A65127">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="VERSJON" id="EC7BFEC7-9E4B-474F-4F4C-FE53FBE98792">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_GR_MEDLEMSKAP_VILKAR_PER" id="28278F28-C66E-7FD7-C0E4-CBE3A6F7F31A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_GR_MEDLEMSKAP_VILKAR_PER_7" id="2BC9F099-0E12-C234-C5C3-99AC18272F4A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_GR_MEDLEMSKAP_VILKAR_PER_6" id="B62DC199-1B4A-9E26-5705-0328F2699E21">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="UIDX_GR_MEDLEMSKAP_VILKAR_P_01" id="E6EAE4F3-C237-BC21-8B05-984355DCF816">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_GR_MEDLEMSKAP_VILKAR_PER_2" id="8198B97E-6EE9-C72D-C647-F10465923F39">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_GR_MEDLEMSKAP_VILKAR_PER_1" id="9ED8550C-C554-7F8A-6E7D-8704A739CACC">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_GR_MEDLEMSKAP_VILKAR_PER" id="F15D72F2-4625-1B74-6127-589AF6D855EF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<indexSegment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

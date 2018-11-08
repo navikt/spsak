@@ -1,0 +1,127 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="OPPGITT_ARBEIDSFORHOLD" directorySegmentName="seg_2" id="2AFA1E40-CBE9-6F29-3883-F60BFD218F09">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>1CD3021F-D092-EF0B-7CE8-34B39A4371F2</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="VIRKSOMHET_ID" id="1138EA6B-B9A7-CE00-478C-BCC5647F6ADC">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="LAND" id="14BA80E0-9B16-EC15-F787-92C499AB7B58">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="FOM" id="16E6127A-40F6-9AAD-C90B-5F410D4038DA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="TOM" id="23BC996D-A871-52AE-787B-F706379202BB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ARBEID_TYPE" id="291122E0-90BD-2A60-8AE5-EE5914CC31CF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ENDRET_TID" id="54960D77-9373-3E9D-0AB9-2D767000727A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="OPPRETTET_AV" id="71BDCD4A-491B-E541-3FC6-B614BD3F681B">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="ID" id="78F859DB-7893-3192-E139-D511CCE9B105">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="OPPRETTET_TID" id="809A7A57-A5C7-AF86-8F3D-EF1EB0E49325">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="OPPGITT_OPPTJENING_ID" id="87105DD8-7E4D-1B05-78BA-91EB21183AD0">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="UTENLANDSK_INNTEKT" id="8AA3AD50-6E89-E9AD-A682-67286838EC07">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="KL_ARBEID_TYPE" id="96406A41-ABC2-C082-E496-9CD3A4F91203">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<columnExpression>&apos;ARBEID_TYPE&apos;</columnExpression>
+</ColumnProxy>
+<ColumnProxy name="UTENLANDSK_VIRKSOMHET_NAVN" id="AFB6039B-A78A-C6E9-E1DB-BAF6BDFE67E1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ENDRET_AV" id="C9493B34-DFFB-F4AF-9694-E16F55D795E7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="KL_LANDKODER" id="D8419EA6-377C-8F99-10BF-FBB6C1D6DDA7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;LANDKODER&apos;</defaultValue>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_ARBEIDSFORHOLD" id="A5A694D3-5283-F2D0-EDD6-BF867B1D9F67">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_ARBEIDSFORHOLD_1" id="53866C75-5572-253D-B665-B2C27BACB742">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_ARBEIDSFORHOLD_2" id="8798A8A4-6631-0A0E-EE98-27727E7C0DA3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_ARBEIDSFORHOLD" id="2DAECC1A-A69A-3400-4A68-9620129A7FFF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<indexSegment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

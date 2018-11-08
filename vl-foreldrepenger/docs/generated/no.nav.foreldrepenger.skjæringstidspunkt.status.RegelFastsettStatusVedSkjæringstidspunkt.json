@@ -1,0 +1,62 @@
+{
+  "root" : {
+    "id" : "6d54248f-f587-4430-abe9-1489f88a7ee9",
+    "ruleId" : "FP_BR_19_2",
+    "ruleDescription" : "Fastsett status per andel og periode",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "6d54248f-f587-4430-abe9-1489f88a7ee9",
+    "ruleId" : "FP_BR_19_2",
+    "ruleDescription" : "Fastsett status per andel og periode",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "b26f31a2-7ae7-40a4-9ba4-ab2ba72c3905",
+    "ruleId" : "FP_BR_19_2",
+    "ruleDescription" : "Fastsett status per andel og periode",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "9e48f261-8a76-4f53-acb8-f784375024eb",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "50f8d1f4-26c0-4381-adce-ff5aada49c92",
+    "ruleId" : "FP_BR_19_3",
+    "ruleDescription" : "Sjekk aktuelle kombinasjoner?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f2f0d002-fab0-4370-ab2f-5277508b3f5f",
+    "ruleId" : "FP_BR_19_4",
+    "ruleDescription" : "Sett kombinasjoner",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d358e203-9b2d-41fd-a962-291705bcaf59",
+    "ruleId" : "FP_BR 19.5",
+    "ruleDescription" : "Fastsett status for beregningsgrunnlag",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "6d54248f-f587-4430-abe9-1489f88a7ee9",
+    "target" : "b26f31a2-7ae7-40a4-9ba4-ab2ba72c3905"
+  }, {
+    "source" : "9e48f261-8a76-4f53-acb8-f784375024eb",
+    "target" : "50f8d1f4-26c0-4381-adce-ff5aada49c92"
+  }, {
+    "source" : "9e48f261-8a76-4f53-acb8-f784375024eb",
+    "target" : "f2f0d002-fab0-4370-ab2f-5277508b3f5f"
+  }, {
+    "source" : "9e48f261-8a76-4f53-acb8-f784375024eb",
+    "target" : "d358e203-9b2d-41fd-a962-291705bcaf59"
+  }, {
+    "source" : "6d54248f-f587-4430-abe9-1489f88a7ee9",
+    "target" : "9e48f261-8a76-4f53-acb8-f784375024eb"
+  } ]
+}

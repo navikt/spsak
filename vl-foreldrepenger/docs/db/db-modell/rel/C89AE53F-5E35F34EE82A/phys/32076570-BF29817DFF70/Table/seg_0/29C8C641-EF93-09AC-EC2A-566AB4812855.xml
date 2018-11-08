@@ -1,0 +1,135 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="BRUKER" directorySegmentName="seg_0" id="29C8C641-EF93-09AC-EC2A-566AB4812855">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>1CD3021F-D092-EF0B-7CE8-34B39A4371F2</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="sprak_kode" id="06DC9F16-C762-34BC-69AF-59A635A358AE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;NB&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="id" id="1371144C-1064-7463-093D-E2B5AE99AD69">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_av" id="2EA00C5C-60BC-3D68-8B16-30B7FD65CCC5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="endret_tid" id="65D29DDC-03C1-AEEE-018C-E64E8FAB3744">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="endret_av" id="793D813F-BB0A-5EDA-29DE-A7AA23E70952">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="bruker_kjoenn" id="84491E58-E322-2D76-03F8-35D73DC0CFD5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;K&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="aktoer_id" id="971DD8FD-75D9-289B-96BD-B861EA92F1CF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="foedsel_dato" id="A854B8E9-827B-91F3-78AD-46807DF66C07">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kl_bruker_kjoenn" id="C3C24C04-3C6B-FB2E-E414-EEF56B2761D5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<columnExpression>&apos;BRUKER_KJOENN&apos;</columnExpression>
+</ColumnProxy>
+<ColumnProxy name="versjon" id="C5491E3B-286B-3722-BE8A-3D87A79CFDA9">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="kl_spraak_kode" id="F5FAC464-33FB-CE44-0A59-4DF629F6B71A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<columnExpression>&apos;SPRAAK_KODE&apos;</columnExpression>
+</ColumnProxy>
+<ColumnProxy name="opprettet_tid" id="FFFF62F4-47A1-E261-3FB2-632248EFA962">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BRUKER_6" id="14011548-B96D-2B3A-5332-4233B3580A20">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_AKTOER_1" id="1FFD46A3-3124-3142-4EB1-86E807B40031">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_BRUKER" id="95BA5CC6-30FD-55B0-6CB3-BA61BC5BD08E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="UIDX_BRUKER_1" id="D1362F1E-E232-9AA4-476A-75682FFE8121">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BRUKER_80" id="E0BAC3BC-39C7-D426-D81D-336DE300C98C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BRUKER_82" id="F9A85096-35B4-65D5-A5FB-F6DE4D292720">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_BRUKER" id="8A3887EC-C811-DB2F-C7BE-605D920CED95">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<indexSegment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

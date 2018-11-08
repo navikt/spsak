@@ -1,0 +1,116 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_2" id="ED822D95-6335-E86F-B450-F278648EA964" name="PERIODER_ALENEOMSORG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>518FF330-7807-B29E-70A7-1B848B1EA615</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="A047DC90-85D1-A3E2-7FE7-AECBBDC04DFA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>ED2F0FC8-80C6-B45F-66BF-E410534BACB0</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERSJON" id="2450FA45-C7B9-166F-6F72-2F902311E99D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C081718A-0DA0-508F-A956-172E419E750F</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="922D5948-E983-ECD1-1999-EEC4B3EA4FDD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>77861677-4CEB-2A77-2FB6-1269C81EAF5E</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="C929B8C6-577D-8AD1-0997-DF363B2CE32D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>DA994829-2E30-E321-708C-479F5EBD95EB</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="23CA89EF-AAFD-7526-DD8F-44CF3B28E8B7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D133F482-5D4E-829B-8D6C-EF02FD86FE2C</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="772041DA-0972-E4A8-0A11-7D90CE5B3313">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D594F3B1-C8EC-51BC-8A6A-ED40C3D8C7B2</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="7D0BADAC-ACD7-DDEF-153C-FE72BB0A14CE" name="PK_PERIODER_ALENEOMSORG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9186DA45-6CE0-982C-3BEB-CF18E5B4A343</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A047DC90-85D1-A3E2-7FE7-AECBBDC04DFA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="703B94E7-82AD-3A09-EA4C-835B385BA076" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_PERIODER_ALENEOMSORG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C83DF345-9E4B-AF7A-87B5-FB382AB73712</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A047DC90-85D1-A3E2-7FE7-AECBBDC04DFA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,175 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="DE0587EB-F4F1-C0B5-6F7C-7FCE43AE32AD" name="LAND_REGION">
+<sourceDDLFile>02_TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:22:19 UTC</createdTime>
+<commentInRDBMS>Kodeverk for land og region</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>584828BD-DFB6-49E4-1F96-C2907F3BC164</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="land" id="EC0AF420-29A1-6CE6-5EB1-A1B5FA9D0418">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Landkode</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="001FA5F6-CED7-093A-38B6-256CB1597109" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="region" id="F7511E40-E8DF-E8A5-1025-6B961BCF2636">
+<sourceDDLFile>02_TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:22:19 UTC</createdTime>
+<commentInRDBMS>Geografisk område</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E4FD357B-D43E-6D8C-4E23-2C8DADD09DB8" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="opprettet_av" id="B496B12E-9E2E-A8DC-7763-2B4F3BCBC428">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="F52DBFE3-8F6C-3952-EA51-440F961E0FA7">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="0803EB93-3EBB-1802-FB87-2E8462832C4C">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="1F632D52-70AE-2850-63ED-468FF087FBC7">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="kl_landkoder" id="26FE614F-C1CA-282B-125B-B37AC3C6A18C">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<formulaDesc>&apos;LANDKODER&apos;</formulaDesc>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="001FA5F6-CED7-093A-38B6-256CB1597109" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="kl_region" id="919DE830-D771-1580-117A-5801F44C3C98">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<formulaDesc>&apos;REGION&apos;</formulaDesc>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E4FD357B-D43E-6D8C-4E23-2C8DADD09DB8" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="04B00D88-5C3B-C8A1-FA77-630EA1683BF6" name="PK_LAND_REGION">
+<sourceDDLFile>04_CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:22:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EC0AF420-29A1-6CE6-5EB1-A1B5FA9D0418"/>
+<colUsage columnID="F7511E40-E8DF-E8A5-1025-6B961BCF2636"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="235CC081-CC6E-F112-FC90-CD4ADCD8BAC8" name="PK_LAND_REGION">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EC0AF420-29A1-6CE6-5EB1-A1B5FA9D0418"/>
+<colUsage columnID="F7511E40-E8DF-E8A5-1025-6B961BCF2636"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D4EEDCF4-B6D8-69D4-B4AD-801B5B515703" name="FK_LAND_REGION_80">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EC0AF420-29A1-6CE6-5EB1-A1B5FA9D0418"/>
+<colUsage columnID="26FE614F-C1CA-282B-125B-B37AC3C6A18C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A308F5C2-96A4-9210-4BA5-1BBDD04E848D" name="FK_LAND_REGION_81">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F7511E40-E8DF-E8A5-1025-6B961BCF2636"/>
+<colUsage columnID="919DE830-D771-1580-117A-5801F44C3C98"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

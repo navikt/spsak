@@ -1,0 +1,55 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2015-03-01", "2017-07-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "811564052",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2016-05-01", "2017-04-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "AAP",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2016-10-10", "2017-07-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "874544442",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "VURDERT_UNDERKJENT"
+  }, {
+    "datoIntervall" : [ "2017-02-01", "2017-07-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "974552264",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "VURDERT_UNDERKJENT"
+  }, {
+    "datoIntervall" : [ "2017-05-01", "2018-04-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "AAP",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-09-01", "2018-03-02" ],
+    "aktivitet" : {
+      "aktivitetType" : "SYKEPENGER",
+      "aktivitetReferanse" : "811564052",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-06",
+  "forsteDatoOpptjening" : "2017-05-05",
+  "sisteDatoForOpptjening" : "2018-03-04",
+  "inntektPerioder" : [ ]
+}

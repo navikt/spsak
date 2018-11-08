@@ -1,0 +1,10 @@
+{
+  "bekreftetAdopsjonBarn" : [ {
+    "foedselsdato" : "2018-06-13"
+  } ],
+  "ektefellesBarn" : true,
+  "soekersKjonn" : "KVINNE",
+  "mannAdoptererAlene" : false,
+  "omsorgsovertakelsesdato" : "2018-08-15",
+  "erStønadsperiodeBruktOpp" : false
+}

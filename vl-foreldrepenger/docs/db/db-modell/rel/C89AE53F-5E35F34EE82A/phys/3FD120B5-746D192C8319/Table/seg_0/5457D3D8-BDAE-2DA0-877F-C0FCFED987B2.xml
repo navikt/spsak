@@ -1,0 +1,90 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="SOEKNAD_ANNEN_PART" directorySegmentName="seg_0" id="5457D3D8-BDAE-2DA0-877F-C0FCFED987B2">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="id" id="1D763A15-2922-484A-72EE-D652DDE22B23">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="begrunnelse" id="35C4A87F-A8B8-F9BA-8B7B-58C3CD573972">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="aarsak" id="44810E5C-7105-45C6-EBFD-82D1928A714B">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="aktoer_id" id="6E9EB35C-28D5-BAB0-6026-C9BEDADCE194">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="type" id="79916D0F-44DE-2B52-39FE-0A74A67A0CEF">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="utenlandsk_fnr_land" id="94723F30-2F4D-5EC9-36D9-D2C54A0119B6">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="navn" id="AFC8A736-C9EA-6322-A855-5C00BE9CD694">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:22:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="utenlandsk_fnr" id="BF4A0B38-D9C7-628E-81B1-1BA1E2D11C37">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_SOEKNAD_ANNEN_PART_1" id="3250297A-4BED-6D3F-99D6-358181261E9D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_SOEKNAD_ANNEN_PART" id="40DC0716-E5D7-7406-596D-E28C9D37F088">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_SOEKNAD_ANNEN_PART_2" id="EBD2987B-6C0F-D7F4-6673-32AFD13F766C">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_SOEKNAD_ANNEN_PART_1" id="97F08669-D543-0612-C1A9-360FB3F3B84A">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_SOEKNAD_ANNEN_PART_2" id="EC493C57-A8EE-1E3B-C89C-52B097EB720E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_SOEKNAD_ANNEN_PART" id="BDDAC005-8291-6877-6028-02572E21C063">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

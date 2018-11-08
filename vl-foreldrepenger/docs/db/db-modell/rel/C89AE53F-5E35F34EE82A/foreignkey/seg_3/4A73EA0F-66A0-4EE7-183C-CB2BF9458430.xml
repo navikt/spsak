@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_3" id="4A73EA0F-66A0-4EE7-183C-CB2BF9458430" containerWithKeyObject="9FDC8E5B-5556-6597-81E2-4C4CA8DC8F38" localFKIndex="6E310D30-35CD-3803-2AE6-B879CE5F30B3" name="FK_SOEKNAD_SO_DEKNINGSGRAD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>912C061B-88AC-5CBD-E1FC-8258818091C8</importedID>
+<referredTableLongName>SO_DEKNINGSGRAD</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>D7EF1AE8-0476-8F35-8751-F880F3FDD2F9</referredTableID>
+<keyObject>AF6AAA81-2494-E72A-CEA5-FE6B0FAA28A5</keyObject>
+<referredKeyID>AF6AAA81-2494-E72A-CEA5-FE6B0FAA28A5</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

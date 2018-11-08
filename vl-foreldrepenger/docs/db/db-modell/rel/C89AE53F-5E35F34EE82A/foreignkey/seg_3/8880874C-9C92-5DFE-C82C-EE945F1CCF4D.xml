@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_3" id="8880874C-9C92-5DFE-C82C-EE945F1CCF4D" containerWithKeyObject="CF993375-AAFE-4904-837B-8DA0D86169EF" localFKIndex="276A574F-257D-7C63-7E99-CDF5929538B4" name="FK_UTTAK_POSTERING_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:08 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>5BA72716-CF6C-1234-086E-3437D0D8B485</importedID>
+<referredTableLongName>STOENADSKONTO</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>A940D2D2-341A-AA21-52C9-85713A44D584</referredTableID>
+<keyObject>4874CDD9-5E9A-B58E-0FAC-F5B0C374A246</keyObject>
+<referredKeyID>4874CDD9-5E9A-B58E-0FAC-F5B0C374A246</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

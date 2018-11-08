@@ -1,0 +1,195 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_2" id="A61BE5ED-37FA-A7E2-A2B1-56DCAFF11771" name="MEDLEMSKAP_VILKAR_PERIODER">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Periodisering av vilkårsvurderingen for medlemskap</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9ABFBEA7-1CA9-5E91-A8A3-749EFF0B8BD6</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="DD765A2A-3635-A3C7-EF2C-74AE9CE18317">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2C2F7212-0BD0-E3C8-3961-49549E7A3C15</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FOM" id="D6729111-07C0-9ACE-FD64-9DABBE15323A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Fra og med dato</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7F285F60-8D01-C32D-C4B3-7C62FD268B1F</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="TOM" id="3F2B42C6-D9EC-D733-9F5F-47391AF60CF5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Til og med dato</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>CD600808-573C-0FA1-74EA-F827B1FACFE4</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VILKAR_UTFALL" id="7739C5A5-B729-A851-2277-1B38A57BB472">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Utfallet av medlemskapsvilkåret i den angitte perioden</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>3C33776B-EEE8-69AB-9F9F-4388D19FBC28</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="KL_VILKAR_UTFALL_TYPE" id="D557D18D-4146-C53C-A81E-C5A8CFB121AB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F2EC6DAE-79F6-0E6A-0A31-91AEF3931220</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<defaultValue>&apos;VILKAR_UTFALL_TYPE&apos;</defaultValue>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="08C6E786-DC05-2A87-9A57-CC07D506BEE4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6C1137DC-7A1D-06E1-DD50-EF6EEFB9700D</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="5699939B-516C-7E31-6F87-C1AECDFFC874">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9E2B432D-A169-407E-E9BF-AB7F25380ECC</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="BEB7DEB3-11A2-5312-75AF-5F000EDC4647">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>417348D4-2A8C-6BCB-6211-5EF1B51152C6</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="B3B41658-A230-E06D-3DB7-F451E165E2DF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>95C5E955-F924-594E-7DFF-0FFFC5D6E317</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MEDLEMSKAP_VILKAR_PERIODE_ID" id="E019B2B5-21E2-FC4B-5C67-EE8F5DC46E31">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>FK:MEDLEMSKAP_VILKAR_PERIODE Fremmednøkkel til periodenes aggregat</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>984FCF5F-C541-345D-6F70-8D2371078B85</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="59E8D8E5-E0FF-6BAA-C5A0-C3302D6D0C09" referredColumn="C00920E1-CD19-E967-17B1-3180E8E2338B"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E6CB4433-57E5-6798-9FB4-47DEDB28817C" name="PK_MEDLEMSKAP_VILKAR_PERIODER">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>00A688A9-07B9-2B58-E1FE-6740EA06D5A8</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DD765A2A-3635-A3C7-EF2C-74AE9CE18317"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DC60A09E-4DC6-20CA-CABF-5EBC8B326D9D" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_MEDLEMSKAP_VILKAR_PERIODER">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>BDCCC915-B763-3777-9357-94423DA321FE</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DD765A2A-3635-A3C7-EF2C-74AE9CE18317"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2A016103-D86C-1CB8-B680-7AF022A74545" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_MEDLEMSKAP_VILKAR_PERIOD_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F6D0D00E-2D1D-28B4-5ECE-D8115FBA2590</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E019B2B5-21E2-FC4B-5C67-EE8F5DC46E31"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="11A94523-76AE-ECB6-02F0-18A927FA4642" name="FK_MEDLEMSKAP_VILKAR_PERIODE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E019B2B5-21E2-FC4B-5C67-EE8F5DC46E31"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

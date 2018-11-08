@@ -1,0 +1,191 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="7791FE3F-9EF1-7EBD-E00D-4B76A3C95BA7" name="VURDERINGSPUNKT_DEF">
+<sourceDDLFile>V006__BEHANDLING_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:56 UTC</createdTime>
+<commentInRDBMS>Internt kodeverk for definisjoner av vurderingspunkt.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>68617391-5877-49F1-0349-7E7FA6E8AB0A</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="kode" id="BBEB55CD-F7B6-A6B4-B216-97857771E69B">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Kodeverk Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="behandling_steg" id="D9394111-ED6E-3769-2B1C-6447A94A949D">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK:BEHANDLING_STEG_TYPE Fremmednøkkel til tabellen som viser krav til status for at steget skal kunne kjøres</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4B933531-FC0B-9E5E-06A4-B624F8DB9C0D" referredColumn="38881520-33F8-0D80-AC99-8E23AD3A38A5"/>
+</associations>
+</Column>
+<Column name="vurderingspunkt_type" id="59455308-B6CA-6049-B189-60BA7C7281A2">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Angir om det er et inngående eller utgående vurderingspunkt. Verdier: &quot;INN&quot; eller &quot;UT&quot;.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<listOfValues>
+<valueDef value="INN" description=""/>
+<valueDef value="UT" description=""/>
+</listOfValues>
+<defaultValue>&apos;UT&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="navn" id="5BBDA363-5FAA-3702-9DBE-74C54A7323F5">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Lesbart navn på definisjon av vurderingspunkt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>0F4C4CD9-6649-86EC-2ECE-A89F96E1F0F5</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="beskrivelse" id="591290B7-E7B7-DBCB-4E94-731B40219AD0">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Utdypende beskrivelse av koden</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>631C2B5F-B86C-FC03-828C-8C6D28B5EFE7</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_av" id="4C1AED4A-2685-8B3C-4906-8FB12DA3CA6D">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="84F0FCE0-E9B5-B633-55B4-3BBCE24DD28D">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="B5D357E3-B657-03AD-257E-C5A95C176263">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="7EB75C45-6BA0-93FB-1EF4-502B5D8BC4AE">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E304EEBE-E5DA-CBE6-8BF5-A6B8C05F74CA" name="PK_VURDERINGSPUNKT_DEF">
+<sourceDDLFile>V006__BEHANDLING_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BBEB55CD-F7B6-A6B4-B216-97857771E69B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FC5872E8-6321-AB12-1281-A92298D750CA" name="IDX_VURDERINGSPUNKT_DEF_1">
+<sourceDDLFile>V006__BEHANDLING_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D9394111-ED6E-3769-2B1C-6447A94A949D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="186AE9BB-E2E8-FEC8-D8A0-6BE4D88C8D84" name="UIDX_VURDERINGSPUNKT_DEF_1">
+<sourceDDLFile>V006__BEHANDLING_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D9394111-ED6E-3769-2B1C-6447A94A949D"/>
+<colUsage columnID="59455308-B6CA-6049-B189-60BA7C7281A2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7792DC3D-040E-548E-1482-8C6FDF323E1A" name="PK_VURDERINGSPUNKT_DEF">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BBEB55CD-F7B6-A6B4-B216-97857771E69B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="0F7B424B-5276-C738-215C-F7096D4D3461" name="FK_VURDERINGSPUNKT_DEF_1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D9394111-ED6E-3769-2B1C-6447A94A949D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

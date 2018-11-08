@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="FOEDSEL" directorySegmentName="seg_1" id="6E9C552B-9564-59A9-0805-91108528C9FE">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:04 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>FF3B5682-6F7B-C6E1-7E2D-70A2806591B2</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="UIDX_FOEDSEL_1" id="84C20AB1-895A-FC7E-ADC4-8EC973C03E71">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_FOEDSEL" id="C745A67A-AC8C-5AEA-E673-DF5A6F96F9A0">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_FOEDSEL_1" id="0008AE83-9E43-70D0-549E-9050A2503CB4">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_FOEDSEL" id="E60B8201-6E41-D62A-B18A-6A219F910691">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+<indexSegment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+<tableCheckConstraints itemClass="oracle.dbtools.crest.model.design.storage.oracle.TableCheckConstraintOracle">
+<TableCheckConstraint name="NULL SET GENERATED_1366" id="97593BD8-3C91-ADF0-9C0F-FBCF6DA8ACD5">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:04 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</TableCheckConstraint>
+</tableCheckConstraints>
+</TableProxyOraclev12c>

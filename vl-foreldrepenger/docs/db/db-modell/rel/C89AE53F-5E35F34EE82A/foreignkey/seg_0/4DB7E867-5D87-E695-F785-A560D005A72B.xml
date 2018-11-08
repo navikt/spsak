@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="4DB7E867-5D87-E695-F785-A560D005A72B" containerWithKeyObject="9D2454FC-95B7-1694-1814-97CA865F13FF" localFKIndex="4550A932-F08F-FF26-45FE-AA499A07EE86" name="FK_OKO_OPPDRAG_110_2">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-06-01 09:09:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7894079F-AD92-C385-3E89-1FC329BB6BF9</importedID>
+<referredTableLongName>OKO_AVSTEMMING_115</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>1D0E5C1C-4307-3D3F-892B-97D122ED9848</referredTableID>
+<keyObject>3CEDF0D0-F58A-43DE-1758-9448183F082E</keyObject>
+<referredKeyID>3CEDF0D0-F58A-43DE-1758-9448183F082E</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

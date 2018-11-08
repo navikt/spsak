@@ -1,0 +1,109 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="BEHANDLING_GRUNNLAG" directorySegmentName="seg_0" id="030AD312-B39C-437E-A8F3-504CA6708606">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>1CD3021F-D092-EF0B-7CE8-34B39A4371F2</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="versjon" id="24FE10C3-63BC-CE87-391F-B9A1BCF324A7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="opprettet_av" id="5104C43B-56EA-3D3A-204A-C503B5950198">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="endret_av" id="57CF4B56-BF5D-3B57-AA92-F66B5E4A2045">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="5EBA5624-31B5-1BB3-4B0B-9F03488441A7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ytelser_infotrygd_status" id="6B502C07-4B4D-77AB-95A3-4FDEEAD097B7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;IKKE_INNHENTET&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="opprettet_tid" id="74E796CD-E5F2-1FD4-FAC8-1289E96A059D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="endret_tid" id="84743F6C-9CC0-8B17-CF9D-784E5094BBF0">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opplysninger_oppdatert_tid" id="976D884F-E7B4-F9BC-1007-67D99D42692E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="original_behandling_id" id="CD1C181E-0AA2-7EFB-CF33-21C610E03CA5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kl_relaterte_ytelser_status" id="CE82FB72-362C-1C60-4493-34068BC7CF00">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<columnExpression>&apos;RELATERTE_YTELSER_STATUS&apos;</columnExpression>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_GRUNNLAG_1" id="809F4E35-FAC1-E819-1043-DC5F69AE7E8C">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_BEHANDLING_GRUNNLAG" id="AEA7F1BD-4AA9-ED28-4FDB-A45D8882AA60">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_GRUNNLAG_80" id="3551A7E8-9498-CA54-68E1-6AFC6631FC8A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_GRUNNLAG_1" id="D82F90CB-957B-4871-C542-24801CF305E2">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_BEHANDLING_GRUNNLAG" id="6C9624F6-8E41-3DA3-EB67-5B1AC0AF9693">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<indexSegment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

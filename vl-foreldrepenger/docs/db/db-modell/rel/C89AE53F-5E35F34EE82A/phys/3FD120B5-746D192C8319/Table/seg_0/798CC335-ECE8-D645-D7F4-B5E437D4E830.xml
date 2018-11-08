@@ -1,0 +1,138 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="BEHANDLING" directorySegmentName="seg_0" id="798CC335-ECE8-D645-D7F4-B5E437D4E830">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="spraak_kode" id="07554800-2B48-2D20-969A-9236C9823BC7">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;nb&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="behandling_type" id="07817C49-AFB2-818A-D531-DBDFE3295269">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="behandling_status" id="1DBB89AC-B96B-61FD-7955-242819B06E75">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="totrinnsbehandling" id="34CDD35C-C9F6-49DD-A25D-9608E88C85F3">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_dato" id="37B76B5D-2D03-8918-59AF-1DDEDA6D7704">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>sysdate</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="fagsak_id" id="4DEBCFF0-D602-2B1D-4B02-D0AB0535E166">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="behandling_grunnlag_id" id="64E26031-E4A8-3DF5-F3D0-77FCBAB9F588">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ansvarlig_beslutter" id="7224CE5B-59DA-FF69-3D8D-EAA4020D0120">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:22:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="avsluttet_dato" id="79D7E2E9-B65F-AD34-7538-93D14B602EA7">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ansvarlig_saksbehandler" id="95CF226E-312D-1AD9-D8D8-1FAC74A68473">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="versjon" id="99F37C14-E138-2E40-EEE9-37254FBB7E75">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="id" id="D70EFE90-A80E-F309-A1F9-02EA08BC5E58">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_5" id="02420BFF-25C1-6898-D158-C028D4B2A364">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_2" id="64EF0AD4-9C86-6D7C-BC06-FEEB31A53774">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_1" id="6DC1B948-22E8-FFA3-621B-8DEA8A369E89">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_3" id="B9463FDA-1203-005A-78E5-7B5A0ACA8580">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_BEHANDLING" id="F6792E26-4FBB-F9DD-B541-BFCEE48EAA1B">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_3" id="3CC0DCB1-1595-F9A9-9775-6C98940D24F1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_6" id="5DE02057-9FCE-2D8E-0DC2-CDAE531276B3">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_1" id="86E9CC1D-50D1-E078-A5C4-6A7284EA3EF6">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_5" id="B7EB6B88-7079-F7B4-29D8-B00C35F7B474">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_2" id="EE229ED9-E396-D01A-2F26-D33C83DEA290">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_BEHANDLING" id="BA8B83DF-CADC-E97E-436A-8E9BCDB88ABE">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

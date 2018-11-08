@@ -1,0 +1,16 @@
+{
+  "aktivitetPerioder" : [ ],
+  "behandlingsDato" : "2018-09-25",
+  "forsteDatoOpptjening" : "2017-08-12",
+  "sisteDatoForOpptjening" : "2018-06-11",
+  "inntektPerioder" : [ {
+    "datoIntervall" : [ "2017-01-01", "2017-01-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 45000,
+    "inntektValuta" : "NOK"
+  } ]
+}

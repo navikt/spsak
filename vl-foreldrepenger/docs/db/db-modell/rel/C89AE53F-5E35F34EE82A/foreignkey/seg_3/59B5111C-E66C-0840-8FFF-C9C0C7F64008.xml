@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_3" id="59B5111C-E66C-0840-8FFF-C9C0C7F64008" containerWithKeyObject="1D78119B-CC6F-8EB1-FC5E-F6347FFE46DE" localFKIndex="7A33ECE2-061F-DE9C-1DD1-983259E66623" name="FK_HISTORIKKINNSLAG_DEL_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>34C419EC-B1A6-9AB8-9CF1-8420CFA0F3B9</importedID>
+<referredTableLongName>HISTORIKKINNSLAG</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>CAA40F92-AA14-854C-A2BD-A0A391BE6529</referredTableID>
+<keyObject>C88BF63A-FB18-34FC-73CD-554EA702491A</keyObject>
+<referredKeyID>C88BF63A-FB18-34FC-73CD-554EA702491A</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

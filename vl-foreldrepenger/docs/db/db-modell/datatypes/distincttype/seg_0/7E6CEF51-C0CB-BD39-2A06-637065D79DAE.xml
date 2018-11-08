@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DistinctType class="oracle.dbtools.crest.model.design.datatypes.DistinctType" name="VERSJON" directorySegmentName="seg_0" id="7E6CEF51-C0CB-BD39-2A06-637065D79DAE">
+<createdBy>C149071</createdBy>
+<createdTime>2017-05-03 07:54:39 UTC</createdTime>
+<generatorID>2998A914-83CC-21BD-83A6-CCB4052AEDB0</generatorID>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2998A914-83CC-21BD-83A6-CCB4052AEDB0</importedID>
+<predefined>false</predefined>
+<logicalDataType>LOGDT019</logicalDataType>
+<precision>19</precision>
+<scale>0</scale>
+</DistinctType>

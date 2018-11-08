@@ -1,0 +1,93 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="JOURNALPOST" directorySegmentName="seg_0" id="B986F677-F6A0-B856-5176-DC2DF4F53DDB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>1CD3021F-D092-EF0B-7CE8-34B39A4371F2</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="endret_tid" id="0B8208BA-76E0-D7F4-CF42-2ACBF3BF73DA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="endret_av" id="799F2917-80D0-AA51-8410-214DF4A5FC4E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_tid" id="7BE2BCEE-592B-B683-0632-69E38042FEAD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="id" id="9D902B7E-18E8-C556-E349-D15CA19722E1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="journalpost_id" id="A607F154-B560-8C12-3850-CF17B8549C66">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="fagsak_id" id="E12DFA7A-ABA4-3043-9B54-C41CA02FD217">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_av" id="F6FCCAE0-0AAC-B1C3-C7EA-73327B4814A4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_JOURNALPOST_1" id="1C5D7C58-A854-00F2-8ED8-23AB7505581D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_JOURNALPOST" id="73C6CC4F-253E-E335-C2AC-021192D2D8D8">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="UIDX_JOURNALPOST_1" id="94A73444-5373-A326-0576-A36DFF69FD6F">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_JOURNALPOST" id="1E03008B-DA48-968A-A8F1-576963E9F260">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_JOURNALPOST" id="270D89DE-FAD4-9A88-F289-AF79E882A0F1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:04:17 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</segment>
+<tableSpace>B3344DB5-EFC4-2198-53E7-537F63188D42</tableSpace>
+<indexSegment>92FE91A4-EF68-9D2A-A85F-23B6C536CA6D</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

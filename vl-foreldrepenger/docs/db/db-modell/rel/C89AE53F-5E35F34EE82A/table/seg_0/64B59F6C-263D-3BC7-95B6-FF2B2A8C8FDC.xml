@@ -1,0 +1,195 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="64B59F6C-263D-3BC7-95B6-FF2B2A8C8FDC" name="INNSYN_DOKUMENT">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Dokumenter som kan legges ved som vedlegg i innsynsbehandling</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4BD29804-0E40-5817-AD9C-C8663F9C1F08</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="CD507E63-B16A-AD27-7713-333E66F5A069">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AC910EFE-3E42-C0F9-8941-00ACC75769BE</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="INNSYN_ID" id="E7F035C2-EAA4-10B8-FB03-C41C295E68DA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>FK:INNSYN Fremmednøkkel for kobling til aggregat INNSYN</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>110FF198-F18C-7385-F218-E5867E582BD4</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="EFA20A21-2A91-DD35-9A9D-54C523063171" referredColumn="7294C74B-AB22-E368-031D-612AB529B4DD"/>
+</associations>
+</Column>
+<Column name="JOURNALPOST_ID" id="406ACF2B-10E3-2DEA-1675-7D818AA65626">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>FK: Journalpostens ID i JOARK</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>882A35FB-A763-3E64-F61E-876003A12351</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DOKUMENT_ID" id="69809A6F-3DD6-1CB3-D1F4-50E2E63C1105">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>FK: Referanse til dokumentet i Joark</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>73C53744-D06B-0C4A-ECC7-AA5EBB3A572D</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4000 CHAR</dataTypeSize>
+<ownDataTypeParameters>4000 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FIKK_INNSYN" id="04E26EF4-82B2-09F3-0839-0D1085EE3BDE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Verdi som sier om dokumentet skal være med som vedlegg eller ikke</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AC016A84-FBDD-FFBB-8E28-19294E20CDFF</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERSJON" id="D6B2D010-A289-70D6-5ABE-79709ED02F4F">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>05A70EC7-8C23-3395-7292-66E78FB9A541</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="1402F7C3-279B-CD56-8B3C-5484AD6481C3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A8454DA7-32BF-295E-9087-0615F68039EB</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="996B4E57-FEBC-5B12-0CFD-5F673305DA32">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9147B635-B97F-E0C6-ACC0-617FDFFFDA29</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="25A90F3C-F8FD-BD8B-CDD4-471707F5FFA2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C099B677-DFEB-504B-8EB4-34BE67540704</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="AB2903C6-D862-81A8-B810-426105300B5E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AAA8B23E-A1A1-4F9D-EACE-4825438D11B8</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F216B3F7-6DB1-3F15-22BA-F81828820F55" name="PK_INNSYN_DOKUMENT">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2BC05EED-B2CC-08E3-FEAC-A5DCFE29B157</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CD507E63-B16A-AD27-7713-333E66F5A069"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2146E64C-5C19-6F09-EEA1-F648EFFCC64E" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_INNSYN_DOKUMENT">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>191DB930-ED3E-E1B1-24BE-ADAC861A4D9D</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CD507E63-B16A-AD27-7713-333E66F5A069"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A88C33EC-3FE6-01B0-89F6-1342B03A3B00" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_INNSYN_DOKUMENT_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>EF73D820-AD0D-3F87-15D9-EF4C1E684D36</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E7F035C2-EAA4-10B8-FB03-C41C295E68DA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="05ADACF9-474B-E599-047E-39C3B8A8A992" name="FK_INNSYN_DOKUMENT_01">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E7F035C2-EAA4-10B8-FB03-C41C295E68DA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

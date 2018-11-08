@@ -1,0 +1,250 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="368A7B74-AFC0-2C84-9C1E-9F4899FA10B7" name="ADOPSJON">
+<sourceDDLFile>V107__ADOPSJON_nye_tabeller.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:56 UTC</createdTime>
+<commentInRDBMS>Adopsjon inneholder bekreftet informasjon angående en adopsjon.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0B58E706-D3F8-F3A4-9DFF-00D1B8C6A30B</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="2A16CD13-3A2B-51B0-C06B-FEB91D80831E">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="omsorgsovertakelse_dato" id="7ABDA5F3-3DD2-B565-2E5A-C630B1F8A47D">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Angir datoen for når man overtok omsorgen for barnet/barna.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>2E41DB2C-3F12-0E66-6D38-289E93656AEF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ektefelles_barn" id="20186F1F-F448-D08F-87B3-AEE8CD6CA7BD">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Angir om det er adopsjon av ektefelles barn.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<constraintName>CHK_EKTEFELLES_BARN</constraintName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>5F19027C-FBCA-7230-D140-8E8D17AFDC68</domain>
+<listOfValues>
+<valueDef value="J" description=""/>
+<valueDef value="N" description=""/>
+</listOfValues>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="adopterer_alene" id="12CB8839-4D64-A77A-CCAF-851D07205556">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Angir om man adopterer alene.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<constraintName>CHK_ADOPTERER_ALENE</constraintName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>5F19027C-FBCA-7230-D140-8E8D17AFDC68</domain>
+<listOfValues>
+<valueDef value="J" description=""/>
+<valueDef value="N" description=""/>
+</listOfValues>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="versjon" id="26D30C17-2950-4ABB-F4D0-B7499F234522">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_av" id="AF1925AB-907A-794F-1E91-F25187DBF71A">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="09BE1765-762C-2F6C-294E-5C3C9AA5AB1D">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="104CAE87-7530-E37D-ECF8-0927024D0DD8">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="29F6C611-AAD5-4DB2-7570-84F4647E18D8">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FAMILIE_HENDELSE_ID" id="8F1B8BFF-BFF3-A318-8077-B4E1A592E8B0">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2A2883E4-4744-2309-823C-1D8DABAD9EA5</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="19C9FB39-D21F-1170-ADAF-599E523A67B2" referredColumn="56CD0089-01A4-FDD2-6CE7-AF91D9233B21"/>
+</associations>
+</Column>
+<Column name="OMSORG_VILKAAR_TYPE" id="65EE3228-8454-2303-C477-19E299CF1A5C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>34D0DFE5-6166-DE77-29EA-2390D3D1DEA8</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<defaultValue>&apos;-&apos;</defaultValue>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B1EFE40D-B5B5-6757-4B17-5C345404E1E1" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="KL_OMSORG_VILKAAR_TYPE" id="F176323E-4B36-A757-E429-8D3F588ED6FD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>40EB10F2-8D7A-B24E-2877-E7CB4CBEDFB6</importedID>
+<formulaDesc>&apos;OMSORGSOVERTAKELSE_VILKAR&apos;</formulaDesc>
+<nullsAllowed>true</nullsAllowed>
+<sourceType>Derived</sourceType>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B1EFE40D-B5B5-6757-4B17-5C345404E1E1" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="FORELDREANSVAR_OPPFYLT_DATO" id="AEEEC4EA-6215-515E-29D0-D2E9C5C46F1D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7172B691-6AA5-0A22-A05C-D7D034F7ABC9</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="76190AC2-21C7-5EA3-AA9E-1BB79B33A504" name="PK_ADOPSJON">
+<sourceDDLFile>V107__ADOPSJON_nye_tabeller.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:56 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2A16CD13-3A2B-51B0-C06B-FEB91D80831E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CF88F5F2-83A4-5E33-6B7A-0E3EF718A0E7" name="PK_ADOPSJON">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2A16CD13-3A2B-51B0-C06B-FEB91D80831E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="74C5D1D7-7FA9-0F3D-FD21-4836A8D28931" name="FK_ADOPSJON_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 13:49:20 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8F1B8BFF-BFF3-A318-8077-B4E1A592E8B0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FA00F817-859F-A121-171F-09032FBA7D50" name="FK_ADOPSJON_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 13:49:20 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="65EE3228-8454-2303-C477-19E299CF1A5C"/>
+<colUsage columnID="F176323E-4B36-A757-E429-8D3F588ED6FD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

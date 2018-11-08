@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="5B2FCDC4-DBB0-3950-4DE1-D044716366C9" containerWithKeyObject="61299DDF-D91A-DE86-97AE-3BD42277CC3E" localFKIndex="27B33968-E550-297F-A296-E4E6C769CF5B" name="FK_FAGSAK_PROSESS_TASK_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F3294591-8E61-286E-DA82-B2E4832CA01F</importedID>
+<referredTableLongName>PROSESS_TASK</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>EB4D840E-48E1-0E88-7194-163DA88742DF</referredTableID>
+<keyObject>B0116D69-1EEC-B075-7E52-CA847924D945</keyObject>
+<referredKeyID>B0116D69-1EEC-B075-7E52-CA847924D945</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

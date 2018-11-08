@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:vg="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:fp:v2"
+			xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v2"
+			xmlns:ve="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v2"
+			targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:fp:v2"
+			elementFormDefault="qualified">
+	<xsd:import schemaLocation="vilkaarsgrunnlag-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v2"/>
+	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:felles:v2" schemaLocation="../felles-v2.xsd"/>
+
+	<xsd:complexType name="VilkaarsgrunnlagFoedsel">
+		<xsd:complexContent>
+			<xsd:extension base="ve:VilkaarsgrunnlagFoedsel">
+				<xsd:sequence>
+					<xsd:element name="erMorForSykVedFodsel" type="felles:BooleanOpplysning" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VilkaarsgrunnlagAdopsjon">
+		<xsd:complexContent>
+			<xsd:extension base="ve:Vilkaarsgrunnlag">
+				<xsd:sequence>
+					<xsd:element name="adopsjonFoedselsdatoBarn" type="felles:DateOpplysning" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="ektefellesBarn" type="felles:BooleanOpplysning" minOccurs="0"/>
+					<xsd:element name="soekersKjoenn" type="felles:KodeverksOpplysning" minOccurs="0"/>
+					<xsd:element name="mannAdoptererAlene" type="felles:BooleanOpplysning" minOccurs="0"/>
+					<xsd:element name="omsorgsovertakelsesdato" type="felles:DateOpplysning" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VilkaarsgrunnlagMedlemskap">
+		<xsd:complexContent>
+			<xsd:extension base="ve:VilkaarsgrunnlagMedlemskap"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VilkaarsgrunnlagOpptjening">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="no">Input til regeltjeneste for vurdering av Opptjeningsvilkåret.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ve:Vilkaarsgrunnlag">
+				<xsd:sequence>
+					<xsd:element name="aktivitetPerioder" type="vg:AktivitetPeriode" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="behandlingsDato" type="felles:DateOpplysning" minOccurs="0"/>
+					<xsd:element name="opptjeningperiode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+					<xsd:element name="inntektPerioder" type="vg:InntektPeriode" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="maksMellomliggendePeriodeForArbeidsforhold" type="felles:StringOpplysning" minOccurs="0"/>
+					<xsd:element name="minForegaaendeForMellomliggendePeriodeForArbeidsforhold" type="felles:StringOpplysning" minOccurs="0"/>
+					<xsd:element name="minsteAntallDagerForVent" type="felles:IntOpplysning" minOccurs="0"/>
+					<xsd:element name="minsteAntallDagerGodkjent" type="felles:IntOpplysning" minOccurs="0"/>
+					<xsd:element name="minsteAntallMånederGodkjent" type="felles:IntOpplysning" minOccurs="0"/>
+					<xsd:element name="minsteInntekt" type="felles:LongOpplysning" minOccurs="0"/>
+					<xsd:element name="periodeAntattGodkjentForBehandlingstidspunkt" type="felles:StringOpplysning" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AktivitetPeriode">
+		<xsd:sequence>
+			<xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+			<xsd:element name="aktivitet" type="vg:Aktivitet" minOccurs="0"/>
+			<xsd:element name="vurderingsStatus" type="felles:KodeverksOpplysning" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Aktivitet">
+		<xsd:sequence>
+			<xsd:element name="aktivitetType" type="felles:StringOpplysning" minOccurs="0"/>
+			<xsd:element name="aktivitetReferanse" type="felles:StringOpplysning" minOccurs="0"/>
+			<xsd:element name="referanseType" type="felles:KodeverksOpplysning" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InntektPeriode">
+		<xsd:sequence>
+			<xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+			<xsd:element name="aktivitet" type="vg:Aktivitet" minOccurs="0"/>
+			<xsd:element name="inntektBeloep" type="felles:LongOpplysning" minOccurs="0"/>
+			<xsd:element name="inntektValuta" type="felles:KodeverksOpplysning" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VilkaarsgrunnlagSoeknadsfrist">
+		<xsd:complexContent>
+			<xsd:extension base="ve:VilkaarsgrunnlagSoeknadsfrist"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VilkaarsgrunnlagSoekersopplysningsplikt">
+		<xsd:complexContent>
+			<xsd:extension base="ve:Vilkaarsgrunnlag">
+				<xsd:sequence>
+					<xsd:element name="elektroniskSoeknad" type="felles:BooleanOpplysning" minOccurs="0"/>
+					<xsd:element name="skjaeringstidspunkt" type="felles:DateOpplysning" minOccurs="0"/>
+					<xsd:element name="soeknadMottatDato" type="felles:DateOpplysning"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

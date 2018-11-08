@@ -1,0 +1,13 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getAntallBarn|int|
+|getDekningsgrad|no.nav.foreldrepenger.regler.uttak.beregnkontoer.grunnlag.Dekningsgrad|
+|getFamiliehendelsesdato|java.time.LocalDate|
+|===
+
+
+

@@ -1,0 +1,117 @@
+{
+  "root" : {
+    "id" : "16717b84-a5b0-4e2f-a223-ffe7f9381de1",
+    "ruleId" : "FP_VK_1.1",
+    "ruleDescription" : "Hvis søker er kvinne ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "16717b84-a5b0-4e2f-a223-ffe7f9381de1",
+    "ruleId" : "FP_VK_1.1",
+    "ruleDescription" : "Hvis søker er kvinne ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "033eea49-40f5-4551-896f-f87dde05d6a6",
+    "ruleId" : "FP_VK_1.2",
+    "ruleDescription" : "Hvis ikke fødsel er registert ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "26ca0c79-919d-4fde-b2e4-12d7ed859930",
+    "ruleId" : "FP_VK_1.2.1",
+    "ruleDescription" : "Hvis ikke fødsel burde ha inntruffet ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "37d9c5fd-f975-4472-a6f2-971d3f349657",
+    "ruleId" : "FP_VK_1.2.1.1",
+    "ruleDescription" : "Hvis søknadsdato har passert X svangerskapsuke ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "1378bb2f-ddee-4bd0-bcc1-f15cbb40b032",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "02d1bc66-48a9-49e3-8455-4c74e341284a",
+    "ruleId" : "1001",
+    "ruleDescription" : "Søknadsdato {0} er < tidligste søknadstidspunkt ({1}) (svangerskapsuke {2})",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6381b58a-c1d7-4b95-9b6d-50b812f7f313",
+    "ruleId" : "1026",
+    "ruleDescription" : "Fødsel ikke funnet i folkeregisteret",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f095dfc6-4d4c-4e27-a76d-f0da0e8ea910",
+    "ruleId" : "FP_VK_1.2.2",
+    "ruleDescription" : "Hvis søker er mor ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "3d916657-9018-4102-ae2b-c02d211cc076",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "4a18a7fe-7a6a-495e-b0e8-b56560bd6bb3",
+    "ruleId" : "1002",
+    "ruleDescription" : "Søker er ikke barnets mor",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a2f0d70d-536f-4798-836f-4de7ce6acd76",
+    "ruleId" : "1003",
+    "ruleDescription" : "Søker er ikke KVINNE({0}), er {1}",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "37d9c5fd-f975-4472-a6f2-971d3f349657",
+    "target" : "1378bb2f-ddee-4bd0-bcc1-f15cbb40b032",
+    "role" : "Sjekk søknadsdato har passert X svangerskapsuker"
+  }, {
+    "source" : "37d9c5fd-f975-4472-a6f2-971d3f349657",
+    "target" : "02d1bc66-48a9-49e3-8455-4c74e341284a",
+    "role" : "ellers"
+  }, {
+    "source" : "26ca0c79-919d-4fde-b2e4-12d7ed859930",
+    "target" : "37d9c5fd-f975-4472-a6f2-971d3f349657",
+    "role" : ""
+  }, {
+    "source" : "26ca0c79-919d-4fde-b2e4-12d7ed859930",
+    "target" : "6381b58a-c1d7-4b95-9b6d-50b812f7f313",
+    "role" : "ellers"
+  }, {
+    "source" : "033eea49-40f5-4551-896f-f87dde05d6a6",
+    "target" : "26ca0c79-919d-4fde-b2e4-12d7ed859930",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "f095dfc6-4d4c-4e27-a76d-f0da0e8ea910",
+    "target" : "3d916657-9018-4102-ae2b-c02d211cc076",
+    "role" : "Sjekk søker er mor."
+  }, {
+    "source" : "f095dfc6-4d4c-4e27-a76d-f0da0e8ea910",
+    "target" : "4a18a7fe-7a6a-495e-b0e8-b56560bd6bb3",
+    "role" : "ellers"
+  }, {
+    "source" : "033eea49-40f5-4551-896f-f87dde05d6a6",
+    "target" : "f095dfc6-4d4c-4e27-a76d-f0da0e8ea910",
+    "role" : "ellers"
+  }, {
+    "source" : "16717b84-a5b0-4e2f-a223-ffe7f9381de1",
+    "target" : "033eea49-40f5-4551-896f-f87dde05d6a6",
+    "role" : ""
+  }, {
+    "source" : "16717b84-a5b0-4e2f-a223-ffe7f9381de1",
+    "target" : "a2f0d70d-536f-4798-836f-4de7ce6acd76",
+    "role" : "ellers"
+  } ]
+}

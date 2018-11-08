@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="BEHANDLING_REL_YTELSER" directorySegmentName="seg_1" id="A77876C9-08D1-0E9A-1071-1F5F1CB8F075">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:04 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>FF3B5682-6F7B-C6E1-7E2D-70A2806591B2</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_BEHANDLING_REL_YTELSER" id="E624B7D3-B1B0-485A-45EC-07ED6E8EBABC">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_SAKSOPPLYSNING_KILDE" id="5544F3A3-2752-E873-10F8-82F5B6BEB48F">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_REL_YTELSER_87" id="6880BA2C-E92D-A268-94C1-937155E914E5">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_BEHANDLING_REL_YTELSER" id="11918EC2-1B04-1C2F-6D9B-73E6E6B86EFA">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+<indexSegment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

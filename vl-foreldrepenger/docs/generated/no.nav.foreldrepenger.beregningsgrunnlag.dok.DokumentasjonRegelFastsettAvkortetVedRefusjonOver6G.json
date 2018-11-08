@@ -1,0 +1,62 @@
+{
+  "root" : {
+    "id" : "2820a377-2fbd-4df1-992d-e3412ab3c87d",
+    "ruleId" : "FP_BR_29.13",
+    "ruleDescription" : "Fastsett avkortet BG når refusjon over 6G",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "2820a377-2fbd-4df1-992d-e3412ab3c87d",
+    "ruleId" : "FP_BR_29.13",
+    "ruleDescription" : "Fastsett avkortet BG når refusjon over 6G",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "93c70031-6882-4684-bf13-304e9d9bd60f",
+    "ruleId" : "FP_BR_29.13.1-3",
+    "ruleDescription" : "Beregn arbeidsgivers andel av det som skal refunderes",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "0f6f7217-2d74-4956-a74e-082f56d47df9",
+    "ruleId" : "FP_BR_29.13.1",
+    "ruleDescription" : "Beregn hver arbeidsgivers andel av det som skal gjenstår å refundere",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "68659a3f-f8df-4803-b68f-52ba9e572772",
+    "ruleId" : "FP_BR_29.13.2",
+    "ruleDescription" : "For hvert arbeidsforhold der refusjonskrav ikke er fordelt: Beregn avkortet refusjon",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fc703901-b211-46c8-8133-abad9017ed3b",
+    "ruleId" : "FP_BR_29.13.3",
+    "ruleDescription" : "Vurder om refusjonskrav for alle beregningsgrunnlagsandeler kan settes til ferdig avkortet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "9b7dda7d-230f-4f97-8da3-79549a56fc70",
+    "ruleId" : "FP_BR_29.13.4",
+    "ruleDescription" : "For alle beregningsgrunnlagsandeler, sett andel til bruker = 0",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "93c70031-6882-4684-bf13-304e9d9bd60f",
+    "target" : "0f6f7217-2d74-4956-a74e-082f56d47df9"
+  }, {
+    "source" : "93c70031-6882-4684-bf13-304e9d9bd60f",
+    "target" : "68659a3f-f8df-4803-b68f-52ba9e572772"
+  }, {
+    "source" : "93c70031-6882-4684-bf13-304e9d9bd60f",
+    "target" : "fc703901-b211-46c8-8133-abad9017ed3b"
+  }, {
+    "source" : "2820a377-2fbd-4df1-992d-e3412ab3c87d",
+    "target" : "93c70031-6882-4684-bf13-304e9d9bd60f"
+  }, {
+    "source" : "2820a377-2fbd-4df1-992d-e3412ab3c87d",
+    "target" : "9b7dda7d-230f-4f97-8da3-79549a56fc70"
+  } ]
+}

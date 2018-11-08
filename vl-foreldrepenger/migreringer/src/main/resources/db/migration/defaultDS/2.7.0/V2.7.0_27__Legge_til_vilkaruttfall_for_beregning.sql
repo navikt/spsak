@@ -1,0 +1,1 @@
+insert into kodeliste (id, kode, navn, beskrivelse, kodeverk, gyldig_fom) values (seq_kodeliste.nextval, '1041', '1041', 'for lavt brutto beregningsgrunnlag', 'VILKAR_UTFALL_MERKNAD', to_date('2000-01-01', 'yyyy-mm-dd'));

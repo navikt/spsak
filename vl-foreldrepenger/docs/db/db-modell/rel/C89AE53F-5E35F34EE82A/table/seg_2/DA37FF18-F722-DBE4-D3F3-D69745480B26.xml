@@ -1,0 +1,267 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_2" id="DA37FF18-F722-DBE4-D3F3-D69745480B26" name="HISTORIKKINNSLAG_FELT">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>En historikkinnslagdel har typisk mange felt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>83A53498-D0EE-B26F-406C-AA664B7F5333</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="C4814F2D-B2DA-CD27-5122-4DA25B133F15">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>11A79E8C-27F7-8D5F-2B42-FCCDFB497141</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HISTORIKKINNSLAG_DEL_ID" id="B461FE25-99DC-6A9B-7DD5-50780BD04F27">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>FK:</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>BF92823F-03FB-7576-0923-E7AC7F764FAD</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="AFA98B8D-094F-EA78-0130-65A71D069DD9" referredColumn="41FD3C37-FD77-DE21-A11B-77FB0805C5F5"/>
+</associations>
+</Column>
+<Column name="HISTORIKKINNSLAG_FELT_TYPE" id="76AC2FFE-55C7-1FEF-7164-4DD301B1D382">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Hva slags type informasjon som er representert</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D0BA5D4F-76D4-7CD8-36D6-858F61B89F74</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NAVN" id="058DD7B6-BC60-B394-97D9-F3D59690D38A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Navn på felt. Gjelder for endrede verdier og opplysninger</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>834A8FAD-5E86-2FEF-9896-E3E447D32DA8</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="KL_NAVN" id="6C57D8E5-C53E-E7C6-7C94-2AF41A34CA2C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>840496D1-FD67-D835-1D66-EEF998F54926</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NAVN_VERDI" id="BAFFFED3-ED9F-926C-4EB3-F5BCBBC0A672">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Verdi som skal brukes som del av feltets navn</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B9B77816-7431-DA20-FD01-69117DF83579</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4000 CHAR</dataTypeSize>
+<ownDataTypeParameters>4000 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FRA_VERDI" id="F4D58378-A14F-9FC9-AF2C-C7C580F6836E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Feltets gamle verdi. Kan være kodeverk eller en string</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>DE137680-D10F-84B5-EFF2-24AEBE8214C9</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4000 CHAR</dataTypeSize>
+<ownDataTypeParameters>4000 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="TIL_VERDI" id="7349E8ED-CDF6-5248-8049-D4E02D7EBDE4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Feltets nye verdi. Kan være kodeverk eller en string</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E3639B4A-47F8-DB3C-5EA6-1F276D50E065</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4000 CHAR</dataTypeSize>
+<ownDataTypeParameters>4000 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="KL_VERDI" id="6BE7A5F6-52B4-7AD1-6325-D974840E6A93">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>FK:KODELISTE Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>47D8B668-9055-523B-9E37-2E5126B821CD</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="SEKVENS_NR" id="54F0A3FC-86D2-EE50-4F3F-3323C0341D9E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Settes dersom historikkinnslagdelen har flere innslag med samme navn</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>ECEA8EE4-1FDE-0A2E-B7D0-BF3AF8F5F04D</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>5</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,5,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERSJON" id="A27125F0-2E0A-5B61-84B5-33B2A323154F">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>37809D54-BB83-6059-95BB-59829F828D82</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="B2C1F925-5DEE-BCEB-F9AC-0727C6979DE0">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2FECFE13-A329-FC95-012C-3B1897994FC0</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="E8AB0E77-A108-8F5F-DB51-7DF80A3F6879">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9176C43D-5C9E-191A-7680-4F380D5BC509</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="3FBA10CF-7858-2162-1807-5E453D00D3D7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>EEFF1373-2EA1-68DF-ABA3-EF26676A2439</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="3AABE4CA-AC04-DC17-7F03-243179E9F17D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0FC898FE-8BB8-1229-D1D8-D7EE1544AE7F</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C1114DA1-0D9D-66C7-7353-B1E14B3D0571" name="PK_HISTORIKKINNSLAG_FELT">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>78668176-AFC2-3918-FE83-633E1E0B136E</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C4814F2D-B2DA-CD27-5122-4DA25B133F15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="69EB662E-1AA7-3A89-ADF1-9AA81EE33B79" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_HISTORIKKINNSLAG_FELT_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>72AE069B-FB4E-B579-D8B9-D47676305DB7</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B461FE25-99DC-6A9B-7DD5-50780BD04F27"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="736DBCCF-A40E-3404-3012-26F24BA4DC89" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_HISTORIKKINNSLAG_FELT">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>130B064B-C539-D03B-3EAD-67D2711C302D</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C4814F2D-B2DA-CD27-5122-4DA25B133F15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="99DE5298-9C52-2AC8-AA7C-B1727526052B" name="FK_HISTORIKKINNSLAG_FELT_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B461FE25-99DC-6A9B-7DD5-50780BD04F27"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

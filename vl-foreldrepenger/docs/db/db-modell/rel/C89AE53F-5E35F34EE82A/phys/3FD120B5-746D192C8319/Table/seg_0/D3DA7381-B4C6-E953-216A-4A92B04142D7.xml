@@ -1,0 +1,60 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="SOEKNAD_BARN" directorySegmentName="seg_0" id="D3DA7381-B4C6-E953-216A-4A92B04142D7">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="barn_nummer" id="05830073-FF28-4D9C-0BCA-EC20208D0F10">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="foedselsdato" id="6746EE61-D66E-65E9-424F-2F9437FDC2F7">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="B23DAF6A-1E2E-5775-24CC-7CF9D4B87513">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="soeknad_id" id="CA22B5FC-B1EB-717B-6C23-9485DA256303">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_SOEKNAD_BARN" id="7E93D43F-BF70-3667-3B98-93680D99D29F">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_SOEKNAD_BARN" id="FEB0AC45-178B-7D69-32A5-399577EB6971">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_SOEKNAD_BARN" id="A6D0965A-0444-554A-80D5-C3E0B0A6C3E2">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_SOEKNAD_BARN" id="67ED1E84-2EE0-132D-43E4-DB662FD657A1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

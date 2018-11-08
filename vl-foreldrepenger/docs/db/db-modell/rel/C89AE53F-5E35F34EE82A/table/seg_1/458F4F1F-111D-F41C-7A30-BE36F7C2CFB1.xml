@@ -1,0 +1,161 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="458F4F1F-111D-F41C-7A30-BE36F7C2CFB1" name="PROSESS_TASK_FEILHAND">
+<sourceDDLFile>V015__PROSESS_TASK.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:56 UTC</createdTime>
+<commentInRDBMS>Kodetabell for feilhåndterings-metoder. For eksempel antall ganger å prøve på nytt og til hvilke tidspunkt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>90C89B97-B775-341A-0CE0-BA4C30783F7A</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="kode" id="CCB601ED-80EE-1764-AF14-F111DF8C56B0">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Kodeverk Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>5C64A505-9181-A430-B69E-8A8FBE9CD74C</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="navn" id="9E5ED3D4-B73B-F3A4-DD3C-2D90A8DE01AB">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Lesbart navn på type feilhåndtering brukt i prosesstask</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>83724F38-DB06-54AB-EF12-20F7CBDEDD89</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>0F4C4CD9-6649-86EC-2ECE-A89F96E1F0F5</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="beskrivelse" id="6160999B-E53C-ADE2-68C7-0DB8331C9F61">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Utdypende beskrivelse av koden</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>93709706-B7C6-3D58-8FFE-654EBF745E32</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>631C2B5F-B86C-FC03-828C-8C6D28B5EFE7</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_av" id="389A44BE-E1EF-6D41-BC51-742B820C2A28">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>45308B18-D619-0780-B6C9-97FA82469ADF</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="574295AC-F582-5D14-B061-41C8286F9BCB">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>51A35638-AB3D-66E5-4F8C-DC472B6D5D26</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="51F0DC37-20A1-4495-6E04-6EA7DEEE7297">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>5A5DDD5D-9237-8858-9DAF-6643700753AF</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="236EFFBF-3069-5EC5-1285-D0C201499CEB">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F9731BA3-EE84-93D6-2AAD-66747B451354</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="input_variabel1" id="D4925D1F-EBDC-28B6-32F2-EA61E4936CA1">
+<sourceDDLFile>V1.7.0_08__PROSESS_TASK_FEILHÅNDTERING_nytt_innslag.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<commentInRDBMS>Variabel 1: Dynamisk konfigurasjon for en feilhåndteringsstrategi.  Verdi og betydning er bestemt av feilhåndteringsalgoritmen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>CA6A4CC6-B918-D730-2205-FE259C7D083D</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>A9E110C3-AEE9-EA54-8740-BA91CF28050A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="input_variabel2" id="9F8C98E1-49FA-D328-9D4E-2EBB97D8B025">
+<sourceDDLFile>V1.7.0_08__PROSESS_TASK_FEILHÅNDTERING_nytt_innslag.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<commentInRDBMS>Variabel 2: Dynamisk konfigurasjon for en feilhåndteringsstrategi.  Verdi og betydning er bestemt av feilhåndteringsalgoritmen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A95C690C-48BE-9132-4248-69121EE1897B</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>A9E110C3-AEE9-EA54-8740-BA91CF28050A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="FACF69C9-2EB6-5D37-A0DD-FAFD963AA1F3" name="PK_PROSESS_TASK_FEILHAND">
+<sourceDDLFile>V015__PROSESS_TASK.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B3D7A2FB-337A-32F9-5301-9CEC4A9E9740</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CCB601ED-80EE-1764-AF14-F111DF8C56B0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="679AF808-B0E5-D599-F3E1-829D743FCFB1" name="PK_PROSESS_TASK_FEILHAND">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>80D5627B-99FF-DA2A-9756-A8C0348074AD</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CCB601ED-80EE-1764-AF14-F111DF8C56B0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

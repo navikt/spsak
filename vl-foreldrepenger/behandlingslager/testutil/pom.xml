@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>no.nav.foreldrepenger</groupId>
+        <artifactId>behandlingslager-pom</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
+    <artifactId>behandlingslager-testutilities</artifactId>
+    <packaging>jar</packaging>
+    <name>FPSAK :: Behandlingslager - Testutilities</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-domene</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.vedtak.felles</groupId>
+            <artifactId>felles-testutilities</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>migreringer</artifactId>
+            <type>test-jar</type>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

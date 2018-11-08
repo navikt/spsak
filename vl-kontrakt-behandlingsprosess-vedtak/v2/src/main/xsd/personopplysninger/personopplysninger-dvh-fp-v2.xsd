@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 sp2 (http://www.altova.com) by XMLSPY 2006 Enterprise Ed. Release 3, Concurrent for 9 users (with SMP from 2006-06-21 to 2007-06-22) (Aetat Arbeidsdirektoratet) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:po="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:dvh:fp:v2"
+            xmlns:pob="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v2"
+            xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v2"
+            targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:dvh:fp:v2"
+            elementFormDefault="qualified">
+    <xsd:import schemaLocation="personopplysninger-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v2" />
+    <xsd:import schemaLocation="../felles-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:felles:v2" />
+
+    <!--<xsd:element name="po" type="po:PersonopplysningerForeldrepenger"/>-->
+
+
+    <xsd:complexType name="PersonopplysningerDvhForeldrepenger">
+        <xsd:complexContent>
+            <xsd:extension base="pob:Personopplysninger">
+                <xsd:sequence>
+                    <xsd:element name="bruker" type="pob:PersonUidentifiserbar"/>
+                    <xsd:element name="verge" type="po:Verge" minOccurs="0"/>
+                    <xsd:element name="adresse" type="po:Addresse" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element name="familiehendelse" type="po:FamilieHendelse" minOccurs="0"/>
+                    <xsd:element name="familierelasjoner" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="familierelasjon" type="po:Familierelasjon" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="medlemskap" type="po:Medlemskap" minOccurs="0"/>
+                    <xsd:element name="yrkesaktiviteter" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="yrkesaktivitet" type="po:Yrkesaktivitet" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="inntekter" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="inntekt" type="po:Inntekt" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="inntektsmeldinger" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="inntektsmelding" type="po:Inntektsmelding" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="permisjoner" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="permisjon" type="po:Permisjon" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="dokumentasjonsperioder" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="dokumentasjonperiode" type="po:DokumentasjonPeriode" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="aktivitetsavtaler" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="aktivitetsavtale" type="po:AktivitetsAvtale" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="egenNaeringer" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="egenNaering" type="po:EgenNaering" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="oppgitteArbeidsforhold" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="oppgittArbeidsforhold" type="po:OppgittArbeidsforhold" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="annenAktiviter" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="annenAktivit" type="po:AnnenAktivitet" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="relaterteYtelser" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="relatertYtelse" type="po:RelatertYtelse" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                            <xsd:attributeGroup ref="felles:Sporing"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="Verge">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Informasjon om verge</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="navn" type="felles:StringOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no"/>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="vergetype" type="felles:KodeverksOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no"/>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="mandattekst" type="felles:StringOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Beskrivelse for tilpasset mandat</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="vedtaksdato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Hvis fullmakt er begrenset i periode, dato for når fullmakten er gyldig fra-til</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="gyldighetsperiode" type="felles:PeriodeOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Dato for vedtak</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="brevmottaker" type="felles:KodeverksOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Brev mottaker type</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="stoenadmottaker" type="felles:BooleanOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">J hvis verge skal motta stønad</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="Familierelasjon">
+        <xsd:complexContent>
+            <xsd:extension base="pob:FamilierelasjonBase">
+                <xsd:sequence>
+                    <xsd:element name="tilPerson" type="pob:PersonUidentifiserbar"/>
+                    <xsd:element name="harSammeBosted" type="felles:BooleanOpplysning" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="no">Indikerer om personenen i relasjonen bor på samme adresse</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attributeGroup ref="felles:Sporing"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="RelatertYtelse">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Informasjon om relaterte ytelser</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="type" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="tema" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="temaUnderkategori" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="behandlingstema" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="vedtaksdato" type="felles:DateOpplysning" minOccurs="0"/>
+            <xsd:element name="status" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="saksnummer" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="kilde" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="resultat" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="ytelsesgrunnlag" type="po:YtelseGrunnlag" minOccurs="0"/>
+            <xsd:element name="ytelsesstorrelse" type="po:YtelseStorrelse" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="ytelseanvist" type="po:YtelseAnvist" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="YtelseGrunnlag">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Informasjon om beregningsgrunnlag for ytelse</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="arbeidtype" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="dekningsgradprosent" type="felles:DecimalOpplysning" minOccurs="0"/>
+            <xsd:element name="graderingprosent" type="felles:DecimalOpplysning" minOccurs="0"/>
+            <xsd:element name="inntektsgrunnlagprosent" type="felles:DecimalOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="YtelseStorrelse">
+        <xsd:sequence>
+            <xsd:element name="virksomhet" type="po:Virksomhet" minOccurs="0"/>
+            <xsd:element name="beloep" type="felles:DecimalOpplysning" minOccurs="0"/>
+            <xsd:element name="hyppighet" type="felles:KodeverksOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="YtelseAnvist">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Informasjon om ytelseperiode</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="utbetalingsgradprosent" type="felles:DecimalOpplysning" minOccurs="0"/>
+            <xsd:element name="beloep" type="felles:DecimalOpplysning" minOccurs="0"/>
+            <xsd:element name="dagsats" type="felles:DecimalOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Addresse">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Informasjon om adresse</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="adressetype" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="postnummer" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="land" type="felles:StringOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="Adopsjon">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Opplysinger og adopsjon, omsorgsovertakelse eller foreldreansvar</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="adopsjonsbarn" minOccurs="0" maxOccurs="unbounded">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="foedselsdato" type="felles:DateOpplysning" minOccurs="0"/>
+                    </xsd:sequence>
+                    <xsd:attributeGroup ref="felles:Sporing"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="erEktefellesBarn" type="felles:BooleanOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Angir om det er adopsjon av ektefelles barn.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="adoptererAlene" type="felles:BooleanOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Angir om man adopterer alene.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="omsorgsovertakelsesdato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Angir datoen for når man overtok omsorgen for barnet/barna.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="omsorgvilkaartype" type="felles:KodeverksOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Beskrivelse mangler</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ankomstNorgeDato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Datoen barnet ankom Norge.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="foreldreansvarOppfyltDato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Dato for når foreldreansvaret ble oppfylt.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="Medlemskap">
+        <xsd:sequence>
+            <xsd:element name="medlemskapsperiode" type="pob:Medlemskapsperiode" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="medlemskapOppgittTilknytning" type="po:MedlemskapOppgittTilknytning" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="MedlemskapOppgittTilknytning">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Oppgitt tilknytning til hjemland fra søker</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="oppholdNaa" type="felles:BooleanOpplysning" minOccurs="0"/>
+            <xsd:element name="oppgittdato" type="felles:DateOpplysning" minOccurs="0"/>
+            <xsd:element name="utenlandsopphold" type="po:Utenlandsopphold" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Utenlandsopphold">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Informasjon om utenlandsopphold oppgitt av søker</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="land" type="felles:KodeverksOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="FamilieHendelse">
+        <xsd:sequence>
+            <xsd:element name="foedsel" type="pob:Foedsel" minOccurs="0"/>
+            <xsd:element name="adopsjon" type="po:Adopsjon" minOccurs="0"/>
+            <xsd:element name="terminbekreftelse" type="po:Terminbekreftelse" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Terminbekreftelse">
+        <xsd:sequence>
+            <xsd:element name="termindato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <!-- Comments (BEGREP-1540) -->
+                    <xsd:documentation xml:lang="no">Fastsatt termindato av legen eller jordmor, som angir når det er forventet at et eller flere barn skal fødes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="utstedtDato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Beskrivelse mangler</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="antallBarn" type="felles:IntOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Antall barn</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <!-- Sjekk denne -->
+            <xsd:element name="utstedtav" type="felles:StringOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Legen som utstedete terminbekreftelsen.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="Inntekt">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Inntekter per virksomhet</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="mottaker" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="arbeidsgiver" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="inntektsposter" type="po:Inntektspost" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="Inntektspost">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Utbetaling per type per periode</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="beloep" type="felles:DoubleOpplysning" minOccurs="0"/>
+            <xsd:element name="ytelsetype" type="felles:StringOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="Yrkesaktivitet">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Arbeid eller aktiviteter som er likestilt pensjonsgivende arbeid</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="arbeidtype" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="arbeidsgiver" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="arbeidsforholdId" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="aktivitetsavtale" type="po:AktivitetsAvtale" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+    <xsd:complexType name="AktivitetsAvtale">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Ansettelses avtaler og avtaler om periode av en gitt type</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="antalltimer" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="antalltimerFulltid" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="prosentsats" type="felles:StringOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="EgenNaering">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Oppgitt informasjon om egen næringsvirksomhet</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="virksomhettype" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="virksomhet" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="bruttoinntekt" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="regnskapsfoererNavn" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="regnskapsfoererTlf" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="utenlandskvirksomhetnavn" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="land" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="nyoppstartet" type="felles:BooleanOpplysning" minOccurs="0"/>
+            <xsd:element name="varigendring" type="felles:BooleanOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AnnenAktivitet">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Aktiviteter som er likestilt pensjonsgivende arbeid.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="arbeidtype" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Inntektsmelding">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Inntekt og arbeidsopplysninger fra arbeidsgiver</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="virksomhet" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="arbeidsforholdid" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="inntektbeloep" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="startdatoPermisjon" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="refusjonbeloep" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="refusjonopphoersdato" type="felles:DateOpplysning" minOccurs="0"/>
+            <xsd:element name="harNaerRelasjonTilArbeidsgiver" type="felles:BooleanOpplysning" minOccurs="0"/>
+            <xsd:element name="gradering" type="po:Gradering" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="naturalytelse" type="po:Naturalytelse" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="utsettelse" type="po:Utsettelse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Gradering">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Arbeidsgivers informasjon om gradering</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="arbeidstidprosent" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Naturalytelse">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">[FEIL] Arbeidsgivers informasjon om oppstart og opphør av natural ytelser</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="naturalytelsetype" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="beloepMnd" type="felles:DecimalOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Utsettelse">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Arbeidsgivers informasjon om utsettelse/ferie</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="aarsakTilUtsettelse" type="felles:KodeverksOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Permisjon">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Oversikt over avtalt permisjon hos arbeidsgiver</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="prosentsats" type="felles:DecimalOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="OppgittArbeidsforhold">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Oppgitt informasjon om arbeidsforhold av bruker</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="arbeidtype" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="virksomhetnavn" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="land" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="inntekt" type="felles:StringOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="DokumentasjonPeriode">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Brukes for å dokumentere fakta/vurderinger for ulike typer av perioder</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="dokumentasjontype" type="felles:KodeverksOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Internt kodeverk for å angi hvilken type dokumentasjon det er snakk om: UTTAK_DOKUMENTASJON_TYPE</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Virksomhet">
+        <xsd:sequence>
+            <xsd:element name="orgnr" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="navn" type="felles:StringOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

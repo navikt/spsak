@@ -1,0 +1,6 @@
+alter table KODELISTE_NAVN_I18N disable constraint FK_KODELISTE_02;
+alter table IAY_YTELSE_GRUNNLAG disable constraint FK_IAY_YTELSE_GRUNNLAG_81;
+update KODELISTE SET KODE='UGYLDIG', BESKRIVELSE = null where KODEVERK = 'ARBEIDSKATEGORI' and KODE = 'UGYLDIG';
+update KODELISTE_NAVN_I18N set NAVN = 'Ugyldig' where KL_KODEVERK = 'ARBEIDSKATEGORI'  and KL_KODE = 'UGYLDIG';
+alter table IAY_YTELSE_GRUNNLAG enable constraint FK_IAY_YTELSE_GRUNNLAG_81;
+alter table KODELISTE_NAVN_I18N enable constraint FK_KODELISTE_02;

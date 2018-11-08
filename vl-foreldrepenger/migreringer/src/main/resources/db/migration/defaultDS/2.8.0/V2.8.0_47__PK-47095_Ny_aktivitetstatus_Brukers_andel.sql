@@ -1,0 +1,1 @@
+insert into KODELISTE (id, kode, navn, beskrivelse, kodeverk, gyldig_fom) values (seq_kodeliste.nextval, 'BA', 'Brukers andel', 'Brukers andel', 'AKTIVITET_STATUS', to_date('2000-01-01', 'YYYY-MM-DD'));

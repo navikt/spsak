@@ -1,0 +1,49 @@
+CREATE TABLE TOTRINNSVURDERING (
+  id                       NUMBER(19)                        NOT NULL,
+  behandling_id            NUMBER(19)                        NOT NULL,
+  aksjonspunkt_def         VARCHAR2(50 CHAR) NOT NULL,
+  aktiv                   varchar2(1 CHAR) default 'J' not null,
+  godkjent                 varchar2(1 CHAR) NOT NULL,
+  begrunnelse VARCHAR2(4000 char),
+  versjon                  NUMBER(19) DEFAULT 0              NOT NULL,
+  opprettet_av             VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid            TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av                VARCHAR2(20 CHAR),
+  endret_tid               TIMESTAMP(3),
+  CONSTRAINT PK_TOTRINNSVURDERING PRIMARY KEY (id),
+  CONSTRAINT FK_TOTRINNSVURDERING FOREIGN KEY (aksjonspunkt_def) REFERENCES AKSJONSPUNKT_DEF,
+    CONSTRAINT FK_TOTRINNSVURDERING_2 FOREIGN KEY (behandling_id) REFERENCES BEHANDLING
+);
+
+
+
+CREATE SEQUENCE SEQ_TOTRINNSVURDERING MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+COMMENT ON TABLE TOTRINNSVURDERING IS 'Statisk read only totrinnsvurdering som brukes til å vise vurderinger til aksjonspunkter uavhengig av status';
+COMMENT ON COLUMN TOTRINNSVURDERING.BEGRUNNELSE IS 'Beslutters begrunnelse';
+COMMENT ON COLUMN TOTRINNSVURDERING.GODKJENT IS 'Beslutters godkjenning';
+
+CREATE INDEX IDX_TOTRINNSVURDERING ON TOTRINNSVURDERING(aksjonspunkt_def);
+CREATE INDEX IDX_TOTRINNSVURDERING_2 ON TOTRINNSVURDERING(behandling_id);
+
+
+
+CREATE TABLE VURDER_AARSAK_TTVURDERING (
+  id              NUMBER(19)                        NOT NULL,
+  aarsak_type     VARCHAR2(100 CHAR)                    NOT NULL,
+  KL_AARSAK_TYPE  VARCHAR2(100 CHAR) AS ('VURDER_AARSAK'),
+  totrinnsvurdering_id NUMBER(19)                        NOT NULL,
+  opprettet_av    VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid   TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av       VARCHAR2(20 CHAR),
+  endret_tid      TIMESTAMP(3),
+  CONSTRAINT PK_VURDER_AARSAK_TTVURDERING PRIMARY KEY (id),
+  CONSTRAINT FK_VURDER_AARSAK_TTVURDERING_1 FOREIGN KEY (totrinnsvurdering_id) REFERENCES TOTRINNSVURDERING (id),
+  CONSTRAINT FK_VURDER_AARSAK_TTVURDERING_2 FOREIGN KEY (AARSAK_TYPE, KL_AARSAK_TYPE) REFERENCES KODELISTE(KODE, KODEVERK)
+);
+
+CREATE SEQUENCE SEQ_VURDER_AARSAK_TTVURDERING MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+COMMENT ON TABLE VURDER_AARSAK_TTVURDERING IS 'Årsaken til at aksjonspunkt må vurderes på nytt';
+
+CREATE INDEX IDX_VURDER_AARSAK ON VURDER_AARSAK_TTVURDERING(totrinnsvurdering_id);
+CREATE INDEX IDX_VURDER_AARSAK_2 ON VURDER_AARSAK_TTVURDERING(AARSAK_TYPE);
+

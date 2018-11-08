@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="256AAEDD-27D6-2999-4278-0FD0A80F5F1E" containerWithKeyObject="CAA40F92-AA14-854C-A2BD-A0A391BE6529" localFKIndex="A97E103F-B38F-16E4-43D1-79262764C11B" name="FK_HISTORIKKINNSLAG_3">
+<sourceDDLFile>05-REF_CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>105F1D6D-A58F-EF1E-9A4B-A94B13940813</importedID>
+<referredTableLongName>FAGSAK</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>072C1581-5095-FA08-36E0-7E4A2D30E699</referredTableID>
+<keyObject>D3DF6D97-7973-1D6D-F3DB-BBBF389302BE</keyObject>
+<referredKeyID>D3DF6D97-7973-1D6D-F3DB-BBBF389302BE</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

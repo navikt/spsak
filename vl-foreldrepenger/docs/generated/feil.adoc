@@ -1,0 +1,671 @@
+
+== batch.feil.BatchFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-189013|WARN|TekniskFeil|Ugyldig job argumenter %s||arg0: BatchArguments||ugyldigeJobParametere
+|FP-630260|WARN|TekniskFeil|Ugyldig job-navn %s||arg0: String||ugyldiJobbNavnOppgitt
+|FP-959814|WARN|TekniskFeil|Ukjente job argumenter %s||arg0: Set||ukjenteJobParametere
+|===
+
+
+== behandling.aksjonspunkt.AksjonspunktUtlederFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-191205|WARN|TekniskFeil|Mer enn en implementasjon funnet for aksjonspunktutleder %s||arg0: String||flereImplementasjonerAvAksjonspunktUtleder
+|FP-985832|WARN|TekniskFeil|Ukjent aksjonspunktutleder %s||arg0: String||fantIkkeAksjonspunktUtleder
+|===
+
+
+== behandling.innsyn.impl.InnsynFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-148968|WARN|TekniskFeil|Finner ingen fagsak som kan gis innsyn for saksnummer: %s||arg0: Saksnummer||tjenesteFinnerIkkeFagsakForInnsyn
+|===
+
+
+== behandling.revurdering.impl.RevurderingFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-317517|WARN|TekniskFeil|finner ingen behandling som kan revurderes for fagsak: %s||arg0: Long||tjenesteFinnerIkkeBehandlingForRevurdering
+|FP-912965|WARN|TekniskFeil|Fant ingen implementasjon av RevurderingTjeneste for fagsakYtelseType=%s||arg0: String||ingenImplementasjonerAvRevurderingtjeneste
+|FP-912967|WARN|TekniskFeil|Mer enn en implementasjon funnet av RevurderingTjeneste for fagsakYtelseType=%s||arg0: String||flereImplementasjonerAvRevurderingtjeneste
+|FP-186234|ERROR|TekniskFeil|Revurdering med id %s har ikke original behandling||arg0: Long||revurderingManglerOriginalBehandling
+|FP-818307|ERROR|TekniskFeil|Behandling med id %s mangler beregning||arg0: Long||behandlingManglerBeregning
+|===
+
+
+== behandling.steg.iverksettevedtak.SendVedtaksbrevFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-471756|WARN|TekniskFeil|Kan ikke sende klagebrev(%s) for foreldrepenger ennå, i behandling: %s||arg0: String, arg1: Long||kanIkkeSendeVedtaksbrev
+|===
+
+
+== behandling.steg.varselrevurdering.VarselRevurderingStegFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-139371|ERROR|TekniskFeil|Manger behandlingsårsak på revurdering||||manglerBehandlingsårsakPåRevurdering
+|===
+
+
+== behandlingskontroll.BehandlingskontrollFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-105127|WARN|TekniskFeil|Utilfredsstilt avhengighet ved oppslag av behandlingssteg: %s, behandlingType %s, fagsakytelsetype %s.||arg0: BehandlingStegType, arg1: BehandlingType, arg2: FagsakYtelseType||utilfredsstiltAvhengighetVedOppslag
+|FP-105126|ERROR|TekniskFeil|BehandlingId %s har flere enn et aksjonspunkt, hvor aksjonspunktet fører til tilbakehopp ved gjenopptakelse. Kan ikke gjenopptas.||arg0: Long||kanIkkeGjenopptaBehandlingFantFlereAksjonspunkterSomMedførerTilbakehopp
+|FP-154409|ERROR|TekniskFeil|BehandlingId %s er satt på vent, må aktiveres før den kan henlegges||arg0: Long||kanIkkeHenleggeBehandlingPåVent
+|FP-143308|ERROR|TekniskFeil|BehandlingId %s er allerede avsluttet, kan ikke henlegges||arg0: Long||kanIkkeHenleggeAvsluttetBehandling
+|FP-105128|WARN|TekniskFeil|Ambivalent avhengighet ved oppslag av behandlingssteg: %s, behandlingType %s, fagsakytelsetype %s.||arg0: BehandlingStegType, arg1: BehandlingType, arg2: FagsakYtelseType||ambivalentAvhengighetVedOppslag
+|===
+
+
+== behandlingslager.behandling.personopplysning.PersonopplysningFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-154411|ERROR|FunksjonellFeil|Personopplysning må ha aktørId eller nummer|Bruk .medAktørId(long) eller medNummer(long) sammen med builder.|||personopplysningManglerPåkrevdeFelter
+|FP-454411|ERROR|TekniskFeil|Behandlingsgrunnlag skal kun settes av Behandlingsgrunnlag eller Behandlingsgrunnlag.Builder||||behandlingsgrunnlagIkkeSattAvRiktigKlasse
+|FP-124903|WARN|TekniskFeil|Må basere seg på eksisterende versjon av personopplysning||||måBasereSegPåEksisterendeVersjon
+|FP-947232|WARN|TekniskFeil|Kan ikke oppdatere registrerte personopplysninger etter at det har blitt satt.||||kanIkkeOppdatereRegistrertVersjon
+|===
+
+
+== behandlingslager.behandling.repository.BehandlingRepositoryFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-131239|ERROR|TekniskFeil|Fant ikke entitet for låsing [%s], id=%s.||arg0: String, arg1: long||fantIkkeEntitetForLåsing
+|FP-131240|ERROR|TekniskFeil|Fant ikke BehandlingVedtak, behandlingId=%s.||arg0: long||fantIkkeBehandlingVedtak
+|===
+
+
+== datavarehus.xml.DatavarehusXmlFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-745272|WARN|TekniskFeil|DVH-Vedtak-XML for Engangsstønad kan ikke utarbeides i fagsak id %s som gjelder ytelse %s||arg0: Long, arg1: String||feilYtelseType
+|FP-445341|ERROR|TekniskFeil|DVH-Vedtak-XML kan ikke utarbeides for behandling %s, serialiseringsfeil||arg0: Long|Exception|serialiseringsfeil
+|FP-103784|WARN|TekniskFeil|DVH-Vedtak-XML kan ikke utarbeides for behandling %s i tilstand %s||arg0: Long, arg1: String||behandlingErIFeilTilstand
+|===
+
+
+== dokumentbestiller.BrevFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-875840|ERROR|TekniskFeil|Ugyldig behandlingstype %s for brev med malkode INNTID||arg0: String||inntektsmeldingForTidligBrevKreverGyldigBehandlingstype
+|FP-672326|ERROR|TekniskFeil|Ingen brev avslagsårsak kode konfigurert for denne avslagsårsak kode %s.||arg0: String||ingenBrevAvslagsårsakKodeKonfigurert
+|FP-729430|ERROR|TekniskFeil|Ugyldig innsynsresultattype %s||arg0: String||innsynskravSvarHarUkjentResultatType
+|FP-875839|ERROR|TekniskFeil|Ugyldig behandlingstype %s for bred med malkode INNHEN||arg0: String||innhentDokumentasjonKreverGyldigBehandlingstype
+|FP-693339|ERROR|TekniskFeil|Mangler informasjon om lovhjemmel for avslagsårsak med kode %s.||arg0: String||manglerInfoOmLovhjemmelForAvslagsårsak
+|FP-290952|WARN|TekniskFeil|Brev med malkode INNHEN krever at fritekst ikke er tom.||||innhentDokumentasjonKreverFritekst
+|FP-290951|ERROR|TekniskFeil|Brev med mal %s kan ikke sendes i denne behandlingen.||arg0: String||brevmalIkkeTilgjengelig
+|FP-666915|ERROR|TekniskFeil|Ingen brevmal konfigurert for denne type behandlingen %d.||arg0: Long||ingenBrevmalKonfigurert
+|FP-316712|ERROR|TekniskFeil|Feil i ferdigstilling av dokument med journalpostId %s||arg0: JournalpostId|Exception|ferdigstillingAvDokumentFeil
+|FP-795245|ERROR|TekniskFeil|Feil i knytting av vedlegg til dokument med id %s||arg0: String|Exception|knyttingAvVedleggFeil
+|===
+
+
+== dokumentbestiller.DokumentBestillerFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-119013|WARN|TekniskFeil|Fant ikke personinfo for aktørId: %s. Kan ikke bestille dokument||arg0: AktørId||fantIkkeAdresse
+|FP-109013|WARN|TekniskFeil|Fant ikke personinfo for aktørId: %s. Kan ikke bestille dokument||arg0: AktørId||fantIkkeFnrForAktørId
+|===
+
+
+== dokumentbestiller.api.DokumentBestillerFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-100507|WARN|FunksjonellFeil|Klagebehandling med id %s mangler resultat av klagevurderingen|Fortsett saksbehandlingen|arg0: Long||behandlingManglerKlageVurderingResultat
+|FP-103209|ERROR|TekniskFeil|Kan ikke bestille dokument for dokumentdata_id %s. Teknisk feil||arg0: Long|Exception|annentekniskfeil
+|FP-220913|ERROR|TekniskFeil|Kan ikke produsere dokument, obligatorisk felt %s mangler innhold.||arg0: String||feltManglerVerdi
+|FP-151666|ERROR|TekniskFeil|Kan ikke bestille dokument for dokumentdata_id %s. Problemer ved generering av xml||arg0: Long|Exception|xmlgenereringsfeil
+|FP-350513|ERROR|TekniskFeil|Kan ikke produsere dokument, ukjent dokumenttype %s.||arg0: String||ukjentDokumentType
+|FP-151311|WARN|FunksjonellFeil|Vedtaksbrev kan ikke lages for behandlingId %s, behandlingen mangler behandlingsresultat|Fortsett saksbehandlingen|arg0: Long||behandlingManglerResultat
+|FP-151911|ERROR|TekniskFeil|Kan ikke produsere dokument på grunn av feil type.|||Exception|dokumentErAvFeilType
+|FP-151337|ERROR|TekniskFeil|Kan ikke konvertere dato %s til xmlformatert dato.||arg0: String|Exception|datokonverteringsfeil
+|FP-212808|WARN|FunksjonellFeil|Avslagsbrev kan ikke lages for behandlingId %s, behandlingen er ikke avslått|Fortsett saksbehandlingen|arg0: Long||behandlingIkkeAvslått
+|FP-368280|ERROR|TekniskFeil|Klarte ikke matche beregningsresultatperiode og %S for brev||arg0: String||kanIkkeMatchePerioder
+|FP-210631|ERROR|TekniskFeil|Feilmelding fra DokProd for dokumentdata_id %s.||arg0: Long|Exception|feilFraDokumentProduksjon
+|FP-246979|ERROR|TekniskFeil|Finner ikke mottatt dato for søknad på behandling med id %s||arg0: Long||harIkkeSøknadMottattDato
+|===
+
+
+== domene.arbeidsforhold.arbeid.impl.ArbeidsforholdTjenesteFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-843592|WARN|TekniskFeil|%s ikke tilgjengelig (sikkerhetsbegrensning)||arg0: String|Exception|tjenesteUtilgjengeligSikkerhetsbegrensning
+|FP-762485|WARN|IntegrasjonFeil|Funksjonell feil i grensesnitt mot %s||arg0: String|FinnArbeidsforholdPrArbeidstakerUgyldigInput|ugyldigInput
+|FP-927182|WARN|IntegrasjonFeil|Funksjonell feil i grensesnitt mot %s||arg0: String|HentArbeidsforholdHistorikkArbeidsforholdIkkeFunnet|ugyldigInput
+|FP-793428|ERROR|TekniskFeil|Teknisk feil i grensesnitt mot %s||arg0: String|DatatypeConfigurationException|tekniskFeil
+|===
+
+
+== domene.arbeidsforhold.impl.InnhentingFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-597341|WARN|TekniskFeil|Ignorerer Arena-sak med vedtakTom før vedtakFom, saksnummer: %s||arg0: Saksnummer||ignorerArenaSakMedVedtakTomFørVedtakFom
+|FP-349977|WARN|TekniskFeil|Ignorerer Arena-sak uten %s, saksnummer: %s||arg0: String, arg1: Saksnummer||ignorerArenaSak
+|FP-112843|INFO|TekniskFeil|Ignorerer Arena-sak uten %s, saksnummer: %s||arg0: String, arg1: Saksnummer||ignorerArenaSakInfoLogg
+|===
+
+
+== domene.arbeidsforhold.inntekt.komponenten.impl.InntektFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-263743|ERROR|TekniskFeil|Feil ved opprettelse av request mot inntektstjenesten.|||DatatypeConfigurationException|feilVedOpprettelseAvInntektRequest
+|FP-824246|ERROR|IntegrasjonFeil|Feil ved kall til inntektstjenesten.|||Exception|feilVedKallTilInntekt
+|FP-722674|ERROR|TekniskFeil|Kunne ikke serialisere response fra Inntektskomponenten.|||JAXBException|kunneIkkeSerialisereResponse
+|FP-535194|ERROR|IntegrasjonFeil|Fikk følgende sikkerhetsavvik ved kall til inntektstjenesten: %s.||arg0: String||fikkSikkerhetsavvikFraInntekt
+|===
+
+
+== domene.arbeidsforhold.ytelse.arena.meldekortutbetalingsgrunnlag.impl.MeldekortFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-150919|WARN|TekniskFeil|%s ikke tilgjengelig (sikkerhetsbegrensning)||arg0: String|Exception|tjenesteUtilgjengeligSikkerhetsbegrensning
+|FP-073523|ERROR|TekniskFeil|Teknisk feil i grensesnitt mot %s||arg0: String|DatatypeConfigurationException|tekniskFeil
+|FP-615298|WARN|IntegrasjonFeil|%s fant ikke person for oppgitt aktørId||arg0: String|Exception|fantIkkePersonForAktorId
+|FP-615299|WARN|IntegrasjonFeil|%s ugyldig input||arg0: String|Exception|tjenesteUgyldigInput
+|===
+
+
+== domene.arbeidsforhold.ytelse.infotrygd.sak.impl.InfotrygdTjenesteFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-250917|WARN|TekniskFeil|%s ikke tilgjengelig (sikkerhetsbegrensning)||arg0: String|Exception|tjenesteUtilgjengeligSikkerhetsbegrensning
+|FP-514379|WARN|IntegrasjonFeil|Funksjonell feil i grensesnitt mot %s||arg0: String|FinnSakListeUgyldigInput|ugyldigInput
+|FP-514380|WARN|IntegrasjonFeil|Funksjonell feil i grensesnitt mot %s||arg0: String|FinnGrunnlagListeUgyldigInput|ugyldigInput
+|FP-173623|ERROR|TekniskFeil|Teknisk feil i grensesnitt mot %s||arg0: String|DatatypeConfigurationException|tekniskFeil
+|FP-180124|WARN|TekniskFeil|Tjeneste %s ikke tilgjengelig (nedetid)||arg0: String|IntegrasjonException|nedetid
+|FP-980125|WARN|TekniskFeil|Infotrygd rapporterer PersonIkkeFunnet|||Exception|personIkkeFunnet
+|===
+
+
+== domene.dokumentarkiv.impl.DokumentArkivTjenesteFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-751934|ERROR|ManglerTilgangFeil|Mangler tilgang til å utføre '%s' mot Journalsystemet||arg0: String|Exception|journalUtilgjengeligSikkerhetsbegrensning
+|FP-276511|WARN|IntegrasjonFeil|Journalpost ugyldig input|||HentKjerneJournalpostListeUgyldigInput|journalpostUgyldigInput
+|FP-195533|WARN|IntegrasjonFeil|Journalpost ikke funnet|||HentDokumentJournalpostIkkeFunnet|hentJournalpostIkkeFunnet
+|FP-249790|WARN|IntegrasjonFeil|Fant ikke journal dokument|||HentDokumentDokumentIkkeFunnet|hentDokumentIkkeFunnet
+|===
+
+
+== domene.dokumentarkiv.journal.impl.JournalFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-751834|ERROR|ManglerTilgangFeil|Mangler tilgang til å utføre '%s' mot Journalsystemet||arg0: String|Exception|journalUtilgjengeligSikkerhetsbegrensning
+|FP-276411|WARN|IntegrasjonFeil|Journalpost ugyldig input|||HentJournalpostUgyldigInput|journalpostUgyldigInput
+|FP-195433|WARN|IntegrasjonFeil|Journalpost ikke funnet|||HentJournalpostJournalpostIkkeFunnet|hentJournalpostIkkeFunnet
+|FP-107540|WARN|IntegrasjonFeil|Journalpost ikke inngående|||HentJournalpostJournalpostIkkeInngaaende|journalpostIkkeInngaaende
+|===
+
+
+== domene.kontrollerfakta.KontrollerFaktaTjenesteFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-995962|WARN|TekniskFeil|Mer enn en implementasjon funnet av KontrollerFaktaTjeneste for fagsakYtelseType=%s og behandlingType=%s||arg0: String, arg1: String||flereImplementasjonerAvKontrollerFaktaTjeneste
+|FP-770839|WARN|TekniskFeil|Fant ingen implementasjon av KontrollerFaktaTjeneste for fagsakYtelseType=%s og behandlingType=%s||arg0: String, arg1: String||ingenImplementasjonAvKontrollerFaktaTjeneste
+|===
+
+
+== domene.kontrollerfakta.VilkårUtlederFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-768019|ERROR|TekniskFeil|Kan ikke utlede vilkår for behandlingId %s, da behandlingsmotiv ikke kan avgjøres||arg0: Long||behandlingsmotivKanIkkeUtledes
+|===
+
+
+== domene.medlem.impl.MedlemFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-283632|ERROR|TekniskFeil|Kunne ikke serialisere response fra medlemskap tjenesten.|||JAXBException|kunneIkkeSerialisereResponse
+|FP-085790|ERROR|IntegrasjonFeil|Feil ved kall til medlemskap tjenesten.|||PersonIkkeFunnet|feilVedKallTilMedlem
+|FP-947628|ERROR|TekniskFeil|Feil ved opprettelse av request mot medlemskap tjenesten.|||DatatypeConfigurationException|feilVedOpprettelseAvMedlemRequest
+|FP-963823|ERROR|IntegrasjonFeil|Fikk sikkerhetsavvik ved kall til medlemskap tjenesten.|||Sikkerhetsbegrensning|fikkSikkerhetsavvikFraMedlem
+|===
+
+
+== domene.mottak.HendelserFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-075453|WARN|TekniskFeil|Behandlingen kan ikke oppdateres. Mangler personopplysning for søker med aktørId %s||arg0: AktørId||ingenPersonopplysningForEksisterendeBehandling
+|FP-388501|WARN|TekniskFeil|Familiehendelse uten dato fagsakId=%s||arg0: Long||familiehendelseUtenDato
+|FP-852565|WARN|TekniskFeil|Håndterer ikke barnets familierelasjoner fra TPS fagsakId=%s||arg0: Long||håndtererIkkeAnnenForeldre
+|FP-330623|WARN|TekniskFeil|Fagsak allerede koblet, fagsakId: %s %s||arg0: Long, arg1: Long||fagsakAlleredeKoblet
+|FP-059216|WARN|TekniskFeil|Flere mulige fagsaker å koble til for fagsakId=%s||arg0: Long||flereMuligeFagsakerÅKobleTil
+|===
+
+
+== domene.mottak.dokumentmottak.impl.HåndtereDokumentFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-879124|WARN|TekniskFeil|Mer enn en implementasjon funnet av kompletthetssjekk for behandling av type %s||arg0: String||flereImplementasjonerAvKompletthetsSjekk
+|FP-980324|WARN|TekniskFeil|Fant ingen kompletthetssjekk for behandling av type %s||arg0: String||ukjentType
+|FP-842786|WARN|TekniskFeil|Ugyldig payload - feil ved konverter fra XML til String.|||SQLException|feilVedKonverterFraXmlTilString
+|===
+
+
+== domene.mottak.dokumentpersiterer.InntektsmeldingFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-938211|WARN|TekniskFeil|Fant ikke informasjon om arbeidsforhold på inntektsmelding||||manglendeInformasjon
+|===
+
+
+== domene.mottak.dokumentpersiterer.MottattDokumentFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-947147|WARN|TekniskFeil|Ukjent dokument %s||arg0: String||ukjentSkjemaType
+|FP-931148|WARN|TekniskFeil|Søknad på behandling %s mangler RelasjonsRolleType||arg0: long||dokumentManglerRelasjonsRolleType
+|FP-921156|WARN|TekniskFeil|Kjenner ikke igjen format på søknad XML med namespace %s||arg0: String||ukjentSoeknadXMLFormat
+|FP-947148|WARN|TekniskFeil|Mer enn en implementasjon funnet for skjematype %s||arg0: String||flereImplementasjonerAvSkjemaType
+|===
+
+
+== domene.mottak.forsendelse.tjeneste.ForsendelseStatusFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-760823|WARN|TekniskFeil|Ugyldig behandlingsresultat for forsendlese ID %s||arg0: UUID||ugyldigBehandlingResultat
+|FP-760821|WARN|TekniskFeil|finnes ikke mottat dokument for forsendelse ID %s||arg0: UUID||finnesIkkeMottatDokument
+|FP-760822|WARN|TekniskFeil|Mer enn en mottat dokument funnet for forsendelse ID %s||arg0: UUID||flereMotattDokument
+|===
+
+
+== domene.mottak.hendelser.impl.ForretningshendelseMottakFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-524248|WARN|TekniskFeil|Det finnes fagsak for ytelsesbehandling, men ingen åpen eller innvilget ytelsesesbehandling Gjelder forretningshendelse '%s'||arg0: String||finnesYtelsebehandlingSomVerkenErÅpenEllerInnvilget
+|FP-524247|WARN|TekniskFeil|Ukjent forretningshendelse '%s'||arg0: String||ukjentForretningshendelse
+|===
+
+
+== domene.mottak.kompletthettjeneste.KompletthetFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-912910|WARN|TekniskFeil|Fant ingen implementasjon av Kompletthetsjekker for fagsakYtelseType=%s og behandlingType=%s||arg0: String, arg1: String||ingenImplementasjonerAvKompletthetssjekker
+|FP-912913|WARN|TekniskFeil|Mer enn en implementasjon funnet av KompletthetssjekkerSøknad for fagsakYtelseType=%s og behandlingType=%s||arg0: String, arg1: String||flereImplementasjonerAvKompletthetssjekkerSøknad
+|FP-912912|WARN|TekniskFeil|Fant ingen implementasjon av KompletthetssjekkerSøknad for fagsakYtelseType=%s og behandlingType=%s||arg0: String, arg1: String||ingenImplementasjonerAvKompletthetssjekkerSøknad
+|FP-912911|WARN|TekniskFeil|Mer enn en implementasjon funnet av Kompletthetsjekker for fagsakYtelseType=%s og behandlingType=%s||arg0: String, arg1: String||flereImplementasjonerAvKompletthetsjekker
+|FP-918661|ERROR|TekniskFeil|Fant ikke noe dokument for behandlingId = %s||arg0: long||fantIkkeDokument
+|===
+
+
+== domene.person.impl.TpsFeilmeldinger
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-115180|ERROR|ManglerTilgangFeil|TPS ikke tilgjengelig (sikkerhetsbegrensning)|||HentGeografiskTilknytningSikkerhetsbegrensing|tpsUtilgjengeligGeografiskTilknytningSikkerhetsbegrensing
+|FP-432142|ERROR|ManglerTilgangFeil|TPS ikke tilgjengelig (sikkerhetsbegrensning)|||HentPersonSikkerhetsbegrensning|tpsUtilgjengeligSikkerhetsbegrensning
+|FP-432144|ERROR|ManglerTilgangFeil|TPS ikke tilgjengelig (sikkerhetsbegrensning)|||HentPersonhistorikkSikkerhetsbegrensning|tpsUtilgjengeligSikkerhetsbegrensning
+|FP-432143|WARN|TekniskFeil|TPS ikke tilgjengelig, hentet ident fra cache||||tpsUtilgjengeligHentetIdentFraCache
+|FP-164686|WARN|TekniskFeil|Person er ikke Bruker, kan ikke hente ut brukerinformasjon||||ukjentBrukerType
+|FP-715013|WARN|TekniskFeil|Fant ikke person i TPS|||HentPersonPersonIkkeFunnet|fantIkkePerson
+|FP-349059|ERROR|TekniskFeil|Feil parsing av LocalDate til XmlGregorianCalendar|||DatatypeConfigurationException|xmlGregorianCalendarParsingFeil
+|FP-065124|WARN|TekniskFeil|Fant ikke person i TPS||||fantIkkePersonForFnr
+|FP-181235|WARN|TekniskFeil|Fant ikke aktørId i TPS||||fantIkkePersonForAktørId
+|FP-349049|WARN|TekniskFeil|Fant ikke geografisk informasjon for person|||HentGeografiskTilknytningPersonIkkeFunnet|geografiskTilknytningIkkeFunnet
+|FP-065125|WARN|TekniskFeil|Fant ikke personhistorikk i TPS|||HentPersonhistorikkPersonIkkeFunnet|fantIkkePersonhistorikkForAktørId
+|===
+
+
+== domene.person.impl.TpsOversetterFeilmeldinger
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-200210|WARN|TekniskFeil|Fant ikke informasjon om land i adresseinfo, bruker Norge videre|||VLException|manglerLandBrukerNorge
+|FP-222317|WARN|TekniskFeil|Bruker %s: Vedtaksløsningen gjenkjenner ikke adressetype %s fra TPS||arg0: String, arg1: String||ikkeGjenkjentAdresseType
+|FP-112305|WARN|TekniskFeil|Bruker %s er ikke Person, kan ikke hente ut adresse||arg0: String||ukjentBrukerTypeFinnerIkkeAdresse
+|===
+
+
+== domene.personopplysning.impl.OppdatererAksjonspunktFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-905999|ERROR|IntegrasjonFeil|Verge med fnr ikke funnet i TPS.||||vergeIkkeFunnetITPS
+|===
+
+
+== domene.produksjonsstyring.arbeidsfordeling.impl.ArbeidsfordelingFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-124143|ERROR|TekniskFeil|Ugyldig input til finn behandlende enhet|||FinnBehandlendeEnhetListeUgyldigInput|finnBehandlendeEnhetListeUgyldigInput
+|FP-324042|ERROR|TekniskFeil|Ugyldig input til finn alle behandlende enheter|||FinnAlleBehandlendeEnheterListeUgyldigInput|finnAlleBehandlendeEnheterListeUgyldigInput
+|FP-569566|WARN|TekniskFeil|Finner ikke behandlende enhet for geografisk tilknytning '%s', diskresjonskode '%s', behandlingstema '%s'||arg0: String, arg1: String, arg2: BehandlingTema||finnerIkkeBehandlendeEnhet
+|FP-004703|WARN|TekniskFeil|Forventet en, men fikk flere alternative behandlende enheter for geografisk tilknytning '%s', diskresjonskode '%s', behandlingstema  '%s': '%s'. Valgte '%s'||arg0: String, arg1: String, arg2: BehandlingTema, arg3: List, arg4: String||fikkFlereBehandlendeEnheter
+|FP-678703|WARN|TekniskFeil|Finner ikke alle behandlende enheter for behandlingstema '%s'||arg0: BehandlingTema||finnerIkkeAlleBehandlendeEnheter
+|===
+
+
+== domene.produksjonsstyring.oppgavebehandling.impl.OppgaveFeilmeldinger
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-442142|WARN|TekniskFeil|Fant ingen ident for aktør %s.||arg0: AktørId||identIkkeFunnet
+|FP-395339|WARN|TekniskFeil|Fant ikke oppgave med id=%s, som skulle vært avsluttet på behandlingId=%s.||arg0: String, arg1: Long||oppgaveMedIdIkkeFunnet
+|FP-395338|WARN|TekniskFeil|Fant ikke oppgave med årsak=%s, som skulle vært avsluttet på behandlingId=%s.||arg0: String, arg1: Long||oppgaveMedÅrsakIkkeFunnet
+|===
+
+
+== domene.produksjonsstyring.sakogbehandling.impl.SakOgBehandlingFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-501696|ERROR|TekniskFeil|Feil parsing av LocalDate til XmlGregorianCalendar|||DatatypeConfigurationException|xmlGregorianCalendarParsingFeil
+|===
+
+
+== domene.registerinnhenting.impl.RegisterdataInnhenterFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-005453|WARN|TekniskFeil|Behandlingen kan ikke oppdateres. Mangler personopplysning for søker med aktørId %s||arg0: AktørId||ingenPersonopplysningForEksisterendeBehandling
+|===
+
+
+== domene.registerinnhenting.impl.SaksopplysningerFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-258917|WARN|TekniskFeil|Bruker %s: Finner ikke bruker i TPS||arg0: String||feilVedOppslagITPS
+|===
+
+
+== domene.uttak.UttakArbeidFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-814321|ERROR|TekniskFeil|Fant ikke yrkesaktiviteter||||manglendeYrkesAktiviteter
+|FP-677743|ERROR|TekniskFeil|Fant ikke beregningsgrunnlag for behandling %s||arg0: Behandling||manglendeBeregningsgrunnlag
+|===
+
+
+== domene.uttak.kontroller.fakta.omsorg.AksjonspunktUtlederOmsorgFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-753881|ERROR|TekniskFeil|Ikke mulig å sjekke barn har samme bosted som søker||||kanIkkeFinneBarnTilSøker
+|===
+
+
+== domene.uttak.kontroller.fakta.uttakperioder.impl.KontrollerFaktaUttakFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-823386|WARN|TekniskFeil|Datafeil. Periode er dokumentert uten at saksbehandler har begrunnet dette.||||dokumentertUtenBegrunnelse
+|FP-827646|ERROR|TekniskFeil|Finner ikke virksomhet med orgnr %s||arg0: String||finnerIkkeVirksomhet
+|FP-651234|ERROR|TekniskFeil|Ikke gyldig søknadsperiode. Periode med gradering for arbeidstaker trenger orgnr oppgitt. %s %s %s||arg0: String, arg1: LocalDate, arg2: LocalDate||søktGraderingUtenVirksomhet
+|===
+
+
+== domene.virksomhet.impl.OrganisasjonTjenesteFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-934726|WARN|IntegrasjonFeil|Funksjonell feil i grensesnitt mot %s, med orgnr %s||arg0: String, arg1: String|HentOrganisasjonUgyldigInput|ugyldigInput
+|FP-348126|ERROR|TekniskFeil|Kunne ikke serialisere response fra %s||arg0: String|JAXBException|kunneIkkeSerialisereResponse
+|FP-254132|WARN|IntegrasjonFeil|Fant ikke organisasjon for orgNummer %s||arg0: String|HentOrganisasjonOrganisasjonIkkeFunnet|organisasjonIkkeFunnet
+|===
+
+
+== inngangsvilkaar.InngangsvilkårFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-905512|WARN|TekniskFeil|Mer enn en implementasjon funnet av kompletthetssjekk for behandling av type %s||arg0: String||flereImplementasjonerAvKompletthetsSjekk
+|FP-905511|WARN|TekniskFeil|Fant ingen kompletthetssjekk for behandling av type %s||arg0: String||ukjentType
+|===
+
+
+== inngangsvilkaar.impl.VilkårUtlederFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-768017|ERROR|TekniskFeil|Kan ikke utlede vilkår for behandlingId %s, da behandlingsmotiv ikke kan avgjøres||arg0: Long||behandlingsmotivKanIkkeUtledes
+|FP-768018|ERROR|TekniskFeil|Kan ikke utlede vilkår for behandlingId %s. Mangler konfigurasjon for behandlingsmotiv %s||arg0: Long, arg1: String||kunneIkkeUtledeVilkårFor
+|FP-768012|ERROR|TekniskFeil|Støtter ikke stønadtype %s.||arg0: String||støtterIkkeStønadstype
+|===
+
+
+== inngangsvilkaar.regelmodell.adapter.RegelintegrasjonFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-384251|WARN|TekniskFeil|Ikke mulig å utlede gyldig vilkårsresultat fra enkeltvilkår||||kanIkkeUtledeVilkårsresultatFraRegelmotor
+|FP-384255|WARN|TekniskFeil|Ikke mulig å oversette adopsjonsgrunnlag til regelmotor for behandlingId %s||arg0: String||kanIkkeOversetteAdopsjonsgrunnlag
+|FP-384257|WARN|TekniskFeil|Kunne ikke serialisere regelinput for vilkår: %s||arg0: String|Exception|kanIkkeSerialisereRegelinput
+|FP-384256|WARN|TekniskFeil|Ikke mulig å oversette adopsjonsgrunnlag til regelmotor for behandlingId %s||arg0: String||kanIkkeFinnneSkjæringstidspunkt
+|===
+
+
+== jsonfeed.HendelsePublisererFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-343184|ERROR|TekniskFeil|Finner ikke noen relevant uttaksplan for vedtak||||finnerIkkeRelevantUttaksplanForVedtak
+|FP-184343|ERROR|TekniskFeil|Manglende originalBehandling for BehandlingVedtak om endring||||manglerOriginialBehandlingPåEndringsVedtak
+|FP-213891|ERROR|TekniskFeil|Finner ikke siste behandling for fagsak||||finnerIkkeBehandlingForFagsak
+|FP-792048|WARN|TekniskFeil|Ukjent type %s funnet for sekvensnummer %s i vedtak-json-feed||arg0: String, arg1: Long||ukjentHendelseMeldingstype
+|===
+
+
+== kodeverk.KodeverkFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-924461|WARN|IntegrasjonFeil|Kan ikke opprette koderelasjon med kode som ikke eksisterer: %s %s||arg0: String, arg1: String||nyKodeRelasjonMedIkkeEksisterendeKode
+|FP-840390|WARN|IntegrasjonFeil|Eksisterende koderelasjon ikke mottatt: %s %s -> %s %s||arg0: String, arg1: String, arg2: String, arg3: String||eksisterendeKodeRelasjonIkkeMottatt
+|FP-402870|ERROR|IntegrasjonFeil|Kodeverktype ikke støttet: %s||arg0: String||hentKodeverkKodeverkTypeIkkeStøttet
+|FP-563155|WARN|IntegrasjonFeil|Synkronisering med kodeverk feilet: %s||arg0: String|IntegrasjonException|synkronoseringAvKodeverkFeilet
+|FP-868813|ERROR|IntegrasjonFeil|Kodeverk ikke funnet|||HentKodeverkHentKodeverkKodeverkIkkeFunnet|hentKodeverkKodeverkIkkeFunnet
+|FP-075896|WARN|IntegrasjonFeil|Eksisterende kode ikke mottatt: %s %s||arg0: String, arg1: String||eksisterendeKodeIkkeMottatt
+|===
+
+
+== migrering.HistorikkMigreringFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-840399|WARN|TekniskFeil|Maltype er ikke støttet: %s||arg0: String||malTypeIkkeStottet
+|FP-840398|WARN|TekniskFeil|Uventet JsonValue.valueType: %s||arg0: String||uventetJsonValueType
+|FP-840397|WARN|TekniskFeil|Ukjent endretFelt navn: %s||arg0: String||ukjentEndretFeltNavn
+|FP-252668|ERROR|TekniskFeil|Feil ved konverterting av historikkinnslag: %s||arg0: Long|Exception|kanIkkeKonvertereHistorikkInnslag
+|===
+
+
+== sak.tjeneste.OpprettSakFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-094919|WARN|TekniskFeil|Saksnummer %s er ugyldig||arg0: Saksnummer||ugyldigSaksnummer
+|FP-294905|WARN|TekniskFeil|Kan ikke opprette sak i GSAK fordi input er ugyldig|||WSUgyldigInputException|kanIkkeOppretteIGsakFordiInputErUgyldig
+|FP-863070|WARN|TekniskFeil|Journalpost-Fagsak knytning finnes allerede. Journalpost '%s' er knyttet mot fagsak '%s'.||arg0: JournalpostId, arg1: Long||JournalpostAlleredeKnyttetTilAnnenFagsak
+|FP-514082|WARN|TekniskFeil|Kan ikke opprette sak i GSAK fordi sak allerede eksisterer|||WSSakEksistererAlleredeException|kanIkkeOppretteIGsakFordiSakAlleredeEksisterer
+|FP-910638|WARN|TekniskFeil|Fikk ikke opprettet sak i Gsak pga OpprettSakSakEksistererAllerede, men klarer ikke å finne igjen saken. Fagsak '%s'.||arg0: Long||fantIkkeSakenSomGsakSaAlleredeEksisterer
+|FP-605357|ERROR|ManglerTilgangFeil|Mangler tilgang til å utføre opprettSak mot Gsak|||WSSikkerhetsbegrensningException|opprettSakSikkerhetsbegrensning
+|FP-755374|WARN|TekniskFeil|Forventet unikt resultat for spørring i Gsak med Saksnummer '%s', men fikk %s resultater.||arg0: String, arg1: int||finnSakIkkeUniktResultat
+|FP-106651|WARN|TekniskFeil|Ukjent behandlingstemakode %s for aktørId %s||arg0: String, arg1: AktørId||ukjentBehandlingstemaKode
+|FP-840572|WARN|TekniskFeil|Finner ikke fagsak med angitt saksnummer %s||arg0: Saksnummer||finnerIkkeFagsakMedSaksnummer
+|FP-827920|WARN|TekniskFeil|Finner ikke person med aktørID %s||arg0: AktørId||finnerIkkePersonMedAktørId
+|FP-609471|WARN|TekniskFeil|Kan ikke finne sak i GSAK fordi input er ugyldig|||FinnSakUgyldigInput|finnSakUgyldigInput
+|FP-827921|WARN|TekniskFeil|Finner ikke person aktørID ikke oppgitt||||finnerIkkePersonAktørIdNull
+|FP-252259|WARN|TekniskFeil|Fant fler saker i Gsak enn det listeoutputen klarer å returnere for spørring med Saksnummer '%s'.||arg0: String|FinnSakForMangeForekomster|finnSakForMangeForekomster
+|===
+
+
+== vedtak.xml.VedtakXmlFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-260408|WARN|TekniskFeil|Vedtak-XML for Engangsstønad kan ikke utarbeides i fagsak id %s som gjelder ytelse %s||arg0: Long, arg1: String||feilYtelseType
+|FP-190756|ERROR|TekniskFeil|Vedtak-XML kan ikke utarbeides for behandling %s, serialiseringsfeil||arg0: Long|Exception|serialiseringsfeil
+|FP-142918|WARN|TekniskFeil|Vedtak-XML kan ikke utarbeides for behandling %s i tilstand %s||arg0: Long, arg1: String||behandlingErIFeilTilstand
+|FP-351904|WARN|TekniskFeil|Vedtak-XML kan ikke utarbeides for behandling %s, vilkårResultat ikke støttet: %s||arg0: Long, arg1: String||manglerVilkårResultat
+|FP-701652|ERROR|TekniskFeil|Vedtak-XML kan ikke utarbeides for behandling %s, deserialiseringsfeil||arg0: Long|IOException|deserialiseringsfeil
+|===
+
+
+== web.app.tjenester.behandling.aksjonspunkt.AksjonspunktRestTjenesteFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-598399|WARN|TekniskFeil|Ugyldig input, for mange behandling ider %s||arg0: Collection||ugyldigInputForMangeBehandlingIder
+|FP-760743|WARN|FunksjonellFeil|Det kan ikke akseptere endringer siden totrinnsbehandling er startet og behandlingen med behandlingId: %s er hos beslutter|Avklare med beslutter|arg0: String||totrinnsbehandlingErStartet
+|===
+
+
+== web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktApplikasjonFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-475766|WARN|TekniskFeil|Finner ikke overstyringshåndterer for DTO: %s||arg0: String||kanIkkeFinneOverstyringshåndterer
+|FP-475767|WARN|TekniskFeil|Kan ikke utlede gjeldende fødselsdato ved bekreftelse av fødsel||||kanIkkeUtledeGjeldendeFødselsdato
+|FP-605445|ERROR|TekniskFeil|Kan ikke aktivere aksjonspunkt med kode: %s||arg0: String||kanIkkeAktivereAksjonspunkt
+|FP-770743|WARN|TekniskFeil|Finner ikke håndtering for aksjonspunkt med kode: %s||arg0: String||kanIkkeFinneAksjonspunktUtleder
+|===
+
+
+== web.app.tjenester.behandling.aksjonspunkt.app.overstyring.OverstyringFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-093923|WARN|FunksjonellFeil|Kan ikke overstyre vilkår. Det må være minst en aktivitet for at opptjeningsvilkåret skal kunne overstyres.|Sett på vent til det er mulig og manuelt legge inn aktiviteter ved overstyring.|||opptjeningPreconditionFailed
+|===
+
+
+== web.app.tjenester.behandling.søknad.SøknadDtoFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-175810|ERROR|TekniskFeil|Ektefelle kan ikke være samme person som søker||||kanIkkeVæreSammePersonSomSøker
+|FP-113411|ERROR|TekniskFeil|Annen forelder på søknad kan ikke være samme person som søker||||kanIkkeVæreBådeFarOgMorTilEtBarn
+|===
+
+
+== web.app.tjenester.dokument.DokumentRestTjenesteFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-463438|ERROR|ManglerTilgangFeil|Applikasjon har ikke tilgang til tjeneste.|||ManglerTilgangException|applikasjonHarIkkeTilgangTilHentDokumentTjeneste
+|FP-909799|ERROR|ManglerTilgangFeil|Applikasjon har ikke tilgang til tjeneste.|||ManglerTilgangException|applikasjonHarIkkeTilgangTilHentJournalpostListeTjeneste
+|FP-595861|WARN|TekniskFeil|Dokument Ikke Funnet for journalpostId= %s dokumentId= %s||arg0: String, arg1: String|TekniskException|dokumentIkkeFunnet
+|===
+
+
+== web.app.tjenester.registrering.app.ManuellRegistreringFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-453254|ERROR|TekniskFeil|Feil ved marshalling av søknadsskjema|||Exception|marshallingFeil
+|FP-703669|ERROR|TekniskFeil|Feil ved parsing av LocalDate til XmlGregorianCalendar|||DatatypeConfigurationException|xmlGregorianCalendarParsingFeil
+|FP-453257|ERROR|TekniskFeil|Fant ikke aktør-ID for fødselsnummer: %s.||arg0: String||feilVedhentingAvAktørId
+|===
+
+
+== økonomistøtte.api.ØkonomistøtteFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-536167|ERROR|TekniskFeil|Kan ikke konvertere oppdrag med id %s. Problemer ved generering av xml||arg0: Long|Exception|xmlgenereringsfeil
+|FP-588867|ERROR|TekniskFeil|Kan ikke konvertere dato %s til xmlformatert dato.||arg0: String|DatatypeConfigurationException|datokonverteringsfeil
+|===
+
+
+== økonomistøtte.queue.ØkonomioppdragMeldingFeil
+
+[options="header", cols="5h,5,5,20,15,15,20,15"]
+|===
+|Feilkode|Level|Type|Feilmelding|Løsningsforslag|Parametre|Cause|Java-metode
+|FP-744861|WARN|TekniskFeil|Feil i parsing av oppdragskjema.oppdrag|||Exception|uventetFeilVedProsesseringAvForsendelsesInfoXML
+|FP-595437|WARN|TekniskFeil|Uventet feil med JAXB ved parsing av melding oppdragskjema.oppdrag: %s||arg0: String|Exception|uventetFeilVedProsesseringAvForsendelsesInfoXMLMedJaxb
+|===
+
+
+

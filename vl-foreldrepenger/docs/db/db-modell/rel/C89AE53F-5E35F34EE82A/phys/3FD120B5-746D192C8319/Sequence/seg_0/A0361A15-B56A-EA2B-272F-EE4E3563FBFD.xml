@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_DOKUMENT_FELLES" directorySegmentName="seg_0" id="A0361A15-B56A-EA2B-272F-EE4E3563FBFD">
+<sourceDDLFile>01_SEQUENCES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:44:25 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>50</incrementBy>
+<maxValue>9999999999999999999999999999</maxValue>
+<minValue>1</minValue>
+<noCache>YES</noCache>
+<startWith>1</startWith>
+</SequenceOraclev10g>

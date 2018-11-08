@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="ADRESSE" directorySegmentName="seg_0" id="8F970A54-3DA9-A938-3A31-A2EE4DC13231">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="adresselinje3" id="3638ABD1-C5D6-669F-B753-0BA04028F77E">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_tid" id="40ADF36F-A98A-B692-127E-5616AD4E8AB2">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="endret_av" id="4C3D10F9-5024-501C-D67A-A1CB225EFA95">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="4F66EC00-8E9E-1FEA-E74A-9BED7C78EB0D">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_av" id="5C5F8DAD-CAE8-0FAF-ACB0-A625616473B6">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="poststed" id="7CB55E27-3828-481E-278D-7501B9554772">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="adresselinje2" id="98BA7CD4-B781-EF1D-171B-C4136D0945B1">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="post_nummer" id="A2DA1157-4F15-EFC5-3C56-DC3AA8D83236">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="versjon" id="B5EE5B10-9D1F-B04C-ED9D-31F5849DCD59">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="land" id="E30E3445-5DD7-28F3-35BA-522D0DA0A961">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="adresselinje1" id="E6CF4FB0-E038-69C2-A0CC-54EA89DDD7F8">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="mottakernavn" id="EC618E93-2EC3-8873-235B-88C5D12FB5B4">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="endret_tid" id="F1EC47F3-8963-56E0-2469-C4AB2CDEEFEB">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_ADRESSE" id="3F652EAD-EA01-7CE5-350C-C1323D49F50C">
+<createdBy>c149071</createdBy>
+<createdTime>2017-06-16 11:57:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

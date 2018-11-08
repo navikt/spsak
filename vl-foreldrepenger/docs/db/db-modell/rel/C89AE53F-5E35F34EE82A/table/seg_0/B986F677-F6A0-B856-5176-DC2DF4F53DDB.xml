@@ -1,0 +1,168 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B986F677-F6A0-B856-5176-DC2DF4F53DDB" name="JOURNALPOST">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Journalposter som er blitt knyttet til saken</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>39FF4001-DDCB-B5A8-96D9-0FFC7E7FD86C</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="9D902B7E-18E8-C556-E349-D15CA19722E1">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>FC42357F-A4C7-19FF-3182-AEDF7531939C</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="journalpost_id" id="A607F154-B560-8C12-3850-CF17B8549C66">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK: Journalpostens ID i JOARK</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0CDB3CF4-1ADC-1851-62E3-7368C1810640</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fagsak_id" id="E12DFA7A-ABA4-3043-9B54-C41CA02FD217">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK:FAGSAK Fremmednøkkel for kobling til fagsak</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F6C48982-ACD4-7C61-25DD-1F1DB65CB2A5</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F39857C1-CA27-8106-8303-222E4D12D410" referredColumn="90F47F50-7F85-E533-7B3D-3F82C2C78064"/>
+</associations>
+</Column>
+<Column name="opprettet_av" id="F6FCCAE0-0AAC-B1C3-C7EA-73327B4814A4">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>3AC95C4B-C738-2E90-1429-9304E444AA38</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="7BE2BCEE-592B-B683-0632-69E38042FEAD">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A1C067CE-06D1-9A6D-B8AB-A8C90F1AF6E8</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="799F2917-80D0-AA51-8410-214DF4A5FC4E">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>3C0C7DE5-72E7-3456-1C8E-DB98C506A2AA</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="0B8208BA-76E0-D7F4-CF42-2ACBF3BF73DA">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2512C77D-883F-AA35-AD7C-59FDA7C3D81F</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="270D89DE-FAD4-9A88-F289-AF79E882A0F1" name="PK_JOURNALPOST">
+<sourceDDLFile>04-CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>473B4E8B-097F-8BB3-0523-3E4AAA2C460C</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9D902B7E-18E8-C556-E349-D15CA19722E1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="73C6CC4F-253E-E335-C2AC-021192D2D8D8" name="PK_JOURNALPOST">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>472108D7-08D8-5447-2D64-2D526F129B54</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9D902B7E-18E8-C556-E349-D15CA19722E1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="94A73444-5373-A326-0576-A36DFF69FD6F" name="UIDX_JOURNALPOST_1">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D55646AC-8090-A8FF-1030-3DDCDBDA81B9</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A607F154-B560-8C12-3850-CF17B8549C66"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1C5D7C58-A854-00F2-8ED8-23AB7505581D" name="IDX_JOURNALPOST_1">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F96754D5-64EF-F3DB-AB4C-746D92E619BE</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E12DFA7A-ABA4-3043-9B54-C41CA02FD217"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1E03008B-DA48-968A-A8F1-576963E9F260" name="FK_JOURNALPOST">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E12DFA7A-ABA4-3043-9B54-C41CA02FD217"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

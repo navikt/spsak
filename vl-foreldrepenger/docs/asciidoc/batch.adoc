@@ -1,0 +1,12 @@
+= Batch
+
+Tjenester som kalles på for å starte batch-jobber.
+
+.Generelle egenskaper
+|===
+| Start av batch| /var/fpsak/batch/startBatch.sh -b <BATCHNAVN> -p "<PARAMS>"
+| Stopp av batch| /var/fpsak/batch/stopBatch.sh -b <BATCHNAVN>
+| Logg| /var/log/apps/fpsak/server/server.log
+|===
+
+include::{generated}/batches.adoc[]

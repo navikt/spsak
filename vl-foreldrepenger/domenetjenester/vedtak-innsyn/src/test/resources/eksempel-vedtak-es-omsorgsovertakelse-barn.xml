@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="vedtakXmlTilHtml.xsl"?>
+<ns2:vedtak xmlns:ns2="urn:no:nav:vedtak:felles:xml:vedtak:v1" xmlns:ns3="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:v1">
+    <fagsakId>1000102</fagsakId>
+    <fagsakType>ENGANGSSTOENAD</fagsakType>
+    <tema kode="FOR_SVA" kodeverk="TEMA">Foreldre- og svangerskapspenger</tema>
+    <behandlingsTema kode="ENGST_ADOP" kodeverk="BEHANDLING_TEMA">Engangsstønad ved adopsjon</behandlingsTema>
+    <ansvarligSaksbehandlerIdent>Z991111</ansvarligSaksbehandlerIdent>
+    <ansvarligBeslutterIdent>Z991136</ansvarligBeslutterIdent>
+    <behandlendeEnhet>4802</behandlendeEnhet>
+    <soeknadsdato>2018-02-09+01:00</soeknadsdato>
+    <vedtaksdato>2018-02-09+01:00</vedtaksdato>
+    <personOpplysninger xsi:type="ns5:PersonopplysningerEngangsstoenad" xmlns:ns5="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <bruker>
+            <navn>Ola Aliasen</navn>
+            <norskIdent>00000000001</norskIdent>
+            <kjoenn>Mann</kjoenn>
+            <statsborgerskap kode="NOR">NORGE</statsborgerskap>
+            <personstatus kode="BOSA">Bosatt</personstatus>
+            <region>Norden</region>
+            <sivilstand kode="GIFT">Gift</sivilstand>
+            <foedselssdato>1982-09-07+02:00</foedselssdato>
+        </bruker>
+        <adresse>
+            <addresseType kode="BOSTEDSADRESSE">Bostedsadresse</addresseType>
+            <mottakersNavn>Ola Aliasen</mottakersNavn>
+            <addresselinje1>Aliasveien</addresselinje1>
+            <postnummer>1234</postnummer>
+            <land>NOR</land>
+        </adresse>
+        <adopsjon>
+            <adopsjonsbarn>
+                <foedselsdato>2017-09-30+02:00</foedselsdato>
+            </adopsjonsbarn>
+            <omsorgsovertakelsesdato>2018-02-16+01:00</omsorgsovertakelsesdato>
+        </adopsjon>
+        <omsorgsovertakelse>
+            <omsorgsovertakelsesdato>2018-02-16+01:00</omsorgsovertakelsesdato>
+        </omsorgsovertakelse>
+        <familierelasjoner>
+            <familierelasjon>
+                <relasjon kode="EKTE">Ektefelle til</relasjon>
+                <tilPerson>
+                    <navn>Oline Aliasen</navn>
+                    <norskIdent>00000000002</norskIdent>
+                    <kjoenn>Kvinne</kjoenn>
+                    <statsborgerskap kode="NOR">NORGE</statsborgerskap>
+                    <personstatus kode="BOSA">Bosatt</personstatus>
+                    <region>Norden</region>
+                    <sivilstand kode="GIFT">Gift</sivilstand>
+                    <foedselssdato>1982-09-07+02:00</foedselssdato>
+                </tilPerson>
+            </familierelasjon>
+            <familierelasjon>
+                <relasjon kode="ANPA">Annen part fra søknad</relasjon>
+                <tilPerson>
+                    <navn>Oline Aliasen</navn>
+                    <norskIdent>00000000002</norskIdent>
+                    <kjoenn>Kvinne</kjoenn>
+                    <statsborgerskap kode="NOR">NORGE</statsborgerskap>
+                    <personstatus kode="BOSA">Bosatt</personstatus>
+                    <region>Norden</region>
+                    <sivilstand kode="GIFT">Gift</sivilstand>
+                    <foedselssdato>1982-09-07+02:00</foedselssdato>
+                </tilPerson>
+            </familierelasjon>
+            <familierelasjon>
+                <relasjon kode="BARN">Barn av</relasjon>
+                <tilPerson>
+                    <navn>Olivia Aliasen</navn>
+                    <norskIdent>00000000003</norskIdent>
+                    <kjoenn>Kvinne</kjoenn>
+                    <statsborgerskap kode="NOR">NORGE</statsborgerskap>
+                    <personstatus kode="BOSA">Bosatt</personstatus>
+                    <region>Norden</region>
+                    <sivilstand kode="UGIF">Ugift</sivilstand>
+                    <foedselssdato>2017-08-30+02:00</foedselssdato>
+                </tilPerson>
+            </familierelasjon>
+            <familierelasjon>
+                <relasjon kode="BASO">Barn fra søknad</relasjon>
+                <tilPerson>
+                    <navn/>
+                    <kjoenn>Ikke definert</kjoenn>
+                    <statsborgerskap kode="-">Ikke definert</statsborgerskap>
+                    <personstatus kode="UREG">Uregistrert person</personstatus>
+                    <region>Ikke definert</region>
+                    <sivilstand kode="NULL">Uoppgitt</sivilstand>
+                    <foedselssdato>2017-09-30+02:00</foedselssdato>
+                </tilPerson>
+            </familierelasjon>
+        </familierelasjoner>
+        <medlemskapsperioder/>
+        <inntekter/>
+    </personOpplysninger>
+    <behandlingsresultat>
+        <behandlingsresultat>INNVILGET</behandlingsresultat>
+        <behandlingstype>FOERSTEGANGSSOEKNAD</behandlingstype>
+        <behandlingsId>1000152</behandlingsId>
+        <vurderteVilkaar>
+            <vilkaar vurdert="AUTOMATISK">
+                <type kode="FP_VK_34" kodeverk="VILKAR_TYPE">Opplysningsplikt</type>
+                <vilkaarsgrunnlag xsi:type="ns5:VilkaarsgrunnlagSoekersopplysningsplikt" xmlns:ns5="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <elektroniskSoeknad>false</elektroniskSoeknad>
+                    <erBarnetFoedt>false</erBarnetFoedt>
+                    <erSoeknadenKomplett>true</erSoeknadenKomplett>
+                </vilkaarsgrunnlag>
+                <utfall>OPPFYLT</utfall>
+            </vilkaar>
+            <vilkaar vurdert="MANUELT">
+                <type kode="FP_VK_8" kodeverk="VILKAR_TYPE">Foreldreansvar</type>
+                <utfall>OPPFYLT</utfall>
+            </vilkaar>
+            <vilkaar vurdert="AUTOMATISK">
+                <type kode="FP_VK_2" kodeverk="VILKAR_TYPE">Medlemskap</type>
+                <vilkaarsgrunnlag xsi:type="ns5:VilkaarsgrunnlagMedlemskap" xmlns:ns5="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <personstatus>Bosatt</personstatus>
+                    <erBrukerMedlem>true</erBrukerMedlem>
+                    <erBrukerBosatt>true</erBrukerBosatt>
+                    <harBrukerOppholdsrett>true</harBrukerOppholdsrett>
+                    <harBrukerLovligOppholdINorge>true</harBrukerLovligOppholdINorge>
+                    <erBrukerNordiskstatsborger>true</erBrukerNordiskstatsborger>
+                    <erBrukerBorgerAvEUEOS>false</erBrukerBorgerAvEUEOS>
+                    <erBrukerPliktigEllerFrivilligMedlem>false</erBrukerPliktigEllerFrivilligMedlem>
+                </vilkaarsgrunnlag>
+                <utfall>OPPFYLT</utfall>
+            </vilkaar>
+            <vilkaar vurdert="AUTOMATISK">
+                <type kode="FP_VK_3" kodeverk="VILKAR_TYPE">Søknadsfrist</type>
+                <vilkaarsgrunnlag xsi:type="ns5:VilkaarsgrunnlagSoeknadsfrist" xmlns:ns5="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <elektroniskSoeknad>false</elektroniskSoeknad>
+                    <skjaeringstidspunkt>2018-02-16+01:00</skjaeringstidspunkt>
+                    <soeknadMottattDato>2018-02-09+01:00</soeknadMottattDato>
+                </vilkaarsgrunnlag>
+                <utfall>OPPFYLT</utfall>
+            </vilkaar>
+        </vurderteVilkaar>
+        <beregningsresultat>
+            <beregningsgrunnlag xsi:type="ns5:BeregningsgrunnlagEngangsstoenad" xmlns:ns5="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <antallBarn>1</antallBarn>
+                <sats>63140</sats>
+            </beregningsgrunnlag>
+            <tilkjentYtelse xsi:type="ns3:YtelseEngangsstoenad" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <beloep>63140.0</beloep>
+            </tilkjentYtelse>
+        </beregningsresultat>
+        <manuelleVurderinger>
+            <manuellVurdering>
+                <aksjonspunkt kode="5008" kodeverk="AksjonspunktDefinisjon_$$_jvsta97_2c">Avklar fakta for omsorgs/foreldreansvarsvilkåret</aksjonspunkt>
+                <gjelderVilkaar kode="FP_VK_5" kodeverk="VILKAR_TYPE">Omsorg</gjelderVilkaar>
+                <saksbehandlersBegrunnelse>adsfads</saksbehandlersBegrunnelse>
+            </manuellVurdering>
+            <manuellVurdering>
+                <aksjonspunkt kode="5016" kodeverk="AksjonspunktDefinisjon">Fatter vedtak</aksjonspunkt>
+            </manuellVurdering>
+            <manuellVurdering>
+                <aksjonspunkt kode="5015" kodeverk="AksjonspunktDefinisjon_$$_jvsta97_2c">Vurder om ytelse allerede er innvilget</aksjonspunkt>
+            </manuellVurdering>
+            <manuellVurdering>
+                <aksjonspunkt kode="5012" kodeverk="AksjonspunktDefinisjon_$$_jvsta97_2c">Registrer papirsøknad engangsstønad</aksjonspunkt>
+            </manuellVurdering>
+            <manuellVurdering>
+                <aksjonspunkt kode="5013" kodeverk="AksjonspunktDefinisjon_$$_jvsta97_2c">Manuell vurdering av foreldreansvarsvilkåret 2.ledd</aksjonspunkt>
+                <gjelderVilkaar kode="FP_VK_8" kodeverk="VILKAR_TYPE">Foreldreansvar</gjelderVilkaar>
+                <saksbehandlersBegrunnelse>sfasdf</saksbehandlersBegrunnelse>
+            </manuellVurdering>
+        </manuelleVurderinger>
+    </behandlingsresultat>
+</ns2:vedtak>

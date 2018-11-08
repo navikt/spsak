@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_SOEKNAD" directorySegmentName="seg_0" id="98214B7A-1C4D-18F0-8350-E77752144A7E">
+<sourceDDLFile>01_SEQUENCES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:44:25 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>50</incrementBy>
+<maxValue>9999999999999999999999999999</maxValue>
+<minValue>1</minValue>
+<noCache>YES</noCache>
+<startWith>101</startWith>
+</SequenceOraclev10g>

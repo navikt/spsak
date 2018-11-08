@@ -1,0 +1,103 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="AKTOER_NORSK_IDENT_MAP" directorySegmentName="seg_1" id="D0D7F459-A9AB-A96C-5052-0E61F2B53037">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:04 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>FF3B5682-6F7B-C6E1-7E2D-70A2806591B2</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="aktoer_id" id="0F9523BB-4680-7CA3-8759-2FD153259264">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="endret_tid" id="256B7165-D0D8-6D9E-7BC9-B85B3BB8923E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_tid" id="2B5FD42A-694E-1DC9-0E40-1ADBEFEAF698">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="endret_av" id="2E29382B-9DA9-0719-7249-23C842471057">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_av" id="5A8B149D-7E18-E793-F9A8-A5EC805AF84D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="norsk_ident" id="8B237DBE-5E28-B93D-A5F3-34B9DB355D73">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="versjon" id="9820894F-72C1-24F7-997A-B7418424226E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="id" id="C2435DCD-52F6-AD89-2E30-851F22BFDD37">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_AKTOER_NORSK_IDENT_MAP_2" id="129C23EF-EF85-A15A-F7AA-539E44604965">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="UIDX_AKTOER_NORSK_IDENT_MAP_1" id="70A24B6B-BE75-163E-FCDC-A2CA51F1CA1F">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_AKTOER_NORSK_IDENT_MAP_1" id="A5133898-297C-5D14-E722-503D983855D7">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_AKTOER_NORSK_IDENT_MAP" id="E2936BD6-50D7-1D15-74FA-320E80A18C97">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+</indexProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_AKTOER_NORSK_IDENT_MAP" id="C536A02C-AC4C-6F5F-BF0E-B7B42ED19E78">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+<indexSegment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+<uniqueKeys>
+<UniqueKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UniqueOraclev10g" name="UIDX_AKTOER_NORSK_IDENT_MAP_1" id="41CC8B9A-0989-CF2A-B742-CFD4120332BE">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+<indexSegment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</indexSegment>
+<indexSort>SORTED</indexSort>
+</UniqueKey>
+</uniqueKeys>
+</TableProxyOraclev12c>

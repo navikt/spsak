@@ -1,0 +1,66 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="BEHANDLING" directorySegmentName="seg_1" id="798CC335-ECE8-D645-D7F4-B5E437D4E830">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:04 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>FF3B5682-6F7B-C6E1-7E2D-70A2806591B2</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_5" id="02420BFF-25C1-6898-D158-C028D4B2A364">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_2" id="64EF0AD4-9C86-6D7C-BC06-FEEB31A53774">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_1" id="6DC1B948-22E8-FFA3-621B-8DEA8A369E89">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_BEHANDLING_3" id="B9463FDA-1203-005A-78E5-7B5A0ACA8580">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_BEHANDLING" id="F6792E26-4FBB-F9DD-B541-BFCEE48EAA1B">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_6" id="5DE02057-9FCE-2D8E-0DC2-CDAE531276B3">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_BEHANDLING_1" id="86E9CC1D-50D1-E078-A5C4-6A7284EA3EF6">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_BEHANDLING" id="BA8B83DF-CADC-E97E-436A-8E9BCDB88ABE">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+<indexSegment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

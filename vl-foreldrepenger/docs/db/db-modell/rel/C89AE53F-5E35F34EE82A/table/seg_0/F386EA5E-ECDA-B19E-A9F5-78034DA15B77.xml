@@ -1,0 +1,206 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F386EA5E-ECDA-B19E-A9F5-78034DA15B77" name="FH_UIDENTIFISERT_BARN">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:28 UTC</createdTime>
+<commentInRDBMS>Fødselsdatoene på barna</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AFF6E0CA-A7FF-2238-3CD5-609407962D3B</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="E2123AE2-239A-6471-B8A0-1C6799A76833">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7CFC3611-977C-ECEC-F2BD-0C8C5BDE819E</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FOEDSEL_DATO" id="C32A01F9-78E6-5D70-7263-E7D3DF08979D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Fødselsdato for barn</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4366FDD3-60A5-6B9B-610D-3319B7AEC881</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="0D10D921-7538-F4FC-310A-93DFA89999F6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>179DCCE5-76F0-9BB1-EC8F-CF53F206E29E</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="14D1B279-816D-E957-5327-219A5A7A2A9E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0529005E-E2FE-5E31-21B8-4567B1CAD357</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="E665C61A-4E32-9F82-771B-A8D444C71FEB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7228E8FD-FCC5-BAE2-9A3B-06E48300601A</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="557D3439-91C4-AAE8-2EC1-5DD3D29835CF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F6571ECB-5E84-741D-AA57-100F6689B68C</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BARN_NUMMER" id="343B209A-070B-17B4-F519-67EF49B47E4E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Barn nummer i et barnekull</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>180E171E-5E1C-7D86-D6B3-BE63F9E5FD6B</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FAMILIE_HENDELSE_ID" id="C11479F1-AB16-A456-E127-8887BF064BE2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>FK: Fremmednøkkel som knytter fødselsdato for barn til familiehendelse</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B9EA7EAE-194F-52EC-69CB-E4A54072BA2E</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="5496F974-D718-9A73-7392-350EC2D4938C" referredColumn="5DC66A47-8092-B8EC-35CA-578F3312DE20"/>
+<colAssociation fkAssociation="A793E4F6-EF1D-3AB6-7029-ABB13C54EC38" referredColumn="5DC66A47-8092-B8EC-35CA-578F3312DE20"/>
+</associations>
+</Column>
+<Column name="DOEDSDATO" id="2B8BDCCE-67C9-C735-C119-9C07415AF674">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Barnets dødsdato</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1B04C1E4-882B-23D6-97A5-F0581C24298D</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3D71681E-FAA5-06E3-9BBD-C71A923F3CD5" name="PK_SOEKNAD_BARNv2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2BC040FD-CBB4-93CA-1D7C-4246F843BA78</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E2123AE2-239A-6471-B8A0-1C6799A76833"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="393E46C0-0340-4832-3E09-F8EF0B7BE915" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_SOEKNAD_BARNv1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>14A10737-A8C5-196E-DE22-654AC164717D</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E2123AE2-239A-6471-B8A0-1C6799A76833"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7EE06863-7766-6C92-6161-393CF3A6AE83" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="UIDX_UIDENTIFISERT_BARN_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>00987352-CA5D-527A-33F1-F5669B6FB633</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C11479F1-AB16-A456-E127-8887BF064BE2"/>
+<colUsage columnID="343B209A-070B-17B4-F519-67EF49B47E4E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="73E3B143-71C0-18D1-6032-21AC2273E75F" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="UIDX_UIDENTIFISERT_BARN_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>EC70921D-89DB-5117-EE03-F58DC8EC5125</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C11479F1-AB16-A456-E127-8887BF064BE2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="11B5CCDD-9878-CA94-F503-04C2915E32FB" name="FK_UIDENTIFISERT_BARN_1v2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C11479F1-AB16-A456-E127-8887BF064BE2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="ADBD53D1-BF2C-FB9E-8C1C-6F25601754F6" name="FK_UIDENTIFISERT_BARN_1v1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C11479F1-AB16-A456-E127-8887BF064BE2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

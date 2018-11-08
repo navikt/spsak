@@ -1,0 +1,1 @@
+alter table MOTTATT_DOKUMENT rename column VARIENTFORMAT to VARIANTFORMAT;

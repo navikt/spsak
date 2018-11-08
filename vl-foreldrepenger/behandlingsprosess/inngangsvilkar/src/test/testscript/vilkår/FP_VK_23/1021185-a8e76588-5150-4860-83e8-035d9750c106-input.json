@@ -1,0 +1,23 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2015-09-10", "2018-09-10" ],
+    "aktivitet" : {
+      "aktivitetType" : "NÆRING",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "VURDERT_GODKJENT"
+  }, {
+    "datoIntervall" : [ "2018-09-01", "2018-09-20" ],
+    "aktivitet" : {
+      "aktivitetType" : "SYKEPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-10",
+  "forsteDatoOpptjening" : "2017-11-10",
+  "sisteDatoForOpptjening" : "2018-09-09",
+  "inntektPerioder" : [ ]
+}

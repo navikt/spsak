@@ -1,0 +1,2 @@
+drop sequence SEQ_AKTOER_NORSK_IDENT_MAP;
+drop table AKTOER_NORSK_IDENT_MAP cascade constraints;

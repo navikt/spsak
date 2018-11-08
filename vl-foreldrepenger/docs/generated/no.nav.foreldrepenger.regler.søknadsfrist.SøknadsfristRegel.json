@@ -1,0 +1,57 @@
+{
+  "root" : {
+    "id" : "f0ee04cf-c7bb-4f7c-93df-0753a48744f4",
+    "ruleId" : "FP_VK XX8",
+    "ruleDescription" : "Er det søkt om uttak?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "f0ee04cf-c7bb-4f7c-93df-0753a48744f4",
+    "ruleId" : "FP_VK XX8",
+    "ruleDescription" : "Er det søkt om uttak?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "f84e4405-a186-4df3-be3e-569de248072c",
+    "ruleId" : "FK_VK 15.3",
+    "ruleDescription" : "Er første uttaksdag innenfor søknadsfristen?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "3cf22e61-561a-4814-8b7a-28d9f2500691",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "b586d09a-0595-41d3-a315-b9f275183fc8",
+    "ruleId" : "5043",
+    "ruleDescription" : "Mottatt dato for søknad er senere enn søknadsfristen for første uttak",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "56e96839-ce40-45b8-a3e8-b42608e2bb69",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "f84e4405-a186-4df3-be3e-569de248072c",
+    "target" : "3cf22e61-561a-4814-8b7a-28d9f2500691",
+    "role" : ""
+  }, {
+    "source" : "f84e4405-a186-4df3-be3e-569de248072c",
+    "target" : "b586d09a-0595-41d3-a315-b9f275183fc8",
+    "role" : "ellers"
+  }, {
+    "source" : "f0ee04cf-c7bb-4f7c-93df-0753a48744f4",
+    "target" : "f84e4405-a186-4df3-be3e-569de248072c",
+    "role" : ""
+  }, {
+    "source" : "f0ee04cf-c7bb-4f7c-93df-0753a48744f4",
+    "target" : "56e96839-ce40-45b8-a3e8-b42608e2bb69",
+    "role" : "ellers"
+  } ]
+}

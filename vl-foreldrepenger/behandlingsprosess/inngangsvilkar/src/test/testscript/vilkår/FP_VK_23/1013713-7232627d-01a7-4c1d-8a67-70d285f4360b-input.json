@@ -1,0 +1,23 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2018-02-01", "2018-08-22" ],
+    "aktivitet" : {
+      "aktivitetType" : "SVANGERSKAPSPENGER",
+      "aktivitetReferanse" : "973626108",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2018-08-23", "2018-12-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "FORELDREPENGER",
+      "aktivitetReferanse" : "973626108",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-08-29",
+  "forsteDatoOpptjening" : "2017-10-29",
+  "sisteDatoForOpptjening" : "2018-08-28",
+  "inntektPerioder" : [ ]
+}

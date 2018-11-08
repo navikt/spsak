@@ -1,0 +1,10 @@
+= Automatiserte tasks (ProsessTask)
+
+include::automasjon.adoc[leveloffset=+1]
+
+
+Automatiske oppgaver som kjøres i bakgrunnen asynkront etter behov.
+Tolererer feil og re-kjøres automatisk etter angitt feilhåndteringsstrategi.
+
+include::{generated}/prosessTask.adoc[]
+

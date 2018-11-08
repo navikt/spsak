@@ -1,0 +1,11 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getPersonStatusType|no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.PersonStatusType|
+|===
+
+
+

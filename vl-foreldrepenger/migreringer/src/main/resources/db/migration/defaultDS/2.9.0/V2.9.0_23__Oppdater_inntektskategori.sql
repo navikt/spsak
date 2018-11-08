@@ -1,0 +1,19 @@
+UPDATE KODELISTE
+set NAVN = 'Selvstendig næringsdrivende - Jordbruker'
+where KODEVERK = 'INNTEKTSKATEGORI'
+  and KODE = 'JORDBRUKER';
+
+UPDATE KODELISTE
+set NAVN = 'Frilans'
+where KODEVERK = 'INNTEKTSKATEGORI'
+  and KODE = 'FRILANSER';
+
+UPDATE KODELISTE
+set NAVN = 'Dagpenger'
+where KODEVERK = 'INNTEKTSKATEGORI'
+  and KODE = 'DAGPENGER';
+
+UPDATE KODELISTE
+set NAVN = 'Arbeidstaker - Sjømann'
+where KODEVERK = 'INNTEKTSKATEGORI'
+  and KODE = 'SJØMANN';

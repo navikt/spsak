@@ -1,0 +1,144 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="PROSESS_TASK" directorySegmentName="seg_1" id="EB4D840E-48E1-0E88-7194-163DA88742DF">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:04 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>FF3B5682-6F7B-C6E1-7E2D-70A2806591B2</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="siste_kjoering_feil_tekst" id="18D19908-E519-AF08-D24E-9E5E91E49321">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="status" id="27134471-6192-CD88-EA55-A377116842B5">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;KLAR&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="versjon" id="2F942142-F69E-765F-C016-4B8744D3CEE5">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="siste_kjoering_server" id="4DD07476-3BE4-F452-CAC3-E1D61E9E42D2">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="task_gruppe" id="52AC4F34-391B-ECC9-A068-4FDC16E3766A">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="5D9494CA-6AC5-FD78-D808-6D9EB2E4254C">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="task_parametere" id="605DA8CA-400B-6EE0-876B-E8C77CF0FB7E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="task_type" id="69D4EF1B-6512-D75F-B00C-10AF8F9056FC">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="neste_kjoering_etter" id="90E76792-C398-F84A-903E-697BC8337390">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>current_timestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="siste_kjoering_feil_kode" id="92696660-509F-4111-5AC7-E079D4B01432">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="task_sekvens" id="B0639524-6705-F93D-5165-AB205DDD49DC">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;1&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="feilede_forsoek" id="C2DD0136-805E-90E5-CBBC-F1F6F3822CB4">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="prioritet" id="D0E79634-50CA-1FEA-CD7E-90B366C7BCB8">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="siste_kjoering_ts" id="DDC7068D-BB51-50C5-C468-91AB1605E435">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="task_payload" id="DDF01D25-1BA7-E2D1-5AE0-31F75C22701A">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_PROSESS_TASK_2" id="0632AD29-45C0-8DAC-C87E-80E89B71C2BA">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_PROSESS_TASK_1" id="0AAC4C34-D4CC-032E-C182-04AAB43EE76E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_PROSESS_TASK_5" id="22CE9954-9BEE-743B-0ECC-F7EB8189D4C1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_PROSESS_TASK_3" id="B1FE43E9-868B-62EC-84C8-164F7DD2551D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_PROSESS_TASK" id="E7841CDD-B9A1-A524-36FE-745F24F7ABA1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_PROSESS_TASK_1" id="AACFB457-D861-2D7D-1C8B-8E82E4F4698E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_PROSESS_TASK" id="B0116D69-1EEC-B075-7E52-CA847924D945">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-17 09:05:03 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<segment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</segment>
+<indexSegment>E3549E1D-5E93-0AC4-2B4D-4FE52A201ED9</indexSegment>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

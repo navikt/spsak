@@ -1,0 +1,2 @@
+INSERT INTO HISTORIKKINNSLAG_TYPE(kode, navn) VALUES ('REVURD_OPPR', 'Revurdering opprettet');
+INSERT INTO HISTORIKKINNSLAG_TYPE(kode, navn) VALUES ('NY_INFO_FRA_TPS', 'Nye opplysninger fra TPS');

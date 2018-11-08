@@ -1,0 +1,16 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getInntektskategorier|java.util.Set|
+|getBeregningsresultatPerioder|java.util.List|
+|getAnnenPartsBeregningsresultatPerioder|java.util.List|
+|getInntektskategorierAnnenPart|java.util.Set|
+|getDekningsgrad|no.nav.foreldrepenger.beregning.regelmodell.beregningsgrunnlag.Dekningsgrad|
+|getFeriepengerPeriode|no.nav.fpsak.tidsserie.LocalDateInterval|
+|===
+
+
+

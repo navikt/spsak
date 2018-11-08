@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_MOTTATTE_DOKUMENT" directorySegmentName="seg_0" id="1720F313-7940-2E7C-4643-076297191EFE">
+<sourceDDLFile>01_SEQUENCES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:44:25 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>50</incrementBy>
+<maxValue>9999999999999999999999999999</maxValue>
+<minValue>1</minValue>
+<noCache>YES</noCache>
+<startWith>1</startWith>
+</SequenceOraclev10g>

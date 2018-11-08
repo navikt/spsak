@@ -1,0 +1,13 @@
+{
+  "søkerRolle" : "FARA",
+  "fagsakÅrsak" : "ADOPSJON",
+  "førsteUttaksDato" : "2018-10-09",
+  "hendelsesDato" : "2018-08-28",
+  "terminDato" : null,
+  "morsMaksdato" : null,
+  "periodeLengde" : "P10M",
+  "tidligsteUttakFørFødselPeriode" : "P84D",
+  "skjæringsdatoOpptjening" : "2018-10-09",
+  "opptjeningsperiodeFom" : "2017-12-09",
+  "opptjeningsperiodeTom" : "2018-10-08"
+}

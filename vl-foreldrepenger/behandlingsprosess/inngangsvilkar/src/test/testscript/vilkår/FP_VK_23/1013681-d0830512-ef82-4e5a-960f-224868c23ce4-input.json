@@ -1,0 +1,23 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2017-10-01", "2018-07-02" ],
+    "aktivitet" : {
+      "aktivitetType" : "FORELDREPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2018-07-03", "2019-02-25" ],
+    "aktivitet" : {
+      "aktivitetType" : "FORELDREPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-08-29",
+  "forsteDatoOpptjening" : "2017-09-03",
+  "sisteDatoForOpptjening" : "2018-07-02",
+  "inntektPerioder" : [ ]
+}

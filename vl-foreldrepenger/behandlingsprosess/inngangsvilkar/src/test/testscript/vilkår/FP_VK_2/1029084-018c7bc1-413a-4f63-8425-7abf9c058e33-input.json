@@ -1,0 +1,13 @@
+{
+  "brukerErMedlem" : true,
+  "personStatusType" : "BOSA",
+  "brukerAvklartPliktigEllerFrivillig" : false,
+  "brukerAvklartBosatt" : true,
+  "brukerAvklartOppholdsrett" : true,
+  "brukerAvklartLovligOppholdINorge" : true,
+  "brukerNorskNordisk" : false,
+  "brukerBorgerAvEUEOS" : true,
+  "medlemskapManueltSattTilOpphørtPgaTPSEndringer" : false,
+  "harSøkerArbeidsforholdOgInntekt" : true,
+  "medlemskapOpphørtPågrunnAvEndredePersonopplysningerITPS" : false
+}

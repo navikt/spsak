@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DistinctType class="oracle.dbtools.crest.model.design.datatypes.DistinctType" name="DOK_REF" directorySegmentName="seg_0" id="81CFDA83-9542-0DFE-4876-95385D09AA7F">
+<createdBy>C149071</createdBy>
+<createdTime>2017-05-03 07:54:39 UTC</createdTime>
+<generatorID>FF980227-140F-6BFA-C7F3-4E0F91C7CA8C</generatorID>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>FF980227-140F-6BFA-C7F3-4E0F91C7CA8C</importedID>
+<predefined>false</predefined>
+<logicalDataType>LOGDT024</logicalDataType>
+<precision>0</precision>
+<scale>0</scale>
+<size>50</size>
+</DistinctType>

@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_OPPDRAG_KONTROLL" directorySegmentName="seg_0" id="280050F0-9684-273E-09F5-4404241AABF7">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:11:50 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>50</incrementBy>
+<minValue>1</minValue>
+<noCache>YES</noCache>
+<startWith>1</startWith>
+</SequenceOraclev10g>

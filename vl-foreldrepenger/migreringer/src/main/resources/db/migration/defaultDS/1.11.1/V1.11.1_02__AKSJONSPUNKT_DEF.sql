@@ -1,0 +1,3 @@
+-- Opprydding etter at AKSJONSPUNKT_DEF.AKSJONSPUNKT_KATEGORI ble fjernet i
+-- V1.10.0_30__AksjonspunktKategori_fjern_tabell.sql
+ALTER TABLE AKSJONSPUNKT_DEF DROP COLUMN KL_AKSJONSPUNKT_KATEGORI;

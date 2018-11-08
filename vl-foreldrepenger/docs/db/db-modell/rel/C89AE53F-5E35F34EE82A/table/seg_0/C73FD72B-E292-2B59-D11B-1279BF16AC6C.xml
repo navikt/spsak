@@ -1,0 +1,220 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C73FD72B-E292-2B59-D11B-1279BF16AC6C" name="GR_MEDLEMSKAP_VILKAR_PERIODE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:28 UTC</createdTime>
+<commentInRDBMS>Grunnlag for periodisering av vilkårsvurderingen for medlemskap</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4AD6E002-5317-F581-8982-BAAA6AAEEF71</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="67071CB5-C347-BADA-1403-1C6FE11442CA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>28E959C4-A846-643B-D6E6-74BEA86E2109</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VILKAR_RESULTAT_ID" id="4FA5CA2B-EC0E-8592-B96E-3FFBBA86964B">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>FK: Fremmednøkkel for kobling til vilkårsresultat</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D64A3C1D-5FC7-8B82-D164-586602758615</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="14BBA427-1D0D-7E88-AA77-967D58DBC822" referredColumn="17FE5B3E-1FB6-ADE3-BC1F-DF1513B1BE82"/>
+</associations>
+</Column>
+<Column name="MEDLEMSKAP_VILKAR_PERIODE_ID" id="1F969415-8E4D-187E-B181-9FF88B02EEAE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>FK: Fremmednøkkel for kobling til aggregat medlemskap_vilkar_periode</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>5871781B-DF32-81CC-DF1A-28CE81D39276</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CB0A1696-6A12-1E8C-CBD9-F081E96240BC" referredColumn="C00920E1-CD19-E967-17B1-3180E8E2338B"/>
+</associations>
+</Column>
+<Column name="AKTIV" id="3A1759AB-F439-9612-92CE-DF6DC7EB8EB2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Angir aktivt grunnlag for vilkårsresultat (som igjen er koblet til behandling). Kun ett innslag tillates å være aktivt(J), men mange kan være inaktive(N)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2B1C2E01-1510-9A1B-8D64-BB91500EE562</importedID>
+<constraintName>CHK_GR_MEDLEMSKAP_VILKAR_PER</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="&apos;J&apos;" description=""/>
+<valueDef value="&apos;N&apos;" description=""/>
+</listOfValues>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERSJON" id="EC7BFEC7-9E4B-474F-4F4C-FE53FBE98792">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>528AE6AA-C6DE-FE64-06B4-86C03DD4EC83</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="C0BBBAD1-2C32-EB4E-B327-48A040A65127">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C9AD728F-60EA-B1A4-0632-B11AA32070EE</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="173A4DCB-D473-2BFA-A27F-762A79BE0287">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>BB672147-523D-B06A-1797-F17424C62132</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="7A921C4C-732A-5082-1F60-64D4C4F50CAB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>23B662C7-9DBF-C3DD-0C3D-DAAEB50AACE7</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="04FCA3BB-4CD9-D8F8-5D07-3B00F304EDFA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>97C50203-2775-0762-73E8-34A6FEE7677E</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F15D72F2-4625-1B74-6127-589AF6D855EF" name="PK_GR_MEDLEMSKAP_VILKAR_PER">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>EDE485DB-242E-1517-77D2-7076A9FAA780</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="67071CB5-C347-BADA-1403-1C6FE11442CA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="28278F28-C66E-7FD7-C0E4-CBE3A6F7F31A" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_GR_MEDLEMSKAP_VILKAR_PER">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>544E5951-C7E7-0186-A68C-179146D0A7E5</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="67071CB5-C347-BADA-1403-1C6FE11442CA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E6EAE4F3-C237-BC21-8B05-984355DCF816" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="UIDX_GR_MEDLEMSKAP_VILKAR_P_01">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>FB8F9D6F-1961-3ED1-1493-26B49FBBB19A</importedID>
+<indexExpression>CASE &quot;AKTIV&quot; WHEN &apos;J&apos; THEN &quot;VILKAR_RESULTAT_ID&quot; ELSE NULL END, CASE &quot;AKTIV&quot; WHEN &apos;J&apos; THEN &quot;AKTIV&quot; ELSE NULL END</indexExpression>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+</ind_PK_UK>
+<ind_PK_UK id="B62DC199-1B4A-9E26-5705-0328F2699E21" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_GR_MEDLEMSKAP_VILKAR_PER_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>13EC80F3-C3BF-4B9A-1BB2-A28E4FDF9A40</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4FA5CA2B-EC0E-8592-B96E-3FFBBA86964B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2BC9F099-0E12-C234-C5C3-99AC18272F4A" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_GR_MEDLEMSKAP_VILKAR_PER_7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8B90C35E-7E18-973D-4FB2-CF631ABE08BF</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1F969415-8E4D-187E-B181-9FF88B02EEAE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9ED8550C-C554-7F8A-6E7D-8704A739CACC" name="FK_GR_MEDLEMSKAP_VILKAR_PER_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4FA5CA2B-EC0E-8592-B96E-3FFBBA86964B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8198B97E-6EE9-C72D-C647-F10465923F39" name="FK_GR_MEDLEMSKAP_VILKAR_PER_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1F969415-8E4D-187E-B181-9FF88B02EEAE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

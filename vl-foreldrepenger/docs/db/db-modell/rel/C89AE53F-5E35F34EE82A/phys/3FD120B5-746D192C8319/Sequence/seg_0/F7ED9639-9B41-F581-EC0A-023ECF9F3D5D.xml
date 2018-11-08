@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_AKTOER_NORSK_IDENT_MAP" directorySegmentName="seg_0" id="F7ED9639-9B41-F581-EC0A-023ECF9F3D5D">
+<sourceDDLFile>V1.5.0_11__AKTOER_NORSK_IDENT_MAP_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:11:49 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>50</incrementBy>
+<minValue>1</minValue>
+<noCache>YES</noCache>
+<startWith>1</startWith>
+</SequenceOraclev10g>

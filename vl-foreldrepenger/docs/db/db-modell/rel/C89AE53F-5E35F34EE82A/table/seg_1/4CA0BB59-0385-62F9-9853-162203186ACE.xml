@@ -1,0 +1,292 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="4CA0BB59-0385-62F9-9853-162203186ACE" name="KODELISTE">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>Inneholder lister av koder for alle Kodeverk som benyttes i applikasjonen.  Både offisielle (synkronisert fra sentralt hold i Nav) såvel som interne Kodeverk.  Offisielle koder skiller seg ut ved at nav_offisiell_kode er populert. Følgelig vil gyldig_tom/fom, navn, språk og beskrivelse lastes ned fra Kodeverkklienten eller annen kilde sentralt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2EC39178-B84B-2CB4-2474-07DEE8D70361</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="2E515354-CC96-01E9-2D1B-2CA49A95483F">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="kodeverk" id="FC4E4267-88F4-1411-43F9-EA0330ECD075">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>(PK) og FK - kodeverk</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4698381F-2F39-93EB-9725-AB29E9F864B6" referredColumn="1D81C3CA-6B59-4E76-7195-7076E0B00E52"/>
+</associations>
+</Column>
+<Column name="kode" id="2A41A8A4-E367-9AEC-5C49-18E3E8293000">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>(PK) Unik kode innenfor kodeverk. Denne koden er alltid brukt internt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="offisiell_kode" id="8AC8B648-E732-9C81-2C74-E4A074F81090">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>(Optional) Offisiell kode hos kodeverkeier. Denne kan avvike fra kode der systemet har egne koder. Kan brukes til å veksle inn kode i offisiell kode når det trengs for integrasjon med andre systemer</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>8C12BE84-694A-31B0-EB7A-9414B6F9B46F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="beskrivelse" id="7ADCC9D7-6CA6-C3B6-66D5-AAE6E3C63341">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>Beskrivelse av koden</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>83A2A48D-8D10-D6C5-D54B-02D6C5F3ACAE</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="gyldig_fom" id="44EB860E-D9B2-C084-3480-4881653356A6">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>Dato Kodeverket er gyldig fra og med</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>2E41DB2C-3F12-0E66-6D38-289E93656AEF</domain>
+<defaultValue>sysdate</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="gyldig_tom" id="9EB037E2-5C59-B1B0-3774-F6C1F6FC8B8D">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>Dato Kodeverket er gyldig til og med</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>2E41DB2C-3F12-0E66-6D38-289E93656AEF</domain>
+<defaultValue>to_date(&apos;31.12.9999&apos;,&apos;dd.mm.yyyy&apos;)</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_av" id="222CB556-3E52-290C-80C9-672DF40D8451">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>6E9AA41E-3B03-7F21-72C8-C78AE9993163</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="46EA40A1-5B8F-A552-828B-30486F43DA6F">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="5001B34B-CA2B-CE49-CD5D-1028C6267FE6">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>6E9AA41E-3B03-7F21-72C8-C78AE9993163</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="F3418528-6D60-7D01-03D7-1D80C81AB40C">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ekstra_data" id="DE0304A7-C4F9-959A-34CA-7DB5043E6E2B">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>(Optional) Tilleggsdata brukt av kodeverket.  Format er kodeverk spesifikt - eks. kan være tekst, json, key-value, etc.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>83A2A48D-8D10-D6C5-D54B-02D6C5F3ACAE</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="navn" id="5C41D4CE-8E73-D43D-651E-1713B91D8393">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>Navn på Kodeverket. Offsielt navn synkes dersom Offsiell kode er satt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>E369EC62-4231-ACBE-D009-4F0E0AD78664</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="sprak" id="191A7061-23C9-F2E0-CB06-4A71BBD18A37">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<commentInRDBMS>Språk Kodeverket er definert for, default NB (norsk bokmål). Bruker ISO 639-1 standard men med store bokstaver siden det representert slik i NAVs offisielle Kodeverk</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>AB9EDAA7-E8F9-DE83-2548-1B90A7909F40</domain>
+<defaultValue>&apos;NB&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="75974C0C-ED79-E541-2950-6716A0B4D3B7" name="PK_KODELISTE">
+<sourceDDLFile>04-CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2E515354-CC96-01E9-2D1B-2CA49A95483F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="EA34921C-061D-1863-E596-069E0FF5CDA0" name="CHK_UNIQUE_KODELISTE">
+<sourceDDLFile>04-CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+<colUsage columnID="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8F09FFA0-CDD9-9E8A-8ECD-777035142ADF" name="PK_KODELISTE">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2E515354-CC96-01E9-2D1B-2CA49A95483F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="675ECA4C-F9B8-C608-7EE1-D5D48798F558" name="IDX_KODELISTE_1">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="86D27962-03CE-AD68-8AE0-287C01477CC0" name="IDX_KODELISTE_2">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8AC8B648-E732-9C81-2C74-E4A074F81090"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C1D50E55-1643-5F90-A50B-EBDED5061556" name="IDX_KODELISTE_3">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="44EB860E-D9B2-C084-3480-4881653356A6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="934189BA-7DB4-2D36-8A45-BEE8F5325B9F" name="UIDX_KODELISTE_1">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+<colUsage columnID="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DE62A9BB-C030-8E32-D98C-83200B84C7C3" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_KODELISTE_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>DC07F14D-0863-E1B1-D68D-5433337E4838</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B2EC27A5-AEEF-71A9-FDAF-04BB3831964D" name="FK_KODELISTE_01">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

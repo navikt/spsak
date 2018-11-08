@@ -1,0 +1,77 @@
+package no.nav.foreldrepenger.behandlingslager.behandling.totrinn;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
+import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
+import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
+
+@ApplicationScoped
+public class TotrinnTjenesteImpl implements TotrinnTjeneste {
+
+    private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
+    private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
+    private YtelsesFordelingRepository ytelsesFordelingRepository;
+    private UttakRepository uttakRepository;
+    private TotrinnRepository totrinnRepository;
+
+    TotrinnTjenesteImpl() {
+        // CDI
+    }
+
+    @Inject
+    public TotrinnTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, TotrinnRepository totrinnRepository) {
+        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+        this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
+        this.ytelsesFordelingRepository = repositoryProvider.getYtelsesFordelingRepository();
+        this.uttakRepository = repositoryProvider.getUttakRepository();
+        this.totrinnRepository = totrinnRepository;
+    }
+
+
+    @Override
+    public void settNyttTotrinnsgrunnlag(Behandling behandling) {
+        Optional<Beregningsgrunnlag> beregningsgrunnlagOpt = beregningsgrunnlagRepository.hentBeregningsgrunnlag(behandling);
+        Optional<Long> inntektArbeidYtelseGrunnlagIdOpt = inntektArbeidYtelseRepository.hentIdPåAktivInntektArbeidYtelse(behandling);
+        Optional<Long> ytelseFordelingIdOpt = ytelsesFordelingRepository.hentIdPåAktivYtelsesFordeling(behandling);
+        Optional<UttakResultatEntitet> uttakResultatOpt = uttakRepository.hentUttakResultatHvisEksisterer(behandling);
+
+        Long inntektArbeidYtelseGrunnlagId = inntektArbeidYtelseGrunnlagIdOpt.orElse(null);
+        Long ytelsesFordelingId = ytelseFordelingIdOpt.orElse(null);
+        Long uttakResultatId = uttakResultatOpt.map(UttakResultatEntitet::getId).orElse(null);
+        Long beregningsgrunnlagId = beregningsgrunnlagOpt.map(Beregningsgrunnlag::getId).orElse(null);
+
+        Totrinnresultatgrunnlag totrinnsresultatgrunnlag = new Totrinnresultatgrunnlag(behandling,
+            inntektArbeidYtelseGrunnlagId,
+            ytelsesFordelingId,
+            uttakResultatId,
+            beregningsgrunnlagId);
+
+        totrinnRepository.lagreOgFlush(behandling, totrinnsresultatgrunnlag);
+    }
+
+    @Override
+    public Optional<Totrinnresultatgrunnlag> hentTotrinngrunnlagHvisEksisterer(Behandling behandling) {
+        return totrinnRepository.hentTotrinngrunnlag(behandling);
+    }
+
+    @Override
+    public Collection<Totrinnsvurdering> hentTotrinnaksjonspunktvurderinger(Behandling behandling) {
+        return totrinnRepository.hentTotrinnaksjonspunktvurderinger(behandling);
+    }
+
+    @Override
+    public void settNyeTotrinnaksjonspunktvurderinger(Behandling behandling, List<Totrinnsvurdering> vurderinger) {
+        totrinnRepository.lagreOgFlush(behandling, vurderinger);
+    }
+}

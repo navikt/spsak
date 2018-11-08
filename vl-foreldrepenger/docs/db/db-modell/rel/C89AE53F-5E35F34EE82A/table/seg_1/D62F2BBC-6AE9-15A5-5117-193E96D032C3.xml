@@ -1,0 +1,371 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="D62F2BBC-6AE9-15A5-5117-193E96D032C3" name="KLAGE_VURDERING_RESULTAT">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Inneholder vurdering av klage gjort av NK/NFP</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8CF337CB-B65E-54C9-5992-102B495AC5BA</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="AA4F3F79-E39A-54D9-D166-F9A947E90312">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>344A2D85-7A44-DFF6-C352-1E2F0DA9511F</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="behandling_id" id="DEF6B42C-83D8-FC99-ABBB-D07730EF6A1D">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK:BEHANDLING Fremmednøkkel for kobling til behandling</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>968473C3-CB92-F060-A3C5-5656F564C625</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F2037A70-B2AA-4BE6-0CD8-FB6C20EA6F42" referredColumn="1F9D74A0-4099-8281-5539-25E58BF82F1E"/>
+</associations>
+</Column>
+<Column name="klage_vurdert_av" id="56A17B36-3961-DE6A-4471-190624CEE751">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Angir hvem som har vurdert klage (NK = Nav Klageinstans, NFP = Nav Familie og Pensjon)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9C264B5B-86BF-9E34-8F8F-48B2E6614FB3</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C4AAA6BB-FC27-E524-A550-4A386C4DB6C3" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="kl_klage_vurdert_av" id="E4704637-71A1-0A1A-11DB-379C70B48F56">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7F376C7C-E7AD-8495-41CA-DD92ADC31177</importedID>
+<formulaDesc>&apos;KLAGE_VURDERT_AV&apos;</formulaDesc>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C4AAA6BB-FC27-E524-A550-4A386C4DB6C3" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="klagevurdering" id="1195E2A3-D3FF-780C-06F8-FB133C44C04A">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Angir vurdering av klage (avvist, medhold, stadfeste, oppheve)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2803A5E9-9D0E-E4CD-E577-3F9CE140C1D9</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="969A2034-365C-3D5F-F576-24BE7BCBB344" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="kl_klagevurdering" id="A13C09A8-B933-0754-3FBD-055AEDEC1933">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>51017016-8D99-14A0-008B-93B3B346EE26</importedID>
+<formulaDesc>&apos;KLAGEVURDERING&apos;</formulaDesc>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="969A2034-365C-3D5F-F576-24BE7BCBB344" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="begrunnelse" id="58E9E8DF-63B7-965D-350C-1FDE1F12BF65">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Begrunnelse for vurdering gjort i klage</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>72DE488F-D4D1-3556-A63B-AB8EBBA2DCC2</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2000 CHAR</dataTypeSize>
+<ownDataTypeParameters>2000 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="klage_avvist_aarsak" id="86240126-B60B-A16C-C02A-D3BCE23680B2">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Angir årsak dersom vurdering er avvist (klage for sent, klage ugyldig)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>17E07985-95F2-A552-5D3F-E3AFB3BC32A1</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E83D82A3-49DC-35ED-E183-05576E3D6D99" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="kl_klage_avvist_aarsak" id="7C47281D-F644-FE56-6162-2D62AF55B352">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E358976F-BFFE-3178-6CDF-D3D283639C02</importedID>
+<formulaDesc>&apos;KLAGE_AVVIST_AARSAK&apos;</formulaDesc>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E83D82A3-49DC-35ED-E183-05576E3D6D99" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="klage_medhold_aarsak" id="4109B171-C0E2-5471-B215-8019B19E392E">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Angir årsak dersom vurdering er medhold (nye opplysninger, ulik regelverkstolkning, ulik vurdering, prosessuell feil)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6024DAEC-4789-D09B-E9A4-118747DFE0C3</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1CE9F787-095C-6ED2-4A4C-A6A704F92A64" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="kl_klage_medhold_aarsak" id="259F03B3-BD9D-7193-5C67-F0851E1430CE">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>98CAC880-8C84-1DAB-AC60-3392048B4619</importedID>
+<formulaDesc>&apos;KLAGE_MEDHOLD_AARSAK&apos;</formulaDesc>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1CE9F787-095C-6ED2-4A4C-A6A704F92A64" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="opprettet_av" id="B379CDDA-8803-915C-ECF1-40428A9D9242">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>209DDAE0-D166-766B-0016-21679B446680</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="26F7DC56-C32D-36F5-B128-D4878F3A0B6E">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>87A2DA5D-B41B-F677-17C8-B978E1A75D51</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="C4F01151-FB5F-82DB-5960-CDE99CB91C06">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6D1FDE00-B048-6DD6-A027-58EC6434A07E</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="54721997-9931-AEB6-E591-9A5D6D74E0C3">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4E0E27AE-A37B-8537-0F22-4EB684E96CC7</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VEDTAKSDATO_PAKLAGD_BEHANDLING" id="FC8F4A30-C07F-5082-8D74-01E50C13AABD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Referanse til påklaget behandling</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A40D9343-D9EB-3605-70EB-35A0F2DB75E0</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D2197B1A-8068-3549-5149-7530DAE7958E" name="PK_KLAGE_VURDERING_RESULTAT">
+<sourceDDLFile>04-CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E762F369-E143-F4A9-9139-663C7726092B</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AA4F3F79-E39A-54D9-D166-F9A947E90312"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="67C53DFD-B26C-1529-A094-E0DFB9718F47" name="PK_KLAGE_VURDERING_RESULTAT">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E75C5F64-7B0A-3519-24EE-B4C5FE135AB0</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AA4F3F79-E39A-54D9-D166-F9A947E90312"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="608D0EDE-7CEB-9D12-C62F-514905CB034E" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_KLAGE_VURDERING_RESULTAT_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1E204C39-EE80-4EA5-64C5-94FE7554BEF3</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DEF6B42C-83D8-FC99-ABBB-D07730EF6A1D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C0FCB8D7-07D9-98D1-50F7-C6550E5173F3" name="FK_KLAGE_VURDERING_RESULTAT_1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DEF6B42C-83D8-FC99-ABBB-D07730EF6A1D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BFB3DE18-BCD0-D4FC-2251-4EA31A734264" name="FK_KLAGE_VURDERING_RESULTAT_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1195E2A3-D3FF-780C-06F8-FB133C44C04A"/>
+<colUsage columnID="A13C09A8-B933-0754-3FBD-055AEDEC1933"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6878639E-54FD-4190-C4BE-9858A6221E6D" name="FK_KLAGE_VURDERING_RESULTAT_3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="56A17B36-3961-DE6A-4471-190624CEE751"/>
+<colUsage columnID="E4704637-71A1-0A1A-11DB-379C70B48F56"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DAEFC0B1-1C63-50CD-65DA-DFACAB1E3190" name="FK_KLAGE_VURDERING_RESULTAT_4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="86240126-B60B-A16C-C02A-D3BCE23680B2"/>
+<colUsage columnID="7C47281D-F644-FE56-6162-2D62AF55B352"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="892FE7C1-7437-70B2-8F82-2C90170D5299" name="FK_KLAGE_VURDERING_RESULTAT_5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4109B171-C0E2-5471-B215-8019B19E392E"/>
+<colUsage columnID="259F03B3-BD9D-7193-5C67-F0851E1430CE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

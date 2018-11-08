@@ -1,0 +1,47 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2006-09-21", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973111671",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2016-05-30", "2017-05-28" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "915605176",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-05-22", "2017-08-07" ],
+    "aktivitet" : {
+      "aktivitetType" : "DAGPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-11-22", "2017-12-21" ],
+    "aktivitet" : {
+      "aktivitetType" : "DAGPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-12-22", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "DAGPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-08-29",
+  "forsteDatoOpptjening" : "2017-04-26",
+  "sisteDatoForOpptjening" : "2018-02-25",
+  "inntektPerioder" : [ ]
+}

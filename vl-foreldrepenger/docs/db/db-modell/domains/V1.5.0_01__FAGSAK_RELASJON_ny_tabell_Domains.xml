@@ -1,0 +1,209 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DomainFile class="oracle.dbtools.crest.model.design.DomainFileWrapper" fileName="V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains">
+   <domains>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="Timestamp_0_0_0" id="080A2762-271B-7538-9E07-6572E760BDF3">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT015</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_10_0_0" id="1561AF01-343B-482C-C050-88B1BD0F0DA8">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>10</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>0</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT019</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_300 CHAR" id="1A9F13F8-46EA-D7B0-1D73-ADFBBB432F51">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>300 CHAR</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_200 char" id="216C3528-8EAA-6EAD-F5F7-E9889ACA6320">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>200 char</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_40 char" id="236F8574-B626-6F7C-9C69-6A328B705919">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>40 char</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_500" id="2F3AE544-DE1E-DA6D-BD39-1AE1A3940DD8">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-07-05 09:13:13 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>500</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_5_0_0" id="33759581-26AF-7452-F790-B7D3583822BC">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>5</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>0</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT019</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_1" id="39CDEE28-7CC1-8C44-304A-95F8B13F271A">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-07-05 09:13:13 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>1</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_1_0_0" id="501AB94D-2433-C908-940E-B11CE4D96C33">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>1</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>0</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT019</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_100" id="6E1F726C-6F03-D279-289A-E610159DAA2B">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-07-05 09:13:13 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>100</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_250 char" id="803D862E-A1F4-5213-10A9-352C123595D3">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>250 char</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_4 CHAR" id="95222D2F-6A89-2B7A-A454-D90B4142A07C">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>4 CHAR</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_0_0_0" id="A9E110C3-AEE9-EA54-8740-BA91CF28050A">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-07-05 09:13:13 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT019</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="CHAR_0_0_1" id="B7CD04F6-FC3C-C61B-AAEB-7983A6FD3F26">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>1</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT025</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_2_0_0" id="CEED5FFE-1DC5-C017-001F-F7DC6606A09B">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>2</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>0</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT019</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_255 char" id="D2150358-27B0-6AFA-D456-3AD725592A6A">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-07-05 09:13:13 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>255 char</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_80 CHAR" id="E552BBA8-4EE5-D002-5066-19B17F389C02">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>80 CHAR</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_2 CHAR" id="E7DBB8B5-A178-186E-800A-C6BBDFE47782">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>2 CHAR</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_3_0_0" id="ED6C73B1-D3C0-20AA-AE1E-2B9AFC1E2AEF">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-06-13 08:50:35 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>3</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>0</dataTypeSize>
+         <fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell_Domains</fileName>
+         <logicalDatatype>LOGDT019</logicalDatatype>
+      </Domain>
+   </domains>
+</DomainFile>

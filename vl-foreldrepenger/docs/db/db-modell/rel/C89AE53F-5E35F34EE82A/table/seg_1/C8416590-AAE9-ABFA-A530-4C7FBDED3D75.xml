@@ -1,0 +1,349 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="C8416590-AAE9-ABFA-A530-4C7FBDED3D75" name="FAGSAK_RELASJON">
+<sourceDDLFile>V001__FAGSAK_RELASJON_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:56 UTC</createdTime>
+<commentInRDBMS>Fagsaks relasjon</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6C455DC6-FD57-FFD5-10DA-3411A8F0A199</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="33BB03F5-3EFF-614E-254C-226792F84C5A">
+<sourceDDLFile>V001__FAGSAK_RELASJON_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="versjon" id="F84D5B0B-5D50-AF68-C3AB-C29563CFE62F">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_av" id="DE50B7ED-48DF-0966-A161-BA1262FD870C">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="0C335BD9-E57C-6915-D0FD-2C2F08C02834">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="1098FE35-A93F-4EAC-17DA-46EC00E1DDA7">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="1FBC916B-5AE5-BB14-B937-A5BE3F213F2A">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FAGSAK_EN_ID" id="7CE899B7-1B54-13CF-AF6D-48F5CBE948F5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>FK:</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B1DAC932-FBDB-9B52-74C5-83D4AEA1A11A</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3E5A5989-5841-C37F-2E6E-6EF2AC6B4B66" referredColumn="90F47F50-7F85-E533-7B3D-3F82C2C78064"/>
+</associations>
+</Column>
+<Column name="FAGSAK_TO_ID" id="05D3B1F0-B930-097F-5C74-534A6FE3D330">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Fjernnøkkel til andre fagsaken i relasjonen.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>265B8C26-0D6F-859A-2542-9A8038694ECC</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1550E16C-08C2-C331-667F-26DD27E74504" referredColumn="90F47F50-7F85-E533-7B3D-3F82C2C78064"/>
+</associations>
+</Column>
+<Column name="KONTO_BEREGNING_ID" id="6A79537C-437F-6301-97EA-68C09D0BB7CB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>FK:</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>149AC8F8-58EA-047B-FE71-AA9075E45A3F</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1DECF32E-D312-28FE-7E66-12EC76B49A61" referredColumn="547F51FB-A463-19EB-93AC-35F8A1637E1B"/>
+</associations>
+</Column>
+<Column name="AKTIV" id="C45CE09F-9BE9-D08B-771D-976D2D006C1D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Aktivflagg som sier om relasjonen er aktiv eller ei.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D993AC61-074A-15FA-27F2-0C84E18B65D8</importedID>
+<constraintName>CHK_FAGSAK_RELASJON</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="&apos;J&apos;" description=""/>
+<valueDef value="&apos;N&apos;" description=""/>
+</listOfValues>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fagsak_arsak_type" id="BFCD6C4A-35B1-8C2D-C818-8415B2AE975A">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK: FAGSAK_ARSAK_TYPE</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="02B0E0C0-1E87-DB58-D5AD-3EB2CFFCDC16" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="fagsak_ytelse_type" id="3050C5A5-01EF-EEF6-EDC7-86D5B1E66DE2">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK: FAGSAK_YTELSE_TYPE</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A0B5584F-FD9E-3CD9-3FAC-23B4C051A890" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="kl_fagsak_ytelse" id="E15F7878-D1E9-6ACA-BDC5-2B9C106498D2">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<formulaDesc>&apos;FAGSAK_YTELSE&apos;</formulaDesc>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A0B5584F-FD9E-3CD9-3FAC-23B4C051A890" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="kl_fagsak_arsak" id="62CC9051-C556-94A1-3921-1FF25D74D1FE">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<formulaDesc>&apos;FAGSAK_ARSAK&apos;</formulaDesc>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="02B0E0C0-1E87-DB58-D5AD-3EB2CFFCDC16" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="341403C8-E2DF-D1ED-4670-E91A8496EEFB" name="PK_FAGSAK_RELASJON">
+<sourceDDLFile>V001__FAGSAK_RELASJON_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="33BB03F5-3EFF-614E-254C-226792F84C5A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F05B3D05-0F34-728B-80D5-2029B054E25D" name="IDX_FAGSAK_RELASJON_1">
+<sourceDDLFile>V001__FAGSAK_RELASJON_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7CE899B7-1B54-13CF-AF6D-48F5CBE948F5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5DB3A5FB-F3BA-7ECA-EDA4-F467A2F330DD" name="IDX_FAGSAK_RELASJON_2">
+<sourceDDLFile>V001__FAGSAK_RELASJON_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="05D3B1F0-B930-097F-5C74-534A6FE3D330"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="729B2DF6-632F-12C1-372E-A8125F4FD6C6" name="PK_FAGSAK_RELASJON">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="33BB03F5-3EFF-614E-254C-226792F84C5A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="722FBF80-E62F-16A8-BFD4-3777F4F0761E" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_FAGSAK_RELASJON_3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>220ACD3C-6186-9FE3-8E4F-A709E838E1A7</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6A79537C-437F-6301-97EA-68C09D0BB7CB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="69FF705A-3B2C-FA60-D65D-1C4FB7C7065A" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="UIDX_FAGSAK_RELASJON_01">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>10094BF9-E4EA-DFF5-B612-4FB152CDD9BF</importedID>
+<indexExpression>CASE &quot;AKTIV&quot; WHEN &apos;J&apos; THEN &quot;FAGSAK_EN_ID&quot; ELSE NULL END, CASE &quot;AKTIV&quot; WHEN &apos;J&apos; THEN &quot;AKTIV&quot; ELSE NULL END</indexExpression>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+</ind_PK_UK>
+<ind_PK_UK id="97CADB2F-54D6-CEE8-B3BD-A609691BF70A" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="UIDX_FAGSAK_RELASJON_02">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>937AF0C5-D1EE-C20B-AC13-E7EFB210C0AF</importedID>
+<indexExpression>CASE  WHEN (&quot;AKTIV&quot;=&apos;J&apos; AND &quot;FAGSAK_TO_ID&quot; IS NOT NULL) THEN &quot;FAGSAK_TO_ID&quot; ELSE NULL END, CASE  WHEN (&quot;AKTIV&quot;=&apos;J&apos; AND &quot;FAGSAK_TO_ID&quot; IS NOT NULL) THEN &quot;AKTIV&quot; ELSE NULL END</indexExpression>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+</ind_PK_UK>
+<ind_PK_UK id="6251243B-3BD4-6DB1-3425-17BD8A62AB4F" name="FK_FAGSAK_RELASJON_80">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3050C5A5-01EF-EEF6-EDC7-86D5B1E66DE2"/>
+<colUsage columnID="E15F7878-D1E9-6ACA-BDC5-2B9C106498D2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9DB105D4-7DF8-DCAA-55CD-A43CB3BEB229" name="FK_FAGSAK_RELASJON_81">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BFCD6C4A-35B1-8C2D-C818-8415B2AE975A"/>
+<colUsage columnID="62CC9051-C556-94A1-3921-1FF25D74D1FE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B94432C1-B955-B3BD-3C2F-37FA465DE4CC" name="FK_FAGSAK_RELASJON_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7CE899B7-1B54-13CF-AF6D-48F5CBE948F5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="73444CB3-B67D-C65E-0DF9-1DE32DBF8C06" name="FK_FAGSAK_RELASJON_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="05D3B1F0-B930-097F-5C74-534A6FE3D330"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5D7F5D79-AD5D-29C3-1739-25DD55381206" name="FK_FAGSAK_RELASJON_3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6A79537C-437F-6301-97EA-68C09D0BB7CB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

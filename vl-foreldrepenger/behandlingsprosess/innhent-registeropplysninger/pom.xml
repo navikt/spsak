@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>no.nav.foreldrepenger</groupId>
+        <artifactId>behandlingsprosess-pom</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
+	<artifactId>behandlingsprosess-innhent-registeropplysninger</artifactId>
+	<packaging>jar</packaging>
+	<name>FPSAK :: Behandlingsprosess - Innhent registeropplysninger</name>
+
+	<dependencies>
+		<!-- Felles BOM avhengigheter -->
+		<dependency>
+			<groupId>no.nav.vedtak.felles</groupId>
+			<artifactId>felles-util</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>no.nav.vedtak.felles</groupId>
+            <artifactId>felles-feil</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>registerinnhenting</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>kompletthetsjekk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>mottak</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>ytelse-fordeling</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingskontroll-api</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>no.nav.vedtak.felles</groupId>
+            <artifactId>felles-behandlingsprosess-prosesstask-api</artifactId>
+        </dependency>
+
+		<!-- Interne -->
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingslager-domene</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>datavarehus-tjeneste</artifactId>
+        </dependency>
+
+        <!-- Test avhengigheter -->
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingslager-testutilities</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+    </dependencies>
+
+</project>

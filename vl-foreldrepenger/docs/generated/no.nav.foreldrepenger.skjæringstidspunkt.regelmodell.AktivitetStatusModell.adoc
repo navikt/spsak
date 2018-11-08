@@ -1,0 +1,15 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getSkjæringstidspunktForBeregning|java.time.LocalDate|
+|getSkjæringstidspunktForOpptjening|java.time.LocalDate|
+|getAktivitetStatuser|java.util.List|
+|getBeregningsgrunnlagPrStatusListe|java.util.List|
+|getAktivePerioder|java.util.List|
+|===
+
+
+

@@ -1,0 +1,15 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2014-01-08", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "NÆRING",
+      "aktivitetReferanse" : "913009134",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-25",
+  "forsteDatoOpptjening" : "2017-09-30",
+  "sisteDatoForOpptjening" : "2018-07-30",
+  "inntektPerioder" : [ ]
+}

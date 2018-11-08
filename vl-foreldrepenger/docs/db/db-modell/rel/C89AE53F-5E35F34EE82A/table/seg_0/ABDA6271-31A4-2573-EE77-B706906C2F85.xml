@@ -1,0 +1,217 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="ABDA6271-31A4-2573-EE77-B706906C2F85" name="OKO_OPPDRAG_ENHET_120">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<commentInRDBMS>Inneholder de relevante verdier som mappes og sender med i request melding. (Tabell fra Økonomi)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>808346E0-D74C-9C3E-2EFD-5BB339F89B67</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="6237B4EA-FA77-DCB8-7521-3CEAE2F957E7">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>34325B90-6E1B-E7E3-7A14-F4B882572FB7</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="versjon" id="DE73CF24-9725-16F8-B905-3B9A8AC2D572">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>5701D72E-90B4-EE73-B4C5-8F2868B8F552</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="type_enhet" id="188D5C94-7B65-8F8D-EC38-631DBF9DE4ED">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Angir hva slags type enhet som mottas (f.eks bosted, behandlende)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1E0B61CB-DBA3-F09B-BCA1-2E57980CA329</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="enhet" id="4F78C8D4-7024-6AE1-9B7B-5205A6D3C434">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Identifiserer den aktuelle enheten (tknr evt. orgnr + avd)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7408BA05-C75D-FBE2-6946-CBEEEE2F4192</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3312FF39-123C-1DEE-95E4-07F8A513471B</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="dato_enhet_fom" id="FFA2A634-5F5F-FD66-2E97-EBDBDFAF33A7">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Angir når ny oppdragsenhet gjelder fra</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4BB0820C-F622-B297-8220-EFCC97AB7921</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>2E41DB2C-3F12-0E66-6D38-289E93656AEF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="oppdrag110_id" id="22AA7A46-C661-A9D5-B2D6-277AE5D8D717">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK:OKO_OPPDRAG_110 Fremmednøkkel for kopling til tabell som innholder detaljer om oppdragets art til oppgjør</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4F570BDF-4AD3-A2C1-7123-D297DEF45985</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="75A4A7AE-A6B1-4C39-6AA4-64A4A061FA49" referredColumn="A3A9C482-A367-073A-A445-AE459A8EF3A2"/>
+</associations>
+</Column>
+<Column name="opprettet_av" id="9A177187-13E1-9CAF-E8C1-3C8CDFF408A0">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6CEAF2BC-A457-BF1F-20E4-08A860B524FE</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="2533C4BA-A4AC-FC38-6B28-873BD81FEF42">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>229FA3D0-F4E0-53E5-2D69-5636F9FCE54A</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="91EC2ECF-45F8-C724-82F3-C063860CC240">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8801FBCD-39F0-3916-43D6-D4901F84AD37</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="702B65B5-ACB7-D09C-0D16-1FBAEC93762A">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6644FD36-DF3F-82AE-4E88-A1264B6EC70D</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="85E822DC-A3EA-AB23-92F1-8CD66D0C6080" name="PK_OKO_OPPDRAG_ENHET_120">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>FE710C98-2E74-8A0F-3BE1-E6BDD293A644</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6237B4EA-FA77-DCB8-7521-3CEAE2F957E7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BACEC0C4-7A4B-E018-BBFA-2F801A52D266" name="IDX_OKO_OPPDRAG_ENHET_120_1">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>43DC1CB2-06B8-9E02-45AD-4A459A877C5B</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="188D5C94-7B65-8F8D-EC38-631DBF9DE4ED"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="37B20B05-5DE2-2798-AE48-B7FC0A722BA7" name="IDX_OKO_OPPDRAG_ENHET_120_2">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A1D3D465-C151-687F-651F-1454FF2C5C09</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4F78C8D4-7024-6AE1-9B7B-5205A6D3C434"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B61A085C-D4A0-A1F2-71D4-D1F27F1B237E" name="IDX_OKO_OPPDRAG_ENHET_120_3">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2966563F-3A7D-2E77-A73F-78DC493104AE</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="22AA7A46-C661-A9D5-B2D6-277AE5D8D717"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8CB1F7DB-DCB7-0CB4-D9E2-0CAE63637546" name="PK_OKO_OPPDRAG_ENHET_120">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C6144028-B868-9167-270A-56B4496B3B9A</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6237B4EA-FA77-DCB8-7521-3CEAE2F957E7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8554DF3C-787B-14DF-D14D-F7FA8215CEC4" name="FK_OKO_OPPDRAG_ENHET_120_1">
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="22AA7A46-C661-A9D5-B2D6-277AE5D8D717"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

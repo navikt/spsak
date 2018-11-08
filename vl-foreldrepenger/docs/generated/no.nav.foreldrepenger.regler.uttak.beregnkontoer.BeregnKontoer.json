@@ -1,0 +1,977 @@
+{
+  "root" : {
+    "id" : "04617bdd-fef1-459f-b27a-f4e568aa6ef3",
+    "ruleId" : "FP_VK 17.1.5",
+    "ruleDescription" : "Sjekk om mor har aleneomsorg?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "04617bdd-fef1-459f-b27a-f4e568aa6ef3",
+    "ruleId" : "FP_VK 17.1.5",
+    "ruleDescription" : "Sjekk om mor har aleneomsorg?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "69c7e0c4-bbd3-4f43-9d95-67157c8b9067",
+    "ruleId" : "FP_VK 17.1.2",
+    "ruleDescription" : "Sjekk om det er mer enn ett barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "974ea6da-cf49-49b8-b834-229d942df5dd",
+    "ruleId" : "FP_VK 17.1.2.1",
+    "ruleDescription" : "Sjekk om det er to barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "2415fddb-211b-4e7b-ab8d-53edf28fd6e7",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "d1f86f55-8e12-4001-83e7-52eebd15a227",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "ce16c749-00ce-430b-a0f4-5f260d781c04",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "746ccee7-d847-423b-8117-4f836ec6d2bd",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "78597554-7759-451c-b3e8-9f0bf24645ef",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "2c3cd4ff-a3ca-4190-b7f7-eea065b094e4",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "31568c5c-6512-47e1-aee8-e5f81af2e81e",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "766cabb6-fa35-46d0-a0c1-27ae3184fd16",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "1ccb759b-d849-4725-a1fe-84ccb0cdd95c",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "1308a4c0-d299-41fd-bc73-31a3e7c0311d",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6f7f793e-d64b-49f4-bba7-2b8a1f09efac",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "b080ec6a-f304-409b-a07a-93edd2d01f97",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "2f522a26-bc4d-41d1-bd4a-e8b3402181e5",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "129d6f6c-b648-4980-a9e5-160dcd86ad8d",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "b4327cdb-0ed4-4eb3-95db-7d0708728503",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "80ced1ff-5432-4873-aec4-78ae5243609e",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "ce28cb7b-67e4-48da-913c-ab9f837e2d7a",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "13522621-4c96-4452-8fbc-9478805e4b6c",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "8a8814ec-7e96-4372-81ed-f820dd2a911b",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "033d9f63-ca60-4cb2-a2bd-382144fe6480",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fadadade-cfa3-448d-8a0c-425994efd3f8",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ae8f0551-ee75-41b1-8a39-d5c75d688651",
+    "ruleId" : "FP_VK 17.1.7",
+    "ruleDescription" : "Sjekk om far har aleneomsorg?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "be815ca7-b092-45e4-b92a-d0ea668a02e1",
+    "ruleId" : "FP_VK 17.1.2",
+    "ruleDescription" : "Sjekk om det er mer enn ett barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "06799886-7b61-4695-956a-5963608da4c4",
+    "ruleId" : "FP_VK 17.1.2.1",
+    "ruleDescription" : "Sjekk om det er to barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "43d00eb1-eb86-4536-aa7d-84526a00a415",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "cccf4043-6d87-465e-aa35-5c0643ff9f38",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "35f76628-f2a8-4095-a794-0fd6ae43513c",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a4ee8110-48da-4526-b134-42f4076bd6b0",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "41660037-992c-4c8e-bef9-deb7efb2b607",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "0ab3a93b-341d-43a6-870f-fac158bcf571",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "b3fbf3ee-54e1-4146-8d12-0593924e5b84",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "502dc3a5-391e-409b-adf0-343b7f8a8fa5",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "58346e56-4a07-4534-b29e-96ab71751c66",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "5f7f7f72-c7a1-4252-9fa0-1a1048a6d44e",
+    "ruleId" : "FP_VK 17.1.3",
+    "ruleDescription" : "Sjekk om begge har opptjent rett til foreldrepenger?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "36bf1d09-bfcd-44b5-93de-907ed055df46",
+    "ruleId" : "FP_VK 17.1.2",
+    "ruleDescription" : "Sjekk om det er mer enn ett barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "965147f4-d3ff-4696-9ee0-85bbb322d964",
+    "ruleId" : "FP_VK 17.1.2.1",
+    "ruleDescription" : "Sjekk om det er to barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "3eca9b1d-b86e-4463-83cf-62658f049007",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "e8356a47-f16b-463c-9c55-f94b88171841",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "7d1b9aa2-41c9-4a86-88af-b56be16c146d",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "b9c0cd66-1ba1-49de-967d-fd7a06ce18a5",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "301e623f-3819-42ab-93c0-48ca7bda43e5",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "a65c8e42-6303-45d8-b8f5-1145d72bc316",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "1e606f59-8e5a-4d07-a35f-9465498331e2",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "b004e669-9b49-4046-8d3e-0d911576b9de",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "387c1163-f32e-484d-8ab9-1c2db0e2a2ce",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "03e30776-ebba-4663-95a1-1ff6a409d6aa",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "5299c578-8864-4bb7-be4e-509465897ea6",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "429ece50-ef64-4178-a01d-c4715fee95c1",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "6ea7cde4-3824-4897-b5e8-a86c541b77ba",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "af23807e-b140-447d-8181-f50c9bf1e1dc",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "5e93dc75-9427-49d7-9f5d-b5d6cf061eb8",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "b7811df9-cfdc-4b8e-af16-56c8961d9f95",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "1b0fcce4-7d5c-4060-9298-8749721da987",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "790f0208-8af5-4ce4-8300-a25c6bb7b8fb",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "06c64ca8-90e4-4f60-87b4-a60dd6225425",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "f35fd9f0-1ec9-4b07-81a5-90a3ad225ae1",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "78293bce-cca1-42a6-94d4-af2c0c7d82f8",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "4055c8b2-a267-4551-800f-c33322171c30",
+    "ruleId" : "FP_VK 17.1.4",
+    "ruleDescription" : "Sjekk om kun mor har rett til foreldrepenger?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "2b6d98ca-a85a-416e-a10a-76be86ceb32c",
+    "ruleId" : "FP_VK 17.1.2",
+    "ruleDescription" : "Sjekk om det er mer enn ett barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "772dc2e9-59e3-45ee-9a3a-81b4928ad3f2",
+    "ruleId" : "FP_VK 17.1.2.1",
+    "ruleDescription" : "Sjekk om det er to barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "e96d240c-9767-4831-863e-a55d13871e9d",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "9aa6af27-6cb3-4bec-9177-5f55630c1247",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "224f3566-93b8-48ca-995e-f3cb2933e57c",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ca5e8c6a-207c-47c8-a690-22bb6e6dcf47",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "c07d2021-a830-4c43-9d9d-1dc3cf8077d6",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "2d710d51-e068-4179-97d6-e7589e8987f8",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "751ea433-18f2-40cd-a11b-24af17f8a36b",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "727c4094-14c2-4581-a2b7-a58527d9de86",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "69bdaea8-4975-40ae-a8c7-8f75e6f3c361",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "70b5f4f9-5b31-4a05-9594-7caf25874f03",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "85267cb6-ada7-4150-b76a-2f02c78e8e10",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "728eb5d2-a09a-48ac-9ef7-16e74e0e6d25",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "a4e60cd4-9a40-47c9-a59f-a853e235ac76",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "e54a2967-256d-48a9-af28-c322ece38e65",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "4cdb154e-40b0-46f1-83c5-becfb053bd4b",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "f3cc8809-0281-4adf-a72f-0a65cda9c6f5",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "fe0f8954-be3f-4fd3-98c3-a2f2be8b7454",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "816d6c01-1e1c-47f1-ae92-6376414cbf13",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "bffa703e-c5c5-439b-9b78-cb457ce3488e",
+    "ruleId" : "FP_VK 17.1.10",
+    "ruleDescription" : "Sjekk om det er fødsel?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "6a1b7ef3-37e7-4148-8a61-da1176bf4849",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "38ade1ed-5df5-4f14-8d4d-2f5ec0fbd792",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "7fd6412d-d601-492d-bd7c-c0dbf7629349",
+    "ruleId" : "FP_VK 17.1.6",
+    "ruleDescription" : "Sjekk om kun far har rett til foreldrepenger?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "b1c4d473-842e-4bb1-982e-6e9d18b42c20",
+    "ruleId" : "FP_VK 17.1.2",
+    "ruleDescription" : "Sjekk om det er mer enn ett barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "0978f117-e5d8-4cc5-b1a3-676ac984457f",
+    "ruleId" : "FP_VK 17.1.2.1",
+    "ruleDescription" : "Sjekk om det er to barn?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "f0426590-c2e2-43d1-8378-25f096c818c3",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "77515797-5812-4484-8821-c0ee0ee1fa08",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6ca159ef-d1d4-433e-9eb7-b9e6a055b7de",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "4289682f-0441-4e8a-a68b-597969950df7",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "8e5c9d50-f9c0-41c8-bf3c-099c08daf94b",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "25e40a81-2881-48af-ba38-6919aaabea20",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f0db58e2-dfca-4014-ba56-7c31f6c7d094",
+    "ruleId" : "FP_VK 17.1.9",
+    "ruleDescription" : "Sjekk om det er 100% dekningsgrad?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "780a7ce0-d6ab-4e78-abfe-2fc5dea864f8",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "e8eb4e6c-4850-4c73-aecd-844638943fdf",
+    "ruleId" : "Opprett kontoer",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "cfd7dc1d-25d9-4238-8a5a-a177b0356b8b",
+    "ruleId" : "",
+    "ruleDescription" : "Hverken far eller mor har opptjent rett til foreldrepenger.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "d1f86f55-8e12-4001-83e7-52eebd15a227",
+    "target" : "ce16c749-00ce-430b-a0f4-5f260d781c04",
+    "role" : ""
+  }, {
+    "source" : "d1f86f55-8e12-4001-83e7-52eebd15a227",
+    "target" : "746ccee7-d847-423b-8117-4f836ec6d2bd",
+    "role" : "ellers"
+  }, {
+    "source" : "2415fddb-211b-4e7b-ab8d-53edf28fd6e7",
+    "target" : "d1f86f55-8e12-4001-83e7-52eebd15a227",
+    "role" : ""
+  }, {
+    "source" : "78597554-7759-451c-b3e8-9f0bf24645ef",
+    "target" : "2c3cd4ff-a3ca-4190-b7f7-eea065b094e4",
+    "role" : ""
+  }, {
+    "source" : "78597554-7759-451c-b3e8-9f0bf24645ef",
+    "target" : "31568c5c-6512-47e1-aee8-e5f81af2e81e",
+    "role" : "ellers"
+  }, {
+    "source" : "2415fddb-211b-4e7b-ab8d-53edf28fd6e7",
+    "target" : "78597554-7759-451c-b3e8-9f0bf24645ef",
+    "role" : "ellers"
+  }, {
+    "source" : "974ea6da-cf49-49b8-b834-229d942df5dd",
+    "target" : "2415fddb-211b-4e7b-ab8d-53edf28fd6e7",
+    "role" : ""
+  }, {
+    "source" : "1ccb759b-d849-4725-a1fe-84ccb0cdd95c",
+    "target" : "1308a4c0-d299-41fd-bc73-31a3e7c0311d",
+    "role" : ""
+  }, {
+    "source" : "1ccb759b-d849-4725-a1fe-84ccb0cdd95c",
+    "target" : "6f7f793e-d64b-49f4-bba7-2b8a1f09efac",
+    "role" : "ellers"
+  }, {
+    "source" : "766cabb6-fa35-46d0-a0c1-27ae3184fd16",
+    "target" : "1ccb759b-d849-4725-a1fe-84ccb0cdd95c",
+    "role" : ""
+  }, {
+    "source" : "b080ec6a-f304-409b-a07a-93edd2d01f97",
+    "target" : "2f522a26-bc4d-41d1-bd4a-e8b3402181e5",
+    "role" : ""
+  }, {
+    "source" : "b080ec6a-f304-409b-a07a-93edd2d01f97",
+    "target" : "129d6f6c-b648-4980-a9e5-160dcd86ad8d",
+    "role" : "ellers"
+  }, {
+    "source" : "766cabb6-fa35-46d0-a0c1-27ae3184fd16",
+    "target" : "b080ec6a-f304-409b-a07a-93edd2d01f97",
+    "role" : "ellers"
+  }, {
+    "source" : "974ea6da-cf49-49b8-b834-229d942df5dd",
+    "target" : "766cabb6-fa35-46d0-a0c1-27ae3184fd16",
+    "role" : "ellers"
+  }, {
+    "source" : "69c7e0c4-bbd3-4f43-9d95-67157c8b9067",
+    "target" : "974ea6da-cf49-49b8-b834-229d942df5dd",
+    "role" : ""
+  }, {
+    "source" : "80ced1ff-5432-4873-aec4-78ae5243609e",
+    "target" : "ce28cb7b-67e4-48da-913c-ab9f837e2d7a",
+    "role" : ""
+  }, {
+    "source" : "80ced1ff-5432-4873-aec4-78ae5243609e",
+    "target" : "13522621-4c96-4452-8fbc-9478805e4b6c",
+    "role" : "ellers"
+  }, {
+    "source" : "b4327cdb-0ed4-4eb3-95db-7d0708728503",
+    "target" : "80ced1ff-5432-4873-aec4-78ae5243609e",
+    "role" : ""
+  }, {
+    "source" : "8a8814ec-7e96-4372-81ed-f820dd2a911b",
+    "target" : "033d9f63-ca60-4cb2-a2bd-382144fe6480",
+    "role" : ""
+  }, {
+    "source" : "8a8814ec-7e96-4372-81ed-f820dd2a911b",
+    "target" : "fadadade-cfa3-448d-8a0c-425994efd3f8",
+    "role" : "ellers"
+  }, {
+    "source" : "b4327cdb-0ed4-4eb3-95db-7d0708728503",
+    "target" : "8a8814ec-7e96-4372-81ed-f820dd2a911b",
+    "role" : "ellers"
+  }, {
+    "source" : "69c7e0c4-bbd3-4f43-9d95-67157c8b9067",
+    "target" : "b4327cdb-0ed4-4eb3-95db-7d0708728503",
+    "role" : "ellers"
+  }, {
+    "source" : "04617bdd-fef1-459f-b27a-f4e568aa6ef3",
+    "target" : "69c7e0c4-bbd3-4f43-9d95-67157c8b9067",
+    "role" : ""
+  }, {
+    "source" : "43d00eb1-eb86-4536-aa7d-84526a00a415",
+    "target" : "cccf4043-6d87-465e-aa35-5c0643ff9f38",
+    "role" : ""
+  }, {
+    "source" : "43d00eb1-eb86-4536-aa7d-84526a00a415",
+    "target" : "35f76628-f2a8-4095-a794-0fd6ae43513c",
+    "role" : "ellers"
+  }, {
+    "source" : "06799886-7b61-4695-956a-5963608da4c4",
+    "target" : "43d00eb1-eb86-4536-aa7d-84526a00a415",
+    "role" : ""
+  }, {
+    "source" : "a4ee8110-48da-4526-b134-42f4076bd6b0",
+    "target" : "41660037-992c-4c8e-bef9-deb7efb2b607",
+    "role" : ""
+  }, {
+    "source" : "a4ee8110-48da-4526-b134-42f4076bd6b0",
+    "target" : "0ab3a93b-341d-43a6-870f-fac158bcf571",
+    "role" : "ellers"
+  }, {
+    "source" : "06799886-7b61-4695-956a-5963608da4c4",
+    "target" : "a4ee8110-48da-4526-b134-42f4076bd6b0",
+    "role" : "ellers"
+  }, {
+    "source" : "be815ca7-b092-45e4-b92a-d0ea668a02e1",
+    "target" : "06799886-7b61-4695-956a-5963608da4c4",
+    "role" : ""
+  }, {
+    "source" : "b3fbf3ee-54e1-4146-8d12-0593924e5b84",
+    "target" : "502dc3a5-391e-409b-adf0-343b7f8a8fa5",
+    "role" : ""
+  }, {
+    "source" : "b3fbf3ee-54e1-4146-8d12-0593924e5b84",
+    "target" : "58346e56-4a07-4534-b29e-96ab71751c66",
+    "role" : "ellers"
+  }, {
+    "source" : "be815ca7-b092-45e4-b92a-d0ea668a02e1",
+    "target" : "b3fbf3ee-54e1-4146-8d12-0593924e5b84",
+    "role" : "ellers"
+  }, {
+    "source" : "ae8f0551-ee75-41b1-8a39-d5c75d688651",
+    "target" : "be815ca7-b092-45e4-b92a-d0ea668a02e1",
+    "role" : ""
+  }, {
+    "source" : "e8356a47-f16b-463c-9c55-f94b88171841",
+    "target" : "7d1b9aa2-41c9-4a86-88af-b56be16c146d",
+    "role" : ""
+  }, {
+    "source" : "e8356a47-f16b-463c-9c55-f94b88171841",
+    "target" : "b9c0cd66-1ba1-49de-967d-fd7a06ce18a5",
+    "role" : "ellers"
+  }, {
+    "source" : "3eca9b1d-b86e-4463-83cf-62658f049007",
+    "target" : "e8356a47-f16b-463c-9c55-f94b88171841",
+    "role" : ""
+  }, {
+    "source" : "301e623f-3819-42ab-93c0-48ca7bda43e5",
+    "target" : "a65c8e42-6303-45d8-b8f5-1145d72bc316",
+    "role" : ""
+  }, {
+    "source" : "301e623f-3819-42ab-93c0-48ca7bda43e5",
+    "target" : "1e606f59-8e5a-4d07-a35f-9465498331e2",
+    "role" : "ellers"
+  }, {
+    "source" : "3eca9b1d-b86e-4463-83cf-62658f049007",
+    "target" : "301e623f-3819-42ab-93c0-48ca7bda43e5",
+    "role" : "ellers"
+  }, {
+    "source" : "965147f4-d3ff-4696-9ee0-85bbb322d964",
+    "target" : "3eca9b1d-b86e-4463-83cf-62658f049007",
+    "role" : ""
+  }, {
+    "source" : "387c1163-f32e-484d-8ab9-1c2db0e2a2ce",
+    "target" : "03e30776-ebba-4663-95a1-1ff6a409d6aa",
+    "role" : ""
+  }, {
+    "source" : "387c1163-f32e-484d-8ab9-1c2db0e2a2ce",
+    "target" : "5299c578-8864-4bb7-be4e-509465897ea6",
+    "role" : "ellers"
+  }, {
+    "source" : "b004e669-9b49-4046-8d3e-0d911576b9de",
+    "target" : "387c1163-f32e-484d-8ab9-1c2db0e2a2ce",
+    "role" : ""
+  }, {
+    "source" : "429ece50-ef64-4178-a01d-c4715fee95c1",
+    "target" : "6ea7cde4-3824-4897-b5e8-a86c541b77ba",
+    "role" : ""
+  }, {
+    "source" : "429ece50-ef64-4178-a01d-c4715fee95c1",
+    "target" : "af23807e-b140-447d-8181-f50c9bf1e1dc",
+    "role" : "ellers"
+  }, {
+    "source" : "b004e669-9b49-4046-8d3e-0d911576b9de",
+    "target" : "429ece50-ef64-4178-a01d-c4715fee95c1",
+    "role" : "ellers"
+  }, {
+    "source" : "965147f4-d3ff-4696-9ee0-85bbb322d964",
+    "target" : "b004e669-9b49-4046-8d3e-0d911576b9de",
+    "role" : "ellers"
+  }, {
+    "source" : "36bf1d09-bfcd-44b5-93de-907ed055df46",
+    "target" : "965147f4-d3ff-4696-9ee0-85bbb322d964",
+    "role" : ""
+  }, {
+    "source" : "b7811df9-cfdc-4b8e-af16-56c8961d9f95",
+    "target" : "1b0fcce4-7d5c-4060-9298-8749721da987",
+    "role" : ""
+  }, {
+    "source" : "b7811df9-cfdc-4b8e-af16-56c8961d9f95",
+    "target" : "790f0208-8af5-4ce4-8300-a25c6bb7b8fb",
+    "role" : "ellers"
+  }, {
+    "source" : "5e93dc75-9427-49d7-9f5d-b5d6cf061eb8",
+    "target" : "b7811df9-cfdc-4b8e-af16-56c8961d9f95",
+    "role" : ""
+  }, {
+    "source" : "06c64ca8-90e4-4f60-87b4-a60dd6225425",
+    "target" : "f35fd9f0-1ec9-4b07-81a5-90a3ad225ae1",
+    "role" : ""
+  }, {
+    "source" : "06c64ca8-90e4-4f60-87b4-a60dd6225425",
+    "target" : "78293bce-cca1-42a6-94d4-af2c0c7d82f8",
+    "role" : "ellers"
+  }, {
+    "source" : "5e93dc75-9427-49d7-9f5d-b5d6cf061eb8",
+    "target" : "06c64ca8-90e4-4f60-87b4-a60dd6225425",
+    "role" : "ellers"
+  }, {
+    "source" : "36bf1d09-bfcd-44b5-93de-907ed055df46",
+    "target" : "5e93dc75-9427-49d7-9f5d-b5d6cf061eb8",
+    "role" : "ellers"
+  }, {
+    "source" : "5f7f7f72-c7a1-4252-9fa0-1a1048a6d44e",
+    "target" : "36bf1d09-bfcd-44b5-93de-907ed055df46",
+    "role" : ""
+  }, {
+    "source" : "9aa6af27-6cb3-4bec-9177-5f55630c1247",
+    "target" : "224f3566-93b8-48ca-995e-f3cb2933e57c",
+    "role" : ""
+  }, {
+    "source" : "9aa6af27-6cb3-4bec-9177-5f55630c1247",
+    "target" : "ca5e8c6a-207c-47c8-a690-22bb6e6dcf47",
+    "role" : "ellers"
+  }, {
+    "source" : "e96d240c-9767-4831-863e-a55d13871e9d",
+    "target" : "9aa6af27-6cb3-4bec-9177-5f55630c1247",
+    "role" : ""
+  }, {
+    "source" : "c07d2021-a830-4c43-9d9d-1dc3cf8077d6",
+    "target" : "2d710d51-e068-4179-97d6-e7589e8987f8",
+    "role" : ""
+  }, {
+    "source" : "c07d2021-a830-4c43-9d9d-1dc3cf8077d6",
+    "target" : "751ea433-18f2-40cd-a11b-24af17f8a36b",
+    "role" : "ellers"
+  }, {
+    "source" : "e96d240c-9767-4831-863e-a55d13871e9d",
+    "target" : "c07d2021-a830-4c43-9d9d-1dc3cf8077d6",
+    "role" : "ellers"
+  }, {
+    "source" : "772dc2e9-59e3-45ee-9a3a-81b4928ad3f2",
+    "target" : "e96d240c-9767-4831-863e-a55d13871e9d",
+    "role" : ""
+  }, {
+    "source" : "69bdaea8-4975-40ae-a8c7-8f75e6f3c361",
+    "target" : "70b5f4f9-5b31-4a05-9594-7caf25874f03",
+    "role" : ""
+  }, {
+    "source" : "69bdaea8-4975-40ae-a8c7-8f75e6f3c361",
+    "target" : "85267cb6-ada7-4150-b76a-2f02c78e8e10",
+    "role" : "ellers"
+  }, {
+    "source" : "727c4094-14c2-4581-a2b7-a58527d9de86",
+    "target" : "69bdaea8-4975-40ae-a8c7-8f75e6f3c361",
+    "role" : ""
+  }, {
+    "source" : "728eb5d2-a09a-48ac-9ef7-16e74e0e6d25",
+    "target" : "a4e60cd4-9a40-47c9-a59f-a853e235ac76",
+    "role" : ""
+  }, {
+    "source" : "728eb5d2-a09a-48ac-9ef7-16e74e0e6d25",
+    "target" : "e54a2967-256d-48a9-af28-c322ece38e65",
+    "role" : "ellers"
+  }, {
+    "source" : "727c4094-14c2-4581-a2b7-a58527d9de86",
+    "target" : "728eb5d2-a09a-48ac-9ef7-16e74e0e6d25",
+    "role" : "ellers"
+  }, {
+    "source" : "772dc2e9-59e3-45ee-9a3a-81b4928ad3f2",
+    "target" : "727c4094-14c2-4581-a2b7-a58527d9de86",
+    "role" : "ellers"
+  }, {
+    "source" : "2b6d98ca-a85a-416e-a10a-76be86ceb32c",
+    "target" : "772dc2e9-59e3-45ee-9a3a-81b4928ad3f2",
+    "role" : ""
+  }, {
+    "source" : "f3cc8809-0281-4adf-a72f-0a65cda9c6f5",
+    "target" : "fe0f8954-be3f-4fd3-98c3-a2f2be8b7454",
+    "role" : ""
+  }, {
+    "source" : "f3cc8809-0281-4adf-a72f-0a65cda9c6f5",
+    "target" : "816d6c01-1e1c-47f1-ae92-6376414cbf13",
+    "role" : "ellers"
+  }, {
+    "source" : "4cdb154e-40b0-46f1-83c5-becfb053bd4b",
+    "target" : "f3cc8809-0281-4adf-a72f-0a65cda9c6f5",
+    "role" : ""
+  }, {
+    "source" : "bffa703e-c5c5-439b-9b78-cb457ce3488e",
+    "target" : "6a1b7ef3-37e7-4148-8a61-da1176bf4849",
+    "role" : ""
+  }, {
+    "source" : "bffa703e-c5c5-439b-9b78-cb457ce3488e",
+    "target" : "38ade1ed-5df5-4f14-8d4d-2f5ec0fbd792",
+    "role" : "ellers"
+  }, {
+    "source" : "4cdb154e-40b0-46f1-83c5-becfb053bd4b",
+    "target" : "bffa703e-c5c5-439b-9b78-cb457ce3488e",
+    "role" : "ellers"
+  }, {
+    "source" : "2b6d98ca-a85a-416e-a10a-76be86ceb32c",
+    "target" : "4cdb154e-40b0-46f1-83c5-becfb053bd4b",
+    "role" : "ellers"
+  }, {
+    "source" : "4055c8b2-a267-4551-800f-c33322171c30",
+    "target" : "2b6d98ca-a85a-416e-a10a-76be86ceb32c",
+    "role" : ""
+  }, {
+    "source" : "f0426590-c2e2-43d1-8378-25f096c818c3",
+    "target" : "77515797-5812-4484-8821-c0ee0ee1fa08",
+    "role" : ""
+  }, {
+    "source" : "f0426590-c2e2-43d1-8378-25f096c818c3",
+    "target" : "6ca159ef-d1d4-433e-9eb7-b9e6a055b7de",
+    "role" : "ellers"
+  }, {
+    "source" : "0978f117-e5d8-4cc5-b1a3-676ac984457f",
+    "target" : "f0426590-c2e2-43d1-8378-25f096c818c3",
+    "role" : ""
+  }, {
+    "source" : "4289682f-0441-4e8a-a68b-597969950df7",
+    "target" : "8e5c9d50-f9c0-41c8-bf3c-099c08daf94b",
+    "role" : ""
+  }, {
+    "source" : "4289682f-0441-4e8a-a68b-597969950df7",
+    "target" : "25e40a81-2881-48af-ba38-6919aaabea20",
+    "role" : "ellers"
+  }, {
+    "source" : "0978f117-e5d8-4cc5-b1a3-676ac984457f",
+    "target" : "4289682f-0441-4e8a-a68b-597969950df7",
+    "role" : "ellers"
+  }, {
+    "source" : "b1c4d473-842e-4bb1-982e-6e9d18b42c20",
+    "target" : "0978f117-e5d8-4cc5-b1a3-676ac984457f",
+    "role" : ""
+  }, {
+    "source" : "f0db58e2-dfca-4014-ba56-7c31f6c7d094",
+    "target" : "780a7ce0-d6ab-4e78-abfe-2fc5dea864f8",
+    "role" : ""
+  }, {
+    "source" : "f0db58e2-dfca-4014-ba56-7c31f6c7d094",
+    "target" : "e8eb4e6c-4850-4c73-aecd-844638943fdf",
+    "role" : "ellers"
+  }, {
+    "source" : "b1c4d473-842e-4bb1-982e-6e9d18b42c20",
+    "target" : "f0db58e2-dfca-4014-ba56-7c31f6c7d094",
+    "role" : "ellers"
+  }, {
+    "source" : "7fd6412d-d601-492d-bd7c-c0dbf7629349",
+    "target" : "b1c4d473-842e-4bb1-982e-6e9d18b42c20",
+    "role" : ""
+  }, {
+    "source" : "7fd6412d-d601-492d-bd7c-c0dbf7629349",
+    "target" : "cfd7dc1d-25d9-4238-8a5a-a177b0356b8b",
+    "role" : "ellers"
+  }, {
+    "source" : "4055c8b2-a267-4551-800f-c33322171c30",
+    "target" : "7fd6412d-d601-492d-bd7c-c0dbf7629349",
+    "role" : "ellers"
+  }, {
+    "source" : "5f7f7f72-c7a1-4252-9fa0-1a1048a6d44e",
+    "target" : "4055c8b2-a267-4551-800f-c33322171c30",
+    "role" : "ellers"
+  }, {
+    "source" : "ae8f0551-ee75-41b1-8a39-d5c75d688651",
+    "target" : "5f7f7f72-c7a1-4252-9fa0-1a1048a6d44e",
+    "role" : "ellers"
+  }, {
+    "source" : "04617bdd-fef1-459f-b27a-f4e568aa6ef3",
+    "target" : "ae8f0551-ee75-41b1-8a39-d5c75d688651",
+    "role" : "ellers"
+  } ]
+}

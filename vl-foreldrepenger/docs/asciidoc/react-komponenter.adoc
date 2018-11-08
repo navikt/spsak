@@ -1,0 +1,24 @@
+= Skjermbildekomponenter
+
+Her blir det gitt en overordnet beskrivelse av hvordan React-komponentene bygger opp arbeidsflaten. De stiplede rammene i skjermbildene viser komponentene og fargen indikerer nivået disse ligger på. Den ytterste komponenten er ansvarlig for komponenten innenfor osv. Lik farge indikerer komponenter på samme nivå.
+
+Arbeidsflaten på øverste nivå er todelt, den består av en header-komponent og en home-komponent. Header-komponenten viser alltid samme informasjon, mens innholdet i home-komponenten skiftes ut.  
+
+== Søk etter fagsak
+
+
+Skjermbildet viser komponentene som bygger opp søkeflaten. Søket vises som standard når saksbehandler åpner arbeidsflaten.
+
+image::FAGSAK_SOK.png[Søk,opts=interactive, height=337, width=735]
+
+Fagsak-søket har en toppkomponent som har ansvar for å sette opp underkomponentene Søkefelt, Søker og Søkeresultat. I tillegg til komponentene markert av de stiplede rammene brukes det også generelle, gjenbrukbare komponenter som for eksempel tekstfelt og knapper. 
+
+
+== Fagsak og Behandling
+
+
+Skjermbildet viser hovedområdet for behandling av en fagsak. Her vil saksbehandler kunne se en oversikt over behandlinger og utføre handlinger på disse.
+
+image::FAGSAK_OG_BEHANDLING.png[Behandling-skjembilde,opts=interactive, height=837, width=1162]
+
+Toppkomponenten for Fagsak-siden setter opp en grid som definerer sidens layout, dvs. posisjonen til underkomponentene. De fem underkomponenter til denne grid'en er: Fagsak, Behandlingsliste, Saksinformasjon, Behandlingsprosess og fakta. De to sistnemte kan i enkelte tilfeller byttes ut med komponenter for manuell registrering av søknad. Flere av komponentene i skjermbildet har underkomponenter som ikke er markert. 

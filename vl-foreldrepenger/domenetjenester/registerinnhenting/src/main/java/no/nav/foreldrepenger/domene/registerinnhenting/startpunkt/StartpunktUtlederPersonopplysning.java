@@ -1,0 +1,141 @@
+package no.nav.foreldrepenger.domene.registerinnhenting.startpunkt;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
+import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
+import no.nav.foreldrepenger.domene.familiehendelse.dødsfall.BarnBorteEndringIdentifiserer;
+import no.nav.foreldrepenger.domene.familiehendelse.dødsfall.BarnetsDødsdatoEndringIdentifiserer;
+import no.nav.foreldrepenger.domene.familiehendelse.dødsfall.ForelderErDødEndringIdentifiserer;
+import no.nav.foreldrepenger.domene.personopplysning.identifiserer.PersonAdresseEndringIdentifiserer;
+import no.nav.foreldrepenger.domene.personopplysning.identifiserer.PersonstatusEndringIdentifiserer;
+import no.nav.foreldrepenger.domene.personopplysning.identifiserer.SivilstandEndringIdentifiserer;
+import no.nav.foreldrepenger.domene.personopplysning.identifiserer.StatsborgerskapEndringIdentifiserer;
+
+@ApplicationScoped
+@GrunnlagRef("PersonInformasjon")
+class StartpunktUtlederPersonopplysning implements StartpunktUtleder {
+
+    private PersonopplysningRepository personopplysningRepository;
+    private KodeverkTabellRepository kodeverkTabellRepository;
+
+    private ForelderErDødEndringIdentifiserer forelderErDødEndringIdentifiserer;
+    private BarnetsDødsdatoEndringIdentifiserer barnetsDødsdatoEndringIdentifiserer;
+    private BarnBorteEndringIdentifiserer barnBorteEndringIdentifiserer;
+    private SivilstandEndringIdentifiserer sivilstandEndringIdentifiserer;
+    private PersonstatusEndringIdentifiserer personstatusEndringIdentifiserer;
+    private StatsborgerskapEndringIdentifiserer statsborgerskapEndringIdentifiserer;
+    private PersonAdresseEndringIdentifiserer adresseEndringIdentifiserer;
+    private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
+
+    StartpunktUtlederPersonopplysning() {
+        // For CDI
+    }
+
+    @Inject
+    StartpunktUtlederPersonopplysning(BehandlingRepositoryProvider repositoryProvider, // NOSONAR - ingen enkel måte å unngå mange parametere (endringsidentifiserere) her
+                                      ForelderErDødEndringIdentifiserer forelderErDødEndringIdentifiserer,
+                                      BarnetsDødsdatoEndringIdentifiserer barnetsDødsdatoEndringIdentifiserer,
+                                      BarnBorteEndringIdentifiserer barnBorteEndringIdentifiserer,
+                                      SivilstandEndringIdentifiserer sivilstandEndringIdentifiserer,
+                                      PersonstatusEndringIdentifiserer personstatusEndringIdentifiserer, StatsborgerskapEndringIdentifiserer statsborgerskapEndringIdentifiserer,
+                                      PersonAdresseEndringIdentifiserer adresseEndringIdentifiserer, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
+        this.personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
+        this.kodeverkTabellRepository = repositoryProvider.getKodeverkRepository().getKodeverkTabellRepository();
+        this.forelderErDødEndringIdentifiserer = forelderErDødEndringIdentifiserer;
+        this.barnetsDødsdatoEndringIdentifiserer = barnetsDødsdatoEndringIdentifiserer;
+        this.barnBorteEndringIdentifiserer = barnBorteEndringIdentifiserer;
+        this.sivilstandEndringIdentifiserer = sivilstandEndringIdentifiserer;
+        this.personstatusEndringIdentifiserer = personstatusEndringIdentifiserer;
+        this.statsborgerskapEndringIdentifiserer = statsborgerskapEndringIdentifiserer;
+        this.adresseEndringIdentifiserer = adresseEndringIdentifiserer;
+        this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
+    }
+
+    @Override
+    public StartpunktType utledStartpunkt(Behandling behandling, Long grunnlagId1, Long grunnlagId2) {
+        PersonopplysningGrunnlag grunnlag1 = personopplysningRepository.hentPersonopplysningerPåId(grunnlagId1);
+        PersonopplysningGrunnlag grunnlag2 = personopplysningRepository.hentPersonopplysningerPåId(grunnlagId2);
+        return utled(behandling, grunnlag1, grunnlag2);
+    }
+
+    private StartpunktType utled(Behandling behandling, PersonopplysningGrunnlag grunnlag1, PersonopplysningGrunnlag grunnlag2) {
+
+        return hentAlleStartpunktForPersonopplysninger(behandling, grunnlag1, grunnlag2).stream()
+            .map(it -> kodeverkTabellRepository.finnStartpunktType(it.getKode())) // Må oppfriskes
+            .min(Comparator.comparing(StartpunktType::getRangering))
+            .orElse(StartpunktType.UDEFINERT);
+    }
+
+    // Finn endringer per aggregat under grunnlaget og map dem mot startpunkt.
+    private List<StartpunktType> hentAlleStartpunktForPersonopplysninger(Behandling behandling1, PersonopplysningGrunnlag grunnlag1, PersonopplysningGrunnlag grunnlag2) {
+        List<StartpunktType> startpunkter = new ArrayList<>();
+        final LocalDate skjæringstidspunkt = skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling1);
+
+        boolean forelderDødEndret = forelderErDødEndringIdentifiserer.erEndret(behandling1.getAktørId(), grunnlag1, grunnlag2);
+        boolean barnetsDødsdatoEndret = barnetsDødsdatoEndringIdentifiserer.erEndret(behandling1, grunnlag2);
+        boolean barnPåSøkerITps = barnBorteEndringIdentifiserer.erEndret(behandling1);
+        boolean sivilstandEndret = sivilstandEndringIdentifiserer.erEndret(behandling1.getAktørId(), grunnlag1, grunnlag2);
+        boolean personstatusEndret = personstatusEndringIdentifiserer.erEndret(grunnlag1, grunnlag2);
+        boolean personstatusUnntattDødEndret = personstatusUnntattDødEndret(personstatusEndret, forelderDødEndret);
+        boolean statsborgerskapEndret = statsborgerskapEndringIdentifiserer.erEndret(grunnlag1, grunnlag2);
+        boolean adresseEndret = adresseEndringIdentifiserer.erEndret(behandling1, grunnlag1, grunnlag2);
+
+        if (forelderDødEndret || sivilstandEndret) {
+            FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.UTTAKSVILKÅR, "sivilstand og/eller foreldres død", grunnlag1.getId(), grunnlag2.getId());
+            startpunkter.add(StartpunktType.UTTAKSVILKÅR);
+        }
+
+        if (barnetsDødsdatoEndret) {
+            FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.BEREGNING, "barnets dødsdato", grunnlag1.getId(), grunnlag2.getId());
+            startpunkter.add(StartpunktType.BEREGNING);
+        }
+
+        if (personstatusUnntattDødEndret || statsborgerskapEndret || adresseEndret) {
+            final boolean personstatusEndretFørStp = personstatusEndringIdentifiserer.erEndretFørSkjæringstidspunkt(grunnlag1, grunnlag2, skjæringstidspunkt);
+            final boolean adresseEndretFørStp = adresseEndringIdentifiserer.erEndretFørSkjæringstidspunkt(behandling1.getAktørId(), grunnlag1, grunnlag2, skjæringstidspunkt);
+            final boolean statsborgerskapEndretFørStp = statsborgerskapEndringIdentifiserer.erEndretFørSkjæringstidspunkt(grunnlag1, grunnlag2, skjæringstidspunkt);
+
+            if (personstatusEndretFørStp || adresseEndretFørStp || statsborgerskapEndretFørStp) {
+                FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP, "adresse, statsborgerskap og/eller personstatus", grunnlag1.getId(), grunnlag2.getId());
+                startpunkter.add(StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP);
+            } else {
+                FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.UTTAKSVILKÅR, "adresse, statsborgerskap og/eller personstatus", grunnlag1.getId(), grunnlag2.getId());
+                startpunkter.add(StartpunktType.UTTAKSVILKÅR);
+            }
+        }
+
+        if (barnPåSøkerITps) {
+            FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.SØKERS_RELASJON_TIL_BARNET, "barn fjernet fra TPS", grunnlag1.getId(), grunnlag2.getId());
+            startpunkter.add(StartpunktType.SØKERS_RELASJON_TIL_BARNET);
+        }
+
+        if (EndringFødselIdentifiserer.omfatterEndringKunNyFødsel(behandling1.getAktørId(), grunnlag2, grunnlag1)) {
+            FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.UDEFINERT, "personopplysning kun på grunn av fødsel", grunnlag1.getId(), grunnlag2.getId());
+            startpunkter.add(StartpunktType.UDEFINERT);
+        }
+
+        if (startpunkter.isEmpty()) {
+            // Har ikke identifisert endringen som trigget utledning av startpunkt - sett default-verdi ved andre endringer
+            FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.SØKERS_RELASJON_TIL_BARNET, "kunne ikke fastsettes", grunnlag1.getId(), grunnlag2.getId());
+            startpunkter.add(StartpunktType.SØKERS_RELASJON_TIL_BARNET);
+        }
+
+        return startpunkter;
+    }
+
+    private boolean personstatusUnntattDødEndret(boolean personstatusEndret, boolean søkerErDødEndret) {
+        return personstatusEndret && !søkerErDødEndret;
+    }
+}

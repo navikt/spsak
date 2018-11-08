@@ -1,0 +1,458 @@
+{
+  "root" : {
+    "id" : "6d2f6d0f-5c9a-4e21-a4ae-d19d6f58c8ce",
+    "ruleId" : "FP_BR 25.2",
+    "ruleDescription" : "Opprette andeler basert på tilstøtende ytelse",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "6d2f6d0f-5c9a-4e21-a4ae-d19d6f58c8ce",
+    "ruleId" : "FP_BR 25.2",
+    "ruleDescription" : "Opprette andeler basert på tilstøtende ytelse",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "07855518-d3ed-477e-8c33-88a27efe0c04",
+    "ruleId" : "FP_BR 25.2",
+    "ruleDescription" : "Opprette andeler basert på tilstøtende ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "60d076ef-c145-4d85-bd69-932126439f80",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "d9a09302-fc87-4bdd-86b6-9ce5291b2071",
+    "ruleId" : "FP_BR 25.3",
+    "ruleDescription" : "Har bruker løpende arbeidsforhold som ikke var inkludert i den tilstøtende ytelsen?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3858af5f-a3d4-4b8d-8a96-d50f5a411513",
+    "ruleId" : "FP_BR 25.4",
+    "ruleDescription" : "Opprette eventuelle andeler for nye arbeidsforhold",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "cdab83f4-d21d-4772-b4d8-81223b72a35f",
+    "ruleId" : "FP_BR 25.4",
+    "ruleDescription" : "Opprette eventuelle andeler for nye arbeidsforhold",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6b82407c-5788-40ca-92de-d350d5b406aa",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "9886d290-56c7-42f7-ac2d-dea24bad0d04",
+    "ruleId" : "FP_BR 25.5",
+    "ruleDescription" : "Er den tilstøtende ytelsen behandlet i Infotrygd? ",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3644e702-ab68-4cb2-9d11-afad3669db54",
+    "ruleId" : "FP_BR 25.6",
+    "ruleDescription" : " Oppjuster inntekt til årsbeløp",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "eb327c79-e61e-457b-a2dc-976d1a78a029",
+    "ruleId" : "FP_BR 25.6",
+    "ruleDescription" : "Oppjustere beregningsgrunnlagsandelene iht tidskode",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ecf6947a-fe1f-4a36-93f5-fdfa6c1824b4",
+    "ruleId" : "FP_BR 25.7",
+    "ruleDescription" : "Fastsett grunnbeløp ved opprinnelig skjæringstidspunkt",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "712e6dbe-c667-42f1-beb5-6b04e8c49a0c",
+    "ruleId" : "FP_BR 25.7",
+    "ruleDescription" : "Fastsett Grunnbeløp ved opprinnelig skjæringstidspunkt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "424db4f4-4cfc-49b9-bae6-268c89ca2954",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "2f294e0e-d54e-4c77-a182-9b0690a58bbb",
+    "ruleId" : "FP_BR 25.8",
+    "ruleDescription" : "Er den tilstøtende ytelsen foreldrepenger",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "9343d76c-a667-423a-a567-ac055b6c9bda",
+    "ruleId" : "FP_BR 25.10",
+    "ruleDescription" : "Redusere grunnbeløp iht dekningsgrad forrige ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d007a453-3a60-45b9-8e1f-83887a9c252f",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "9f226dc9-35e6-44c7-8371-605e45c94ae2",
+    "ruleId" : "FP_BR 25.9",
+    "ruleDescription" : "Er den tilstøtende ytelsen sykepenger med reduksjon 65% og bruker har Arbeidskategori 07 Inaktiv?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a285d601-696b-444a-816f-a4d7e30aea27",
+    "ruleId" : "FP_BR 25.10",
+    "ruleDescription" : "Redusere grunnbeløp iht dekningsgrad forrige ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6ff55403-1a48-4d16-ad2f-f26c1d97c3ba",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "1e1fdbfb-2e73-49bc-89e0-69653e61d133",
+    "ruleId" : "FP_BR 25.7",
+    "ruleDescription" : "Fastsett grunnbeløp ved opprinnelig skjæringstidspunkt",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "c819e50b-9c3a-4310-b9e1-d5f7cab31c22",
+    "ruleId" : "FP_BR 25.7",
+    "ruleDescription" : "Fastsett Grunnbeløp ved opprinnelig skjæringstidspunkt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "c851a6ed-2eb8-429f-a3fc-bfa1bf6ede09",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "3da46995-683b-4e82-ac8e-9bddf880c756",
+    "ruleId" : "FP_BR 25.8",
+    "ruleDescription" : "Er den tilstøtende ytelsen foreldrepenger",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "24f16b41-2a3d-414d-a615-d9f88269d10a",
+    "ruleId" : "FP_BR 25.10",
+    "ruleDescription" : "Redusere grunnbeløp iht dekningsgrad forrige ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "17d8fde7-84d7-472b-b1bc-39b19b36bf4e",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "c170c0b4-1968-4e27-aa4c-2e358f05f714",
+    "ruleId" : "FP_BR 25.9",
+    "ruleDescription" : "Er den tilstøtende ytelsen sykepenger med reduksjon 65% og bruker har Arbeidskategori 07 Inaktiv?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d02efc5d-2828-46f4-839d-b77ceffab6a2",
+    "ruleId" : "FP_BR 25.10",
+    "ruleDescription" : "Redusere grunnbeløp iht dekningsgrad forrige ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "31cdd99c-2904-4a97-b48f-a7a68f763fbf",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "bb1c29f8-7b5a-436a-8273-3ccf9e580253",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "59abc8d8-8a89-4c6a-bd20-3342398f796d",
+    "ruleId" : "FP_BR 25.5",
+    "ruleDescription" : "Er den tilstøtende ytelsen behandlet i Infotrygd? ",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "1e023995-36e0-40f6-a45c-93310118a53a",
+    "ruleId" : "FP_BR 25.6",
+    "ruleDescription" : " Oppjuster inntekt til årsbeløp",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "a127f1a9-7737-463b-ad4b-237803a5dd12",
+    "ruleId" : "FP_BR 25.6",
+    "ruleDescription" : "Oppjustere beregningsgrunnlagsandelene iht tidskode",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f3050109-c03c-4be6-9b31-1d8c1da6d349",
+    "ruleId" : "FP_BR 25.7",
+    "ruleDescription" : "Fastsett grunnbeløp ved opprinnelig skjæringstidspunkt",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "ad6e941f-12e6-4788-85a9-bd660dcf1e7f",
+    "ruleId" : "FP_BR 25.7",
+    "ruleDescription" : "Fastsett Grunnbeløp ved opprinnelig skjæringstidspunkt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "c81bf62f-9346-4d2b-b961-05fc3f06f46b",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "db5a35f5-dc9c-4d09-879e-6240a8690cc0",
+    "ruleId" : "FP_BR 25.8",
+    "ruleDescription" : "Er den tilstøtende ytelsen foreldrepenger",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "645626b6-4c95-4be7-a55c-2454c7a96b19",
+    "ruleId" : "FP_BR 25.10",
+    "ruleDescription" : "Redusere grunnbeløp iht dekningsgrad forrige ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ab6eab45-19a0-4489-bd45-1323d54b80ad",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "d242d03b-ae41-4001-8f33-0b7a2fcff666",
+    "ruleId" : "FP_BR 25.9",
+    "ruleDescription" : "Er den tilstøtende ytelsen sykepenger med reduksjon 65% og bruker har Arbeidskategori 07 Inaktiv?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "50904d7d-a110-4b1a-aae9-62bc703af42e",
+    "ruleId" : "FP_BR 25.10",
+    "ruleDescription" : "Redusere grunnbeløp iht dekningsgrad forrige ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "02743e3e-ec6e-4068-ad45-64a1b43fce80",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ebae0481-6032-4ee0-978e-c68b287cc582",
+    "ruleId" : "FP_BR 25.7",
+    "ruleDescription" : "Fastsett grunnbeløp ved opprinnelig skjæringstidspunkt",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "4a2159bd-53bc-4edf-bdee-2a2fa4a6d0c7",
+    "ruleId" : "FP_BR 25.7",
+    "ruleDescription" : "Fastsett Grunnbeløp ved opprinnelig skjæringstidspunkt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d2162006-58a4-4203-ae72-bda8eb085031",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "d6c16831-4fe0-4919-9e22-7fcbc949160a",
+    "ruleId" : "FP_BR 25.8",
+    "ruleDescription" : "Er den tilstøtende ytelsen foreldrepenger",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d8a0602a-a27d-4efe-aa0c-16f1a88302d6",
+    "ruleId" : "FP_BR 25.10",
+    "ruleDescription" : "Redusere grunnbeløp iht dekningsgrad forrige ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3ec58421-ebca-4dd0-b9de-8faece8460fb",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "48098baf-861e-42b9-aa9f-b414eefa0325",
+    "ruleId" : "FP_BR 25.9",
+    "ruleDescription" : "Er den tilstøtende ytelsen sykepenger med reduksjon 65% og bruker har Arbeidskategori 07 Inaktiv?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "4dd302d0-a253-44ca-a23c-0bcea32d4e9c",
+    "ruleId" : "FP_BR 25.10",
+    "ruleDescription" : "Redusere grunnbeløp iht dekningsgrad forrige ytelse",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "25e64094-fbad-481f-923e-9f68babd0a96",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "6d2f6d0f-5c9a-4e21-a4ae-d19d6f58c8ce",
+    "target" : "07855518-d3ed-477e-8c33-88a27efe0c04"
+  }, {
+    "source" : "60d076ef-c145-4d85-bd69-932126439f80",
+    "target" : "d9a09302-fc87-4bdd-86b6-9ce5291b2071"
+  }, {
+    "source" : "3858af5f-a3d4-4b8d-8a96-d50f5a411513",
+    "target" : "cdab83f4-d21d-4772-b4d8-81223b72a35f"
+  }, {
+    "source" : "6b82407c-5788-40ca-92de-d350d5b406aa",
+    "target" : "9886d290-56c7-42f7-ac2d-dea24bad0d04"
+  }, {
+    "source" : "3644e702-ab68-4cb2-9d11-afad3669db54",
+    "target" : "eb327c79-e61e-457b-a2dc-976d1a78a029"
+  }, {
+    "source" : "ecf6947a-fe1f-4a36-93f5-fdfa6c1824b4",
+    "target" : "712e6dbe-c667-42f1-beb5-6b04e8c49a0c"
+  }, {
+    "source" : "424db4f4-4cfc-49b9-bae6-268c89ca2954",
+    "target" : "2f294e0e-d54e-4c77-a182-9b0690a58bbb"
+  }, {
+    "source" : "424db4f4-4cfc-49b9-bae6-268c89ca2954",
+    "target" : "9343d76c-a667-423a-a567-ac055b6c9bda"
+  }, {
+    "source" : "d007a453-3a60-45b9-8e1f-83887a9c252f",
+    "target" : "9f226dc9-35e6-44c7-8371-605e45c94ae2"
+  }, {
+    "source" : "d007a453-3a60-45b9-8e1f-83887a9c252f",
+    "target" : "a285d601-696b-444a-816f-a4d7e30aea27"
+  }, {
+    "source" : "d007a453-3a60-45b9-8e1f-83887a9c252f",
+    "target" : "6ff55403-1a48-4d16-ad2f-f26c1d97c3ba"
+  }, {
+    "source" : "424db4f4-4cfc-49b9-bae6-268c89ca2954",
+    "target" : "d007a453-3a60-45b9-8e1f-83887a9c252f"
+  }, {
+    "source" : "ecf6947a-fe1f-4a36-93f5-fdfa6c1824b4",
+    "target" : "424db4f4-4cfc-49b9-bae6-268c89ca2954"
+  }, {
+    "source" : "3644e702-ab68-4cb2-9d11-afad3669db54",
+    "target" : "ecf6947a-fe1f-4a36-93f5-fdfa6c1824b4"
+  }, {
+    "source" : "6b82407c-5788-40ca-92de-d350d5b406aa",
+    "target" : "3644e702-ab68-4cb2-9d11-afad3669db54"
+  }, {
+    "source" : "1e1fdbfb-2e73-49bc-89e0-69653e61d133",
+    "target" : "c819e50b-9c3a-4310-b9e1-d5f7cab31c22"
+  }, {
+    "source" : "c851a6ed-2eb8-429f-a3fc-bfa1bf6ede09",
+    "target" : "3da46995-683b-4e82-ac8e-9bddf880c756"
+  }, {
+    "source" : "c851a6ed-2eb8-429f-a3fc-bfa1bf6ede09",
+    "target" : "24f16b41-2a3d-414d-a615-d9f88269d10a"
+  }, {
+    "source" : "17d8fde7-84d7-472b-b1bc-39b19b36bf4e",
+    "target" : "c170c0b4-1968-4e27-aa4c-2e358f05f714"
+  }, {
+    "source" : "17d8fde7-84d7-472b-b1bc-39b19b36bf4e",
+    "target" : "d02efc5d-2828-46f4-839d-b77ceffab6a2"
+  }, {
+    "source" : "17d8fde7-84d7-472b-b1bc-39b19b36bf4e",
+    "target" : "31cdd99c-2904-4a97-b48f-a7a68f763fbf"
+  }, {
+    "source" : "c851a6ed-2eb8-429f-a3fc-bfa1bf6ede09",
+    "target" : "17d8fde7-84d7-472b-b1bc-39b19b36bf4e"
+  }, {
+    "source" : "1e1fdbfb-2e73-49bc-89e0-69653e61d133",
+    "target" : "c851a6ed-2eb8-429f-a3fc-bfa1bf6ede09"
+  }, {
+    "source" : "6b82407c-5788-40ca-92de-d350d5b406aa",
+    "target" : "1e1fdbfb-2e73-49bc-89e0-69653e61d133"
+  }, {
+    "source" : "3858af5f-a3d4-4b8d-8a96-d50f5a411513",
+    "target" : "6b82407c-5788-40ca-92de-d350d5b406aa"
+  }, {
+    "source" : "60d076ef-c145-4d85-bd69-932126439f80",
+    "target" : "3858af5f-a3d4-4b8d-8a96-d50f5a411513"
+  }, {
+    "source" : "bb1c29f8-7b5a-436a-8273-3ccf9e580253",
+    "target" : "59abc8d8-8a89-4c6a-bd20-3342398f796d"
+  }, {
+    "source" : "1e023995-36e0-40f6-a45c-93310118a53a",
+    "target" : "a127f1a9-7737-463b-ad4b-237803a5dd12"
+  }, {
+    "source" : "f3050109-c03c-4be6-9b31-1d8c1da6d349",
+    "target" : "ad6e941f-12e6-4788-85a9-bd660dcf1e7f"
+  }, {
+    "source" : "c81bf62f-9346-4d2b-b961-05fc3f06f46b",
+    "target" : "db5a35f5-dc9c-4d09-879e-6240a8690cc0"
+  }, {
+    "source" : "c81bf62f-9346-4d2b-b961-05fc3f06f46b",
+    "target" : "645626b6-4c95-4be7-a55c-2454c7a96b19"
+  }, {
+    "source" : "ab6eab45-19a0-4489-bd45-1323d54b80ad",
+    "target" : "d242d03b-ae41-4001-8f33-0b7a2fcff666"
+  }, {
+    "source" : "ab6eab45-19a0-4489-bd45-1323d54b80ad",
+    "target" : "50904d7d-a110-4b1a-aae9-62bc703af42e"
+  }, {
+    "source" : "ab6eab45-19a0-4489-bd45-1323d54b80ad",
+    "target" : "02743e3e-ec6e-4068-ad45-64a1b43fce80"
+  }, {
+    "source" : "c81bf62f-9346-4d2b-b961-05fc3f06f46b",
+    "target" : "ab6eab45-19a0-4489-bd45-1323d54b80ad"
+  }, {
+    "source" : "f3050109-c03c-4be6-9b31-1d8c1da6d349",
+    "target" : "c81bf62f-9346-4d2b-b961-05fc3f06f46b"
+  }, {
+    "source" : "1e023995-36e0-40f6-a45c-93310118a53a",
+    "target" : "f3050109-c03c-4be6-9b31-1d8c1da6d349"
+  }, {
+    "source" : "bb1c29f8-7b5a-436a-8273-3ccf9e580253",
+    "target" : "1e023995-36e0-40f6-a45c-93310118a53a"
+  }, {
+    "source" : "ebae0481-6032-4ee0-978e-c68b287cc582",
+    "target" : "4a2159bd-53bc-4edf-bdee-2a2fa4a6d0c7"
+  }, {
+    "source" : "d2162006-58a4-4203-ae72-bda8eb085031",
+    "target" : "d6c16831-4fe0-4919-9e22-7fcbc949160a"
+  }, {
+    "source" : "d2162006-58a4-4203-ae72-bda8eb085031",
+    "target" : "d8a0602a-a27d-4efe-aa0c-16f1a88302d6"
+  }, {
+    "source" : "3ec58421-ebca-4dd0-b9de-8faece8460fb",
+    "target" : "48098baf-861e-42b9-aa9f-b414eefa0325"
+  }, {
+    "source" : "3ec58421-ebca-4dd0-b9de-8faece8460fb",
+    "target" : "4dd302d0-a253-44ca-a23c-0bcea32d4e9c"
+  }, {
+    "source" : "3ec58421-ebca-4dd0-b9de-8faece8460fb",
+    "target" : "25e64094-fbad-481f-923e-9f68babd0a96"
+  }, {
+    "source" : "d2162006-58a4-4203-ae72-bda8eb085031",
+    "target" : "3ec58421-ebca-4dd0-b9de-8faece8460fb"
+  }, {
+    "source" : "ebae0481-6032-4ee0-978e-c68b287cc582",
+    "target" : "d2162006-58a4-4203-ae72-bda8eb085031"
+  }, {
+    "source" : "bb1c29f8-7b5a-436a-8273-3ccf9e580253",
+    "target" : "ebae0481-6032-4ee0-978e-c68b287cc582"
+  }, {
+    "source" : "60d076ef-c145-4d85-bd69-932126439f80",
+    "target" : "bb1c29f8-7b5a-436a-8273-3ccf9e580253"
+  }, {
+    "source" : "6d2f6d0f-5c9a-4e21-a4ae-d19d6f58c8ce",
+    "target" : "60d076ef-c145-4d85-bd69-932126439f80"
+  } ]
+}

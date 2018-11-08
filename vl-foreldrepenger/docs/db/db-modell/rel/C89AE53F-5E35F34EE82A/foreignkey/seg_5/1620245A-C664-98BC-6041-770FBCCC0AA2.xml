@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_5" id="1620245A-C664-98BC-6041-770FBCCC0AA2" containerWithKeyObject="D2330A08-3881-CE2B-AC11-C9674E1B006F" localFKIndex="BD69973A-289E-2842-7A50-5BCC9F7B16B7" name="FK_SO_OPPGITT_FRILANSOPPDRAG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:37 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F803FA1A-1838-AAFF-E3A0-97676AC720B7</importedID>
+<referredTableLongName>FPSAK.SO_OPPGITT_FRILANS</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>1F1D3020-AFC6-7CB4-27BA-D3891C4D87E4</referredTableID>
+<keyObject>23C48F96-8A05-2ED3-9D41-58098DE64B47</keyObject>
+<referredKeyID>23C48F96-8A05-2ED3-9D41-58098DE64B47</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

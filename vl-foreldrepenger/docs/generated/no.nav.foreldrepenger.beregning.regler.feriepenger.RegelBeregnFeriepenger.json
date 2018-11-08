@@ -1,0 +1,179 @@
+{
+  "root" : {
+    "id" : "a2e050fc-6026-4621-92b5-340ffc4c876f",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "a2e050fc-6026-4621-92b5-340ffc4c876f",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "bc618f2b-32e6-4838-8a07-d65a88a477d0",
+    "ruleId" : "FP_BR 8.1",
+    "ruleDescription" : "Er brukers inntektskategori arbeidstaker eller sjømann?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3a0448ad-face-4e3b-930e-026c5e4ae69f",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "22412ba4-8af0-4dfd-953d-85c395fec6b9",
+    "ruleId" : "FP_BR 8.2",
+    "ruleDescription" : "Har bruker fått utbetalt foreldrepenger i den totale stønadsperioden?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6474fecc-7833-4ffb-992d-728dfefb70ae",
+    "ruleId" : "FP_BR 8.3",
+    "ruleDescription" : "Finner brukers feriepengeperiode.",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "0a6c920b-e7e2-4ab0-b00a-105e8b332430",
+    "ruleId" : "FP_BR 8.3",
+    "ruleDescription" : "Finner brukers feriepengeperiode.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "7126a0d1-eafd-4ddf-bfbd-86884d52ba8e",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "31b4e60f-1440-438f-861b-4849e1b0267f",
+    "ruleId" : "FP_BR 8.4",
+    "ruleDescription" : "Har bruker uttak i feriepengeperiode?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fe5e7713-e527-431b-9079-465ac0864211",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "f6552fb5-52ee-45f8-8922-5e8f1024fc50",
+    "ruleId" : "FP_BR 8.5",
+    "ruleDescription" : "Går feriepengeperioden over flere kalenderår?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "cf354ce9-0a11-4c07-b7b4-e890a0ce3ea8",
+    "ruleId" : "FP_BR 8.6",
+    "ruleDescription" : "Beregn feriepenger for periode som går over flere kalenderår.",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "267b99c5-7600-4666-a9de-05f2f7f466d5",
+    "ruleId" : "FP_BR 8.6",
+    "ruleDescription" : "Beregn feriepenger for periode som går over flere kalenderår.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "220f1409-1c94-461f-a275-5a48bd0325f7",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f5c4cc96-efa9-4bc0-b7a9-ccf65d271950",
+    "ruleId" : "FP_BR 8.7",
+    "ruleDescription" : "Beregn feriepenger for periode som går over ett kalenderår.",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "a7cb648f-4630-4260-bb8f-baf8734f3804",
+    "ruleId" : "FP_BR 8.7",
+    "ruleDescription" : "Beregn feriepenger for periode som går over ett kalenderår.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "67ab74f1-7a4a-47a2-b223-74b8aa63f6fb",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "0060ffcd-61ae-4801-bee4-fce06c26be8d",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "324cb27b-ce16-4631-963d-589a1712e925",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fc3252b0-8c00-42ca-8cb8-000709479641",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "a2e050fc-6026-4621-92b5-340ffc4c876f",
+    "target" : "bc618f2b-32e6-4838-8a07-d65a88a477d0"
+  }, {
+    "source" : "3a0448ad-face-4e3b-930e-026c5e4ae69f",
+    "target" : "22412ba4-8af0-4dfd-953d-85c395fec6b9"
+  }, {
+    "source" : "6474fecc-7833-4ffb-992d-728dfefb70ae",
+    "target" : "0a6c920b-e7e2-4ab0-b00a-105e8b332430"
+  }, {
+    "source" : "7126a0d1-eafd-4ddf-bfbd-86884d52ba8e",
+    "target" : "31b4e60f-1440-438f-861b-4849e1b0267f"
+  }, {
+    "source" : "fe5e7713-e527-431b-9079-465ac0864211",
+    "target" : "f6552fb5-52ee-45f8-8922-5e8f1024fc50"
+  }, {
+    "source" : "cf354ce9-0a11-4c07-b7b4-e890a0ce3ea8",
+    "target" : "267b99c5-7600-4666-a9de-05f2f7f466d5"
+  }, {
+    "source" : "cf354ce9-0a11-4c07-b7b4-e890a0ce3ea8",
+    "target" : "220f1409-1c94-461f-a275-5a48bd0325f7"
+  }, {
+    "source" : "fe5e7713-e527-431b-9079-465ac0864211",
+    "target" : "cf354ce9-0a11-4c07-b7b4-e890a0ce3ea8"
+  }, {
+    "source" : "f5c4cc96-efa9-4bc0-b7a9-ccf65d271950",
+    "target" : "a7cb648f-4630-4260-bb8f-baf8734f3804"
+  }, {
+    "source" : "f5c4cc96-efa9-4bc0-b7a9-ccf65d271950",
+    "target" : "67ab74f1-7a4a-47a2-b223-74b8aa63f6fb"
+  }, {
+    "source" : "fe5e7713-e527-431b-9079-465ac0864211",
+    "target" : "f5c4cc96-efa9-4bc0-b7a9-ccf65d271950"
+  }, {
+    "source" : "7126a0d1-eafd-4ddf-bfbd-86884d52ba8e",
+    "target" : "fe5e7713-e527-431b-9079-465ac0864211"
+  }, {
+    "source" : "7126a0d1-eafd-4ddf-bfbd-86884d52ba8e",
+    "target" : "0060ffcd-61ae-4801-bee4-fce06c26be8d"
+  }, {
+    "source" : "6474fecc-7833-4ffb-992d-728dfefb70ae",
+    "target" : "7126a0d1-eafd-4ddf-bfbd-86884d52ba8e"
+  }, {
+    "source" : "3a0448ad-face-4e3b-930e-026c5e4ae69f",
+    "target" : "6474fecc-7833-4ffb-992d-728dfefb70ae"
+  }, {
+    "source" : "3a0448ad-face-4e3b-930e-026c5e4ae69f",
+    "target" : "324cb27b-ce16-4631-963d-589a1712e925"
+  }, {
+    "source" : "a2e050fc-6026-4621-92b5-340ffc4c876f",
+    "target" : "3a0448ad-face-4e3b-930e-026c5e4ae69f"
+  }, {
+    "source" : "a2e050fc-6026-4621-92b5-340ffc4c876f",
+    "target" : "fc3252b0-8c00-42ca-8cb8-000709479641"
+  } ]
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 sp2 (http://www.altova.com) by XMLSPY 2006 Enterprise Ed. Release 3, Concurrent for 9 users (with SMP from 2006-06-21 to 2007-06-22) (Aetat Arbeidsdirektoratet) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:yt="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:v2"
+			xmlns:ytfp="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:fp:v2"
+			xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v2"
+			targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:fp:v2"
+			elementFormDefault="qualified">
+	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:felles:v2" schemaLocation="../felles-v2.xsd"/>
+	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:v2" schemaLocation="ytelse-v2.xsd"/>
+	<xsd:complexType name="YtelseForeldrepenger">
+		<xsd:complexContent>
+			<xsd:extension base="yt:Ytelse">
+				<xsd:sequence>
+					<xsd:element name="beregningsresultat" type="ytfp:Beregningsresultat" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Beregningsresultat">
+		<xsd:sequence>
+			<xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+			<xsd:element name="brukerErMottaker" type="felles:BooleanOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="no">Angir om bruker eller arbeidsgiver er mottaker</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="virksomhet" type="ytfp:Virksomhet" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="no">Eventuell virksomhet som denne andelen er knyttet til</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="aktivitetstatus" type="felles:KodeverksOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="no">Internt kodeverk AKTIVITET_STATUS som angir aktivitetstatus for andelen</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="inntektskategori" type="felles:KodeverksOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="no">Internt kodeverk INNTEKTSKATEGORI som angir inntektskategori for andelen</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dagsats" type="felles:IntOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="no">Dagsats for tilkjent ytelse</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="stillingsprosent" type="felles:DecimalOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="no">Dokumentasjon mangler</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="utbetalingsgrad" type="felles:DecimalOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="no">Dokumentasjon mangler</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Virksomhet">
+		<xsd:sequence>
+			<xsd:element name="orgnr" type="felles:StringOpplysning" minOccurs="0"/>
+			<xsd:element name="navn" type="felles:StringOpplysning" minOccurs="0"/>
+			<xsd:element name="arbeidsforholdid" type="felles:StringOpplysning" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,237 @@
+{
+  "root" : {
+    "id" : "6a38b570-ca92-4e06-8c06-9e31c9439377",
+    "ruleId" : "FP_VK_2.13",
+    "ruleDescription" : "Hvis ikke bruker er avklart som ikke medlem ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "6a38b570-ca92-4e06-8c06-9e31c9439377",
+    "ruleId" : "FP_VK_2.13",
+    "ruleDescription" : "Hvis ikke bruker er avklart som ikke medlem ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "cfe599ad-53b5-49a3-a61e-d58965334d73",
+    "ruleId" : "FP_VK_2.14",
+    "ruleDescription" : "Hvis saksbehandler setter opphør av medlemskap på grunn av endringer i tps ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "ffa0c442-4e57-4f52-82c6-6695d08135ba",
+    "ruleId" : "FP_VK_2.2",
+    "ruleDescription" : "Hvis bruker ikke er avklart som pliktig eller frivillig medlem ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "0967627d-0e55-49a5-8a6c-2bfb9d8741b6",
+    "ruleId" : "FP_VK_2.1",
+    "ruleDescription" : "Hvis bruker er avklart som bosatt eller død ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "f1eece59-bd08-4450-ab44-a09c431eb60a",
+    "ruleId" : "FP_VK_2.x",
+    "ruleDescription" : "Hvis ikke bruker er avklart som ikke bosatt",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "774f0a60-c1de-4c6c-8c42-ab7b42024324",
+    "ruleId" : "FP_VK_2.11",
+    "ruleDescription" : "Hvis ikke bruker er avklart som nordisk statsborger ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "dc79321f-133c-46d3-a8c1-0587ba72c0b8",
+    "ruleId" : "FP_VK_2.12",
+    "ruleDescription" : "Hvis ikke bruker er avklart som EU/EØS statsborger ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "fa8d5293-7989-4ae8-9a68-f8e1379477b6",
+    "ruleId" : "FP_VK_2.12.1",
+    "ruleDescription" : "Hvis bruker er avklart med lovlig opphold ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "3acd0d08-ae3f-49f0-adb0-143739207bfe",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "36e5f8c8-8f06-4e3f-8076-d2654b460bdd",
+    "ruleId" : "1023",
+    "ruleDescription" : "Bruker har ikke lovlig opphold.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6b7b817d-7653-4451-b0b4-1fc02821f9fc",
+    "ruleId" : "FP_VK_2.12.2",
+    "ruleDescription" : "Hvis bruker er avklart med oppholdsrett ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "94409119-c92c-4001-901c-122a917e4e5c",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f8a0e3c7-30fd-4659-901e-df08006b98c9",
+    "ruleId" : "1024",
+    "ruleDescription" : "Bruker har ikke oppholdsrett.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "2f2b8678-fdc9-47b2-b512-f0c07c746cd2",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "eb418b6a-4570-4d86-9aa4-7fb7b3aa87e8",
+    "ruleId" : "FP_VK_2.2.1",
+    "ruleDescription" : "Har bruker minst ett aktivt arbeidsforhold med inntekt i relevant periode",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "7d853025-2901-445c-b355-3c8485d55325",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "086cb8ce-98d3-486c-aefa-a0579440589b",
+    "ruleId" : "1025",
+    "ruleDescription" : "Bruker er ikke bosatt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a5741784-6c8d-4fe1-89af-3b2a01d99dcd",
+    "ruleId" : "FP_VK_2.2.1",
+    "ruleDescription" : "Har bruker minst ett aktivt arbeidsforhold med inntekt i relevant periode",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "3b6a8566-05a3-44db-acff-11f1bd4948ef",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "664a6ceb-fff5-4a13-8366-b26d6c6dacc4",
+    "ruleId" : "1021",
+    "ruleDescription" : "Bruker er utvandret.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "634bed74-3bb5-4bdc-a887-e415051b6c6e",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "72d2f5f9-8ce2-462c-be1d-506915d3a741",
+    "ruleId" : "1020",
+    "ruleDescription" : "Opphør av medlemskap pga endringer i tps.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "2f562fc0-f261-431b-a861-cc012160aa09",
+    "ruleId" : "1020",
+    "ruleDescription" : "Bruker er registrert som ikke medlem.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "fa8d5293-7989-4ae8-9a68-f8e1379477b6",
+    "target" : "3acd0d08-ae3f-49f0-adb0-143739207bfe",
+    "role" : ""
+  }, {
+    "source" : "fa8d5293-7989-4ae8-9a68-f8e1379477b6",
+    "target" : "36e5f8c8-8f06-4e3f-8076-d2654b460bdd",
+    "role" : "ellers"
+  }, {
+    "source" : "dc79321f-133c-46d3-a8c1-0587ba72c0b8",
+    "target" : "fa8d5293-7989-4ae8-9a68-f8e1379477b6",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "6b7b817d-7653-4451-b0b4-1fc02821f9fc",
+    "target" : "94409119-c92c-4001-901c-122a917e4e5c",
+    "role" : ""
+  }, {
+    "source" : "6b7b817d-7653-4451-b0b4-1fc02821f9fc",
+    "target" : "f8a0e3c7-30fd-4659-901e-df08006b98c9",
+    "role" : "ellers"
+  }, {
+    "source" : "dc79321f-133c-46d3-a8c1-0587ba72c0b8",
+    "target" : "6b7b817d-7653-4451-b0b4-1fc02821f9fc",
+    "role" : "ellers"
+  }, {
+    "source" : "774f0a60-c1de-4c6c-8c42-ab7b42024324",
+    "target" : "dc79321f-133c-46d3-a8c1-0587ba72c0b8",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "774f0a60-c1de-4c6c-8c42-ab7b42024324",
+    "target" : "2f2b8678-fdc9-47b2-b512-f0c07c746cd2",
+    "role" : "ellers"
+  }, {
+    "source" : "f1eece59-bd08-4450-ab44-a09c431eb60a",
+    "target" : "774f0a60-c1de-4c6c-8c42-ab7b42024324",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "eb418b6a-4570-4d86-9aa4-7fb7b3aa87e8",
+    "target" : "7d853025-2901-445c-b355-3c8485d55325",
+    "role" : ""
+  }, {
+    "source" : "eb418b6a-4570-4d86-9aa4-7fb7b3aa87e8",
+    "target" : "086cb8ce-98d3-486c-aefa-a0579440589b",
+    "role" : "ellers"
+  }, {
+    "source" : "f1eece59-bd08-4450-ab44-a09c431eb60a",
+    "target" : "eb418b6a-4570-4d86-9aa4-7fb7b3aa87e8",
+    "role" : "ellers"
+  }, {
+    "source" : "0967627d-0e55-49a5-8a6c-2bfb9d8741b6",
+    "target" : "f1eece59-bd08-4450-ab44-a09c431eb60a",
+    "role" : ""
+  }, {
+    "source" : "a5741784-6c8d-4fe1-89af-3b2a01d99dcd",
+    "target" : "3b6a8566-05a3-44db-acff-11f1bd4948ef",
+    "role" : ""
+  }, {
+    "source" : "a5741784-6c8d-4fe1-89af-3b2a01d99dcd",
+    "target" : "664a6ceb-fff5-4a13-8366-b26d6c6dacc4",
+    "role" : "ellers"
+  }, {
+    "source" : "0967627d-0e55-49a5-8a6c-2bfb9d8741b6",
+    "target" : "a5741784-6c8d-4fe1-89af-3b2a01d99dcd",
+    "role" : "ellers"
+  }, {
+    "source" : "ffa0c442-4e57-4f52-82c6-6695d08135ba",
+    "target" : "0967627d-0e55-49a5-8a6c-2bfb9d8741b6",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "ffa0c442-4e57-4f52-82c6-6695d08135ba",
+    "target" : "634bed74-3bb5-4bdc-a887-e415051b6c6e",
+    "role" : "ellers"
+  }, {
+    "source" : "cfe599ad-53b5-49a3-a61e-d58965334d73",
+    "target" : "ffa0c442-4e57-4f52-82c6-6695d08135ba",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "cfe599ad-53b5-49a3-a61e-d58965334d73",
+    "target" : "72d2f5f9-8ce2-462c-be1d-506915d3a741",
+    "role" : "ellers"
+  }, {
+    "source" : "6a38b570-ca92-4e06-8c06-9e31c9439377",
+    "target" : "cfe599ad-53b5-49a3-a61e-d58965334d73",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "6a38b570-ca92-4e06-8c06-9e31c9439377",
+    "target" : "2f562fc0-f261-431b-a861-cc012160aa09",
+    "role" : "ellers"
+  } ]
+}

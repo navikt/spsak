@@ -1,0 +1,12 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getSkjaeringstidspunkt|java.time.LocalDate|
+|getSoeknadMottatDato|java.time.LocalDate|
+|===
+
+
+

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_4" id="A1826063-9585-C334-FCF7-216D6A1C465D" containerWithKeyObject="0D9F4A21-C136-3AA3-B6EB-5794CC1F6DC8" localFKIndex="61320D88-1770-FDE8-624C-CF29F727BE45" name="FK_MEDLEMSKAP_PERIODER_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D16F3D8A-7CE2-4A1A-9F11-DB2CA7C8DACD</importedID>
+<referredTableLongName>MEDLEMSKAP_REGISTRERT</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>0F705288-59B8-D8C7-B974-5B46D3BD2517</referredTableID>
+<keyObject>4B6597CF-64A2-EE75-2DB4-3AAF587FD35B</keyObject>
+<referredKeyID>4B6597CF-64A2-EE75-2DB4-3AAF587FD35B</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

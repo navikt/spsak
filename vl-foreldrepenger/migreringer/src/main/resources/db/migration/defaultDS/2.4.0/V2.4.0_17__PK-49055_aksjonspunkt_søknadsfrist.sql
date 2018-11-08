@@ -1,0 +1,9 @@
+INSERT INTO VURDERINGSPUNKT_DEF(KODE, BEHANDLING_STEG, VURDERINGSPUNKT_TYPE, NAVN)
+    VALUES ('SØKNADSFRIST_FP.INN', 'SØKNADSFRIST_FP', 'INN', 'Vurder søknadsfrist foreldrepenger - inngang');
+
+INSERT INTO VURDERINGSPUNKT_DEF(KODE, BEHANDLING_STEG, VURDERINGSPUNKT_TYPE, NAVN)
+VALUES ('SØKNADSFRIST_FP.UT', 'SØKNADSFRIST_FP', 'UT', 'Vurder søknadsfrist foreldrepenger - utgang');
+
+
+INSERT INTO AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE)
+    VALUES ('5043', 'Manuell vurdering av søknadsfristvilkåret foreldrepenger', 'SØKNADSFRIST_FP.UT', 'Vurder mulige unntak ved brudd på søknadsfrist for foreldrepenger', 'J', 'MANU', 'FP_VK_3');

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+    version="2.1">
+	
+	<sequence-generator name="SEQ_FAGSAK" allocation-size="50" sequence-name="SEQ_FAGSAK" />
+	<sequence-generator name="SEQ_FAGSAK_PROSESS_TASK" allocation-size="50" sequence-name="SEQ_FAGSAK_PROSESS_TASK"/>
+	<sequence-generator name="SEQ_FAGSAK_RELASJON" allocation-size="50" sequence-name="SEQ_FAGSAK_RELASJON" />
+    <sequence-generator name="SEQ_JOURNALPOST" allocation-size="50" sequence-name="SEQ_JOURNALPOST" />
+	
+	<sequence-generator name="SEQ_BARN" allocation-size="50" sequence-name="SEQ_BARN" />
+	<sequence-generator name="SEQ_BRUKER" allocation-size="50" sequence-name="SEQ_BRUKER" />
+	
+    <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsessTask"/>
+	<entity class="no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.Journalpost"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.aktør.NavBruker" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType"/>
+    
+
+	
+</entity-mappings>

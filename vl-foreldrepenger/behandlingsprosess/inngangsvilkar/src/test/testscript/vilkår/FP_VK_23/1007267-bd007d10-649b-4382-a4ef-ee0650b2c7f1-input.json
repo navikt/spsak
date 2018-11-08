@@ -1,0 +1,43 @@
+{
+  "aktivitetPerioder" : [ ],
+  "behandlingsDato" : "2018-08-23",
+  "forsteDatoOpptjening" : "2016-06-02",
+  "sisteDatoForOpptjening" : "2017-04-01",
+  "inntektPerioder" : [ {
+    "datoIntervall" : [ "2017-04-01", "2017-04-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 40000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-01-01", "2017-01-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 40000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-03-01", "2017-03-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 40000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-02-01", "2017-02-28" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 40000,
+    "inntektValuta" : "NOK"
+  } ]
+}

@@ -1,0 +1,66 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="SOEKNAD_ADOPSJON_BARN" directorySegmentName="seg_0" id="B9D06C70-9441-FDB5-5892-F3A96269B2D8">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="soeknad_id" id="2585B774-1B5E-C273-4E18-5E8D4F3C2B7D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="versjon" id="277FE66F-47DA-AB01-1EF7-C35A163ECA0C">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="id" id="39E1198B-3123-F0AE-184D-B1893F0F9CC0">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="barn_nummer" id="ABC7EF00-28A3-E1AC-B706-F904EB6128E9">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="foedselsdato" id="CDC44134-835D-EAA1-7F48-4AB92E234B78">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_SOEKNAD_ADOP_BARN_1" id="CF536CD3-347F-F25E-A074-34D413763898">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_SOEKNAD_ADOPSJON_BARN" id="FEDC14BD-20AF-2E1B-DB95-17FB3FE29B4B">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_SOEKNAD_ADOPSJON_BARN_1" id="E9B01361-6B03-91C0-BEBF-DF88981EEE39">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_SOEKNAD_ADOPSJON_BARN" id="871E00DE-D896-759A-F7A9-26BB61DE0D14">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 16:52:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

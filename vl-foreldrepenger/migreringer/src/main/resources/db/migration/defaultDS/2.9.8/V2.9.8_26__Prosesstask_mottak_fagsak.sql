@@ -1,0 +1,2 @@
+insert into prosess_task_type (kode, navn, feil_maks_forsoek, feil_sek_mellom_forsoek, feilhandtering_algoritme, beskrivelse)
+values ('hendelser.håndterHendelsePåFagsak', 'Fagsak knyttet til mottatt forretningshendelse.', 3, 60, 'DEFAULT', 'Identifisert fagsak fra håndtering av mottatt forretningshendelse håndteres videre som egen task. Splitt mellom identifisering av fagsak og videre eksekvering er for å sikre at samtidige prosesstasker på fagsak unngås.');

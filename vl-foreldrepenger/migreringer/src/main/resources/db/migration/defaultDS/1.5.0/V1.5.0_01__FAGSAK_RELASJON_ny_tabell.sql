@@ -1,0 +1,52 @@
+-- Tabell
+CREATE TABLE FAGSAK_ARSAK_TYPE (
+    kode varchar2(7 CHAR) not null,
+    navn varchar2(50 CHAR)not null,
+    beskrivelse varchar2(4000 CHAR),
+    opprettet_av    VARCHAR2(20 CHAR) DEFAULT 'VL' NOT NULL,
+    opprettet_tid   TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+    endret_av       VARCHAR2(20 CHAR),
+    endret_tid      TIMESTAMP(3),
+	CONSTRAINT PK_FAGSAK_ARSAK_TYPE PRIMARY KEY (kode)
+);
+
+-- Inserts
+INSERT INTO FAGSAK_ARSAK_TYPE (kode, navn) VALUES ('FD', 'Fødsel');
+INSERT INTO FAGSAK_ARSAK_TYPE (kode, navn) VALUES ('AD', 'Adopsjon');
+
+
+CREATE TABLE FAGSAK_YTELSE_TYPE (
+    kode   VARCHAR2(7 char) NOT NULL,
+    navn VARCHAR2(40 char) NOT NULL,
+    beskrivelse varchar2(4000 CHAR),
+    opprettet_av    VARCHAR2(20 CHAR) DEFAULT 'VL' NOT NULL,
+    opprettet_tid   TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+    endret_av       VARCHAR2(20 CHAR),
+    endret_tid      TIMESTAMP(3),
+    CONSTRAINT PK_FAGSAK_YTELSE_TYPE PRIMARY KEY (kode)
+);
+
+INSERT INTO FAGSAK_YTELSE_TYPE (KODE, NAVN) values ('ES', 'Engangstønad');
+INSERT INTO FAGSAK_YTELSE_TYPE (KODE, NAVN) values ('FP', 'Foreldrepenger');
+
+-- Tabell
+CREATE TABLE FAGSAK_RELASJON (
+	ID number(19) not null,
+	fagsak_arsak_type  varchar2(7 char) NOT NULL,
+	fagsak_ytelse_type   VARCHAR2(7 char) NOT NULL,
+	versjon              NUMBER(19) DEFAULT 0 NOT NULL,
+    opprettet_av    VARCHAR2(20 CHAR) DEFAULT 'VL' NOT NULL,
+    opprettet_tid   TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+    endret_av       VARCHAR2(20 CHAR),
+    endret_tid      TIMESTAMP(3),
+	CONSTRAINT PK_FAGSAK_RELASJON PRIMARY KEY (ID)
+);
+
+CREATE INDEX IDX_FAGSAK_RELASJON_1 ON FAGSAK_RELASJON(fagsak_arsak_type);
+CREATE INDEX IDX_FAGSAK_RELASJON_2 ON FAGSAK_RELASJON(fagsak_ytelse_type);
+
+-- Sekvens
+CREATE SEQUENCE SEQ_FAGSAK_RELASJON MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+
+ALTER TABLE FAGSAK_RELASJON ADD CONSTRAINT FK_FAGSAK_RELASJON_1 FOREIGN KEY (FAGSAK_YTELSE_TYPE) REFERENCES FAGSAK_YTELSE_TYPE;
+ALTER TABLE FAGSAK_RELASJON ADD CONSTRAINT FK_FAGSAK_RELASJON_2 FOREIGN KEY (FAGSAK_ARSAK_TYPE) REFERENCES FAGSAK_ARSAK_TYPE;

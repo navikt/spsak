@@ -1,0 +1,17 @@
+== Systemkontekst
+
+Diagrammet under viser oversikt over FPSAK med tilknyttede systemer i løsningen (FPFORDEL, FPABONNENT).
+Her vises også hvilke virksomhetstjenester løsningen er avhengig av.
+
+image::https://confluence.adeo.no/download/attachments/231977872/kontekstdiagram-fp.png[Systemkontekst for Foreldrepenger saksbehandling.,1000,500]
+
+FPABONNENT og FPFORDEL er løsninger i samme domene, deployet selvstendig.
+De ulike grensesnittene er beskrevet ytterligere i kapittel for Integrasjon.
+
+== Systemkontekst - Admin, Monitorering og Sikkerhet
+
+Diagrammet under viser hvilke systemer løsningen benytter til administasjon, overvåknig og sikkerhet (autorisasjon, autentisering).
+
+image::https://confluence.adeo.no/download/attachments/265174973/kontekstdiagram%20-%20admin%20og%20sikkerhet.png[Systemkontekst - Administrasjon, Overvåking og sikkerhet].
+
+

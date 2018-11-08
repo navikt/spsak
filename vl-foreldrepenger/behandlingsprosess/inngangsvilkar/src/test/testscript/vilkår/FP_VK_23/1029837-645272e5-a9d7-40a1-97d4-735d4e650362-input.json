@@ -1,0 +1,15 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "1995-02-20", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "NÆRING",
+      "aktivitetReferanse" : "971278420",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "VURDERT_GODKJENT"
+  } ],
+  "behandlingsDato" : "2018-10-01",
+  "forsteDatoOpptjening" : "2017-12-25",
+  "sisteDatoForOpptjening" : "2018-10-24",
+  "inntektPerioder" : [ ]
+}

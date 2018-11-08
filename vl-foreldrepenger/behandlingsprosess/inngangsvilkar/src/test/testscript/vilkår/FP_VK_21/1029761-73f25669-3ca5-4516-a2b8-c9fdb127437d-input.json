@@ -1,0 +1,13 @@
+{
+  "søkerRolle" : "MORA",
+  "fagsakÅrsak" : "ADOPSJON",
+  "førsteUttaksDato" : "2018-08-28",
+  "hendelsesDato" : "2018-08-28",
+  "terminDato" : null,
+  "morsMaksdato" : null,
+  "periodeLengde" : "P10M",
+  "tidligsteUttakFørFødselPeriode" : "P84D",
+  "skjæringsdatoOpptjening" : "2018-08-28",
+  "opptjeningsperiodeFom" : "2017-10-28",
+  "opptjeningsperiodeTom" : "2018-08-27"
+}

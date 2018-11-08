@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="E5957218-68B3-D26F-AF55-2B405A1DBDC4" containerWithKeyObject="39D4C3D1-B03F-3838-B998-6F2472531292" localFKIndex="7D21BB67-61F1-2118-A537-C370267FDD01" name="FK_VURDER_PAA_NYTT_AARSAK_1">
+<sourceDDLFile>V1.8.0_04__HistorikkInnslag_drop_column.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:14 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D8EF3849-DFC0-1431-8CAB-C898D99545DE</importedID>
+<referredTableLongName>AKSJONSPUNKT</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>8E4E4672-A7D0-8447-5E2B-1944E19CA9DB</referredTableID>
+<keyObject>D99D5319-CA80-4327-36B5-5D46F5292615</keyObject>
+<referredKeyID>D99D5319-CA80-4327-36B5-5D46F5292615</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

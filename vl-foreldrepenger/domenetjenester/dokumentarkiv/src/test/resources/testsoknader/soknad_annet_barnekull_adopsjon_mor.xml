@@ -1,0 +1,36 @@
+<v1:soeknadsskjemaEngangsstoenad xmlns:v1="http://nav.no/melding/virksomhet/soeknadsskjemaEngangsstoenad/v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <bruker xsi:type="v1:Bruker">
+        <personidentifikator>07078516261</personidentifikator>
+    </bruker>
+    <soknadsvalg>
+        <foedselEllerAdopsjon>ADOPSJON</foedselEllerAdopsjon>
+        <stoenadstype>ENGANGSSTOENADMOR</stoenadstype>
+    </soknadsvalg>
+    <tilknytningNorge>
+        <!--Optional:-->
+        <oppholdNorgeNaa>true</oppholdNorgeNaa>
+    </tilknytningNorge>
+    <opplysningerOmBarn>
+        <!--Optional:-->
+        <omsorgsovertakelsedato>2017-06-01</omsorgsovertakelsedato>
+        <!--Zero or more repetitions:-->
+        <foedselsdato>2016-12-12</foedselsdato>
+        <antallBarn>1</antallBarn>
+    </opplysningerOmBarn>
+    <!--Optional:-->
+    <opplysningerOmFar>
+        <!--Optional:-->
+        <fornavn>Synt17</fornavn>
+        <!--Optional:-->
+        <etternavn>Olsen</etternavn>
+        <!--Optional:-->
+        <personidentifikator>03038005595</personidentifikator>
+    </opplysningerOmFar>
+    <!--Zero or more repetitions:-->
+    <vedleggListe>
+        <!--Optional:-->
+        <skjemanummer>O7</skjemanummer> <!-- O7 Dokumentasjon på dato for omsorgsovertakelse (o7-omsorgsovertakelse.pdf) -->
+        <innsendingsvalg>LASTET_OPP</innsendingsvalg>
+        <erPaakrevdISoeknadsdialog>true</erPaakrevdISoeknadsdialog>
+    </vedleggListe>
+</v1:soeknadsskjemaEngangsstoenad>

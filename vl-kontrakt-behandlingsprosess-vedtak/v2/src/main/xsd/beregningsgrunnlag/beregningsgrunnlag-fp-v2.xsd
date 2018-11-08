@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 sp2 (http://www.altova.com) by XMLSPY 2006 Enterprise Ed. Release 3, Concurrent for 9 users (with SMP from 2006-06-21 to 2007-06-22) (Aetat Arbeidsdirektoratet) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:bg="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:fp:v2"
+			xmlns:be="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:v2"
+			xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v2"
+			targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:fp:v2"
+			elementFormDefault="qualified">
+	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:felles:v2" schemaLocation="../felles-v2.xsd"/>
+	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:v2" schemaLocation="beregningsgrunnlag-v2.xsd"/>
+
+	<xsd:complexType name="BeregningsgrunnlagForeldrepenger">
+		<xsd:complexContent>
+			<xsd:extension base="be:Beregningsgrunnlag">
+				<xsd:sequence>
+					<xsd:element name="dekningsgrad" type="felles:LongOpplysning" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Dekningsgrad (80% eller 100%) for denne foreldrepengesaken</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="skjaeringstidspunkt" type="felles:DateOpplysning" minOccurs="0"/>
+					<xsd:element name="aktivitetstatuser" type="bg:AktivitetStatus" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="beregningsgrunnlagPeriode" type="bg:BeregningsgrunnlagPeriode" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BeregningsgrunnlagPeriode">
+		<xsd:sequence>
+			<xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+			<xsd:element name="brutto" type="felles:FloatOpplysning" minOccurs="0"/>
+			<xsd:element name="avkortet" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Avkortet beregningsgrunnlag</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="redusert" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Redusert beregningsgrunnlag</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dagsats" type="felles:LongOpplysning" minOccurs="0"/>
+			<xsd:element name="beregningsgrunnlagPrStatusOgAndel" type="bg:BeregningsgrunnlagPrStatusOgAndel" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BeregningsgrunnlagPrStatusOgAndel">
+		<xsd:sequence>
+			<xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+			<xsd:element name="aktivitetstatus" type="felles:KodeverksOpplysning" minOccurs="0"/>
+			<xsd:element name="virksomhetsnummer" type="felles:StringOpplysning" minOccurs="0"/>
+			<xsd:element name="erTidsbegrensetArbeidsforhold" type="felles:BooleanOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Angir om andelen angår et tidsbegrenset arbeidsforhold</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="brutto" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Brutto beregningsgrunnlagandel</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="avkortet" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Avkortet beregningsgrunnlagandel</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="redusert" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Redusert beregningsgrunnlagandel</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="overstyrt" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Beregningsgrunnlagandel overstyrt</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="beregnet" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Beregningsgrunnlagandel beregnet</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="inntektskategori" type="felles:KodeverksOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="no">Beskrivelse mangler</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="refusjonTilArbeidsgiver" type="bg:RefusjonTilArbeidsgiver" minOccurs="0"/>
+			<xsd:element name="naturalytelseBortfall" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Verdi av bortfalt naturalytelse per år</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="gjennomsnittligPensjonsgivendeInntekt" type="bg:GjennomsnittligPensjonsgivendeInntekt" minOccurs="0"/>
+			<xsd:element name="tilstoetendeYtelseType" type="felles:KodeverksOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Type tilstøtende ytelse</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="tilstoetendeYtelse" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Beløp for tilstøtende ytelse</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="avkortetBrukersAndel" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Avkortet brukers beregningsgrunnlagandel</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="redusertBrukersAndel" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Redusert brukers beregningsgrunnlagandel</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dagsatsBruker" type="felles:LongOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Dagsats til bruker</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dagsatsArbeidsgiver" type="felles:LongOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Dagsats til arbeidsgiver</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RefusjonTilArbeidsgiver">
+		<xsd:sequence>
+			<xsd:element name="refusjonskrav" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Arbeidsgiver refusjonskrav</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="maksimal" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Maksimalverdi for refusjon til arbeidsgiver</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="avkortet" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Avkortet refusjon til arbeidsgiver</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="redusert" type="felles:FloatOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Redusert refusjon til arbeidsgiver</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GjennomsnittligPensjonsgivendeInntekt">
+		<xsd:sequence>
+			<xsd:element name="pgisnitt" type="felles:LongOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Gjennomsnittlig pensjonsgivende inntekt</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="pgiaar1" type="felles:LongOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Pensjonsgivende inntekt i år 1</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="pgiaar2" type="felles:LongOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Pensjonsgivende inntekt i år 2</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="pgiaar3" type="felles:LongOpplysning" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Pensjonsgivende inntekt i år 3</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AktivitetStatus">
+		<xsd:sequence>
+			<xsd:element name="aktivitetStatus" type="felles:KodeverksOpplysning" minOccurs="0"/>
+			<xsd:element name="hjemmel" type="felles:KodeverksOpplysning" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="beregningsgrunnlag" type="bg:BeregningsgrunnlagForeldrepenger"/>
+</xsd:schema>

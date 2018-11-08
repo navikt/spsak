@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+    <!-- Hibernate persistence unit. -->
+    <persistence-unit name="pu-default" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <non-jta-data-source>jdbc/defaultDS</non-jta-data-source>
+
+        <mapping-file>META-INF/konfigverdi-orm.xml</mapping-file>
+        <mapping-file>META-INF/felles-kodeverk-orm.xml</mapping-file>
+        <mapping-file>META-INF/kodeverk-orm.xml</mapping-file>
+        <mapping-file>META-INF/prosesstask-orm.xml</mapping-file>
+        
+        <mapping-file>META-INF/fagsak-orm.xml</mapping-file>
+        <mapping-file>META-INF/behandlingslager-orm.xml</mapping-file>
+
+        <mapping-file>META-INF/dokumentbestiller-orm.xml</mapping-file>
+        <mapping-file>META-INF/okonomioppdrag-orm.xml</mapping-file>
+
+        <!-- Datavarehus er del av same persistencecontext, men tabellene lever fysisk i eget skjema FPSAK_HIST -->
+        <mapping-file>META-INF/datavarehus-orm.xml</mapping-file>
+        
+        <!-- Skilt ut mapping for vedtak (jmf. 'Vedtakslageret') -->
+        <mapping-file>META-INF/vedtakslager-orm.xml</mapping-file>
+
+        <!-- Skilt ut mapping for json feed -->
+        <mapping-file>META-INF/feed-orm.xml</mapping-file>
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect"/>
+            <property name="hibernate.connection.autocommit" value="false"/>
+            <property name="hibernate.jdbc.use_get_generated_keys" value="true" />
+            <property name="org.hibernate.flushMode" value="COMMIT" />
+            
+            <!-- Hibernate bundlet: https://docs.jboss.org/author/display/AS71/JPA+Reference+Guide -->
+            <property name="jboss.as.jpa.managed" value="false" />
+            <property name="jboss.as.jpa.providerModule" value="application" />
+        </properties>
+    </persistence-unit>
+
+</persistence>

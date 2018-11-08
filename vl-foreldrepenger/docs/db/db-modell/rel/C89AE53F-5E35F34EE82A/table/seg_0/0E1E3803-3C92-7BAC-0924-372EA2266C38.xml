@@ -1,0 +1,238 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0E1E3803-3C92-7BAC-0924-372EA2266C38" name="MEDLEMSKAP_OPPG_LAND">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Informasjon om utenlandsopphold</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F6EA0741-966D-C983-284B-F15090120D04</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="161A9A57-5157-713F-2D85-ACA5EE79DA83">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8DA40909-D08D-68BD-5926-5798AD068A3D</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="LAND" id="8233A3BC-1EA2-E5EF-A773-9F292E9D0481">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>FK:LANDKODER Landet for den oppgitte tilknytningen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AD92E791-2BA9-20CB-0FDC-4B17F9B1347B</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="54C50A36-D255-3586-FDCE-72E063789491" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="PERIODE_FOM" id="B2657BFA-F391-6D7C-B9D0-6EA405B23694">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Startdato for utenlandsopphold</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>20ADF6C2-703A-C85D-B24C-61823D67C89E</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PERIODE_TOM" id="1D845EB5-28DC-E407-344F-1B233CD2D199">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Sluttdato for utenlandsopphold</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>947A093E-2732-62F4-E162-30F838DA3557</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="E8A44CB3-73B8-8C84-0ACE-A67C7E20704C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>00AE46A5-F22B-2ADB-30AE-40F4A6019638</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="194A0096-8BA2-8239-03B1-63ACAC7F16E3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>71BD0501-9C30-946E-D6CB-F613BAEEC431</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="5DBDB2AF-5E99-7830-AA08-605EDB2A3997">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A9B10F4D-0E21-240C-00DE-667DCF0C2F92</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="909EDCD6-7C95-1303-CD82-5C4BB50DD512">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>90258407-BA85-2E52-717F-86BDB039573C</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="TIDLIGERE_OPPHOLD" id="864A4E2E-702D-400A-0757-62883D9D2E56">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Tidligere opphold i Norge (boolsk). Ja = Tidligere, Nei = Fremtidig</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>CBD8F21A-8F81-BF79-2715-8F3D3F62DADA</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="MEDLEMSKAP_OPPG_TILKNYT_ID" id="3844655A-A253-3525-4762-F1D45B377472">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>FK:MEDLEMSKAP_OPPG_TILKNYT Som er koblingstabellen mellom hver enkelt oppgitt tilknytning og søknaden</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1823C508-924D-5E79-E8E1-FEA166848F47</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="07A311E9-7DA4-2A31-15B9-1E946CBF784F" referredColumn="5EC72AD3-5708-FBA2-25D4-D227A6D22B6F"/>
+</associations>
+</Column>
+<Column name="KL_LANDKODER" id="31E75857-66DD-BFF7-B6B8-72280602536F">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>44A57370-CF17-3913-DFF9-76293C2506D6</importedID>
+<formulaDesc>&apos;LANDKODER&apos;</formulaDesc>
+<sourceType>Derived</sourceType>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="54C50A36-D255-3586-FDCE-72E063789491" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="B827212C-EE04-C5E9-2C81-9C788A243130" name="PK_MEDLEMSKAP_OPPG_LAND">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8839176E-DE01-2600-7F69-C242EE92AEA2</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="161A9A57-5157-713F-2D85-ACA5EE79DA83"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="688CECE8-F80B-7BA9-A53B-701194C61696" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_UTLANDSOPPHOLD_3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>16B757DA-9591-414D-B147-293EAB9B6782</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8233A3BC-1EA2-E5EF-A773-9F292E9D0481"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B6547D8E-D1BA-669C-B055-D7726914C3F8" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_MEDLEMSKAP_OPPG_LAND">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>43E1F025-76C9-19F9-8E00-FFABA70821C5</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="161A9A57-5157-713F-2D85-ACA5EE79DA83"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1B7EEC81-1FC5-0674-DABC-7A5B8C0E536D" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_MEDLEMSKAP_OPPG_LAND_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>660CA5D0-4E8A-4FF6-0660-AB466A5908A5</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3844655A-A253-3525-4762-F1D45B377472"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E31DC303-DC32-E790-E11B-B15886A83381" name="FK_MEDLEMSKAP_OPPG_LAND_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3844655A-A253-3525-4762-F1D45B377472"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5FE097BF-1A8A-8327-CC2B-0932FAC725D8" name="FK_MEDLEMSKAP_OPPG_LAND_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8233A3BC-1EA2-E5EF-A773-9F292E9D0481"/>
+<colUsage columnID="31E75857-66DD-BFF7-B6B8-72280602536F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

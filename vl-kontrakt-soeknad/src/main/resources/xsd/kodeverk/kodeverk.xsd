@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:felles="urn:no:nav:vedtak:felles:xml:soeknad:felles:v1" targetNamespace="urn:no:nav:vedtak:felles:xml:soeknad:kodeverk:v1" elementFormDefault="qualified">
+	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:soeknad:felles:v1" schemaLocation="../felles/felles.xsd"/>
+	<xsd:complexType name="Brukerroller">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="FORELDRE_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="MOR"/>
+					<xsd:enumeration value="FAR"/>
+					<xsd:enumeration value="MEDMOR"/>
+                    <xsd:enumeration value="IKKE_RELEVANT"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Spraakkode">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="SPRAAK_KODE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="NB"/>
+					<xsd:enumeration value="NN"/>
+					<xsd:enumeration value="EN"/>
+					<xsd:enumeration value="-"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>	
+	<xsd:complexType name="Uttaksperiodetyper">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="UTTAK_PERIODE_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="FORELDREPENGER_FØR_FØDSEL"/>
+					<xsd:enumeration value="FELLESPERIODE"/>
+					<xsd:enumeration value="FEDREKVOTE"/>
+					<xsd:enumeration value="FORELDREPENGER"/>
+					<xsd:enumeration value="MØDREKVOTE"/>
+					<xsd:enumeration value="-"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="MorsAktivitetsTyper">	
+		<xsd:attribute name="kodeverk" type="xsd:string" default="MORS_AKTIVITET"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="INNLAGT"/>
+					<xsd:enumeration value="TRENGER_HJELP"/>
+					<xsd:enumeration value="INTROPROG"/>
+					<xsd:enumeration value="KVALPROG"/>
+					<xsd:enumeration value="UTDANNING"/>
+					<xsd:enumeration value="ARBEID"/>
+					<xsd:enumeration value="ARBEID_OG_UTDANNING"/>
+					<xsd:enumeration value="SAMTIDIGUTTAK"/>
+					<xsd:enumeration value="UFØRE"/>
+					<xsd:enumeration value="-"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Utsettelsesaarsaker">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="UTSETTELSE_AARSAK_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="LOVBESTEMT_FERIE"/>
+					<xsd:enumeration value="INSTITUSJONSOPPHOLD_BARNET"/>
+					<xsd:enumeration value="ARBEID"/>
+					<xsd:enumeration value="INSTITUSJONSOPPHOLD_SØKER"/>
+					<xsd:enumeration value="SYKDOM"/>
+					<xsd:enumeration value="-"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Overfoeringsaarsaker">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="OVERFOERING_AARSAK_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="ALENEOMSORG"/>
+					<xsd:enumeration value="IKKE_RETT_ANNEN_FORELDER"/>
+					<xsd:enumeration value="SYKDOM_ANNEN_FORELDER"/>
+					<xsd:enumeration value="INSTITUSJONSOPPHOLD_ANNEN_FORELDER"/>
+					<xsd:enumeration value="-"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Oppholdsaarsaker">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="OPPHOLD_AARSAK_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="UTTAK_MØDREKVOTE_ANNEN_FORELDER"/>
+					<xsd:enumeration value="UTTAK_FEDREKVOTE_ANNEN_FORELDER"/>
+					<xsd:enumeration value="UTTAK_FORELDREPENGER_ANNEN_FORELDER"/>
+					<xsd:enumeration value="UTTAK_FELLESP_ANNEN_FORELDER"/>
+					<xsd:enumeration value="INGEN"/>
+					<xsd:enumeration value="-"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Virksomhetstyper">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="VIRKSOMHET_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="DAGMAMMA"/>
+					<xsd:enumeration value="FISKE"/>
+					<xsd:enumeration value="JORDBRUK_SKOGBRUK"/>
+					<xsd:enumeration value="ANNEN"/>
+					<xsd:enumeration value="-"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>	
+	<xsd:complexType name="AnnenOpptjeningTyper">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="ARBEID_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="LØNN_UNDER_UTDANNING"/>
+					<xsd:enumeration value="ETTERLØNN_ARBEIDSGIVER"/>
+					<xsd:enumeration value="MILITÆR_ELLER_SIVILTJENESTE"/>
+					<xsd:enumeration value="VENTELØNN"/>
+					<xsd:enumeration value="VARTPENGER"/>
+					<xsd:enumeration value="SLUTTPAKKE"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Dekningsgrader">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="IKKE_DEFINERT"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="80"/>
+					<xsd:enumeration value="100"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Vergetype">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="VERGE_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="BARN"/>
+					<xsd:enumeration value="FBARN"/>
+					<xsd:enumeration value="VOKSEN"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Innsendingstype">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="INNSENDINGSVALG"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="LASTET_OPP"/>
+					<xsd:enumeration value="SEND_SENERE"/>
+					<xsd:enumeration value="VEDLEGG_ALLEREDE_SENDT"/>
+					<xsd:enumeration value="IKKE_VALGT"/>
+					<xsd:enumeration value="VEDLEGG_SENDES_AV_ANDRE"/>
+					<xsd:enumeration value="SENDES_IKKE"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Omsorgsovertakelseaarsaker">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="FAR_SOEKER_TYPE"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="ANDRE_FORELDER_DØD"/>
+					<xsd:enumeration value="ADOPTERER_ALENE"/>
+					<xsd:enumeration value="OVERTATT_OMSORG_F"/>
+					<xsd:enumeration value="OVERTATT_OMSORG"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="Land">
+		<xsd:attribute name="kodeverk" type="xsd:string" default="LANDKODER"/>
+		<xsd:attribute name="kodeverkEier" type="xsd:string" default="Vedtaksløsning Foreldrepenger"/>
+		<xsd:attribute name="kode">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:pattern value="[A-Z][A-Z][A-Z]"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute processContents="lax"/>
+	</xsd:complexType>
+</xsd:schema>
+

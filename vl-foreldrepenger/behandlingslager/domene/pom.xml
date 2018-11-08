@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>no.nav.foreldrepenger</groupId>
+		<artifactId>behandlingslager-pom</artifactId>
+		<version>${revision}${sha1}${changelist}</version>
+    </parent>
+	<artifactId>behandlingslager-domene</artifactId>
+	<packaging>jar</packaging>
+	<name>FPSAK :: Behandlingslager - Domene</name>
+
+	<dependencies>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>felles-kodeverk</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>no.nav.vedtak.felles</groupId>
+			<artifactId>felles-behandlingsprosess-prosesstask</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>i18n</artifactId>
+		</dependency>
+
+
+		<!-- TODO: Midlertidig til vi får håndtert datavarehus bedre (trenger å inkludere datavarehus-orm i persistence.xml)-->
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>datavarehus-domene</artifactId>
+		</dependency>
+
+		<!-- TODO: Skal ikke ligge her (men trenger å inkludere json-feed-orm i persistence.xml)-->
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>json-feed-domene</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.vedtak.felles</groupId>
+			<artifactId>felles-util</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>no.nav.fpsak.tidsserie</groupId>
+            <artifactId>fpsak-tidsserie</artifactId>
+        </dependency>
+		
+		<!-- Test -->
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>migreringer</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+    </dependencies>
+
+</project>

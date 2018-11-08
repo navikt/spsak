@@ -1,0 +1,192 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="39D4C3D1-B03F-3838-B998-6F2472531292" name="VURDER_PAA_NYTT_AARSAK">
+<sourceDDLFile>V1.7.0_21__ToTrinnsBehandling.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<commentInRDBMS>Årsaken til at aksjonspunkt må vurderes på nytt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>ACF3CF99-77D6-22D4-6638-8629150D9FE7</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="432E005C-CEF1-4E82-8427-8C6A289B5432">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="AARSAK_TYPE" id="A48AA782-C5BB-F10B-AB98-8287C2BACE86">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Årsak for at aksjonspunkt må vurders på nytt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="233688DA-FB68-F8BA-8A10-62875D419112" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="aksjonspunkt_id" id="FB48B855-9152-A553-5CF6-A313BE09E7EE">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK:AKSJONSPUNKT Fremmednøkkel til aksjonspunktet som må vurderes på nytt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E5957218-68B3-D26F-AF55-2B405A1DBDC4" referredColumn="847F2726-B0D7-704F-6AE1-EBDA862E15E1"/>
+</associations>
+</Column>
+<Column name="opprettet_av" id="E69430CF-9516-61E6-E84A-6C4E9FCD6CE5">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="2B1FB7A0-78CF-C9E2-CA39-EE13234B4F65">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="78B1F91B-3B3F-7581-4F0D-E4797B10CA16">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="84500BEB-1E97-4B01-2233-0A0F26250242">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="KL_AARSAK_TYPE" id="9BD4EEE2-F0C8-FE1A-3C64-66E653D1D766">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8D06F421-43F3-704B-AEB2-9F6D9A099197</importedID>
+<formulaDesc>&apos;VURDER_AARSAK&apos;</formulaDesc>
+<sourceType>Derived</sourceType>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="233688DA-FB68-F8BA-8A10-62875D419112" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E3399BD8-EAE8-DC90-7FAC-E7273A11332B" name="PK_VURDER_PAA_NYTT_AARSAK">
+<sourceDDLFile>V1.7.0_21__ToTrinnsBehandling.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="432E005C-CEF1-4E82-8427-8C6A289B5432"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DD485301-573A-BD49-6C82-78773164A3BF" name="PK_VURDER_PAA_NYTT_AARSAK">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="432E005C-CEF1-4E82-8427-8C6A289B5432"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CB0C8596-80B8-FDB0-5C03-FB73C0C59AA7" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_VURDER_PAA_NYTT_AARSAK_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E3E7EF57-AADC-66E7-8B7A-73F21A29FD12</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FB48B855-9152-A553-5CF6-A313BE09E7EE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="085DF2FA-A3AA-9E54-3D74-CFFAD4F1091E" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_VURDER_PAA_NYTT_AARSAK_7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>70BE1AC1-8A49-17FA-0512-F55DE0AA5543</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A48AA782-C5BB-F10B-AB98-8287C2BACE86"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7D21BB67-61F1-2118-A537-C370267FDD01" name="FK_VURDER_PAA_NYTT_AARSAK_1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:14 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FB48B855-9152-A553-5CF6-A313BE09E7EE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C54D2C34-4F9C-F6EC-994A-158E1F7D5D08" name="FK_VURDER_PAA_NYTT_AARSAK_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:08 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A48AA782-C5BB-F10B-AB98-8287C2BACE86"/>
+<colUsage columnID="9BD4EEE2-F0C8-FE1A-3C64-66E653D1D766"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

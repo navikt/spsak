@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SchemaObject class="oracle.dbtools.crest.model.design.relational.SchemaObject" name="FPSAK" directorySegmentName="seg_0" id="8C257168-2540-B786-F794-A9E69E03391A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8D8F5BA9-455D-F1BD-6FDD-5EBA73F84441</importedID>
+</SchemaObject>

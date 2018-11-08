@@ -1,0 +1,1 @@
+INSERT INTO PROSESS_TASK_TYPE (kode, navn, feil_maks_forsoek, feil_sek_mellom_forsoek, feilhandtering_algoritme, beskrivelse) VALUES ('fordeling.klargjoering', 'Klar for klargjoring',  3, 60, 'DEFAULT', 'Task som setter oppgaven klar for klargjøring');

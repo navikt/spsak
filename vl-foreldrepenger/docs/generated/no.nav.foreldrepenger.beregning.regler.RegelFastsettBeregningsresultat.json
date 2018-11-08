@@ -1,0 +1,35 @@
+{
+  "root" : {
+    "id" : "775354fc-3741-4bbc-811a-3e58137b067c",
+    "ruleId" : "FP_BR 20_1",
+    "ruleDescription" : "FinnOverlappendeBeregningsgrunnlagOgUttaksPerioder",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "775354fc-3741-4bbc-811a-3e58137b067c",
+    "ruleId" : "FP_BR 20_1",
+    "ruleDescription" : "FinnOverlappendeBeregningsgrunnlagOgUttaksPerioder",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "178581c0-94cc-46a1-874e-6950198e0fa2",
+    "ruleId" : "FP_BR 20_1",
+    "ruleDescription" : "FinnOverlappendeBeregningsgrunnlagOgUttaksPerioder",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "39d5ae61-47b7-443c-8088-afdc88c7f1db",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "775354fc-3741-4bbc-811a-3e58137b067c",
+    "target" : "178581c0-94cc-46a1-874e-6950198e0fa2"
+  }, {
+    "source" : "775354fc-3741-4bbc-811a-3e58137b067c",
+    "target" : "39d5ae61-47b7-443c-8088-afdc88c7f1db"
+  } ]
+}

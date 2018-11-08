@@ -1,0 +1,13 @@
+{
+  "søkerRolle" : "FARA",
+  "fagsakÅrsak" : "OMSORG",
+  "førsteUttaksDato" : "2018-08-06",
+  "hendelsesDato" : "2018-08-06",
+  "terminDato" : null,
+  "morsMaksdato" : null,
+  "periodeLengde" : "P10M",
+  "tidligsteUttakFørFødselPeriode" : "P84D",
+  "skjæringsdatoOpptjening" : "2018-08-06",
+  "opptjeningsperiodeFom" : "2017-10-06",
+  "opptjeningsperiodeTom" : "2018-08-05"
+}

@@ -1,0 +1,4 @@
+alter table BRUKER add SPRAAK_KODE VARCHAR2(7 CHAR) default 'nb' NOT NULL;
+alter table BRUKER add constraint FK_BRUKER_2 FOREIGN KEY (SPRAAK_KODE) REFERENCES SPRAAK_KODE (KODE);
+
+alter table BEHANDLING drop column SPRAAK_KODE;

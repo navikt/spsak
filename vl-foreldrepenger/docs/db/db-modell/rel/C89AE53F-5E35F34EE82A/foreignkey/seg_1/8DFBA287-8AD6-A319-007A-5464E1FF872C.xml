@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="8DFBA287-8AD6-A319-007A-5464E1FF872C" containerWithKeyObject="B783C358-A1E2-D3A6-F878-312F8326B5C9" localFKIndex="B6DCA297-CED4-ECD0-A46F-17C994F65E2A" name="FK_INNTEKTSMELDING_3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>96F30A4B-ACE3-1C01-7CE6-63A01FF7C41D</importedID>
+<referredTableLongName>MOTTATT_DOKUMENT</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>B4C4866F-3561-48B5-FD84-CE8979AF2E7F</referredTableID>
+<keyObject>26D56B08-1D3B-D7BC-98F6-25AFA38AB552</keyObject>
+<referredKeyID>26D56B08-1D3B-D7BC-98F6-25AFA38AB552</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

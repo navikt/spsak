@@ -1,0 +1,170 @@
+{
+  "root" : {
+    "id" : "4071f460-8303-49e4-a69a-e593820528c1",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "4071f460-8303-49e4-a69a-e593820528c1",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "3975bbd9-f5b1-4596-9f4b-b5573965cf9b",
+    "ruleId" : "FP_BR 21.2",
+    "ruleDescription" : "Inngår aktiviteten militær eller obligatorisk sivilforsvarstjeneste som siste aktivitet?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "16f72bd1-4e5a-46fd-ac07-703734bf03b2",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "3a7d0445-c46a-4b87-80ce-59efc588a705",
+    "ruleId" : "FP_BR 21.3",
+    "ruleDescription" : "Har tjenesten vart mer enn 28 dager eller er tjenesten ment å vare mer enn 28 dager?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "39e566a2-58c4-43a9-ae8e-09b2ac860ef0",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "10d7d9cb-b755-4d5c-a4f5-b80a928c1e5e",
+    "ruleId" : "FP_BR 21.1",
+    "ruleDescription" : "Er det aktivitet frem til skjæringstidspunkt for opptjening?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "743de9aa-e520-41a1-8da5-982b534c85a4",
+    "ruleId" : "FP_BR 21.6",
+    "ruleDescription" : "Skjæringstidspunkt for beregning settes lik Skjæringstidspunkt for opptjening",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "e62c598a-c9ed-43f2-ae49-5086825acbc1",
+    "ruleId" : "FP_BR 21.5",
+    "ruleDescription" : "Skjæringstidspunkt for beregning settes til første dag etter siste aktivitetsdag",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "11988bd9-d561-4b5b-9fdb-580e177a904a",
+    "ruleId" : "FP_BR 21.X",
+    "ruleDescription" : "Fjern militær",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "19a8b7de-90a9-4617-8867-fa1d0dbe8ac8",
+    "ruleId" : "FP_BR 21.3X",
+    "ruleDescription" : "Fjern militær eller obligatorisk sivilforsvarstjeneste fra aktivitetsliste",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "50ed947f-d2c9-4218-a04b-551403de794b",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "c07e99ba-3467-46b0-b5c2-cb30c0608deb",
+    "ruleId" : "FP_BR 21.1",
+    "ruleDescription" : "Er det aktivitet frem til skjæringstidspunkt for opptjening?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "169ff816-cc24-4776-b6e6-87716a505ec4",
+    "ruleId" : "FP_BR 21.6",
+    "ruleDescription" : "Skjæringstidspunkt for beregning settes lik Skjæringstidspunkt for opptjening",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fa0e59e6-76f7-43fa-8024-88457180311c",
+    "ruleId" : "FP_BR 21.5",
+    "ruleDescription" : "Skjæringstidspunkt for beregning settes til første dag etter siste aktivitetsdag",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "499e994f-822f-4d9e-bb45-66fda65fe2bc",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "a3c2db39-703d-4050-b7eb-e218705b30ad",
+    "ruleId" : "FP_BR 21.1",
+    "ruleDescription" : "Er det aktivitet frem til skjæringstidspunkt for opptjening?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "512913d3-91d9-48dd-bf58-d23c49b6aa4b",
+    "ruleId" : "FP_BR 21.6",
+    "ruleDescription" : "Skjæringstidspunkt for beregning settes lik Skjæringstidspunkt for opptjening",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "68bdbeab-71a3-449b-a972-eda41949e222",
+    "ruleId" : "FP_BR 21.5",
+    "ruleDescription" : "Skjæringstidspunkt for beregning settes til første dag etter siste aktivitetsdag",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "4071f460-8303-49e4-a69a-e593820528c1",
+    "target" : "3975bbd9-f5b1-4596-9f4b-b5573965cf9b"
+  }, {
+    "source" : "16f72bd1-4e5a-46fd-ac07-703734bf03b2",
+    "target" : "3a7d0445-c46a-4b87-80ce-59efc588a705"
+  }, {
+    "source" : "39e566a2-58c4-43a9-ae8e-09b2ac860ef0",
+    "target" : "10d7d9cb-b755-4d5c-a4f5-b80a928c1e5e"
+  }, {
+    "source" : "39e566a2-58c4-43a9-ae8e-09b2ac860ef0",
+    "target" : "743de9aa-e520-41a1-8da5-982b534c85a4"
+  }, {
+    "source" : "39e566a2-58c4-43a9-ae8e-09b2ac860ef0",
+    "target" : "e62c598a-c9ed-43f2-ae49-5086825acbc1"
+  }, {
+    "source" : "16f72bd1-4e5a-46fd-ac07-703734bf03b2",
+    "target" : "39e566a2-58c4-43a9-ae8e-09b2ac860ef0"
+  }, {
+    "source" : "11988bd9-d561-4b5b-9fdb-580e177a904a",
+    "target" : "19a8b7de-90a9-4617-8867-fa1d0dbe8ac8"
+  }, {
+    "source" : "50ed947f-d2c9-4218-a04b-551403de794b",
+    "target" : "c07e99ba-3467-46b0-b5c2-cb30c0608deb"
+  }, {
+    "source" : "50ed947f-d2c9-4218-a04b-551403de794b",
+    "target" : "169ff816-cc24-4776-b6e6-87716a505ec4"
+  }, {
+    "source" : "50ed947f-d2c9-4218-a04b-551403de794b",
+    "target" : "fa0e59e6-76f7-43fa-8024-88457180311c"
+  }, {
+    "source" : "11988bd9-d561-4b5b-9fdb-580e177a904a",
+    "target" : "50ed947f-d2c9-4218-a04b-551403de794b"
+  }, {
+    "source" : "16f72bd1-4e5a-46fd-ac07-703734bf03b2",
+    "target" : "11988bd9-d561-4b5b-9fdb-580e177a904a"
+  }, {
+    "source" : "4071f460-8303-49e4-a69a-e593820528c1",
+    "target" : "16f72bd1-4e5a-46fd-ac07-703734bf03b2"
+  }, {
+    "source" : "499e994f-822f-4d9e-bb45-66fda65fe2bc",
+    "target" : "a3c2db39-703d-4050-b7eb-e218705b30ad"
+  }, {
+    "source" : "499e994f-822f-4d9e-bb45-66fda65fe2bc",
+    "target" : "512913d3-91d9-48dd-bf58-d23c49b6aa4b"
+  }, {
+    "source" : "499e994f-822f-4d9e-bb45-66fda65fe2bc",
+    "target" : "68bdbeab-71a3-449b-a972-eda41949e222"
+  }, {
+    "source" : "4071f460-8303-49e4-a69a-e593820528c1",
+    "target" : "499e994f-822f-4d9e-bb45-66fda65fe2bc"
+  } ]
+}

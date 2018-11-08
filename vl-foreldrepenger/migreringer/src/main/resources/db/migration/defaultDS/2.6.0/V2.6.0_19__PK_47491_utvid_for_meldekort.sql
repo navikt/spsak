@@ -1,0 +1,1 @@
+alter table YTELSE_ANVIST add DAGSATS DECIMAL(19,2);

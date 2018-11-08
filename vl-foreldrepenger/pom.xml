@@ -1,0 +1,1220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>no.nav.foreldrepenger</groupId>
+	<artifactId>fpsak</artifactId>
+	<packaging>pom</packaging>
+	<name>FPSAK :: Root</name>
+	<version>${revision}${sha1}${changelist}</version>
+
+	<scm>
+		<connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-foreldrepenger.git</connection>
+		<developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-foreldrepenger.git</developerConnection>
+		<url>http://stash.devillo.no/projects/VEDFP/repos/vl-foreldrepenger/browse</url>
+		<tag>vl-foreldrepenger-1.0.0</tag>
+	</scm>
+
+	<modules>
+		<module>migreringer</module>
+
+		<module>i18n</module>
+		<module>behandlingslager</module>
+		<module>vedtakslager</module>
+		<module>infrastrukturtjenester</module>
+		<module>domenetjenester</module>
+		<module>behandlingsprosess</module>
+
+		<!-- Web klient og server -->
+		<module>web</module>
+
+		<!-- Dokumenasjonskode -->
+		<module>docs</module>
+
+		<!-- Sammensatt test etter at web er bygd -->
+		<module>integrasjonstest</module>
+
+		<!-- diverse tester på tvers av all kode -->
+		<module>alle</module>
+
+		<!-- Build til slutt -->
+		<!--module>build</module -->
+	</modules>
+
+	<properties>
+		<java.version>10</java.version> <!--Brukes av jenkins -->
+		<revision>2.9.8</revision>
+		<sha1></sha1>
+		<changelist>-SNAPSHOT</changelist>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<vl-kontrakt-fp-feed.version>2.4_20180624193200_e3f7030</vl-kontrakt-fp-feed.version>
+		<vl-kontrakt-vedtak.version>2.4_20181013093411_4b9f621</vl-kontrakt-vedtak.version>
+		<vl-foreldrepenger-uttak-regler.version>1.2_20181031091805_3fa859d</vl-foreldrepenger-uttak-regler.version>
+	</properties>
+
+	<prerequisites>
+		<!-- deprecated i maven3, men trengs av versions plugin -->
+		<maven>3.5.3</maven>
+	</prerequisites>
+
+
+	<!-- NB: Unngå å put scope (test, provided) i dependency management. Det har uheldige virkninger ved bruk av import og dependency (bruk composition
+		over arv) da de overstyrer andre scope definisjoner. Sett det heller der det brukes. -->
+	<dependencyManagement>
+		<dependencies>
+            
+			<!-- Felles biblioteker - Importerte avhengigheter -->
+			<dependency>
+				<groupId>no.nav.vedtak.felles</groupId>
+				<artifactId>felles</artifactId>
+				<version>3.0_20181101080622_5b806ed</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.vedtak.felles</groupId>
+				<artifactId>felles-behandlingsprosess</artifactId>
+				<version>3.0_20181102081224_9d8a7a4</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+				<artifactId>felles-integrasjon-pom</artifactId>
+				<version>3.0_20181106130319_355ae40</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>uttak-regler</artifactId>
+				<version>${vl-foreldrepenger-uttak-regler.version}</version>
+			</dependency>
+			<dependency>
+                <groupId>no.nav.foreldrepenger</groupId>
+                <artifactId>uttak-regler</artifactId>
+                <version>${vl-foreldrepenger-uttak-regler.version}</version>
+                <classifier>sources</classifier>
+            </dependency>
+
+
+			<!-- Prosjektets egne biblioteker -->
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>felles-kodeverk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>migreringer</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>migreringer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>i18n</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>batch</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>vedtakslager-domene</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>domenetjenester-bom</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingslager-domene</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>json-feed-domene</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>json-feed-tjeneste</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>foreldrepengersak-tjeneste</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandle-dokumentforsendelse-tjeneste</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandle-foreldrepengersak-tjeneste</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-bom</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-innhent-registeropplysninger</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-kompletthetssjekk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-avklare-fakta</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-beregningsgrunnlag</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-uttak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-soknadsfrist-foreldrepenger</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-vedtak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>behandlingsprosess-vedtak-v1</artifactId>
+				<version>${vl-kontrakt-vedtak.version}</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>behandlingsprosess-vedtak-v2</artifactId>
+				<version>${vl-kontrakt-vedtak.version}</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>fordel-v1</artifactId>
+				<version>2.3_20181019122308_f1ced3f</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
+				<version>${vl-kontrakt-fp-feed.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
+				<version>${vl-kontrakt-fp-feed.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>abonnent-v1</artifactId>
+				<version>2.0_20180624192358_8b33f6f</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-iverksette-vedtak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-foresla-vedtak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-varsel-revurdering</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-klage</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-simulering</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingskontroll-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingskontroll</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-beregn-ytelse</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+            <dependency>
+                <groupId>no.nav.foreldrepenger</groupId>
+                <artifactId>behandlingsprosess-lopende-medlemskap</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-inngangsvilkar</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>inngangsvilkar-regelmodell</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>inngangsvilkar</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingsprosess-vurder-innsyn</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>datavarehus-domene</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>uttak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandling-soknadsfrist-foreldrepenger</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>virksomhet</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>mottak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>oppgavebehandling</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>beregningsgrunnlag</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>beregningsgrunnlag-regelmodell</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>beregning-ytelse</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>beregning-ytelse-regelmodell</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>produksjonsstyring</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>registerinnhenting</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>person</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>familie-hendelse</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>skjaeringstidspunkt</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>uttaksplan</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>ytelse-fordeling</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>vedtak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>vedtak-innsyn</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>vedtak-xml</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>arbeidsforhold</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>medlem</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>kompletthetsjekk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>kontrollerfakta</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandling</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandling-kriterier</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+            <dependency>
+                <groupId>no.nav.foreldrepenger</groupId>
+                <artifactId>behandling-status</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandling-revurdering</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandling-gjenopptagelse</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandling-innsyn</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>pep</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.fpsak.tidsserie</groupId>
+				<artifactId>fpsak-tidsserie</artifactId>
+				<version>2.0_20180831125757_006dad2</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.fpsak.nare</groupId>
+				<artifactId>fpsak-nare-core</artifactId>
+				<version>2.0_20181105115918_47dcace</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>kodeverk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>historikk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>datavarehus-tjeneste</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>vurder-fagsystem</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.modig</groupId>
+				<artifactId>modig-testcertificates</artifactId>
+				<version>1.2.5-vedfp-SNAPSHOT</version>
+			</dependency>
+
+			<!-- Prosjektets egne TEST AVHENGIGHETER -->
+			<!-- NB: Definer scope der det brukes, ikke her. -->
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>web-apidoc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>web-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>web-webapp</artifactId>
+				<type>jar</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>dokumentbestiller</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>dokumentbestiller-xsd</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>okonomistotte</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>opptjeningsvilkar</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>opptjeningsvilkar-regelmodell</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>okonomistotte-v1</artifactId>
+				<version>2.0_20180730135256_2912e61</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>inntektsmelding-v1</artifactId>
+				<version>2.4_20180925124533_8df3d6a</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>grensesnittavstemming-v1</artifactId>
+				<version>2.3_20180507114256_2ed2065</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>dokumentbestiller-v1</artifactId>
+				<version>2.0_20181102144509_7e0802f</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>behandlingslager-testutilities</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger</groupId>
+				<artifactId>dokumentarkiv</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- 3dje parts NAV felleskomponenter -->
+			<!-- NB: Definer scope der det brukes, ikke her. -->
+
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-foreldrepengesak-v1-tjenestespesifikasjon</artifactId>
+				<version>1.1.0</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-behandleDokumentforsendelse-v1-tjenestespesifikasjon</artifactId>
+				<version>1.0.0</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-behandleForeldrepengesak-v1-tjenestespesifikasjon</artifactId>
+				<version>1.0.1</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.meldinger.virksomhet</groupId>
+				<artifactId>nav-virksomhet-dokumentnotifikasjon-v1-meldingsdefinisjon</artifactId>
+				<version>1.0.2</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
+				<version>2.3_20180507113926_0beea2f</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+				<artifactId>soeknad-v1</artifactId>
+				<version>1.0_20181102085631_678475a</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+
+			<!-- EKSTRA TEST AVHENGIGHETER FOR LOKAL WEBSERVER -->
+			<!-- NB: Definer scope der det brukes, ikke her. -->
+			<dependency>
+				<groupId>net.logstash.logback</groupId>
+				<artifactId>logstash-logback-encoder</artifactId>
+				<version>4.10</version>
+			</dependency>
+			<dependency>
+				<groupId>com.papertrailapp</groupId>
+				<artifactId>logback-syslog4j</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<!-- Transitive avhengighet resolution for å sikre bestemt versjon -->
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>2.9.9</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jasypt</groupId>
+				<artifactId>jasypt</artifactId>
+				<version>1.9.2</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-compat-spec-parser</artifactId>
+				<version>1.0.28</version>
+			</dependency>
+			<dependency>
+				<groupId>io.javaslang</groupId>
+				<artifactId>javaslang</artifactId>
+				<version>2.0.6</version>
+			</dependency>
+			<dependency>
+				<groupId>org.owasp.encoder</groupId>
+				<artifactId>encoder</artifactId>
+				<version>1.2.1</version>
+			</dependency>
+
+			<!-- Java10 -->
+			<dependency>
+				<groupId>org.jboss.classfilewriter</groupId>
+				<artifactId>jboss-classfilewriter</artifactId>
+				<version>1.2.3.Final</version>
+			</dependency>
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.23.1-GA</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.santuario</groupId>
+				<artifactId>xmlsec</artifactId>
+				<version>2.1.2</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.ws</groupId>
+			<artifactId>jaxws-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.messaging.saaj</groupId>
+			<artifactId>saaj-impl</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-remote-resources-plugin</artifactId>
+					<version>1.5</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.owasp</groupId>
+					<artifactId>dependency-check-maven</artifactId>
+					<version>3.1.2</version>
+					<configuration>
+						<centralAnalyzerEnabled>false</centralAnalyzerEnabled>
+						<nexusAnalyzerEnabled>false</nexusAnalyzerEnabled>
+						<suppressionFiles>
+							<suppressionFile>build/maven/maven-dependency-check-suppress.xml</suppressionFile>
+						</suppressionFiles>
+						<hintsFiles>
+							<hintsFile>build/maven/maven-dependency-check-hints.xml</hintsFile>
+						</hintsFiles>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.asciidoctor</groupId>
+					<artifactId>asciidoctor-maven-plugin</artifactId>
+					<version>1.5.6</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>buildnumber-maven-plugin</artifactId>
+					<version>1.4</version>
+				</plugin>
+
+				<plugin>
+					<groupId>com.github.eirslett</groupId>
+					<artifactId>frontend-maven-plugin</artifactId>
+					<version>1.6</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jaxb2-maven-plugin</artifactId>
+					<version>2.3.1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>3.1.1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.10</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>3.0.0-M2</version>
+					<executions>
+						<execution>
+							<id>enforce-versions</id>
+							<goals>
+								<goal>enforce</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<rules>
+							<requireJavaVersion>
+								<version>[1.8,)</version>
+							</requireJavaVersion>
+							<requireMavenVersion>
+								<version>[3.5.3,)</version>
+							</requireMavenVersion>
+							<bannedDependencies>
+								<excludes>
+									<exclude>commons-logging:commons-logging</exclude>
+								</excludes>
+							</bannedDependencies>
+							<!-- Kommentert ut, gir problemer med bruk av snapshot avhengigheter - <dependencyConvergence> </dependencyConvergence> -->
+							<!-- Ikke kommenter inn denne. Det brekker muligheten til å bygge bare deler av prosjektet https://issues.apache.org/jira/browse/MENFORCER-189
+								-> "ReactorModuleConvergence is not compatible with 'advanced' reactor options: -pl, -rf" <reactorModuleConvergence /> -->
+						</rules>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<version>2.5</version>
+					<configuration>
+						<outputFile>outdated-dependencies.txt</outputFile>
+						<rulesUri>file:///${session.executionRootDirectory}/build/maven/maven-version-rules.xml
+						</rulesUri>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>1.2.1.Final</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.0.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>3.0.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>2.5.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.22.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>1.6.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.8.2</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.0</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>UTF-8</encoding>
+						<release>${java.version}</release>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.0.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>3.0.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>flatten-maven-plugin</artifactId>
+					<version>1.0.0</version>
+				</plugin>
+				<plugin>
+					<groupId>com.github.ferstl</groupId>
+					<artifactId>depgraph-maven-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+			</plugins>
+
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<configuration>
+					<flattenMode>bom</flattenMode>
+					<flattenedPomFilename>.flattened</flattenedPomFilename>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<deployAtEnd>true</deployAtEnd>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<inherited>false</inherited>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-Xms256m -Dfile.encoding=UTF-8 -Dlog.level.no.nav=WARN</argLine>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>failsafe-integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>failsafe-verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<forkCount>1</forkCount>
+					<reuseForks>true</reuseForks>
+					<useFile>true</useFile>
+					<argLine>-Xms256m -Dfile.encoding=UTF-8 -Dsurefire.forkNumber=${surefire.forkNumber}
+						-Dlog.level.no.nav=WARN
+					</argLine>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jboss.jandex</groupId>
+				<artifactId>jandex-maven-plugin</artifactId>
+				<version>1.0.5</version>
+				<executions>
+					<execution>
+						<id>make-index</id>
+						<goals>
+							<goal>jandex</goal>
+						</goals>
+						<configuration>
+							<!-- Nothing needed here for simple cases -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<!-- Kjører tunge tester. Høyere sannsynlighet for å feile pga transiente feil/false positives. -->
+			<id>integrationTest</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>failsafe-integration-test</id>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>failsafe-verify</id>
+								<goals>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<forkCount>1</forkCount>
+							<reuseForks>true</reuseForks>
+							<useFile>true</useFile>
+							<argLine>-Xms384m -Dfile.encoding=UTF-8 -Dsurefire.forkNumber=${surefire.forkNumber}
+								-Dlog.level.no.nav=WARN
+							</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>runSonar</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<!-- maven.root bør overstyres fra cmdline -->
+				<maven.root>${project.basedir}</maven.root>
+
+				<sonar.language />
+				<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+				<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+				<sonar.java.source>1.8</sonar.java.source>
+				<sonar.sources>.</sonar.sources>
+				<sonar.inclusions>src/main/java/**,src/client/**</sonar.inclusions>
+				<!-- NB følgende er whitespace sensitivt -->
+				<sonar.exclusions>
+					**/test/**,
+					**/testonly/**,
+					**/*mock*/**,
+					**/testutilities/**,
+					**/fitnesse/**,
+					**/node/**,
+					**/node_modules/**,
+					**/swagger/**,
+					**/coverage/**,
+					**/target/**,
+					**/bin/**,
+					**/testdata/**,
+					**/docs/**,
+					**/apidoc/**,
+					**/*.spec.jsx,
+					**/_scripts/*,
+					**/test-helpers/**,
+					**/webpack.*,
+					**/static/**,
+					**/jetty/**,
+					**/eslint/**
+				</sonar.exclusions>
+				<sonar.coverage.exclusions>${sonar.exclusions}</sonar.coverage.exclusions>
+				<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+				<sonar.jacoco.reportPaths>${maven.root}/target/jacoco.exec</sonar.jacoco.reportPaths>
+				<sonar.javascript.lcov.reportPaths>${maven.root}/web/klient/coverage/lcov.info
+				</sonar.javascript.lcov.reportPaths>
+				<sonar.javascript.file.suffixes>.js,.jsx</sonar.javascript.file.suffixes>
+				<sonar.leak.period>previous_analysis</sonar.leak.period>
+			</properties>
+			<build>
+				<plugins>
+
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>agent</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+								<configuration>
+									<propertyName>jacoco.agent.argLine</propertyName>
+									<destFile>${sonar.jacoco.reportPaths}</destFile>
+									<append>true</append>
+									<excludes>${sonar.coverage.exclusions}</excludes>
+								</configuration>
+							</execution>
+							<execution>
+								<id>agent-it</id>
+								<goals>
+									<goal>prepare-agent-integration</goal>
+								</goals>
+								<configuration>
+									<propertyName>jacoco.agent.argLine</propertyName>
+									<destFile>${sonar.jacoco.reportPaths}</destFile>
+									<append>true</append>
+									<excludes>${sonar.coverage.exclusions}</excludes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<useFile>true</useFile>
+							<argLine>${jacoco.agent.argLine} -Xms256m -Dfile.encoding=UTF-8 -Dlog.level.no.nav=WARN
+							</argLine>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>failsafe-integration-test</id>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>failsafe-verify</id>
+								<goals>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<forkCount>1</forkCount>
+							<reuseForks>true</reuseForks>
+							<useFile>true</useFile>
+							<argLine>${jacoco.agent.argLine} -Xms256m -Dfile.encoding=UTF-8
+								-Dsurefire.forkNumber=${surefire.forkNumber} -Dlog.level.no.nav=WARN
+							</argLine>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
+	<distributionManagement>
+		<repository>
+			<id>m2internal</id>
+			<name>NAV Maven2 Internal Repository</name>
+			<url>http://maven.adeo.no/nexus/content/repositories/m2internal</url>
+		</repository>
+		<snapshotRepository>
+			<id>m2snapshot</id>
+			<name>NAV Maven2 Snapshot Repository</name>
+			<url>http://maven.adeo.no/nexus/content/repositories/m2snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+</project>

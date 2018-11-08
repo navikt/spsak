@@ -1,0 +1,156 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_2" id="1D78119B-CC6F-8EB1-FC5E-F6347FFE46DE" name="HISTORIKKINNSLAG_DEL">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Et historikkinnslag kan ha en eller flere deler</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>21A527BC-FE69-F6BF-CB96-B212FC8AFCE0</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="41FD3C37-FD77-DE21-A11B-77FB0805C5F5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D784F7D3-AE33-954C-4D49-239B03A9CF94</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HISTORIKKINNSLAG_ID" id="AEE94E49-A53C-5568-4E52-0CD67661D4DD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>FK:HISTORIKKINNSLAG Fremmednøkkel til riktig innslag i historikktabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8ECD6C6E-5C87-5D17-97E7-9276D9030534</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="59B5111C-E66C-0840-8FFF-C9C0C7F64008" referredColumn="43ACAB17-DDEF-2E5B-50B5-35851436610F"/>
+</associations>
+</Column>
+<Column name="VERSJON" id="F1071684-AF63-823D-7943-6E04EB770CCE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>36FC0AF0-E7DC-B8B9-BA7B-675F09153623</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="CB18846F-FFDF-C205-741A-110ABF32E1C4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E9F9D9B7-C935-530B-3207-17ED7313112F</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="6CC60C92-E7B0-EC13-E466-09C9B86C3096">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0DCF9A46-883E-FC2F-6FD6-3D0A4A011423</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="EB14338E-09DA-F39A-6580-2CDFC649F485">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A9A578A8-7EFE-6F0E-1B97-93CDB9715C01</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="6CB2BA68-220A-7C3C-D9E4-8E30DEE1E3D6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1EF92264-2B55-0A6E-AF31-1F9373916118</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2CFCF06D-9F85-ADDF-83EE-25330785AA81" name="PK_HISTORIKKINNSLAG_DEL">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>94D4D57C-793D-0179-9200-C844A40101C2</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="41FD3C37-FD77-DE21-A11B-77FB0805C5F5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B7335BF1-957E-063A-82FF-2DADBCDC9147" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_HISTORIKKINNSLAG_DEL_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>FA6B011A-9713-39CB-E034-BF24002E46D7</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AEE94E49-A53C-5568-4E52-0CD67661D4DD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9C90A809-830C-9730-DAC8-C0E6E0B1F593" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_HISTORIKKINNSLAG_DEL">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>34340F2A-F623-570B-2A4B-3744A29B652E</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="41FD3C37-FD77-DE21-A11B-77FB0805C5F5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7A33ECE2-061F-DE9C-1DD1-983259E66623" name="FK_HISTORIKKINNSLAG_DEL_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AEE94E49-A53C-5568-4E52-0CD67661D4DD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

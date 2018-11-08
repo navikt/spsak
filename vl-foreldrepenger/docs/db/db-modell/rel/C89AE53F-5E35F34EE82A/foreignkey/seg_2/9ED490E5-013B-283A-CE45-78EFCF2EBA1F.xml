@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_2" id="9ED490E5-013B-283A-CE45-78EFCF2EBA1F" containerWithKeyObject="D913ABEC-6812-6B86-BF73-066C5BFFEA93" localFKIndex="67ADE931-0136-7A65-0AFD-7E34D2D15A3C" name="FK_GR_YTELSES_FORDELING_7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>658EF1F1-4B07-53F8-2C7B-85F4B9EE0374</importedID>
+<referredTableLongName>FPSAK.YF_FORDELING</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>1366249B-A296-C705-171E-C2967F98046B</referredTableID>
+<keyObject>3D1E63B0-8D2E-AFFC-3B41-2B487D968222</keyObject>
+<referredKeyID>3D1E63B0-8D2E-AFFC-3B41-2B487D968222</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

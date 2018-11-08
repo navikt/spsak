@@ -1,0 +1,12 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getBeregningsgrunnlag|no.nav.foreldrepenger.beregning.regelmodell.beregningsgrunnlag.Beregningsgrunnlag|
+|getUttakResultat|no.nav.foreldrepenger.beregning.regelmodell.UttakResultat|
+|===
+
+
+

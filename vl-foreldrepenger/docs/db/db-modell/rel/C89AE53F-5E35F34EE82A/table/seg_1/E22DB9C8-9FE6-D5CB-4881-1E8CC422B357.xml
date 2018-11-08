@@ -1,0 +1,294 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="E22DB9C8-9FE6-D5CB-4881-1E8CC422B357" name="KODELISTE_RELASJON">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Relasjon mellom kodeliste elementer: kode1 og kode2</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>90C1C1CC-8905-463A-7FC8-D4F5BB1CBBFE</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="35200970-6FF6-8470-8237-9425EC6F4789">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>063F42E5-E04E-8F28-F909-87E0A3C9F051</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="kodeverk1" id="27449C39-B59F-9421-D901-8A930DE2A10B">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Kodeverk for kode 1</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0046841E-473A-716D-B107-B10BE223C05A</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="439575D3-917A-B558-61F1-F0CB69D03D0F" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="kode1" id="6604A445-37C1-101A-02A1-40DE6C2A4AC8">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Kode 1</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>74EE9F3A-8C75-1131-5DB6-D309130A3323</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="439575D3-917A-B558-61F1-F0CB69D03D0F" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="kodeverk2" id="8FCA55ED-E30F-4E5E-DC19-92E4BA936F86">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Kodeverk for kode 2</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6F2EF25F-686C-7314-978C-E21DE8BE55BF</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="05DEF933-EA5C-4E62-C191-15F10209FDCF" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="kode2" id="2006CB1D-8672-888D-A16C-6B99AAE357F0">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Kode 2</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D3DAFB22-2B8C-C697-770A-8CF78BFAFB2D</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="05DEF933-EA5C-4E62-C191-15F10209FDCF" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="gyldig_fom" id="10E39EA1-1BC2-7422-27FD-04E6FDDA3A24">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Gyldig fra og med dato</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>86891678-DA03-2A33-2008-F0438D4A4295</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>2E41DB2C-3F12-0E66-6D38-289E93656AEF</domain>
+<defaultValue>SYSDATE</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="gyldig_tom" id="D66A00C7-5B3C-7F2C-996B-B55005F94D6F">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Gyldig til og med dato</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E8276D24-708D-77E5-563E-8D5FF5A2B5F6</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>2E41DB2C-3F12-0E66-6D38-289E93656AEF</domain>
+<defaultValue>TO_DATE(&apos;31.12.9999&apos;,&apos;DD.MM.YYYY&apos;)</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_av" id="98CC2979-E231-D3CF-97A0-5AFF507CB788">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4588CC42-F092-88F2-B66C-077B7278F568</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="037AA8E8-0804-E619-87A3-D2D70218504E">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>74556C42-3427-A808-6CC7-64E72832E9CB</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="FA63BF2B-3E5F-6C2D-B9F4-AC70610D8272">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D65EF7B8-072A-CDD8-C968-A42DB2892620</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="5A6E7137-5F7C-FA94-397C-42AA274AFED3">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>13FCAA0A-28AE-ADBC-0F64-D452609DEFFF</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5FBCA890-83BE-5DB8-5A27-5D164860A830" name="PK_KODELISTE_RELASJON">
+<sourceDDLFile>04-CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>BE56D295-345B-C816-CE5B-1AB1522F5924</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="35200970-6FF6-8470-8237-9425EC6F4789"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="81A1193A-A6A1-B614-7071-FAACD79EB303" name="UIDX_KODELISTE_RELASJON_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AC7707B1-07F6-F86C-72F8-707EFB404310</importedID>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="27449C39-B59F-9421-D901-8A930DE2A10B"/>
+<colUsage columnID="6604A445-37C1-101A-02A1-40DE6C2A4AC8"/>
+<colUsage columnID="8FCA55ED-E30F-4E5E-DC19-92E4BA936F86"/>
+<colUsage columnID="2006CB1D-8672-888D-A16C-6B99AAE357F0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3CBFC2D7-16FB-73E3-D639-023EC1EAA3E2" name="PK_KODELISTE_RELASJON">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>166B8B77-B6B9-89BC-43ED-DC981A74044A</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="35200970-6FF6-8470-8237-9425EC6F4789"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5DA3BD14-14BE-F4DA-E610-B1A281142231" name="IDX_KODELISTE_RELASJON_1">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AD9570B1-DCB4-B87B-84C0-DC0C71FD10CE</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="27449C39-B59F-9421-D901-8A930DE2A10B"/>
+<colUsage columnID="6604A445-37C1-101A-02A1-40DE6C2A4AC8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D2ED9CF5-9AEB-4FE0-B274-EF6FDB066A5E" name="IDX_KODELISTE_RELASJON_2">
+<sourceDDLFile>03-INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D47BF3D4-C082-BF89-0894-52E999EE0C3B</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8FCA55ED-E30F-4E5E-DC19-92E4BA936F86"/>
+<colUsage columnID="2006CB1D-8672-888D-A16C-6B99AAE357F0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="951B299A-AE4A-9571-C8B3-F04CFAA01EB9" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="UIDX_KODELISTE_RELASJON_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>13253C97-0906-4F6D-0275-C6147D6F8B17</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="27449C39-B59F-9421-D901-8A930DE2A10B"/>
+<colUsage columnID="6604A445-37C1-101A-02A1-40DE6C2A4AC8"/>
+<colUsage columnID="8FCA55ED-E30F-4E5E-DC19-92E4BA936F86"/>
+<colUsage columnID="2006CB1D-8672-888D-A16C-6B99AAE357F0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="174AE6B8-AD51-DCCA-C81D-2F96820A1ACB" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_KODELISTE_RELASJON_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F30EA797-D657-DD7A-D554-7AA689613994</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6604A445-37C1-101A-02A1-40DE6C2A4AC8"/>
+<colUsage columnID="27449C39-B59F-9421-D901-8A930DE2A10B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="36DA9B17-145E-DD5C-1102-7118830CB3D6" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_KODELISTE_RELASJON_7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E692B5E5-23B4-59FD-FA39-DB2F1CA6EDD8</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2006CB1D-8672-888D-A16C-6B99AAE357F0"/>
+<colUsage columnID="8FCA55ED-E30F-4E5E-DC19-92E4BA936F86"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="0E3FDE41-1B75-5169-3C4C-DD88C7DFA3DB" name="FK_KODELISTE_RELASJON_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6604A445-37C1-101A-02A1-40DE6C2A4AC8"/>
+<colUsage columnID="27449C39-B59F-9421-D901-8A930DE2A10B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9E1CFA69-0977-324F-E1F8-C3D5EA14DB8A" name="FK_KODELISTE_RELASJON_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2006CB1D-8672-888D-A16C-6B99AAE357F0"/>
+<colUsage columnID="8FCA55ED-E30F-4E5E-DC19-92E4BA936F86"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

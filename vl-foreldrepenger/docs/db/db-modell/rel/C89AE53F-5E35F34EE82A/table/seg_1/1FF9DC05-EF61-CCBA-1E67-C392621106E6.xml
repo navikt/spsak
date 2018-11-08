@@ -1,0 +1,180 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="1FF9DC05-EF61-CCBA-1E67-C392621106E6" name="STARTPUNKT_TYPE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Kodetabell som definerer de forskjellige startpunktene</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A0045D80-A3B2-B943-8972-56C1367BD37C</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="KODE" id="7D40AB75-CE8D-D763-FCE7-60BA944DD104">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Primary Key: Koden som definerer startpunktet</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E4615009-27C2-D765-5AC9-CFD62A7FB4BB</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NAVN" id="43F32601-8591-3453-FA8C-44096F809A52">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Navn på startpunktet</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>FB8154C9-F3D0-DB42-947F-186A6CA295B1</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>70 CHAR</dataTypeSize>
+<ownDataTypeParameters>70 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BEHANDLING_STEG" id="5FD1D4FE-F8CC-BEF6-2E8C-4E267041D6CD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>FK:BEHANDLNG_STEG_TYPE Fremmednøkkel til tabell som angir konkret behandlingssteg der behandlingen skal starte gitt startpunktet</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>BC5F8227-F153-8A41-440C-B87BE4DF466F</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="092BAAE5-D1A9-56FC-3397-4B15118C5876" referredColumn="38881520-33F8-0D80-AC99-8E23AD3A38A5"/>
+</associations>
+</Column>
+<Column name="RANGERING" id="9B9C74B4-C4F8-07F8-FD3F-7075E4F3B5F1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Rangering av startpunktene</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C2829765-291F-85C9-C9BC-3877A637009D</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BESKRIVELSE" id="900087D7-7B27-2EDB-A881-82C0569B77D4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Beskrivelse av startpunktet</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6192EA76-5DD3-B1BA-EB38-87C209F10FFF</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4000 CHAR</dataTypeSize>
+<ownDataTypeParameters>4000 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="49CD5040-D7AA-5236-40E2-19C054D059CF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>BA4D7833-6F10-D01C-F105-C25AB2D9C567</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="EE6B2D75-E069-BA8E-90C4-3B55B8969CD8">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>51ED33F8-980A-B318-17C4-ACCCE1C3A9F0</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="4E45D6FE-430D-CE8E-3423-B681B9C67FAC">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2EB90B8F-C507-CAC9-DA1B-15E600D623E2</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="7225E3FE-D422-3B3A-0565-673CB4639807">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0BC5E9E1-A42C-E2AC-A1B4-525884A4E1BB</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D24CD256-3D24-4412-07E2-5EF8F46C4994" name="PK_STARTPUNKT_TYPE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>08DEABAE-3F18-5D48-C7EE-8C6ADC04DB1A</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7D40AB75-CE8D-D763-FCE7-60BA944DD104"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BA414C5B-7414-F36E-BDE4-63A05A31F8DB" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_STARTPUNKT_TYPE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F78B4E67-2309-EF5C-F737-E35BA68335F6</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7D40AB75-CE8D-D763-FCE7-60BA944DD104"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6D71CF55-43A0-A78E-2007-B92AA1B9FB21" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_STARTPUNKT_TYPE_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A08841C1-82C1-CD22-23FB-79753EF95B1A</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5FD1D4FE-F8CC-BEF6-2E8C-4E267041D6CD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CE25F883-65DD-F9C8-EE3C-5393E3C43438" name="FK_STARTPUNKT_TYPE_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:08 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5FD1D4FE-F8CC-BEF6-2E8C-4E267041D6CD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

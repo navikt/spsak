@@ -1,0 +1,220 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7C4C03A0-888F-5511-97FB-00C6FFF8B8ED" name="GR_BEREGNINGSGRUNNLAG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Tabell som kobler et beregningsgrunnlag til behandling</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>2E3EA661-EC85-811D-F0B4-899FE1567481</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="8927EEAC-93D0-93BA-980C-E350E8B5DD60">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>69A744D5-6E5B-E4AE-6A8B-64385C541ABC</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BEHANDLING_ID" id="EBD3F2AD-F93D-7D53-6C69-1CF66B4DE947">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>FK: BEHANDLING Fremmednøkkel for kobling til behandling</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9C65C148-8A68-AF01-653D-BF39DCD53EE3</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1BD1257B-4183-F2ED-E4ED-7D467F78B9DF" referredColumn="1F9D74A0-4099-8281-5539-25E58BF82F1E"/>
+</associations>
+</Column>
+<Column name="BEREGNINGSGRUNNLAG_ID" id="C0344348-C820-09E0-D2D4-811F967D7BE3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>FK:BEREGNINGSGRUNNLAG Fremmednøkkel til tabell som knytter beregningsgrunnlagforekomsten til behandling</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C9B92874-5CFD-7230-AA70-98EE8797CA41</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="34F312B8-C525-1B32-DC0C-45D2B9A59A32" referredColumn="723CECF0-E312-3BE3-3B0F-A31C3A1E1ADA"/>
+</associations>
+</Column>
+<Column name="VERSJON" id="8DE605BE-2E31-0881-BF74-5B31C239EA15">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8136CBD9-17BD-7ECE-A606-9A50CB8CC7FD</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="0DFC8F93-33B7-C86A-BE33-30F70BDF9BEA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>CC2428F8-943E-B8CF-6BC7-FA14190F8A26</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="69F97ABF-FE40-1CD2-D5F3-8CADBEF4B456">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>DB8CD5A1-C654-4B95-A294-BF04D9A91CAB</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="FDADF832-9D5B-F164-1D8C-5B5D084C695B">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D429C6CB-EE93-E8AF-91A2-3EA9F24921B1</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="F1DCEBC5-7E04-4F41-6F73-42705DD77448">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>DE7AA47A-FBC7-2485-C093-66DC2E910969</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="AKTIV" id="31EF4F59-AD2D-FBF8-9812-511BBB214DD6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9D6E740C-913F-C1D7-04C1-59584A8B9E9F</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<defaultValue>&apos;J&apos;</defaultValue>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="STEG_OPPRETTET" id="CB895CA7-632A-D916-EE46-B99988B2F94C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Hvilket steg eller vurderingspunkt grunnlaget ble opprettet i</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>19A97698-FEE0-ACC0-2781-EC0F5959F408</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<defaultValue>(&apos;-&apos;)</defaultValue>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F0F2B1E9-9B95-2FC3-7F97-98637573F38F" name="PK_GR_BEREGNINGSGRUNNLAG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E905494D-34FF-B687-B9AE-55BEFCEF83B9</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8927EEAC-93D0-93BA-980C-E350E8B5DD60"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6732958B-3EAC-4C98-6E6E-6E2CCA2D842C" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_GR_BEREGNINGSGRUNNLAG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>601C04E1-E3A3-1121-92DD-9816647E0069</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8927EEAC-93D0-93BA-980C-E350E8B5DD60"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3CA0238C-30BF-034E-B817-A0B46F7010D0" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_GR_BEREGNINGSGRUNNLAG_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>FA4D6966-91BD-2BBC-370E-71C57D6500AF</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EBD3F2AD-F93D-7D53-6C69-1CF66B4DE947"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="EA6B89E4-CC34-D033-7B5F-BF512E78E9DC" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_GR_BEREGNINGSGRUNNLAG_7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>98958607-D8E1-7064-6005-49F69F66CE9C</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C0344348-C820-09E0-D2D4-811F967D7BE3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="52E0A912-A10B-3C31-00AB-0144708CF36A" name="FK_GR_BEREGNINGSGRUNNLAG_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EBD3F2AD-F93D-7D53-6C69-1CF66B4DE947"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6D4C83D9-53B0-6095-1F34-2F282A031EB6" name="FK_GR_BEREGNINGSGRUNNLAG_2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C0344348-C820-09E0-D2D4-811F967D7BE3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

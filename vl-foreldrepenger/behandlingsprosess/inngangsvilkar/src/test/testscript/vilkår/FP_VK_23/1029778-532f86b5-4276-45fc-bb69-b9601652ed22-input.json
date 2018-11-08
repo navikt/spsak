@@ -1,0 +1,177 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2017-01-01", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-10-01",
+  "forsteDatoOpptjening" : "2017-12-09",
+  "sisteDatoForOpptjening" : "2018-10-08",
+  "inntektPerioder" : [ {
+    "datoIntervall" : [ "2018-04-01", "2018-04-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-09-01", "2018-09-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-06-01", "2018-06-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-06-01", "2017-06-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-11-01", "2017-11-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-09-01", "2017-09-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-05-01", "2017-05-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-07-01", "2017-07-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-08-01", "2017-08-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-10-01", "2017-10-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-03-01", "2018-03-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-05-01", "2018-05-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-07-01", "2018-07-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-10-01", "2018-10-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-08-01", "2018-08-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-01-01", "2018-01-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2017-12-01", "2017-12-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-02-01", "2018-02-28" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973135678",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 30000,
+    "inntektValuta" : "NOK"
+  } ]
+}

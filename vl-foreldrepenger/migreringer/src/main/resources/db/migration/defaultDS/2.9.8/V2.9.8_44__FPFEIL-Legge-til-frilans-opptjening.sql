@@ -1,0 +1,3 @@
+UPDATE KODELISTE
+SET EKSTRA_DATA = '{ "gui": "true" }'
+WHERE KODEVERK = 'ARBEID_TYPE' and kode = 'FRILANSER';

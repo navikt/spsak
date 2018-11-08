@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns7:soeknad xmlns:ns5="urn:no:nav:vedtak:felles:xml:soeknad:uttak:v1"
+             xmlns:ns7="urn:no:nav:vedtak:felles:xml:soeknad:v1"
+             xmlns:ns4="urn:no:nav:vedtak:felles:xml:soeknad:endringssoeknad:v1"
+             xmlns:ns3="urn:no:nav:vedtak:felles:xml:soeknad:felles:v1">
+    <ns7:mottattDato>2018-10-30+01:00</ns7:mottattDato>
+    <ns7:omYtelse>
+        <ns4:endringssoeknad>
+            <ns4:fordeling>
+                <ns5:annenForelderErInformert>true</ns5:annenForelderErInformert>
+                <ns5:perioder xsi:type="ns5:Uttaksperiode" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <ns5:fom>2018-10-01+02:00</ns5:fom>
+                    <ns5:tom>2018-12-01+01:00</ns5:tom>
+                    <ns5:type kode="MØDREKVOTE"/>
+                    <ns5:oenskerSamtidigUttak>false</ns5:oenskerSamtidigUttak>
+                </ns5:perioder>
+            </ns4:fordeling>
+        </ns4:endringssoeknad>
+    </ns7:omYtelse>
+    <ns7:soeker>
+        <ns3:aktoerId>9000000028518</ns3:aktoerId>
+        <ns3:soeknadsrolle kode="MOR"/>
+    </ns7:soeker>
+</ns7:soeknad>

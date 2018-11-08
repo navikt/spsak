@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v2"
+			targetNamespace="urn:no:nav:vedtak:felles:xml:felles:v2"
+			elementFormDefault="qualified">
+	<xsd:simpleType name="Identifikator">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:complexType name="StringOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="DateOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:date">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="BooleanOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:boolean">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="LongOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:long">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="IntOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:int">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="DecimalOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:decimal">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="FloatOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:float">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="DoubleOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:double">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="PeriodeOpplysning">
+		<xsd:sequence>
+			<xsd:element name="fom" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="tom" type="xsd:date" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="felles:Sporing"/>
+	</xsd:complexType>
+	<xsd:attributeGroup name="Sporing">
+		<xsd:attribute name="registerKilde" type="xsd:string" use="optional"/>
+		<xsd:attribute name="dokumentKilde" type="xsd:string" use="optional"/>
+		<!-- Soeknad/Terminbekreftelse/Etc -->
+		<xsd:attribute name="dokumentKildeKode" type="xsd:string"/>
+		<!--  DokumentTypeID -->
+		<xsd:attribute name="saksbehandlerKilde" type="xsd:string" use="optional"/>
+		<xsd:attribute name="registrert" type="xsd:dateTime" use="optional"/>
+	</xsd:attributeGroup>
+	<xsd:complexType name="KodeverksOpplysning">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="felles:Sporing"/>
+				<xsd:attributeGroup ref="felles:KodeverksMetadata"/>
+			</xsd:extension>
+			<!-- Term, ikke kode -->
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="Kodeverksverdi">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="felles:KodeverksMetadata"/>
+			</xsd:extension>
+			<!-- Term, ikke kode -->
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:attributeGroup name="KodeverksMetadata">
+		<xsd:attribute name="kode" type="xsd:string"/>
+		<xsd:attribute name="kodeverk" type="xsd:string"/>
+	</xsd:attributeGroup>
+</xsd:schema>

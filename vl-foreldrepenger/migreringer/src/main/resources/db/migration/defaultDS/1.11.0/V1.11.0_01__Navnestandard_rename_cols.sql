@@ -1,0 +1,3 @@
+ALTER TABLE OMSORGSOVERTAKELSE RENAME COLUMN vilkaarstype TO vilkar_type;
+ALTER TABLE OMSORGSOVERTAKELSE RENAME COLUMN omsorgsovertakelsedato TO omsorgsovertakelse_dato;
+ALTER TABLE TILKNYTNING_HJEMLAND RENAME COLUMN periodetype TO periode_type;

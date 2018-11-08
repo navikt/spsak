@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_2" id="AC877604-4A6C-59BC-1C04-2C57CE203A5F" containerWithKeyObject="81CA8FDA-B759-2DFB-D568-F37CF3B4FD14" localFKIndex="4ECED9F4-8461-43FA-B56D-0C5D851D0408" name="FK_PROSESS_TASK_TYPE_1">
+<sourceDDLFile>V112__VILKAR_TIL_VURDERING_nye_tabeller.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7C3639F3-AED7-3660-2BA2-5BCAC517E9D5</importedID>
+<referredTableLongName>PROSESS_TASK_FEILHAND</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>458F4F1F-111D-F41C-7A30-BE36F7C2CFB1</referredTableID>
+<keyObject>FACF69C9-2EB6-5D37-A0DD-FAFD963AA1F3</keyObject>
+<referredKeyID>FACF69C9-2EB6-5D37-A0DD-FAFD963AA1F3</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>KODE</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:no:nav:vedtak:felles:xml:soeknad:endringssoeknad:v1" 
+	xmlns:felles="urn:no:nav:vedtak:felles:xml:soeknad:felles:v1"
+	xmlns:en="urn:no:nav:vedtak:felles:xml:soeknad:endringssoeknad:v1"
+	xmlns:ut="urn:no:nav:vedtak:felles:xml:soeknad:uttak:v1" 
+	elementFormDefault="qualified">
+	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:soeknad:uttak:v1" schemaLocation="../uttak/uttak.xsd" />
+	<xsd:import namespace="urn:no:nav:vedtak:felles:xml:soeknad:felles:v1" schemaLocation="../felles/felles.xsd" />
+	<xsd:complexType name="Endringssoeknad">
+		<xsd:complexContent>
+			<xsd:extension base="felles:Ytelse">
+				<xsd:sequence>
+					<xsd:element minOccurs="0" name="saksnummer" type="xsd:string" />
+					<xsd:element minOccurs="0" name="fordeling" type="ut:Fordeling" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="endringssoeknad" type="en:Endringssoeknad"></xsd:element>
+</xsd:schema>

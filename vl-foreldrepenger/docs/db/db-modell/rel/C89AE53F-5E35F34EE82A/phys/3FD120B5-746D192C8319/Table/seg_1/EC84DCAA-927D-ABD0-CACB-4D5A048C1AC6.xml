@@ -1,0 +1,36 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="VILKAR_TYPE_AVSLAGSARSAK_KOBLE" directorySegmentName="seg_1" id="EC84DCAA-927D-ABD0-CACB-4D5A048C1AC6">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>FF3B5682-6F7B-C6E1-7E2D-70A2806591B2</segment>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="avslagsarsak_kode" id="4E043048-CF65-0152-9B3E-57FF5581B01E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kl_avslagsarsak" id="6998312B-27B6-4355-3E2D-62938FCC9D81">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;AVSLAGSARSAK&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="vilkar_type_kode" id="DD50B33D-898B-7A5D-B185-D6FE3766FF75">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kl_vilkar_type" id="E80C4168-FACE-8F1C-9652-8988D611D6CD">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VILKAR_TYPE&apos;</defaultValue>
+</ColumnProxy>
+</columnProxies>
+</TableProxyOraclev12c>

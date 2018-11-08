@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="F39857C1-CA27-8106-8303-222E4D12D410" containerWithKeyObject="B986F677-F6A0-B856-5176-DC2DF4F53DDB" localFKIndex="1E03008B-DA48-968A-A8F1-576963E9F260" name="FK_JOURNALPOST">
+<sourceDDLFile>05-REF_CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>88367AE1-0BBC-A5F3-7DA0-91EB95F329E1</importedID>
+<referredTableLongName>FAGSAK</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>072C1581-5095-FA08-36E0-7E4A2D30E699</referredTableID>
+<keyObject>D3DF6D97-7973-1D6D-F3DB-BBBF389302BE</keyObject>
+<referredKeyID>D3DF6D97-7973-1D6D-F3DB-BBBF389302BE</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

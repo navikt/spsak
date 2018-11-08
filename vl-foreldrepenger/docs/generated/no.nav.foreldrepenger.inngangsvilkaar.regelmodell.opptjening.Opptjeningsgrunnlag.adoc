@@ -1,0 +1,24 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getAktivitetPerioder|java.util.List|
+|getBehandlingsTidspunkt|java.time.LocalDate|
+|getFørsteDatoIOpptjening|java.time.LocalDate|
+|getInntektPerioder|java.util.List|
+|getMaksMellomliggendePeriodeForArbeidsforhold|java.time.Period|
+|getMinForegåendeForMellomliggendePeriodeForArbeidsforhold|java.time.Period|
+|getMinsteAntallDagerForVent|int|
+|getMinsteAntallDagerGodkjent|int|
+|getMinsteAntallMånederForVent|int|
+|getMinsteAntallMånederGodkjent|int|
+|getMinsteInntekt|java.lang.Long|
+|getOpptjeningPeriode|no.nav.fpsak.tidsserie.LocalDateInterval|
+|getPeriodeAntattGodkjentFørBehandlingstidspunkt|java.time.Period|
+|getSisteDatoForOpptjening|java.time.LocalDate|
+|===
+
+
+

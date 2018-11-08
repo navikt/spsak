@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>no.nav.foreldrepenger</groupId>
+		<artifactId>behandlingsprosess-pom</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+	</parent>
+
+	<artifactId>behandlingsprosess-kompletthetssjekk</artifactId>
+	<packaging>jar</packaging>
+	<name>FPSAK :: Behandlingsprosess - Kompletthetssjekk</name>
+
+	<dependencies>
+		<!-- Felles BOM avhengigheter -->
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>kompletthetsjekk</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingskontroll-api</artifactId>
+		</dependency>
+
+		<!-- Interne -->
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingslager-domene</artifactId>
+		</dependency>
+
+        <!-- Test avhengigheter -->
+
+    </dependencies>
+
+</project>

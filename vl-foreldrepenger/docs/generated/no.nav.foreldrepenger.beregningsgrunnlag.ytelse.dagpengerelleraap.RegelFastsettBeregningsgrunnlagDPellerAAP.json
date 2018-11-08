@@ -1,0 +1,71 @@
+{
+  "root" : {
+    "id" : "51efce3d-780c-4480-a693-2fb5655ab2d0",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "51efce3d-780c-4480-a693-2fb5655ab2d0",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "11cb7102-fbde-4256-8ed8-368f61d94763",
+    "ruleId" : "FP_BR_10.4",
+    "ruleDescription" : "Er beregnngsgrunnlag for dagpenger fastsatt manuelt? ",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "e106ff3a-e191-4220-a9c7-7683c7f76cd8",
+    "ruleId" : "FP_BR_10.1",
+    "ruleDescription" : "Foreslå beregningsgrunnlag for Dagpenger/AAP",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fd328f83-d38b-456b-ac24-e6674c921ad7",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "09d815f8-e113-4086-b22c-43651620e5a7",
+    "ruleId" : "FP_BR_10.3",
+    "ruleDescription" : "Har bruker kun status dagpenger/AAP?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d7863fc8-7b84-413c-84b3-069508f80ba4",
+    "ruleId" : "FP_BR_10.1",
+    "ruleDescription" : "Foreslå beregningsgrunnlag for Dagpenger/AAP",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "0da529fd-978f-469f-bf5d-1d7a8d0c4a85",
+    "ruleId" : "FP_BR_10.2",
+    "ruleDescription" : "Foreslå beregningsgrunnlag for Dagpenger/AAP i kombinasjon med annen aktivitetstatus",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "51efce3d-780c-4480-a693-2fb5655ab2d0",
+    "target" : "11cb7102-fbde-4256-8ed8-368f61d94763"
+  }, {
+    "source" : "51efce3d-780c-4480-a693-2fb5655ab2d0",
+    "target" : "e106ff3a-e191-4220-a9c7-7683c7f76cd8"
+  }, {
+    "source" : "fd328f83-d38b-456b-ac24-e6674c921ad7",
+    "target" : "09d815f8-e113-4086-b22c-43651620e5a7"
+  }, {
+    "source" : "fd328f83-d38b-456b-ac24-e6674c921ad7",
+    "target" : "d7863fc8-7b84-413c-84b3-069508f80ba4"
+  }, {
+    "source" : "fd328f83-d38b-456b-ac24-e6674c921ad7",
+    "target" : "0da529fd-978f-469f-bf5d-1d7a8d0c4a85"
+  }, {
+    "source" : "51efce3d-780c-4480-a693-2fb5655ab2d0",
+    "target" : "fd328f83-d38b-456b-ac24-e6674c921ad7"
+  } ]
+}

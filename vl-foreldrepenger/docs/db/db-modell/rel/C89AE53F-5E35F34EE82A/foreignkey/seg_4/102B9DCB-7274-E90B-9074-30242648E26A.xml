@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_4" id="102B9DCB-7274-E90B-9074-30242648E26A" containerWithKeyObject="1135C3B8-2250-1412-B7AC-F1B02E7CD590" localFKIndex="1865CF98-E488-E4DA-C6A7-3A9E8DBDDEBA" name="FK_INNTEKTSMELDING_MANGLENDE_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7D131D34-173D-07AA-04F0-B3CDF63B8C9E</importedID>
+<referredTableLongName>FPSAK.IAY_INNTEKTSMELDINGER</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>ECDBCAA0-6F7D-CEFF-045A-5F9E8EA9C24B</referredTableID>
+<keyObject>DAED71B7-A4B4-7E5B-1506-2CB63403882B</keyObject>
+<referredKeyID>DAED71B7-A4B4-7E5B-1506-2CB63403882B</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

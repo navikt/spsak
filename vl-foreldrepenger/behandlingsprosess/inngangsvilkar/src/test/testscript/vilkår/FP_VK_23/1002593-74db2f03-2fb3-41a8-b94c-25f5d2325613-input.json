@@ -1,0 +1,15 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2018-01-01", "2018-12-07" ],
+    "aktivitet" : {
+      "aktivitetType" : "FORELDREPENGER",
+      "aktivitetReferanse" : "973626108",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-07-26",
+  "forsteDatoOpptjening" : "2017-08-01",
+  "sisteDatoForOpptjening" : "2018-05-31",
+  "inntektPerioder" : [ ]
+}

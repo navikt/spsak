@@ -1,0 +1,429 @@
+
+== RegelBeregnFeriepenger
+++++
+ Det mangler dokumentasjon
+
+++++
+
+: https://confluence.adeo.no/display/MODNAV/27c+Beregn+feriepenger+PK-51965+OMR-49
+include::{generated}/no.nav.foreldrepenger.beregning.regelmodell.feriepenger.BeregningsresultatFeriepengerRegelModell.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.beregning.regler.feriepenger.RegelBeregnFeriepenger.adoc[]
+
+== RegelFastsettBeregningsresultat
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_BR 20.1: https://confluence.adeo.no/pages/viewpage.action?pageId=262414229
+include::{generated}/no.nav.foreldrepenger.beregning.regelmodell.BeregningsresultatRegelmodell.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.beregning.regler.RegelFastsettBeregningsresultat.adoc[]
+
+== RegelFastsettUtenAvkortingATFL
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_BR_29.6: https://confluence.adeo.no/display/MODNAV/FP_BR+29+-+Avkorte+beregningsgrunnlag
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.arbeidstaker.RegelFastsettUtenAvkortingATFL.adoc[]
+
+== RegelFastsettUtbetalingsbeløpTilBruker
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_BR_29.8 6-9: https://confluence.adeo.no/display/MODNAV/FP_BR+29+-+Avkorte+beregningsgrunnlag
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.avkorting.RegelFastsettUtbetalingsbeløpTilBruker.adoc[]
+
+== RegelBeregnRefusjonPrArbeidsforhold
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_BR_29.13.1-3: https://confluence.adeo.no/pages/viewpage.action?pageId=180066764
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.fastsette.refusjon.over6g.RegelBeregnRefusjonPrArbeidsforhold.adoc[]
+
+== RegelBeregningsgrunnlagSN
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_BR_2: https://confluence.adeo.no/pages/viewpage.action?pageId=174163430
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.selvstendig.RegelBeregningsgrunnlagSN.adoc[]
+
+== RegelFastsettBeregningsgrunnlagDPellerAAP
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_BR_10: https://confluence.adeo.no/display/MODNAV/13t.+Beregningsgrunnlag+dagpenger+og+AAP+PK-47492
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.ytelse.dagpengerelleraap.RegelFastsettBeregningsgrunnlagDPellerAAP.adoc[]
+
+== RegelOpprettBeregningsgrunnlagsandelerForTilstøtendeYtelse
+Fastsett andeler for aktivitetstatus tilstøtende ytelse: https://confluence.adeo.no/pages/viewpage.action?pageId=267637219
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagFraTilstøtendeYtelse.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.beregningsgrunnlag.ytelse.RegelOpprettBeregningsgrunnlagsandelerForTilstøtendeYtelse.adoc[]
+
+== RegelFastsettSkjæringstidspunkt
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_BR_21: https://confluence.adeo.no/pages/viewpage.action?pageId=234395762
+include::{generated}/no.nav.foreldrepenger.skjæringstidspunkt.regelmodell.AktivitetStatusModell.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.skjæringstidspunkt.regel.RegelFastsettSkjæringstidspunkt.adoc[]
+
+== RegelFastsettStatusVedSkjæringstidspunkt
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_BR_19: https://confluence.adeo.no/display/MODNAV/Funksjonell+beskrivelse+-+Fastsette+status
+include::{generated}/no.nav.foreldrepenger.skjæringstidspunkt.regelmodell.AktivitetStatusModell.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.skjæringstidspunkt.status.RegelFastsettStatusVedSkjæringstidspunkt.adoc[]
+
+== AdopsjonsvilkårEngangsstønad
+++++
+ Denne implementerer regeltjenesten som validerer adopsjonsvilkåret for engangsstønad (FP_VK_4)
+ <p>
+ Data underlag definisjoner:<br>
+ <p>
+ VilkårUtfall IKKE_OPPFYLT:<br>
+ - Adopsjon av ektefelle/samboers barn<br>
+ - Barn ikke under 15 år ved omsorgsovertakelsen<br>
+ <p>
+ VilkårUtfall OPPFYLT:<br>
+ - Barn under 15 år ved omsorgsovertakelsen og kvinne som adopterer<br>
+ - Barn under 15 år ved omsorgsovertakelsen og mann som ikke adopterer alene<br>
+  <p>
+ VilkårUtfall IKKE_VURDERT:<br>
+ - Mann adopterer alene
+
+
+++++
+
+FP_VK_4: https://confluence.adeo.no/pages/viewpage.action?pageId=173827808
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.AdopsjonsvilkårGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.adopsjon.AdopsjonsvilkårEngangsstønad.adoc[]
+
+== AdopsjonsvilkårForeldrepenger
+++++
+ Denne implementerer regeltjenesten som validerer adopsjonsvilkåret for foreldrepenger (FP_VK_16)
+ <p>
+ Data underlag definisjoner:<br>
+ <p>
+ VilkårUtfall IKKE_OPPFYLT:<br>
+ - Adopsjon av ektefelle/samboers barn<br>
+ - Barn ikke under 15 år ved omsorgsovertakelsen<br>
+ <p>
+ VilkårUtfall OPPFYLT:<br>
+ - Barn under 15 år ved omsorgsovertakelsen og ikke ektefelle/samboers barn<br>
+
+
+++++
+
+FP_VK_16: https://confluence.adeo.no/pages/viewpage.action?pageId=183700165
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.AdopsjonsvilkårGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.adopsjon.AdopsjonsvilkårForeldrepenger.adoc[]
+
+== FødselsvilkårFar
+++++
+ Denne implementerer regeltjenesten som validerer fødselsvilkåret (FP_VK_11)
+ Data underlag definisjoner:<br>
+ VilkårUtfall IKKE_OPPFYLT:<br>
+ - Fødsel registrert og søker er ikke barnets far/medmor<br>
+ - Fødsel ikke registert, mor er for syk til å ta vare på barnet, og søker er ikke barnets far/medmor (FARA)<br>
+ - Fødsel ikke registert, mor er ikke for syk til å ta vare på barnet<br>
+ <p>
+ VilkårUtfall OPPFYLT:<br>
+ - Fødsel registrert og søker er barnets far/medmor (FARA)<br>
+ - Fødsel ikke registert, mor er for syk til å ta vare på barnet, og søker er barnets far/medmor (FARA)<br>
+
+
+++++
+
+FP_VK_11: https://confluence.adeo.no/pages/viewpage.action?pageId=198890456
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.FødselsvilkårGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.fødsel.FødselsvilkårFar.adoc[]
+
+== FødselsvilkårMor
+++++
+ Denne implementerer regeltjenesten som validerer fødselsvilkåret (FP_VK_1)
+ Data underlag definisjoner:<br>
+ - Bekreftet passet 26 svangerskapsuker dato: termindato - 3 dager - 14 uker<br>
+ - Bekreftet passert 26 svangerskapsuker: søknadsdato>=passet 26 svangerskapsuker<br>
+ <p>
+ VilkårUtfall IKKE_OPPFYLT:<br>
+ - Hvis ikke kvinne: Returner VilkårUtfallMerknad 1003. <br>
+ - Hvis kvinne, fødsel registerert, søker ikke barnets mor: 1002<br>
+ - Hvis kvinne, fødsel ikke registrert, ikke passert 26 svangerskapsuker: 1001<br>
+ <p>
+ VilkårUtfall OPPFYLT:<br>
+ - Fødsel registrert og søker er barnets mor (MORA)<br>
+ - Fødsel ikke registert, søker er kvinne, og passert 26 svangerskapsuker.<br>
+
+
+++++
+
+FP_VK_1: https://confluence.adeo.no/pages/viewpage.action?pageId=173827762
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.FødselsvilkårGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.fødsel.FødselsvilkårMor.adoc[]
+
+== Medlemskapsvilkår
+++++
+ Denne implementerer regeltjenesten som validerer medlemskapsvilkåret (FP_VK_2)
+ <p>
+ Data underlag definisjoner:<br>
+ <p>
+ VilkårUtfall IKKE_OPPFYLT:<br>
+ - Bruker har ikke lovlig opphold<br>
+ - Bruker har ikke oppholdsrett<br>
+ - Bruker er utvandret<br>
+ - Bruker er avklart som ikke bosatt<br>
+ - Bruker er registrert som ikke medlem<br>
+ <p>
+ VilkårUtfall OPPFYLT:<br>
+ - Bruker er avklart som EU/EØS statsborger og har avklart oppholdsrett<br>
+ - Bruker har lovlig opphold<br>
+ - Bruker er nordisk statsborger<br>
+ - Bruker er pliktig eller frivillig medlem<br>
+
+
+++++
+
+FP_VK_2: https://confluence.adeo.no/pages/viewpage.action?pageId=173827808
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.medlemskap.Medlemskapsvilkår.adoc[]
+
+== Opptjeningsvilkår
+++++
+ Regeltjeneste for vurdering av OpptjeningsVilkåret.
+ <p>
+ Dette vurderes som følger:
+ <p>
+ <ul>
+ <li>Perioder med arbeidsaktivitet fra AAReg som ikke samsvarer med registrerte inntekter underkjennes</li>
+ <li>Mellomliggende perioder for en arbeidsgiver (under 14 dager) og derforegående periode er mer enn 4 uker
+ aksepteres som godkjent aktivitet</li>
+ <li>Måneder der et er aktivitet hele måneden, eller minst 26 dager regnes som en måned.
+ <li>Hvis det er mindre enn 26 dager telles disse som enkelt dager</li>
+ <li>Bruker må ha minst 5 måneder (5*26 dager) og 26 dager med godkjente aktiviteter i opptjeningsperiode for at
+ vilkåret skal være oppfylt</li>
+ </ul>
+
+ <p>
+ Aktiviteter som inngår er:
+ <ul>
+ <li>Arbeid - registrert arbeidsforhold i AA-registeret</li>
+ <li>Næring - Registrert i Enhetsregisteret som selvstendig næringsdrivende</li>
+ <li>Ytelser - Dagpenger, Arbeidsavklaringspenger, Foreldrepenger, Sykepenger, Svangerskapspenger, Opplæringspenger,
+ Omsorgspenger og Pleiepenger</li>
+ <li>Pensjonsgivende inntekt som likestilles med yrkesaktivitet = Lønn fra arbeidsgiver i fbm videre- og
+ etterutdanning, Ventelønn, Vartpenger, Etterlønn/sluttvederlag fra arbeidsgiver, Avtjening av militær- eller
+ siviltjeneste eller obligatorisk sivilforsvarstjeneste.</li>
+ </ul>
+
+++++
+
+FP_VK_23: https://confluence.adeo.no/pages/viewpage.action?pageId=174836170
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.Opptjeningsgrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.opptjening.Opptjeningsvilkår.adoc[]
+
+== RegelFastsettOpptjeningsperiode
+++++
+ Det mangler dokumentasjon
+
+++++
+
+FP_VK_21: https://confluence.adeo.no/display/MODNAV/OMR11+-+A1+Vurdering+for+opptjeningsvilkår+-+Funksjonell+beskrivelse
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.OpptjeningsperiodeGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.opptjeningsperiode.RegelFastsettOpptjeningsperiode.adoc[]
+
+== Søknadsfristvilkår
+++++
+ Denne implementerer regeltjenesten som validerer søknadsfristvilkåret (FP_VK_3)
+ <p>
+ Data underlag definisjoner:<br>
+ <p>
+ VilkårUtfall IKKE_OPPFYLT:<br>
+ <p>
+ VilkårUtfall OPPFYLT:<br>
+ - elektronisk søknad og innen 6 måneder
+ - papirsøknad og innen 6 måneder + 2 dager
+
+ <p>
+ VilkårUtfall IKKE_VURDERT:<br>
+ - Elektronisk søknad og ikke motatt innen 6 måneder: Vilkårutfallmerknad.VM_5007 + merknad
+ "antallDagerSoeknadLevertForSent"
+ - Papir søknad og ikke mottatt innen 6 måneder+2 dage: Vilkårutfallmerknad.VM_5007 + merknad
+ "antallDagerSoeknadLevertForSent"
+
+
+++++
+
+FP_VK_3: https://confluence.adeo.no/pages/viewpage.action?pageId=173827683
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.SoeknadsfristvilkarGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.inngangsvilkaar.søknadsfrist.Søknadsfristvilkår.adoc[]
+
+== UtsettelseDelregel
+FP_VK 18: TODO
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.FastsettePeriodeGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.UtsettelseDelregel.adoc[]
+
+== ForeldrepengerFødselDelregel
+FP_VK XX10: https://confluence.adeo.no/pages/viewpage.action?pageId=292407153
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.FastsettePeriodeGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.ForeldrepengerFødselDelregel.adoc[]
+
+== FedrekvoteDelregel
+++++
+ Delregel innenfor regeltjenesten FastsettePeriodeRegel som fastsetter uttaksperioder med fedrekvote.
+ <p>
+ Utfall definisjoner:<br>
+ <p>
+ Utfall AVSLÅTT:<br>
+ - Det er ikke nok dager igjen på stønadskontoen for fedrekvote.<br>
+ - Perioden starter før familiehendelsen (termin/fødsel).<br>
+ - Perioden starter i periode etter fødsel som er forbeholdt mor og har ikke gyldig grunn for dette. <br>
+ <p>
+ Utfall INNVILGET:<br>
+ - Perioden er etter ukene etter fødsel som er forbeholdt mor og det er nok dager på stønadskontoen for fedrekvote.<br>
+ - Perioden har gyldig grunn for å starte i ukene etter fødsel som er forbeholdt mor og det er nok dager på stønadskontoen for fedrekvote.<br>
+
+++++
+
+FP_VK 13: https://confluence.adeo.no/pages/viewpage.action?pageId=252823417
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.FastsettePeriodeGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.FedrekvoteDelregel.adoc[]
+
+== FastsettePeriodeRegel
+++++
+ Regeltjeneste som fastsetter uttaksperioder som er søkt om for foreldrepenger.
+
+++++
+
+FP_VK 14: TODO
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.FastsettePeriodeGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.FastsettePeriodeRegel.adoc[]
+
+== MødrekvoteDelregel
+++++
+ Delregel innenfor regeltjenesten FastsettePeriodeRegel som fastsetter uttakperioder med mødrekvote.
+ <p>
+ Utfall definisjoner:<br>
+ <p>
+ Utfall AVSLÅTT:<br>
+ - Det er ikke nok dager igjen på stønadskontoen for mødrekvote.<br>
+ - Perioden starter før familiehendelsen (termin/fødsel).<br>
+ <p>
+ Utfall INNVILGET:<br>
+ - Perioden er etter familiehendelse og det er nok dager på stønadskontoen for mødrekvote.<br>
+ <p>
+ UTFALL UGYLDIG_UTSETTELSE:<br>
+ - Perioden forbeholdt mor etter fødsel er ikke søkt om og har ikke gyldig utsettelsesgrunn.<br>
+ <p>
+ UTFALL GYLDIG_UTSETTELSE:<br>
+ - Perioden forbeholdt mor etter fødsel er ikke søkt om men mor har gyldig utsettelsesgrunn.<br>
+
+++++
+
+FP_VK 10: https://confluence.adeo.no/pages/viewpage.action?pageId=252823417
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.FastsettePeriodeGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.MødrekvoteDelregel.adoc[]
+
+== ForeldrepengerFørFødselDelregel
+++++
+ Delregel innenfor regeltjenesten FastsettePeriodeRegel som fastsetter uttak av foreldrepenger før fødsel.
+ <p>
+ Utfall definisjoner:<br>
+ <p>
+ Utfall AVSLÅTT:<br>
+ - Far søker om perioden
+ - Perioden starter før perioden forbeholdt mor før fødsel.<br>
+ - Perioden starter etter termin/fødsel.<br>
+ <p>
+ Utfall INNVILGET:<br>
+ - Perioden dekker perioden forbeholdt mor før fødsel og det er mor som søker.
+
+++++
+
+FP_VK XX10: https://confluence.adeo.no/pages/viewpage.action?pageId=252823617
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.FastsettePeriodeGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.ForeldrepengerFørFødselDelregel.adoc[]
+
+== FellesperiodeDelregel
+++++
+ Delregel innenfor regeltjenesten FastsettePeriodeRegel som fastsette uttak av fellesperiode.
+ <p>
+ Utfall definisjoner:<br>
+ <p>
+ Utfall AVSLÅTT:<br>
+ - Det er ikke nok dager igjen på stønadskontoen for fellesperioden.<br>
+ - Perioden starter for tidlig før familiehendelsen (termin/fødsel)
+ - Perioden starter i periode etter fødsel som er forbeholdt mor.<br>
+ <p>
+ Utfall INNVILGET:<br>
+ - Perioden starter før fødsel og det er nok dager på stønadskonto for fellesperiode. <br>
+ - Perioden er etter ukene etter fødsel som er forbeholdt mor og det er nok dager på stønadskontoen for fellesperiode.<br>
+
+++++
+
+FP_VK 19: https://confluence.adeo.no/pages/viewpage.action?pageId=252823617
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.FastsettePeriodeGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.uttak.fastsetteperiode.FellesperiodeDelregel.adoc[]
+
+== BeregnKontoer
+++++
+ Denne implementerer regeltjenesten som beregner antall stønadsdager for foreldrepenger.
+
+++++
+
+FP_VK 17: https://confluence.adeo.no/pages/viewpage.action?pageId=174837789
+include::{generated}/no.nav.foreldrepenger.regler.uttak.beregnkontoer.grunnlag.BeregnKontoerGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.uttak.beregnkontoer.BeregnKontoer.adoc[]
+
+== SøknadsfristRegel
+FP_VK XX7: https://confluence.adeo.no/pages/viewpage.action?pageId=254450376
+include::{generated}/no.nav.foreldrepenger.regler.søknadsfrist.grunnlag.SøknadsfristGrunnlag.adoc[]
+
+include::{generated}/no.nav.foreldrepenger.regler.søknadsfrist.SøknadsfristRegel.adoc[]
+
+

@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="4698381F-2F39-93EB-9725-AB29E9F864B6" containerWithKeyObject="4CA0BB59-0385-62F9-9853-162203186ACE" localFKIndex="B2EC27A5-AEEF-71A9-FDAF-04BB3831964D" name="FK_KODELISTE_01">
+<sourceDDLFile>05-REF_CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1F3B90BC-F61F-D925-08A4-DB461A3070D6</importedID>
+<referredTableLongName>KODEVERK</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>76372913-D662-1FE5-7FCD-283B616890FA</referredTableID>
+<keyObject>2CCE52A2-6BE9-4607-6AE9-6D84ECA57787</keyObject>
+<referredKeyID>2CCE52A2-6BE9-4607-6AE9-6D84ECA57787</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>kode</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

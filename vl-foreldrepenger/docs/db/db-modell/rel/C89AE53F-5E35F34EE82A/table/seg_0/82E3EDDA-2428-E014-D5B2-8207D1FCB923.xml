@@ -1,0 +1,179 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="82E3EDDA-2428-E014-D5B2-8207D1FCB923" name="OKO_ATTESTANT_180">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<commentInRDBMS>Inneholder de relevante verdier som mappes og sender med i request melding. (Tabell fra Økonomi)</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>407757C7-632B-8376-3B72-4C20635929CB</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="D38F484C-D16B-030A-096D-333CC2C48A6C">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>30BB42BD-A07C-846D-A6E0-27B989910A6B</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="versjon" id="AD01FEB8-A42F-5C60-5A73-CBA123E6C429">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0501C583-21FB-3B4A-EF96-72D4C4529BCF</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="attestant_id" id="DD8D1DD3-D6E7-B912-CB35-12ADA2D2F68A">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>Felt i oppdragsmelding</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E699E691-1721-23A3-A544-8F9E7085D14B</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>E538ED7D-D35B-86EA-A59F-666780B1A1CE</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="oppdrags_linje_150_id" id="76B922FB-F813-147C-00DA-17C4AA873439">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<commentInRDBMS>FK:OKO_OPPDRAG_LINJE_150 Fremmednøkkel for kopling til tabellen som holder detaljene for oppdraget til oppgjør</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>876211B4-22AA-11DA-E9BC-FC11A146A728</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="ED3584AA-3C38-62E5-0957-0E2B9B6B8537" referredColumn="E779B4AB-5F34-AC32-26CC-6E2160CD9E88"/>
+</associations>
+</Column>
+<Column name="opprettet_av" id="DB7AA6DC-C75F-3452-E36E-86CB2E8C5CEA">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B16A487B-A7DD-A733-AC74-0F03AE9F8C17</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="5E6350A3-B8A3-8CCA-2C1B-53D4C7B591B5">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B9762392-ACBF-E0A6-998E-30C75305E216</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="FE86B297-3DA5-5B41-1C3D-CEF739B36575">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>3AF14759-B735-0B2F-893E-D150084ED62A</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="08221E15-646D-6DA6-091B-542AAC8AE875">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:22 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>35110AE9-4391-18DB-FF29-F39920615867</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="57994951-9D1F-75C1-2129-94068A448DF1" name="PK_OKO_ATTESTANT_180">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6A714812-B022-3299-E855-D506654581EF</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D38F484C-D16B-030A-096D-333CC2C48A6C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1AD5BD0B-3B63-AC6F-4A8D-8807F6D3D8C8" name="IDX_OKO_ATTESTANT_180_1">
+<sourceDDLFile>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</sourceDDLFile>
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AEE86F41-01F9-B789-AA7A-8E3C1C03A451</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DD8D1DD3-D6E7-B912-CB35-12ADA2D2F68A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D7CD4B64-40FA-B283-C258-E34886EC315F" name="PK_OKO_ATTESTANT_180">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>BCD9FFDD-BA2A-8DF1-4B87-A575AD0B373B</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D38F484C-D16B-030A-096D-333CC2C48A6C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DE9F4ABE-6A23-2461-CE21-25DEA9990FF3" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_OKO_ATTESTANT_180_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B2B700B5-A539-1909-DD75-53A4224647A8</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="76B922FB-F813-147C-00DA-17C4AA873439"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CF3088DE-C13E-BAE6-A647-0A33DAAB80C0" name="FK_OKO_ATTESTANT_180_1">
+<createdBy>n124284</createdBy>
+<createdTime>2017-05-31 13:17:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="76B922FB-F813-147C-00DA-17C4AA873439"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

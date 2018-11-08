@@ -1,0 +1,15 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "1995-02-20", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "NÆRING",
+      "aktivitetReferanse" : "969118386",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-05",
+  "forsteDatoOpptjening" : "2017-09-29",
+  "sisteDatoForOpptjening" : "2018-07-28",
+  "inntektPerioder" : [ ]
+}

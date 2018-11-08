@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_BEHANDLING_STEG_TILSTAND" directorySegmentName="seg_0" id="FEA1DE38-C42D-4A33-D3E1-EA46A58FC1B1">
+<sourceDDLFile>V1.7.0_04__BehandlingStegTilstand.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:11:50 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>50</incrementBy>
+<minValue>1</minValue>
+<noCache>YES</noCache>
+<startWith>100000</startWith>
+</SequenceOraclev10g>

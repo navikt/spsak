@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
+<!-- Resolve False Positive matches -->
+    <!--<suppress>
+        <notes><![CDATA[
+        This suppresses all CVE entries that have a score below CVSS 7.
+        ]]></notes>
+        <cvssBelow>7</cvssBelow>
+    </suppress>-->
+	<suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2014-9389
+        ]]></notes>
+        <gav regex="true">io\.swagger:swagger-parser.*</gav>
+		<cve>CVE-2014-9389</cve>
+    </suppress>
+	<suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2015-2808
+        ]]></notes>
+        <gav regex="true">javax\.el:javax\.el-api.*</gav>
+		<cve>CVE-2015-2808</cve>
+		<cve>CVE-2013-2566</cve>
+    </suppress>
+	<suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2015-2808
+        ]]></notes>
+        <gav regex="true">javax\.interceptor:javax\.interceptor-api.*</gav>
+		<cve>CVE-2015-2808</cve>
+    </suppress>
+	<suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2014-1216 (old CVE?)
+        ]]></notes>
+        <gav regex="true">org\.fitnesse:fitnesse.*</gav>
+		<cve>CVE-2014-1216</cve>
+    </suppress>
+	<suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2015-3448
+        ]]></notes>
+        <gav regex="true">org\.fusesource\.mqtt-client:mqtt-client.*</gav>
+		<cve>CVE-2015-3448</cve>
+    </suppress>
+	<suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on spring security.
+        ]]></notes>
+        <gav regex="true">org\.springframework\.security:spring.*</gav>
+        <cpe>cpe:/a:vmware:springsource_spring_framework</cpe>
+        <cpe>cpe:/a:springsource:spring_framework</cpe>
+        <cpe>cpe:/a:mod_security:mod_security</cpe>
+    </suppress>
+
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2013-2566.
+        ]]></notes>
+        <gav regex="true">javax\.interceptor:javax\.interceptor-api:.*</gav>
+        <cve>CVE-2013-2566</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2016-7051.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson\.core:jackson-core:.*</gav>
+        <cve>CVE-2016-7051</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2016-7051.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson\.core:jackson-databind:.*</gav>
+        <cve>CVE-2016-7051</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2016-7051.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson\.dataformat:jackson-dataformat-yaml:.*</gav>
+        <cve>CVE-2016-7051</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on jackson-jaxrs-base.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson\.jaxrs:jackson-jaxrs-base:.*</gav>
+        <cve>CVE-2016-7051</cve>
+        <cve>CVE-2016-3720</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on jackson-core-asl.
+        ]]></notes>
+        <gav regex="true">org\.codehaus\.jackson:jackson-core-asl:.*</gav>
+        <cve>CVE-2016-7051</cve>
+        <cve>CVE-2016-3720</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on jackson-xc.
+        ]]></notes>
+        <gav regex="true">org\.codehaus\.jackson:jackson-xc:.*</gav>
+        <cve>CVE-2016-7051</cve>
+        <cve>CVE-2016-3720</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2016-7051.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson\.core:jackson-annotations:.*</gav>
+        <cve>CVE-2016-7051</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2016-7051.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson\.datatype:jackson-datatype-jdk8:.*</gav>
+        <cve>CVE-2016-7051</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2016-7051.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson\.datatype:jackson-datatype-jsr310:.*</gav>
+        <cve>CVE-2016-7051</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on jackson-module-jaxb-annotations.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson\.module:jackson-module-jaxb-annotations:.*</gav>
+        <cve>CVE-2016-7051</cve>
+        <cve>CVE-2016-3720</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on jackson-jaxrs-json-provider.
+        ]]></notes>
+        <gav regex="true">com\.fasterxml\.jackson.jaxrs:jackson-jaxrs-json-provider:.*</gav>
+        <cve>CVE-2016-7051</cve>
+        <cve>CVE-2016-3720</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on jackson-jaxrs.
+        ]]></notes>
+        <gav regex="true">org\.codehaus\.jackson:jackson-jaxrs:.*</gav>
+        <cve>CVE-2016-7051</cve>
+        <cve>CVE-2016-3720</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on jackson-mapper-asl.
+        ]]></notes>
+        <gav regex="true">org+.codehaus\.jackson:jackson-mapper-asl:.*</gav>
+        <cve>CVE-2016-7051</cve>
+        <cve>CVE-2016-3720</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2014-8122.
+        ]]></notes>
+        <gav regex="true">javax\.enterprise:cdi-api:.*</gav>
+        <cve>CVE-2014-8122</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-cdi.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-cdi:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-jaxrs.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-jaxrs:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-jaxrs.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-client:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-jaxb-provider.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-jaxb-provider:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-jaxrs-services.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-jaxrs-services:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-json-p-provider.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-json-p-provider:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-jackson-provider.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-jackson-provider:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-jackson2-provider.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-jackson2-provider:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-servlet-initializer.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-servlet-initializer:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on resteasy-validator-provider-11.
+        ]]></notes>
+        <gav regex="true">org\.jboss\.resteasy:resteasy-validator-provider-11:.*</gav>
+        <cve>CVE-2016-6348</cve>
+        <cve>CVE-2016-6347</cve>
+        <cve>CVE-2016-6346</cve>
+        <cve>CVE-2016-6345</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2017-9735.
+        ]]></notes>
+        <gav regex="true">org\.eclipse\.jetty\.orbit:javax\.security\.auth\.message:.*</gav>
+        <cve>CVE-2017-9735</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on jetty.
+        ]]></notes>
+        <gav regex="true">org\.eclipse\.jetty:jetty-.*:.*</gav>
+        <cpe regex="true">cpe:/a:eclipse:jetty:.*</cpe>
+        <cpe regex="true">cpe:/a:jetty:jetty:.*</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on ibm mq client.
+        ]]></notes>
+        <gav regex="true">com\.ibm\.mq:com\.ibm\.mq\.allclient:.*</gav>
+        <cpe regex="true">cpe:/a:ibm:websphere:.*</cpe>
+        <cpe regex="true">cpe:/a:ibm:websphere_mq:.*</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2014-9389.
+        ]]></notes>
+        <gav regex="true">io\.swagger:swagger-compat-spec-parser:.*</gav>
+        <cve>CVE-2014-9389</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on .
+        ]]></notes>
+        <gav regex="true">org\.apache\.geronimo\.components:geronimo-jaspi:.*</gav>
+        <cve>CVE-2011-5034</cve>
+        <cve>CVE-2008-0732</cve>
+        <cve>CVE-2007-5797</cve>
+        <cve>CVE-2007-4548</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on CVE-2008-0732.
+        ]]></notes>
+        <gav regex="true">org\.apache\.xbean:xbean-reflect:.*</gav>
+        <cve>CVE-2008-0732</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on spring-aop.
+        ]]></notes>
+        <gav regex="true">org\.springframework:spring-aop:.*</gav>
+        <cpe regex="true">cpe:/a:springsource:spring_framework:.*</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on spring-core.
+        ]]></notes>
+        <gav regex="true">org\.springframework:spring-core:.*</gav>
+        <cpe regex="true">cpe:/a:pivotal:spring_framework:.*</cpe>
+        <cpe regex="true">cpe:/a:pivotal_software:spring_framework:.*</cpe>
+        <cpe regex="true">cpe:/a:springsource:spring_framework:.*</cpe>
+        <cpe regex="true">cpe:/a:vmware:springsource_spring_framework:.*</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on spring-beans.
+        ]]></notes>
+        <gav regex="true">org\.springframework:spring-beans:.*</gav>
+        <cpe regex="true">cpe:/a:springsource:spring_framework:.*</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on spring-context.
+        ]]></notes>
+        <gav regex="true">org\.springframework:spring-context:.*</gav>
+        <cpe regex="true">cpe:/a:springsource:spring_framework:.*</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on spring-expression.
+        ]]></notes>
+        <gav regex="true">org\.springframework:spring-expression:.*</gav>
+        <cpe regex="true">cpe:/a:springsource:spring_framework:.*</cpe>
+    </suppress>
+</suppressions>

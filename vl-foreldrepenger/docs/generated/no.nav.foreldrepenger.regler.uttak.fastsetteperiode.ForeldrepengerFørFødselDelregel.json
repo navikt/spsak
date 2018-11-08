@@ -1,0 +1,97 @@
+{
+  "root" : {
+    "id" : "fd1aee4d-0cce-484c-ad57-bec30656870d",
+    "ruleId" : "FP_VK 27.3.1",
+    "ruleDescription" : "Er søker mor?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "fd1aee4d-0cce-484c-ad57-bec30656870d",
+    "ruleId" : "FP_VK 27.3.1",
+    "ruleDescription" : "Er søker mor?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "cb38f563-ca6b-4af7-b0f9-484b004b04c5",
+    "ruleId" : "FP_VK 27.3.2",
+    "ruleDescription" : "Starter perioden for tidlig?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "b924b49b-47f5-4470-bdfb-7496e2750349",
+    "ruleId" : "UT1070",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f3cc42c0-aba9-46f3-8ac6-6ae1fad20435",
+    "ruleId" : "FP_VK 30.2.1",
+    "ruleDescription" : "Er det manglende søkt periode?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "27ebb3a3-262d-4e92-a218-6ea0286baca7",
+    "ruleId" : "UT1073",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "476dfe48-74ca-4c50-ac97-f8cd6b12acdf",
+    "ruleId" : "FP_VK 26.1.6",
+    "ruleDescription" : "Er det gradering i perioden?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "c3397846-3776-4f6a-97ce-453af417bb1a",
+    "ruleId" : "UT1072",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ccc59d8b-4829-4075-ba91-e5aa69e82bfe",
+    "ruleId" : "UT1071",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "943e28e1-5127-484d-b655-eb7069714d62",
+    "ruleId" : "UT1076",
+    "ruleDescription" : "",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "cb38f563-ca6b-4af7-b0f9-484b004b04c5",
+    "target" : "b924b49b-47f5-4470-bdfb-7496e2750349",
+    "role" : ""
+  }, {
+    "source" : "f3cc42c0-aba9-46f3-8ac6-6ae1fad20435",
+    "target" : "27ebb3a3-262d-4e92-a218-6ea0286baca7",
+    "role" : ""
+  }, {
+    "source" : "476dfe48-74ca-4c50-ac97-f8cd6b12acdf",
+    "target" : "c3397846-3776-4f6a-97ce-453af417bb1a",
+    "role" : ""
+  }, {
+    "source" : "476dfe48-74ca-4c50-ac97-f8cd6b12acdf",
+    "target" : "ccc59d8b-4829-4075-ba91-e5aa69e82bfe",
+    "role" : "ellers"
+  }, {
+    "source" : "f3cc42c0-aba9-46f3-8ac6-6ae1fad20435",
+    "target" : "476dfe48-74ca-4c50-ac97-f8cd6b12acdf",
+    "role" : "ellers"
+  }, {
+    "source" : "cb38f563-ca6b-4af7-b0f9-484b004b04c5",
+    "target" : "f3cc42c0-aba9-46f3-8ac6-6ae1fad20435",
+    "role" : "ellers"
+  }, {
+    "source" : "fd1aee4d-0cce-484c-ad57-bec30656870d",
+    "target" : "cb38f563-ca6b-4af7-b0f9-484b004b04c5",
+    "role" : ""
+  }, {
+    "source" : "fd1aee4d-0cce-484c-ad57-bec30656870d",
+    "target" : "943e28e1-5127-484d-b655-eb7069714d62",
+    "role" : "ellers"
+  } ]
+}

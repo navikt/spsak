@@ -1,0 +1,135 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DomainFile class="oracle.dbtools.crest.model.design.DomainFileWrapper" fileName="02_TABLES_Domains">
+   <domains>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_8 CHAR" id="1DAED89E-7140-C6A3-40B5-187B8462E031">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>8 CHAR</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="Timestamp_6_0_0" id="1FD99E3A-6DD5-51EC-E32D-1ABF5B01D866">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>6</dataTypePrecision>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT015</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_100 BYTE" id="2B8BF076-D577-1A5C-6B93-44FF0FF2A9C7">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>100 BYTE</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_1000 BYTE" id="3272CFF3-9EB6-3510-AE13-C0E93179B1F1">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>1000 BYTE</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_50 BYTE" id="667B07B7-1EEF-4932-4644-E83BEC82612B">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>50 BYTE</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_1000 CHAR" id="8C12BE84-694A-31B0-EB7A-9414B6F9B46F">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>1000 CHAR</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_200 BYTE" id="8EA66ED5-CC3A-1CEA-53EF-E5C00629531B">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>200 BYTE</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_20 BYTE" id="9B5B0365-B7A4-1967-2B2F-94745E7965C2">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>20 BYTE</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_*_0_0" id="9CB8C1B2-FF60-77FF-7A1C-3B0CCFC1F90D">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>*</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>0</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT019</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_1 BYTE" id="ADC87E89-287C-3F67-81FB-49146053C90D">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>1 BYTE</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_500 CHAR" id="B56EAB88-D384-6428-4832-B237DC56527F">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>500 CHAR</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="CHAR_0_0_1 BYTE" id="DDE9EA65-0ABC-22D6-E48C-14F6F3367114">
+         <createdBy>T150221</createdBy>
+         <createdTime>2017-08-15 17:22:19 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>1 BYTE</dataTypeSize>
+         <fileName>02_TABLES_Domains</fileName>
+         <logicalDatatype>LOGDT025</logicalDatatype>
+      </Domain>
+   </domains>
+</DomainFile>

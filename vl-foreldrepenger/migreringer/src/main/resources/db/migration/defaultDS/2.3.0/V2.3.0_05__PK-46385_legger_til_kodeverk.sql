@@ -1,0 +1,18 @@
+INSERT INTO KODELISTE (ID, KODEVERK, KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM, OFFISIELL_KODE)
+VALUES (SEQ_KODELISTE.NEXTVAL, 'PERMISJONSBESKRIVELSE_TYPE', 'PERMISJON', 'Permisjon', 'Permisjon', 'NB', to_date('01.01.2000', 'dd.mm.yyyy'),to_date('31.12.2018', 'dd.mm.yyyy'), 'Permisjon');
+
+INSERT INTO KODELISTE (ID, KODEVERK, KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM, OFFISIELL_KODE)
+VALUES (SEQ_KODELISTE.NEXTVAL, 'PERMISJONSBESKRIVELSE_TYPE', 'PERMISJON_MED_FORELDREPENGER', 'Permisjon med foreldrepenger', 'Permisjon med foreldrepenger','NB', to_date('01.01.2000', 'dd.mm.yyyy'),to_date('31.12.9999', 'dd.mm.yyyy'), 'Permisjon med foreldrepenger');
+
+INSERT INTO KODELISTE (ID, KODEVERK, KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM, OFFISIELL_KODE)
+VALUES (SEQ_KODELISTE.NEXTVAL, 'PERMISJONSBESKRIVELSE_TYPE', 'PERMISJON_VED_MILITÆRTJENESTE', 'Permisjon ved militærtjeneste', 'Permisjon ved militærtjeneste', 'NB', to_date('01.01.2000', 'dd.mm.yyyy'),to_date('31.12.9999', 'dd.mm.yyyy'), 'Permisjon ved militærtjeneste');
+
+INSERT INTO KODELISTE (ID, KODEVERK, KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM, OFFISIELL_KODE)
+VALUES (SEQ_KODELISTE.NEXTVAL, 'PERMISJONSBESKRIVELSE_TYPE', 'PERMITTERING', 'Permittering', 'Permittering', 'NB', to_date('01.01.2000', 'dd.mm.yyyy'),to_date('31.12.9999', 'dd.mm.yyyy'), 'Permittering');
+
+INSERT INTO KODELISTE (ID, KODEVERK, KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM, OFFISIELL_KODE)
+VALUES (SEQ_KODELISTE.NEXTVAL, 'PERMISJONSBESKRIVELSE_TYPE', 'UTDANNINGSPERMISJON', 'Utdanningspermisjon', 'Utdanningspermisjon', 'NB', to_date('01.01.2000', 'dd.mm.yyyy'),to_date('31.12.9999', 'dd.mm.yyyy'), 'Utdanningspermisjon');
+
+INSERT INTO KODELISTE (ID, KODEVERK, KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM, OFFISIELL_KODE)
+VALUES (SEQ_KODELISTE.NEXTVAL, 'PERMISJONSBESKRIVELSE_TYPE', 'VELFERDSPERMISJON', 'Velferdspermisjon', 'Velferdspermisjon', 'NB', to_date('01.01.2000', 'dd.mm.yyyy'),to_date('31.12.9999', 'dd.mm.yyyy'), 'Velferdspermisjon');
+

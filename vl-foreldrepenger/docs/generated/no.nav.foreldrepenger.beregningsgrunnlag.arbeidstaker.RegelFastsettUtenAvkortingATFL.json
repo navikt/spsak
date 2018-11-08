@@ -1,0 +1,35 @@
+{
+  "root" : {
+    "id" : "17a4e7fc-382a-4317-91a5-65b8e3a4fb2e",
+    "ruleId" : "FP_BR_29.6",
+    "ruleDescription" : "Fastsett BG uten avkorting",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "17a4e7fc-382a-4317-91a5-65b8e3a4fb2e",
+    "ruleId" : "FP_BR_29.6",
+    "ruleDescription" : "Fastsett BG uten avkorting",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "f7b5a1ed-6653-4dfa-bd25-63c4d428d250",
+    "ruleId" : "FP_BR 29.6.1",
+    "ruleDescription" : "Fastsett Brukers Andel og ev arbeidsgivers andel av Brutto beregningsgrunnlag",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "2a26a05c-be54-4a2f-ba43-31f2ac2437da",
+    "ruleId" : "FP_BR 29.6.2",
+    "ruleDescription" : "Fastsett Avkortet brukers andel og ev avkortet arbeidsgivers andel",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "17a4e7fc-382a-4317-91a5-65b8e3a4fb2e",
+    "target" : "f7b5a1ed-6653-4dfa-bd25-63c4d428d250"
+  }, {
+    "source" : "17a4e7fc-382a-4317-91a5-65b8e3a4fb2e",
+    "target" : "2a26a05c-be54-4a2f-ba43-31f2ac2437da"
+  } ]
+}

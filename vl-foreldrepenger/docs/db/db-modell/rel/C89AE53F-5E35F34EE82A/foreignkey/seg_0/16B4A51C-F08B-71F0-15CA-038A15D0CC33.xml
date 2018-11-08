@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="16B4A51C-F08B-71F0-15CA-038A15D0CC33" containerWithKeyObject="379DEE2B-C1FE-52AA-1C13-2E93C971D41A" localFKIndex="27F56D2F-06FC-44B5-B9CD-5478D3880D9C" name="FK_DOKUMENT_FELLES_1">
+<sourceDDLFile>05_REF_CONSTRAINTS.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:22:19 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B2F3C52A-17AB-8E64-F2DB-2486B1956262</importedID>
+<referredTableLongName>DOKUMENT_ADRESSE</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>4FB06C0E-9EF4-1EAA-16EC-E5BC3C0A4AF0</referredTableID>
+<keyObject>2F4B9BC4-23AB-8949-8B83-4AB3185411A9</keyObject>
+<referredKeyID>2F4B9BC4-23AB-8949-8B83-4AB3185411A9</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

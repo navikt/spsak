@@ -1,0 +1,16 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getSoekersKjonn|no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.Kjoenn|
+|getBekreftetFoedselsdato|java.time.LocalDate|
+|getBekreftetTermindato|java.time.LocalDate|
+|getSoekerRolle|no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.SoekerRolle|
+|getSoeknadsdato|java.time.LocalDate|
+|getAntallBarn|int|
+|===
+
+
+

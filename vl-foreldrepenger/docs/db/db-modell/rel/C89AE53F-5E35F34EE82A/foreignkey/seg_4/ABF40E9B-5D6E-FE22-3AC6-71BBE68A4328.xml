@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_4" id="ABF40E9B-5D6E-FE22-3AC6-71BBE68A4328" containerWithKeyObject="6F0FDAFD-4DFA-9C80-5F0A-3CA6EFE804DA" localFKIndex="10C04D9F-9471-6AB6-BD44-7B6678256950" name="FK_OKO_REFUSJONSINFO_156_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>280109C2-A440-E21D-35DF-143DA050BA5C</importedID>
+<referredTableLongName>OKO_OPPDRAG_LINJE_150</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>09023E6A-81D0-5DED-6CF0-61FC9C1C828A</referredTableID>
+<keyObject>A57D1E27-36A8-77E8-07AE-45C563BBA170</keyObject>
+<referredKeyID>A57D1E27-36A8-77E8-07AE-45C563BBA170</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

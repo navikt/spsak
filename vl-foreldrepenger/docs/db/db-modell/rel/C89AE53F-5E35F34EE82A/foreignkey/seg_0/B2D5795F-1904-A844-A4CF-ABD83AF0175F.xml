@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="B2D5795F-1904-A844-A4CF-ABD83AF0175F" containerWithKeyObject="E941B7A4-21D4-2FFF-737D-28CFBD0A4499" localFKIndex="9874C0BD-8C08-91A2-5984-C0E19A5DDD9B" name="FK_KONFIG_VERDI_1">
+<sourceDDLFile>V1.8.0_04__HistorikkInnslag_drop_column.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>48184F61-F42F-6945-674C-249366C0ACC8</importedID>
+<referredTableLongName>KONFIG_VERDI_KODE</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>CFD112FB-F5FD-2544-72F2-9181E7288233</referredTableID>
+<keyObject>CADB588F-43A8-6FCF-31F0-B7A9FEFB91F3</keyObject>
+<referredKeyID>CADB588F-43A8-6FCF-31F0-B7A9FEFB91F3</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>KODE,KONFIG_GRUPPE</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

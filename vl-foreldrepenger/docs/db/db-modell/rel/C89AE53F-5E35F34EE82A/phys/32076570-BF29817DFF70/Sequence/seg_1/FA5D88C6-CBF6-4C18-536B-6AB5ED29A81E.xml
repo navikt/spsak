@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_PROSESS_TASK_GRUPPE" directorySegmentName="seg_1" id="FA5D88C6-CBF6-4C18-536B-6AB5ED29A81E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:07:40 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>1000000</incrementBy>
+<maxValue>9999999999999999999999999999</maxValue>
+<minValue>10000000</minValue>
+<noCache>YES</noCache>
+<user>E9425C1A-7186-D4A6-5803-CF85442090AC</user>
+</SequenceOraclev10g>

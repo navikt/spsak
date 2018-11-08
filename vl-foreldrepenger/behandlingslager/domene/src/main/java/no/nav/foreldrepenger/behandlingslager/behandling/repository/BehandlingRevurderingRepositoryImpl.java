@@ -1,0 +1,230 @@
+package no.nav.foreldrepenger.behandlingslager.behandling.repository;
+
+import static java.util.Arrays.asList;
+import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType.INNSYN;
+import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType.KLAGE;
+import static no.nav.vedtak.util.Objects.check;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
+import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
+import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
+import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
+import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
+import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
+import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
+
+@ApplicationScoped
+public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderingRepository {
+
+    private EntityManager entityManager;
+    private BehandlingRepository behandlingRepository;
+    private FagsakRelasjonRepository fagsakRelasjonRepository;
+    private FagsakRepository fagsakRepository;
+    private SøknadRepository søknadRepository;
+    private BehandlingLåsRepository behandlingLåsRepository;
+
+    BehandlingRevurderingRepositoryImpl() {
+    }
+
+    @Inject
+    public BehandlingRevurderingRepositoryImpl(@VLPersistenceUnit EntityManager entityManager,
+                                               BehandlingRepositoryProvider repositoryProvider) {
+
+        Objects.requireNonNull(entityManager, "entityManager");
+        Objects.requireNonNull(repositoryProvider, "repositoryProvider");
+        this.entityManager = entityManager;
+        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
+        this.fagsakRelasjonRepository = repositoryProvider.getFagsakRelasjonRepository();
+        this.fagsakRepository = repositoryProvider.getFagsakRepository();
+        this.søknadRepository = repositoryProvider.getSøknadRepository();
+        this.behandlingLåsRepository = repositoryProvider.getBehandlingLåsRepository();
+    }
+
+    EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    @Override
+    public List<Behandling> finnHenlagteBehandlingerEtterSisteInnvilgedeIkkeHenlagteBehandling(Long fagsakId) {
+        Objects.requireNonNull(fagsakId, "fagsakId"); // NOSONAR //$NON-NLS-1$
+
+        Optional<Behandling> sisteInnvilgede = behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(fagsakId);
+
+        if (sisteInnvilgede.isPresent()) {
+            final List<Long> behandlingsIder = finnHenlagteBehandlingerEtter(fagsakId, sisteInnvilgede.get());
+            for (Long behandlingId : behandlingsIder) {
+                behandlingLåsRepository.taLås(behandlingId);
+            }
+            return behandlingsIder.stream()
+                .map(behandlingId -> behandlingRepository.hentBehandling(behandlingId))
+                .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Optional<Behandling> hentSisteYtelsesbehandling(Long fagsakId) {
+        return behandlingRepository
+            .hentSisteBehandlingForFagsakIdEkskluderBehandlingerAvType(fagsakId, asList(KLAGE, INNSYN));
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Long> finnHenlagteBehandlingerEtter(Long fagsakId, Behandling sisteInnvilgede) {
+        TypedQuery<Long> query = getEntityManager().createQuery(
+            "SELECT b.id FROM Behandling b WHERE b.fagsak.id=:fagsakId " +
+                " AND b.behandlingType=:type" +
+                " AND b.opprettetTidspunkt >= to_timestamp(:etterTidspunkt)" +
+                " AND EXISTS (SELECT r FROM Behandlingsresultat r" +
+                "    WHERE r.behandling=b " +
+                "    AND r.behandlingResultatType IN :henlagtKoder)" +
+                " ORDER BY b.opprettetTidspunkt ASC", //$NON-NLS-1$
+            Long.class);
+        query.setParameter("fagsakId", fagsakId); //$NON-NLS-1$
+        query.setParameter("type", BehandlingType.REVURDERING);
+        query.setParameter("henlagtKoder", BehandlingResultatType.getAlleHenleggelseskoder());
+        query.setParameter("etterTidspunkt", sisteInnvilgede.getOpprettetDato());
+        return query.getResultList();
+    }
+
+    @Override
+    public Optional<Behandling> finnÅpenYtelsesbehandling(Long fagsakId) {
+        List<Behandling> åpenBehandling = finnÅpenogKøetYtelsebehandling(fagsakId).stream()
+            .filter(beh -> !beh.erKøet())
+            .collect(Collectors.toList());
+        check(åpenBehandling.size() <= 1, "Kan maks ha én åpen ytelsesbehandling"); //$NON-NLS-1$
+        return optionalFirst(åpenBehandling);
+    }
+
+    @Override
+    public Optional<Behandling> finnKøetYtelsesbehandling(Long fagsakId) {
+        List<Behandling> køetBehandling = finnÅpenogKøetYtelsebehandling(fagsakId).stream()
+            .filter(Behandling::erKøet)
+            .collect(Collectors.toList());
+        check(køetBehandling.size() <= 1, "Kan maks ha én køet ytelsesbehandling"); //$NON-NLS-1$
+        return optionalFirst(køetBehandling);
+    }
+
+    private List<Behandling> finnÅpenogKøetYtelsebehandling(Long fagsakId) {
+        Objects.requireNonNull(fagsakId, "fagsakId"); // NOSONAR //$NON-NLS-1$
+
+        TypedQuery<Long> query = getEntityManager().createQuery(
+            "SELECT b.id " +
+                "from Behandling b " +
+                "where fagsak.id=:fagsakId " +
+                "and status not in (:avsluttet) " +
+                "and behandlingType not in :behandlingType " +
+                "order by opprettetTidspunkt desc", //$NON-NLS-1$
+            Long.class);
+        query.setParameter("fagsakId", fagsakId); //$NON-NLS-1$
+        query.setParameter("avsluttet", Arrays.asList(BehandlingStatus.AVSLUTTET, BehandlingStatus.IVERKSETTER_VEDTAK)); //$NON-NLS-1$
+        query.setParameter("behandlingType", Arrays.asList(BehandlingType.KLAGE, BehandlingType.INNSYN)); //$NON-NLS-1$
+        // TODO (mykla): Finn en måte å sentralisere Arrays.asList(BehandlingType.KLAGE, BehandlingType.INNSYN)
+
+        List<Long> behandlingIder = query.getResultList();
+        for (Long behandlingId : behandlingIder) {
+            behandlingLåsRepository.taLås(behandlingId);
+        }
+        final List<Behandling> behandlinger = behandlingIder.stream()
+            .map(behandlingId -> behandlingRepository.hentBehandling(behandlingId))
+            .collect(Collectors.toList());
+        check(behandlinger.size() <= 2, "Kan maks ha én åpen og én køet ytelsesbehandling"); //$NON-NLS-1$
+        check(behandlinger.stream().filter(Behandling::erKøet).count() <= 1, "Kan maks ha én køet ytelsesbehandling"); //$NON-NLS-1$
+        check(behandlinger.stream().filter(it -> !it.erKøet()).count() <= 1, "Kan maks ha én åpen ytelsesbehandling"); //$NON-NLS-1$
+
+        return behandlinger;
+    }
+
+    @Override
+    public Optional<Behandling> finnÅpenBehandlingMedforelder(Fagsak fagsak) {
+        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(fagsak);
+        if (!fagsakRelasjon.isPresent() || !fagsakRelasjon.get().getFagsakNrTo().isPresent()) {
+            return Optional.empty();
+        }
+
+        Long fagsakIdEn = fagsakRelasjon.get().getFagsakNrEn().getId();
+        Long fagsakIdTo = fagsakRelasjon.get().getFagsakNrTo().get().getId();
+        Long fagsakIdMedforelder = fagsakIdEn.equals(fagsak.getId()) ? fagsakIdTo : fagsakIdEn;
+
+        return finnÅpenYtelsesbehandling(fagsakIdMedforelder);
+    }
+
+    @Override
+    public Optional<Behandling> finnKøetBehandlingMedforelder(Fagsak fagsak) {
+        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(fagsak);
+        if (!fagsakRelasjon.isPresent() || !fagsakRelasjon.get().getFagsakNrTo().isPresent()) {
+            return Optional.empty();
+        }
+        Long fagsakIdMedforelder = fagsakRelasjon.get().getFagsakNrTo().get().getId();
+        return finnKøetYtelsesbehandling(fagsakIdMedforelder);
+    }
+
+    @Override
+    public Optional<Fagsak> finnFagsakPåMedforelder(Fagsak fagsak) {
+        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(fagsak);
+        if (fagsakRelasjon.isPresent() && fagsakRelasjon.get().getFagsakNrTo().isPresent()) {
+            Long fagsakIdEn = fagsakRelasjon.get().getFagsakNrEn().getId();
+            Long fagsakIdTo = fagsakRelasjon.get().getFagsakNrTo().get().getId();
+            Long fagsakIdMedforelder = fagsakIdEn.equals(fagsak.getId()) ? fagsakIdTo : fagsakIdEn;
+            return fagsakRepository.finnUnikFagsak(fagsakIdMedforelder);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Behandling> finnSisteInnvilgedeIkkeHenlagteBehandlingForMedforelder(Fagsak fagsak) {
+        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(fagsak);
+        if (!fagsakRelasjon.isPresent() || !fagsakRelasjon.get().getFagsakNrTo().isPresent()) {
+            return Optional.empty();
+        }
+        Fagsak fagsak1 = fagsakRelasjon.get().getFagsakNrEn();
+        Fagsak fagsak2 = fagsakRelasjon.get().getFagsakNrTo().get();
+        Optional<Long> fagsakIdMedforelder = Stream.of(fagsak1, fagsak2)
+            .filter(sak -> !fagsak.equals(sak)) // ikke egen sak = medforelders sak
+            .map(Fagsak::getId)
+            .findFirst();
+        if (!fagsakIdMedforelder.isPresent()) {
+            return Optional.empty();
+        }
+        return behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(fagsakIdMedforelder.get());
+    }
+
+    @Override
+    public Optional<LocalDate> finnSøknadsdatoFraHenlagtBehandling(Behandling behandling) {
+        List<Behandling> henlagteBehandlinger = finnHenlagteBehandlingerEtterSisteInnvilgedeIkkeHenlagteBehandling(behandling.getFagsak().getId());
+        Optional<Søknad> søknad = finnFørsteSøknadBlantBehandlinger(henlagteBehandlinger);
+        if (søknad.isPresent()) {
+            return Optional.ofNullable(søknad.get().getSøknadsdato());
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Søknad> finnFørsteSøknadBlantBehandlinger(List<Behandling> behandlinger) {
+        return behandlinger.stream()
+            .map(behandling -> søknadRepository.hentSøknadHvisEksisterer(behandling))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst();
+    }
+
+    private static Optional<Behandling> optionalFirst(List<Behandling> behandlinger) {
+        return behandlinger.isEmpty() ? Optional.empty() : Optional.of(behandlinger.get(0));
+    }
+}

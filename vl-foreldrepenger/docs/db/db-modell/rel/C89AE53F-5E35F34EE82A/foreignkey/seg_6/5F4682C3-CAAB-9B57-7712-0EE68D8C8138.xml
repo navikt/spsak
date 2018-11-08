@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_6" id="5F4682C3-CAAB-9B57-7712-0EE68D8C8138" containerWithKeyObject="2E0A69CA-1F5A-16EE-9312-9386029114FC" localFKIndex="07F40791-5655-AAE7-273C-11F55B4EEFCE" name="FK_UTTAK_RES_PERIODE_AKT_02">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:37 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8666ECC5-6D0F-762D-01E4-E0E1EC898C72</importedID>
+<referredTableLongName>FPSAK.UTTAK_AKTIVITET</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>E68ABBDE-E069-5F16-0E32-145059D7040F</referredTableID>
+<keyObject>69665E18-D596-66E9-9916-566083DDF300</keyObject>
+<referredKeyID>69665E18-D596-66E9-9916-566083DDF300</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

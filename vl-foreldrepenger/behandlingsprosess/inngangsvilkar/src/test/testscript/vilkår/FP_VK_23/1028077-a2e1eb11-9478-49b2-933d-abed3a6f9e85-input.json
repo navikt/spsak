@@ -1,0 +1,41 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2018-01-01", "2018-08-01" ],
+    "aktivitet" : {
+      "aktivitetType" : "SYKEPENGER",
+      "aktivitetReferanse" : "973626108",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2018-08-02", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-25",
+  "forsteDatoOpptjening" : "2017-11-26",
+  "sisteDatoForOpptjening" : "2018-09-25",
+  "inntektPerioder" : [ {
+    "datoIntervall" : [ "2018-09-01", "2018-09-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 45000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-08-01", "2018-08-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 45000,
+    "inntektValuta" : "NOK"
+  } ]
+}

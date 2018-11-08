@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>behandlingsprosess-pom</artifactId>
+        <groupId>no.nav.foreldrepenger</groupId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>behandlingsprosess-beregningsgrunnlag</artifactId>
+	<packaging>jar</packaging>
+    <name>FPSAK :: Behandlingsprosess - Beregningsgrunnlag</name>
+
+    <dependencies>
+		<!-- Domenetjenester avhengigheter -->
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>beregningsgrunnlag</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingskontroll-api</artifactId>
+        </dependency>
+
+        <!-- Prosjekt interne avhengigheter -->
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-domene</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>domenetjenester-bom</artifactId>
+		</dependency>
+
+        <!-- Test avhengigheter -->
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+
+</project>

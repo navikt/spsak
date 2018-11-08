@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_UTSETTELSE_PERIODE" directorySegmentName="seg_1" id="091C5A13-B9C6-1593-C57D-06C21E4F4A37">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:07:40 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>50</incrementBy>
+<maxValue>9999999999999999999999999999</maxValue>
+<minValue>1</minValue>
+<noCache>YES</noCache>
+<user>E9425C1A-7186-D4A6-5803-CF85442090AC</user>
+</SequenceOraclev10g>

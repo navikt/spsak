@@ -1,0 +1,31 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2016-03-07", "2016-10-17" ],
+    "aktivitet" : {
+      "aktivitetType" : "DAGPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2016-07-12", "2017-04-13" ],
+    "aktivitet" : {
+      "aktivitetType" : "SYKEPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-05-08", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "DAGPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-08-29",
+  "forsteDatoOpptjening" : "2017-05-12",
+  "sisteDatoForOpptjening" : "2018-03-11",
+  "inntektPerioder" : [ ]
+}

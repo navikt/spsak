@@ -1,0 +1,69 @@
+
+[options="header", cols="15h,20,20"]
+|===
+|Konfig-nøkkel|Beskrivelse|Bruk
+|maks.stønadsalder.adopsjon|Maks stønadsalder ved adopsjon|no.nav.foreldrepenger.behandling.steg.beregnytelse.es.BeregneYtelseEngangsstønadStegImpl
+|opplysningsperiode.lengde|Start av periode fram til skjæringstidspunkt for innhenting av Inntekt, Arbeid, Ytelser opplysninger|no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl
+|opplysningsperiode.lengde.etter|Slutt av periode etter skjæringstidspunkt for innhenting av Inntekt, Arbeid, Ytelser opplysninger|no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl
+|infotrygd.hendelser.api.url|Url - endepunkt for infotrygd hendelser.|no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.infotrygd.hendelse.InfotrygdHendelseTjenesteImpl
+|etterkontroll.tpsregistrering.periode|Periode før termin hvor dødfødsel kan være registrert i TPS|no.nav.foreldrepenger.behandling.revurdering.etterkontroll.task.AutomatiskEtterkontrollTask
+|etterkontroll.tid.tilbake|Tid etter innvilgelsesdato før en fagsak vurderes for etterkontroll|no.nav.foreldrepenger.behandling.revurdering.etterkontroll.tjeneste.AutomatiskEtterkontrollTjeneste
+|søknadfrist.måneder.etter.første.uttaksdag|Søknadsfrist i antall måneder etter første uttaksdag.|no.nav.foreldrepenger.behandling.søknadsfrist.impl.SøknadsfristForeldrepengerTjenesteImpl
+|systembruker.username|Brukernavn for systembruker.  Brukes i innlogging for systembruker for automatisk prosess.|no.nav.foreldrepenger.behandlingskontroll.observer.HistorikkInnslagForAksjonspunktEventObserver
+|inntekt.rapportering.frist.dato|Frist for inntekt rapportering for å fastsette sammenligningsgrunnlag|no.nav.foreldrepenger.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraVLTilRegel
+|inntekt.rapportering.frist.dato|Frist for inntekt rapportering for å fastsette sammenligningsgrunnlag|no.nav.foreldrepenger.beregningsgrunnlag.BeregningsperiodeTjeneste
+|vedtak.klagefrist.uker|Klagefrist i uker (positivt heltall), sendes i vedtaksbrev til brukeren|no.nav.foreldrepenger.dokumentbestiller.api.konfig.BrevParametereImpl
+|innsyn.klagefrist.uker|Klagefrist for avslag for vedtak om innsyn.|no.nav.foreldrepenger.dokumentbestiller.api.konfig.BrevParametereImpl
+|brev.svarfrist.dager|Brukers svartfrist (periode)|no.nav.foreldrepenger.dokumentbestiller.api.konfig.BrevParametereImpl
+|søk.antall.uker|Antall uker før uttak en bruker må søke (til varsling i brev til bruker)|no.nav.foreldrepenger.dokumentbestiller.api.konfig.BrevParametereImpl
+|norg2.kontakt.telefonnummer|Norg2 kontakttelefonnumer (til bruk i brev til bruker)|no.nav.foreldrepenger.dokumentbestiller.DokumentDataTjenesteImpl
+|brev.returadresse.enhet.navn|NAV enhetsnavn i returadresse|no.nav.foreldrepenger.dokumentbestiller.ReturadresseKonfigurasjon
+|brev.returadresse.adresselinje1|Adresselinje1 i returadresse|no.nav.foreldrepenger.dokumentbestiller.ReturadresseKonfigurasjon
+|brev.returadresse.postnummer|Postnummer i returadresse|no.nav.foreldrepenger.dokumentbestiller.ReturadresseKonfigurasjon
+|brev.returadresse.poststed|Poststed i returadresse|no.nav.foreldrepenger.dokumentbestiller.ReturadresseKonfigurasjon
+|brev.returadresse.klage.enhet.navn|NAV Klageinstans|no.nav.foreldrepenger.dokumentbestiller.ReturadresseKonfigurasjon
+|behandling.default.ventefrist.periode|Default ventefrist for behandling (eks. P4W)|no.nav.foreldrepenger.domene.dokument.impl.DokumentBestillerTjenesteImpl
+|søknad.uker.fom.termin.søknadsfrist.start|Antall uker før oppgitt termindato i søknaden som vil matches mot barn i TPS|no.nav.foreldrepenger.domene.familiehendelse.impl.FamilieHendelseTjenesteImpl
+|søknad.uker.tom.termin.søknadsfrist.slutt|Antall uker etter oppgitt termindato i søknaden som vil matches mot barn i TPS|no.nav.foreldrepenger.domene.familiehendelse.impl.FamilieHendelseTjenesteImpl
+|opptjeningsperiode.lengde|Lengde på opptjeningsperiode før skjæringstidspunkt|no.nav.foreldrepenger.inngangsvilkaar.opptjeningsperiode.InngangsvilkårOpptjeningsperiode
+|uttak.tidligst.før.fødsel|Tidligste lovlige oppstart av uttak av foreldrepenger før fødsel|no.nav.foreldrepenger.inngangsvilkaar.opptjeningsperiode.InngangsvilkårOpptjeningsperiode
+|ventefrist.uker.ved.tidlig.fp.soeknad|Behandling settes på vent med definert ventefrist dersom søknad for fp mottas for tidlig|no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp.KompletthetssjekkerSøknadFPFørstegangsbehandling
+|ventefrist.uker.ved.tidlig.fp.soeknad|Behandling settes på vent med definert ventefrist dersom søknad for fp mottas for tidlig|no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp.KompletthetssjekkerSøknadFPRevurdering
+|medlem.måneder.før.skjæringsdato|Antall måneder før skjæringsdatoen som det skal hentes inn medlemskapsperioder|no.nav.foreldrepenger.domene.medlem.impl.MedlemskapPerioderTjenesteImpl
+|medlem.måneder.etter.skjæringsdato|Antall måneder etter skjæringsdatoen som det skal hentes inn medlemskapsperioder|no.nav.foreldrepenger.domene.medlem.impl.MedlemskapPerioderTjenesteImpl
+|etterkontroll.førsøknad.periode|Periode før søknadsdato hvor det skal etterkontrolleres barn er født|no.nav.foreldrepenger.domene.person.impl.TpsFamilieTjenesteImpl
+|etterkontroll.ettertermin.periode|Periode etter termindato hvor det skal etterkontrolleres barn er født|no.nav.foreldrepenger.domene.person.impl.TpsFamilieTjenesteImpl
+|aksjonspunkt.dager.etter.termin.sjekk.fødsel|Maks antall dager etter hvilket behandling restartes/fødsel sjekkes ifm terminbekreftelse|no.nav.foreldrepenger.domene.registerinnhenting.impl.RegisterdataEndringshåndtererImpl
+|oppdatere.registerdata.tidspunkt|Periode for hvor ofte registerdata skal oppdateres|no.nav.foreldrepenger.domene.registerinnhenting.impl.RegisterdataEndringshåndtererImpl
+|medlem.måneder.før.skjæringsdato|Antall måneder før skjæringsdatoen som det skal hentes inn medlemskapsperioder|no.nav.foreldrepenger.domene.registerinnhenting.impl.RegisterdataInnhenterImpl
+|medlem.måneder.etter.skjæringsdato|Antall måneder etter skjæringsdatoen som det skal hentes inn medlemskapsperioder|no.nav.foreldrepenger.domene.registerinnhenting.impl.RegisterdataInnhenterImpl
+|etterkontroll.førsøknad.periode|Periode før søknadsdato hvor det skal etterkontrolleres barn er født|no.nav.foreldrepenger.domene.registerinnhenting.impl.RegisterdataInnhenterImpl
+|etterkontroll.ettertermin.periode|Periode etter termindato hvor det skal etterkontrolleres barn er født|no.nav.foreldrepenger.domene.registerinnhenting.impl.RegisterdataInnhenterImpl
+|registerinnhenting.grenseverdi.avstand|Øvre grense for når vi endre intervall for registerinnheting|no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl
+|opptjeningsperiode.lengde|Lengde på opptjeningsperiode før skjæringstidspunkt|no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl
+|uttak.tidligst.før.fødsel|Tidligste lovlige oppstart av uttak av foreldrepenger før fødsel|no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl
+|dato.for.nye.beregningsregler|Dato for nye beregningsregler trer i kraft|no.nav.foreldrepenger.behandling.impl.VurderOmSakSkalTilInfotrygdTjenesteImpl
+|antall.uker.forbeholdt.mor.etter.fødsel|Antall uker forbeholdt mor etter fødsel|no.nav.foreldrepenger.domene.uttak.kontroller.fakta.omsorg.AksjonspunktUtlederForOmsorg
+|sak.frist.innsending.dok.uker|Frist for innsending av dokumentasjon|no.nav.foreldrepenger.behandling.impl.VurderFagsystemTjenesteImpl
+|fordeling.venter.intervall|Fordeling venter i angitt intervall|no.nav.foreldrepenger.behandling.impl.VurderFagsystemTjenesteImpl
+|application.name|Applikasjonsnavn|no.nav.foreldrepenger.web.app.selftest.Selftests
+|aksjonspunkt.dager.etter.termin.sjekk.fødsel|Maks antall dager etter hvilket behandling restartes/fødsel sjekkes ifm terminbekreftelse|no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.oppdaterer.BekreftTerminbekreftelseOppdaterer
+|bruker.gruppenavn.saksbehandler|Gruppenavn for rolle saksbehandler|no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsprosessApplikasjonTjenesteImpl
+|behandling.default.ventefrist.periode|Default ventefrist for behandling (eks. P4W)|no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsutredningApplikasjonTjenesteImpl
+|terminbekreftelse.tidligst.utstedelse.før.termin|Periode for tidligst utstedelse av terminbekreftelse etter termindato|no.nav.foreldrepenger.web.app.tjenester.behandling.familiehendelse.BekreftTerminbekreftelseValidator
+|relaterte.ytelser.vl.periode.start|Periode bakover i tid fra dagens dato det skal søkes etter relaterte ytelser i Vedtaksløsning. Default P36M (36 måneder) før dagens dato|no.nav.foreldrepenger.web.app.tjenester.behandling.inntektarbeidytelse.BehandlingRelatertInformasjonApplikasjonTjenesteImpl
+|vise.detaljerte.feilmeldinger|Hvis 'true' skal feilmeldinger vises detaljert for saksbehandler|no.nav.foreldrepenger.web.app.tjenester.integrasjonstatus.IntegrasjonstatusRestTjeneste
+|rettskilde.url|Url som peker på rettkildene som brukes som beslutningsstøtte|no.nav.foreldrepenger.web.app.tjenester.konfig.KonfigRestTjeneste
+|systemrutine.url|Lenke til systemrutiner|no.nav.foreldrepenger.web.app.tjenester.konfig.KonfigRestTjeneste
+|bruker.gruppenavn.saksbehandler|Gruppenavn for rolle saksbehandler|no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste
+|bruker.gruppenavn.veileder|Gruppenavn for rolle veileder|no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste
+|bruker.gruppenavn.beslutter|Gruppenavn for rolle beslutter|no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste
+|bruker.gruppenavn.overstyrer|Gruppenavn for rolle overstyrer|no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste
+|bruker.gruppenavn.egenansatt|Gruppenavn for rolle egen ansatt|no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste
+|bruker.gruppenavn.kode6|Gruppenavn for rolle kode 6|no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste
+|bruker.gruppenavn.kode7|Gruppenavn for rolle kode 7|no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste
+|OpenIdConnect.issoHost|Servernavn for OIDC innlogging|no.nav.foreldrepenger.web.app.selftest.checks.OpenAmIssoHealthCheck
+|===
+
+
+

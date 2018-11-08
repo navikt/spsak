@@ -1,0 +1,15 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2014-01-01", "2017-02-01" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "993786209",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-07-24",
+  "forsteDatoOpptjening" : "2017-05-10",
+  "sisteDatoForOpptjening" : "2018-03-09",
+  "inntektPerioder" : [ ]
+}

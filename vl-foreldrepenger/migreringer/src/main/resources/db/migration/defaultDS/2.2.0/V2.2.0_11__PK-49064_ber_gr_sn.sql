@@ -1,0 +1,1 @@
+INSERT INTO AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, VILKAR_TYPE, TOTRINN_BEHANDLING_DEFAULT) VALUES ('5042', 'Fastsett brutto beregningsgrunnlag for næring', 'FORS_BERGRUNN.UT', 'Fastsett brutto beregningsgrunnlag for næring', '-', 'N');

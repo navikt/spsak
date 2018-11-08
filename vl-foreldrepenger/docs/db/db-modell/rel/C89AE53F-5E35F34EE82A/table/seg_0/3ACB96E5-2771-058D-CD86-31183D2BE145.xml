@@ -1,0 +1,318 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="3ACB96E5-2771-058D-CD86-31183D2BE145" name="FH_ADOPSJON">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:28 UTC</createdTime>
+<commentInRDBMS>Adopsjon inneholder bekreftet informasjon angående en adopsjon.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AF0D6122-1F22-B22C-AC04-272D72C2879E</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="BA2E2568-2E1B-775A-99FA-1A1C5BDB37B8">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1752FEC2-24E1-6E93-CA39-EE46EAE3540F</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OMSORGSOVERTAKELSE_DATO" id="B91F5F8F-DEF9-0885-56C3-21DF987ABBBC">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Angir datoen for når man overtok omsorgen for barnet/barna.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>34DDC0DF-968D-C71F-7576-29356EB637A7</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="EKTEFELLES_BARN" id="9F3DDA6A-910C-9494-2BEC-A9329BE58E24">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Angir om det er adopsjon av ektefelles barn.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>17F5DEBF-4F46-22CD-7256-19B64B59ED6E</importedID>
+<constraintName>CHK_EKTEFELLES_BARN</constraintName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="&apos;J&apos;" description=""/>
+<valueDef value="&apos;N&apos;" description=""/>
+</listOfValues>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ADOPTERER_ALENE" id="37571B27-899B-6982-2AE7-91D56A190813">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Angir om man adopterer alene.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>88684565-9415-8744-F150-17E406C0AE1C</importedID>
+<constraintName>CHK_ADOPTERER_ALENE</constraintName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="&apos;J&apos;" description=""/>
+<valueDef value="&apos;N&apos;" description=""/>
+</listOfValues>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERSJON" id="7895E0A5-FB54-E04C-3394-1036B8B1BDD5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E12B2047-5681-0C3F-5B0E-980601D3C14C</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="419890BB-8376-99B9-4CD8-485655C8818A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0CAF695E-09D4-9593-C9DA-C3F9E53890CA</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="1320E470-005B-2D27-4646-42E4FFE27C10">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B6291E3E-04B6-4851-BDE5-6C0D5032626C</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="1EB6645E-5052-C1A3-EAED-AF48EE7E468D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>67919537-842D-C6D6-B262-A5563A95F346</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="7BF450A0-FFD7-4B33-C2A7-D39656854405">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>14B8F1DE-2FA0-15EF-C2EE-8A2D5A4DB1F8</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FAMILIE_HENDELSE_ID" id="ABC6484C-7754-7420-D962-B7C045AB7FA6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>FK: Fremmednøkkel som knytter adopsjonsinformasjonen til familiehendelse</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>42E24521-7623-BBEF-0CE4-9CD4C13CE710</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="49E9DA8E-A7CD-2A51-1CDB-CCF41DDACF08" referredColumn="5DC66A47-8092-B8EC-35CA-578F3312DE20"/>
+<colAssociation fkAssociation="E7AED945-47B0-D763-C7D7-2BC9901BB32E" referredColumn="5DC66A47-8092-B8EC-35CA-578F3312DE20"/>
+</associations>
+</Column>
+<Column name="OMSORG_VILKAAR_TYPE" id="B245D36F-F3BB-CA40-C78B-0B5E18642FD6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C7D7C309-8E8F-D2E8-2773-E2D414B2980C</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<defaultValue>&apos;-&apos;</defaultValue>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="145B38C8-7429-A356-2CF2-6C3EE592855B" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+<colAssociation fkAssociation="0C13233A-6D5B-53C7-492A-7C11D344A43B" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="KL_OMSORG_VILKAAR_TYPE" id="933E8601-F14B-CC24-E366-60ACF7C22564">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>FBDC3ACB-F7E7-E991-66E8-7F78AEF86D32</importedID>
+<formulaDesc>&apos;OMSORGSOVERTAKELSE_VILKAR&apos;</formulaDesc>
+<nullsAllowed>true</nullsAllowed>
+<sourceType>Derived</sourceType>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="145B38C8-7429-A356-2CF2-6C3EE592855B" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+<colAssociation fkAssociation="0C13233A-6D5B-53C7-492A-7C11D344A43B" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="FORELDREANSVAR_OPPFYLT_DATO" id="2DA03CC5-BC29-359D-CF90-48DBEB867837">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Dato for når foreldreansvaret ble oppfylt.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E03B6D4A-3787-91AF-A3C4-46633A84989B</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ANKOMST_NORGE_DATO" id="38AB8818-62FD-5489-2C26-BF6013DC3323">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<commentInRDBMS>Datoen barnet ankom norge.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>61D5E6BB-C022-FE87-B5FA-C5051DD44B66</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="71ED9D68-7822-0C35-B387-D75598F39FF4" name="PK_ADOPSJONv1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6256AF2A-445B-3139-A93F-946058407185</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BA2E2568-2E1B-775A-99FA-1A1C5BDB37B8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E9A2E67F-5946-5750-AB5B-1D8E0FD94D11" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_ADOPSJON_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>683A20BB-549D-B0F2-90FA-E49401FD3FA7</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ABC6484C-7754-7420-D962-B7C045AB7FA6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3CE521DF-5260-CD4A-BAA1-5D407BFD1BE9" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_ADOPSJON">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:29 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>53231B1D-A793-D1B9-1623-D9BE520855F5</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BA2E2568-2E1B-775A-99FA-1A1C5BDB37B8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A1151A53-6043-FA72-3AA1-01EF4BE60BEB" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_FH_ADOPSJON_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8C36DC58-296E-4D2F-88AB-8B0CE06C6F33</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B245D36F-F3BB-CA40-C78B-0B5E18642FD6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2A5998F0-952B-8BD4-73A2-AC3B4D861731" name="FK_ADOPSJON_1v2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ABC6484C-7754-7420-D962-B7C045AB7FA6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="09A4CE4F-7D60-23B2-341F-B250438909D0" name="FK_ADOPSJON_2v2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B245D36F-F3BB-CA40-C78B-0B5E18642FD6"/>
+<colUsage columnID="933E8601-F14B-CC24-E366-60ACF7C22564"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C7C56B5B-1F99-8DAE-CD85-A5BE99B1CEBA" name="FK_ADOPSJON_1v1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ABC6484C-7754-7420-D962-B7C045AB7FA6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="60A211DC-B8C3-ED8F-690D-3F463DC42210" name="FK_ADOPSJON_2v1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B245D36F-F3BB-CA40-C78B-0B5E18642FD6"/>
+<colUsage columnID="933E8601-F14B-CC24-E366-60ACF7C22564"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

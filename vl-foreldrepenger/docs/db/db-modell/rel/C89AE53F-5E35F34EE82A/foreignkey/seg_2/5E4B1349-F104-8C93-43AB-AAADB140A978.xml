@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_2" id="5E4B1349-F104-8C93-43AB-AAADB140A978" containerWithKeyObject="798CC335-ECE8-D645-D7F4-B5E437D4E830" localFKIndex="5DE02057-9FCE-2D8E-0DC2-CDAE531276B3" name="FK_BEHANDLING_6">
+<sourceDDLFile>V112__VILKAR_TIL_VURDERING_nye_tabeller.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6DC04343-B83E-C817-4EA3-F8C53E7458A7</importedID>
+<referredTableLongName>BEHANDLING_GRUNNLAG</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>030AD312-B39C-437E-A8F3-504CA6708606</referredTableID>
+<keyObject>6C9624F6-8E41-3DA3-EB67-5B1AC0AF9693</keyObject>
+<referredKeyID>6C9624F6-8E41-3DA3-EB67-5B1AC0AF9693</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

@@ -1,0 +1,15 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2018-02-01", "2018-09-13" ],
+    "aktivitet" : {
+      "aktivitetType" : "PLEIEPENGER",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-14",
+  "forsteDatoOpptjening" : "2017-11-14",
+  "sisteDatoForOpptjening" : "2018-09-13",
+  "inntektPerioder" : [ ]
+}

@@ -1,0 +1,185 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="26C4F81B-5220-11FA-31FD-55F4ED0E2F18" name="SO_RETTIGHET">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Søkers oppgitte rettigheter</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F820FB31-4B11-139F-21BE-0AA615FA3073</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="F0FF8B66-D359-34B9-803C-AE2727438455">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>15BE6AA7-2D0F-B2D6-E924-0D15E3DE5529</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ANNEN_FORELDRE_RETT" id="4C065EC7-807E-80F5-1B39-E124B79F3408">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Søker har oppgitt verdi om den andre foreldren har rett</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C729ACC0-4524-EB1B-60C3-39EF178124D5</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OMSORG_I_HELE_PERIODEN" id="D6285FA5-DD79-524C-3323-F460686B8FC3">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Søker har oppgitt verdi om omsorg hele perioden</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>7B9FDF0F-2623-3C16-113D-F17E33622EC4</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERSJON" id="D6F0FE09-0868-5A43-699E-3293AD432C96">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>59C1C320-F176-34C8-D3F4-DE556F206DD4</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="69CA5CD9-576F-3BA6-CCE5-AA36B3459A15">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C108D5FA-6E04-8DCB-6A0C-C0A6C30DDB37</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="2E50AC22-259A-CA5F-A0A5-EAC6CE3B6B03">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0034D694-4BBD-2D23-430B-E79B665A4421</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="5C25F211-032A-0E31-926E-FBCD02C6BC4C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8BCAEDC2-603D-B11C-28C2-2D2197995BC2</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="3053FF48-7933-D418-B2DE-8D7FC59336C2">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E71FA755-8128-FD32-4FF8-52042DE782A1</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ALENEOMSORG" id="09AAA79E-9F2B-7F47-80BC-03A8EFA5DE42">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<commentInRDBMS>Søker har oppgitt verdi om søkern har aleneomsorg</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>858AA013-C537-3BFD-6068-5ACFE920EDF8</importedID>
+<constraintName>CHK_SO_RETTIGHET_03</constraintName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 11g" definition="aleneomsorg IS NULL"/>
+</checkConstraint>
+<listOfValues>
+<valueDef value="&apos;J&apos;" description=""/>
+<valueDef value="&apos;N&apos;" description=""/>
+</listOfValues>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="50EE85A2-3EB1-82AF-1856-FD50855BAE6B" name="PK_SO_RETTIGHET">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0053C31D-CA89-F2E7-1467-72CE0A2C726C</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F0FF8B66-D359-34B9-803C-AE2727438455"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CEA82736-4F00-811C-E739-3825EDCB9060" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_SO_RETTIGHET">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B01ACCEF-CAF7-3A4E-25AD-6F8529EB21DF</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F0FF8B66-D359-34B9-803C-AE2727438455"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+<tableCheckConstraints itemClass="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint">
+<tableCheckConstraint name="CHK_SO_RETTIGHET_01" directorySegmentName="seg_0" id="15CCD917-AD7A-F29C-AFA1-7521A51A37AC">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>1D811D70-C159-9E89-E341-98EE05683AE5</importedID>
+<rule>omsorg_i_hele_perioden IS NULL OR aleneomsorg IN (&apos;J&apos;, &apos;N&apos;)</rule>
+</tableCheckConstraint>
+<tableCheckConstraint name="CHK_SO_RETTIGHET_02" directorySegmentName="seg_0" id="959F5607-B98E-F4E5-9F68-87042994F26C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>26EF13CC-2252-930B-DB28-54DE64C10049</importedID>
+<rule>annen_foreldre_rett IS NULL OR aleneomsorg IN (&apos;J&apos;, &apos;N&apos;)</rule>
+</tableCheckConstraint>
+</tableCheckConstraints>
+</Table>

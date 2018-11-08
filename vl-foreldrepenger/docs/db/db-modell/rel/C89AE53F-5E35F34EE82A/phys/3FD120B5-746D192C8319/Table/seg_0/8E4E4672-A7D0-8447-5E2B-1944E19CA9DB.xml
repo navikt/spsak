@@ -1,0 +1,138 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="AKSJONSPUNKT" directorySegmentName="seg_0" id="8E4E4672-A7D0-8447-5E2B-1944E19CA9DB">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="behandling_steg_funnet" id="018ADFBD-8C57-1DBE-102E-0AD40BD5159B">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_tid" id="0C740416-D429-C53C-FE2A-E3617E63C11D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="aksjonspunkt_status" id="34E00201-AB03-0627-7914-F82D9CA36EEB">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="opprettet_av" id="5804158B-0D20-9B7D-7C98-E4877028CCB4">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="endret_tid" id="5C2B29E2-2269-C1DD-3026-2B3BC1EFB771">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="versjon" id="6745408F-F872-5342-A78F-618039D8775F">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>0</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="id" id="683F0DCE-5429-947A-2582-52CAAB5AFECD">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="periode_fom" id="AE57C5FA-7572-D259-58E4-211803AC8080">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="behandling_resultat_id" id="B33C472D-8BEE-BFD3-E755-5DEBE7C67E42">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="periode_tom" id="C6ECA406-F7A1-8FE5-86BC-810F3D1DCECF">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="aksjonspunkt_def" id="DE658B1F-C16A-EFF8-436B-3D4ADB217F2E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="endret_av" id="F86F79C4-B7E1-A925-2F15-B00D2C7CA666">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="totrinnsbehandling" id="FD1D7A55-F74A-93A2-4911-01F5B9ED057C">
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="begrunnelse" id="FEC29FF4-F2CE-BD4A-A7AC-D337B2F58A61">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="beslutters_begrunnelse" id="FF58B5F0-3F1B-79F4-6AAD-DBD10FE84D4E">
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_AKSJONSPUNKT_1" id="77954FDA-50B2-9D7C-BA14-13425AA30EEB">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_AKSJONSPUNKT_2" id="787BDA3A-78E0-11CD-16EB-672803413D7D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_AKSJONSPUNKT_3" id="9998941C-729E-455F-633E-5255D88B6F93">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_AKSJONSPUNKT_2" id="08CFACD9-7010-AC1E-2B06-172E0EC6E292">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_AKSJONSPUNKT_4" id="B7B33F97-D347-9FB9-0183-C727EC81215D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_AKSJONSPUNKT_1" id="BBB53AE0-B8F9-F2DC-2E68-D4D2730A6560">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_AKSJONSPUNKT_3" id="D656EFF2-B870-8033-DCEF-0C0E8BF1617C">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_AKSJONSPUNKT" id="D99D5319-CA80-4327-36B5-5D46F5292615">
+<createdBy>T150221</createdBy>
+<createdTime>2017-06-26 08:23:27 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fpsak</artifactId>
+        <groupId>no.nav.foreldrepenger</groupId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>domenetjenester-pom</artifactId>
+    <packaging>pom</packaging>
+    <name>FPSAK :: Domenetjenester - Pom</name>
+
+    <modules>
+        <module>behandling</module>
+        <module>behandling-kriterier</module>
+        <module>behandling-status</module>
+        <module>behandling-gjenopptagelse</module>
+        <module>behandling-revurdering</module>
+        <module>behandling-soknadsfrist-foreldrepenger</module>
+        <module>beregningsgrunnlag</module>
+        <module>behandling-innsyn</module>
+        <module>beregning-ytelse</module>
+        <module>dokumentarkiv</module>
+        <module>dokumentbestiller</module>
+        <module>familie-hendelse</module>
+        <module>inngangsvilkar</module>
+        <module>arbeidsforhold</module>
+        <module>medlem</module>
+        <module>mottak</module>
+        <module>okonomistotte</module>
+        <module>person</module>
+        <module>produksjonsstyring</module>
+        <module>registerinnhenting</module>
+        <module>vedtak</module>
+        <module>uttak</module>
+        <module>virksomhet</module>
+		<module>kompletthetsjekk</module>
+		<module>kontrollerfakta</module>
+		<module>skjaeringstidspunkt</module>
+		<module>uttaksplan</module>
+        <module>bom</module>
+
+        <module>behandlingskontroll</module>
+        <module>ytelse-fordeling</module>
+        <module>vedtak-innsyn</module>
+        <module>vedtak-xml</module>
+        <module>vurder-fagsystem</module>
+    </modules>
+
+</project>

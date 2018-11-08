@@ -1,0 +1,89 @@
+package no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.net.URI;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import no.finn.unleash.FakeUnleash;
+import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
+import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.web.app.rest.ResourceLink;
+import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
+
+@RunWith(CdiRunner.class)
+public class BehandlingDtoTjenesteImplTest {
+
+    @Rule
+    public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
+
+    @Inject
+    private BehandlingRepositoryProvider repositoryProvider;
+
+    @Inject
+    private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
+
+    private FakeUnleash unleash = new FakeUnleash();
+
+    private BehandlingDtoTjeneste tjeneste;
+
+    private LocalDate now = LocalDate.now();
+
+    @Before
+    public void setUp() {
+        System.setProperty("fpoppdrag.url", "https://foo/bar");
+        tjeneste = new BehandlingDtoTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste, unleash);
+    }
+
+    @After
+    public void tearDown() {
+        System.clearProperty("fpoppdrag.url");
+    }
+
+    @Test
+    public void skal_ha_med_simuleringsresultatURL_når_feature_er_skrudd_på() {
+        unleash.enable("fpsak.simuler-oppdrag");
+        Behandling behandling = lagBehandling();
+
+        UtvidetBehandlingDto dto = tjeneste.lagUtvidetBehandlingDto(behandling, null);
+
+        assertThat(dto.getLinks().stream().map(ResourceLink::getRel).collect(Collectors.toList())).contains("simuleringResultat");
+        assertThat(dto.getLinks().stream().map(ResourceLink::getHref).collect(Collectors.toList())).contains(URI.create("https://foo/bar/fpoppdrag/api/simulering/resultat"));
+    }
+
+    @Test
+    public void skal_ikke_ha_med_simuleringsresultatURL_når_feature_er_skrudd_på() {
+        unleash.disable("fpsak.simuler-oppdrag");
+        Behandling behandling = lagBehandling();
+
+        UtvidetBehandlingDto dto = tjeneste.lagUtvidetBehandlingDto(behandling, null);
+
+        assertThat(dto.getLinks().stream().map(ResourceLink::getRel).collect(Collectors.toList())).doesNotContain("simuleringResultat");
+        assertThat(dto.getLinks().stream().map(ResourceLink::getHref).collect(Collectors.toList())).doesNotContain(URI.create("https://foo/bar/fpoppdrag/api/simulering/resultat"));
+    }
+
+    private Behandling lagBehandling() {
+        return ScenarioMorSøkerForeldrepenger.forFødsel()
+            .medFordeling(new OppgittFordelingEntitet(Collections.singletonList(OppgittPeriodeBuilder.ny()
+                .medPeriodeType(UttakPeriodeType.FEDREKVOTE)
+                .medPeriode(now.plusWeeks(8), now.plusWeeks(12))
+                .build()), true))
+            .lagre(repositoryProvider);
+    }
+}

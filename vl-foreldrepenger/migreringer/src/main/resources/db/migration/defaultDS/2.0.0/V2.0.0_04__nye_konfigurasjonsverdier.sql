@@ -1,0 +1,9 @@
+insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('søknad.uker.fom.termin.søknadsfrist.start', 'Søknad uker FOM termin søknadsfrist start', 'INGEN', 'INTEGER', 'Antall uker før oppgitt termindato i søknaden som vil matches mot barn i TPS');
+insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'søknad.uker.fom.termin.søknadsfrist.start', 'INGEN', '16', to_date('01.01.2017', 'dd.mm.yyyy'));
+insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('søknad.uker.tom.termin.søknadsfrist.slutt', 'Søknad uker TOM termin søknadsfrist slutt', 'INGEN', 'INTEGER', 'Antall uker etter oppgitt termindato i søknaden som vil matches mot barn i TPS');
+insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'søknad.uker.tom.termin.søknadsfrist.slutt', 'INGEN', '4', to_date('01.01.2017', 'dd.mm.yyyy'));
+
+insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('medlem.måneder.før.skjæringsdato', 'Medlem antall månder før skjæringsdato', 'INGEN', 'INTEGER', 'Antall måneder før skjæringsdatoen som det skal hentes inn medlemskapsperioder');
+insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'medlem.måneder.før.skjæringsdato', 'INGEN', '12', to_date('01.01.2017', 'dd.mm.yyyy'));
+insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('medlem.måneder.etter.skjæringsdato', 'Medlem antall månder etter skjæringsdato', 'INGEN', 'INTEGER', 'Antall måneder etter skjæringsdatoen som det skal hentes inn medlemskapsperioder');
+insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'medlem.måneder.etter.skjæringsdato', 'INGEN', '6', to_date('01.01.2017', 'dd.mm.yyyy'));

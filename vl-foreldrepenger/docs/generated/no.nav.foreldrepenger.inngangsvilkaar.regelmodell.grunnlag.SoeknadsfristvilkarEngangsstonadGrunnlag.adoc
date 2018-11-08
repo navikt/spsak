@@ -1,0 +1,13 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|elektroniskSoeknad|boolean|Om søknaden er levert elektronisk
+|skjaeringstidspunkt|LocalDate|Dato for skjæringstidspunkt
+|soeknadMottatDato|LocalDate|Dato for når søknad ble mottatt
+|===
+
+
+

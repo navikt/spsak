@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_2" id="298B2568-FEED-F891-45E8-3C94C3C68AF7" containerWithKeyObject="9FDC8E5B-5556-6597-81E2-4C4CA8DC8F38" localFKIndex="5D072DCA-43E0-7561-0D83-AF0FDF4E84DA" name="FK_MEDLEMSKAP_OPPG_TILKNYT">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>019D7819-B75C-2A3A-8D7D-17CAE4BCE746</importedID>
+<referredTableLongName>MEDLEMSKAP_OPPG_TILKNYT</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>3705CCF0-BC2F-25CE-0724-67E8C5583C15</referredTableID>
+<keyObject>FA3251A7-BA5A-438F-0F5C-1FBF0DA6E228</keyObject>
+<referredKeyID>FA3251A7-BA5A-438F-0F5C-1FBF0DA6E228</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

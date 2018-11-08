@@ -1,0 +1,530 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="VL" id="C89AE53F-C151-A8BB-D624-5E35F34EE82A" mainViewID="B342CB37-09D7-65EA-536A-6DC4ED0B71D0">
+<createdBy>C149071</createdBy>
+<createdTime>2017-05-03 07:53:04 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<shouldBeOpen>true</shouldBeOpen>
+<selectedRDBMSSite>32076570-2523-435C-2E92-BF29817DFF70</selectedRDBMSSite>
+<redirectConnectionStamp class="oracle.dbtools.crest.imports.DBConnectionStamp">
+<connName>fpsak</connName>
+<connUser>fpsak</connUser>
+<connType>1</connType>
+<syncSelected>-1</syncSelected>
+</redirectConnectionStamp>
+<useConnectionUser>true</useConnectionUser>
+<importConnectionStamps>
+<importConnectionStamp class="oracle.dbtools.crest.imports.DBConnectionStamp">
+<connName>localhost</connName>
+<connUser>es_empty</connUser>
+<connType>1</connType>
+<syncSelected>1</syncSelected>
+</importConnectionStamp>
+</importConnectionStamps>
+<importDDLFileStamps>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V001__FAGSAK_RELASJON_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V003__AKTOERER_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V004__FAGSAK_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V006__BEHANDLING_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V007__BEHANDLING_GRUNNLAG_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V008__BEHANDLING_RESULTAT_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V010__AKSJONSPUNKT_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V011__AKTOER_NORSK_IDENT_MAP_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V015__PROSESS_TASK.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V102__temp_saksopp_initiell_ddl.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V107__ADOPSJON_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V108__DOKUMENTDATA_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V109__VEDTAK_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V110__LAGRET_VEDTAK_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V111__DOKUMENT_MAL_TYPE_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V112__VILKAR_TIL_VURDERING_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V016__PROSESS_TASK_ddl.sql</fileName>
+<pathName>C:\Users\J150219\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V113__HISTORIKK_nye_tabeller.sql</fileName>
+<pathName>C:\Users\J150219\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_01__FAGSAK_RELASJON_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_03__AKTOERER_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_04__FAGSAK_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_06__BEHANDLING_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_07__BEHANDLING_GRUNNLAG_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_08__BEHANDLING_RESULTAT_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_10__AKSJONSPUNKT_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_11__AKTOER_NORSK_IDENT_MAP_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_15__PROSESS_TASK.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_16__SAKSOPPLYSNING_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_17__ADOPSJON_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_18__DOKUMENTDATA_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_19__VEDTAK_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_20__LAGRET_VEDTAK_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_21__DOKUMENT_MAL_TYPE_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_22__VILKAR_TIL_VURDERING_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_23__HISTORIKK_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_24__DOKUMENTMOTTAK_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.0_25__POSTSTED_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.5.2_00__VILKAR_UTFALL_MERKNAD_data.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.5.2</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_00__fjern_happy_task.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_01__HISTORIKK_oppdatering.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_02__Manglende_dokumentasjon_baseline.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_04__HåndterMottattDokumentTask.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_05__DOKUMENTMOTTAK_oppdatering.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_06__VentPåKvitteringTask.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_07__Aksjonspunkt_redef.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_08__IVERKSETTING_STATUS_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_09__ProsessTask_GSAK.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_10__SøknadGjelder_renaming.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_99__Dokumentasjon.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_11__Søknad_nye_kolonner.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_12__Aksjonspunkt_redef_v2.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_13__Fjern_Regelmerknad.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_14__Nye_tasker.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_15__PROSESS_TASK_TYPE_navneendringer.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_16__Task_fordeling_klargjoering.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.0_17__Fiks_annen_part.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.1_00__Behandlingsgrunnlag_unike_child.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.1</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.6.1_01__Søknad_oppdatering.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.6.1</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_02__BehandlingStegStatus.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_99__Dokumentasjon.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_03__MotatteDokument_utvidelse.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>9</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_04__BehandlingStegTilstand.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>9</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_07__RELATERTE_YTELSER_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_08__PROSESS_TASK_FEILHÅNDTERING_nytt_innslag.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_09__SøknadGjelderTypeUtgår.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_10__Omsorgsovertakelse.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_11__EndreBehandlingsstegDefinisjoner.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_12__behandling_ikke_required_i_saksoppl.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_13__ny_tabell_saksopplysning_metadata.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_14__PROSESS_TASK_ny_partisjon_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_15__StartBehandlingTask_ny_kode.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_16__Omsorgs_legg_til_kolonne.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_18__VILKAR_merknader.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_19__VILKAR_TYPE_endre.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_20__VEDLEGG_sikfter_navn_til_SOEKNAD_VEDLEGG.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_21__ToTrinnsBehandling.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_22__sett_til_nullable_BEKREFTET.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_23__legg_til_aksjonspunkt.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_24__RELATERT_YTELSE_infotrygd_nye_tabeller.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_25__BEHANDLING_RELATERTE_YTELSER_ny_tabell.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_26__SAKSOPPLYSNING_nye_tabeller_oppdatering.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_27__VILKAR_manuelt_vurdert.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_28__ny_prosesstask_type.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_29__AVSLAGSARSAK_legg_til.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.7.0_30__FAR_SOEKER_TYPE_legg_til.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.7.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.8.0_01__Konfigurerbare_Verdier.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.8.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.8.0_02__KonfigurerbareVerdier_Koder.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.8.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.8.0_03__Kodeverk_EksternNavKode.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.8.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>V1.8.0_04__HistorikkInnslag_drop_column.sql</fileName>
+<pathName>C:\git\vl-foreldrepenger\build\config\src\main\resources\db\migration\defaultDS\1.8.0</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>01_SEQUENCES.sql</fileName>
+<pathName>C:\Users\T150221\sqlexp</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>02_TABLES.sql</fileName>
+<pathName>C:\Users\T150221\sqlexp</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>03_INDEXES.sql</fileName>
+<pathName>C:\Users\T150221\sqlexp</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>04_CONSTRAINTS.sql</fileName>
+<pathName>C:\Users\T150221\sqlexp</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>05_REF_CONSTRAINTS.sql</fileName>
+<pathName>C:\Users\T150221\sqlexp</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>02_TABLES-new.sql</fileName>
+<pathName>C:\Users\T150221\sqlexp</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>extra.sql</fileName>
+<pathName>C:\Users\T150221\sqlexp</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>02-TABLES.sql</fileName>
+<pathName>C:\Users\T150221\sql</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>03-INDEXES.sql</fileName>
+<pathName>C:\Users\T150221\sql</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>04-CONSTRAINTS.sql</fileName>
+<pathName>C:\Users\T150221\sql</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>05-REF_CONSTRAINTS.sql</fileName>
+<pathName>C:\Users\T150221\sql</pathName>
+<dbType>11</dbType>
+</importDDLFileStamp>
+</importDDLFileStamps>
+</relationalModel>

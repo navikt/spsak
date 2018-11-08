@@ -1,0 +1,19 @@
+= Arena integrasjon
+
+== Hensikt
+Arena er NAVs fagsystem og informasjontjeneste for Dagpenger, Arbeidsavklaringspenger og en del andre ytelser relatert til bl.a. arbeidsledighet. Tjenesten gir informasjon om alle ytelser en person mottar eller har mottatt gjennom NAV. Vedtaksløsningen benytter Arena for å innhente relevante ytelser for søker og eventuell annen forelder, slik at saksbehandler kan vurdere om disse ytelsene kan påvirke behandlingen av søknaden. Dessuten vil ytelsene potensielt være del av beregningsgrunnlaget for Foreldrepenger.
+
+== Hvordan
+Kommunikasjonen med Arena gjøres gjennom synkrone web service kall til MeldekortUtbetalingsgrunnlag_v1:FinnMeldekortUtbetalingsgrunnlagListe. Kallet utføres som en del av steget som innhenter registeropplysninger. Integrasjonen er synkron og vil avbryte gjeldende prosess hvis den feiler.
+
+VL kaller Arena for søkers fødselsnummer (eller AktørId) og en konfigurerbar periode tilbake i tid (som per dags dato er 17 måneder for FP). Arena responderer med en liste av saker som ligger i Arena på gitt fødselsnummer og innenfor gitt periode.
+
+Responsen prosesseres og lagres deretter strukturert i en egen tabellstruktur for videre bruk. Responsen inneholder Saker, Vedtak, samt innsendte Meldekort med tilhørende utbetalingsgrunnlag for alle periodene.
+
+Arena kalles på nytt når registeropplysninger oppdateres, for eksempel når en behandling gjennopptas fra vent, hvis det er mer enn en dag siden opplysningene sist ble innhentet.
+
+== Annet
+Lenke til dokumentasjon av tjenester:
+https://confluence.adeo.no/pages/viewpage.action?pageId=213064879[tjeneste_v3:virksomhet:meldekortUtbetalingsgrunnlag_v1 (2018-HL3)]
+Lenke til dokumentasjon av løsning:
+https://confluence.adeo.no/display/ARENA/Arena+-+Tjeneste+Webservice+-+MeldekortUtbetalingsgrunnlag_v1[tjeneste_v3:virksomhet:meldekortUtbetalingsgrunnlag_v1 (2018-HL3)]

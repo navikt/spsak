@@ -1,0 +1,60 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DomainFile class="oracle.dbtools.crest.model.design.DomainFileWrapper" fileName="V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller_Domains">
+   <domains>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_7 CHAR" id="3312FF39-123C-1DEE-95E4-07F8A513471B">
+         <createdBy>n124284</createdBy>
+         <createdTime>2017-06-01 09:09:22 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>7 CHAR</dataTypeSize>
+         <fileName>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_30 CHAR" id="44516F00-0011-6D56-1EF0-C4A3FC9BBF9C">
+         <createdBy>n124284</createdBy>
+         <createdTime>2017-06-01 09:09:22 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>30 CHAR</dataTypeSize>
+         <fileName>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_5 CHAR" id="49C6A29E-64FC-BFEE-2A63-75916416DB30">
+         <createdBy>n124284</createdBy>
+         <createdTime>2017-06-01 09:09:22 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>5 CHAR</dataTypeSize>
+         <fileName>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_1 CHAR" id="5F19027C-FBCA-7230-D140-8E8D17AFDC68">
+         <createdBy>n124284</createdBy>
+         <createdTime>2017-06-01 09:09:22 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>1 CHAR</dataTypeSize>
+         <fileName>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+      <Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_10 CHAR" id="E538ED7D-D35B-86EA-A59F-666780B1A1CE">
+         <createdBy>n124284</createdBy>
+         <createdTime>2017-06-01 09:09:22 UTC</createdTime>
+         <ownerDesignName>db-modell</ownerDesignName>
+         <avTSortOrder>0</avTSortOrder>
+         <dataTypePrecision>0</dataTypePrecision>
+         <dataTypeScale>0</dataTypeScale>
+         <dataTypeSize>10 CHAR</dataTypeSize>
+         <fileName>V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller_Domains</fileName>
+         <logicalDatatype>LOGDT024</logicalDatatype>
+      </Domain>
+   </domains>
+</DomainFile>

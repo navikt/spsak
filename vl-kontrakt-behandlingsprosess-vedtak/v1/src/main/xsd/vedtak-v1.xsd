@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:v1" xmlns:vedtak="urn:no:nav:vedtak:felles:xml:vedtak:v1"
+	xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v1"
+	xmlns:po="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v1"
+	xmlns:vg="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v1"
+	xmlns:bg="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:v1"
+	xmlns:yt="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:v1">
+	<xsd:import schemaLocation="felles-v1.xsd"
+		namespace="urn:no:nav:vedtak:felles:xml:felles:v1" />
+	<xsd:import schemaLocation="personopplysninger/personopplysninger-v1.xsd"
+		namespace="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v1" />
+	<xsd:import schemaLocation="vilkaarsgrunnlag/vilkaarsgrunnlag-v1.xsd"
+		namespace="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v1" />
+	<xsd:import schemaLocation="beregningsgrunnlag/beregningsgrunnlag-v1.xsd"
+		namespace="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:v1" />
+	<xsd:import schemaLocation="ytelse/ytelse-v1.xsd"
+		namespace="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:v1" />
+
+	<xsd:element name="vedtak" type="vedtak:Vedtak" />
+
+	<xsd:complexType name="Vedtak">
+		<xsd:sequence>
+			<xsd:element name="fagsakId" type="felles:Identifikator" />
+			<xsd:element name="fagsakType" type="felles:Kodeverksverdi" />
+			<xsd:element name="tema" type="felles:Kodeverksverdi" />
+			<xsd:element name="behandlingsTema" type="felles:Kodeverksverdi" />
+			<xsd:element name="ansvarligSaksbehandlerIdent" type="xsd:string"
+				minOccurs="0" />			
+			<xsd:element name="ansvarligBeslutterIdent" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="behandlendeEnhet" type="xsd:string" />
+			<xsd:element name="soeknadsdato" type="xsd:date"
+				minOccurs="0" />
+			<xsd:element name="klagedato" type="xsd:date" minOccurs="0" />
+			<xsd:element name="vedtaksdato" type="xsd:date" />	
+			<xsd:element name="personOpplysninger" type="po:Personopplysninger" minOccurs="0" />
+			<xsd:element name="behandlingsresultat" type="vedtak:Behandlingsresultat" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="FagsakType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ENGANGSSTOENAD" />
+			<xsd:enumeration value="FORELDREPENGER" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Behandlingsresultat">
+		<xsd:sequence>
+			<xsd:element name="behandlingsresultat" type="vedtak:BehandlingsresultatResultat" />
+			<xsd:element name="behandlingstype" type="vedtak:Behandlingstype" />
+			<xsd:element name="behandlingsId" type="felles:Identifikator" />
+			<xsd:element name="vurderteVilkaar" type="vedtak:VurderteVilkaar"
+				minOccurs="0" />
+			<xsd:element name="beregningsresultat" type="vedtak:Beregningsresultat"
+				minOccurs="0" />
+			<xsd:element name="manuelleVurderinger" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="manuellVurdering" type="vedtak:ManuellVurderingsResultat" minOccurs="1" maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="VurderteVilkaar">
+		<xsd:sequence>
+			<xsd:element name="vilkaar" type="vedtak:Vilkaar"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="BehandlingsresultatResultat">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="INNVILGET" />
+			<xsd:enumeration value="AVSLAATT" />
+			<xsd:enumeration value="RESULTAT_I_KLAGEBEHANDLING" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Behandlingstype">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FOERSTEGANGSSOEKNAD" />
+			<xsd:enumeration value="KLAGE" />
+			<xsd:enumeration value="REVURDERING" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Vilkaar">
+		<xsd:sequence>
+			<xsd:element name="type" type="felles:Kodeverksverdi" />
+			<xsd:element name="vilkaarsgrunnlag" type="vg:Vilkaarsgrunnlag"
+				minOccurs="0" />
+			<xsd:element name="utfall" type="vedtak:Vilkaarsutfall" />
+			<xsd:element name="utfallMerknad" type="felles:Kodeverksverdi"
+				minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="vurdert" type="vedtak:Vurderingsvariant" />
+	</xsd:complexType>
+
+	<xsd:simpleType name="Vurderingsvariant">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AUTOMATISK"></xsd:enumeration>
+			<xsd:enumeration value="MANUELT"></xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Vilkaarsutfall">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OPPFYLT" />
+			<xsd:enumeration value="IKKE OPPFYLT" />
+			<xsd:enumeration value="IKKE VURDERT" />
+			<!-- "Ikke vurdert" sløyfes fra XMLen, kun ta med vilkår som er vurdert -->
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ManuellVurderingsResultat"> <!-- Alle manuelle vurderinger; fakta avklaring, vilkår, beregning -->
+		<xsd:sequence>
+			<xsd:element name="aksjonspunkt" type="felles:Kodeverksverdi" /> <!-- Aksjonspunktnavn og kode -->
+			<xsd:element name="gjelderVilkaar" type="felles:Kodeverksverdi"
+				minOccurs="0" /> <!-- Hvis knyttet til en vilkaarsvurdering, hvilket vilkaar (kodeverdi + 
+				term) -->
+			<xsd:element name="saksbehandlersBegrunnelse" type="xsd:string" minOccurs="0" /> <!-- Begrunnelse -->
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Beregningsresultat">
+		<xsd:sequence>
+			<xsd:element name="beregningsgrunnlag" type="bg:Beregningsgrunnlag" />
+			<xsd:element name="tilkjentYtelse" type="yt:Ytelse" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Klagevurderingresultat">
+		<xsd:complexContent>
+			<xsd:extension base="vedtak:Behandlingsresultat">
+				<xsd:sequence>
+					<xsd:element name="klageVurdertAv" type="vedtak:KlageVurdertAv" />
+					<xsd:element name="klageVurdering" type="vedtak:Klagevurdering" />
+					<xsd:element name="klageAvvistAarsak" type="vedtak:KlageAvvistAarsak"
+						minOccurs="0" />
+					<xsd:element name="klageMedholdAarsak" type="vedtak:KlageMedholdAarsak"
+						minOccurs="0" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="KlageVurdertAv">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NFP" />
+			<xsd:enumeration value="NK" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Klagevurdering">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OPPHEVE_YTELSESVEDTAK" />
+			<xsd:enumeration value="STADFESTE_YTELSESVEDTAK" />
+			<xsd:enumeration value="MEDHOLD_I_KLAGE" />
+			<xsd:enumeration value="AVVIS_KLAGE" />
+			<xsd:enumeration value="DELVIS_MEDHOLD_I_KLAGE" />
+			<xsd:enumeration value="HJEMSENDE_UTEN_Å_OPPHEVE" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="KlageAvvistAarsak">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="KLAGET_FOR_SENT" />
+			<xsd:enumeration value="KLAGE_UGYLDIG" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="KlageMedholdAarsak">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NYE_OPPLYSNINGER" />
+			<xsd:enumeration value="ULIK_REGELVERKSTOLKNING" />
+			<xsd:enumeration value="ULIK_VURDERING" />
+			<xsd:enumeration value="PROSESSUELL_FEIL" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

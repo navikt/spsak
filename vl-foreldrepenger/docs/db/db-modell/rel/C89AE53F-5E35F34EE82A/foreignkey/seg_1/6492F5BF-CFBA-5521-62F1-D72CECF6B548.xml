@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="6492F5BF-CFBA-5521-62F1-D72CECF6B548" containerWithKeyObject="689E94D2-DFD6-B340-0BB8-4B804F9425D4" localFKIndex="32657429-01ED-8E0F-A63E-0D2B8A476157" name="FK_GR_PERSONOPPL_ANNE_PRT">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>EC26AFE3-AB14-472B-8899-61C5F2CDA85A</importedID>
+<referredTableLongName>SO_ANNEN_PART</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>0E83C1E7-79CF-7779-C5BA-A1D1A8539262</referredTableID>
+<keyObject>5E04B75F-A7CE-FF08-2E97-2AA3F82ED6F3</keyObject>
+<referredKeyID>5E04B75F-A7CE-FF08-2E97-2AA3F82ED6F3</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

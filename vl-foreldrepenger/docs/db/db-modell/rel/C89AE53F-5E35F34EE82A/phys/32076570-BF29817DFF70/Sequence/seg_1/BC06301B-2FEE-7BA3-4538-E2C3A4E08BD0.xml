@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_SAKSOPPLYSNING_METADATA" directorySegmentName="seg_1" id="BC06301B-2FEE-7BA3-4538-E2C3A4E08BD0">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:07:40 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<cache>20</cache>
+<incrementBy>50</incrementBy>
+<maxValue>9999999999999999999999999999</maxValue>
+<minValue>1000000</minValue>
+<user>E9425C1A-7186-D4A6-5803-CF85442090AC</user>
+</SequenceOraclev10g>

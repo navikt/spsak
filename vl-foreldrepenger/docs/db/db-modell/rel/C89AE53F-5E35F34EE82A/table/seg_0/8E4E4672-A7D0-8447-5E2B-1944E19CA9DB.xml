@@ -1,0 +1,567 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="8E4E4672-A7D0-8447-5E2B-1944E19CA9DB" name="AKSJONSPUNKT">
+<sourceDDLFile>V010__AKSJONSPUNKT_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:56 UTC</createdTime>
+<commentInRDBMS>Aksjoner som en saksbehandler må utføre manuelt.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C019C59A-833A-E1C5-C4AE-4B4C8F3E9F16</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="847F2726-B0D7-704F-6AE1-EBDA862E15E1">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Primary Key</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="periode_fom" id="EB3EFB81-C374-6A7A-BEF1-2969BD1000E2">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Angir starttidspunkt dersom aksjonspunktet gjelder en spesifikk periode. Brukes for aksjonspunkt som kan repteres flere ganger for en behandling.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>2E41DB2C-3F12-0E66-6D38-289E93656AEF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="periode_tom" id="58E59EC5-C0CF-51C9-ACF5-AF310B66F450">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Angir sluttidspunkt dersom aksjonspunktet gjelder en spesifikk periode.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>2E41DB2C-3F12-0E66-6D38-289E93656AEF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="begrunnelse" id="524384FE-B36E-4E5B-3D09-E945CB5C0C36">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Begrunnelse for endringer gjort i forbindelse med aksjonspunktet.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>83A2A48D-8D10-D6C5-D54B-02D6C5F3ACAE</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="totrinn_behandling" id="FD1D7A55-F74A-93A2-4911-01F5B9ED057C">
+<sourceDDLFile>V1.7.0_21__ToTrinnsBehandling.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<commentInRDBMS>Indikerer at aksjonspunkter krever en totrinnsbehandling</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<constraintName>CHK_TOTRINNSBEHANDLING</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>5F19027C-FBCA-7230-D140-8E8D17AFDC68</domain>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 11g" definition="&quot;TOTRINN_BEHANDLING&quot;=&apos;J&apos; OR &quot;TOTRINN_BEHANDLING&quot;=&apos;N&apos;"/>
+</checkConstraint>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="beslutters_begrunnelse" id="352F5815-0B6D-8B8D-3268-4A7258B93865">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Beslutters begrunnelse for hvorfor et aksjonspunkt må vurderes på nytt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>631C2B5F-B86C-FC03-828C-8C6D28B5EFE7</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="totrinn_behandling_godkjent" id="8F900E06-6FDA-B560-2BC3-3CB8B569EF84">
+<sourceDDLFile>02_TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:22:19 UTC</createdTime>
+<commentInRDBMS>Beslutter har godkjent totrinnsbehandlingen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<constraintName>CHK_TOTRINNSBEHANDLING_GODKJ</constraintName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<domain>DDE9EA65-0ABC-22D6-E48C-14F6F3367114</domain>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 11g" definition="&quot;TOTRINN_BEHANDLING_GODKJENT&quot;=&apos;J&apos; OR &quot;TOTRINN_BEHANDLING_GODKJENT&quot;=&apos;N&apos;"/>
+</checkConstraint>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="behandling_steg_funnet" id="08A84FA0-F4FA-F273-7967-DB79CF55A805">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Hvilket steg ble dette aksjonspunktet funnet i?</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4D605C31-2732-2775-4CBA-F5DEF242F75E" referredColumn="38881520-33F8-0D80-AC99-8E23AD3A38A5"/>
+</associations>
+</Column>
+<Column name="aksjonspunkt_status" id="4E8F530B-5616-681F-0B7B-9C1FD0A42943">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>FK:AKSJONSPUNKT_STATUS Fremmednøkkel til tabellen som inneholder status på aksjonspunktene</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="20EBD3D4-EE5B-7037-3721-1A20C3636C5E" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="aksjonspunkt_def" id="E3F4A3B7-FCE4-A9F9-01A2-E9610DC62B15">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>FK:AKSJONSPUNKT_DEF Fremmednøkkel til tabellen som inneholder definisjonene av aksjonspunktene</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>0F4C4CD9-6649-86EC-2ECE-A89F96E1F0F5</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6350E279-31DE-BA16-0B74-418C8B7867B2" referredColumn="D83589B2-58EB-4382-D1EF-B524B87D5A72"/>
+</associations>
+</Column>
+<Column name="versjon" id="05C87094-9CE6-3DB0-1B3F-1536C06D0B63">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>21671DE6-A0A4-6AB4-DD65-05EF1A89B01E</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="frist_tid" id="33FD2B71-EFA3-09D4-69BC-292969574985">
+<sourceDDLFile>02_TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:22:19 UTC</createdTime>
+<commentInRDBMS>Behandling blir automatisk gjenopptatt etter dette tidspunktet</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_av" id="E6054C1F-0742-7970-9484-B4F109BBB7A8">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="opprettet_tid" id="BB8678EE-76F9-1C51-BDDF-6902EC6D6B68">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_av" id="EEC8D860-E552-8FC9-A3DF-DC170761D03F">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>872219C4-FA32-702E-5BB9-BC99608CA87F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="endret_tid" id="AC98EC99-EF40-EA98-4F46-E2A345C67AFB">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>D583BCC9-104F-F8A0-2688-4A327BB12CFF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="kl_aksjonspunkt_status" id="C76F40C7-43F7-3E6C-0139-4F8BC3797755">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<formulaDesc>&apos;AKSJONSPUNKT_STATUS&apos;</formulaDesc>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="20EBD3D4-EE5B-7037-3721-1A20C3636C5E" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="vent_aarsak" id="2F891904-9592-3CE0-850D-B446E67CFFEE">
+<sourceDDLFile>02-TABLES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 08:44:21 UTC</createdTime>
+<commentInRDBMS>Årsak for at behandling er satt på vent</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<defaultValue>&apos;-&apos;</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2B48424E-4CDC-16F9-5966-758B191699B3" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="SLETTES_VED_REGISTERINNHENTING" id="53F0A622-64B9-ABC1-CF76-BD535416C9A4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Parameter som sier om aksjonspunktet slettes ved no.nav.foreldrepenger.domene.registerinnhenting</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>466F02FC-68CA-252E-DB76-62B1A9A05D3B</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<defaultValue>&apos;J&apos;</defaultValue>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BEHANDLING_ID" id="61F5202B-69DE-6B12-669C-962048005F64">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Fremmednøkkel for kobling til behandling</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>62B7771E-FB19-63BE-2DBB-46B836DCE21A</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1BB52D45-E26D-B92C-1252-785BC3D41EF7" referredColumn="1F9D74A0-4099-8281-5539-25E58BF82F1E"/>
+</associations>
+</Column>
+<Column name="KL_VENT_AARSAK" id="BBC72B32-97E9-563E-8836-FDF0D37EA610">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C0FBD01B-A34A-876F-BF2D-5CFBC99EBD8C</importedID>
+<formulaDesc>&apos;VENT_AARSAK&apos;</formulaDesc>
+<sourceType>Derived</sourceType>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2B48424E-4CDC-16F9-5966-758B191699B3" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="REAKTIVERING_STATUS" id="D1280611-6163-018E-A0C9-BF555F943F98">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Angir om aksjonspunktet er aktivt. Inaktive aksjonspunkter er historiske som ble kopiert når en revurdering ble opprettet. De eksisterer for å kunne vise den opprinnelige begrunnelsen, uten at saksbehandler må ta stilling til det på nytt.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9A887D80-ABBD-B7BB-ABDC-BD2AFA2CAFF6</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>062182F4-B39D-EA5F-8582-7B6A76A96E84</domain>
+<defaultValue>&apos;AKTIV&apos;</defaultValue>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8AB4B4D5-3BBF-42D1-3EA1-D6EE0F1FD264" referredColumn="2A41A8A4-E367-9AEC-5C49-18E3E8293000"/>
+</associations>
+</Column>
+<Column name="MANUELT_OPPRETTET" id="7084FBAA-535C-9EDC-C428-82C0D9F56B01">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Angir om aksjonspunktet ble opprettet manuelt. Typisk skjer dette ved overstyring, og når saksbehandler manuelt reaktiverer et historisk aksjonspunkt i en revurdering. Brukes når Behandlingskontroll skal rydde ved hopp.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>18BCFEC7-803C-11F9-B589-A58568F7BB3E</importedID>
+<constraintName>CHK_MANUELT_OPPRETTET</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 11g" definition="MANUELT_OPPRETTET = &apos;J&apos; OR MANUELT_OPPRETTET = &apos;N&apos;"/>
+</checkConstraint>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="KL_REAKTIVERING_STATUS" id="CE1EA2BE-D4A0-F3FA-57EC-63E2B8A7C932">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Referanse til KODEVERK-kolonnen i KODELISTE-tabellen</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D796CCA7-CEBF-412A-6055-35DEF81E8718</importedID>
+<formulaDesc>&apos;REAKTIVERING_STATUS&apos;</formulaDesc>
+<sourceType>Derived</sourceType>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<domain>3D87026D-8477-27A3-E9F7-F656971026FC</domain>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<computed>true</computed>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8AB4B4D5-3BBF-42D1-3EA1-D6EE0F1FD264" referredColumn="FC4E4267-88F4-1411-43F9-EA0330ECD075"/>
+</associations>
+</Column>
+<Column name="REVURDERING" id="952148E2-0918-04C1-F978-E392361B88A7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Flagget settes på aksjonspunkter som kopieres i det en revurdering opprettes. Trengs for å kunne vurdere om aksjonspunktet er kandidat for totrinnskontroll dersom det har blitt en endring i aksjonspunktet under revurderingen.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>942614DB-E911-CA29-A791-EFCCF1D419BC</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<defaultValue>&apos;N&apos;</defaultValue>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="AKTIVT" id="7EA71E53-1B5A-B3F2-4BE2-7E1C13CE0587">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Angir om aksjonspunktet er aktivt. Inaktive aksjonspunkter er historiske som ble kopiert når en revurdering ble opprettet. De eksisterer for å kunne vise den opprinnelige begrunnelsen, uten at saksbehandler må ta stilling til det på nytt.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>E5BFDCD6-8420-0CED-26DF-C46DFA15FCFB</importedID>
+<constraintName>CHK_AKTIVT</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 11g" definition="aktivt = &apos;J&apos; OR aktivt = &apos;N&apos;"/>
+</checkConstraint>
+<defaultValue>&apos;J&apos;</defaultValue>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D99D5319-CA80-4327-36B5-5D46F5292615" name="PK_AKSJONSPUNKT">
+<sourceDDLFile>V010__AKSJONSPUNKT_ny_tabell.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:56 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="847F2726-B0D7-704F-6AE1-EBDA862E15E1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="060C7E79-3793-0FEC-38CB-2520650C86A0" name="CHK_UNIQUE_BEH_AD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8364070D-B7EF-40AF-C74E-91A9529876A8</importedID>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="61F5202B-69DE-6B12-669C-962048005F64"/>
+<colUsage columnID="E3F4A3B7-FCE4-A9F9-01A2-E9610DC62B15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="94070CB7-F0CF-2FED-B6AA-3C011FD4AE4D" name="PK_AKSJONSPUNKT">
+<sourceDDLFile>03_INDEXES.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-15 17:46:33 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="847F2726-B0D7-704F-6AE1-EBDA862E15E1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="840EB958-B0CB-E001-5451-8879952AE8E5" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_AKSJONSPUNKT_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4075B5A5-6EAD-3BCF-45E1-ACBEDB6EC811</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="61F5202B-69DE-6B12-669C-962048005F64"/>
+<colUsage columnID="E3F4A3B7-FCE4-A9F9-01A2-E9610DC62B15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E98268B1-0063-15F4-AB07-2BA89415A39B" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_AKSJONSPUNKT_DEF_10">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>535CA257-03A8-AB20-55D0-CF9D0B99F475</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D1280611-6163-018E-A0C9-BF555F943F98"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5C2B047E-1390-E7C9-EEC2-2B0DADE5FAC9" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_AKSJONSPUNKT_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F3A97C3D-4D83-6554-7785-59B73F661176</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="08A84FA0-F4FA-F273-7967-DB79CF55A805"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B76DB367-7AFB-8923-1744-F16454F5D063" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_AKSJONSPUNKT_7">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A84CE087-163B-0C39-83CE-CAD75E68029B</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E3F4A3B7-FCE4-A9F9-01A2-E9610DC62B15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="55E8C556-9CB9-7B9D-A05C-12DA078AFC7B" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_AKSJONSPUNKT_8">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>BABFF914-5042-E92C-097C-5572CBC1813E</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2F891904-9592-3CE0-850D-B446E67CFFEE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D3C15264-E6E8-C327-E86D-BC828B8ED9E4" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_AKSJONSPUNKT_9">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>C5DBD472-7DE9-75D1-F921-39CF6AFF1A7B</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4E8F530B-5616-681F-0B7B-9C1FD0A42943"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="035BF56F-4451-1237-F4DD-FF08A37D8A71" name="FK_AKSJONSPUNKT_1">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-16 07:43:08 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="08A84FA0-F4FA-F273-7967-DB79CF55A805"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2F26D5EE-5325-7A30-CA4F-5D4B09854380" name="FK_AKSJONSPUNKT_2">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-16 07:43:08 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="61F5202B-69DE-6B12-669C-962048005F64"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="EADED9B9-F6DA-8D5B-F714-E8D2622B1787" name="FK_AKSJONSPUNKT_4">
+<createdBy>T150221</createdBy>
+<createdTime>2017-08-16 07:43:08 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E3F4A3B7-FCE4-A9F9-01A2-E9610DC62B15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1C15A5DB-631F-E833-6F84-84730D8BE6D0" name="FK_AKSJONSPUNKT_80">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4E8F530B-5616-681F-0B7B-9C1FD0A42943"/>
+<colUsage columnID="C76F40C7-43F7-3E6C-0139-4F8BC3797755"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="66C37166-60CD-9C51-9F90-42E01C34C745" name="FK_AKSJONSPUNKT_5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:57:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2F891904-9592-3CE0-850D-B446E67CFFEE"/>
+<colUsage columnID="BBC72B32-97E9-563E-8836-FDF0D37EA610"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="EE4DA2DB-6C00-7002-4EC1-35D64862F6C9" name="FK_AKSJONSPUNKT_6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:36 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D1280611-6163-018E-A0C9-BF555F943F98"/>
+<colUsage columnID="CE1EA2BE-D4A0-F3FA-57EC-63E2B8A7C932"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

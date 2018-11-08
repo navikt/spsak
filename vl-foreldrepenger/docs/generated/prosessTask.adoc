@@ -1,0 +1,481 @@
+
+== batch
+
+=== Kjører angitt batch
+====
+.Konfigurasjon
+* *Kode:* batch.runner
+* *Klasse:* no.nav.foreldrepenger.batch.task.BatchRunnerTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 1
+====
+
+++++
+ Opp
+
+++++
+
+++++
+Kjører batch som angitt i parametere
+++++
+
+
+=== Oppretter batchrunners og ny instans
+====
+.Konfigurasjon
+* *Kode:* batch.scheduler
+* *Klasse:* no.nav.foreldrepenger.batch.task.BatchSchedulerTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 1
+====
+
+++++
+ Enkel scheduler for dagens situasjon der man kjører batcher mandag-fredag og det er noe variasjon i parametere.
+
+ Kan evt endres slik at BatchSchedulerTask kjører tidlig på døgnet og oppretter dagens batches (hvis ikke tidspunkt passert)
+
+ Skal man utvide med ukentlige, måndedlige batcher etc bør man se på cron-aktige uttrykk for spesifikasjon av kjøring.
+ FC har implementert et rammeverk på github
+
+++++
+
+++++
+Task som oppretter tasks for planlagte batches og ny scheduler
+++++
+
+
+== behandlingskontroll
+
+=== Gjenoppta behandling
+====
+.Konfigurasjon
+* *Kode:* behandlingskontroll.gjenopptaBehandling
+* *Klasse:* no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse.tjeneste.GjenopptaBehandlingTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+ Utfører automatisk gjenopptagelse av en behandling som har
+ et åpent aksjonspunkt som er et autopunkt og har en frist som er passert.
+
+++++
+
+++++
+Gjenoppta behandling som har åpent aksjonspunkt (auto) som har passert fristen
+++++
+
+
+=== Avslutt fagsak
+====
+.Konfigurasjon
+* *Kode:* behandlingskontroll.fagsakAvslutning
+* *Klasse:* no.nav.foreldrepenger.behandling.statusobserver.task.AutomatiskFagsakAvslutningTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Avslutt fagsak hvis den er løpende og perioden for ytelsesvedtaket er passert
+++++
+
+
+=== Forsetter automatisk behandling.
+====
+.Konfigurasjon
+* *Kode:* behandlingskontroll.fortsettBehandling
+* *Klasse:* no.nav.foreldrepenger.behandlingskontroll.task.FortsettBehandlingTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+ Kjører behandlingskontroll automatisk fra der prosessen står.
+
+++++
+
+++++
+Task som melder om kjører automatisk behandling for behandlingskontroll.  Starter i det steget behandlingen står og forsetter til den stopper på et Aksjonspunkt.
+++++
+
+
+=== Start behandling
+====
+.Konfigurasjon
+* *Kode:* behandlingskontroll.startBehandling
+* *Klasse:* no.nav.foreldrepenger.behandlingskontroll.task.StartBehandlingTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+ Kjører behandlingskontroll automatisk fra start.
+
+++++
+
+++++
+Task som starter behandling
+++++
+
+
+=== Melder om behandling til Sak Og Behandling.
+====
+.Konfigurasjon
+* *Kode:* behandlingskontroll.oppdatersakogbehandling
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.sakogbehandling.task.SakOgBehandlingTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Task som melder om opprettet eller avsluttet behandling til Sak Og Behandling.
+++++
+
+
+=== Oppdater registerdata for behandling
+====
+.Konfigurasjon
+* *Kode:* behandlingskontroll.registerdataOppdaterBehandling
+* *Klasse:* no.nav.foreldrepenger.domene.registerinnhenting.impl.RegisterdataOppdatererTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+ Utfører innhenting av registerdata.
+
+++++
+
+++++
+Oppdaterer registeredata for en åpen behandling
+++++
+
+
+=== Åpne behandling for endringer
+====
+.Konfigurasjon
+* *Kode:* behandlingskontroll.åpneBehandlingForEndringer
+* *Klasse:* no.nav.foreldrepenger.domene.registerinnhenting.impl.ÅpneBehandlingForEndringerTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Åpner behandlingen for endringer ved å reaktivere inaktive aksjonspunkter før startpunktet og hopper til første startpunkt
+++++
+
+
+== behandlingsprosess
+
+=== Automatisk etterkontroll
+====
+.Konfigurasjon
+* *Kode:* behandlingsprosess.etterkontroll
+* *Klasse:* no.nav.foreldrepenger.behandling.revurdering.etterkontroll.task.AutomatiskEtterkontrollTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+ @Dependent scope for å hente konfig ved hver kjøring.
+
+++++
+
+
+== behandlingsstotte
+
+=== Automatisk sending av forlengelsesbrev
+====
+.Konfigurasjon
+* *Kode:* behandlingsstotte.sendForlengelsesbrev
+* *Klasse:* no.nav.foreldrepenger.dokumentbestiller.forlengelsesbrev.task.SendForlengelsesbrevTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+
+== dokumentbestiller
+
+=== Bestill dokument
+====
+.Konfigurasjon
+* *Kode:* dokumentbestiller.bestillDokument
+* *Klasse:* no.nav.foreldrepenger.dokumentbestiller.forlengelsesbrev.task.DokumentBestillerTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Produserer nytt dokument og sender det til dokumentproduksjonsstjenesten.
+++++
+
+
+== hendelser
+
+=== Fagsak knyttet til mottatt forretningshendelse.
+====
+.Konfigurasjon
+* *Kode:* hendelser.håndterHendelsePåFagsak
+* *Klasse:* no.nav.foreldrepenger.domene.mottak.hendelser.impl.MottaHendelseFagsakTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Identifisert fagsak fra håndtering av mottatt forretningshendelse håndteres videre som egen task. Splitt mellom identifisering av fagsak og videre eksekvering er for å sikre at samtidige prosesstasker på fagsak unngås.
+++++
+
+
+=== Klargjøring av mottatt forretningshendelse.
+====
+.Konfigurasjon
+* *Kode:* hendelser.klargjoering
+* *Klasse:* no.nav.foreldrepenger.domene.mottak.hendelser.KlargjørHendelseTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Første steg av håndtering av mottatt forretningshendelse. Identifiserer saker som er kandidat for revurdering.
+++++
+
+
+== innhentsaksopplysninger
+
+=== Håndter mottatt dokument
+====
+.Konfigurasjon
+* *Kode:* innhentsaksopplysninger.håndterMottattDokument
+* *Klasse:* no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl.HåndterMottattDokumentTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Task som håndterer mottatte dokumenter ved å innhente saksopplysninger
+++++
+
+
+=== Innhent informasjon fra Infotrygd
+====
+.Konfigurasjon
+* *Kode:* innhentsaksopplysninger.relaterteYtelser
+* *Klasse:* no.nav.foreldrepenger.domene.registerinnhenting.impl.InnhentRelaterteYtelserTask
+* *Feilhåndteringalgoritme:* Åpningstidsbasert feilhåndtering
+* *Maks forsøk:* 3
+====
+
+++++
+Task som henter og lagrer data om relaterte ytelser fra Infotrygd
+++++
+
+
+== iverksetteVedtak
+
+=== Avslutte behandling i modul Iverksette vedtak
+====
+.Konfigurasjon
+* *Kode:* iverksetteVedtak.avsluttBehandling
+* *Klasse:* no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.AvsluttBehandlingTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Avslutter behandlingen når brev er sendt og økonomioppdrag overført
+++++
+
+
+=== Kall til "Sende vedtaksbrev" i Iverksette vedtak
+====
+.Konfigurasjon
+* *Kode:* iverksetteVedtak.sendVedtaksbrev
+* *Klasse:* no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.SendVedtaksbrevTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Sender vedtaksbrev til brukeren via DokumentBestilleren, venter på kvittering
+++++
+
+
+=== Vurder neste oppgave i behandlingskøen.
+====
+.Konfigurasjon
+* *Kode:* iverksetteVedtak.startBerørtBehandling
+* *Klasse:* no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.StartBerørtBehandlingTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Vurder neste oppgave i behandlingskøen.
+++++
+
+
+=== Vedtak til Datavarehus
+====
+.Konfigurasjon
+* *Kode:* iverksetteVedtak.vedtakTilDatavarehus
+* *Klasse:* no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VedtakTilDatavarehusTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Produser og lever vedtaksxml til Datavarehus
+++++
+
+
+=== Kall til "Utbetale" i Iverksette vedtak
+====
+.Konfigurasjon
+* *Kode:* iverksetteVedtak.oppdragTilØkonomi
+* *Klasse:* no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VurderOgSendØkonomiOppdragTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 1
+====
+
+++++
+Dersom vedtaket medfører økonomioppdrag, sender dette oppdragsløsningen og venter på kvittering
+++++
+
+
+=== Vurder om arena ytelse skal opphøre
+====
+.Konfigurasjon
+* *Kode:* iverksetteVedtak.oppgaveArena
+* *Klasse:* no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VurderOppgaveArenaTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Vurder om oppgave skal opprettes for å opphøre arena ytelse
+++++
+
+
+== oppgavebehandling
+
+=== Avslutter oppgave i GSAK
+====
+.Konfigurasjon
+* *Kode:* oppgavebehandling.avsluttOppgave
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.AvsluttOppgaveTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Task som avslutter oppgave i GSAK
+++++
+
+
+=== Oppretter oppgave i GSAK for sak sendt tilbake
+====
+.Konfigurasjon
+* *Kode:* oppgavebehandling.opprettOppgaveSakSendtTilbake
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveForBehandlingSendtTilbakeTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Oppretter oppgave i GSAK etter at beslutter sender saken tilbake til saksbehandler
+++++
+
+
+=== Oppretter oppgave i GSAK for å behandle sak
+====
+.Konfigurasjon
+* *Kode:* oppgavebehandling.opprettOppgaveBehandleSak
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveForBehandlingTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Oppretter oppgave i GSAK for å behandle sak
+++++
+
+
+=== Oppretter oppgave for godkjenning av vedtak i GSAK
+====
+.Konfigurasjon
+* *Kode:* oppgavebehandling.opprettOppgaveGodkjennVedtak
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveGodkjennVedtakTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Task som oppretter oppgave for godkjenning av vedtak i GSAK
+++++
+
+
+=== Oppretter oppgave i GSAK for å registrere søknad
+====
+.Konfigurasjon
+* *Kode:* oppgavebehandling.opprettOppgaveRegistrerSøknad
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveRegistrerSøknadTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Oppretter oppgave i GSAK for å registrere ustrukturert søknad
+++++
+
+
+=== Oppgave i GSAK for å ta over saken
+====
+.Konfigurasjon
+* *Kode:* oppgavebehandling.opprettOppgaveSakTilInfotrygd
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveSendTilInfotrygdTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Saker der skjæringstidspunkt inntreffer før 2019-01-01 må behandles av Infrotrygd da VL ikke besitter gamle bereningsregler.
+++++
+
+
+=== Oppretter oppgave i GSAK for å vurdere dokument
+====
+.Konfigurasjon
+* *Kode:* oppgavebehandling.opprettOppgaveVurderDokument
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveVurderDokumentTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+Oppretter oppgave i GSAK for å vurdere dokument
+++++
+
+
+=== Opprett oppgave vurder konsekvens for ytelse
+====
+.Konfigurasjon
+* *Kode:* oppgavebehandling.opprettOppgaveVurderKonsekvens
+* *Klasse:* no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveVurderKonsekvensTask
+* *Feilhåndteringalgoritme:* Eksponentiell back-off med tak
+* *Maks forsøk:* 3
+====
+
+++++
+ <p>
+ ProsessTask som oppretter en oppgave i GSAK av typen vurder konsekvens for ytelse
+ <p>
+ </p>
+
+++++
+
+++++
+Oppretter oppgave i GSAK for å vurdere konsekvens for ytelse
+++++
+
+
+

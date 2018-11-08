@@ -1,0 +1,1 @@
+alter table SOEKNAD drop (omsorg_omsorgover_dato);

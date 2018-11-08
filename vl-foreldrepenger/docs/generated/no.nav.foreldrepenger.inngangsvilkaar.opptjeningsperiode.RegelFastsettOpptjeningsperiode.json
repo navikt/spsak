@@ -1,0 +1,245 @@
+{
+  "root" : {
+    "id" : "476a9740-cc52-4100-8bed-3d30b45585e6",
+    "ruleId" : "FP_VK_21",
+    "ruleDescription" : "Fastsett opptjeningsperiode",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "476a9740-cc52-4100-8bed-3d30b45585e6",
+    "ruleId" : "FP_VK_21",
+    "ruleDescription" : "Fastsett opptjeningsperiode",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "746e2362-764a-4c18-8051-3e9d42ce7035",
+    "ruleId" : "FP_VK 21.2",
+    "ruleDescription" : "Er mor søker?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "99bce1ae-d4ca-4cd7-acd4-c85adf310936",
+    "ruleId" : "FP_VK 21.5",
+    "ruleDescription" : "Fastsett periode: Mor-Fødsel",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "da5a8387-a966-48e1-8df2-a2727ae8bf57",
+    "ruleId" : "FP_VK 21.5",
+    "ruleDescription" : "opptjeningsvilkar for beregning settes til første dag etter siste aktivitetsdag",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "73b13650-3901-4e6c-a164-ca282e5efb1a",
+    "ruleId" : "FP_VK 21.9",
+    "ruleDescription" : "Regnes relativt til Skjæringstidspunkt fra konfig(opptjeningsperiode.lengde) til dagen før (siste dag i opptjeningsperioden)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "4cdfbfcc-4b7c-4e6b-8bea-abd9ff2a65d1",
+    "ruleId" : "FP_VK 21.6",
+    "ruleDescription" : "Fastsett periode: Annen-Fødsel",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "059bbbc9-461d-4f6f-81be-1b39f4c066e3",
+    "ruleId" : "FP_VK 21.6",
+    "ruleDescription" : "Tidligste av: første uttaksdag, dagen etter mors seneste maxdato (fars første uttaksdag)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6884f0a4-58a6-49a9-8e58-c0fdbfc02508",
+    "ruleId" : "FP_VK 21.9",
+    "ruleDescription" : "Regnes relativt til Skjæringstidspunkt fra konfig(opptjeningsperiode.lengde) til dagen før (siste dag i opptjeningsperioden)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "87a12876-3b45-4a8b-9f1d-13740962e964",
+    "ruleId" : "FP_VK 21.10",
+    "ruleDescription" : "Gjelder det adopsjon?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "55331355-e04f-474a-a17a-9d763fa4c7ae",
+    "ruleId" : "FP_VK 21.3",
+    "ruleDescription" : "Er mor søker?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "1da342fc-e997-4236-805b-30d3acf67142",
+    "ruleId" : "FP_VK 21.7",
+    "ruleDescription" : "Fastsett periode: Mor-Adopsjon/Omsorgsovertakelse",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "1bff32a0-a962-4078-9085-67ee3535c3ac",
+    "ruleId" : "FP_VK 21.7",
+    "ruleDescription" : "Dato for omsorgs-overtakelsen",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3e18e3a7-6e97-4e67-b41c-1e99e92c256d",
+    "ruleId" : "FP_VK 21.9",
+    "ruleDescription" : "Regnes relativt til Skjæringstidspunkt fra konfig(opptjeningsperiode.lengde) til dagen før (siste dag i opptjeningsperioden)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "015fbbaf-f0cf-419b-b894-224463f943d6",
+    "ruleId" : "FP_VK 21.4",
+    "ruleDescription" : "Det er far som søker og han skal starte uttaket av foreldrepenger?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "d99093fa-f402-4e52-a7e7-bd0fae49f1fb",
+    "ruleId" : "FP_VK 21.8",
+    "ruleDescription" : "Fastsett periode: Annen-Adopsjon/Omsorgsovertakelse",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "00c56efe-97c6-4032-a6be-91b83fbd0d6b",
+    "ruleId" : "FP_VK 21.8",
+    "ruleDescription" : "Første uttaksdag, men aldri senere enn dagen for ankomst Norge ved adopsjon fra utlandet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "7713df3c-f467-4593-8b81-1d15fc701b6d",
+    "ruleId" : "FP_VK 21.9",
+    "ruleDescription" : "Regnes relativt til Skjæringstidspunkt fra konfig(opptjeningsperiode.lengde) til dagen før (siste dag i opptjeningsperioden)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "89bbfa75-ac45-4b63-bd1a-40812a3b745c",
+    "ruleId" : "FP_VK 21.6",
+    "ruleDescription" : "Fastsett periode: Annen-Fødsel",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "e120be9d-7117-4204-b1fd-7418f082f623",
+    "ruleId" : "FP_VK 21.6",
+    "ruleDescription" : "Tidligste av: første uttaksdag, dagen etter mors seneste maxdato (fars første uttaksdag)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "20ca5b54-6c78-4883-b1cb-dae45236c6ef",
+    "ruleId" : "FP_VK 21.9",
+    "ruleDescription" : "Regnes relativt til Skjæringstidspunkt fra konfig(opptjeningsperiode.lengde) til dagen før (siste dag i opptjeningsperioden)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "584e3e87-cdd9-44b2-8eec-03930e946c97",
+    "ruleId" : "FP_VK 21.11",
+    "ruleDescription" : "Gjelder det en person som har eller får tildelt foreldeansvar når en av foreldrene dør?",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "ecb16e61-e5b2-4d19-a429-df3d3ab9d35f",
+    "ruleId" : "FP_VK 21.7",
+    "ruleDescription" : "Fastsett periode: Mor-Adopsjon/Omsorgsovertakelse",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "b0afbecd-3c68-4ef9-bda5-47f9d8204043",
+    "ruleId" : "FP_VK 21.7",
+    "ruleDescription" : "Dato for omsorgs-overtakelsen",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a9557ecd-4766-4eda-953b-7257d653ce2c",
+    "ruleId" : "FP_VK 21.9",
+    "ruleDescription" : "Regnes relativt til Skjæringstidspunkt fra konfig(opptjeningsperiode.lengde) til dagen før (siste dag i opptjeningsperioden)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "5dd9660a-5c02-456a-85eb-2748a22e1084",
+    "ruleId" : "FP_VK 21",
+    "ruleDescription" : "Ikke gyldig utgang",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "99bce1ae-d4ca-4cd7-acd4-c85adf310936",
+    "target" : "da5a8387-a966-48e1-8df2-a2727ae8bf57"
+  }, {
+    "source" : "99bce1ae-d4ca-4cd7-acd4-c85adf310936",
+    "target" : "73b13650-3901-4e6c-a164-ca282e5efb1a"
+  }, {
+    "source" : "746e2362-764a-4c18-8051-3e9d42ce7035",
+    "target" : "99bce1ae-d4ca-4cd7-acd4-c85adf310936",
+    "role" : "Er mor søker?"
+  }, {
+    "source" : "4cdfbfcc-4b7c-4e6b-8bea-abd9ff2a65d1",
+    "target" : "059bbbc9-461d-4f6f-81be-1b39f4c066e3"
+  }, {
+    "source" : "4cdfbfcc-4b7c-4e6b-8bea-abd9ff2a65d1",
+    "target" : "6884f0a4-58a6-49a9-8e58-c0fdbfc02508"
+  }, {
+    "source" : "746e2362-764a-4c18-8051-3e9d42ce7035",
+    "target" : "4cdfbfcc-4b7c-4e6b-8bea-abd9ff2a65d1",
+    "role" : "ellers"
+  }, {
+    "source" : "476a9740-cc52-4100-8bed-3d30b45585e6",
+    "target" : "746e2362-764a-4c18-8051-3e9d42ce7035",
+    "role" : "Gjelder det fødsel?"
+  }, {
+    "source" : "1da342fc-e997-4236-805b-30d3acf67142",
+    "target" : "1bff32a0-a962-4078-9085-67ee3535c3ac"
+  }, {
+    "source" : "1da342fc-e997-4236-805b-30d3acf67142",
+    "target" : "3e18e3a7-6e97-4e67-b41c-1e99e92c256d"
+  }, {
+    "source" : "55331355-e04f-474a-a17a-9d763fa4c7ae",
+    "target" : "1da342fc-e997-4236-805b-30d3acf67142",
+    "role" : "Er mor søker?"
+  }, {
+    "source" : "d99093fa-f402-4e52-a7e7-bd0fae49f1fb",
+    "target" : "00c56efe-97c6-4032-a6be-91b83fbd0d6b"
+  }, {
+    "source" : "d99093fa-f402-4e52-a7e7-bd0fae49f1fb",
+    "target" : "7713df3c-f467-4593-8b81-1d15fc701b6d"
+  }, {
+    "source" : "015fbbaf-f0cf-419b-b894-224463f943d6",
+    "target" : "d99093fa-f402-4e52-a7e7-bd0fae49f1fb",
+    "role" : "Det er far som søker og han skal starte uttaket av foreldrepenger?"
+  }, {
+    "source" : "89bbfa75-ac45-4b63-bd1a-40812a3b745c",
+    "target" : "e120be9d-7117-4204-b1fd-7418f082f623"
+  }, {
+    "source" : "89bbfa75-ac45-4b63-bd1a-40812a3b745c",
+    "target" : "20ca5b54-6c78-4883-b1cb-dae45236c6ef"
+  }, {
+    "source" : "015fbbaf-f0cf-419b-b894-224463f943d6",
+    "target" : "89bbfa75-ac45-4b63-bd1a-40812a3b745c",
+    "role" : "ellers"
+  }, {
+    "source" : "55331355-e04f-474a-a17a-9d763fa4c7ae",
+    "target" : "015fbbaf-f0cf-419b-b894-224463f943d6",
+    "role" : "ellers"
+  }, {
+    "source" : "87a12876-3b45-4a8b-9f1d-13740962e964",
+    "target" : "55331355-e04f-474a-a17a-9d763fa4c7ae",
+    "role" : "Gjelder det adopsjon?"
+  }, {
+    "source" : "ecb16e61-e5b2-4d19-a429-df3d3ab9d35f",
+    "target" : "b0afbecd-3c68-4ef9-bda5-47f9d8204043"
+  }, {
+    "source" : "ecb16e61-e5b2-4d19-a429-df3d3ab9d35f",
+    "target" : "a9557ecd-4766-4eda-953b-7257d653ce2c"
+  }, {
+    "source" : "584e3e87-cdd9-44b2-8eec-03930e946c97",
+    "target" : "ecb16e61-e5b2-4d19-a429-df3d3ab9d35f",
+    "role" : "Gjelder det en person som har eller får tildelt foreldeansvar når en av foreldrene dør?"
+  }, {
+    "source" : "584e3e87-cdd9-44b2-8eec-03930e946c97",
+    "target" : "5dd9660a-5c02-456a-85eb-2748a22e1084",
+    "role" : "ellers"
+  }, {
+    "source" : "87a12876-3b45-4a8b-9f1d-13740962e964",
+    "target" : "584e3e87-cdd9-44b2-8eec-03930e946c97",
+    "role" : "ellers"
+  }, {
+    "source" : "476a9740-cc52-4100-8bed-3d30b45585e6",
+    "target" : "87a12876-3b45-4a8b-9f1d-13740962e964",
+    "role" : "ellers"
+  } ]
+}

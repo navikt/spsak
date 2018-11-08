@@ -1,0 +1,188 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="8EC30568-2521-E69F-71A4-F3EB8F91D1DE" name="schema_version_testdata">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>D2BE5641-B104-EE1B-02AF-F7085511BB65</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="installed_rank" id="323C58E0-E0C9-8B6E-AD7F-CC586449A9D6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>7B356F28-8A1B-859F-2C58-AEC5FCDD999D</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>*</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,*,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="version" id="B811F047-F93D-BFB6-B247-DBF61352C1E1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>C6DABB95-4BE7-CE9D-2CCE-24C0EFBC518F</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 BYTE</dataTypeSize>
+<ownDataTypeParameters>50 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="description" id="2C2155F1-D555-A5E3-27E8-532DB546F37F">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>E5F30C66-4BC8-CFF5-2933-2362B8E42681</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200 BYTE</dataTypeSize>
+<ownDataTypeParameters>200 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="type" id="A871190A-269B-0DC0-DD88-11099B54787A">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>977E0BEF-E08F-DB4F-AB4C-4D886A2192B6</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 BYTE</dataTypeSize>
+<ownDataTypeParameters>20 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="script" id="C085D2CA-E8CF-16FB-3A95-589E50B0D903">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>789170B2-14A7-A740-E396-C6BC1500E51B</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1000 BYTE</dataTypeSize>
+<ownDataTypeParameters>1000 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="checksum" id="5806092A-CB4A-2CFF-7E11-1F5D31D1B7EF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>945A81D2-F0A4-6543-F8A5-D1304F622B28</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>*</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,*,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="installed_by" id="17061DEE-96F2-3514-FE70-28C96E2D8A13">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>17A73F5F-6A15-D7B2-7C0D-2C3FB19C82CF</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="installed_on" id="BD52478C-5236-424E-06C4-C51FAAE98668">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>A4D3D7FB-F1A1-1716-C5F1-3EE29BC4EEF0</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>6</dataTypePrecision>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,6,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="execution_time" id="21182120-07D4-8484-FC62-C35BA593736B">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>68232533-5AC9-F60F-1BF0-90ADEF73BBB0</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>*</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,*,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="success" id="FBB9D0E7-AC64-C970-C801-5B5FBC3691FC">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>D2ACD57B-9CB4-E8F5-576F-2F100B8E802C</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>1</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,1,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AF394580-B4D9-277F-8061-F3B46249BB8F" name="schema_version_testdata_pk">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>FCB1C691-CAB4-458F-8C00-A55031013F20</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="323C58E0-E0C9-8B6E-AD7F-CC586449A9D6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="13B09ED4-C9DA-77E0-51AB-B73DBA68A111" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="schema_version_testdata_pk">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>0BFC79D5-AD64-728C-38A7-421A52423BBC</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="323C58E0-E0C9-8B6E-AD7F-CC586449A9D6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9AC06CFE-CC0F-D60D-99FC-2344B174B9E6" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="schema_version_testdata_s_idx">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>836BC440-4E36-9B1A-9093-FC48FDF05B60</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FBB9D0E7-AC64-C970-C801-5B5FBC3691FC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

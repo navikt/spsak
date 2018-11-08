@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>no.nav.foreldrepenger</groupId>
+		<artifactId>web</artifactId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+
+	<artifactId>web-webapp</artifactId>
+	<packaging>jar</packaging>
+	<name>FPSAK :: Web - Webapp</name>
+	<dependencies>
+
+		<!-- Database håndtering -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Prosjekt avhengigheter -->
+		<dependency>
+			<groupId>no.nav.vedtak.felles</groupId>
+			<artifactId>felles-behandlingsprosess-prosesstask-rest-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<artifactId>soeknad-v1</artifactId>
+			<classifier>jaxb</classifier>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<artifactId>abonnent-v1</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<artifactId>fordel-v1</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.vedtak.felles.sikkerhet</groupId>
+			<artifactId>felles-sikkerhet</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.vedtak.felles</groupId>
+			<artifactId>felles-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>i18n</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>migreringer</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<artifactId>kodeverk-klient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>kodeverk</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>historikk</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>foreldrepengersak-tjeneste</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandle-foreldrepengersak-tjeneste</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<artifactId>felles-integrasjon-bom</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingsprosess-bom</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>json-feed-tjeneste</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>domenetjenester-bom</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>pep</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingslager-testutilities</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>batch</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>vedtak</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>vedtak-innsyn</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>vurder-fagsystem</artifactId>
+		</dependency>
+
+		<!-- REST + WebService -->
+		<dependency>
+			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<artifactId>felles-integrasjon-rest</artifactId>
+		</dependency>
+
+		<!-- CDI -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet-core</artifactId>
+		</dependency>
+
+		<!-- For Status side -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+
+		<!-- Server -->
+		<dependency>
+			<groupId>org.picketbox</groupId>
+			<artifactId>picketbox</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-plus</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlets</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jaas</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jaspi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.components</groupId>
+			<artifactId>geronimo-jaspi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-osgi-locator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+		</dependency>
+
+		<!-- Metrics, logging, helse- og selftest -->
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-servlets</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-healthchecks</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>datavarehus-tjeneste</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.papertrailapp</groupId>
+			<artifactId>logback-syslog4j</artifactId>
+		</dependency>
+
+		<!-- Java10 -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>javax.activation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.ws</groupId>
+			<artifactId>jaxws-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.messaging.saaj</groupId>
+			<artifactId>saaj-impl</artifactId>
+		</dependency>
+
+		<!-- Annet -->
+		<dependency>
+			<groupId>org.owasp.encoder</groupId>
+			<artifactId>encoder</artifactId>
+		</dependency>
+
+		<!-- Må gjenta her for å få riktig scope (kolliderer ellers med dependencyManagement -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.modig</groupId>
+			<artifactId>modig-testcertificates</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.geronimo.components</groupId>
+				<artifactId>geronimo-jaspi</artifactId>
+				<version>2.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.geronimo.specs</groupId>
+				<artifactId>geronimo-osgi-locator</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<!-- bør ha samme versjon som CXF ellers -->
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http-jetty</artifactId>
+				<version>3.2.5</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.vedtak.felles</groupId>
+				<artifactId>felles-testutilities</artifactId>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.vedtak.felles</groupId>
+				<artifactId>felles-sikkerhet-testutilities</artifactId>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<!-- setter til app da det er default for jar som kjøres i nais baseimages -->
+		<finalName>app</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>create-metadata</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<addOutputDirectoryToResources>true</addOutputDirectoryToResources>
+					<timestampFormat>dd.MM.yyyy HH.mm.ss</timestampFormat>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>only-allowed-deps</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<rules>
+						<bannedDependencies>
+							<searchTransitive>true</searchTransitive>
+							<excludes>
+								<exclude>commons-logging:commons-logging</exclude>
+							</excludes>
+						</bannedDependencies>
+					</rules>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/target/lib/</outputDirectory>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

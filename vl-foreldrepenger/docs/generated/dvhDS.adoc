@@ -1,0 +1,203 @@
+
+== Tabeller
+
+=== AKSJONSPUNKT_DVH
+....
+En transaksjonstabell med alle endringer på aksjonspunkt tilknytte en behandling.
+....
+
+
+[options="header", cols="5h,10h,5,10,5,15,30,20"]
+|===
+|#|Navn|Type|Default|Nullable|Constraint|Comment|Key
+|1|TRANS_ID|NUMBER||||Primær nøkkel for aksjonspunkt transaksjoner|PK
+|2|BEHANDLING_STEG_ID|NUMBER||X|||
+|3|TRANS_TID|TIMESTAMP(3)||||Timestamp som forteller nå transaksjonen inntraff.|
+|4|AKSJONSPUNKT_ID|NUMBER||||Id til aksjonspunkt|
+|5|BEHANDLING_ID|NUMBER|||||
+|6|FUNKSJONELL_TID|TIMESTAMP(3)||||Et tidsstempel når transaksjonen er funksjonelt gyldig fra.|
+|7|BEHANDLENDE_ENHET_KODE|VARCHAR2||X||Behandlende enhet.|
+|8|ENDRET_AV|VARCHAR2||X||Opprettet_av eller endret_av i VL|
+|9|ANSVARLIG_BESLUTTER|VARCHAR2||X||Ansvarlig beslutningstager for aksjonspunktet.|
+|10|ANSVARLIG_SAKSBEHANDLER|VARCHAR2||X||Saksbehandler ansvarlig for aksjonspunktet om det finnes.|
+|11|AKSJONSPUNKT_STATUS|VARCHAR2||||Aksjonspunkt status|
+|12|AKSJONSPUNKT_DEF|VARCHAR2|||||
+|13|TOTRINN_BEHANDLING|VARCHAR2|'N'|X|||
+|14|TOTRINN_BEHANDLING_GODKJENT|VARCHAR2|'N'|X|||
+|===
+
+
+=== BEHANDLING_DVH
+....
+En transaksjonstabell med alle endringer på behandlingen.
+....
+
+
+[options="header", cols="5h,10h,5,10,5,15,30,20"]
+|===
+|#|Navn|Type|Default|Nullable|Constraint|Comment|Key
+|1|TRANS_ID|NUMBER||||Primær nøkkel for behandling transaksjoner|PK
+|2|TRANS_TID|TIMESTAMP(3)||||Timestamp som forteller nå transaksjonen inntraff.|
+|3|BEHANDLING_ID|NUMBER||||Id til Behandling|
+|4|FAGSAK_ID|NUMBER||||Id til Fagsak|
+|5|VEDTAK_ID|NUMBER||X|||
+|6|OPPRETTET_DATO|DATE||||Dato da fagsaken ble opprettet|
+|7|FUNKSJONELL_TID|TIMESTAMP(3)||||Et tidsstempel når transaksjonen er funksjonelt gyldig fra.|
+|8|BEHANDLING_RESULTAT_TYPE|VARCHAR2||X||Behandlingsresultat type.|
+|9|BEHANDLING_TYPE|VARCHAR2||||Behandlingstype|
+|10|BEHANDLING_STATUS|VARCHAR2||||Behandlingsstatus|
+|11|BEHANDLENDE_ENHET|VARCHAR2||X||Enheten som sitter på behandlinge på dette tidspunktet.|
+|12|UTLANDSTILSNITT|VARCHAR2||X||Kodeverk: UTLAND, NASJONAL.|
+|13|ENDRET_AV|VARCHAR2||X||Opprettet_av eller endret_av i VL|
+|14|ANSVARLIG_BESLUTTER|VARCHAR2||X||Ansvarlige saksbehandler.|
+|15|ANSVARLIG_SAKSBEHANDLER|VARCHAR2||X||Ansvarlig besluttningstager|
+|16|TOTRINNSBEHANDLING|VARCHAR2|'N'|X|||
+|17|RELATERT_TIL|NUMBER||X||Behandling ID til forrige behandling|
+|18|FERDIG|CHAR||X||Angir om behandlingen er ferdig (fedig utbetalt eller fattet avslag)|
+|19|VEDTATT|CHAR||X||Angir om behandlingen har fått et positivt eller negativt vedtak|
+|20|AVBRUTT|CHAR||X||Angir om behandlingen har blitt avbrutt|
+|===
+
+
+=== BEHANDLING_STEG_DVH
+....
+En transaksjonstabell av alle endringer på behandlingen steg.
+....
+
+
+[options="header", cols="5h,10h,5,10,5,15,30,20"]
+|===
+|#|Navn|Type|Default|Nullable|Constraint|Comment|Key
+|1|TRANS_ID|NUMBER||||Primær nøkkel for behandling steg transaksjoner|PK
+|2|TRANS_TID|TIMESTAMP(3)||||Timestamp som forteller nå transaksjonen inntraff.|
+|3|BEHANDLING_STEG_ID|NUMBER||X||BEHANDLING_STEG_TILSTAND.ID|
+|4|BEHANDLING_ID|NUMBER|||||
+|5|FUNKSJONELL_TID|TIMESTAMP(3)||||Et tidsstempel når transaksjonen er funksjonelt gyldig fra.|
+|6|ENDRET_AV|VARCHAR2||X||Opprettet_av eller endret_av i VL|
+|7|BEHANDLING_STEG_TYPE|VARCHAR2||X||Steg type|
+|8|BEHANDLING_STEG_STATUS|VARCHAR2||X||Steg status|
+|===
+
+
+=== BEHANDLING_VEDTAK_DVH
+....
+En transaksjonstabell med alle endringer på behandlingsvedtak.
+....
+
+
+[options="header", cols="5h,10h,5,10,5,15,30,20"]
+|===
+|#|Navn|Type|Default|Nullable|Constraint|Comment|Key
+|1|TRANS_ID|NUMBER||||Primær nøkkel for behandling vedtak transaksjoner|PK
+|2|TRANS_TID|TIMESTAMP(3)||||Timestamp som forteller nå transaksjonen inntraff.|
+|3|VEDTAK_ID|NUMBER|||||
+|4|BEHANDLING_ID|NUMBER||||Id til behandling|
+|5|OPPRETTET_DATO|DATE||||Dato da vedtak ble opprettet|
+|6|FUNKSJONELL_TID|TIMESTAMP(3)||||Et tidsstempel når transaksjonen er funksjonelt gyldig fra.|
+|7|VEDTAK_DATO|DATE||||Datoen da vedtaket ble vedtatt.|
+|8|IVERKSETTING_STATUS|VARCHAR2||||Iverksettingsstatus|
+|9|GODKJENNENDE_ENHET|VARCHAR2||X||Enheten som godkjener vedtaket.|
+|10|ENDRET_AV|VARCHAR2||X||Opprettet_av eller endret_av i VL|
+|11|ANSVARLIG_BESLUTTER|VARCHAR2||X||Ansvarlig beslutningstager|
+|12|ANSVARLIG_SAKSBEHANDLER|VARCHAR2||X||Ansvarlig saksbehandler|
+|13|VEDTAK_RESULTAT_TYPE_KODE|VARCHAR2||X|||
+|===
+
+
+=== FAGSAK_DVH
+....
+En transaksjonstabell med alle endringer på fagsaken.
+....
+
+
+[options="header", cols="5h,10h,5,10,5,15,30,20"]
+|===
+|#|Navn|Type|Default|Nullable|Constraint|Comment|Key
+|1|TRANS_ID|NUMBER||||Primær nøkkel for fagsak transaksjoner|PK
+|2|TRANS_TID|TIMESTAMP(3)||||Timestamp som forteller nå transaksjonen inntraff.|
+|3|FAGSAK_ID|NUMBER||||Id til Fagsak|
+|4|BRUKER_ID|NUMBER||||Bruker id til fagsaken|
+|5|OPPRETTET_DATO|DATE||||Dato da fagsaken ble opprettet|
+|6|FUNKSJONELL_TID|TIMESTAMP(3)||||Et tidsstempel når transaksjonen er funksjonelt gyldig fra.|
+|7|SAKSNUMMER|NUMBER||X||Saksnummer som åpent for saksbehandler|
+|8|ENDRET_AV|VARCHAR2||X||Samme som opprettet_av eller endret_av i VL|
+|9|FAGSAK_STATUS|VARCHAR2||||Fagsaksstatus|
+|10|FAGSAK_YTELSE|VARCHAR2||||Fagssaksytelse|
+|11|FAGSAK_AARSAK|VARCHAR2||||Fagssaksårsak|
+|12|BRUKER_AKTOER_ID|VARCHAR2|||||
+|13|EPS_AKTOER_ID|VARCHAR2||X|||
+|===
+
+
+=== KONTROLL_DVH
+....
+<MISSING DOCUMENTATION>
+....
+
+
+[options="header", cols="5h,10h,5,10,5,15,30,20"]
+|===
+|#|Navn|Type|Default|Nullable|Constraint|Comment|Key
+|1|ID|NUMBER||||Meta-data tabell som forteller hva siste leste trans id for de forskjellig transaksjonstabellene som er blitt lest av DVH.|PK
+|2|FAGSAK_TRANS_ID_MAX|NUMBER||X||Sist leste id fra fagsak_dvh|
+|3|BEH_TRANS_ID_MAX|NUMBER||X||Sist leste id fra behandling_dvh|
+|4|BEH_STEG_TRANS_ID_MAX|NUMBER||X||Sist leste id fra behandling_steg_dvh|
+|5|BEH_AKSJONS_TRANS_ID_MAX|NUMBER||X||Sist leste id fra aksjonspunkt_dvh|
+|6|BEH_VEDTAKS_TRANS_ID_MAX|NUMBER||X||Sist leste id fra behandlings_vedtak_dvh|
+|7|LAST_FLAGG|VARCHAR2||X|||
+|===
+
+
+=== SCHEMA_VERSION
+....
+<MISSING DOCUMENTATION>
+....
+
+
+[options="header", cols="5h,10h,5,10,5,15,30,20"]
+|===
+|#|Navn|Type|Default|Nullable|Constraint|Comment|Key
+|1|INSTALLED_RANK|NUMBER|||||PK
+|2|VERSION|VARCHAR2||X|||
+|3|DESCRIPTION|VARCHAR2|||||
+|4|TYPE|VARCHAR2|||||
+|5|SCRIPT|VARCHAR2|||||
+|6|CHECKSUM|NUMBER||X|||
+|7|INSTALLED_BY|VARCHAR2|||||
+|8|INSTALLED_ON|TIMESTAMP(6)|CURRENT_TIMESTAMP||||
+|9|EXECUTION_TIME|NUMBER|||||
+|10|SUCCESS|NUMBER|||||
+|===
+
+
+=== VEDTAK_UTBETALING_DVH
+....
+En tabell med med informasjon om alle vedtak fattet i VL, inkluderer utbetalingsinfo
+....
+
+
+[options="header", cols="5h,10h,5,10,5,15,30,20"]
+|===
+|#|Navn|Type|Default|Nullable|Constraint|Comment|Key
+|1|TRANS_ID|NUMBER||||Primær nøkkel|PK
+|2|TRANS_TID|TIMESTAMP(3)||||Timestamp som forteller nå transaksjonen inntraff.|
+|3|XML_CLOB|CLOB||||XML for Vedtak og utbetaling.|
+|4|FAGSAK_ID|NUMBER||||Id til Fagsak.|
+|5|BEHANDLING_ID|NUMBER||||Id til Behandling.|
+|6|VEDTAK_ID|NUMBER||||Id til Vedtak.|
+|7|BEHANDLING_TYPE|VARCHAR2||||Type behandling.|
+|8|SOEKNAD_TYPE|VARCHAR2||||Type søknad, fødsel eller adopsjon.|
+|9|FAGSAK_TYPE|VARCHAR2|||||
+|10|VEDTAK_DATO|DATE||||Dato vedtaket ble fattet.|
+|11|FUNKSJONELL_TID|TIMESTAMP(3)||||Et tidsstempel når transaksjonen er funksjonelt gyldig fra.|
+|12|ENDRET_AV|VARCHAR2||X||Opprettet_av eller endret_av i VL|
+|===
+
+
+== Kodeverk
+
+== Kodeliste
+
+== Views
+
+

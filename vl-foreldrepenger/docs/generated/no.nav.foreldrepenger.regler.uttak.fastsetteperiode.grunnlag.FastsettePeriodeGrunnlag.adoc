@@ -1,0 +1,78 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getAktuellPeriode|java.util.Optional|Finn aktuell periode. Det er den perioden som er neste som skal behandles av regel.
+
+ @return optional for aktuell periode. Perioden vil ikke være tilstede dersom det ikke er flere perioder som
+ skal behandles av regel.
+|getAktiviteter|java.util.List|
+|getArbeidsprosenter|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.Arbeidsprosenter|Hent arbeidsprosenter for alle arbeidsforhold/aktiviteter
+
+ @return arbeidsprosenter for alle arbeidsforhold/aktiviteter
+|getAktuelleGyldigeGrunnPerioder|java.util.List|Finn perioder der søker har gyldig grunn for tidlig oppstart eller utsettelse.
+
+ @return Array av aktuelle perioder med gyldig grunn, sortert på fom dato. Returnerer tom array om det ikke finnes en aktuell periode eller om det ikke finnes overlappende
+ perioder med gyldig grunn.
+|getStønadskontotype|no.nav.foreldrepenger.regler.uttak.felles.grunnlag.Stønadskontotype|Finn stønadskontotype for aktuell periode.
+
+ @return stønadskontotype. Returmerer Stønadskontotype.UKJENT dersom det ikke er noen aktuell periode.
+|getSøknadstype|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.Søknadstype|Finn søknadstype.
+
+ @return søknadstype.
+|getBehandlingtype|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.Behandlingtype|Finn behandlingType.
+
+ @return behandlingType.
+|getFamiliehendelse|java.time.LocalDate|Finner dato for familiehendelsen som søknaden gjelder. Kan være dato for termin, fødsel eller omsorgsovertakelse.
+
+ @return dato for familiehendelse.
+|getUttakPerioder|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.UttakPeriode[]|Finn alle uttaksperioder.
+
+ @return array av uttaksperioder.
+|getFørsteLovligeUttaksdag|java.time.LocalDate|Finn første dato for når gyldig uttak kan starte basert på søknadsfrist.
+
+ @return første dato for når gyldig uttak kan starte.
+|getMaksgrenseForLovligeUttaksdag|java.time.LocalDate|Makgsgrense for lovlig uttak (p.t. 3 år etter fødsel/adopsjonsdato)
+
+ @return siste lovlige dato (inkl)
+|getGyldigGrunnPerioder|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.GyldigGrunnPeriode[]|Finn alle perioder med gyldig grunn for tidlig oppstart
+
+ @return array av perioder med gyldig grunn for tidlig oppstart
+|getPerioderUtenOmsorg|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.PeriodeUtenOmsorg[]|Finn alle perioder der søker ikke har omsorg for barnet/barna det søkes om
+
+ @return array av perioder der søker ikke har omsorg for barnet/barna det søkes om
+|getPerioderMedFulltArbeid|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.PeriodeMedFulltArbeid[]|Finn alle perioder der søker er i fullt(100% eller mer) arbeid.
+
+ @return array av perioder der søker er i fullt arbeid.
+|getPerioderMedArbeid|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.PeriodeMedArbeid[]|Finn alle perioder der søker er i arbeid(mellom 0 og 100%).
+
+ @return array av perioder der søker er i arbeid.
+|getPerioderMedFerie|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.PeriodeMedFerie[]|Finn alle perioder der søker har bekreftet ferie.
+
+ @return array av perioder der søker har ferie.
+|getPerioderMedSykdomEllerSkade|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.PeriodeMedSykdomEllerSkade[]|Finn alle perioder der søker har bekreftet sykdom eller skade.
+
+ @return array av perioder der søker har bekreftet sykdom eller skade.
+|getPerioderMedInnleggelse|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.PeriodeMedInnleggelse[]|Finn alle perioder der søker har bekreftet innleggelse.
+
+ @return array av perioder der søker har bekreftet innleggelse.
+|getPerioderMedBarnInnlagt|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.PeriodeMedBarnInnlagt[]|Finn alle perioder der søkers barn er innlagt på helseinstitusjon.
+
+ @return array av perioder der søkers barn er innlagt på helseinstitusjon.
+|getPerioderMedAnnenForelderInnlagt|java.util.List|Finn alle perioder der søkers annen forelder er innlagt på helseinstitusjon.
+
+ @return list av perioder der søkers annen forelder er innlagt på helseinstitusjon.
+|getPerioderMedAnnenForelderSykdomEllerSkade|java.util.List|Finn alle perioder der søkers annen forelder har bekreftet sykdom eller skade.
+
+ @return list av perioder der søkers annen forelder har bekreftet sykdom eller skade.
+|getEndringssøknadMottattdato|java.time.LocalDate|Dato for mottatt endringssøknad
+ @return dato
+|getGyldigeStønadskontotyper|java.util.Set|
+|getRevurderingEndringsdato|java.time.LocalDate|Endringsdato for revurdering
+|getTrekkdagertilstand|no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.Trekkdagertilstand|
+|===
+
+
+

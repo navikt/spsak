@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+
+
+    <!-- Denne skal ha ikke inneholde placeholdere -->
+
+    <schema>FPSAK_HIST</schema>
+
+    <sequence-generator name="SEQ_FAGSAK_DVH" allocation-size="50" sequence-name="FPSAK_HIST.SEQ_FAGSAK_DVH"/>
+    <sequence-generator name="SEQ_BEHANDLING_DVH" allocation-size="50" sequence-name="FPSAK_HIST.SEQ_BEHANDLING_DVH"/>
+    <sequence-generator name="SEQ_BEHANDLING_STEG_DVH" allocation-size="50" sequence-name="FPSAK_HIST.SEQ_BEHANDLING_STEG_DVH"/>
+    <sequence-generator name="SEQ_BEHANDLING_VEDTAK_DVH" allocation-size="50" sequence-name="FPSAK_HIST.SEQ_BEHANDLING_VEDTAK_DVH"/>
+    <sequence-generator name="SEQ_AKSJONSPUNKT_DVH" allocation-size="50" sequence-name="FPSAK_HIST.SEQ_AKSJONSPUNKT_DVH"/>
+    <sequence-generator name="SEQ_VEDTAK_UTBETALING_DVH" allocation-size="50" sequence-name="FPSAK_HIST.SEQ_VEDTAK_UTBETALING_DVH"/>
+
+    <entity class="no.nav.foreldrepenger.datavarehus.FagsakDvh"/>
+    <entity class="no.nav.foreldrepenger.datavarehus.BehandlingDvh"/>
+    <entity class="no.nav.foreldrepenger.datavarehus.BehandlingStegDvh"/>
+    <entity class="no.nav.foreldrepenger.datavarehus.BehandlingVedtakDvh"/>
+    <entity class="no.nav.foreldrepenger.datavarehus.AksjonspunktDvh"/>
+    <entity class="no.nav.foreldrepenger.datavarehus.KontrollDvh"/>
+    <entity class="no.nav.foreldrepenger.datavarehus.VedtakUtbetalingDvh"/>
+
+</entity-mappings>

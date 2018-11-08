@@ -1,0 +1,10 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_SAKSOPPLYSNING_METADATA" directorySegmentName="seg_0" id="BE89E9A2-E9B3-AAD7-EE9A-F0E264FE3ECD">
+<sourceDDLFile>V1.7.0_13__ny_tabell_saksopplysning_metadata.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:11:50 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<incrementBy>50</incrementBy>
+<minValue>1</minValue>
+<startWith>1</startWith>
+</SequenceOraclev10g>

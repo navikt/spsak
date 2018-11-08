@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_2" id="4B933531-FC0B-9E5E-06A4-B624F8DB9C0D" containerWithKeyObject="7791FE3F-9EF1-7EBD-E00D-4B76A3C95BA7" localFKIndex="0F7B424B-5276-C738-215C-F7096D4D3461" name="FK_VURDERINGSPUNKT_DEF_1">
+<sourceDDLFile>V112__VILKAR_TIL_VURDERING_nye_tabeller.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-05-04 09:11:57 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>14D5D797-19D3-E6B5-C71C-435FA1D37274</importedID>
+<referredTableLongName>BEHANDLING_STEG_TYPE</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>4564C7BD-ADC3-8312-35FF-005D70C0053E</referredTableID>
+<keyObject>A58CC8C8-C49B-63DF-5195-89139BC7FDE9</keyObject>
+<referredKeyID>A58CC8C8-C49B-63DF-5195-89139BC7FDE9</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>KODE</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

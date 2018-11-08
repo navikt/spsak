@@ -1,0 +1,20 @@
+:docinfo: shared
+
+++++
+<html>
+    <head>
+        <script type="text/javascript" src="resources/vis.js"></script>
+        <script type="text/javascript" src="resources/fpsysdok.js"></script>
+        <link href="resources/fpsysdok.css" rel="stylesheet" type="text/css"
+        <link href="resources/vis.css" rel="stylesheet" type="text/css" />
+    </head>
+</html>
+++++
+
+= Systemdokumentasjon: Foreldrepenger
+
+include::intro.adoc[]
+include::applikasjon.adoc[]
+include::database.adoc[]
+include::konfig.adoc[]
+include::feilmeldinger.adoc[]

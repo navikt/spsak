@@ -1,0 +1,77 @@
+{
+  "root" : {
+    "id" : "3bac197d-6209-4815-8654-eaba655107cf",
+    "ruleId" : "FP_VK_16",
+    "ruleDescription" : "Hvis barn under 15 år ved omsorgsovertakelsen ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "3bac197d-6209-4815-8654-eaba655107cf",
+    "ruleId" : "FP_VK_16",
+    "ruleDescription" : "Hvis barn under 15 år ved omsorgsovertakelsen ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "d82faddb-17bb-41a1-a2e4-2500609fc659",
+    "ruleId" : "FP_VK_16.2",
+    "ruleDescription" : "Hvis ikke ektefelles eller samboers barn ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "9f6f2a8b-db81-4bc9-9ede-87688b623210",
+    "ruleId" : "FP_VK_16",
+    "ruleDescription" : "Hvis stønadsperiode for andre forelder er brukt opp ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "c6289078-a327-40db-883c-247271c2cf26",
+    "ruleId" : "1051",
+    "ruleDescription" : "Stebarnsadopsjon ikke flere dager igjen",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "4b527953-a5e4-487f-a199-b5d4351300dc",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f85d516a-8132-49bf-9561-f6a1fb160cd5",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "24d4c02b-71c5-4375-8841-e84bab9f2e7a",
+    "ruleId" : "1004",
+    "ruleDescription" : "Ingen barn under 15 år ved dato for omsorgsovertakelse.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "9f6f2a8b-db81-4bc9-9ede-87688b623210",
+    "target" : "c6289078-a327-40db-883c-247271c2cf26",
+    "role" : ""
+  }, {
+    "source" : "9f6f2a8b-db81-4bc9-9ede-87688b623210",
+    "target" : "4b527953-a5e4-487f-a199-b5d4351300dc",
+    "role" : "ellers"
+  }, {
+    "source" : "d82faddb-17bb-41a1-a2e4-2500609fc659",
+    "target" : "9f6f2a8b-db81-4bc9-9ede-87688b623210",
+    "role" : ""
+  }, {
+    "source" : "d82faddb-17bb-41a1-a2e4-2500609fc659",
+    "target" : "f85d516a-8132-49bf-9561-f6a1fb160cd5",
+    "role" : "ellers"
+  }, {
+    "source" : "3bac197d-6209-4815-8654-eaba655107cf",
+    "target" : "d82faddb-17bb-41a1-a2e4-2500609fc659",
+    "role" : ""
+  }, {
+    "source" : "3bac197d-6209-4815-8654-eaba655107cf",
+    "target" : "24d4c02b-71c5-4375-8841-e84bab9f2e7a",
+    "role" : "ellers"
+  } ]
+}

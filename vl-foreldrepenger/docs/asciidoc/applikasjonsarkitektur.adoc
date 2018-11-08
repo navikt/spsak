@@ -1,0 +1,81 @@
+= Applikasjonsarkitektur
+
+Diagrammet under viser logisk oppbygging av løsningen.  Disse er igjen brutt opp i moduler detaljert under, som er realisert i hovedsak ved hjelp av Java/Maven.
+
+image::https://confluence.adeo.no/download/attachments/250582025/Applikasjonsarkitektur%20%28Utbyggeren%29.png[Applikasjonsarkitektur for Foreldrepenger saksbehandling.,1000,500]
+
+Detaljer omkring hovedmodulene er tilgjengelig under.
+
+== Behandlingskontroll
+
+Behandlingskontroll er maskineriet som driver en Behandling av en Fagsak fremover.
+
+Behandlingskontroll orkestrerer en behandling gjennom flere BehandlingSteg.  Hvilke BehandlingSteg en Behandling skal gjennom og i hvilken rekkefølge avhenger av BehandlingType.  Hvert BehandlingSteg representerer et sett av aktiviteter som tar Behandlingen fram til en slags ny milepæl - når inngangsvilkår er vurdert, når ytelse er beregnet, når forslag til vedtak foreligger, etc.
+
+De ulike aktivitetene illustrert i dette diagrammet representerer BehandlingSteg for en BehandlingType=Førstegangssøknad: Førstegangsbehandling - ES
+
+Overgang fra et BehandlingSteg til et annet er en transisjonType.  En transisjonType går normalt framover (for å ta behandlingen fram til Vedtak)
+
+I gitte tilfeller kan det være en *Tilbakeføring*, der Behandlingen legges tilbake til et tidligere steg (eks. for å vurdere vilkår på nytt - hvis beslutter i en to-trinnskontroll ber om det), eller det kan være en *Overhopp* der ett eller flere steg 'hoppes over'.  Det siste brukes normalt ved Avslag når flere milepæler utgår.
+
+=== Events i Behandlingskontroll
+
+Ved ulike typer endringer fyres 'Events' internt i maskineriet.  Disse kan andre komponenter/moduler i applikasjonen lytte på og utføre ulike handlinger nå det skjer.
+
+Det kan være logging, metrikker, arkivering av events for datavarehus, oppretting av oppgaver mot Gsak eller lignende.
+
+Følgende events fyres per nå:
+
+*FagsakEvent*
+
+Alle FagsakEvent har informasjon om fagsakId og aktørId
+
+|===
+|#| Event| Faglig/Teknisk| Objekt| Når| Kommentar
+
+||FagsakStatusEvent|Faglig|Fagsak|Når Fagsak endrer status|Eks. Opprettet, Under Behandling, Løpende Behandling, Avsluttet
+|===
+
+*BehandlingEvent*
+
+Alle BehandlingEvent har informasjon om fagsakId, behandlingId og aktørId
+
+|===
+|#|Event|Faglig/Teknisk|Gjelder endringer på Entitet:|Innholder|Når|Kommentar
+
+||BehandlingStatusEvent|Faglig|Behandling|BehandlingStatus før/etter|Når Behandling endrer BehandlingStatus|Kan brukes til å lytte på og utføre handlinger når Behandling opprettes, avsluttes, utredes
+||BehandlingStegOvergangEvent|Faglig*|Behandling
+BehandlingSteg
+|BehandlingSteg før/etter|Når Behandling går fra et steg til et annet (når en ny milepæl)|Undertyper:
+
+*BehandlingStegTilbakeføringEvent:* (når behandling tilbakeføres til tidligere steg)
+
+*BehandlingStegOverhoppEvent:* (når behandling hopper over steg eks. for Avslag)
+||BehandlingStegStatusEvent|Teknisk|Behandling
+BehandlingSteg
+|BehandlingSteg og BehandlingStegStatus før/etter|Når behandlingen går gjennom et Steg.|(feks steg startet, er ved inngang, kjører, er ved utgang, er utført)
+||BehandlingskontrollEvent|Teknisk|Behandling|Behandling
+BehandlingSteg
+BehandlingStegStatus
+BehandlingModell
+|Fyres når Behandlingskontroll bearbeider en Behandling .
+|Dette skjer internt og gjelder kun en kjøring (som kan ta noen millisekunder). Det er ikke relatert til noen faglig status på Behandling, men en teknisk event.
+Undertyper:
+
+*StartetEvent:*
+
+*StoppetEvent / AvsluttetEvent:* AvsluttetEvent når Behandlngskontroll har kommet til slutt av Stegene, ellers Stoppet underveis
+
+*ExceptionEvent:*
+
+||AksjonspunktEvent|Faglig*|Behandling
+Aksjonspunkt|Alle aksjonspunkt funnet eller utført i denne kjøringen.|Fyres når Aksjonspunkt er Funnet eller Utført
+Gjelder alle typer Aksjonspunkt: Manuell, Autopunkt, Overstyring
+Undertyper:
+
+*AksjonspunktFunnetEvent*
+
+*AksjonspunktUtførtEvent*
+|===
+
+

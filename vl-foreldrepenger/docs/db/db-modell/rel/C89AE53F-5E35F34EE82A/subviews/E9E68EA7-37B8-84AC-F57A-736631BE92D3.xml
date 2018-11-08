@@ -1,0 +1,25 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Diagram class="oracle.dbtools.crest.swingui.relational.DPVRelationalSubView" name="VEDTAK" id="E9E68EA7-37B8-84AC-F57A-736631BE92D3">
+<createdBy>T150221</createdBy>
+<modifiedBy>T150221</modifiedBy>
+<createdTime>2017-10-18 13:09:09 UTC</createdTime>
+<autoRoute>false</autoRoute>
+<boxInbox>true</boxInbox>
+<showLegend>false</showLegend>
+<showLabels>false</showLabels>
+<showRelAttributes>false</showRelAttributes>
+<gridEnabled>false</gridEnabled>
+<showGrid>false</showGrid>
+<diagramColor>-1</diagramColor>
+<display>false</display>
+<notation>1</notation>
+<showAllDetails>false</showAllDetails>
+<showElements>true</showElements>
+<showDatatype>true</showDatatype>
+<objectViews>
+<OView class="oracle.dbtools.crest.swingui.relational.TVTable" oid="E4A4BD4E-DF72-2E31-1A8C-5520A72B81C3" otype="Table" vid="D5E4763E-5115-0390-3ED5-19B8C5FF7144">
+<hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
+<bounds x="160" y="143" width="330" height="180"/>
+</OView>
+</objectViews>
+</Diagram>

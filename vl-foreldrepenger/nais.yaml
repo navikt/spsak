@@ -1,0 +1,230 @@
+image: "docker.adeo.no:5000/fpsak"
+team: teamforeldrepenger
+replicas:
+  min: 2
+  max: 2
+  cpuThresholdPercentage: 80
+port: 8080
+# TODO (u139158): PFP-506 Fikse healthchecks skikkelig, inkl preStopHookPath og prometheus
+healthcheck:
+  liveness:
+    path: /fpsak/internal/selftest
+    initialDelay: 30
+    timeout: 5
+    periodSeconds: 10
+    failureThreshold: 27
+  readiness:
+    path: /fpsak/internal/selftest
+    initialDelay: 30
+    timeout: 5
+    periodSeconds: 10
+    failureThreshold: 27
+#preStopHookPath: /fpfordel/internal/preStop
+resources:
+  limits:
+    cpu: 2000m
+    memory: "3072Mi"
+  requests:
+    cpu: 1000m
+    memory: "512Mi"
+ingress:
+  enabled: true
+#prometheus:
+#  enabled: true
+#  path: /fpfordel/internal/prometheus
+fasitResources:
+  used:
+  # Applikasjonskonfigurasjon
+# TODO (u139158): PFP-506 endre til ny bruker
+#  - alias: srvfpsak
+  - alias: srvengangsstonad
+    resourceType: credential
+    propertyMap:
+      username: SYSTEMBRUKER_USERNAME
+      password: SYSTEMBRUKER_PASSWORD
+  - alias: loadbalancer:fpsak
+    resourceType: loadbalancerconfig
+    propertyMap:
+      url: LOADBALANCER_FQDN
+  - alias: defaultDS
+    resourceType: datasource
+  - alias: dvhDS
+    resourceType: datasource
+
+  # Sikkerhet - authn, authz og token exchange
+  - alias: fpsak-oidc
+    resourceType: OpenIdConnect
+    propertyMap:
+      agentName: oidc_OpenAM.agentName
+      password: oidc_OpenAM.password
+      hostUrl: oidc_OpenAM.hostUrl
+      issuerUrl: oidc_OpenAM.issuerUrl
+      jwksUrl: oidc_OpenAM.jwksUrl
+  - alias: security-token-service-issuer
+    resourceType: baseUrl
+    propertyMap:
+      url: oidc_sts.issuer
+  - alias: security-token-service-jwks
+    resourceType: restservice
+    propertyMap:
+      url: oidc_sts.jwks
+  - alias: abac.pdp.endpoint
+    resourceType: restservice
+  - alias: securityTokenService
+    resourceType: baseUrl
+
+  - alias: appdynamics
+    resourceType: ApplicationProperties
+
+  # Integrasjoner
+  - alias: ldap
+    resourceType: ldap
+
+  # Køer
+  - alias: mqGateway02
+    resourceType: queuemanager
+  - alias: fpsak_channel
+    resourceType: channel
+  - alias: fpsak_okonomi_oppdrag_mottak
+    resourceType: queue
+  - alias: fpsak_okonomi_oppdrag_send
+    resourceType: queue
+  - alias: RAY.AVSTEM_DATA
+    resourceType: queue
+  - alias: SBEH_SAKSBEHANDLING
+    resourceType: queue
+
+  # REST
+  - alias: infotrygd.hendelser.api
+    resourceType: restservice
+  - alias: sigrun
+    resourceType: restservice
+    propertyMap:
+      url: SigrunRestBeregnetSkatt.url
+
+  # Web Services
+    # Nødvendig for å få snakket med WS'er som kun støtter LTPA
+  - alias: serviceGateway
+    resourceType: Webservicegateway
+
+  - alias: Aktoer_v2
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: AKTOER_V2_URL
+  - alias: Journal_v2
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: JOURNAL_V2_URL
+  - alias: Journal_v3
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: JOURNAL_V3_URL
+  - alias: InngaaendeJournal_v1
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: INNGAAENDEJOURNAL_V1_URL
+  - alias: virksomhet:Arbeidsfordeling_v1
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: ARBEIDSFORDELING_V1_URL
+  - alias: virksomhet:Sak_v1
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: SAK_V1_URL
+  - alias: VIRKSOMHET:BEHANDLEOPPGAVE_V1
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: BEHANDLEOPPGAVE_V1_URL
+  - alias: virksomhet:Person_v3
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: PERSON_V3_URL
+  - alias: virksomhet:infotrygdsak_v1
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: INFOTRYGDSAK_V1_URL
+  - alias: virksomhet:Arbeidsforhold_v3
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: ARBEIDSFORHOLD_V3_URL
+  - alias: virksomhet:Organisasjon_v4
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: ORGANISASJON_V4_URL
+  - alias: BehandleInngaaendeJournal_v1
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: BEHANDLEINNGAAENDEJOURNAL_V1_URL
+  - alias: virksomhet:BehandleSak_v2
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: BEHANDLESAK_V2_URL
+  - alias: Dokumentproduksjon_v2
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: DOKUMENTPRODUKSJON_V2_URL
+  - alias: virksomhet:infotrygdBeregningsgrunnlag_v1
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: INFOTRYGDBEREGNINGSGRUNNLAG_V1_URL
+  - alias: virksomhet:MeldekortUtbetalingsgrunnlag_v1
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: MELDEKORTUTBETALINGSGRUNNLAG_V1_URL
+  - alias: virksomhet:Inntekt_v3
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: INNTEKT_V3_URL
+  - alias: virksomhet:Medlemskap_v2
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: MEDLEM_V2_URL
+  - alias: virksomhet:Oppgave_v3
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: OPPGAVE_V3_URL
+  - alias: virksomhet:Kodeverk_v2
+    resourceType: webserviceendpoint
+    propertyMap:
+      endpointUrl: KODEVERK_V2_URL
+
+  exposed:
+  # REST
+  - alias: fpsak_journalpostknyttning
+    resourceType: restservice
+    path: "/fpsak/api/fordel/fagsak/knyttJournalpost"
+  - alias: fpsak_mottaJournalpost
+    resourceType: restservice
+    path: "/fpsak/api/fordel/journalpost"
+  - alias: fpsak_opprett_sak
+    resourceType: restservice
+    path: "/fpsak/api/fordel/fagsak/opprett"
+  - alias: fpsak_saksinformasjon
+    resourceType: restservice
+    path: "/fpsak/api/fordel/fagsak/informasjon"
+  - alias: fpsak_vurderFagsystem
+    resourceType: restservice
+    path: "/fpsak/api/fordel/vurderFagsystem"
+
+  - alias: fpsakhendelser_v1
+    resourceType: restservice
+    path: "/fpsak/api/hendelser/"
+  - alias: fpsak_feed_vedtak_fp
+    resourceType: restservice
+    path: "/fpsak/api/vedtak/foreldrepenger"
+
+  # Web Services
+  - alias: virksomhet:foreldrepengesak_v1
+    resourceType: webserviceendpoint
+    securityToken: saml
+    path: "/fpsak/tjenester/sak/finnSak/v1"
+    wsdlGroupId: "no.nav.tjenester"
+    wsdlArtifactId: "nav-foreldrepengesak-v1-tjenestespesifikasjon"
+    wsdlVersion: "1.1.0"
+  - alias: virksomhet:behandleForeldrepengesak_v1
+    resourceType: webserviceendpoint
+    securityToken: saml
+    path: "/fpsak/tjenester/sak/opprettSak/v1"
+    wsdlGroupId: "no.nav.tjenester"
+    wsdlArtifactId: "nav-behandleForeldrepengesak-v1-tjenestespesifikasjon"
+    wsdlVersion: "1.0.1"

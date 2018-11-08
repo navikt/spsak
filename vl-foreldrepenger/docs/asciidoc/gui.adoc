@@ -1,0 +1,23 @@
+= Arbeidsflate
+
+== Oppbygging av Arbeidsflate: REACT
+
+Arbeidsflaten er bygd opp av Javascript ved hjelp bruk av https://github.com/facebook/react[React] og https://github.com/reactjs/redux[Redux]. JavaScript koden benytter seneste EcmaScript (ES2017) standard slik at komponenter kan defineres vha. klasser og pakkestrukturer for effektivt vedlikehold.
+
+Kapitler under gjengir de komponentene som er definert i applikasjonen, sammen med forventede parametere og brukseksempler.
+
+.Komponenttyper
+* *Container*: Er ansvarlig for serverkommunikasjon og operasjoner mot klient-state. Har ikke ansvar for hvordan skjermbilder skal se ut (ingen bruk av CSS), men delegerer state og callback-funksjoner videre til presentasjonskomponenter.
+* *Presentasjon*: Er ansvarlig for hvordan skjermbildet skal se ut. Vil kun få data fra 'parent' komponent, og aldri direkte fra state,
+
+
+include::react-komponenter.adoc[leveloffset=2]
+
+== Grensesnitt Klient-Server: HTTP/JSON
+
+Mellom klient og server benyttes HTTP og JSON tjenester (REST). HATEOAS (Hypermedia As The Engine Of Application State) deler av REST benyttes ikke, men en pragmatisk tilnærming basert på faste kontrakter. Kontraktene defineres gjennom bruk av OpenApi (Swagger).
+
+I sentrum for et RESTful API er _ressursen_. Ressursen vil normalt representere et domenekonsept, og et sett med metoder (HTTP GET/POST/PUT/DELETE) kan operere på den.
+
+REST-tjenestene som benyttes i GUI er tilgjengelig gjennom Swagger UI i applikasjonen.
+

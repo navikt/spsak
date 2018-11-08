@@ -1,0 +1,2 @@
+ALTER TABLE INNSYN
+DROP COLUMN brevtekst;

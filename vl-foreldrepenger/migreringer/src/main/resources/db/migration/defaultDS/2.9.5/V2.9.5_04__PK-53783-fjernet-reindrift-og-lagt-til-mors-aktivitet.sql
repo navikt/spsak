@@ -1,0 +1,1 @@
+insert into KODELISTE (id, kode, navn, beskrivelse, kodeverk, gyldig_fom) values (seq_kodeliste.nextval, 'UFØRE', 'Mor mottar uføretrygd', 'Mor mottar uføretrygd', 'MORS_AKTIVITET', to_date('2000-01-01', 'YYYY-MM-DD'));

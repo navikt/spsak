@@ -1,0 +1,15 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2018-01-22", "2018-06-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "VARTPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "VURDERT_GODKJENT"
+  } ],
+  "behandlingsDato" : "2018-08-23",
+  "forsteDatoOpptjening" : "2017-09-02",
+  "sisteDatoForOpptjening" : "2018-07-01",
+  "inntektPerioder" : [ ]
+}

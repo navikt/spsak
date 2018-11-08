@@ -1,0 +1,97 @@
+{
+  "root" : {
+    "id" : "27c96995-2538-4bc0-8c1e-aa4d33c6e74e",
+    "ruleId" : "FP_VK_4.4",
+    "ruleDescription" : "Hvis barn under 15 år ved omsorgsovertakelsen ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "27c96995-2538-4bc0-8c1e-aa4d33c6e74e",
+    "ruleId" : "FP_VK_4.4",
+    "ruleDescription" : "Hvis barn under 15 år ved omsorgsovertakelsen ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "6e31804a-54b6-42f2-9315-e155c11b1c60",
+    "ruleId" : "FP_VK_4.3",
+    "ruleDescription" : "Hvis ikke ektefelles eller samboers barn ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "6780f288-29a6-4936-843c-1668b3d1632c",
+    "ruleId" : "FP_VK_4.1",
+    "ruleDescription" : "Hvis ikke kvinne adopterer ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "9a4e3090-7fd9-472e-9064-8c0297f8c28f",
+    "ruleId" : "FP_VK_4.2",
+    "ruleDescription" : "Hvis mann adopterer alene ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "e32c469d-352b-40dc-80d7-0df460df1bef",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "6c482066-2dd4-4a57-809c-5acc0e9d9843",
+    "ruleId" : "1006",
+    "ruleDescription" : "Mann adopterer ikke alene.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "988398bb-1892-4896-913d-5727c3a33c81",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "96c7ec0c-14ed-46a8-988d-db503f320451",
+    "ruleId" : "1005",
+    "ruleDescription" : "Adopsjon av ektefelles eller samboers barn.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "97a0d7b8-a894-41c0-8dea-7d140cfb681f",
+    "ruleId" : "1004",
+    "ruleDescription" : "Ingen barn under 15 år ved dato for omsorgsovertakelse.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "9a4e3090-7fd9-472e-9064-8c0297f8c28f",
+    "target" : "e32c469d-352b-40dc-80d7-0df460df1bef",
+    "role" : ""
+  }, {
+    "source" : "9a4e3090-7fd9-472e-9064-8c0297f8c28f",
+    "target" : "6c482066-2dd4-4a57-809c-5acc0e9d9843",
+    "role" : "ellers"
+  }, {
+    "source" : "6780f288-29a6-4936-843c-1668b3d1632c",
+    "target" : "9a4e3090-7fd9-472e-9064-8c0297f8c28f",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "6780f288-29a6-4936-843c-1668b3d1632c",
+    "target" : "988398bb-1892-4896-913d-5727c3a33c81",
+    "role" : "ellers"
+  }, {
+    "source" : "6e31804a-54b6-42f2-9315-e155c11b1c60",
+    "target" : "6780f288-29a6-4936-843c-1668b3d1632c",
+    "role" : "(IKKE )"
+  }, {
+    "source" : "6e31804a-54b6-42f2-9315-e155c11b1c60",
+    "target" : "96c7ec0c-14ed-46a8-988d-db503f320451",
+    "role" : "ellers"
+  }, {
+    "source" : "27c96995-2538-4bc0-8c1e-aa4d33c6e74e",
+    "target" : "6e31804a-54b6-42f2-9315-e155c11b1c60",
+    "role" : ""
+  }, {
+    "source" : "27c96995-2538-4bc0-8c1e-aa4d33c6e74e",
+    "target" : "97a0d7b8-a894-41c0-8dea-7d140cfb681f",
+    "role" : "ellers"
+  } ]
+}

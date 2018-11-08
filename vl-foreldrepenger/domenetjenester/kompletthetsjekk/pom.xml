@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>domenetjenester-pom</artifactId>
+        <groupId>no.nav.foreldrepenger</groupId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>kompletthetsjekk</artifactId>
+    <packaging>jar</packaging>
+    <name>FPSAK :: Domenetjenester - Kompletthetsjekk</name>
+
+    <dependencies>
+        <!-- Modul interne avhengigheter -->
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>arbeidsforhold</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>dokumentarkiv</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>dokumentbestiller</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>ytelse-fordeling</artifactId>
+        </dependency>
+        
+        <!-- Prosjekt interne avhengigheter -->
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-domene</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingskontroll-api</artifactId>
+        </dependency>
+        
+        <!-- Test -->
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingskontroll</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

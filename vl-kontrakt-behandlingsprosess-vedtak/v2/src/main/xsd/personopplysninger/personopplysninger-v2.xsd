@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:po="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v2"
+            xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v2"
+            targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v2"
+            elementFormDefault="qualified">
+    <xsd:import schemaLocation="../felles-v2.xsd" namespace="urn:no:nav:vedtak:felles:xml:felles:v2"/>
+
+    <xsd:complexType abstract="true" name="Personopplysninger" />
+
+    <xsd:complexType name="PersonUidentifiserbar">
+        <xsd:sequence>
+            <xsd:element name="aktoerId" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="kjoenn" type="felles:StringOpplysning" minOccurs="0"/>
+            <xsd:element name="statsborgerskap" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="personstatus" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="region" type="felles:StringOpplysning" minOccurs="0"/>
+            <!-- Kodeverk: Sivilstander (Felles Kodeverk) -->
+            <xsd:element name="sivilstand" type="felles:KodeverksOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <!-- BEGREP-176 -->
+                    <xsd:documentation>En overordnet kategori som beskriver en persons forhold til en annen person.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="doedsdato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Dødsdato</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="foedselsdato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Fødselsdato</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="PersonIdentifiserbar">
+        <xsd:complexContent>
+            <xsd:extension base="po:PersonUidentifiserbar">
+                <xsd:sequence>
+                    <xsd:element name="navn" type="felles:StringOpplysning" minOccurs="0"/>
+                    <xsd:element name="norskIdent" type="felles:StringOpplysning" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Foedsel">
+        <xsd:annotation>
+            <!-- Informasjonen utledes fra familierelasjon -->
+            <xsd:documentation xml:lang="no">Informasjon om fødsel</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="foedselsdato" type="felles:DateOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Fødselsdato for barn</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="antallBarn" type="felles:IntOpplysning" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="no">Antall barn</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+
+    <xsd:complexType abstract="true" name="FamilierelasjonBase">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="no">Angir relasjon mellom to personer</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!-- Kodeverk: RELASJONSROLLE_TYPE -->
+            <xsd:element name="relasjon" type="felles:KodeverksOpplysning">
+                <xsd:annotation xml:lang="no"/>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Medlemskapsperiode">
+        <xsd:sequence>
+            <xsd:element name="periode" type="felles:PeriodeOpplysning" minOccurs="0"/>
+            <xsd:element name="medlemskaptype" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="dekningtype" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="beslutningsdato" type="felles:DateOpplysning" minOccurs="0"/>
+            <xsd:element name="lovvalgsland" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="studieland" type="felles:KodeverksOpplysning" minOccurs="0"/>
+            <xsd:element name="erMedlem" type="felles:BooleanOpplysning" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="felles:Sporing"/>
+    </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,188 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_1" id="86E59007-C57D-2969-CBB0-BBCB4D052D8E" name="schema_version">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>FBD513B1-17A9-76F0-B387-4DE832DAA349</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="installed_rank" id="6440851D-862B-9878-8C27-1C91116C2DF4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>709C9DB4-07F5-FD9D-99BB-BFA5F1A98A41</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>*</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,*,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="version" id="E3407ED3-0551-D9A5-1986-34E969A93B6D">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>9FBA1376-06BB-9F63-A8A3-4F9461924035</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 BYTE</dataTypeSize>
+<ownDataTypeParameters>50 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="description" id="CF3DE1A7-721E-5365-F3E9-AC065D1984AB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>5A382083-C73D-7743-B405-BDE5FD58CB3D</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200 BYTE</dataTypeSize>
+<ownDataTypeParameters>200 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="type" id="B2CBA3ED-3526-7129-4BC0-C26D01482623">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>762A1F23-8D75-66B4-5E1B-E86094240823</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 BYTE</dataTypeSize>
+<ownDataTypeParameters>20 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="script" id="68D8FD0D-45D2-A3C9-10CE-0E221B610A08">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>4B778753-CEF1-D8E2-30C8-8999027665CB</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1000 BYTE</dataTypeSize>
+<ownDataTypeParameters>1000 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="checksum" id="0EF68372-E8DA-AA84-C2CD-26F18C1FB984">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>02B3573C-E3B9-1BF1-BD86-CBBCBDC0C7BB</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>*</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,*,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="installed_by" id="A12A480F-B1D3-039D-8488-1CA7B762FDFB">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>D02E058A-1231-D630-C93D-21D2E5D63106</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="installed_on" id="B26A178B-98A9-88C1-B5B3-17BB547E9CE6">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>1F1FD724-9B36-3919-5C86-2CFCDA791DA1</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>6</dataTypePrecision>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,6,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="execution_time" id="749A982B-755D-584F-CFD9-908609364744">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>884B305B-04A2-F8A4-BED5-DD17F247CE96</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>*</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,*,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="success" id="FA980465-A465-2C08-A72E-2E13A3F81F37">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>E1B6E973-3008-51BC-30A6-791451291A1C</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>1</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,1,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4983AC93-1E9C-39BB-32C7-6CEAE1E65BD0" name="schema_version_pk">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>388D3C38-3303-3EAC-9D4B-8EF19BA12C55</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6440851D-862B-9878-8C27-1C91116C2DF4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5020094D-9168-F829-364A-DE09D8589040" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="schema_version_pk">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>00F33CDA-2E3F-4515-ACFD-7B668CEE4311</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6440851D-862B-9878-8C27-1C91116C2DF4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="AE457349-4090-4430-C4C0-7A60FB1731E4" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="schema_version_s_idx">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<nameHasQuotes>true</nameHasQuotes>
+<importedID>4899782D-1A49-FCDA-2770-A3DE7426F5FD</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FA980465-A465-2C08-A72E-2E13A3F81F37"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

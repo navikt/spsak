@@ -1,0 +1,37 @@
+-- Tabell OPPTJENING_MOCK
+CREATE TABLE OPPTJENING_MOCK (
+  id                 NUMBER(19, 0)                     NOT NULL,
+  fnr                VARCHAR2(20 CHAR)                 NOT NULL,
+  skjaringstidspunkt DATE                              NOT NULL,
+  versjon            NUMBER(19, 0) DEFAULT 0           NOT NULL,
+  opprettet_av       VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid      TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av          VARCHAR2(20 CHAR),
+  endret_tid         TIMESTAMP(3),
+  CONSTRAINT PK_OPPTJENING_MOCK PRIMARY KEY (id)
+);
+CREATE INDEX IDX_OPPTJENING_MOCK_01
+  ON OPPTJENING_MOCK (fnr);
+CREATE INDEX IDX_OPPTJENING_MOCK_02
+  ON OPPTJENING_MOCK (skjaringstidspunkt);
+CREATE SEQUENCE SEQ_OPPTJENING_MOCK MINVALUE 1000000 START WITH 1000000 INCREMENT BY 50 NOCACHE NOCYCLE;
+
+-- Tabell AKTIVITETER_MOCK
+CREATE TABLE AKTIVITETER_MOCK (
+  id            NUMBER(19, 0)                     NOT NULL,
+  fnr           VARCHAR2(20 CHAR)                 NOT NULL,
+  aktivitet     VARCHAR2(100 CHAR)                NOT NULL,
+  fom           DATE                              NOT NULL,
+  tom           DATE,
+  versjon       NUMBER(19, 0) DEFAULT 0           NOT NULL,
+  opprettet_av  VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av     VARCHAR2(20 CHAR),
+  endret_tid    TIMESTAMP(3),
+  CONSTRAINT PK_AKTIVITETER_MOCK PRIMARY KEY (id)
+);
+CREATE INDEX IDX_AKTIVITETER_MOCK_01
+  ON AKTIVITETER_MOCK (fnr);
+CREATE INDEX IDX_AKTIVITETER_MOCK_02
+  ON AKTIVITETER_MOCK (fom);
+CREATE SEQUENCE SEQ_AKTIVITETER_MOCK MINVALUE 1000000 START WITH 1000000 INCREMENT BY 50 NOCACHE NOCYCLE;

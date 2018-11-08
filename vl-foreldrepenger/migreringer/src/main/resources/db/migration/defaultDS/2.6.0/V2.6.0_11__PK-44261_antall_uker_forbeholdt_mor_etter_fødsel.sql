@@ -1,0 +1,2 @@
+insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('antall.uker.forbeholdt.mor.etter.fødsel', 'Antall uker forbeholdt mor etter fødsel', 'INGEN', 'INTEGER', 'Antall uker forbeholdt for mor etter fødsel.');
+insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'antall.uker.forbeholdt.mor.etter.fødsel', 'INGEN', '6', to_date('01.01.2016', 'dd.mm.yyyy'));

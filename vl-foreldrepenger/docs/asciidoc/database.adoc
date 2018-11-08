@@ -1,0 +1,87 @@
+= Database
+
+== Diagrammer
+
+=== Fagsak og Behandling
+Domenemodell for fagsak og behandling.
+
+.Fagsak og behandling Databasemodell (Klikk for å se hele)
+[link=images/BEHANDLING.svg, window="_blank"]
+image::BEHANDLING.svg[Behandling,600]
+
+=== Dokument
+Domenemodell for produserte dokumenter.
+
+.Produserte Dokumenter (Brev) (Klikk for å se hele)
+[link=images/DOKUMENT.svg, window="_blank"]
+image::DOKUMENT.svg[Produserte dokumenter,600]
+
+=== Prosess Tasks
+Representerer en kjørende instans av en task som skal utføres.  En prosess task er kort-varig, atomisk og har sin egen
+transaksjon og sikkerhetskontekst.
+
+.Prosess Tasks
+[link=images/PROSESS_TASK.svg, window="_blank"]
+image::PROSESS_TASK.svg[Prosess Task,600]
+
+=== Satser
+Gjeldende satser for ulike stødnader.
+
+.Satser
+[link=images/SATS.svg, window="_blank"]
+image::SATS.svg[Satser,600]
+
+=== Vedtak
+Vedtakslagret lagrer vedtak i en XML-struktur.
+
+.Vedtak
+[link=images/VEDTAK.svg, window="_blank"]
+image::VEDTAK.svg[Vedtak,opts=interactive]
+
+=== Uttak
+Domenemodell for uttak av foreldrepenger.
+
+.Uttak
+[link=images/UTTAK.svg, window="_blank"]
+image::UTTAK.svg[Uttak,600]
+
+=== Familiehendelse
+Domenemodell for familiehendelse.
+
+.Familiehendelse
+[link=images/FAMILIEHENDELSE.svg, window="_blank"]
+image::FAMILIEHENDELSE.svg[Familiehendelse,600]
+
+=== Personopplysning
+Domenemodell for personopplysninger.
+
+.Personopplysning
+[link=images/PERSONOPPLYSNING.svg, window="_blank"]
+image::PERSONOPPLYSNING.svg[Inntekt og arbeid og ytelse,600]
+
+=== Inntekt, arbeid og ytelse
+Domenemodell for inntekt, arbeid og ytelser.
+
+.Inntekt, arbeid og ytelse
+[link=images/INNTEKT_ARBEID_YTELSE.svg, window="_blank"]
+image::INNTEKT_ARBEID_YTELSE.svg[Inntekt og arbeid og ytelse,600]
+
+=== Ytelsesfordeling
+Domenemodell for fordeling av ytelsen.
+
+.Ytelsesfordeling
+[link=images/YTELSES_FORDELING.svg, window="_blank"]
+image::YTELSES_FORDELING.svg[Ytelsesfordeling,600]
+
+=== Beregning
+Domenemodell for beregning av ytelse.
+
+.Beregning
+[link=images/BEREGNING.svg, window="_blank"]
+image::BEREGNING.svg[Beregning,600]
+
+== Default
+include::{generated}/defaultDS.adoc[leveloffset=+1]
+
+== Datavarehus
+include::{generated}/dvhDS.adoc[leveloffset=+1]

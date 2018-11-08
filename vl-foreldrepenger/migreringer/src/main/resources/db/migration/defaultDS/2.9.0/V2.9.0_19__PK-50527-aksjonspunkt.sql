@@ -1,0 +1,6 @@
+
+
+INSERT INTO AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, VILKAR_TYPE, TOTRINN_BEHANDLING_DEFAULT, SKJERMLENKE_TYPE, TILBAKEHOPP_VED_GJENOPPTAKELSE, AKSJONSPUNKT_TYPE)
+VALUES ('5062', 'Kontroller overstyrte aksjonspunkt', 'FORVEDSTEG.UT', 'Oppstår dersom det finnes overstyringer etter startpunkt i revurderinger', '-', 'N', '-', 'N', 'MANU');
+
+

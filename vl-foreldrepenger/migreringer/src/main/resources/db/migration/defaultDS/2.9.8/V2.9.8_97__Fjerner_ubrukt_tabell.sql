@@ -1,0 +1,1 @@
+drop table FORRETNINGSHENDELSE_DEF;

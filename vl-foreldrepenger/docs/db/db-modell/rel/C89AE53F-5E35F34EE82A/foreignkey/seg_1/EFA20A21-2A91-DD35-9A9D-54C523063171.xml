@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="EFA20A21-2A91-DD35-9A9D-54C523063171" containerWithKeyObject="64B59F6C-263D-3BC7-95B6-FF2B2A8C8FDC" localFKIndex="05ADACF9-474B-E599-047E-39C3B8A8A992" name="FK_INNSYN_DOKUMENT_01">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>F813A95B-B0F8-44CF-4C7E-C4442C1B5CA2</importedID>
+<referredTableLongName>INNSYN</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>D8F2D428-A933-F62C-3704-7B21891C9CE3</referredTableID>
+<keyObject>4F7D9902-7722-596A-FE3E-71D93C9B9359</keyObject>
+<referredKeyID>4F7D9902-7722-596A-FE3E-71D93C9B9359</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

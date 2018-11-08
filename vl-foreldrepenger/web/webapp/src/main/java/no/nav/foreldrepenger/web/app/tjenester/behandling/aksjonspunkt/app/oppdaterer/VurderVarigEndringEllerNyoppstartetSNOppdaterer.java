@@ -1,0 +1,104 @@
+package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.oppdaterer;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
+import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType;
+import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltVerdiType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktOppdaterer;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OppdateringResultat;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.VurderVarigEndringEllerNyoppstartetSNDto;
+import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
+
+@ApplicationScoped
+@DtoTilServiceAdapter(dto = VurderVarigEndringEllerNyoppstartetSNDto.class, adapter = AksjonspunktOppdaterer.class)
+public class VurderVarigEndringEllerNyoppstartetSNOppdaterer implements AksjonspunktOppdaterer<VurderVarigEndringEllerNyoppstartetSNDto> {
+
+    private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
+    private HistorikkTjenesteAdapter historikkAdapter;
+    private AksjonspunktRepository aksjonspunktRepository;
+
+    private static final AksjonspunktDefinisjon FASTSETTBRUTTOSNKODE = AksjonspunktDefinisjon.FASTSETT_BEREGNINGSGRUNNLAG_SELVSTENDIG_NÆRINGSDRIVENDE;
+
+    VurderVarigEndringEllerNyoppstartetSNOppdaterer() {
+        // for CDI proxy
+    }
+
+    @Inject
+    public VurderVarigEndringEllerNyoppstartetSNOppdaterer(BehandlingRepositoryProvider repositoryProvider, HistorikkTjenesteAdapter historikkAdapter) {
+        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+        this.historikkAdapter = historikkAdapter;
+        this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
+    }
+
+    @Override
+    public OppdateringResultat oppdater(VurderVarigEndringEllerNyoppstartetSNDto dto, Behandling behandling) {
+        Beregningsgrunnlag bg = beregningsgrunnlagRepository.hentAggregat(behandling);
+
+        boolean erVarigEndrettNæring = dto.getErVarigEndretNaering();
+        if (erVarigEndrettNæring) {
+            aksjonspunktRepository.leggTilAksjonspunkt(behandling,FASTSETTBRUTTOSNKODE, BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);
+        } else {
+            if (behandling.getAksjonspunktMedDefinisjonOptional(FASTSETTBRUTTOSNKODE).isPresent()) {
+                aksjonspunktRepository.fjernAksjonspunkt(behandling, FASTSETTBRUTTOSNKODE);
+            }
+            Beregningsgrunnlag beregningsgrunnlag = beregningsgrunnlagRepository.hentAggregat(behandling);
+            Beregningsgrunnlag nyttBeregningsgrunnlag = beregningsgrunnlag.dypKopi();
+            List<BeregningsgrunnlagPeriode> bgPerioder = nyttBeregningsgrunnlag.getBeregningsgrunnlagPerioder();
+            for (BeregningsgrunnlagPeriode bgPeriode : bgPerioder) {
+                BeregningsgrunnlagPrStatusOgAndel bgAndel = bgPeriode.getBeregningsgrunnlagPrStatusOgAndelList().stream()
+                    .filter(bpsa -> AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE.equals(bpsa.getAktivitetStatus()))
+                    .findFirst().orElseThrow(() -> new IllegalStateException("Kunne ikke finne BeregningsgrunnlagPrStatusOgAndel for SELVSTENDIG_NÆRINGSDRIVENDE"));
+                BigDecimal overstyrtPrÅr = bgAndel.getOverstyrtPrÅr();
+                if (overstyrtPrÅr != null) {
+                    BeregningsgrunnlagPrStatusOgAndel.builder(bgAndel)
+                        .medOverstyrtPrÅr(null)
+                        .build(bgPeriode);
+                }
+            }
+            beregningsgrunnlagRepository.lagre(behandling, nyttBeregningsgrunnlag, BeregningsgrunnlagTilstand.FORESLÅTT);
+        }
+
+        lagHistorikkInnslag(dto, behandling, erVarigEndrettNæring);
+
+        return OppdateringResultat.utenOveropp();
+    }
+
+    private void lagHistorikkInnslag(VurderVarigEndringEllerNyoppstartetSNDto dto, Behandling behandling, boolean erVarigEndrettNæring) {
+
+        oppdaterVedEndretVerdi(HistorikkEndretFeltType.ENDRING_NAERING, konvertBooleanTilFaktaEndretVerdiType(erVarigEndrettNæring));
+
+        AksjonspunktDefinisjon aksjonspunktDefinisjon = aksjonspunktRepository.finnAksjonspunktDefinisjon(dto.getKode());
+
+        historikkAdapter.tekstBuilder()
+            .medBegrunnelse(dto.getBegrunnelse(), aksjonspunktRepository.sjekkErBegrunnelseForAksjonspunktEndret(behandling, aksjonspunktDefinisjon, dto.getBegrunnelse()))
+            .medSkjermlenke(aksjonspunktDefinisjon, behandling);
+    }
+
+    private HistorikkEndretFeltVerdiType konvertBooleanTilFaktaEndretVerdiType(Boolean endringNæring) {
+        if (endringNæring == null) {
+            return null;
+        }
+        return endringNæring ? HistorikkEndretFeltVerdiType.VARIG_ENDRET_NAERING : HistorikkEndretFeltVerdiType.INGEN_VARIG_ENDRING_NAERING;
+    }
+
+    private boolean oppdaterVedEndretVerdi(HistorikkEndretFeltType historikkEndretFeltType, HistorikkEndretFeltVerdiType bekreftet) {
+        historikkAdapter.tekstBuilder().medEndretFelt(historikkEndretFeltType, null, bekreftet);
+        return true;
+    }
+}

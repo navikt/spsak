@@ -1,0 +1,90 @@
+
+== BVL006 - AutomatiskFagsakAvslutningBatchTjeneste
+....
+Henter ut løpende Fagsaker og avslutter dem hvis det ikke er noen åpne behandlinger
+ og alle perioden for ytelsesvedtaket er passert
+
+ Skal kjøre en gang i døgnet
+....
+
+
+=== Argumenter
+Batchen tar ikke inn argumenter.
+
+
+== BVL099 - HistorikkMigreringBatchTjeneste
+....
+Migrerer historikkinnslag fra Fundamentet (historikkinnslag.tekst, JSON) til Utbyggeren (HISTORIKKINNSLAG_DEL, tabell)
+....
+
+
+=== Argumenter
+Batchen tar ikke inn argumenter.
+
+
+== BVL005 - KodeverkSynkroniseringBatchTjeneste
+....
+Henter ned offisielle kodeverk fra NAV som brukes i løsningen og synker den til egen kodeverk-tabell.
+....
+
+
+=== Argumenter
+Batchen tar ikke inn argumenter.
+
+
+== BVL002 - AutomatiskEtterkontrollBatchTjeneste
+....
+Henter ut behandlinger som har fått innvilget engangsstønad på bakgrunn av terminbekreftelsen,
+ for å etterkontrollere om rett antall barn har blitt født.
+ 
+ Vedtak er innvilget og fattet med bakgrunn i bekreftet terminbekreftelse
+      Det har gått minst 60 dager siden termin
+      Det er ikke registrert fødselsdato på barnet/barna
+      Det ikke allerede er opprettet revurderingsbehandling med en av disse årsakene:
+      Manglende fødsel i TPS
+      Manglende fødsel i TPS mellom uke 26 og 29
+      Avvik i antall barn
+ 
+ Ved avvik så opprettes det, hvis det ikke allerede finnes, revurderingsbehandling på saken
+....
+
+
+=== Argumenter
+Batchen tar ikke inn argumenter.
+
+
+== BVL003 - SendForlengelsesbrevBatchTjeneste
+....
+Henter ut åpne behandlinger der behandlingsfrist er utløpt,
+ sender informasjonsbrev om forlenget behandlingstid og oppdaterer behandlingsfristen.
+....
+
+
+=== Argumenter
+Batchen tar ikke inn argumenter.
+
+
+== BVL001 - GrensesnittavstemmingApplikasjonBatchTjeneste
+....
+Produserer en avstemmingsfil på XML-format som skal brukes i eksisterende grensesnitt for avstemmingskomponent i økonomisystemet.
+ Informasjonen i avstemmingsmelding hentes ut fra økonomilageret.
+....
+
+
+=== Argumenter
+Batchen tar ikke inn argumenter.
+
+
+== BVL004 - AutomatiskGjenopptagelseBatchTjeneste
+....
+Batchservice som finner alle behandlinger som skal gjenopptas, og lager en ditto prosess task for hver.
+  Kriterier for gjenopptagelse: Behandlingen har et åpent aksjonspunkt som er et autopunkt og
+  har en frist som er passert.
+....
+
+
+=== Argumenter
+Batchen tar ikke inn argumenter.
+
+
+

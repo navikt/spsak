@@ -1,0 +1,24 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2018-06-01", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-07-11",
+  "forsteDatoOpptjening" : "2017-08-12",
+  "sisteDatoForOpptjening" : "2018-06-11",
+  "inntektPerioder" : [ {
+    "datoIntervall" : [ "2018-06-01", "2018-06-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "973861778",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 40000,
+    "inntektValuta" : "NOK"
+  } ]
+}

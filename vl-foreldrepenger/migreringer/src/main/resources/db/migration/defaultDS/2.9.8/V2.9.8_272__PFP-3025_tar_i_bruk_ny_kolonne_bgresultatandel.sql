@@ -1,0 +1,1 @@
+update BEREGNINGSRESULTAT_ANDEL set arbeidsgiver_virksomhet_id = VIRKSOMHET_ID;

@@ -1,0 +1,121 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="db-modell" id="8F1120EB-E6E9-DFC7-288E-069CCDE0FCFC" version="3.5">
+<createdBy>C149071</createdBy>
+<createdTime>2017-05-03 07:52:18 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>8F1120EB-E6E9-DFC7-288E-069CCDE0FCFC</designId>
+<usedDesignStorageDescriptors>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="36C9274C-D162-25ED-A7D0-C71F135C57AD">
+<designStoragePath>C:\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="5760E60F-B515-A0C8-B56A-EE08F7DD14B3">
+<designStoragePath>C:\git\vl-foreldrepenger\docs\db\db-modell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="9D83C537-9E32-4F3C-B891-CB5EBF625783">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="C9577D81-688A-D6B2-46AC-C49784556D47">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="6C7810A2-04E5-A787-22F6-1E34043CC054">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="9FF385DE-1789-F3A6-DC2E-FC945A4D56F4">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="DA14EF85-1B26-A1E0-7E21-B0A676968EF3">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="A3C1FA04-16F9-A2ED-B9CA-66E7E5B79FD1">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="C9BC33F0-0725-8182-74EB-43C0E4FE6DDF">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="D091F907-23B2-E3D6-66FF-C4C3BC48F126">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="A470A5F3-E3E1-A33E-B1FC-C6F6B5CB1AD2">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="04D0BB75-BE98-14AA-233D-FDAD0E8258BA">
+<designStoragePath>C:\V001__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="E1766787-B745-4BE6-C9D5-3CA5C7BA77E1">
+<designStoragePath>C:\V1.5.0_01__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="3193EA83-D310-A0F0-CD43-274174779B30">
+<designStoragePath>C:\V1.6.0_03__OKONOMI_OPPDRAG_nye_tabeller</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="18A25A2F-19E9-942D-796C-D7E3CB62C715">
+<designStoragePath>C:\V1.5.0_01__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="799CBE03-AC41-7585-46D8-6763708F10CD">
+<designStoragePath>C:\V1.7.0_02__BehandlingStegStatus</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="5FF5B9A9-DEA7-0513-03B8-0F75C1B11236">
+<designStoragePath>C:\V1.5.0_01__FAGSAK_RELASJON_ny_tabell</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="D4671F50-FFDD-14C5-55A0-875866A610CE">
+<designStoragePath>C:\01_SEQUENCES</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="1D7241F1-0F64-35A9-8ACA-ABACE3C1EE3F">
+<designStoragePath>C:\02_TABLES</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="09B29918-5932-2AFD-6E3B-0FE622DB0452">
+<designStoragePath>C:\01_SEQUENCES</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="CA488262-87AD-3A20-DDAA-5D393755EFB0">
+<designStoragePath>C:\01_SEQUENCES</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="03E0F2AC-D774-C3A8-BB44-6582720E59B6">
+<designStoragePath>C:\01_SEQUENCES</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="CD9DFA79-0343-7FBB-B659-B4B426547BFB">
+<designStoragePath>C:\02-TABLES</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="AB7F8D43-26E1-5FEA-39FB-F2620118EF76">
+<designStoragePath>C:\02-TABLES</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="4718B802-ACF9-E3BA-8EFE-FFC4E1364295">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="177D82A6-02B0-036E-7A8C-62C88117DEF0">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="933FBAC3-41ED-9989-0571-299837B784B1">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="0A917F36-769B-93E4-EE54-316DD3297FD3">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="6AC3422D-1C9C-2DCF-3C11-74F8621F5E6E">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="6E4B7152-F1F0-C1A8-2470-ED4BC122A173">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="5A2D6E55-B4A8-2517-8821-8B2EB74EF224">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="F4E32DD3-363C-7EEE-B618-F807BFB39551">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="26E53E6D-F8B3-ACCA-9A83-450B15FAADE2">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="6399BBEF-CFCC-E10A-7AE3-D6077CB58BAA">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="09B87C49-D47D-22FC-9F1E-3F16EFCC78F9">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="26D22004-5559-E8DB-5098-9930D3747D4E">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="82F7BF74-78E7-F0D1-68DB-03613A879BD1">
+<designStoragePath>C:\Users\J150219\git\vl-foreldrepenger\docs\db</designStoragePath>
+</designDescr>
+</usedDesignStorageDescriptors>
+</OSDM_Design>

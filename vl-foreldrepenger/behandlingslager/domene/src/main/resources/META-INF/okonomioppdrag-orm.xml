@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+                 version="2.1">
+
+    <sequence-generator name="SEQ_OKO_ATTESTANT_180" allocation-size="50" sequence-name="SEQ_OKO_ATTESTANT_180" />
+    <sequence-generator name="SEQ_OKO_AVSTEMMING_115" allocation-size="50" sequence-name="SEQ_OKO_AVSTEMMING_115" />
+    <sequence-generator name="SEQ_OKO_GRAD_170" allocation-size="50" sequence-name="SEQ_OKO_GRAD_170" />
+    <sequence-generator name="SEQ_OKO_OPPDRAG_110" allocation-size="50" sequence-name="SEQ_OKO_OPPDRAG_110" />
+    <sequence-generator name="SEQ_OKO_OPPDRAG_ENHET_120" allocation-size="50" sequence-name="SEQ_OKO_OPPDRAG_ENHET_120" />
+    <sequence-generator name="SEQ_OPPDRAG_KONTROLL" allocation-size="50" sequence-name="SEQ_OPPDRAG_KONTROLL" />
+    <sequence-generator name="SEQ_OKO_OPPDRAG_LINJE_150" allocation-size="50" sequence-name="SEQ_OKO_OPPDRAG_LINJE_150" />
+    <sequence-generator name="SEQ_OKO_REFUSJONSINFO_156" allocation-size="50" sequence-name="SEQ_OKO_REFUSJONSINFO_156" />
+    <sequence-generator name="SEQ_OPPDRAG_KVITTERING" allocation-size="50" sequence-name="SEQ_OPPDRAG_KVITTERING" />
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Attestant180" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Avstemming115" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Grad170" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdrag110" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdragsenhet120" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdragskontroll" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdragslinje150" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Refusjonsinfo156" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.økonomioppdrag.OppdragKvittering" />
+
+</entity-mappings>

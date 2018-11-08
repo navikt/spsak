@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DistinctType class="oracle.dbtools.crest.model.design.datatypes.DistinctType" name="KODE" directorySegmentName="seg_0" id="A554B9F8-D9E6-39B8-2F5B-64C743E118CA">
+<createdBy>C149071</createdBy>
+<createdTime>2017-05-03 07:54:39 UTC</createdTime>
+<generatorID>DC8AA095-8164-0B3E-19FA-C71B9BE75BB9</generatorID>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>DC8AA095-8164-0B3E-19FA-C71B9BE75BB9</importedID>
+<predefined>false</predefined>
+<logicalDataType>LOGDT024</logicalDataType>
+<precision>0</precision>
+<scale>0</scale>
+<size>7</size>
+</DistinctType>

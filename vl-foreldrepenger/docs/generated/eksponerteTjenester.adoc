@@ -1,0 +1,38 @@
+
+== BehandleForeldrepengesak_v1
+https://confluence.adeo.no/pages/viewpage.action?pageId=220529015[Tjenestebeskrivelse]
+
+====
+.Konfigurasjon
+* *Endepunkt:* /sak/opprettSak/v1
+* *Klasse:* no.nav.foreldrepenger.sak.v1.OpprettSakService
+* *Interface:* no.nav.tjeneste.virksomhet.behandleforeldrepengesak.v1.binding.BehandleForeldrepengesakV1
+* *Service name:* BehandleForeldrepengesak_v1
+* *Port name:* BehandleForeldrepengesak_v1Port
+====
+
+++++
+ Webservice for å opprette sak i VL ved manuelle journalføringsoppgaver.
+
+++++
+
+
+== foreldrepengesak_v1
+https://confluence.adeo.no/pages/viewpage.action?pageId=220528950[Tjenestebeskrivelse]
+
+====
+.Konfigurasjon
+* *Endepunkt:* /sak/finnSak/v1
+* *Klasse:* no.nav.foreldrepenger.sak.v1.FinnSakService
+* *Interface:* no.nav.tjeneste.virksomhet.foreldrepengesak.v1.binding.ForeldrepengesakV1
+* *Service name:* foreldrepengesak_v1
+* *Port name:* foreldrepengesak_v1Port
+====
+
+++++
+ Webservice for å finne relevante fagsaker i VL.
+
+++++
+
+
+

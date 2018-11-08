@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v1"
+	xmlns:vg="urn:no:nav:vedtak:felles:xml:vedtak:vilkaarsgrunnlag:v1"
+	xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v1" xmlns:po="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v1">
+  <xsd:import schemaLocation="../felles-v1.xsd"
+    namespace="urn:no:nav:vedtak:felles:xml:felles:v1" />
+  <xsd:import schemaLocation="../personopplysninger/personopplysninger-v1.xsd" namespace="urn:no:nav:vedtak:felles:xml:vedtak:personopplysninger:v1"/>
+  
+  <xsd:complexType abstract="true" name="Vilkaarsgrunnlag" />
+ 
+  <!--  
+  <xsd:element name="allElements">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="foedsel" type="vg:VilkaarsgrunnlagFoedsel" />
+        <xsd:element name="adopsjon" type="vg:VilkaarsgrunnlagAdopsjon" />
+        <xsd:element name="medlemskap" type="vg:VilkaarsgrunnlagMedlemskap" />
+        <xsd:element name="soekersoppplikt" type="vg:VilkaarsgrunnlagSoekersopplysningsplikt" />
+        <xsd:element name="soeknadsfrist" type="vg:VilkaarsgrunnlagSoeknadsfrist" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+   --> 
+    
+	<xsd:complexType name="VilkaarsgrunnlagFoedsel">
+		<xsd:complexContent>
+			<xsd:extension base="vg:Vilkaarsgrunnlag">
+				<xsd:sequence>
+					<xsd:element name="sokersKjoenn" type="felles:StringOpplysning"
+						minOccurs="0" />
+					<xsd:element name="foedselsdatoBarn" type="felles:DateOpplysning"
+						minOccurs="0" />
+					<xsd:element name="antallBarn" type="felles:IntOpplysning"
+						minOccurs="0" />
+					<xsd:element name="termindato" type="felles:DateOpplysning"
+						minOccurs="0" />
+					<xsd:element name="soekersRolle" type="felles:StringOpplysning"
+						minOccurs="0" />
+					<xsd:element name="soeknadsdato" type="felles:DateOpplysning"
+						minOccurs="0" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="VilkaarsgrunnlagAdopsjon">
+		<xsd:complexContent>
+			<xsd:extension base="vg:Vilkaarsgrunnlag">
+				<xsd:sequence>
+					<xsd:element name="soekersKjoenn" type="felles:StringOpplysning"
+						minOccurs="0" />
+					<xsd:element name="adopsjon" minOccurs="0" type="po:Adopsjon" />
+				</xsd:sequence>					
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="VilkaarsgrunnlagMedlemskap">
+		<xsd:complexContent>
+			<xsd:extension base="vg:Vilkaarsgrunnlag">
+				<xsd:sequence>
+					<xsd:element name="personstatus" type="felles:StringOpplysning"
+						minOccurs="0" />
+					<xsd:element name="erBrukerMedlem" type="felles:BooleanOpplysning"
+						minOccurs="0" />
+					<xsd:element name="erBrukerBosatt" type="felles:BooleanOpplysning"
+						minOccurs="0" />
+					<xsd:element name="harBrukerOppholdsrett" type="felles:BooleanOpplysning"
+						minOccurs="0" />
+					<xsd:element name="harBrukerLovligOppholdINorge" type="felles:BooleanOpplysning"
+						minOccurs="0" />
+					<xsd:element name="erBrukerNordiskstatsborger" type="felles:BooleanOpplysning"
+						minOccurs="0" />
+					<xsd:element name="erBrukerBorgerAvEUEOS" type="felles:BooleanOpplysning"
+						minOccurs="0" />
+					<xsd:element name="erBrukerPliktigEllerFrivilligMedlem"
+						type="felles:BooleanOpplysning" minOccurs="0" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="VilkaarsgrunnlagSoeknadsfrist">
+		<xsd:complexContent>
+			<xsd:extension base="vg:Vilkaarsgrunnlag">
+				<xsd:sequence>
+					<xsd:element name="elektroniskSoeknad" type="felles:BooleanOpplysning"
+						minOccurs="0" />
+					<xsd:element name="skjaeringstidspunkt" type="felles:DateOpplysning"
+						minOccurs="0" />
+					<xsd:element name="soeknadMottattDato" type="felles:DateOpplysning"
+						minOccurs="0" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="VilkaarsgrunnlagSoekersopplysningsplikt">
+    <xsd:complexContent>
+      <xsd:extension base="vg:Vilkaarsgrunnlag">
+        <xsd:sequence>
+          <xsd:element name="elektroniskSoeknad" type="felles:BooleanOpplysning"
+            minOccurs="0" />
+          <xsd:element name="erBarnetFoedt" type="felles:BooleanOpplysning"
+            minOccurs="0" />
+          <xsd:element name="erSoeknadenKomplett" type="felles:BooleanOpplysning" />          
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+	</xsd:complexType>
+	
+</xsd:schema>

@@ -1,0 +1,140 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>no.nav.foreldrepenger</groupId>
+		<artifactId>domenetjenester-pom</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+	</parent>
+
+	<artifactId>domenetjenester-bom</artifactId>
+	<name>FPSAK :: Domenetjenester - Bill Of Material</name>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<!-- håndeterer behandlingskontroll utenfor BOM -->
+		<!--<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>dokumentarkiv</artifactId>
+        </dependency>-->
+		
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>dokumentarkiv</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>familie-hendelse</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>skjaeringstidspunkt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>uttaksplan</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>dokumentbestiller</artifactId>
+        </dependency>
+		 <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>arbeidsforhold</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>inngangsvilkar</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>kompletthetsjekk</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>kontrollerfakta</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>medlem</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>okonomistotte</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>person</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>produksjonsstyring</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>registerinnhenting</artifactId>
+        </dependency>
+		
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling</artifactId>
+        </dependency>
+		
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling-kriterier</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling-status</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling-gjenopptagelse</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling-revurdering</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>beregning-ytelse</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling-innsyn</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>vedtak</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>beregningsgrunnlag</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>uttak</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>virksomhet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>mottak</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>ytelse-fordeling</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling-soknadsfrist-foreldrepenger</artifactId>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,14 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getSoekersKjonn|no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.Kjoenn|
+|getOmsorgsovertakelsesdato|java.time.LocalDate|
+|getBekreftetAdopsjonBarn|java.util.List|
+|getErStønadsperiodeBruktOpp|boolean|
+|===
+
+
+

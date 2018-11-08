@@ -1,0 +1,72 @@
+-- Tabell
+CREATE TABLE BRUKER_ROLLE_TYPE (
+    kode            VARCHAR2(7 CHAR) NOT NULL,
+    navn            VARCHAR2(50 CHAR) NOT NULL,
+    beskrivelse     VARCHAR2(2000 CHAR),
+    opprettet_av    VARCHAR2(20 CHAR) DEFAULT 'VL' NOT NULL,
+    opprettet_tid   TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+    endret_av       VARCHAR2(20 CHAR),
+    endret_tid      TIMESTAMP(3),
+    CONSTRAINT PK_BRUKER_ROLLE_TYPE PRIMARY KEY ( kode )
+);
+
+
+INSERT INTO BRUKER_ROLLE_TYPE (KODE, NAVN) VALUES ('MORA', 'Mor');
+INSERT INTO BRUKER_ROLLE_TYPE (KODE, NAVN) VALUES ('FARA', 'Far');
+
+-- Tabell BRUKER_KJOENN
+CREATE TABLE BRUKER_KJOENN (
+    kode            VARCHAR2(7 CHAR) NOT NULL,
+    navn            VARCHAR2(50 CHAR) NOT NULL,
+    opprettet_av    VARCHAR2(20 CHAR) DEFAULT 'VL' NOT NULL,
+    opprettet_tid   TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+    beskrivelse     VARCHAR2(2000 CHAR),
+    endret_av       VARCHAR2(20 CHAR),
+    endret_tid      TIMESTAMP(3),
+    CONSTRAINT PK_BRUKER_KJOENN PRIMARY KEY ( kode )
+);
+INSERT INTO BRUKER_KJOENN (KODE, NAVN) VALUES ('K', 'Kvinne');
+INSERT INTO BRUKER_KJOENN (KODE, NAVN) VALUES ('M', 'Mann');
+
+-- Tabell BRUKER
+CREATE TABLE BRUKER (
+    id              NUMBER(19) NOT NULL,
+    aktoer_id       NUMBER(19) NOT NULL,
+    bruker_kjoenn   VARCHAR2(7 CHAR) DEFAULT 'K' NOT NULL,
+    foedseldato     DATE,
+    versjon              NUMBER(19) DEFAULT 0 NOT NULL,
+    opprettet_av    VARCHAR2(20 CHAR) DEFAULT 'VL' NOT NULL,
+    opprettet_tid   TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+    endret_av       VARCHAR2(20 CHAR),
+    endret_tid      TIMESTAMP(3),
+    CONSTRAINT PK_BRUKER PRIMARY KEY ( id )
+);
+
+CREATE UNIQUE INDEX UIDX_AKTOER_1 ON BRUKER (AKTOER_ID);
+CREATE INDEX IDX_AKTOER_1 ON BRUKER(BRUKER_KJOENN);
+
+CREATE SEQUENCE SEQ_BRUKER MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+ALTER TABLE BRUKER ADD CONSTRAINT FK_BRUKER_1 FOREIGN KEY ( bruker_kjoenn ) REFERENCES bruker_kjoenn ( kode );
+
+
+
+-- Tabell BARN
+CREATE TABLE BARN (
+    id           NUMBER(19) NOT NULL,
+    aktoer_id           NUMBER(19) NOT NULL,
+    norsk_ident          NUMBER(19),
+    foedseldato     DATE,
+    versjon              NUMBER(19) DEFAULT 0 NOT NULL,
+    fagsak_relasjon_id   NUMBER(19) NOT NULL,
+    opprettet_av    VARCHAR2(20 CHAR) DEFAULT 'VL' NOT NULL,
+    opprettet_tid   TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+    endret_av       VARCHAR2(20 CHAR),
+    endret_tid      TIMESTAMP(3),
+    CONSTRAINT PK_BARN PRIMARY KEY(ID)
+);
+
+CREATE INDEX IDX_BARN_1 ON BARN (fagsak_relasjon_id);
+
+ALTER TABLE BARN ADD CONSTRAINT FK_BARN_1 FOREIGN KEY (FAGSAK_RELASJON_ID) REFERENCES FAGSAK_RELASJON;
+
+CREATE SEQUENCE SEQ_BARN MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;

@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>no.nav.foreldrepenger</groupId>
+        <artifactId>behandlingskontroll-pom</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
+    <artifactId>behandlingskontroll</artifactId>
+    <packaging>jar</packaging>
+    <name>FPSAK :: Domenetjenester - Behandlingskontroll</name>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>no.nav.vedtak.felles</groupId>
+            <artifactId>felles-bom</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.nav.vedtak.felles</groupId>
+            <artifactId>felles-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingskontroll-api</artifactId>
+        </dependency>
+
+        <!-- NB NB NB NB NB NB NB -->
+        <!-- Dersom du savner eller får lyst til å legge inn noen avhengigheter her til støttetjenester, applikasjonstjenester, integrasjon, behandlingskontroll
+            eller noen andre ting så har du antagelig tenkt helt feil. Snakk med en voksen - eller risiker å bli hengt ut på neste Teknisk Review. -->
+
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,138 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="KODELISTE" directorySegmentName="seg_1" id="4CA0BB59-0385-62F9-9853-162203186ACE">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="sprak" id="191A7061-23C9-F2E0-CB06-4A71BBD18A37">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;NB&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="opprettet_av" id="222CB556-3E52-290C-80C9-672DF40D8451">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>&apos;VL&apos;</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="kode" id="2A41A8A4-E367-9AEC-5C49-18E3E8293000">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="2E515354-CC96-01E9-2D1B-2CA49A95483F">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="gyldig_fom" id="44EB860E-D9B2-C084-3480-4881653356A6">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>sysdate</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="opprettet_tid" id="46EA40A1-5B8F-A552-828B-30486F43DA6F">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>systimestamp</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="endret_av" id="5001B34B-CA2B-CE49-CD5D-1028C6267FE6">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="navn" id="5C41D4CE-8E73-D43D-651E-1713B91D8393">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="beskrivelse" id="7ADCC9D7-6CA6-C3B6-66D5-AAE6E3C63341">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="offisiell_kode" id="8AC8B648-E732-9C81-2C74-E4A074F81090">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="gyldig_tom" id="9EB037E2-5C59-B1B0-3774-F6C1F6FC8B8D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<defaultValue>to_date(&apos;31.12.9999&apos;,&apos;dd.mm.yyyy&apos;)</defaultValue>
+</ColumnProxy>
+<ColumnProxy name="ekstra_data" id="DE0304A7-C4F9-959A-34CA-7DB5043E6E2B">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="endret_tid" id="F3418528-6D60-7D01-03D7-1D80C81AB40C">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="kodeverk" id="FC4E4267-88F4-1411-43F9-EA0330ECD075">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_KODELISTE_1" id="675ECA4C-F9B8-C608-7EE1-D5D48798F558">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_KODELISTE_2" id="86D27962-03CE-AD68-8AE0-287C01477CC0">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_KODELISTE" id="8F09FFA0-CDD9-9E8A-8ECD-777035142ADF">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="UIDX_KODELISTE_1" id="934189BA-7DB4-2D36-8A45-BEE8F5325B9F">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="IDX_KODELISTE_3" id="C1D50E55-1643-5F90-A50B-EBDED5061556">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_KODELISTE_01" id="B2EC27A5-AEEF-71A9-FDAF-04BB3831964D">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_KODELISTE" id="75974C0C-ED79-E541-2950-6716A0B4D3B7">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+<uniqueKeys>
+<UniqueKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UniqueOraclev10g" name="CHK_UNIQUE_KODELISTE" id="EA34921C-061D-1863-E596-069E0FF5CDA0">
+<createdBy>T150221</createdBy>
+<createdTime>2017-10-18 12:54:15 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</UniqueKey>
+</uniqueKeys>
+</TableProxyOraclev12c>

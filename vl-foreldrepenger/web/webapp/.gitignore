@@ -1,0 +1,7 @@
+/es.properties
+/bin/
+/es-local.properties
+/es.properties.backup
+/logback.xml
+/logback.xml.backup
+/logs/

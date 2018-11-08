@@ -1,0 +1,44 @@
+package no.nav.foreldrepenger.behandlingslager.uttak;
+
+import java.util.Optional;
+
+import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
+import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+@Entity(name = "PeriodeResultatAarsak")
+@DiscriminatorValue(PeriodeResultatÅrsak.DISCRIMINATOR)
+public class PeriodeResultatÅrsak extends Kodeliste {
+    public static final String DISCRIMINATOR = "PERIODE_RESULTAT_AARSAK";
+
+    public static final PeriodeResultatÅrsak UKJENT = new PeriodeResultatÅrsak("-");
+
+    @Transient
+    private String lovReferanse;
+
+    PeriodeResultatÅrsak() {
+        // For hibernate
+    }
+
+    PeriodeResultatÅrsak(String kode) {
+        super(kode, DISCRIMINATOR);
+    }
+
+    protected PeriodeResultatÅrsak(String kode, String discriminator) {
+        super(kode, discriminator);
+    }
+
+    public Optional<String> getLovReferanse(FagsakYtelseType fagsakYtelseType) {
+        if (lovReferanse == null) {
+            if (fagsakYtelseType.gjelderEngangsstønad()) {
+                lovReferanse = getJsonField("fagsakYtelseType", "ES", "lovreferanse"); //$NON-NLS-1$
+            } else if (fagsakYtelseType.gjelderForeldrepenger()) {
+                lovReferanse = getJsonField("fagsakYtelseType", "FP", "lovreferanse"); //$NON-NLS-1$
+            }
+        }
+        return Optional.ofNullable(lovReferanse);
+    }
+}

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_4" id="E956740F-6C69-030E-9663-BF60F375E1E0" containerWithKeyObject="B89B3283-F2BC-0EF2-E78A-1D4ED582E77D" localFKIndex="7215BB44-C891-D4B0-BEA9-2E0DB0D3FD74" name="FK_OPPDRAG_KVITTERING_1">
+<createdBy>J150219</createdBy>
+<createdTime>2018-05-03 08:11:30 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>DAE33496-1C7A-161A-C932-7C9CC379E0D7</importedID>
+<referredTableLongName>OKO_OPPDRAG_110</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>9D2454FC-95B7-1694-1814-97CA865F13FF</referredTableID>
+<keyObject>863D6543-5813-594E-1928-51944E2924CC</keyObject>
+<referredKeyID>863D6543-5813-594E-1928-51944E2924CC</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

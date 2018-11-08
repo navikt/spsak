@@ -1,0 +1,13 @@
+{
+  "schemas": [
+    {
+      "datasource": "defaultDS",
+      "defaultSchema": "felles_behandlingsprosess_unit",
+      "schema": "${flyway.placeholders.felles_behandlingsprosess_schema_unit}",
+      "url": "jdbc:oracle:thin:@localhost:1521:XE",
+      "default": true,
+      "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/",
+      "sqlLoggable": true
+    }
+  ]
+}

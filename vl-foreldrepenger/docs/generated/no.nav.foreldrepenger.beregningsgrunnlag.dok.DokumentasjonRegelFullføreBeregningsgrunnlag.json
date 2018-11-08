@@ -1,0 +1,422 @@
+{
+  "root" : {
+    "id" : "b4bbabbe-6c2c-468c-876c-ce976a37f095",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "b4bbabbe-6c2c-468c-876c-ce976a37f095",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "b026f1da-aba1-4803-8258-c2dc95768e64",
+    "ruleId" : "FP_VK_32.1",
+    "ruleDescription" : "Er beregningsgrunnlag mindre enn gitt beløp",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "dac3d9f3-f9ee-4b9d-b92d-b7e65bfabee0",
+    "ruleId" : "FP_VK_32.2",
+    "ruleDescription" : "Opprett regelmerknad om avslag under 0.5G",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "10b35881-8fd8-41d8-826c-e78e841dd4f0",
+    "ruleId" : "FP_BR_29_3",
+    "ruleDescription" : "Fastsett maksimal refusjon",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "0cc39246-e9ea-4fe6-a4bc-45b7ec62f71b",
+    "ruleId" : "FP_BR_29_3",
+    "ruleDescription" : "Fastsett maksimal refusjon",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a1abb935-9dc2-414d-87bf-75911211ea62",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "88346f92-7287-425d-80bf-e306c3edb418",
+    "ruleId" : "FP_BR_29.4",
+    "ruleDescription" : "Er beregningsgrunnlag større enn 6G",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fef710cd-bc94-49a6-8cca-dfa88ad52f25",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "5ebcca37-b39b-48ad-8384-ee97e05c1958",
+    "ruleId" : "FP_BR XX",
+    "ruleDescription" : "Er totalt refusjonskrav større enn 6G",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "125c3043-9678-4772-89cb-c626a6ecf1d2",
+    "ruleId" : "FP_BR_29.13",
+    "ruleDescription" : "Fastsett avkortet BG når refusjon over 6G",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "5f0531a0-8ee3-4e10-b643-9866faebb63c",
+    "ruleId" : "FP_BR_29.13",
+    "ruleDescription" : "Fastsett avkortet BG når refusjon over 6G",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "8b1216ec-2db7-4d6b-8496-36989d22abd4",
+    "ruleId" : "FP_BR_29.13.1-3",
+    "ruleDescription" : "Beregn arbeidsgivers andel av det som skal refunderes",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "c9cffe09-68bf-4745-bec7-e382c03d8da6",
+    "ruleId" : "FP_BR_29.13.1",
+    "ruleDescription" : "Beregn hver arbeidsgivers andel av det som skal gjenstår å refundere",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "40941e40-7710-41e6-a7b7-517656e0cf9b",
+    "ruleId" : "FP_BR_29.13.2",
+    "ruleDescription" : "For hvert arbeidsforhold der refusjonskrav ikke er fordelt: Beregn avkortet refusjon",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "23423747-c9fe-41ce-87aa-0db043b5794d",
+    "ruleId" : "FP_BR_29.13.3",
+    "ruleDescription" : "Vurder om refusjonskrav for alle beregningsgrunnlagsandeler kan settes til ferdig avkortet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f8412763-9884-4279-ab8c-f6f9f51d5cc9",
+    "ruleId" : "FP_BR_29.13.4",
+    "ruleDescription" : "For alle beregningsgrunnlagsandeler, sett andel til bruker = 0",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "02af99f1-5a18-4b9a-be4a-bc601a9640e0",
+    "ruleId" : "FP_BR 6.2",
+    "ruleDescription" : "Reduser beregningsgrunnlag iht dekningsgrad",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "02850eb2-693d-4acd-bb61-f5fa73b44b8b",
+    "ruleId" : "FP_BR 6.2",
+    "ruleDescription" : "Reduser beregningsgrunnlag iht dekningsgrad",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3f54c1bc-60c7-4289-8f78-83c5f1d24c9c",
+    "ruleId" : "FP_BR 6.1",
+    "ruleDescription" : "Reduser beregningsgrunnlag per andel",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "920ba045-b3a7-461d-8cd9-75b89315af27",
+    "ruleId" : "FP_BR_29.8",
+    "ruleDescription" : "Fastsett avkortet BG over 6G når refusjon under 6G",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "69be85b9-edf3-4020-a0c4-c10f257580a3",
+    "ruleId" : "FP_BR_29.8",
+    "ruleDescription" : "Fastsett avkortet BG over 6G når refusjon under 6G",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "80198a68-8e5a-4a2c-bddc-c805cf50d148",
+    "ruleId" : "FP_BR 29.8.1",
+    "ruleDescription" : "Fastsett avkortet refusjon pr andel",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a7ca52a2-229f-4f80-add9-237158ac2dac",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "447c0df6-b0ad-4d1a-8535-497a4f3b43d5",
+    "ruleId" : "FP_BR_29.8.2",
+    "ruleDescription" : "Er totalt beregningsgrunnlag for beregningsgrunnlagsandeler fra arbeidsforhold større enn gitt beløp",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "5f9b053f-ec85-4fa1-91c1-08fd690409a7",
+    "ruleId" : "FP_BR 29.8.3",
+    "ruleDescription" : "Avkort alle beregningsgrunnlagsandeler som ikke gjelder arbeidsforhold til 0.",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "e819814f-8374-4638-a60d-f1d874fec5c5",
+    "ruleId" : "FP_BR 29.8.3",
+    "ruleDescription" : "Avkort alle beregningsgrunnlagsandeler som ikke gjelder arbeidsforhold til 0.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "92a40d54-c0bd-4c20-b3f1-545c18fba8bf",
+    "ruleId" : "FP_BR_29.8",
+    "ruleDescription" : "Fastsett avkortet BG over 6G når refusjon under 6G",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "9db0fccd-388f-4faf-9813-1f541d701771",
+    "ruleId" : "FP_BR_29.8 6-9",
+    "ruleDescription" : "Regelen skal fastsette beløp som skal utbetales direkte til bruker, pr. arbeidsforhold.",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "d947fdc8-7297-4603-8062-2eb6647ff7b7",
+    "ruleId" : "FP_BR 29.8.6",
+    "ruleDescription" : "Fastsett andel til fordeling",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "120ee01b-e281-4765-870a-45697ec9a342",
+    "ruleId" : "FP_BR 29.8.7",
+    "ruleDescription" : "For hver beregningsgrunnlagsandel som kommer fra arbeidsforhold, som enda ikke er fordelt, må den prosentvise andelen beregnes",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "f0bcc925-5865-455a-af9f-616b9f485136",
+    "ruleId" : "FP_BR 29.8.8",
+    "ruleDescription" : "For hver beregningsgrunnlagsandel som kommer fra arbeidsforhold, som enda ikke er fordelt, må andelen som totalt skal refunderes og utbetales til bruker beregnes",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "1db4a16e-40fe-4cce-988a-491aaed1d80a",
+    "ruleId" : "FP_BR 29.8.9",
+    "ruleDescription" : "For hvert arbeidsforhold der beregningsgrunnlagsandelen ikke er fordelt, Vurder om andeler er ferdig fordelt og oppdater Fordelt til bruker",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fc68e931-1225-4354-a18c-68953ddfe3cc",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d23ac136-8194-48e0-91fb-24631a171bfb",
+    "ruleId" : "FP_BR 29.8.4",
+    "ruleDescription" : "Avkort alle beregningsgrunnlagsandeler som ikke gjelder arbeidsforhold andelsmessig.",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "e6dd021a-37be-4267-8ff0-89196722445b",
+    "ruleId" : "FP_BR 29.8.4",
+    "ruleDescription" : "Avkort alle beregningsgrunnlagsandeler som ikke gjelder arbeidsforhold andelsmessig.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "5ddc2c0d-d881-47a6-bb13-8bf46b188c8b",
+    "ruleId" : "FP_BR 29.8.10",
+    "ruleDescription" : "Fastsett brukers andel for alle beregningsgrunnlagsandeler som gjelder arbeidsforhold.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "e3487764-14a7-48d9-ae60-e1cea4567829",
+    "ruleId" : "FP_BR 6.2",
+    "ruleDescription" : "Reduser beregningsgrunnlag iht dekningsgrad",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "1f5e1e49-f76e-4e01-9134-52b928850504",
+    "ruleId" : "FP_BR 6.2",
+    "ruleDescription" : "Reduser beregningsgrunnlag iht dekningsgrad",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d2eefef3-70a0-43d7-84cc-fe49831fb426",
+    "ruleId" : "FP_BR 6.1",
+    "ruleDescription" : "Reduser beregningsgrunnlag per andel",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "c27576a9-826d-4910-ab53-e3229fef4e05",
+    "ruleId" : "id",
+    "ruleDescription" : "beskrivelse",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "331849a3-83a8-4e21-a45c-4ac5d2a1c272",
+    "ruleId" : "FP_BR_29.6",
+    "ruleDescription" : "Fastsett BG uten avkorting",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "d5f09a82-350d-49c0-b247-73583147feb0",
+    "ruleId" : "FP_BR 29.6.1",
+    "ruleDescription" : "Fastsett Brukers Andel og ev arbeidsgivers andel av Brutto beregningsgrunnlag",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fe0d7080-3a77-46b3-a89b-a93f6d461ca7",
+    "ruleId" : "FP_BR 29.6.2",
+    "ruleDescription" : "Fastsett Avkortet brukers andel og ev avkortet arbeidsgivers andel",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "feb1f217-f9f3-4620-992e-ea3b9f73eb1a",
+    "ruleId" : "FP_BR 6.2",
+    "ruleDescription" : "Reduser beregningsgrunnlag iht dekningsgrad",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "f2308743-3d62-4cab-af69-7543c3e200b4",
+    "ruleId" : "FP_BR 6.2",
+    "ruleDescription" : "Reduser beregningsgrunnlag iht dekningsgrad",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "d6c2c9c3-eb84-4ab1-9024-af2e86916cf1",
+    "ruleId" : "FP_BR 6.1",
+    "ruleDescription" : "Reduser beregningsgrunnlag per andel",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "b4bbabbe-6c2c-468c-876c-ce976a37f095",
+    "target" : "b026f1da-aba1-4803-8258-c2dc95768e64"
+  }, {
+    "source" : "b4bbabbe-6c2c-468c-876c-ce976a37f095",
+    "target" : "dac3d9f3-f9ee-4b9d-b92d-b7e65bfabee0"
+  }, {
+    "source" : "10b35881-8fd8-41d8-826c-e78e841dd4f0",
+    "target" : "0cc39246-e9ea-4fe6-a4bc-45b7ec62f71b"
+  }, {
+    "source" : "a1abb935-9dc2-414d-87bf-75911211ea62",
+    "target" : "88346f92-7287-425d-80bf-e306c3edb418"
+  }, {
+    "source" : "fef710cd-bc94-49a6-8cca-dfa88ad52f25",
+    "target" : "5ebcca37-b39b-48ad-8384-ee97e05c1958"
+  }, {
+    "source" : "8b1216ec-2db7-4d6b-8496-36989d22abd4",
+    "target" : "c9cffe09-68bf-4745-bec7-e382c03d8da6"
+  }, {
+    "source" : "8b1216ec-2db7-4d6b-8496-36989d22abd4",
+    "target" : "40941e40-7710-41e6-a7b7-517656e0cf9b"
+  }, {
+    "source" : "8b1216ec-2db7-4d6b-8496-36989d22abd4",
+    "target" : "23423747-c9fe-41ce-87aa-0db043b5794d"
+  }, {
+    "source" : "5f0531a0-8ee3-4e10-b643-9866faebb63c",
+    "target" : "8b1216ec-2db7-4d6b-8496-36989d22abd4"
+  }, {
+    "source" : "5f0531a0-8ee3-4e10-b643-9866faebb63c",
+    "target" : "f8412763-9884-4279-ab8c-f6f9f51d5cc9"
+  }, {
+    "source" : "125c3043-9678-4772-89cb-c626a6ecf1d2",
+    "target" : "5f0531a0-8ee3-4e10-b643-9866faebb63c"
+  }, {
+    "source" : "02af99f1-5a18-4b9a-be4a-bc601a9640e0",
+    "target" : "02850eb2-693d-4acd-bb61-f5fa73b44b8b"
+  }, {
+    "source" : "02af99f1-5a18-4b9a-be4a-bc601a9640e0",
+    "target" : "3f54c1bc-60c7-4289-8f78-83c5f1d24c9c"
+  }, {
+    "source" : "125c3043-9678-4772-89cb-c626a6ecf1d2",
+    "target" : "02af99f1-5a18-4b9a-be4a-bc601a9640e0"
+  }, {
+    "source" : "fef710cd-bc94-49a6-8cca-dfa88ad52f25",
+    "target" : "125c3043-9678-4772-89cb-c626a6ecf1d2"
+  }, {
+    "source" : "69be85b9-edf3-4020-a0c4-c10f257580a3",
+    "target" : "80198a68-8e5a-4a2c-bddc-c805cf50d148"
+  }, {
+    "source" : "a7ca52a2-229f-4f80-add9-237158ac2dac",
+    "target" : "447c0df6-b0ad-4d1a-8535-497a4f3b43d5"
+  }, {
+    "source" : "5f9b053f-ec85-4fa1-91c1-08fd690409a7",
+    "target" : "e819814f-8374-4638-a60d-f1d874fec5c5"
+  }, {
+    "source" : "9db0fccd-388f-4faf-9813-1f541d701771",
+    "target" : "d947fdc8-7297-4603-8062-2eb6647ff7b7"
+  }, {
+    "source" : "9db0fccd-388f-4faf-9813-1f541d701771",
+    "target" : "120ee01b-e281-4765-870a-45697ec9a342"
+  }, {
+    "source" : "9db0fccd-388f-4faf-9813-1f541d701771",
+    "target" : "f0bcc925-5865-455a-af9f-616b9f485136"
+  }, {
+    "source" : "9db0fccd-388f-4faf-9813-1f541d701771",
+    "target" : "1db4a16e-40fe-4cce-988a-491aaed1d80a"
+  }, {
+    "source" : "92a40d54-c0bd-4c20-b3f1-545c18fba8bf",
+    "target" : "9db0fccd-388f-4faf-9813-1f541d701771"
+  }, {
+    "source" : "92a40d54-c0bd-4c20-b3f1-545c18fba8bf",
+    "target" : "fc68e931-1225-4354-a18c-68953ddfe3cc"
+  }, {
+    "source" : "5f9b053f-ec85-4fa1-91c1-08fd690409a7",
+    "target" : "92a40d54-c0bd-4c20-b3f1-545c18fba8bf"
+  }, {
+    "source" : "a7ca52a2-229f-4f80-add9-237158ac2dac",
+    "target" : "5f9b053f-ec85-4fa1-91c1-08fd690409a7"
+  }, {
+    "source" : "d23ac136-8194-48e0-91fb-24631a171bfb",
+    "target" : "e6dd021a-37be-4267-8ff0-89196722445b"
+  }, {
+    "source" : "d23ac136-8194-48e0-91fb-24631a171bfb",
+    "target" : "5ddc2c0d-d881-47a6-bb13-8bf46b188c8b"
+  }, {
+    "source" : "a7ca52a2-229f-4f80-add9-237158ac2dac",
+    "target" : "d23ac136-8194-48e0-91fb-24631a171bfb"
+  }, {
+    "source" : "69be85b9-edf3-4020-a0c4-c10f257580a3",
+    "target" : "a7ca52a2-229f-4f80-add9-237158ac2dac"
+  }, {
+    "source" : "920ba045-b3a7-461d-8cd9-75b89315af27",
+    "target" : "69be85b9-edf3-4020-a0c4-c10f257580a3"
+  }, {
+    "source" : "e3487764-14a7-48d9-ae60-e1cea4567829",
+    "target" : "1f5e1e49-f76e-4e01-9134-52b928850504"
+  }, {
+    "source" : "e3487764-14a7-48d9-ae60-e1cea4567829",
+    "target" : "d2eefef3-70a0-43d7-84cc-fe49831fb426"
+  }, {
+    "source" : "920ba045-b3a7-461d-8cd9-75b89315af27",
+    "target" : "e3487764-14a7-48d9-ae60-e1cea4567829"
+  }, {
+    "source" : "fef710cd-bc94-49a6-8cca-dfa88ad52f25",
+    "target" : "920ba045-b3a7-461d-8cd9-75b89315af27"
+  }, {
+    "source" : "a1abb935-9dc2-414d-87bf-75911211ea62",
+    "target" : "fef710cd-bc94-49a6-8cca-dfa88ad52f25"
+  }, {
+    "source" : "331849a3-83a8-4e21-a45c-4ac5d2a1c272",
+    "target" : "d5f09a82-350d-49c0-b247-73583147feb0"
+  }, {
+    "source" : "331849a3-83a8-4e21-a45c-4ac5d2a1c272",
+    "target" : "fe0d7080-3a77-46b3-a89b-a93f6d461ca7"
+  }, {
+    "source" : "c27576a9-826d-4910-ab53-e3229fef4e05",
+    "target" : "331849a3-83a8-4e21-a45c-4ac5d2a1c272"
+  }, {
+    "source" : "feb1f217-f9f3-4620-992e-ea3b9f73eb1a",
+    "target" : "f2308743-3d62-4cab-af69-7543c3e200b4"
+  }, {
+    "source" : "feb1f217-f9f3-4620-992e-ea3b9f73eb1a",
+    "target" : "d6c2c9c3-eb84-4ab1-9024-af2e86916cf1"
+  }, {
+    "source" : "c27576a9-826d-4910-ab53-e3229fef4e05",
+    "target" : "feb1f217-f9f3-4620-992e-ea3b9f73eb1a"
+  }, {
+    "source" : "a1abb935-9dc2-414d-87bf-75911211ea62",
+    "target" : "c27576a9-826d-4910-ab53-e3229fef4e05"
+  }, {
+    "source" : "10b35881-8fd8-41d8-826c-e78e841dd4f0",
+    "target" : "a1abb935-9dc2-414d-87bf-75911211ea62"
+  }, {
+    "source" : "b4bbabbe-6c2c-468c-876c-ce976a37f095",
+    "target" : "10b35881-8fd8-41d8-826c-e78e841dd4f0"
+  } ]
+}

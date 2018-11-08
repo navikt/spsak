@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<UserOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UserOraclev10g" name="FPSAK" directorySegmentName="seg_0" id="E9425C1A-7186-D4A6-5803-CF85442090AC">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:07:40 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<schemaObject>8C257168-2540-B786-F794-A9E69E03391A</schemaObject>
+</UserOraclev10g>

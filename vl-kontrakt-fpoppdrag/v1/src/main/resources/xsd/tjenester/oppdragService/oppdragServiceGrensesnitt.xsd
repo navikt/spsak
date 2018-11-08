@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema targetNamespace="http://nav.no/system/os/tjenester/oppdragService/oppdragServiceGrensesnitt" xmlns:feil="http://nav.no/system/os/tjenester/oppdragService/feil" xmlns:serviceTypes="http://nav.no/system/os/tjenester/oppdragService/oppdragServiceServiceTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://nav.no/system/os/tjenester/oppdragService/oppdragServiceServiceTypes" schemaLocation="oppdragServiceServiceTypes.xsd"/>
+    <xsd:import namespace="http://nav.no/system/os/tjenester/oppdragService/feil" schemaLocation="feil.xsd"/>
+    <!--sendInnOppdrag-->
+    <xsd:element name="sendInnOppdragRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="request" type="serviceTypes:sendInnOppdragRequest"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="sendInnOppdragResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" name="response" type="serviceTypes:sendInnOppdragResponse"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="sendInnOppdragFeilUnderBehandling" type="feil:feilUnderBehandling"/>
+    <!--simulerBeregning-->
+    <xsd:element name="simulerBeregningRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="request" type="serviceTypes:simulerBeregningRequest"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="simulerBeregningResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" name="response" type="serviceTypes:simulerBeregningResponse"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="simulerBeregningFeilUnderBehandling" type="feil:feilUnderBehandling"/>
+</xsd:schema>

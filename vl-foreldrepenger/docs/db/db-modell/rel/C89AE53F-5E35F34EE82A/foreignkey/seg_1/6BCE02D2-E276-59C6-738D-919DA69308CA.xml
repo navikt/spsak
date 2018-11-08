@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="6BCE02D2-E276-59C6-738D-919DA69308CA" containerWithKeyObject="EC202C9A-2018-01F1-61F7-32F451D5C413" localFKIndex="EF00F752-7271-3479-000E-9B55641A6F0C" name="FK_GR_VERGE_VID">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>043E71D6-84F4-1CB5-9F10-24D8ED9C44CC</importedID>
+<referredTableLongName>VERGE</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>307507A9-A1EA-FFD6-D38F-DA626B031416</referredTableID>
+<keyObject>FE9BD5E9-FCF7-489A-0C50-34ADFB443030</keyObject>
+<referredKeyID>FE9BD5E9-FCF7-489A-0C50-34ADFB443030</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

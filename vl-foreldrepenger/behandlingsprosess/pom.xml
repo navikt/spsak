@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>no.nav.foreldrepenger</groupId>
+		<artifactId>fpsak</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
+	<artifactId>behandlingsprosess-pom</artifactId>
+	<packaging>pom</packaging>
+	<name>FPSAK :: Behandlingsprosess Pom</name>
+
+	<modules>
+		<module>avklare-fakta</module>
+		<module>lopende-medlemskap</module>
+		<module>beregn-ytelse</module>
+        <module>innhent-registeropplysninger</module>
+		<module>inngangsvilkar</module>
+		<module>beregningsgrunnlag</module>
+		<module>vedtak</module>
+        <module>iverksette-vedtak</module>
+        <module>foresla-vedtak</module>
+        <module>varsel-om-revurdering</module>
+        <module>klage</module>
+        <module>vurder-innsyn</module>
+        <module>kompletthetssjekk</module>
+		<module>uttak</module>
+        <module>simulering</module>
+
+		<!-- Bill of Material (BOM) modul som samler alle over -->
+		<module>bom</module>
+
+    </modules>
+
+</project>

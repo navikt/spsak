@@ -1,0 +1,548 @@
+{
+  "root" : {
+    "id" : "423b7665-0143-4624-be35-fa16bb1ca3ee",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "423b7665-0143-4624-be35-fa16bb1ca3ee",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "978e55ef-eb98-417f-b282-220f335fe95a",
+    "ruleId" : "FP_BR X.X",
+    "ruleDescription" : "Gjelder besteberegning?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ebd2bd1f-0afa-4cab-97b5-c2c522c88609",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "02efd2bc-d43c-413f-84e7-bd443bae1720",
+    "ruleId" : "FP_BR 14.2",
+    "ruleDescription" : "Fastsett beregningsperiode for arbeidstaker og frilanser",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "39db8b1d-a616-4b42-b174-5d48cdaeffd0",
+    "ruleId" : "FP_BR 14.2",
+    "ruleDescription" : "Fastsett beregningsperiode for arbeidstaker og frilanser",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "5eb5e5b4-ea75-4e99-bf75-e0187018d0cf",
+    "ruleId" : "FP_BR 14.X",
+    "ruleDescription" : "Fastsett beregningsgrunnlag pr arbeidsforhold",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "2c9df909-8d72-4d7d-a036-842910b9cbcf",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "aa7d8f8d-2b34-4944-a813-b4f9be762157",
+    "ruleId" : "FP_BR 14.1",
+    "ruleDescription" : "Er bruker arbeidstaker?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "39d80a4d-f7cc-4a01-a25d-004f1ec6c7f7",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "6b91c882-d20d-449c-b35b-004494adf9c7",
+    "ruleId" : "FP_BR 15.5",
+    "ruleDescription" : "Har saksbehandler fastsatt månedsinntekt manuelt?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "17d8ab2b-8446-467e-bdd9-98313b6a5a7b",
+    "ruleId" : "FB_BR 15.6",
+    "ruleDescription" : "Rapportert inntekt = manuelt fastsatt månedsinntekt * 12",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "d6269c19-14da-4beb-b965-da763f7c435c",
+    "ruleId" : "FB_BR 15.6",
+    "ruleDescription" : "Rapportert inntekt = manuelt fastsatt månedsinntekt * 12",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "365740c8-35fe-4d31-9497-f20b0df431fe",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a8a1da7c-5efa-486e-99dc-e0c1640998d8",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "e42ec863-3cad-455a-abd1-5a617894c554",
+    "ruleId" : "FP_BR 15.1",
+    "ruleDescription" : "Foreligger inntektsmelding?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "cc236fcf-2c2d-41b6-b9f9-913a5eb5bdbe",
+    "ruleId" : "FP_BR 15.2",
+    "ruleDescription" : "Rapportert inntekt = inntektsmelding sats * 12",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "6e49eacd-5b9f-4f11-9962-549e680c074c",
+    "ruleId" : "FP_BR 15.2",
+    "ruleDescription" : "Rapportert inntekt = inntektsmelding sats * 12",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3b4a69ac-c443-4b6d-a51f-07eb2b42997d",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "1768ce8e-4a99-45cd-bb1d-3948507e6f72",
+    "ruleId" : "FP_BR 15.3",
+    "ruleDescription" : "Har bruker bortfall av naturalytelse ved start av perioden eller i tidligere periode?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "2707897c-de80-44c3-a77e-a1325c0d05dc",
+    "ruleId" : "FP_BR 15.4",
+    "ruleDescription" : "Beregn naturalytelse -> naturalytelseverdi * 12",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "3555e3e1-c4e2-4cca-acd2-ecf863ced2a1",
+    "ruleId" : "FP_BR 15.4",
+    "ruleDescription" : "Beregn naturalytelse -> naturalytelseverdi * 12",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "03ce2cd3-fcac-4a99-a319-77806ebb9ec8",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "e0561b08-b510-4e23-810c-ee8eb50820fb",
+    "ruleId" : "FP_BR 15.5",
+    "ruleDescription" : "Har det bruker tilkommet av naturalytelse ved start av perioden?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "68b7a2cb-73de-49b5-9405-f2d9157d578a",
+    "ruleId" : "FP_BR 15.6",
+    "ruleDescription" : "Beregn naturalytelse -> naturalytelseverdi * 12",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fcd611ce-18ad-41e8-91bc-9dfa5c805336",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "89d122d5-e06f-4a91-a953-d9f0883cbce3",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "e31aa87e-eaa7-44af-ae94-5c81e5fb7b87",
+    "ruleId" : "FP_BR 15.5",
+    "ruleDescription" : "Har det bruker tilkommet av naturalytelse ved start av perioden?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "724f38cc-bd78-4027-a174-c73e50452319",
+    "ruleId" : "FP_BR 15.6",
+    "ruleDescription" : "Beregn naturalytelse -> naturalytelseverdi * 12",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "14ef5b22-516b-468d-a0d2-ab1b68d29026",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "cec630a2-c911-421e-b737-4ae121b71d23",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "a6063685-6cb4-48bb-8b84-421c1bcbb38f",
+    "ruleId" : "FB_BR 27.5",
+    "ruleDescription" : "Vurder om beregningen skal utføres",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "c85bbca3-50f7-4f8b-852c-1762d7a91bf3",
+    "ruleId" : "FB_BR 14.3",
+    "ruleDescription" : "Rapportert inntekt = snitt av mnd-inntekter i beregningsperioden * 12",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "16a09ebd-2c75-4f57-ad31-c80a44d760a5",
+    "ruleId" : "7014",
+    "ruleDescription" : "Inntekt i beregningsperioden skal ikke beregnes før perioden er innrapportert eller frist utløpt.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "9b4ab09b-b1df-481a-a70d-71ae52f9cd30",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "2bb0996a-209d-4182-898d-f99258115540",
+    "ruleId" : "FP_BR 14.9",
+    "ruleDescription" : "Er frilans inntekt fastsatt av saksbehandler?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "82b5bd57-e3f1-4ece-a6aa-d0cd0457671c",
+    "ruleId" : "FB_BR 14.10",
+    "ruleDescription" : "Beregn grunnlag nyoppstartet frilanser = (avklart inntekt * 12)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "878cfb94-452c-4fea-af8e-5667fd97198a",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "371ae357-a616-4052-8ecd-9272c1c06743",
+    "ruleId" : "FB_BR 27.5",
+    "ruleDescription" : "Vurder om beregningen skal utføres",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "c8f79048-fcaa-4950-a978-d51eb88fa45e",
+    "ruleId" : "FB_BR 14.3",
+    "ruleDescription" : "Rapportert inntekt = snitt av mnd-inntekter i beregningsperioden * 12",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "9e2faae1-19c0-4608-b605-9d68e87c0368",
+    "ruleId" : "7014",
+    "ruleDescription" : "Inntekt i beregningsperioden skal ikke beregnes før perioden er innrapportert eller frist utløpt.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "7d74d03b-b220-4e67-9150-228c7c4e74bd",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "75ef68a5-9242-4a49-bfa7-61c602aa6bf3",
+    "ruleId" : "FP_BR 14.5",
+    "ruleDescription" : "Ble det opprettet en regel merknad?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "fa928a6d-556c-420b-a2f8-9bbef161c41a",
+    "ruleId" : "7014",
+    "ruleDescription" : "Inntekt i beregningsperioden skal ikke beregnes før perioden er innrapportert eller frist utløpt.",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "3b271cec-eff3-4a83-985a-70f820f7a11e",
+    "ruleId" : "FP_BR 14.5",
+    "ruleDescription" : "Fastsett beregnet pr år for ATFL",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "f026354e-19d9-414a-a903-f09bcb4a8ce6",
+    "ruleId" : "FP_BR 14.5",
+    "ruleDescription" : "Beregnet årsinntekt er sum av alle rapporterte inntekter",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "4f5ab7d9-e487-4ac0-b2a1-ab98286cca96",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "b0a685e9-61d4-4f03-8875-8501a5b76541",
+    "ruleId" : "FP_BR 14.6",
+    "ruleDescription" : "Har bruker kombinasjonsstatus med SN?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "2910ac01-607b-4856-93a2-3d11a1eb6c77",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "69c2ab56-80c6-40e4-bb5b-68d5fe559dd4",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "72bcf9ee-8874-40fa-815a-7bd4be3f3345",
+    "ruleId" : "FP_BR XX",
+    "ruleDescription" : "Første beregningsgrunnlagperiode?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "49b05c5d-b2df-448a-a929-6c903bedf4aa",
+    "ruleId" : "FP_BR 17.1",
+    "ruleDescription" : "Fastsett sammenligningsgrunnlag for ATFL",
+    "operator" : "SEQUENCE",
+    "rule" : { }
+  }, {
+    "id" : "ffe00b47-ee3c-439a-9bef-a3842aa98fa8",
+    "ruleId" : "FP_BR 17.1",
+    "ruleDescription" : "Sammenligningsgrunnlag er sum av 12 siste måneder",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "784f3bfc-2c0b-4d87-b77c-e5edd3297cbf",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "4bfe8fea-1fca-43ef-8328-9196ed3de80c",
+    "ruleId" : "FP_BR 27.1",
+    "ruleDescription" : "Har beregnet årsinntekt avvik mot sammenligningsgrunnlag mer enn 25% ?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "a556b29b-b4cf-4948-803a-b60d62a71e9e",
+    "ruleId" : "...",
+    "ruleDescription" : "...",
+    "operator" : "COMPUTATIONAL_IF",
+    "rule" : { }
+  }, {
+    "id" : "e92e668a-e6d0-461a-9b74-379774edcc7d",
+    "ruleId" : "FP_BR 27.4",
+    "ruleDescription" : "Har bruker et tidsbegrenset arbeidsforhold?",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ab5867ea-3db4-402e-bc55-825d86bb496f",
+    "ruleId" : "5047",
+    "ruleDescription" : "Avvik er > 25% og bruker har tidsbegrenset arbeidsforhold i foregående periode, beregningsgrunnlag fastsettes ved skjønn",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "0e5ee2e9-56ea-4ef9-8814-8a53f8865915",
+    "ruleId" : "5038",
+    "ruleDescription" : "Avvik er > 25%, beregningsgrunnlag fastsettes ved skjønn",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "ea4e6285-9e0b-455b-8f33-1a5d553a642e",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "541092ed-1b7f-4622-b654-ff42a1dbb4e0",
+    "ruleId" : "Beregnet",
+    "ruleDescription" : "Beregnet",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "423b7665-0143-4624-be35-fa16bb1ca3ee",
+    "target" : "978e55ef-eb98-417f-b282-220f335fe95a"
+  }, {
+    "source" : "423b7665-0143-4624-be35-fa16bb1ca3ee",
+    "target" : "ebd2bd1f-0afa-4cab-97b5-c2c522c88609"
+  }, {
+    "source" : "02efd2bc-d43c-413f-84e7-bd443bae1720",
+    "target" : "39db8b1d-a616-4b42-b174-5d48cdaeffd0"
+  }, {
+    "source" : "2c9df909-8d72-4d7d-a036-842910b9cbcf",
+    "target" : "aa7d8f8d-2b34-4944-a813-b4f9be762157"
+  }, {
+    "source" : "39d80a4d-f7cc-4a01-a25d-004f1ec6c7f7",
+    "target" : "6b91c882-d20d-449c-b35b-004494adf9c7"
+  }, {
+    "source" : "17d8ab2b-8446-467e-bdd9-98313b6a5a7b",
+    "target" : "d6269c19-14da-4beb-b965-da763f7c435c"
+  }, {
+    "source" : "17d8ab2b-8446-467e-bdd9-98313b6a5a7b",
+    "target" : "365740c8-35fe-4d31-9497-f20b0df431fe"
+  }, {
+    "source" : "39d80a4d-f7cc-4a01-a25d-004f1ec6c7f7",
+    "target" : "17d8ab2b-8446-467e-bdd9-98313b6a5a7b"
+  }, {
+    "source" : "a8a1da7c-5efa-486e-99dc-e0c1640998d8",
+    "target" : "e42ec863-3cad-455a-abd1-5a617894c554"
+  }, {
+    "source" : "cc236fcf-2c2d-41b6-b9f9-913a5eb5bdbe",
+    "target" : "6e49eacd-5b9f-4f11-9962-549e680c074c"
+  }, {
+    "source" : "3b4a69ac-c443-4b6d-a51f-07eb2b42997d",
+    "target" : "1768ce8e-4a99-45cd-bb1d-3948507e6f72"
+  }, {
+    "source" : "2707897c-de80-44c3-a77e-a1325c0d05dc",
+    "target" : "3555e3e1-c4e2-4cca-acd2-ecf863ced2a1"
+  }, {
+    "source" : "03ce2cd3-fcac-4a99-a319-77806ebb9ec8",
+    "target" : "e0561b08-b510-4e23-810c-ee8eb50820fb"
+  }, {
+    "source" : "03ce2cd3-fcac-4a99-a319-77806ebb9ec8",
+    "target" : "68b7a2cb-73de-49b5-9405-f2d9157d578a"
+  }, {
+    "source" : "03ce2cd3-fcac-4a99-a319-77806ebb9ec8",
+    "target" : "fcd611ce-18ad-41e8-91bc-9dfa5c805336"
+  }, {
+    "source" : "2707897c-de80-44c3-a77e-a1325c0d05dc",
+    "target" : "03ce2cd3-fcac-4a99-a319-77806ebb9ec8"
+  }, {
+    "source" : "3b4a69ac-c443-4b6d-a51f-07eb2b42997d",
+    "target" : "2707897c-de80-44c3-a77e-a1325c0d05dc"
+  }, {
+    "source" : "89d122d5-e06f-4a91-a953-d9f0883cbce3",
+    "target" : "e31aa87e-eaa7-44af-ae94-5c81e5fb7b87"
+  }, {
+    "source" : "89d122d5-e06f-4a91-a953-d9f0883cbce3",
+    "target" : "724f38cc-bd78-4027-a174-c73e50452319"
+  }, {
+    "source" : "89d122d5-e06f-4a91-a953-d9f0883cbce3",
+    "target" : "14ef5b22-516b-468d-a0d2-ab1b68d29026"
+  }, {
+    "source" : "3b4a69ac-c443-4b6d-a51f-07eb2b42997d",
+    "target" : "89d122d5-e06f-4a91-a953-d9f0883cbce3"
+  }, {
+    "source" : "cc236fcf-2c2d-41b6-b9f9-913a5eb5bdbe",
+    "target" : "3b4a69ac-c443-4b6d-a51f-07eb2b42997d"
+  }, {
+    "source" : "a8a1da7c-5efa-486e-99dc-e0c1640998d8",
+    "target" : "cc236fcf-2c2d-41b6-b9f9-913a5eb5bdbe"
+  }, {
+    "source" : "cec630a2-c911-421e-b737-4ae121b71d23",
+    "target" : "a6063685-6cb4-48bb-8b84-421c1bcbb38f"
+  }, {
+    "source" : "cec630a2-c911-421e-b737-4ae121b71d23",
+    "target" : "c85bbca3-50f7-4f8b-852c-1762d7a91bf3"
+  }, {
+    "source" : "cec630a2-c911-421e-b737-4ae121b71d23",
+    "target" : "16a09ebd-2c75-4f57-ad31-c80a44d760a5"
+  }, {
+    "source" : "a8a1da7c-5efa-486e-99dc-e0c1640998d8",
+    "target" : "cec630a2-c911-421e-b737-4ae121b71d23"
+  }, {
+    "source" : "39d80a4d-f7cc-4a01-a25d-004f1ec6c7f7",
+    "target" : "a8a1da7c-5efa-486e-99dc-e0c1640998d8"
+  }, {
+    "source" : "2c9df909-8d72-4d7d-a036-842910b9cbcf",
+    "target" : "39d80a4d-f7cc-4a01-a25d-004f1ec6c7f7"
+  }, {
+    "source" : "9b4ab09b-b1df-481a-a70d-71ae52f9cd30",
+    "target" : "2bb0996a-209d-4182-898d-f99258115540"
+  }, {
+    "source" : "9b4ab09b-b1df-481a-a70d-71ae52f9cd30",
+    "target" : "82b5bd57-e3f1-4ece-a6aa-d0cd0457671c"
+  }, {
+    "source" : "878cfb94-452c-4fea-af8e-5667fd97198a",
+    "target" : "371ae357-a616-4052-8ecd-9272c1c06743"
+  }, {
+    "source" : "878cfb94-452c-4fea-af8e-5667fd97198a",
+    "target" : "c8f79048-fcaa-4950-a978-d51eb88fa45e"
+  }, {
+    "source" : "878cfb94-452c-4fea-af8e-5667fd97198a",
+    "target" : "9e2faae1-19c0-4608-b605-9d68e87c0368"
+  }, {
+    "source" : "9b4ab09b-b1df-481a-a70d-71ae52f9cd30",
+    "target" : "878cfb94-452c-4fea-af8e-5667fd97198a"
+  }, {
+    "source" : "2c9df909-8d72-4d7d-a036-842910b9cbcf",
+    "target" : "9b4ab09b-b1df-481a-a70d-71ae52f9cd30"
+  }, {
+    "source" : "5eb5e5b4-ea75-4e99-bf75-e0187018d0cf",
+    "target" : "2c9df909-8d72-4d7d-a036-842910b9cbcf"
+  }, {
+    "source" : "7d74d03b-b220-4e67-9150-228c7c4e74bd",
+    "target" : "75ef68a5-9242-4a49-bfa7-61c602aa6bf3"
+  }, {
+    "source" : "7d74d03b-b220-4e67-9150-228c7c4e74bd",
+    "target" : "fa928a6d-556c-420b-a2f8-9bbef161c41a"
+  }, {
+    "source" : "3b271cec-eff3-4a83-985a-70f820f7a11e",
+    "target" : "f026354e-19d9-414a-a903-f09bcb4a8ce6"
+  }, {
+    "source" : "4f5ab7d9-e487-4ac0-b2a1-ab98286cca96",
+    "target" : "b0a685e9-61d4-4f03-8875-8501a5b76541"
+  }, {
+    "source" : "4f5ab7d9-e487-4ac0-b2a1-ab98286cca96",
+    "target" : "2910ac01-607b-4856-93a2-3d11a1eb6c77"
+  }, {
+    "source" : "69c2ab56-80c6-40e4-bb5b-68d5fe559dd4",
+    "target" : "72bcf9ee-8874-40fa-815a-7bd4be3f3345"
+  }, {
+    "source" : "49b05c5d-b2df-448a-a929-6c903bedf4aa",
+    "target" : "ffe00b47-ee3c-439a-9bef-a3842aa98fa8"
+  }, {
+    "source" : "784f3bfc-2c0b-4d87-b77c-e5edd3297cbf",
+    "target" : "4bfe8fea-1fca-43ef-8328-9196ed3de80c"
+  }, {
+    "source" : "a556b29b-b4cf-4948-803a-b60d62a71e9e",
+    "target" : "e92e668a-e6d0-461a-9b74-379774edcc7d"
+  }, {
+    "source" : "a556b29b-b4cf-4948-803a-b60d62a71e9e",
+    "target" : "ab5867ea-3db4-402e-bc55-825d86bb496f"
+  }, {
+    "source" : "a556b29b-b4cf-4948-803a-b60d62a71e9e",
+    "target" : "0e5ee2e9-56ea-4ef9-8814-8a53f8865915"
+  }, {
+    "source" : "784f3bfc-2c0b-4d87-b77c-e5edd3297cbf",
+    "target" : "a556b29b-b4cf-4948-803a-b60d62a71e9e"
+  }, {
+    "source" : "784f3bfc-2c0b-4d87-b77c-e5edd3297cbf",
+    "target" : "ea4e6285-9e0b-455b-8f33-1a5d553a642e"
+  }, {
+    "source" : "49b05c5d-b2df-448a-a929-6c903bedf4aa",
+    "target" : "784f3bfc-2c0b-4d87-b77c-e5edd3297cbf"
+  }, {
+    "source" : "69c2ab56-80c6-40e4-bb5b-68d5fe559dd4",
+    "target" : "49b05c5d-b2df-448a-a929-6c903bedf4aa"
+  }, {
+    "source" : "69c2ab56-80c6-40e4-bb5b-68d5fe559dd4",
+    "target" : "541092ed-1b7f-4622-b654-ff42a1dbb4e0"
+  }, {
+    "source" : "4f5ab7d9-e487-4ac0-b2a1-ab98286cca96",
+    "target" : "69c2ab56-80c6-40e4-bb5b-68d5fe559dd4"
+  }, {
+    "source" : "3b271cec-eff3-4a83-985a-70f820f7a11e",
+    "target" : "4f5ab7d9-e487-4ac0-b2a1-ab98286cca96"
+  }, {
+    "source" : "7d74d03b-b220-4e67-9150-228c7c4e74bd",
+    "target" : "3b271cec-eff3-4a83-985a-70f820f7a11e"
+  }, {
+    "source" : "5eb5e5b4-ea75-4e99-bf75-e0187018d0cf",
+    "target" : "7d74d03b-b220-4e67-9150-228c7c4e74bd"
+  }, {
+    "source" : "02efd2bc-d43c-413f-84e7-bd443bae1720",
+    "target" : "5eb5e5b4-ea75-4e99-bf75-e0187018d0cf"
+  }, {
+    "source" : "423b7665-0143-4624-be35-fa16bb1ca3ee",
+    "target" : "02efd2bc-d43c-413f-84e7-bd443bae1720"
+  } ]
+}

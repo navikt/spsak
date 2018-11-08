@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:v1"
+	xmlns:bg="urn:no:nav:vedtak:felles:xml:vedtak:beregningsgrunnlag:v1"
+	xmlns:felles="urn:no:nav:vedtak:felles:xml:felles:v1">
+	<xsd:import schemaLocation="../felles-v1.xsd"
+		namespace="urn:no:nav:vedtak:felles:xml:felles:v1" />
+		
+  <xsd:complexType abstract="true" name="Beregningsgrunnlag" />
+  
+  <!-- <xsd:element name="beregningsgrunnlagES" type="bg:BeregningsgrunnlagEngangsstoenad" />  --> 
+
+  <xsd:complexType name="BeregningsgrunnlagEngangsstoenad">
+    <xsd:complexContent>
+      <xsd:extension base="bg:Beregningsgrunnlag">
+        <xsd:sequence>
+          <xsd:element name="antallBarn" type="felles:IntOpplysning" />
+          <xsd:element name="sats" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+</xsd:schema>

@@ -1,0 +1,37 @@
+{
+  "root" : {
+    "id" : "e7b3dd7b-013b-4d6b-99d0-a80d0b241db6",
+    "ruleId" : "FP_VK_3",
+    "ruleDescription" : "Hvis søknad er elektronisk ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "e7b3dd7b-013b-4d6b-99d0-a80d0b241db6",
+    "ruleId" : "FP_VK_3",
+    "ruleDescription" : "Hvis søknad er elektronisk ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "45423b77-5ee8-4282-88a3-595bfb53e4ce",
+    "ruleId" : "FP_VK_3.2",
+    "ruleDescription" : "Frist: (skjæringstidspunkt) + (P6M)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "1650a60c-f312-4385-b824-0123efa726e7",
+    "ruleId" : "FP_VK_3.2",
+    "ruleDescription" : "Frist: (skjæringstidspunkt) + (P6M + 2 virkedager)",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "e7b3dd7b-013b-4d6b-99d0-a80d0b241db6",
+    "target" : "45423b77-5ee8-4282-88a3-595bfb53e4ce",
+    "role" : ""
+  }, {
+    "source" : "e7b3dd7b-013b-4d6b-99d0-a80d0b241db6",
+    "target" : "1650a60c-f312-4385-b824-0123efa726e7",
+    "role" : "ellers"
+  } ]
+}

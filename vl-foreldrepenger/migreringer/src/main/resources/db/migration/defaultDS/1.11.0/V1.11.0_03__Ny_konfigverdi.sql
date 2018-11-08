@@ -1,0 +1,2 @@
+insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('maks.stønadsalder.adopsjon', 'Maks stønadsalder adopsjon', 'INGEN', 'INTEGER', 'Maks stønadsalder ved adopsjon');
+insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'maks.stønadsalder.adopsjon', 'INGEN', '15', to_date('01.01.2016', 'dd.mm.yyyy'));

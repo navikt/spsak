@@ -1,0 +1,134 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2016-12-05", "2017-04-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "AAP",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-05-01", "2017-06-20" ],
+    "aktivitet" : {
+      "aktivitetType" : "AAP",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-06-21", "2017-12-23" ],
+    "aktivitet" : {
+      "aktivitetType" : "AAP",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-12-24", "2018-04-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "AAP",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2018-04-01", "2018-08-26" ],
+    "aktivitet" : {
+      "aktivitetType" : "FRILANS",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "VURDERT_GODKJENT"
+  }, {
+    "datoIntervall" : [ "2018-05-01", "2018-07-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "AAP",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2018-07-01", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "974716860",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2018-08-01", "2018-12-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "AAP",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-21",
+  "forsteDatoOpptjening" : "2017-10-25",
+  "sisteDatoForOpptjening" : "2018-08-24",
+  "inntektPerioder" : [ {
+    "datoIntervall" : [ "2018-04-01", "2018-04-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "873152362",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 2000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-06-01", "2018-06-30" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "873152362",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 3000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-05-01", "2018-05-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "873152362",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 3000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-07-01", "2018-07-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "873152362",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 1600,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-08-01", "2018-08-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "873152362",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 900,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-07-01", "2018-07-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "974716860",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 6000,
+    "inntektValuta" : "NOK"
+  }, {
+    "datoIntervall" : [ "2018-08-01", "2018-08-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "974716860",
+      "referanseType" : "ORGNR"
+    },
+    "inntektBelop" : 6000,
+    "inntektValuta" : "NOK"
+  } ]
+}

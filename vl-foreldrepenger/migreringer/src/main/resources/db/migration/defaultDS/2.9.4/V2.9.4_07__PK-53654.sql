@@ -1,0 +1,22 @@
+insert into AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE, SKJERMLENKE_TYPE)
+values ('5081', 'Avklar første uttaksdato', 'VURDER_UTTAK.INN', 'Avklar første uttaksdato.', 'N', 'MANU', '-', '-');
+
+insert into AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE, SKJERMLENKE_TYPE)
+values ('5073', 'Kontroller realitetsbehandling/klage', 'VURDER_UTTAK.UT', 'Kontroller realitetsbehandling/klage', 'N', 'MANU', '-', '-');
+insert into AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE, SKJERMLENKE_TYPE)
+values ('5074', 'Kontroller opplysninger om medlemskap', 'VURDER_UTTAK.UT', 'Kontroller opplysninger om medlemskap', 'N', 'MANU', '-', '-');
+insert into AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE, SKJERMLENKE_TYPE)
+values ('5075', 'Kontroller opplysninger om fordeling av stønadsperioden', 'VURDER_UTTAK.UT', 'Kontroller opplysninger om fordeling av stønadsperioden', 'N', 'MANU', '-', '-');
+insert into AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE, SKJERMLENKE_TYPE)
+values ('5076', 'Kontroller opplysninger om død', 'VURDER_UTTAK.UT', 'Kontroller opplysninger om død', 'N', 'MANU', '-', '-');
+insert into AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE, SKJERMLENKE_TYPE)
+values ('5077', 'Kontroller opplysninger om søknadsfrist', 'VURDER_UTTAK.UT', 'Kontroller opplysninger om søknadsfrist', 'N', 'MANU', '-', '-');
+insert into AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE, SKJERMLENKE_TYPE)
+values ('5078', 'Kontroller tilstøtende ytelser innvilget', 'VURDER_UTTAK.UT', 'Kontroller tilstøtende ytelser innvilget', 'N', 'MANU', '-', '-');
+insert into AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, VILKAR_TYPE, SKJERMLENKE_TYPE)
+values ('5079', 'Kontroller tilstøtende ytelser opphørt', 'VURDER_UTTAK.UT', 'Kontroller tilstøtende ytelser opphørt', 'N', 'MANU', '-', '-');
+
+insert into BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, FAGSAK_YTELSE_TYPE)
+values (SEQ_BEHANDLING_TYPE_STEG_SEKV.NEXTVAL, 'BT-004', 'SØKNADSFRIST_FP', 115,  'FP');
+insert into BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, FAGSAK_YTELSE_TYPE)
+values (SEQ_BEHANDLING_TYPE_STEG_SEKV.NEXTVAL, 'BT-004', 'KOFAKUT', 117,  'FP');

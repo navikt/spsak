@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>json-feed-pom</artifactId>
+		<groupId>no.nav.foreldrepenger</groupId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+	<packaging>jar</packaging>
+
+	<artifactId>json-feed-tjeneste</artifactId>
+	<name>FPSAK :: Infrastrukturtjenester - Json-Feed - Tjeneste</name>
+	<dependencies>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingslager-domene</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingskontroll-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.vedtak.felles.integrasjon</groupId>
+			<artifactId>felles-integrasjon-rest-klient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.foreldrepenger.kontrakter</groupId>
+			<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
+		</dependency>
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>no.nav.foreldrepenger</groupId>
+			<artifactId>behandlingskontroll</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+	</dependencies>
+</project>

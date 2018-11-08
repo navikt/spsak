@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_6" id="26160C37-AB1A-3D26-B16E-30517CB7FADF" containerWithKeyObject="B05E3BC3-4B75-F810-E5B6-D2BD3850AD90" localFKIndex="6D74C024-21BF-02D7-765B-6C4398B28DAA" name="FK_TOTRINNSVURDERING">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:37 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>84601EE6-CD47-0C97-5833-72D333E6FE1E</importedID>
+<referredTableLongName>AKSJONSPUNKT_DEF</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>679B0AAA-2A7E-8295-977E-9478949C9377</referredTableID>
+<keyObject>EDB3FE77-79D8-2631-8154-B6F48715E5B2</keyObject>
+<referredKeyID>EDB3FE77-79D8-2631-8154-B6F48715E5B2</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>kode</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

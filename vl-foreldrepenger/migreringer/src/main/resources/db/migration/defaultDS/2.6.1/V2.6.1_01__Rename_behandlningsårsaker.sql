@@ -1,0 +1,1 @@
+update kodeliste set kode = 'RE-END-FRA-BRUKER', navn = 'RE-END-FRA-BRUKER' where kode = 'RE_END_FRA_BRUKER' and KODEVERK = 'BEHANDLING_AARSAK';

@@ -1,0 +1,77 @@
+{
+  "root" : {
+    "id" : "52f67e13-2fb0-4fac-aedd-cf12d26e8f28",
+    "ruleId" : "FP_VK_11.2",
+    "ruleDescription" : "Er fødsel bekreftet ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  },
+  "nodes" : [ {
+    "id" : "52f67e13-2fb0-4fac-aedd-cf12d26e8f28",
+    "ruleId" : "FP_VK_11.2",
+    "ruleDescription" : "Er fødsel bekreftet ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "cc526ee9-9643-49dd-ba6d-f7f0a24ba7fd",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "1cb59108-053c-4095-9402-4b69d7045cf1",
+    "ruleId" : "FP_VK_11.3",
+    "ruleDescription" : "Har søker familierelasjon far/medmor til barnet ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "8bc477b9-0aa2-4fc4-b14e-a0121bfa2820",
+    "ruleId" : "FP_VK_11.4",
+    "ruleDescription" : "Er det sannsynlig at mor er så syk etter fødselen at hun ikke kan ta seg av barnet ...",
+    "operator" : "COND_OR",
+    "rule" : { }
+  }, {
+    "id" : "84427a44-cb3e-4a11-8a5a-af19fb338f51",
+    "ruleId" : "Oppfylt",
+    "ruleDescription" : "Oppfylt",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "64a00ae6-55e5-44bf-b66a-86bfe685cc4f",
+    "ruleId" : "1028",
+    "ruleDescription" : "Mor ikke for syk til å ta vare på barn",
+    "operator" : "SINGLE",
+    "rule" : { }
+  }, {
+    "id" : "80ea5c5d-e149-488e-b137-131a6396dfa6",
+    "ruleId" : "1027",
+    "ruleDescription" : "Søker er ikke dokumentert som barnets far/medmor",
+    "operator" : "SINGLE",
+    "rule" : { }
+  } ],
+  "edges" : [ {
+    "source" : "52f67e13-2fb0-4fac-aedd-cf12d26e8f28",
+    "target" : "cc526ee9-9643-49dd-ba6d-f7f0a24ba7fd",
+    "role" : ""
+  }, {
+    "source" : "8bc477b9-0aa2-4fc4-b14e-a0121bfa2820",
+    "target" : "84427a44-cb3e-4a11-8a5a-af19fb338f51",
+    "role" : ""
+  }, {
+    "source" : "8bc477b9-0aa2-4fc4-b14e-a0121bfa2820",
+    "target" : "64a00ae6-55e5-44bf-b66a-86bfe685cc4f",
+    "role" : "ellers"
+  }, {
+    "source" : "1cb59108-053c-4095-9402-4b69d7045cf1",
+    "target" : "8bc477b9-0aa2-4fc4-b14e-a0121bfa2820",
+    "role" : ""
+  }, {
+    "source" : "1cb59108-053c-4095-9402-4b69d7045cf1",
+    "target" : "80ea5c5d-e149-488e-b137-131a6396dfa6",
+    "role" : "ellers"
+  }, {
+    "source" : "52f67e13-2fb0-4fac-aedd-cf12d26e8f28",
+    "target" : "1cb59108-053c-4095-9402-4b69d7045cf1",
+    "role" : "ellers"
+  } ]
+}

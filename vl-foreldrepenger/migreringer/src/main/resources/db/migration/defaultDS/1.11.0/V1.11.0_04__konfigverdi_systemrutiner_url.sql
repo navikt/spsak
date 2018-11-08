@@ -1,0 +1,2 @@
+insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('systemrutine.url', 'Systemrutiner URL', 'INGEN', 'URI', 'Lenke til systemrutiner');
+insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'systemrutine.url', 'INGEN', 'https://navet.adeo.no/ansatt/Fag/Regelverk+og+rutiner/Saksbehandling', to_date('01.01.2016', 'dd.mm.yyyy'));

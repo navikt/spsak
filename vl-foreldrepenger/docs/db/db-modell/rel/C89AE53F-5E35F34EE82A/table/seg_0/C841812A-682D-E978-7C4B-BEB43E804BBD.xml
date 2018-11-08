@@ -1,0 +1,280 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C841812A-682D-E978-7C4B-BEB43E804BBD" name="BEREGNINGSGRUNNLAG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Aggregat for beregningsgrunnlag</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>90D0DA82-C9B0-0A84-B071-E47BFAACA4E6</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="723CECF0-E312-3BE3-3B0F-A31C3A1E1ADA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Primærnøkkel</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6DEA63FF-E1F8-47BE-BB46-D38DD2A4C040</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="SKJARINGSTIDSPUNKT" id="52055696-849D-45A2-D117-CDA8EB3359A4">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Skjæringstidspunkt for beregning</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>55AED784-3753-73E5-D9E2-80F03BD06847</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="VERSJON" id="4DE37E81-5582-4197-8E01-6E6114441D37">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>52668BDC-3115-07B7-DCEA-CD102775039E</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>19</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,19,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_AV" id="27A3577D-D973-DD5C-3705-A7AFA716F838">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0FA915ED-5ABD-1CBE-13B7-0005D21E9556</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<defaultValue>&apos;VL&apos;</defaultValue>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRETTET_TID" id="94054A7C-DF5F-9F42-8155-AB681629D01C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>955AAFFC-9343-5BA3-0C7E-9B6D59F18DD0</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<defaultValue>systimestamp</defaultValue>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_AV" id="54D7026F-52FE-2C37-7F95-8DF172B9E792">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>4812B6CF-C547-6E13-CD95-CA6428847F09</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENDRET_TID" id="0AE402A1-F760-1D9E-8409-0C679B052C31">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>154DB90D-A7CD-2DFF-D506-0FEC71E20355</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<ownDataTypeParameters>,3,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REGELLOGG_SKJARINGSTIDSPUNKT" id="A5F28C68-47C5-BDEE-6835-640CFB6DEEFE">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Logg fra beregningsregel for skjæringstidspunkt, JSON</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>9117EFA7-5EB6-07D6-34F9-C4F1824894D7</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<ownDataTypeParameters>4000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REGELLOGG_BRUKERS_STATUS" id="32E04C5D-430D-DC71-9DEE-D939760F706E">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<commentInRDBMS>Logg fra beregningsregel for brukers status, JSON</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>19C108FE-D2F4-030B-4E1D-3F854496F2FD</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<ownDataTypeParameters>4000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REGELINPUT_SKJARINGSTIDSPUNKT" id="984A05B4-C1B7-926A-9A52-807D8D8F7EFF">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Input til beregningsregel for skjæringstidspunkt, JSON</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>AA800F68-1519-4103-79B6-4C8BB809DE2D</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<ownDataTypeParameters>4000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REGELINPUT_BRUKERS_STATUS" id="E3C4FA17-F9A6-8C4B-0B94-A97971AA0CDD">
+<createdBy>J150219</createdBy>
+<createdTime>2018-03-09 10:11:19 UTC</createdTime>
+<commentInRDBMS>Input til beregningsregel for brukers status, JSON</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>694CEA40-A0EB-2C3F-A201-4199C19D693D</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<ownDataTypeParameters>4000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DEKNINGSGRAD" id="85369C44-E524-C5DC-A2CA-7D58AEF16381">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Dekningsgrad (80 eller 100) for denne foreldrepengesaken</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D9328B25-A599-EF56-F327-CD2EE7DED651</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,3,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OPPRINNELIG_SKJARINGSTIDSPUNKT" id="F569899F-5A2A-C97C-4E0E-40DC8BC4B177">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Normalt samme som skjæringstidspunkt. Ved overgang mellom ytelser er det første uttaksdag for den første i rekken av tilstøtende ytelser.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>D7B5BCD0-85E0-D3C6-564D-F7F0E3B5CE52</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="GRUNNBELOEP" id="D4038CB2-17C4-7459-43B2-2D31A0D3CDE5">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Grunnbeløp (G) ved opprinnelig_skjæringstidspunkt</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>B93C48A7-1F12-91C3-8F01-BEEC4EF15ADB</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>12</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,12,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REDUSERT_GRUNNBELOEP" id="A975298F-365B-3DD7-5E59-C2CE1B782AF8">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Normalt samme som grunnbeløp. Ved overgang mellom ytelser blir grunnbeløpet redusert i henhold til dekningsgrad for alle tidligere tilstøtende ytelser</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>224A1034-68D7-B92A-0856-4738DA2AD586</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>12</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,12,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REGELINPUT_TILSTØTENDE_YTELSE" id="FE39DEB8-DAA2-4B13-8E67-FFF106CB4F0C">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Input til regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6E7D3463-F554-59D8-4826-F8F058BEFEFF</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<ownDataTypeParameters>4000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REGELLOGG_TILSTØTENDE_YTELSE" id="83A712E8-906E-43AF-0061-0A5ACD9B34DA">
+<createdBy>J150219</createdBy>
+<createdTime>2018-08-14 07:05:35 UTC</createdTime>
+<commentInRDBMS>Sporing av regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.</commentInRDBMS>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0239C3D8-5778-3CBF-B104-21B778E982A7</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<ownDataTypeParameters>4000,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5BA655AD-BF0E-4EFB-DFAA-31BD95E7E3E0" name="PK_BEREGNINGSGRUNNLAG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:07 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>37426140-3BE6-5EF6-528F-59695499D0E8</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="723CECF0-E312-3BE3-3B0F-A31C3A1E1ADA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1AF558A1-B82B-1E0A-514D-E8F16394BE02" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="IDX_BEREGNINGSGRUNNLAG_02">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>6B11D144-FCAB-A9D4-AD0E-135886A6BD10</importedID>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52055696-849D-45A2-D117-CDA8EB3359A4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D827CD48-1771-EA36-5365-B7F58AF6930D" schemaObject="8C257168-2540-B786-F794-A9E69E03391A" name="PK_BEREGNINGSGRUNNLAG">
+<createdBy>J150219</createdBy>
+<createdTime>2018-02-05 12:09:06 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>0EC1EA27-A01A-9B54-18C4-3F0ADF5D0DE6</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="723CECF0-E312-3BE3-3B0F-A31C3A1E1ADA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

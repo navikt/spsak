@@ -1,0 +1,25 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Diagram class="oracle.dbtools.crest.swingui.relational.DPVRelationalSubView" name="SATS" id="9B4C041A-064D-43A8-A8F7-D8D26E7DE119">
+<createdBy>T150221</createdBy>
+<modifiedBy>T150221</modifiedBy>
+<createdTime>2017-10-18 13:09:38 UTC</createdTime>
+<autoRoute>false</autoRoute>
+<boxInbox>true</boxInbox>
+<showLegend>false</showLegend>
+<showLabels>false</showLabels>
+<showRelAttributes>false</showRelAttributes>
+<gridEnabled>false</gridEnabled>
+<showGrid>false</showGrid>
+<diagramColor>-1</diagramColor>
+<display>false</display>
+<notation>1</notation>
+<showAllDetails>false</showAllDetails>
+<showElements>true</showElements>
+<showDatatype>true</showDatatype>
+<objectViews>
+<OView class="oracle.dbtools.crest.swingui.relational.TVTable" oid="C3EA9117-5CEC-B803-1549-99B677325EE2" otype="Table" vid="09E1E621-8A7B-791A-C85B-637A141F6085">
+<hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
+<bounds x="81" y="48" width="259" height="180"/>
+</OView>
+</objectViews>
+</Diagram>

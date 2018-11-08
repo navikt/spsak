@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="E5746380-499F-8311-A601-87D626FFF3FF" containerWithKeyObject="1E95AC23-B0E7-2308-B87B-B9B20DEBF7B7" localFKIndex="0633DB2A-89F1-9720-B4C5-4004B99A658F" name="FK_OMSORGSOVERTAKELSE_2">
+<sourceDDLFile>V1.8.0_04__HistorikkInnslag_drop_column.sql</sourceDDLFile>
+<createdBy>T150221</createdBy>
+<createdTime>2017-07-05 09:13:13 UTC</createdTime>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>8420F5BC-0079-1D8E-EAC9-AA676605FB44</importedID>
+<referredTableLongName>BEHANDLING_GRUNNLAG</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>030AD312-B39C-437E-A8F3-504CA6708606</referredTableID>
+<keyObject>6C9624F6-8E41-3DA3-EB67-5B1AC0AF9693</keyObject>
+<referredKeyID>6C9624F6-8E41-3DA3-EB67-5B1AC0AF9693</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

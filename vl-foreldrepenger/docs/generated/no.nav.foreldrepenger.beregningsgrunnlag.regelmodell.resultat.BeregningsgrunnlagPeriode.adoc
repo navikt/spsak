@@ -1,0 +1,26 @@
+
+=== INPUT
+
+[options="header", cols="10,10,10"]
+|===
+|NAVN|TYP|BESKRIVELSE
+|getBeregningsgrunnlagPrStatus|no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPrStatus|
+|getBeregningsgrunnlag|no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag|
+|getBruttoPrÅr|java.math.BigDecimal|
+|getAvkortetPrÅr|java.math.BigDecimal|
+|getRedusertPrÅr|java.math.BigDecimal|
+|getBruttoPrÅrInkludertNaturalytelser|java.math.BigDecimal|
+|getBeregningsgrunnlagPeriode|no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.Periode|
+|getBeregningsgrunnlagPrStatus|java.util.Collection|
+|getInntektsgrunnlag|no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.grunnlag.inntekt.Inntektsgrunnlag|
+|getSkjæringstidspunkt|java.time.LocalDate|
+|getGrunnbeløp|java.math.BigDecimal|
+|getRedusertGrunnbeløp|java.math.BigDecimal|
+|getSammenligningsGrunnlag|no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.SammenligningsGrunnlag|
+|getDekningsgrad|no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.Dekningsgrad|
+|getAktivitetStatuser|java.util.List|
+|getPeriodeÅrsaker|java.util.List|
+|===
+
+
+

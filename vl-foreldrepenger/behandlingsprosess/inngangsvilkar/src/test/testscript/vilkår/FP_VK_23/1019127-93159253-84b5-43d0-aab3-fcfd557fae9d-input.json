@@ -1,0 +1,23 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2017-02-14", "2017-02-17" ],
+    "aktivitet" : {
+      "aktivitetType" : "SYKEPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2018-02-26", "2018-03-02" ],
+    "aktivitet" : {
+      "aktivitetType" : "SYKEPENGER",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-06",
+  "forsteDatoOpptjening" : "2017-05-05",
+  "sisteDatoForOpptjening" : "2018-03-04",
+  "inntektPerioder" : [ ]
+}

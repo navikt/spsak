@@ -1,0 +1,31 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2014-01-08", "-" ],
+    "aktivitet" : {
+      "aktivitetType" : "NÆRING",
+      "aktivitetReferanse" : "913009134",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "VURDERT_GODKJENT"
+  }, {
+    "datoIntervall" : [ "2017-11-01", "2018-05-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "ARBEID",
+      "aktivitetReferanse" : "974716860",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  }, {
+    "datoIntervall" : [ "2017-11-01", "2018-05-31" ],
+    "aktivitet" : {
+      "aktivitetType" : "SYKEPENGER",
+      "aktivitetReferanse" : "974716860",
+      "referanseType" : "ORGNR"
+    },
+    "vurderingsStatus" : "TIL_VURDERING"
+  } ],
+  "behandlingsDato" : "2018-09-17",
+  "forsteDatoOpptjening" : "2017-08-01",
+  "sisteDatoForOpptjening" : "2018-05-31",
+  "inntektPerioder" : [ ]
+}

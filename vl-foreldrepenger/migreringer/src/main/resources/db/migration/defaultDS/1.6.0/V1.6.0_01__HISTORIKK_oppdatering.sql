@@ -1,0 +1,1 @@
+UPDATE HISTORIKKINNSLAG_TYPE SET navn = 'Melding er sendt til søker' WHERE kode = 'BREV_SENT';

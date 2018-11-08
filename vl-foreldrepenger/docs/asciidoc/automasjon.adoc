@@ -1,0 +1,134 @@
+= Automasjon
+
+I løsningen behandles automasjon som en 'aktør' på linje med saksbehandlere.  Komponenten under er en løsningskomponent som vil benyttes i ulike deler av løsningen. Når det er behov for å gjennomføre noe automatisk, vil en 'virtuell' sakbehandler plukke opp en oppgave (i det videre kalt en prosess task) og gjennomføre denne.
+
+Bruk av dette drives av behov, eks:
+
+* for å kalle en ekstern synkron tjeneste uten avbrudd i manuell eller automatisk prosess (eks. Send brev)
+* for å kalle på eksterne tjenester som del av en automatisk prosess (eks. Send til økonomi, innhent registeropplysninger)
+* for å legge ting på vent som skal automatisk starte etter at <tid> har passert eller hendelse inntreffer (eks. fødsel)
+* for å vurdere saken automatisk (når søknad mottatt)
+
+Både aksjonspunkter (som adresseres av saksbehandlere) og automatiske punkter (som adresseres av Prosess Tasks) er utfall fra forretningslogikk eller vilkårsvurdering i et Behandlingssteg.
+
+Kjøring av prosess tasks er  adresseret av use-case skissen under (avmerket med lyseblått).
+
+image::automasjon.png[Automasjon,opts=interactive,height=337,width=735]
+
+== Use cases
+Disse håndteres i bakgrunnen som del av det automatiske løpet.
+
+1. Kjøring av oppgaver umiddelbart eller etter en gitt tid (NESTE_KJORING_ETTER)
+- for videre behandling (eks. neste behandlings_steg)  (ev.t etter at tid er passert)
+1. Kjøring av oppgaver umiddelbart
+- for å understøtte utsending i eks. Mønster - One-way med feilhåndtering av transiente feil
+- for å understøtte utsending i eks. Mønster - Request-Response med feilhåndtering av transiente feil
+1. Kjøring av oppgaver etter mottak av respons på tidligere utsendt request (KORRELASJON_REF).
+- for å understøtte mottak av respons i eks. Mønster - Request-Response
+- for å understøtte utsending i eks. Mønster - Publish/Subscribe
+
+== Prosess Task
+Representerer en kjørende instans av en task som skal utføres.  En prosess task er kort-varig, atomisk og har sin egen transaksjon og sikkerhetskontekst.
+
+Ved transiente feil (eks. database utilgjengelig) vil den automatisk kjøres på nytt
+
+Ved tekniske feil (eller funksjonelle feil) vil den automatisk kjøres på nytt ihenhold til en Feilhåndteringsalgoritme. Default feilhåndteringsalgoritme kjører på nytt etter en eksponentiell algoritme med tak inntil 3 ganger.
+
+== Rekkefølge
+En Prosess task benytter følgende til å håndtere rekkefølge
+
+|===
+|Felt|
+
+|Neste kjøring etter|Avgjør tidligste tidspunkt en task kan kjøre. Kan benyttes til å utsettes tasks
+|Sist kjørt|Dersom feil oppstår dyttes task bakerst i rekken slik at systemet ikke blir stående med feil
+|Prioritet|Laveste tall har høyest prioritet
+|Task_sekvens og task_gruppe
+|Det er mulig å legge Prosess tasks inn i unike grupper. Sekvens avgjør rekkefølge de da vil kjøres i gruppen. Hvis en feiler vil ikke de med høyere sekvens kjøres før feilen er rettet.
+
+Det kan brukes til å lage enkle statiske flyter, som eksempelet under (her her hver blå boks en ny prosess task):
+|===
+
+image::prosesstaskFlyt-statisk.png[Prosesstask flyt - statisk,opts=interactive,height=337,width=735]
+
+== Status
+En Prosess Task kan ha status
+
+* KLAR
+* FERDIG
+* FEILET
+* SUSPENDERT
+* VENTER_SVAR
+
+Normalt vil den gå fra KLAR → FERDIG.  Hvis antall feil er lik maks antall feil tillatt for task typen vil den settes til FEILET
+
+Ellers kan koden velge å suspendere en task (SUSPENDERT) slik at den ikke kjøres, men er registrert og tilgjengelig for å kunne kjøres senere.  Samme gjelder VENTER_SVAR der videre behandling igangsettes når koden som håndterer svar oppdaterer denne.
+
+== Tabell struktur
+
+Følgende struktur benyttes til å registrere referansedata, samt kjørende instanser
+
+|===
+|Tabell navn
+
+|PROSESS_TASK|Kjørende og kjørte tasks med status og parametere angitt til task'en.
+|PROSESS_TASK_TYPE|Referansedata tabell over tillatte typer og tilhørende basis konfigurasjon (eks. feilhåndteringsalgoritme)
+|PROSESS_TASK_FEILHAND|Registrerte feilhåndteringsalgoritmer
+|===
+
+== Kodeeksempel
+Følgende kodeeksempel angir hva som må implementeres i java for å definere og registrere en ny ProsessTask.
+
+I tillegg må innslag i PROSESS_TASK_TYPE tabell registreres med samme navn og eventuell feilhåndteringsparametre.
+
+[source,java]
+----
+/**
+ * Implementasjon av en prosess task.  Angitt streng til @ProsessTask må matche registret type i PROSESS_TASK_TYPE tabell.
+ * Blir automatisk oppdaget av container.
+ */
+@Dependent
+@ProsessTask("vuin.happyTask")
+public class HappyTask implements ProsessTaskHandler {
+    @Override
+    public void doTask(ProsessTaskData prosessTaskData) {
+        // make some noise!
+    }
+}
+----
+
+== Task Manager
+TaskManager plukker opp og kjører taskene i bakgrunnen i angitt sekvens/gruppe.
+
+Den består av 2 deler:
+
+* Polling tråd (1 per JVM) som plukker oppgaver i rekkefølge og ihenhold til konfigurerte kriterier
+* Task trådre (konfigurerbart antall per JVM) som kjører faktiske tasks.  Hver Prosess task blir kjørt i av en tråd, i sin egen transaksjons og sikkerhetskontekst.
+
+TaskManager benytter distribuert polling for å plukke hva som skal gjøres (ProsessTasks).  Polling tråd er ansvarlig for polling og kjøres relativt hyppig (eks. hvert xxx ms avhengig av behov for lav latenstid) og henter et antall ledige oppgaver som kan kjøres, og deretter dispatches dette på egne tråder som kjører koden knyttet til den oppgaven som skal utføres.  Dersom flere JVMer settes opp vil de kun lese ledige oppgaver fra tabellen.  Det garanteres gjennom bruk av SKIP LOCKED på databasen (ref Oracle - Distributed Polling Best Practice).
+
+=== Concurrency View
+Figuren under angir et "Concurrency View" som illustrere her flere JVM er som plukker oppgaver uavhengig av hverandre og dispatcher disse for kjøring.  Hver JVM setter opp 1 poller tråd som kjøres jevnlig (jo oftere, jo mindre latenstid kan forventes).  Tråder som poller ser ikke oppgaver som samtidige poller i andre JVM'er har plukket.  Hver polling kan plukket et konfigurerbart antall oppgaver.  Disse dispatches internt på egne tråder som kjører oppgavene (task).
+
+Dispatch mekanismen benytter her en pluggbar løsning som gjør at selve "task" implementasjonen kan legges til modulært.  Til dette kan det for eksempel benyttes java.util.ServiceLoader, som er en svært enkel mekanism for å plugge inn implementasjoner.
+
+image::taskmanager.png[Task Manager - Concurrency View,opts=interactive,height=337,width=735]
+
+=== Feilhåndtering
+Dersom en task får en feil, markeres oppgaven som feilet: antall feil inkrementeres med 1, opptil et eventuelt maks antall midlertidige feil.  Dersom maks antall feil på en oppgave nås, markeres hele oppgaven som FEILET og vil ikke prøve å rekjøre.  Når det skjer gis det varsel som kan plukkes opp av drift.
+
+Dersom en tråd drepes under en transaksjon, ruller databasen transaksjonen tilbake og en annen JVM vil plukke opp oppgaven for kjøring innen et konfigurerbart intervall (eks. 30 sek).
+
+Annet:
+
+* Dersom transient databasefeil (SQLTransientException eller ConnectionException), logges ikke feil.  Task forsøkes gjentatt etter N sekunder (hvor av N øker opp til et tak)
+* ProsessTask logger siste feil + stacktrace i PROSESS_TASK tabell, også for midlertidige feil
+* Første gang feil oppstår logges WARN.  Det vil komme kun i applikasjonsloggen
+* Siste gang feil oppstår logges ERROR, hvilket også vil gå til applikasjons errorlogg.
+
+=== Skalerbarhet
+Oppgavekjøring skalerer ut ved å sette opp flere JVMer som alle er identiske, eller å dele oppgavene i grupper som håndteres av ulike JVMer.
+
+=== Recovery
+Dersom systemet går, er det bare databasen som trengs å fås opp igjen for å kunne fortsette å kjøre oppgaver (og gi brukeren tilgang til systemet). Køer (MQ Message Broker) eller andre lagre kan gjenopprettes senere.
+

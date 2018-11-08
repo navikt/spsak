@@ -1,0 +1,1 @@
+alter table UTTAK_RESULTAT modify (OPPRINNELIG_PERIODER_ID null);

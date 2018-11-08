@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>domenetjenester-pom</artifactId>
+        <groupId>no.nav.foreldrepenger</groupId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
+    <artifactId>dokumentbestiller</artifactId>
+    <packaging>jar</packaging>
+    <name>FPSAK :: Domenetjenester - Dokumentbestiller</name>
+
+    <dependencies>
+		<!-- Domenetjeneste avhengigheter -->
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>person</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>familie-hendelse</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>beregningsgrunnlag</artifactId>
+        </dependency>
+
+        <!-- Prosjektinterne avhengigheter -->
+        <dependency>
+            <groupId>no.nav.vedtak.felles</groupId>
+            <artifactId>felles-bom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-domene</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingskontroll-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>produksjonsstyring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>uttak</artifactId>
+        </dependency>
+		
+		<!-- Integrasjon avhengigheter -->
+        <dependency>
+            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
+            <artifactId>dokumentproduksjon-klient</artifactId>
+        </dependency>
+        
+        <!-- Infrastrukturtjeneste avhengigheter -->
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>batch</artifactId>
+        </dependency>
+        
+		<!-- Kontrakter -->
+		<dependency>
+            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <artifactId>dokumentbestiller-v1</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+		
+        <!-- Test -->
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingskontroll</artifactId>
+			<scope>test</scope>
+        </dependency>
+  </dependencies>
+</project>

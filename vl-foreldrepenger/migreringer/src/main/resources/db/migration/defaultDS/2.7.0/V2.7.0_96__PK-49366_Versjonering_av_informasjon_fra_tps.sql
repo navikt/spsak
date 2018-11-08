@@ -1,0 +1,221 @@
+-- ------------------------------------------------------------
+CREATE TABLE PO_INFORMASJON (
+  id            NUMBER(19)                        NOT NULL,
+  versjon       NUMBER(19) DEFAULT 0              NOT NULL,
+
+  opprettet_av  VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av     VARCHAR2(20 CHAR),
+  endret_tid    TIMESTAMP(3),
+
+  CONSTRAINT PK_PO_INFORMASJON PRIMARY KEY (id)
+);
+
+CREATE SEQUENCE SEQ_PO_INFORMASJON MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+
+COMMENT ON TABLE PO_INFORMASJON IS 'Aggregering av informasjon om personopplysning';
+COMMENT ON COLUMN PO_INFORMASJON.versjon IS 'Angir versjon for optimistisk låsing';
+
+-- ------------------------------------------------------------
+CREATE TABLE PO_ADRESSE (
+  id                NUMBER(19)                        NOT NULL,
+  fom               DATE                              NOT NULL,
+  tom               DATE                              NOT NULL,
+  adresselinje1     VARCHAR2(40 CHAR)                 NOT NULL,
+  adresselinje2     VARCHAR2(40 CHAR),
+  adresselinje3     VARCHAR2(40 CHAR),
+  adresselinje4     VARCHAR2(40 CHAR),
+  postnummer        VARCHAR2(20 CHAR),
+  poststed          VARCHAR2(40 CHAR),
+  land              VARCHAR2(40 CHAR),
+
+  opprettet_av      VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid     TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av         VARCHAR2(20 CHAR),
+  endret_tid        TIMESTAMP(3),
+
+  po_informasjon_id NUMBER(19) NOT NULL,
+  aktoer_id         NUMBER(19),
+  adresse_type      VARCHAR2(100 CHAR)                NOT NULL,
+
+  CONSTRAINT PK_PO_ADRESSE PRIMARY KEY (id),
+  CONSTRAINT FK_PO_ADRESSE_2 FOREIGN KEY (po_informasjon_id) REFERENCES PO_INFORMASJON
+);
+
+ALTER TABLE PO_ADRESSE ADD KL_ADRESSE_TYPE VARCHAR2(100 CHAR) GENERATED ALWAYS AS ('ADRESSE_TYPE') VIRTUAL;
+ALTER TABLE PO_ADRESSE ADD CONSTRAINT PO_ADRESSE_80 FOREIGN KEY (ADRESSE_TYPE, KL_ADRESSE_TYPE) REFERENCES KODELISTE (kode, kodeverk);
+
+COMMENT ON TABLE PO_ADRESSE IS 'Personopplysning - adresse';
+
+COMMENT ON COLUMN PO_ADRESSE.fom IS 'Gyldig fom';
+COMMENT ON COLUMN PO_ADRESSE.tom IS 'Gyldig tom';
+COMMENT ON COLUMN PO_ADRESSE.adresselinje1 IS 'Adresse linje (not null)';
+COMMENT ON COLUMN PO_ADRESSE.adresselinje2 IS 'Adresse linje';
+COMMENT ON COLUMN PO_ADRESSE.adresselinje3 IS 'Adresse linje';
+COMMENT ON COLUMN PO_ADRESSE.postnummer IS 'Postnummer';
+COMMENT ON COLUMN PO_ADRESSE.poststed IS 'Poststed';
+COMMENT ON COLUMN PO_ADRESSE.land IS 'Land';
+COMMENT ON COLUMN PO_ADRESSE.aktoer_id IS 'AktørId';
+
+CREATE INDEX IDX_PO_ADRESSE_2 ON PO_ADRESSE (po_informasjon_id);
+CREATE INDEX IDX_PO_ADRESSE_3 ON PO_ADRESSE (aktoer_id);
+CREATE INDEX IDX_PO_ADRESSE_4 ON PO_ADRESSE (aktoer_id, po_informasjon_id, adresse_type);
+
+CREATE SEQUENCE SEQ_PO_ADRESSE MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+
+-- ------------------------------------------------------------
+CREATE TABLE PO_RELASJON (
+  id                NUMBER(19)                        NOT NULL,
+  fra_aktoer_id     NUMBER(19)                        NOT NULL,
+  til_aktoer_id     NUMBER(19)                        NOT NULL,
+
+  opprettet_av      VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid     TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av         VARCHAR2(20 CHAR),
+  endret_tid        TIMESTAMP(3),
+
+  po_informasjon_id NUMBER(19) NOT NULL,
+  relasjonsrolle    VARCHAR2(100 CHAR)                NOT NULL,
+  har_samme_bosted  VARCHAR2(1 CHAR),
+
+CONSTRAINT PK_PO_RELASJON PRIMARY KEY (id),
+  CONSTRAINT FK_PO_RELASJON_2 FOREIGN KEY (po_informasjon_id) REFERENCES PO_INFORMASJON
+);
+
+ALTER TABLE PO_RELASJON ADD KL_RELASJONSROLLE VARCHAR2(100 CHAR) GENERATED ALWAYS AS ('RELASJONSROLLE_TYPE') VIRTUAL;
+ALTER TABLE PO_RELASJON ADD CONSTRAINT PO_RELASJON_80 FOREIGN KEY (RELASJONSROLLE, KL_RELASJONSROLLE) REFERENCES KODELISTE (kode, kodeverk);
+
+COMMENT ON TABLE PO_RELASJON IS 'Angir relasjon mellom to personer (som må ligge i PO_PERSONOPPLYSNING, selv om dette er ingen db-constraint)';
+COMMENT ON COLUMN PO_RELASJON.fra_aktoer_id IS 'Person relasjon fra';
+COMMENT ON COLUMN PO_RELASJON.til_aktoer_id IS 'Person relasjon til';
+COMMENT ON COLUMN PO_RELASJON.har_samme_bosted IS 'Indikerer om personene i relasjonen bor på samme adresse';
+
+CREATE INDEX IDX_PO_RELASJON_1 ON PO_RELASJON (po_informasjon_id);
+CREATE INDEX IDX_PO_RELASJON_2 ON PO_RELASJON (fra_aktoer_id);
+CREATE INDEX IDX_PO_RELASJON_3 ON PO_RELASJON (til_aktoer_id);
+CREATE INDEX IDX_PO_RELASJON_4 ON PO_RELASJON (fra_aktoer_id, til_aktoer_id, relasjonsrolle);
+
+CREATE SEQUENCE SEQ_PO_RELASJON MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+
+-- ------------------------------------------------------------
+CREATE TABLE PO_STATSBORGERSKAP (
+  id                NUMBER(19)                        NOT NULL,
+  aktoer_id         NUMBER(19)                        NOT NULL,
+  fom               DATE                              NOT NULL,
+  tom               DATE                              NOT NULL,
+
+  opprettet_av      VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid     TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av         VARCHAR2(20 CHAR),
+  endret_tid        TIMESTAMP(3),
+
+  po_informasjon_id NUMBER(19) NOT NULL,
+  statsborgerskap   VARCHAR2(100 CHAR)                NOT NULL,
+
+  CONSTRAINT PK_PO_STATSBORGERSKAP PRIMARY KEY (id),
+  CONSTRAINT FK_PO_STATSBORGERSKAP_2 FOREIGN KEY (po_informasjon_id) REFERENCES PO_INFORMASJON
+);
+
+ALTER TABLE PO_STATSBORGERSKAP ADD KL_STATSBORGERSKAP VARCHAR2(100 CHAR) GENERATED ALWAYS AS ('LANDKODER') VIRTUAL;
+ALTER TABLE PO_STATSBORGERSKAP ADD CONSTRAINT PO_STATSBORGERSKAP_80 FOREIGN KEY (STATSBORGERSKAP, KL_STATSBORGERSKAP) REFERENCES KODELISTE (kode, kodeverk);
+
+COMMENT ON TABLE PO_STATSBORGERSKAP IS 'Personopplysning - statsborgerskap';
+
+COMMENT ON COLUMN PO_STATSBORGERSKAP.aktoer_id IS 'Person dette gjelder';
+COMMENT ON COLUMN PO_STATSBORGERSKAP.fom IS 'Gyldig fom';
+COMMENT ON COLUMN PO_STATSBORGERSKAP.tom IS 'Gyldig tom';
+
+CREATE SEQUENCE SEQ_PO_STATSBORGERSKAP MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+
+CREATE INDEX IDX_PO_STATSBORGERSKAP_1 ON PO_STATSBORGERSKAP (po_informasjon_id);
+CREATE INDEX IDX_PO_STATSBORGERSKAP_2 ON PO_STATSBORGERSKAP (aktoer_id);
+CREATE INDEX IDX_PO_STATSBORGERSKAP_3 ON PO_STATSBORGERSKAP (aktoer_id, po_informasjon_id, statsborgerskap);
+
+-- ------------------------------------------------------------
+CREATE TABLE PO_PERSONSTATUS (
+  id                NUMBER(19)                        NOT NULL,
+  aktoer_id         NUMBER(19)                        NOT NULL,
+  fom               DATE                              NOT NULL,
+  tom               DATE                              NOT NULL,
+
+  opprettet_av      VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid     TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av         VARCHAR2(20 CHAR),
+  endret_tid        TIMESTAMP(3),
+
+  po_informasjon_id NUMBER(19) NOT NULL,
+  personstatus      VARCHAR2(100 CHAR)                NOT NULL,
+
+  CONSTRAINT PK_PO_PERSONSTATUS PRIMARY KEY (id),
+  CONSTRAINT FK_PO_PERSONSTATUS_2 FOREIGN KEY (po_informasjon_id) REFERENCES PO_INFORMASJON
+);
+
+ALTER TABLE PO_PERSONSTATUS ADD KL_PERSONSTATUS VARCHAR2(100 CHAR) GENERATED ALWAYS AS ('PERSONSTATUS_TYPE') VIRTUAL;
+ALTER TABLE PO_PERSONSTATUS ADD CONSTRAINT PO_PERSONSTATUS_80 FOREIGN KEY (PERSONSTATUS, KL_PERSONSTATUS) REFERENCES KODELISTE (kode, kodeverk);
+
+COMMENT ON TABLE PO_PERSONSTATUS IS 'Personopplysning - personstatus';
+
+COMMENT ON COLUMN PO_PERSONSTATUS.aktoer_id IS 'Person dette gjelder';
+COMMENT ON COLUMN PO_PERSONSTATUS.fom IS 'Gyldig fom';
+COMMENT ON COLUMN PO_PERSONSTATUS.tom IS 'Gyldig tom';
+
+CREATE SEQUENCE SEQ_PO_PERSONSTATUS MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+
+CREATE INDEX IDX_PO_PERSONSTATUS_1 ON PO_PERSONSTATUS (po_informasjon_id);
+CREATE INDEX IDX_PO_PERSONSTATUS_2 ON PO_PERSONSTATUS (aktoer_id);
+CREATE INDEX IDX_PO_PERSONSTATUS_3 ON PO_PERSONSTATUS (aktoer_id, po_informasjon_id, personstatus);
+
+
+-- ------------------------------------------------------------
+CREATE TABLE PO_PERSONOPPLYSNING (
+  id                NUMBER(19)                        NOT NULL,
+  aktoer_id         NUMBER(19)                        NOT NULL,
+  navn              VARCHAR2(100),
+  foedselsdato      DATE                              NOT NULL,
+  doedsdato         DATE,
+
+  bruker_kjoenn     VARCHAR2(100 CHAR)                NOT NULL,
+  sivilstand_type   VARCHAR2(100 CHAR)                NOT NULL,
+  region            VARCHAR2(100 CHAR)                NOT NULL,
+
+  opprettet_av      VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid     TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
+  endret_av         VARCHAR2(20 CHAR),
+  endret_tid        TIMESTAMP(3),
+
+  po_informasjon_id NUMBER(19) NOT NULL ,
+
+  CONSTRAINT PK_PO_PERSONOPPLYSNING PRIMARY KEY (id),
+  CONSTRAINT FK_PO_PERSONOPPLYSNING_2 FOREIGN KEY (po_informasjon_id) REFERENCES PO_INFORMASJON
+);
+
+ALTER TABLE PO_PERSONOPPLYSNING ADD KL_BRUKER_KJOENN VARCHAR2(100 CHAR) GENERATED ALWAYS AS ('BRUKER_KJOENN') VIRTUAL;
+ALTER TABLE PO_PERSONOPPLYSNING ADD CONSTRAINT PO_PERSONOPPLYSNING_80 FOREIGN KEY (BRUKER_KJOENN, KL_BRUKER_KJOENN) REFERENCES KODELISTE (kode, kodeverk);
+
+ALTER TABLE PO_PERSONOPPLYSNING ADD KL_SIVILSTAND_TYPE VARCHAR2(100 CHAR) GENERATED ALWAYS AS ('SIVILSTAND_TYPE') VIRTUAL;
+ALTER TABLE PO_PERSONOPPLYSNING ADD CONSTRAINT PO_PERSONOPPLYSNING_82 FOREIGN KEY (SIVILSTAND_TYPE, KL_SIVILSTAND_TYPE) REFERENCES KODELISTE (kode, kodeverk);
+
+ALTER TABLE PO_PERSONOPPLYSNING ADD KL_REGION VARCHAR2(100 CHAR) GENERATED ALWAYS AS ('REGION') VIRTUAL;
+ALTER TABLE PO_PERSONOPPLYSNING ADD CONSTRAINT PO_PERSONOPPLYSNING_84 FOREIGN KEY (REGION, KL_REGION) REFERENCES KODELISTE (kode, kodeverk);
+
+CREATE SEQUENCE SEQ_PO_PERSONOPPLYSNING MINVALUE 1 START WITH 1 INCREMENT BY 50 NOCACHE NOCYCLE;
+
+CREATE INDEX IDX_PO_PERSONOPPLYSNING_1 ON PO_PERSONOPPLYSNING (po_informasjon_id);
+CREATE INDEX IDX_PO_PERSONOPPLYSNING_2 ON PO_PERSONOPPLYSNING (aktoer_id);
+
+COMMENT ON TABLE PO_PERSONOPPLYSNING IS 'Personopplysning - personopplysning';
+
+COMMENT ON COLUMN PO_PERSONOPPLYSNING.aktoer_id IS 'Person dette gjelder';
+COMMENT ON COLUMN PO_PERSONOPPLYSNING.navn IS 'Navn';
+COMMENT ON COLUMN PO_PERSONOPPLYSNING.doedsdato IS 'Dødsdato (nullable)';
+COMMENT ON COLUMN PO_PERSONOPPLYSNING.foedselsdato IS 'Fødselsdato';
+
+-- ------------------------------------------------------------
+ALTER TABLE GR_PERSONOPPLYSNING ADD registrert_informasjon_id NUMBER(19);
+ALTER TABLE GR_PERSONOPPLYSNING ADD overstyrt_informasjon_id NUMBER(19);
+
+ALTER TABLE GR_PERSONOPPLYSNING ADD CONSTRAINT FK_GR_PERSONOPPLYSNING_03 FOREIGN KEY (registrert_informasjon_id) REFERENCES PO_INFORMASJON;
+ALTER TABLE GR_PERSONOPPLYSNING ADD CONSTRAINT FK_GR_PERSONOPPLYSNING_04 FOREIGN KEY (overstyrt_informasjon_id) REFERENCES PO_INFORMASJON;
+
+CREATE INDEX IDX_GR_PERSONOPPLYSNING_03 ON GR_PERSONOPPLYSNING (registrert_informasjon_id);
+CREATE INDEX IDX_GR_PERSONOPPLYSNING_04 ON GR_PERSONOPPLYSNING (overstyrt_informasjon_id);

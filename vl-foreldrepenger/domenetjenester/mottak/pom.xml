@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>domenetjenester-pom</artifactId>
+        <groupId>no.nav.foreldrepenger</groupId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mottak</artifactId>
+    <packaging>jar</packaging>
+    <name>FPSAK :: Domenetjenester - Mottak</name>
+
+    <dependencies>
+        <!-- Modul interne avhengigheter -->
+         <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandling-revurdering</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>uttak</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>kompletthetsjekk</artifactId>
+        </dependency>
+         <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>produksjonsstyring</artifactId>
+        </dependency>
+        
+         <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingskontroll</artifactId>
+        </dependency>
+
+         <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>registerinnhenting</artifactId>
+        </dependency>
+
+        <!-- Prosjektinterne avhengigheter -->
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-domene</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <artifactId>inntektsmelding-v1</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <artifactId>soeknad-v1</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
+            <artifactId>felles-integrasjon-webservice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.vedtak.felles.integrasjon</groupId>
+            <artifactId>felles-integrasjon-rest-klient</artifactId>
+        </dependency>
+        
+        <!-- Test avhengigheter -->
+        <dependency>
+            <groupId>no.nav.foreldrepenger</groupId>
+            <artifactId>behandlingslager-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+</project>

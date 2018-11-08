@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+                 version="2.1">
+
+    <sequence-generator name="SEQ_ADOPSJON" allocation-size="50" sequence-name="SEQ_ADOPSJON"/>
+    <sequence-generator name="SEQ_ADOPSJON_BARN" allocation-size="50" sequence-name="SEQ_ADOPSJON"/>
+    <sequence-generator name="SEQ_SOEKNAD_ADOPSJON_BARN" allocation-size="50" sequence-name="SEQ_SOEKNAD_ADOPSJON_BARN"/>
+    <sequence-generator name="SEQ_BEHANDLING" allocation-size="50" sequence-name="SEQ_BEHANDLING"/>
+    <sequence-generator name="SEQ_BEHANDLING_STEG_TYPE_SEKV" allocation-size="50" sequence-name="SEQ_BEHANDLING_STEG_TYPE_SEKV"/>
+    <sequence-generator name="SEQ_BEHANDLING_STEG_TILSTAND" allocation-size="50" sequence-name="SEQ_BEHANDLING_STEG_TILSTAND"/>
+    <sequence-generator name="SEQ_BEHANDLING_REL_YTELSER" allocation-size="50" sequence-name="SEQ_BEHANDLING_REL_YTELSER"/>
+    <sequence-generator name="SEQ_BEHANDLING_ARSAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_ARSAK"/>
+    <sequence-generator name="SEQ_ETTERKONTROLL_LOGG" allocation-size="50" sequence-name="SEQ_ETTERKONTROLL_LOGG"/>
+    <sequence-generator name="SEQ_FOEDSEL" allocation-size="50" sequence-name="SEQ_FOEDSEL"/>
+    <sequence-generator name="SEQ_TERMINBEKREFTELSE" allocation-size="50" sequence-name="SEQ_TERMINBEKREFTELSE"/>
+    <sequence-generator name="SEQ_GR_SOEKNAD" allocation-size="50" sequence-name="SEQ_GR_SOEKNAD"/>
+    <sequence-generator name="SEQ_SOEKNAD" allocation-size="50" sequence-name="SEQ_SOEKNAD"/>
+    <sequence-generator name="SEQ_KLAGE_VURDERING_RESULTAT" allocation-size="50" sequence-name="SEQ_KLAGE_VURDERING_RESULTAT"/>
+
+    <sequence-generator name="SEQ_BEHANDLING_RESULTAT" allocation-size="50" sequence-name="SEQ_BEHANDLING_RESULTAT"/>
+    <sequence-generator name="SEQ_BR_KONSEKVENS_YTELSE" allocation-size="50" sequence-name="SEQ_BR_KONSEKVENS_YTELSE"/>
+    <sequence-generator name="SEQ_VILKAR_RESULTAT" allocation-size="50" sequence-name="SEQ_VILKAR_RESULTAT"/>
+    <sequence-generator name="SEQ_AKSJONSPUNKT" allocation-size="50" sequence-name="SEQ_AKSJONSPUNKT"/>
+    <sequence-generator name="SEQ_VILKAR" allocation-size="50" sequence-name="SEQ_VILKAR"/>
+    <sequence-generator name="SEQ_REGEL_MERKNAD" allocation-size="50" sequence-name="SEQ_REGEL_MERKNAD"/>
+    <sequence-generator name="SEQ_BEREGNING_RESULTAT" allocation-size="50" sequence-name="SEQ_BEREGNING_RESULTAT"/>
+    <sequence-generator name="SEQ_INNSYN" allocation-size="50" sequence-name="SEQ_INNSYN"/>
+    <sequence-generator name="SEQ_INNSYN_DOKUMENT" allocation-size="50" sequence-name="SEQ_INNSYN_DOKUMENT"/>
+    <sequence-generator name="SEQ_BEREGNING" allocation-size="50" sequence-name="SEQ_BEREGNING"/>
+    <sequence-generator name="SEQ_SATS" allocation-size="50" sequence-name="SEQ_SATS"/>
+    <sequence-generator name="SEQ_DOKUMENT_ADRESSE" allocation-size="50" sequence-name="SEQ_DOKUMENT_ADRESSE"/>
+    <sequence-generator name="SEQ_BEHANDLING_VEDTAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_VEDTAK"/>
+    <sequence-generator name="SEQ_OPPGAVE_BEHANDLING_KOBLING" allocation-size="50" sequence-name="SEQ_OPPGAVE_BEHANDLING_KOBLING"/>
+    <sequence-generator name="SEQ_HISTORIKKINNSLAG" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG"/>
+    <sequence-generator name="SEQ_HISTORIKKINNSLAG_DOK_LINK" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG_DOK_LINK"/>
+    <sequence-generator name="SEQ_HISTORIKKINNSLAG_DEL" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG_DEL"/>
+    <sequence-generator name="SEQ_HISTORIKKINNSLAG_FELT" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG_FELT"/>
+    <sequence-generator name="SEQ_VURDER_PAA_NYTT_AARSAK" allocation-size="50" sequence-name="SEQ_VURDER_PAA_NYTT_AARSAK"/>
+    <sequence-generator name="SEQ_TOTRINNRESULTATGRUNNLAG" allocation-size="50" sequence-name="SEQ_TOTRINNRESULTATGRUNNLAG"/>
+    <sequence-generator name="SEQ_TOTRINNSVURDERING" allocation-size="50" sequence-name="SEQ_TOTRINNSVURDERING"/>
+    <sequence-generator name="SEQ_VURDER_AARSAK_TTVURDERING" allocation-size="50" sequence-name="SEQ_VURDER_AARSAK_TTVURDERING"/>
+
+    <sequence-generator name="SEQ_GR_ARBEID_INNTEKT" allocation-size="50" sequence-name="SEQ_GR_ARBEID_INNTEKT"/>
+    <sequence-generator name="SEQ_INNTEKT_ARBEID_YTELSER" allocation-size="50" sequence-name="SEQ_INNTEKT_ARBEID_YTELSER"/>
+    <sequence-generator name="SEQ_AKTOER_INNTEKT" allocation-size="50" sequence-name="SEQ_AKTOER_INNTEKT"/>
+    <sequence-generator name="SEQ_RELATERTE_YTELSER" allocation-size="50" sequence-name="SEQ_RELATERTE_YTELSER"/>
+    <sequence-generator name="SEQ_INNTEKTSPOST" allocation-size="50" sequence-name="SEQ_INNTEKTSPOST"/>
+    <sequence-generator name="SEQ_TMP_INNTEKT" allocation-size="50" sequence-name="SEQ_TMP_INNTEKT"/>
+    <sequence-generator name="SEQ_AKTOER_ARBEID" allocation-size="50" sequence-name="SEQ_AKTOER_ARBEID"/>
+    <sequence-generator name="SEQ_YRKESAKTIVITET" allocation-size="50" sequence-name="SEQ_YRKESAKTIVITET"/>
+    <sequence-generator name="SEQ_VIRKSOMHET" allocation-size="50" sequence-name="SEQ_VIRKSOMHET"/>
+    <sequence-generator name="SEQ_PERMISJON" allocation-size="50" sequence-name="SEQ_PERMISJON"/>
+    <sequence-generator name="SEQ_AKTIVITETS_AVTALE" allocation-size="50" sequence-name="SEQ_AKTIVITETS_AVTALE"/>
+
+    <sequence-generator name="SEQ_MOTTATT_DOKUMENT" allocation-size="50" sequence-name="SEQ_MOTTATT_DOKUMENT"/>
+    <sequence-generator name="SEQ_SOEKNAD_BARN" allocation-size="50" sequence-name="SEQ_SOEKNAD_BARN"/>
+    <sequence-generator name="SEQ_SOEKNAD_ANNEN_PART" allocation-size="50" sequence-name="SEQ_SOEKNAD_ANNEN_PART"/>
+    <sequence-generator name="SEQ_SOEKNAD_VEDLEGG" allocation-size="50" sequence-name="SEQ_SOEKNAD_VEDLEGG"/>
+
+    <sequence-generator name="SEQ_OMSORGSOVERTAKELSE" allocation-size="50" sequence-name="SEQ_OMSORGSOVERTAKELSE"/>
+
+    <sequence-generator name="SEQ_INNTEKT" allocation-size="50" sequence-name="SEQ_INNTEKT"/>
+
+    <sequence-generator name="SEQ_MEDLEMSKAP_PERIODER" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_PERIODER"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_VL" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_VL"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_VP" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_VP"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_REGISTRERT" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_REGISTRERT"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_OPPG_TILKNYT" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_OPPG_TILKNYT"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_OPPG_LAND" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_OPPG_LAND"/>
+
+    <sequence-generator name="SEQ_GR_MEDLEMSKAP_VILKAR_PER" allocation-size="50" sequence-name="SEQ_GR_MEDLEMSKAP_VILKAR_PER"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_VILKAR_PERIODE" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_VILKAR_PERIODE"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_VILKAR_PERIODER" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_VILKAR_PERIODER"/>
+
+    <sequence-generator name="SEQ_GR_PERSONOPPLYSNING" allocation-size="50" sequence-name="SEQ_GR_PERSONOPPLYSNING"/>
+    <sequence-generator name="SEQ_GR_MEDLEMSKAP" allocation-size="50" sequence-name="SEQ_GR_MEDLEMSKAP"/>
+    <sequence-generator name="SEQ_GR_BEREGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_GR_BEREGNINGSGRUNNLAG"/>
+
+    <sequence-generator name="SEQ_FAMILIERELASJON" allocation-size="50" sequence-name="SEQ_FAMILIERELASJON"/>
+    <sequence-generator name="SEQ_OPPLYSNING_ADRESSE" allocation-size="50" sequence-name="SEQ_OPPLYSNING_ADRESSE"/>
+    <sequence-generator name="SEQ_PERSONOPPLYSNING" allocation-size="50" sequence-name="SEQ_PERSONOPPLYSNING"/>
+    <sequence-generator name="SEQ_VALGT_OPPLYSNING" allocation-size="50" sequence-name="SEQ_VALGT_OPPLYSNING"/>
+
+    <sequence-generator name="SEQ_PO_INFORMASJON" allocation-size="50" sequence-name="SEQ_PO_INFORMASJON" />
+    <sequence-generator name="SEQ_PO_PERSONOPPLYSNING" allocation-size="50" sequence-name="SEQ_PO_PERSONOPPLYSNING" />
+    <sequence-generator name="SEQ_PO_PERSONSTATUS" allocation-size="50" sequence-name="SEQ_PO_PERSONSTATUS" />
+    <sequence-generator name="SEQ_PO_STATSBORGERSKAP" allocation-size="50" sequence-name="SEQ_PO_STATSBORGERSKAP" />
+    <sequence-generator name="SEQ_PO_RELASJON" allocation-size="50" sequence-name="SEQ_PO_RELASJON" />
+    <sequence-generator name="SEQ_PO_ADRESSE" allocation-size="50" sequence-name="SEQ_PO_ADRESSE" />
+
+    <sequence-generator name="SEQ_VERGE" allocation-size="50" sequence-name="SEQ_VERGE"/>
+    <sequence-generator name="SEQ_GR_VERGE" allocation-size="50" sequence-name="SEQ_GR_VERGE"/>
+
+    <sequence-generator name="SEQ_UIDENTIFISERT_BARN" allocation-size="50" sequence-name="SEQ_UIDENTIFISERT_BARN"/>
+    <sequence-generator name="SEQ_FAMILIE_HENDELSE" allocation-size="50" sequence-name="SEQ_FAMILIE_HENDELSE"/>
+    <sequence-generator name="SEQ_GR_FAMILIE_HENDELSE" allocation-size="50" sequence-name="SEQ_GR_FAMILIE_HENDELSE"/>
+
+    <sequence-generator name="SEQ_BEREGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_BEREGNINGSGRUNNLAG"/>
+    <sequence-generator name="SEQ_BG_AKTIVITET_STATUS" allocation-size="50" sequence-name="SEQ_BG_AKTIVITET_STATUS"/>
+    <sequence-generator name="SEQ_BG_PERIODE" allocation-size="50" sequence-name="SEQ_BG_PERIODE"/>
+    <sequence-generator name="SEQ_BG_PERIODE_AARSAK" allocation-size="50" sequence-name="SEQ_BG_PERIODE_AARSAK"/>
+    <sequence-generator name="SEQ_BG_ANDEL_ARBEIDSFORHOLD" allocation-size="50" sequence-name="SEQ_BG_ANDEL_ARBEIDSFORHOLD"/>
+    <sequence-generator name="SEQ_BG_PR_STATUS_OG_ANDEL" allocation-size="50" sequence-name="SEQ_BG_PR_STATUS_OG_ANDEL"/>
+    <sequence-generator name="SEQ_SAMMENLIGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_SAMMENLIGNINGSGRUNNLAG"/>
+    <sequence-generator name="SEQ_BG_FAKTA_BER_TILFELLE" allocation-size="50" sequence-name="SEQ_BG_FAKTA_BER_TILFELLE"/>
+
+    <sequence-generator name="SEQ_BEREGNINGSRESULTAT_FP" allocation-size="50" sequence-name="SEQ_BEREGNINGSRESULTAT_FP"/>
+    <sequence-generator name="SEQ_BR_PERIODE" allocation-size="50" sequence-name="SEQ_BR_PERIODE"/>
+    <sequence-generator name="SEQ_BEREGNINGSRESULTAT_ANDEL" allocation-size="50" sequence-name="SEQ_BEREGNINGSRESULTAT_ANDEL"/>
+    <sequence-generator name="SEQ_RES_BEREGNINGSRESULTAT_FP" allocation-size="50" sequence-name="SEQ_RES_BEREGNINGSRESULTAT_FP"/>
+    <sequence-generator name="SEQ_BR_FERIEPENGER" allocation-size="50" sequence-name="SEQ_BR_FERIEPENGER"/>
+    <sequence-generator name="SEQ_BR_FERIEPENGER_PR_AAR" allocation-size="50" sequence-name="SEQ_BR_FERIEPENGER_PR_AAR"/>
+
+    <sequence-generator name="SEQ_STOENADSKONTO" allocation-size="50" sequence-name="SEQ_STOENADSKONTO"/>
+    <sequence-generator name="SEQ_STOENADSKONTOBEREGNING" allocation-size="50" sequence-name="SEQ_STOENADSKONTOBEREGNING"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODE"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODER" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODER"/>
+    <sequence-generator name="SEQ_UTTAKSPERIODEGRENSE" allocation-size="50" sequence-name="SEQ_UTTAKSPERIODEGRENSE"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE_AKT" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODE_AKT"/>
+    <sequence-generator name="SEQ_UTTAK_AKTIVITET" allocation-size="50" sequence-name="SEQ_UTTAK_AKTIVITET"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT_DOK_REGEL" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_DOK_REGEL"/>
+    <sequence-generator name="SEQ_UTTAK_RES_PER_SOKNAD" allocation-size="50" sequence-name="SEQ_UTTAK_RES_PER_SOKNAD"/>
+
+    <sequence-generator name="SEQ_GR_YTELSES_FORDELING" allocation-size="50" sequence-name="SEQ_GR_YTELSES_FORDELING"/>
+    <sequence-generator name="SEQ_YF_FORDELING" allocation-size="50" sequence-name="SEQ_YF_FORDELING"/>
+    <sequence-generator name="SEQ_YF_FORDELING_PERIODE" allocation-size="50" sequence-name="SEQ_YF_FORDELING_PERIODE"/>
+    <sequence-generator name="SEQ_YF_AVKLART_DATO" allocation-size="50" sequence-name="SEQ_YF_AVKLART_DATO"/>
+    <sequence-generator name="SEQ_SO_RETTIGHET" allocation-size="50" sequence-name="SEQ_SO_RETTIGHET"/>
+    <sequence-generator name="SEQ_SO_DEKNINGSGRAD" allocation-size="50" sequence-name="SEQ_SO_DEKNINGSGRAD"/>
+    <sequence-generator name="SEQ_PERIODE_ALENEOMSORG" allocation-size="50" sequence-name="SEQ_PERIODE_ALENEOMSORG"/>
+    <sequence-generator name="SEQ_PERIODER_ALENEOMSORG" allocation-size="50" sequence-name="SEQ_PERIODER_ALENEOMSORG"/>
+    <sequence-generator name="SEQ_YF_DOKUMENTASJON_PERIODE" allocation-size="50" sequence-name="SEQ_YF_DOKUMENTASJON_PERIODE"/>
+    <sequence-generator name="SEQ_YF_DOKUMENTASJON_PERIODER" allocation-size="50" sequence-name="SEQ_YF_DOKUMENTASJON_PERIODER"/>
+
+    <sequence-generator name="SEQ_OPPTJENING" allocation-size="50" sequence-name="SEQ_OPPTJENING"/>
+    <sequence-generator name="SEQ_OPPTJENING_AKTIVITET" allocation-size="50" sequence-name="SEQ_OPPTJENING_AKTIVITET"/>
+
+    <sequence-generator name="SEQ_GRADERING" allocation-size="50" sequence-name="SEQ_GRADERING"/>
+    <sequence-generator name="SEQ_UTSETTELSE_PERIODE" allocation-size="50" sequence-name="SEQ_UTSETTELSE_PERIODE"/>
+    <sequence-generator name="SEQ_NATURAL_YTELSE" allocation-size="50" sequence-name="SEQ_NATURAL_YTELSE"/>
+    <sequence-generator name="SEQ_INNTEKTSMELDING" allocation-size="50" sequence-name="SEQ_INNTEKTSMELDING"/>
+    <sequence-generator name="SEQ_INNTEKTSMELDINGER" allocation-size="50" sequence-name="SEQ_INNTEKTSMELDINGER"/>
+    <sequence-generator name="SEQ_REFUSJON" allocation-size="50" sequence-name="SEQ_REFUSJON"/>
+
+    <sequence-generator name="SEQ_SO_OPPGITT_OPPTJENING" allocation-size="50" sequence-name="SEQ_SO_OPPGITT_OPPTJENING"/>
+    <sequence-generator name="SEQ_OPPGITT_ARBEIDSFORHOLD" allocation-size="50" sequence-name="SEQ_OPPGITT_ARBEIDSFORHOLD"/>
+    <sequence-generator name="SEQ_EGEN_NAERING" allocation-size="50" sequence-name="SEQ_EGEN_NAERING"/>
+    <sequence-generator name="SEQ_ANNEN_AKTIVITET" allocation-size="50" sequence-name="SEQ_ANNEN_AKTIVITET"/>
+
+    <sequence-generator name="SEQ_AKTOER_YTELSE" allocation-size="50" sequence-name="SEQ_AKTOER_YTELSE"/>
+    <sequence-generator name="SEQ_YTELSE" allocation-size="50" sequence-name="SEQ_YTELSE"/>
+    <sequence-generator name="SEQ_YTELSE_ANVIST" allocation-size="50" sequence-name="SEQ_YTELSE_ANVIST"/>
+    <sequence-generator name="SEQ_YTELSE_GRUNNLAG" allocation-size="50" sequence-name="SEQ_YTELSE_GRUNNLAG"/>
+    <sequence-generator name="SEQ_YTELSE_STOERRELSE" allocation-size="50" sequence-name="SEQ_YTELSE_STOERRELSE"/>
+    
+    <sequence-generator name="SEQ_IAY_ARBEIDSFORHOLD_REFER" allocation-size="50" sequence-name="SEQ_IAY_ARBEIDSFORHOLD_REFER"/>
+    <sequence-generator name="SEQ_IAY_INFORMASJON" allocation-size="50" sequence-name="SEQ_IAY_INFORMASJON"/>
+    <sequence-generator name="SEQ_IAY_ARBEIDSFORHOLD" allocation-size="50" sequence-name="SEQ_IAY_ARBEIDSFORHOLD"/>
+    <sequence-generator name="SEQ_ORG_MANUELL_BEHANDLING" allocation-size="50" sequence-name="SEQ_ORG_MANUELL_BEHANDLING"/>
+    <sequence-generator name="SEQ_KODELISTE_NAVN_I18N" allocation-size="50" sequence-name="SEQ_KODELISTE_NAVN_I18N"/>
+
+    <sequence-generator name="SEQ_SO_OPPGITT_FRILANS" allocation-size="50" sequence-name="SEQ_KODELISTE_NAVN_I18N"/>
+    <sequence-generator name="SEQ_SO_OPPGITT_FRILANSOPPDRAG" allocation-size="50" sequence-name="SEQ_KODELISTE_NAVN_I18N"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Behandling"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTypeStegSekvens"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Tema"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingsresultatKonsekvensForYtelsen" />
+    
+    <!-- Felles kodeverk for eksterne id'er -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ReferanseType"/>
+
+
+    <!-- Etterkontroll -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.etterkontroll.EtterkontrollLogg"/>
+
+    <!-- Hendelser -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.hendelser.feilhåndtering.MottattHendelse"/>
+
+    <!-- Innsyn -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.InnsynEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.InnsynResultatType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.InnsynDokumentEntitet"/>
+
+    <!-- Opptjening -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetKlassifisering"/>
+
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadtypeTillegg"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadAnnenPartType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.ForeldreType"/>
+    
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeGrunnlagEntitet"/>
+
+    
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentGruppe"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Innsendingsvalg"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.RevurderingVarslingÅrsak"/>
+    
+    <!-- Medlemskap aggregat og grunnlag -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapPeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertLøpendeMedlemskapEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRegistrertEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapKildeType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapManuellVurderingType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOppholdEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapBehandlingsgrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioderEntitet"/>
+
+    <!-- Personopplysning aggregat og grunnlag -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Diskresjonskode"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OpplysningsKilde"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPartEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonAdresseEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonstatusEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonRelasjonEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.StatsborgerskapEntitet"/>
+
+    <!-- FamilieHendelse aggregat og grunnlag -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.AdopsjonEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.TerminbekreftelseEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.UidentifisertBarnEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.OmsorgsovertakelseVilkårType"/>
+
+    <!-- InntektArbeidYtelser aggregat og grunnlag-->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.TypeFiske"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdInformasjonEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdOverstyringEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdReferanseEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdHandlingType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktivitetsAvtaleEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.OffentligYtelseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.PensjonTrygdType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørArbeidEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørInntektEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørYtelseEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektspostEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.PermisjonEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YtelseEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YtelseAnvistEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YtelseGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YtelseStørrelseEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YrkesaktivitetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregatEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.GraderingEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.UtsettelsePeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.RefusjonEntitet"/>
+
+    <!-- Kodeverk for InntektArbeidYtelser -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.FagsystemUnderkategori"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsFilter"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsFormål"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektspostType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektPeriodeType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.PermisjonsbeskrivelseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.TemaUnderkategori"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseResultat"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseSakstype"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTema"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTilstand"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType"/>
+
+    <!-- Oppgitt opptjening-->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittArbeidsforholdEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.EgenNæringEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.AnnenAktivitetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.FrilansEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.FrilansoppdragEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType"/>
+
+    <!-- Grunnlag for ytelsesfordeling -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseFordelingGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgradEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittRettighetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PerioderUtenOmsorgEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PeriodeUtenOmsorgEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PerioderAleneOmsorgEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PeriodeAleneOmsorgEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PerioderUttakDokumentasjonEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PeriodeUttakDokumentasjonEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.DokumentasjonPeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.DokumentasjonPerioderEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.MorsAktivitet"/>
+
+    <!-- Kodeverk for ytelsesfordeling -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.UttakDokumentasjonType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeVurderingType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.FordelingPeriodeKilde"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.OppholdÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.UtsettelseÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.OverføringÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.AvkortingÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.Årsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.AdresseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.VariantFormat"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.MottakKanal"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Kommuner"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Fylker"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Landgrupper"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Geopolitisk"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.LandkodeISO2"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Poststed" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Region"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveBehandlingKobling"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.Sats"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.SatsType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.ReaktiveringStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderingspunktDefinisjon"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStatus"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkBegrunnelseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltVerdiType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDokumentLink"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFeltType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkOpplysningType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAvklartSoeknadsperiodeType" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkResultatType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.BrevMottaker"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageAvvistÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageMedholdÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.kodeverk.arkiv.ArkivFilType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.kodeverk.KodelisteNavnI18N"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAndeltype"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.PeriodeÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriodeÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Hjemmel"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Sammenligningsgrunnlag"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagFaktaOmBeregningTilfelle"/>
+
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFPKobling"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepenger"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepengerPrÅr"/>
+
+    <!-- Uttak av stønad -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Posteringstype"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Stønadskonto"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Stønadskontoberegning"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.ManuellBehandlingÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.GraderingAvslagÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.IkkeOppfyltÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.InnvilgetÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivitetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeSøknadEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatDokRegelEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakUtsettelseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.OrgManuellÅrsakEntitet"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.hendelser.ForretningshendelseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.RettenTil"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.KonsekvensForYtelsen"/>
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnresultatgrunnlag"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurdering"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.totrinn.VurderÅrsakTotrinnsvurdering"/>
+
+</entity-mappings>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings version="2.1" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:annox="http://annox.dev.java.net"
+               jaxb:extensionBindingPrefixes="inheritance annox">
+
+    <jaxb:bindings schemaLocation="./soeknad.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='Soeknad']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./endringssoeknad/endringssoeknad.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='Endringssoeknad']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./engangsstoenad/engangsstoenad.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='Engangsstønad']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="./foreldrepenger/foreldrepenger.xsd" node="/xs:schema">
+        <jaxb:bindings node="//xs:complexType[@name='Foreldrepenger']">
+            <annox:annotateClass>
+                @javax.xml.bind.annotation.XmlRootElement
+            </annox:annotateClass>
+        </jaxb:bindings>
+    </jaxb:bindings>
+</jaxb:bindings>

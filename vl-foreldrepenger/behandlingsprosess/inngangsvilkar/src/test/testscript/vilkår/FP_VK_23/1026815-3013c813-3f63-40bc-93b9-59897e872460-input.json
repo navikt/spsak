@@ -1,0 +1,15 @@
+{
+  "aktivitetPerioder" : [ {
+    "datoIntervall" : [ "2018-01-01", "2018-09-20" ],
+    "aktivitet" : {
+      "aktivitetType" : "VIDERE_ETTERUTDANNING",
+      "aktivitetReferanse" : null,
+      "referanseType" : null
+    },
+    "vurderingsStatus" : "VURDERT_UNDERKJENT"
+  } ],
+  "behandlingsDato" : "2018-09-21",
+  "forsteDatoOpptjening" : "2017-11-20",
+  "sisteDatoForOpptjening" : "2018-09-19",
+  "inntektPerioder" : [ ]
+}

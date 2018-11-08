@@ -1,0 +1,9 @@
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN virksomhet_id;
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN arbeidsforhold_id;
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN refusjonskrav_pr_aar;
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN naturalytelse_bortfalt_pr_aar;
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN naturalytelse_tilkommet_pr_aar;
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN tidsbegrenset_arbeidsforhold;
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN lønnsendring_i_perioden;
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN arbeidsperiode_fom;
+alter table BG_PR_STATUS_OG_ANDEL DROP COLUMN arbeidsperiode_tom;

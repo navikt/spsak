@@ -1,0 +1,3 @@
+ALTER TABLE FH_UIDENTIFISERT_BARN ADD (doedsdato date);
+
+COMMENT ON COLUMN FH_UIDENTIFISERT_BARN.doedsdato IS 'Barnets dødsdato';

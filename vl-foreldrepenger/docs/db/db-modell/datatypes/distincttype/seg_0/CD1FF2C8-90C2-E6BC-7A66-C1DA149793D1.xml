@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DistinctType class="oracle.dbtools.crest.model.design.datatypes.DistinctType" name="ID" directorySegmentName="seg_0" id="CD1FF2C8-90C2-E6BC-7A66-C1DA149793D1">
+<createdBy>C149071</createdBy>
+<createdTime>2017-05-03 07:54:39 UTC</createdTime>
+<generatorID>A5DE58D8-5708-D363-B7A7-85CDBB0B85A8</generatorID>
+<ownerDesignName>db-modell</ownerDesignName>
+<importedID>A5DE58D8-5708-D363-B7A7-85CDBB0B85A8</importedID>
+<predefined>false</predefined>
+<logicalDataType>LOGDT019</logicalDataType>
+<precision>19</precision>
+<scale>0</scale>
+</DistinctType>
