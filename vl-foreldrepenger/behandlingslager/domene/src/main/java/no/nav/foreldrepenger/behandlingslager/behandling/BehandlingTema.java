@@ -60,21 +60,13 @@ public class BehandlingTema extends Kodeliste {
         FagsakYtelseType ytelseType = fagsak.getYtelseType();
 
         if (hendelse != null && hendelse.getGjelderFødsel()) {
-            if (ytelseType.gjelderEngangsstønad()) {
-                return ENGANGSSTØNAD_FØDSEL;
-            }
             if (ytelseType.gjelderForeldrepenger()) {
                 return FORELDREPENGER_FØDSEL;
             }
         } else if (hendelse != null && hendelse.getGjelderAdopsjon()) {
-            if (ytelseType.gjelderEngangsstønad()) {
-                return ENGANGSSTØNAD_ADOPSJON;
-            }
             if (ytelseType.gjelderForeldrepenger()) {
                 return FORELDREPENGER_ADOPSJON;
             }
-        } else if (ytelseType.gjelderEngangsstønad()) {
-            return ENGANGSSTØNAD;
         } else if (ytelseType.gjelderForeldrepenger()) {
             return FORELDREPENGER;
         }

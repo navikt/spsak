@@ -111,15 +111,14 @@ public class FastsettePerioderRegelAdapterTest {
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final EntityManager entityManager = repoRule.getEntityManager();
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
-    private RelatertBehandlingTjeneste relatertBehandlingTjeneste = new RelatertBehandlingTjenesteImpl(repositoryProvider);
-    private LocalDate førsteLovligeUttaksdato = mottattDato.withDayOfMonth(1).minusMonths(3);
-
-    private AktivitetIdentifikator arbeidsforhold = AktivitetIdentifikator.forArbeid("1234", "123");
     private final SkjæringstidspunktTjenesteImpl skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
         new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)),
-        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0), Period.of(0, 6, 0), Period.of(1, 0, 0)),
+        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
         Period.of(0, 3, 0),
         Period.of(0, 10, 0));
+    private RelatertBehandlingTjeneste relatertBehandlingTjeneste = new RelatertBehandlingTjenesteImpl(repositoryProvider);
+    private LocalDate førsteLovligeUttaksdato = mottattDato.withDayOfMonth(1).minusMonths(3);
+    private AktivitetIdentifikator arbeidsforhold = AktivitetIdentifikator.forArbeid("1234", "123");
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste));
 
     private static UttakResultatPeriodeEntitet finnPeriode(List<UttakResultatPeriodeEntitet> perioder, LocalDate fom, LocalDate tom) {

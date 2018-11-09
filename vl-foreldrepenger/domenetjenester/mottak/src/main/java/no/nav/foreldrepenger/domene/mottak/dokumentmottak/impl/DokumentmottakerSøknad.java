@@ -100,14 +100,10 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
 
     @Override
     void håndterAvslåttBehandling(MottattDokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling) {
-        if (fagsak.getYtelseType().gjelderEngangsstønad()) {
+        if (erAvslagGrunnetOpplysningsplikt(avsluttetBehandling)) {
             behandlingsoppretter.opprettNyFørstegangsbehandling(mottattDokument, fagsak, avsluttetBehandling);
         } else {
-            if (erAvslagGrunnetOpplysningsplikt(avsluttetBehandling)) {
-                behandlingsoppretter.opprettNyFørstegangsbehandling(mottattDokument, fagsak, avsluttetBehandling);
-            } else {
-                dokumentmottakerFelles.opprettTaskForÅVurdereDokument(fagsak, avsluttetBehandling, mottattDokument);
-            }
+            dokumentmottakerFelles.opprettTaskForÅVurdereDokument(fagsak, avsluttetBehandling, mottattDokument);
         }
     }
 

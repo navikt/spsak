@@ -34,7 +34,7 @@ public class BehandlingModellEnkelTest {
 
     @Test
     public void skal_bygge_behandlingskontroll_med_ett_steg() throws Exception {
-        try (BehandlingModellImpl modell = new BehandlingModellImpl(BehandlingType.FØRSTEGANGSSØKNAD, FagsakYtelseType.ENGANGSTØNAD, finnSteg)) {
+        try (BehandlingModellImpl modell = new BehandlingModellImpl(BehandlingType.FØRSTEGANGSSØKNAD, FagsakYtelseType.FORELDREPENGER, finnSteg)) {
             modell.leggTil(STEG_1, BEHANDLING_TYPE, FAGSAK_YTELSE_TYPE);
 
             assertThat(modell.finnSteg(STEG_1)).isNotNull();
@@ -48,7 +48,7 @@ public class BehandlingModellEnkelTest {
     @Test
     public void skal_bygge_behandlingskontroll_med_3_steg() throws Exception {
         // Arrange
-        try (BehandlingModellImpl modell = new BehandlingModellImpl(BehandlingType.FØRSTEGANGSSØKNAD, FagsakYtelseType.ENGANGSTØNAD, finnSteg)) {
+        try (BehandlingModellImpl modell = new BehandlingModellImpl(BehandlingType.FØRSTEGANGSSØKNAD, FagsakYtelseType.FORELDREPENGER, finnSteg)) {
             modell.leggTil(STEG_1, BEHANDLING_TYPE, FAGSAK_YTELSE_TYPE);
             modell.leggTil(STEG_2, BEHANDLING_TYPE, FAGSAK_YTELSE_TYPE);
             modell.leggTil(STEG_3, BEHANDLING_TYPE, FAGSAK_YTELSE_TYPE);

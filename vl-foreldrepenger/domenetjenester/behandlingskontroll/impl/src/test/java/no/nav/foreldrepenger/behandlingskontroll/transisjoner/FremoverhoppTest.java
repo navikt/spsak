@@ -120,9 +120,9 @@ public class FremoverhoppTest {
         sql("INSERT INTO BEHANDLING_STEG_TYPE (KODE, NAVN, BEHANDLING_STATUS_DEF, BESKRIVELSE) VALUES ('STEG-2', 'test-steg-2', 'UTRED', 'test')");
         sql("INSERT INTO BEHANDLING_STEG_TYPE (KODE, NAVN, BEHANDLING_STATUS_DEF, BESKRIVELSE) VALUES ('STEG-3', 'test-steg-3', 'UTRED', 'test')");
 
-        sql("INSERT INTO BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, FAGSAK_YTELSE_TYPE) VALUES (SEQ_BEHANDLING_TYPE_STEG_SEKV.nextval, 'BT-TEST2', 'STEG-1', 1, 'ES')");
-        sql("INSERT INTO BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, FAGSAK_YTELSE_TYPE) VALUES (SEQ_BEHANDLING_TYPE_STEG_SEKV.nextval, 'BT-TEST2', 'STEG-2', 2, 'ES')");
-        sql("INSERT INTO BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, FAGSAK_YTELSE_TYPE) VALUES (SEQ_BEHANDLING_TYPE_STEG_SEKV.nextval, 'BT-TEST2', 'STEG-3', 3, 'ES')");
+        sql("INSERT INTO BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, FAGSAK_YTELSE_TYPE) VALUES (SEQ_BEHANDLING_TYPE_STEG_SEKV.nextval, 'BT-TEST2', 'STEG-1', 1, 'FP')");
+        sql("INSERT INTO BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, FAGSAK_YTELSE_TYPE) VALUES (SEQ_BEHANDLING_TYPE_STEG_SEKV.nextval, 'BT-TEST2', 'STEG-2', 2, 'FP')");
+        sql("INSERT INTO BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, FAGSAK_YTELSE_TYPE) VALUES (SEQ_BEHANDLING_TYPE_STEG_SEKV.nextval, 'BT-TEST2', 'STEG-3', 3, 'FP')");
 
         sql("INSERT INTO VURDERINGSPUNKT_DEF (KODE, BEHANDLING_STEG, VURDERINGSPUNKT_TYPE, NAVN) VALUES ('STEG-1.INN', 'STEG-1', 'INN', 'STEG-1.INN')");
         sql("INSERT INTO VURDERINGSPUNKT_DEF (KODE, BEHANDLING_STEG, VURDERINGSPUNKT_TYPE, NAVN) VALUES ('STEG-2.INN', 'STEG-2', 'INN', 'STEG-2.INN')");
@@ -249,7 +249,7 @@ public class FremoverhoppTest {
 
     @BehandlingStegRef(kode = "STEG-1")
     @BehandlingTypeRef("BT-TEST2")
-    @FagsakYtelseTypeRef("ES")
+    @FagsakYtelseTypeRef("FP")
     public static class TestSteg1 extends AbstractTestSteg {
         public TestSteg1() {
             super(STEG_1);
@@ -258,7 +258,7 @@ public class FremoverhoppTest {
 
     @BehandlingStegRef(kode = "STEG-2")
     @BehandlingTypeRef("BT-TEST2")
-    @FagsakYtelseTypeRef("ES")
+    @FagsakYtelseTypeRef("FP")
     public static class TestSteg2 extends AbstractTestSteg {
         public TestSteg2() {
             super(STEG_2);
@@ -268,7 +268,7 @@ public class FremoverhoppTest {
 
     @BehandlingStegRef(kode = "STEG-3")
     @BehandlingTypeRef("BT-TEST2")
-    @FagsakYtelseTypeRef("ES")
+    @FagsakYtelseTypeRef("FP")
     public static class TestSteg3 extends AbstractTestSteg {
         public TestSteg3() {
             super(STEG_3);

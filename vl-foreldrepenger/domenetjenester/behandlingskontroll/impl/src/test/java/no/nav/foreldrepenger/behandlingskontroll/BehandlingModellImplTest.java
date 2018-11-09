@@ -25,7 +25,7 @@ public class BehandlingModellImplTest {
         
         BehandlingModellImpl modellImpl = new BehandlingModellImpl(
                 BehandlingType.FØRSTEGANGSSØKNAD,
-                FagsakYtelseType.ENGANGSTØNAD,
+                FagsakYtelseType.FORELDREPENGER,
                 lookup);
 
         modellImpl.leggTil(stegSekvens);

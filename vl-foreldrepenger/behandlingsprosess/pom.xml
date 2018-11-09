@@ -22,7 +22,6 @@
 		<module>vedtak</module>
         <module>iverksette-vedtak</module>
         <module>foresla-vedtak</module>
-        <module>varsel-om-revurdering</module>
         <module>klage</module>
         <module>vurder-innsyn</module>
         <module>kompletthetssjekk</module>

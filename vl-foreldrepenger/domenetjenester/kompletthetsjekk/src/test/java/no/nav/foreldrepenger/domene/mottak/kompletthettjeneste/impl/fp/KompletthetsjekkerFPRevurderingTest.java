@@ -5,12 +5,7 @@ import static java.util.Collections.singletonList;
 import static no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.KompletthetssjekkerTestUtil.AKTØR_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -20,14 +15,13 @@ import java.util.Optional;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
@@ -36,12 +30,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.InntektArbeidYtelseScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
-import no.nav.foreldrepenger.dokumentbestiller.api.mal.dto.BestillBrevDto;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsforholdTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
@@ -73,11 +64,10 @@ public class KompletthetsjekkerFPRevurderingTest {
     private final KompletthetssjekkerSøknad kompletthetssjekkerSøknad = mock(KompletthetssjekkerSøknad.class);
     private final KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding = mock(KompletthetssjekkerInntektsmelding.class);
     private final InntektsmeldingVilEndreUttakTjeneste inntektsmeldingVilEndreUttakTjeneste = mock(InntektsmeldingVilEndreUttakTjeneste.class);
-    private final DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste = mock(DokumentBestillerApplikasjonTjeneste.class);
 
     private final InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider,
         mock(ArbeidsforholdTjeneste.class), mock(TpsTjeneste.class), mock(VirksomhetTjeneste.class), mock(SkjæringstidspunktTjeneste.class), mock(AksjonspunktutlederForVurderOpptjening.class));
-    private final KompletthetsjekkerFPFelles kompletthetsjekkerFPFelles = new KompletthetsjekkerFPFelles(repositoryProvider, dokumentBestillerApplikasjonTjeneste);
+    private final KompletthetsjekkerFPFelles kompletthetsjekkerFPFelles = new KompletthetsjekkerFPFelles(repositoryProvider, mock(SendVarselTjeneste.class));
     private final KompletthetsjekkerFPRevurdering kompletthetsjekkerFPRevurdering = new KompletthetsjekkerFPRevurdering(
         kompletthetssjekkerSøknad, kompletthetssjekkerInntektsmelding, kompletthetsjekkerFPFelles, inntektArbeidYtelseTjeneste,
         repositoryProvider, inntektsmeldingVilEndreUttakTjeneste);
@@ -149,7 +139,6 @@ public class KompletthetsjekkerFPRevurderingTest {
         Behandling behandling = scenario.lagre(repositoryProvider);
         opprettInntektsmelding(behandling);
         when(inntektsmeldingVilEndreUttakTjeneste.graderingVilEndreUttak(any(Behandling.class), any(Inntektsmelding.class))).thenReturn(true);
-        ArgumentCaptor<BestillBrevDto> bestillBrevDtoCaptor = ArgumentCaptor.forClass(BestillBrevDto.class);
 
         // Act
         KompletthetResultat kompletthetResultat = kompletthetsjekkerFPRevurdering.vurderForsendelseKomplett(behandling);
@@ -158,9 +147,6 @@ public class KompletthetsjekkerFPRevurderingTest {
         assertThat(kompletthetResultat.erOppfylt()).isFalse();
         assertThat(kompletthetResultat.getVenteårsak()).isEqualTo(Venteårsak.AVV_DOK);
         assertThat(kompletthetResultat.getVentefrist().toLocalDate()).isEqualTo(LocalDate.now().plusWeeks(4));
-        verify(dokumentBestillerApplikasjonTjeneste, times(1)).bestillDokument(bestillBrevDtoCaptor.capture(), eq(HistorikkAktør.VEDTAKSLØSNINGEN));
-        assertThat(bestillBrevDtoCaptor.getValue().getBehandlingId()).isEqualTo(behandling.getId());
-        assertThat(bestillBrevDtoCaptor.getValue().getBrevmalkode()).isEqualTo(DokumentMalType.REVURDERING_DOK);
     }
 
     @Test
@@ -171,7 +157,6 @@ public class KompletthetsjekkerFPRevurderingTest {
         Behandling behandling = scenario.lagre(repositoryProvider);
         opprettInntektsmelding(behandling);
         when(inntektsmeldingVilEndreUttakTjeneste.utsettelseArbeidVilEndreUttak(any(Behandling.class), any(Inntektsmelding.class))).thenReturn(true);
-        ArgumentCaptor<BestillBrevDto> bestillBrevDtoCaptor = ArgumentCaptor.forClass(BestillBrevDto.class);
 
         // Act
         KompletthetResultat kompletthetResultat = kompletthetsjekkerFPRevurdering.vurderForsendelseKomplett(behandling);
@@ -180,9 +165,6 @@ public class KompletthetsjekkerFPRevurderingTest {
         assertThat(kompletthetResultat.erOppfylt()).isFalse();
         assertThat(kompletthetResultat.getVenteårsak()).isEqualTo(Venteårsak.AVV_DOK);
         assertThat(kompletthetResultat.getVentefrist().toLocalDate()).isEqualTo(LocalDate.now().plusWeeks(4));
-        verify(dokumentBestillerApplikasjonTjeneste, times(1)).bestillDokument(bestillBrevDtoCaptor.capture(), eq(HistorikkAktør.VEDTAKSLØSNINGEN));
-        assertThat(bestillBrevDtoCaptor.getValue().getBehandlingId()).isEqualTo(behandling.getId());
-        assertThat(bestillBrevDtoCaptor.getValue().getBrevmalkode()).isEqualTo(DokumentMalType.REVURDERING_DOK);
     }
 
     @Test
@@ -193,7 +175,6 @@ public class KompletthetsjekkerFPRevurderingTest {
         Behandling behandling = scenario.lagre(repositoryProvider);
         opprettInntektsmelding(behandling);
         when(inntektsmeldingVilEndreUttakTjeneste.utsettelseFerieVilEndreUttak(any(Behandling.class), any(Inntektsmelding.class))).thenReturn(true);
-        ArgumentCaptor<BestillBrevDto> bestillBrevDtoCaptor = ArgumentCaptor.forClass(BestillBrevDto.class);
 
         // Act
         KompletthetResultat kompletthetResultat = kompletthetsjekkerFPRevurdering.vurderForsendelseKomplett(behandling);
@@ -202,9 +183,6 @@ public class KompletthetsjekkerFPRevurderingTest {
         assertThat(kompletthetResultat.erOppfylt()).isFalse();
         assertThat(kompletthetResultat.getVenteårsak()).isEqualTo(Venteårsak.AVV_DOK);
         assertThat(kompletthetResultat.getVentefrist().toLocalDate()).isEqualTo(LocalDate.now().plusWeeks(4));
-        verify(dokumentBestillerApplikasjonTjeneste, times(1)).bestillDokument(bestillBrevDtoCaptor.capture(), eq(HistorikkAktør.VEDTAKSLØSNINGEN));
-        assertThat(bestillBrevDtoCaptor.getValue().getBehandlingId()).isEqualTo(behandling.getId());
-        assertThat(bestillBrevDtoCaptor.getValue().getBrevmalkode()).isEqualTo(DokumentMalType.INNTEKTSMELDING_FOR_TIDLIG_DOK);
     }
 
     @Test
@@ -221,24 +199,6 @@ public class KompletthetsjekkerFPRevurderingTest {
 
         // Assert
         assertThat(kompletthetResultat.erOppfylt()).isTrue();
-        verify(dokumentBestillerApplikasjonTjeneste, times(0)).bestillDokument(any(BestillBrevDto.class), any(HistorikkAktør.class));
-    }
-
-    @Test
-    public void skal_bare_sende_samme_brev_en_gang() {
-        // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
-        opprettArbeidsforhold(scenario);
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        opprettInntektsmelding(behandling);
-        when(inntektsmeldingVilEndreUttakTjeneste.graderingVilEndreUttak(any(Behandling.class), any(Inntektsmelding.class))).thenReturn(true);
-        when(dokumentBestillerApplikasjonTjeneste.erDokumentProdusert(anyLong(), anyString())).thenReturn(true);
-
-        // Act
-        kompletthetsjekkerFPRevurdering.vurderForsendelseKomplett(behandling);
-
-        // Assert
-        verify(dokumentBestillerApplikasjonTjeneste, times(0)).bestillDokument(any(BestillBrevDto.class), any(HistorikkAktør.class));
     }
 
     private void opprettArbeidsforhold(ScenarioMorSøkerForeldrepenger scenario) {

@@ -48,6 +48,10 @@
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
+            <artifactId>beregningsgrunnlag</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger</groupId>
             <artifactId>kompletthetsjekk</artifactId>
         </dependency>
         <dependency>

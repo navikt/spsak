@@ -17,7 +17,6 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOpphold;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOppholdEntitet;
@@ -26,6 +25,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Sivils
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
@@ -225,7 +225,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
             .medUtstedtDato(LocalDate.now())
             .medNavnPå("LEGEN MIN"));
         Behandling behandling = scenario.lagre(provider);
-
+        provider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(termindato.minusWeeks(3), null));
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
 
@@ -273,7 +273,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
             .medUtstedtDato(LocalDate.now())
             .medNavnPå("LEGEN MIN"));
         Behandling behandling = scenario.lagre(provider);
-
+        provider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(termindato.minusWeeks(3), null));
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
 
@@ -309,7 +309,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         builder.medInntektspostTom(tom);
         builder.build();
         Behandling behandling = scenario.lagre(provider);
-
+        provider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(termindato.minusWeeks(3), null));
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
 
@@ -346,7 +346,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         builder.medInntektspostTom(tom);
         builder.build();
         Behandling behandling = scenario.lagre(provider);
-
+        provider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(termindato.minusWeeks(3), null));
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
 
@@ -374,7 +374,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
             .medMottattDato(LocalDate.now());
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.ESP);
         Behandling behandling = scenario.lagre(provider);
-
+        provider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(termindato.minusWeeks(3), null));
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
 
@@ -408,6 +408,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         builder.medInntektspostTom(LocalDate.now().minusWeeks(58L));
         builder.build();
         Behandling behandling = scenario.lagre(provider);
+        provider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(termindato.minusWeeks(3), null));
 
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
@@ -436,7 +437,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
             .medMottattDato(LocalDate.now());
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.ESP);
         Behandling behandling = scenario.lagre(provider);
-
+        provider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(termindato.minusWeeks(3), null));
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
 

@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
-import no.nav.foreldrepenger.inngangsvilkaar.adopsjon.AdopsjonsvilkårEngangsstønad;
 import no.nav.foreldrepenger.inngangsvilkaar.adopsjon.AdopsjonsvilkårForeldrepenger;
 import no.nav.foreldrepenger.inngangsvilkaar.fødsel.FødselsvilkårFar;
 import no.nav.foreldrepenger.inngangsvilkaar.fødsel.FødselsvilkårMor;
@@ -46,14 +45,16 @@ import no.nav.vedtak.util.Tuple;
 class VilkårVurdering {
 
     private static final Logger log = LoggerFactory.getLogger(VilkårVurdering.class);
-    private static final BiConsumer<VilkårResultat, Object> DO_NOTHING = (res, obj) -> {
+    static final BiConsumer<VilkårResultat, Object> DO_NOTHING = (res, obj) -> {
     };
 
     void vurderVilkår(String filenamePrefix, ErrorCollector collector, VilkårType vilkår, BiConsumer<VilkårResultat, Object> extraDataValidering) {
         Objects.requireNonNull(vilkår, "vilkår");
         final File vilkårMappe = new File("src/test/testscript/vilkår/" + vilkår.getKode() + "/");
-        final File[] files = vilkårMappe.listFiles();
-        vurderCaser(collector, vilkår, extraDataValidering, files);
+        if (vilkårMappe != null && vilkårMappe.listFiles() != null) {
+            List<File> fileList = Arrays.stream(vilkårMappe.listFiles()).filter(it -> it.getName().startsWith(filenamePrefix)).collect(Collectors.toList());
+            vurderCaser(collector, vilkår, extraDataValidering, fileList.toArray(new File[0]));
+        }
     }
 
     void vurderVilkår(ErrorCollector collector, VilkårType vilkår) {
@@ -164,9 +165,6 @@ class VilkårVurdering {
         }
         if (VilkårType.FØDSELSVILKÅRET_FAR_MEDMOR.equals(vilkår)) {
             return new Tuple(new Tuple<>(FødselsvilkårGrunnlag.class, new NoneObject()), new FødselsvilkårFar());
-        }
-        if (VilkårType.ADOPSJONSVILKÅRET_ENGANGSSTØNAD.equals(vilkår)) {
-            return new Tuple(new Tuple<>(AdopsjonsvilkårGrunnlag.class, new NoneObject()), new AdopsjonsvilkårEngangsstønad());
         }
         if (VilkårType.ADOPSJONSVILKARET_FORELDREPENGER.equals(vilkår)) {
             return new Tuple(new Tuple<>(AdopsjonsvilkårGrunnlag.class, new NoneObject()), new AdopsjonsvilkårForeldrepenger());

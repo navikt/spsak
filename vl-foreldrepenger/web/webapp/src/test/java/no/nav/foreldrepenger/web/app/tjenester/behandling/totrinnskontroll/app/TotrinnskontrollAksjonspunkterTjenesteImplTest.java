@@ -235,17 +235,11 @@ public class TotrinnskontrollAksjonspunkterTjenesteImplTest {
         boolean apAvbrutt = false;
 
         Map<FagsakYtelseType, SkjermlenkeType> fagsakYtelseTypeSkjermlenkeTypeMap = new HashMap<>();
-        fagsakYtelseTypeSkjermlenkeTypeMap.put(FagsakYtelseType.ENGANGSTØNAD, SkjermlenkeType.FAKTA_OM_OMSORG_OG_FORELDREANSVAR);
-        fagsakYtelseTypeSkjermlenkeTypeMap.put(FagsakYtelseType.FORELDREPENGER, SkjermlenkeType.FAKTA_FOR_OMSORG);
-        fagsakYtelseTypeSkjermlenkeTypeMap.put(FagsakYtelseType.ENDRING_FORELDREPENGER, SkjermlenkeType.FAKTA_FOR_OMSORG);
+        fagsakYtelseTypeSkjermlenkeTypeMap.put(FagsakYtelseType.FORELDREPENGER, SkjermlenkeType.FAKTA_OM_OMSORG_OG_FORELDREANSVAR);
 
         fagsakYtelseTypeSkjermlenkeTypeMap.keySet().forEach(fagsakYtelseType -> {
 
-            if (fagsakYtelseType.gjelderEngangsstønad()) {
-                opprettBehandlingForEngangsstønad();
-            } else {
-                opprettBehandlingForFP(Optional.empty());
-            }
+            opprettBehandlingForFP(Optional.empty());
 
             Totrinnsvurdering ttv = opprettTotrinnsvurdering(behandling, aksjonspunktDefinisjon, ttvGodkjent);
             TotrinnskontrollAksjonspunkterDto totrinnskontrollAksjonspunkterDto = opprettTotrinnskontrollAksjonspunkterDto(Optional.of(aksjonspunktDefinisjon), Optional.of(ttv));

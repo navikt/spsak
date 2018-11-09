@@ -21,7 +21,7 @@ public class FagsakRelasjonBuilder {
     }
 
     public static FagsakRelasjonBuilder engangsstønad() {
-        return new FagsakRelasjonBuilder(FagsakYtelseType.ENGANGSTØNAD);
+        return new FagsakRelasjonBuilder(FagsakYtelseType.FORELDREPENGER);
     }
 
     public static FagsakRelasjonBuilder foreldrepenger() {

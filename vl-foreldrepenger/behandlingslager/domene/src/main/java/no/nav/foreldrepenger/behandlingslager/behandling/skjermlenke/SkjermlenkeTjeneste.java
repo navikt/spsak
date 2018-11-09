@@ -27,9 +27,6 @@ public class SkjermlenkeTjeneste {
 
     private static SkjermlenkeType getSkjermlenkeTypeForOmsorgsovertakelse(Behandling behandling) {
         FagsakYtelseType fagsakYtelseType = behandling.getFagsakYtelseType();
-        if (FagsakYtelseType.ENGANGSTØNAD.equals(fagsakYtelseType)){
-            return  SkjermlenkeType.FAKTA_OM_OMSORG_OG_FORELDREANSVAR;
-        }
         return SkjermlenkeType.FAKTA_FOR_OMSORG;
     }
 

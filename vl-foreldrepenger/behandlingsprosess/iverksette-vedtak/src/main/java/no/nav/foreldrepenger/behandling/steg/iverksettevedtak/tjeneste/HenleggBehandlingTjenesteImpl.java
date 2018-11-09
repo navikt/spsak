@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.behandling.steg.iverksettevedtak.tjeneste;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingTjeneste;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.StartBerørtBehandlingTask;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
@@ -15,10 +16,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
-import no.nav.foreldrepenger.dokumentbestiller.api.mal.dto.BestillBrevDto;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveSendTilInfotrygdTask;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
@@ -28,10 +26,10 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
 
     private BehandlingRepository behandlingRepository;
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste;
     private ProsessTaskRepository prosessTaskRepository;
     private SøknadRepository søknadRepository;
     private FagsakRepository fagsakRepository;
+    private SendVarselTjeneste varselTjeneste;
 
     public HenleggBehandlingTjenesteImpl() {
         // for CDI proxy
@@ -40,14 +38,14 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
     @Inject
     public HenleggBehandlingTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
                                          BehandlingskontrollTjeneste behandlingskontrollTjeneste,
-                                         DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste,
-                                         ProsessTaskRepository prosessTaskRepository) {
+                                         ProsessTaskRepository prosessTaskRepository,
+                                         SendVarselTjeneste varselTjeneste) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
-        this.dokumentBestillerApplikasjonTjeneste = dokumentBestillerApplikasjonTjeneste;
         this.prosessTaskRepository = prosessTaskRepository;
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
+        this.varselTjeneste = varselTjeneste;
     }
 
     @Override
@@ -67,6 +65,10 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
         }
         behandlingskontrollTjeneste.lagHistorikkinnslagForHenleggelse(behandlingId, HistorikkinnslagType.AVBRUTT_BEH, årsakKode, begrunnelse, HistorikkAktør.SAKSBEHANDLER);
         startTaskForDekøingAvBerørtBehandling(behandling);
+    }
+
+    private void sendHenleggelsesbrev(Long behandlingId, HistorikkAktør vedtaksløsningen) {
+        varselTjeneste.sendVarsel(behandlingId, "Henleggelse");
     }
 
     private void opprettOppgaveTilInfotrygd(Behandling behandling) {
@@ -90,8 +92,4 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
         prosessTaskRepository.lagre(taskData);
     }
 
-    private void sendHenleggelsesbrev(long behandlingId, HistorikkAktør aktør) {
-        BestillBrevDto bestillBrevDto = new BestillBrevDto(behandlingId, DokumentMalType.HENLEGG_BEHANDLING_DOK);
-        dokumentBestillerApplikasjonTjeneste.bestillDokument(bestillBrevDto, aktør);
-    }
 }

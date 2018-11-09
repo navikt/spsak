@@ -23,11 +23,11 @@
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>dokumentbestiller</artifactId>
+            <artifactId>ytelse-fordeling</artifactId>
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>ytelse-fordeling</artifactId>
+            <artifactId>uttak</artifactId>
         </dependency>
         
         <!-- Prosjekt interne avhengigheter -->

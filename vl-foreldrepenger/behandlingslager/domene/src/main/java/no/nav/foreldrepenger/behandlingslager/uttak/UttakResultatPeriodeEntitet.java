@@ -28,7 +28,6 @@ import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 

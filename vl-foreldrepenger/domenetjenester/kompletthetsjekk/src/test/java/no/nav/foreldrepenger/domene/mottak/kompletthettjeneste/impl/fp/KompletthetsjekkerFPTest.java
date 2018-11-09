@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -30,7 +32,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadReposito
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResultat;
@@ -59,8 +60,6 @@ public class KompletthetsjekkerFPTest {
     @Mock
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     @Mock
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjenesteMock;
-    @Mock
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjenesteMock;
 
     private KompletthetssjekkerSøknadFP kompletthetssjekkerSøknadFP;
@@ -75,7 +74,7 @@ public class KompletthetsjekkerFPTest {
 
         kompletthetssjekkerSøknadFP = new KompletthetssjekkerSøknadFPFørstegangsbehandling(dokumentArkivTjeneste, repositoryProvider, skjæringstidspunktTjeneste, 4);
         kompletthetssjekkerInntektsmelding = new KompletthetssjekkerInntektsmeldingImpl(inntektArbeidYtelseTjenesteMock);
-        kompletthetsjekkerFPFelles = new KompletthetsjekkerFPFelles(repositoryProvider, dokumentBestillerApplikasjonTjenesteMock);
+        kompletthetsjekkerFPFelles = new KompletthetsjekkerFPFelles(repositoryProvider, mock(SendVarselTjeneste.class));
         kompletthetsjekkerFP = new KompletthetsjekkerFP(kompletthetssjekkerSøknadFP, kompletthetssjekkerInntektsmelding, inntektArbeidYtelseTjenesteMock, kompletthetsjekkerFPFelles, skjæringstidspunktTjeneste, søknadRepository);
     }
 

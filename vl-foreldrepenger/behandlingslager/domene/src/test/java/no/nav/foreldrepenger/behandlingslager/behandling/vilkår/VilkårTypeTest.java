@@ -25,7 +25,7 @@ public class VilkårTypeTest {
                 return TEST_STRING;
             }
         };
-        assertThat(vilkårType.getLovReferanse(FagsakYtelseType.ENGANGSTØNAD)).isEqualTo("§ 14-17, 1. ledd");
+        assertThat(vilkårType.getLovReferanse(FagsakYtelseType.FORELDREPENGER)).isEqualTo("§ 14-17, 1. ledd");
     }
 
 

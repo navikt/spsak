@@ -101,24 +101,11 @@ public class ManuellRegistreringOppdaterer implements AksjonspunktOppdaterer<Man
     private String finnDokumentType(ManuellRegistreringDto registreringDto, BehandlingType behandlingType) {
         String søknadsType = registreringDto.getSoknadstype().getKode();
 
-        if (FagsakYtelseType.ENGANGSTØNAD.getKode().equals(søknadsType) &&
-            FamilieHendelseType.FØDSEL.getKode().equals(registreringDto.getTema().getKode())) {
-            return DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL.getKode();
-        }
-        if (erEngangsstønadFødsel(registreringDto, søknadsType)) {
-            return DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL.getKode();
-        }
-        if (erEngangsstønadAdopsjon(registreringDto, søknadsType)) {
-            return DokumentTypeId.SØKNAD_ENGANGSSTØNAD_ADOPSJON.getKode();
-        }
         if (erForeldrepengerFødsel(registreringDto, søknadsType)) {
             return DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL.getKode();
         }
         if (erForeldrepengerAdopsjon(registreringDto, søknadsType)) {
             return DokumentTypeId.SØKNAD_FORELDREPENGER_ADOPSJON.getKode();
-        }
-        if (erForeldrepengerEndringssøknad(behandlingType, søknadsType)) {
-            return DokumentTypeId.FORELDREPENGER_ENDRING_SØKNAD.getKode();
         }
         return DokumentTypeId.UDEFINERT.getKode();
     }
@@ -131,21 +118,6 @@ public class ManuellRegistreringOppdaterer implements AksjonspunktOppdaterer<Man
 
     private boolean erForeldrepengerFødsel(ManuellRegistreringDto registreringDto, String søknadsType) {
         return FagsakYtelseType.FORELDREPENGER.getKode().equals(søknadsType) &&
-            FamilieHendelseType.FØDSEL.getKode().equals(registreringDto.getTema().getKode());
-    }
-
-    private boolean erForeldrepengerEndringssøknad(BehandlingType behandlingType, String søknadsType) {
-        return FagsakYtelseType.ENDRING_FORELDREPENGER.getKode().equals(søknadsType) && behandlingType.equals(BehandlingType.REVURDERING);
-    }
-
-    private boolean erEngangsstønadAdopsjon(ManuellRegistreringDto registreringDto, String søknadsType) {
-        return FagsakYtelseType.ENGANGSTØNAD.getKode().equals(søknadsType) &&
-            (FamilieHendelseType.ADOPSJON.getKode().equals(registreringDto.getTema().getKode()) ||
-                FamilieHendelseType.OMSORG.getKode().equals(registreringDto.getTema().getKode()));
-    }
-
-    private boolean erEngangsstønadFødsel(ManuellRegistreringDto registreringDto, String søknadsType) {
-        return FagsakYtelseType.ENGANGSTØNAD.getKode().equals(søknadsType) &&
             FamilieHendelseType.FØDSEL.getKode().equals(registreringDto.getTema().getKode());
     }
 

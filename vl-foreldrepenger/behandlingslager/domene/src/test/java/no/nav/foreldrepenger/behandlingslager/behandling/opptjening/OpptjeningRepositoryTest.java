@@ -33,7 +33,7 @@ public class OpptjeningRepositoryTest {
         LocalDate today = LocalDate.now();
         LocalDate tomorrow = today.plusDays(1);
 
-        Behandling behandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(FagsakYtelseType.ENGANGSTØNAD);
+        Behandling behandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(FagsakYtelseType.FORELDREPENGER);
 
         @SuppressWarnings("unused")
         VilkårResultat vilkårResultat = basicBehandlingBuilder.leggTilTomtVilkårResultat(behandling);

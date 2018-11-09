@@ -25,7 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
@@ -55,13 +54,6 @@ public abstract class DokumentmottakerTestsupport {
     protected BehandlingRepositoryProvider repositoryProvider;
 
     protected Behandling opprettBehandling(FagsakYtelseType fagsakYtelseType, BehandlingType behandlingType, BehandlingResultatType behandlingResultatType, Avslagsårsak avslagsårsak, VedtakResultatType vedtakResultatType, LocalDate vedtaksdato) {
-        if (fagsakYtelseType.gjelderEngangsstønad()) {
-            ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
-                .medFagsakId(1234L)
-                .medSaksnummer(new Saksnummer("2345"))
-                .medBehandlingType(behandlingType);
-            return opprettBehandling(scenario, behandlingType, behandlingResultatType, avslagsårsak, vedtakResultatType, vedtaksdato);
-        }
 
         if (fagsakYtelseType.gjelderForeldrepenger()) {
             ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel()

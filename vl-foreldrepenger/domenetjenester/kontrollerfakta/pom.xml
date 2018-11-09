@@ -30,14 +30,6 @@
             <artifactId>ytelse-fordeling</artifactId>
         </dependency>
         
-        <!--  TODO Fjern referanse til Dokumenbestiller.  Håndter ved å lytte på aksjonspunkt? -->
-        <dependency>                
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>dokumentbestiller</artifactId>
-            <scope>provided</scope>
-        </dependency>
-                        
-        
         <!-- Prosjekt interne avhengigheter -->
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

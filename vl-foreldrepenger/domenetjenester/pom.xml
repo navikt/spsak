@@ -13,7 +13,6 @@
 
     <modules>
         <module>behandling</module>
-        <module>behandling-kriterier</module>
         <module>behandling-status</module>
         <module>behandling-gjenopptagelse</module>
         <module>behandling-revurdering</module>
@@ -22,7 +21,6 @@
         <module>behandling-innsyn</module>
         <module>beregning-ytelse</module>
         <module>dokumentarkiv</module>
-        <module>dokumentbestiller</module>
         <module>familie-hendelse</module>
         <module>inngangsvilkar</module>
         <module>arbeidsforhold</module>

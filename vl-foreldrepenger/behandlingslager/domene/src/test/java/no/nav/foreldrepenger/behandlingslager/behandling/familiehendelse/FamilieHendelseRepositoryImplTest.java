@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse;
 
-import no.nav.foreldrepenger.domene.typer.AktørId;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
@@ -23,6 +22,7 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
 
@@ -47,7 +47,7 @@ public class FamilieHendelseRepositoryImplTest {
             .medPersonIdent(new PersonIdent("12345678901"))
             .medForetrukketSpråk(Språkkode.nb)
             .build();
-        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, NavBruker.opprettNy(personinfo));
+        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, NavBruker.opprettNy(personinfo));
         fagsakRepository.opprettNy(fagsak);
         final Behandling.Builder builder = Behandling.forFørstegangssøknad(fagsak);
         final Behandling behandling = builder.build();
@@ -91,7 +91,7 @@ public class FamilieHendelseRepositoryImplTest {
             .medPersonIdent(new PersonIdent("12345678901"))
             .medForetrukketSpråk(Språkkode.nb)
             .build();
-        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, NavBruker.opprettNy(personinfo));
+        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, NavBruker.opprettNy(personinfo));
         fagsakRepository.opprettNy(fagsak);
         final Behandling.Builder builder = Behandling.forFørstegangssøknad(fagsak);
         final Behandling behandling = builder.build();
@@ -152,7 +152,7 @@ public class FamilieHendelseRepositoryImplTest {
             .medPersonIdent(new PersonIdent("12345678901"))
             .medForetrukketSpråk(Språkkode.nb)
             .build();
-        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, NavBruker.opprettNy(personinfo));
+        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, NavBruker.opprettNy(personinfo));
         fagsakRepository.opprettNy(fagsak);
         final Behandling.Builder builder = Behandling.forFørstegangssøknad(fagsak);
         final Behandling behandling = builder.build();

@@ -21,7 +21,7 @@ import no.nav.vedtak.util.FPDateUtil;
 public class ScenarioFarSøkerEngangsstønad extends AbstractTestScenario<ScenarioFarSøkerEngangsstønad> {
 
     private ScenarioFarSøkerEngangsstønad(boolean medDefaultSøknad) {
-        super(FagsakYtelseType.ENGANGSTØNAD, RelasjonsRolleType.FARA, NavBrukerKjønn.MANN);
+        super(FagsakYtelseType.FORELDREPENGER, RelasjonsRolleType.FARA, NavBrukerKjønn.MANN);
         if (medDefaultSøknad) {
             // Defaults - antar default alltid minimum med en søknad
             medDefaultOppgittTilknytning();

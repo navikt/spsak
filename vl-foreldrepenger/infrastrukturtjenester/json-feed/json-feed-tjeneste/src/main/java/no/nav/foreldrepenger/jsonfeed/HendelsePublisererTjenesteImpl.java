@@ -21,7 +21,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatTy
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatusEvent;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
@@ -79,7 +78,6 @@ public class HendelsePublisererTjenesteImpl implements HendelsePublisererTjenest
 
         if (!(erInnvilgetFørstegangssøknad(vedtak, behandlingType) || erEndring(behandlingType))
             || erBeslutningsvedtak(behandlingType, vedtak.getBehandlingsresultat().getBehandlingResultatType())
-            || FagsakYtelseType.ENGANGSTØNAD.equals(vedtak.getBehandlingsresultat().getBehandling().getFagsak().getYtelseType())
             || erEndringUtenEndretPeriode(vedtak)) {
             return; //dette vedtaket trigger ingen hendelse
         }

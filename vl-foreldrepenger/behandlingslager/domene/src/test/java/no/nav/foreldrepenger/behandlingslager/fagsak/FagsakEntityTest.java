@@ -46,7 +46,7 @@ public class FagsakEntityTest {
         repository.lagre(navBruker);
 
         // Opprett fagsak
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, navBruker);
+        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.UDEFINERT, navBruker);
 
         // Sjekk at det ikke er saker i basen fra før
         Collection<Fagsak> fagsaker = repository.hentAlle(Fagsak.class);
@@ -62,7 +62,7 @@ public class FagsakEntityTest {
 
         assertThat(sammeFagsak).isNotNull();
         assertThat(sammeFagsak.getYtelseType()).isNotNull();
-        assertThat(sammeFagsak.getYtelseType().getNavn()).isEqualTo(FagsakYtelseType.ENGANGSTØNAD.getNavn());
+        assertThat(sammeFagsak.getYtelseType().getNavn()).isEqualTo(FagsakYtelseType.UDEFINERT.getNavn());
         assertThat(sammeFagsak.getNavBruker()).isNotNull();
         assertThat(sammeFagsak.getNavBruker().getAktørId()).isEqualTo(new AktørId("123"));
         assertThat(sammeFagsak.getSkalTilInfotrygd()).isEqualTo(false);

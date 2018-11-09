@@ -25,6 +25,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.VilkårData;
@@ -51,7 +52,7 @@ public class FødselsvilkårMorTest {
 
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
         new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)),
-        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0), Period.of(0, 6, 0), Period.of(1, 0, 0)),
+        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
         Period.of(0, 3, 0),
         Period.of(0, 10, 0));
     private BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
@@ -68,6 +69,7 @@ public class FødselsvilkårMorTest {
         leggTilSøker(scenario, NavBrukerKjønn.MANN);
         
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData data = new InngangsvilkårFødselMor(oversetter).vurderVilkår(behandling);
@@ -139,6 +141,7 @@ public class FødselsvilkårMorTest {
         
         leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now().minusDays(24), null));
 
         // Act
         VilkårData data = new InngangsvilkårFødselMor(oversetter).vurderVilkår(behandling);
@@ -166,6 +169,7 @@ public class FødselsvilkårMorTest {
                 .medUtstedtDato(LocalDate.now()));
         leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now().minusDays(24), null));
 
         // Act
         VilkårData data = new InngangsvilkårFødselMor(oversetter).vurderVilkår(behandling);
@@ -191,6 +195,7 @@ public class FødselsvilkårMorTest {
                 .medNavnPå("LEGE LEGESEN"));
         leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now().minusDays(26), null));
 
         // Act
         VilkårData data = new InngangsvilkårFødselMor(oversetter).vurderVilkår(behandling);
@@ -211,6 +216,7 @@ public class FødselsvilkårMorTest {
         scenario.medBrukerKjønn(NavBrukerKjønn.KVINNE);
         leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(fødselsdato, null));
 
         // Act
         VilkårData data = new InngangsvilkårFødselMor(oversetter).vurderVilkår(behandling);
@@ -248,7 +254,9 @@ public class FødselsvilkårMorTest {
         scenario.medRegisterOpplysninger(søker);
         scenario.medRegisterOpplysninger(fødtBarn);
 
-        return scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(fødselsdato, null));
+        return behandling;
     }
 
 }

@@ -47,6 +47,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -85,7 +86,7 @@ public class InngangsvilkårOversetterTest {
     public void oppsett() {
         SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
             new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)),
-            new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0), Period.of(0, 6, 0), Period.of(1, 0, 0)),
+            new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
             Period.of(0, 3, 0),
             Period.of(0, 10, 0));
         BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
@@ -99,7 +100,7 @@ public class InngangsvilkårOversetterTest {
         LocalDate søknadsdato = now.plusDays(1);
         LocalDate fødselFødselsdato = now.plusDays(7);
         Behandling behandling = opprettBehandlingForFødsel(now, søknadsdato, fødselFødselsdato, RelasjonsRolleType.MORA);
-
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         FødselsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellFødsel(behandling);
 
         // Assert
@@ -118,7 +119,7 @@ public class InngangsvilkårOversetterTest {
         LocalDate søknadsdato = now.plusDays(1);
         LocalDate fødselFødselsdato = now.plusDays(7);
         Behandling behandling = opprettBehandlingForFødsel(now, søknadsdato, fødselFødselsdato, RelasjonsRolleType.FARA);
-
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         FødselsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellFødsel(behandling);
 
         // Assert
@@ -202,6 +203,7 @@ public class InngangsvilkårOversetterTest {
         scenario.medRegisterOpplysninger(søker);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         AdopsjonsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellAdopsjon(behandling);
 
@@ -224,6 +226,7 @@ public class InngangsvilkårOversetterTest {
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.plusMonths(4), true);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         VurdertMedlemskap vurdertMedlemskap = new VurdertMedlemskapBuilder()
             .medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.MEDLEM)
@@ -257,6 +260,7 @@ public class InngangsvilkårOversetterTest {
         ScenarioMorSøkerEngangsstønad scenario = oppsett(skjæringstidspunkt);
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.minusDays(1), true);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         MedlemskapsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellMedlemskap(behandling);
@@ -273,7 +277,7 @@ public class InngangsvilkårOversetterTest {
         ScenarioMorSøkerEngangsstønad scenario = oppsett(skjæringstidspunkt);
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.plusDays(10), false);
         Behandling behandling = scenario.lagre(repositoryProvider);
-
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         // Act
         MedlemskapsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellMedlemskap(behandling);
 

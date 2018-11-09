@@ -64,6 +64,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.Behandlingsg
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -148,11 +149,11 @@ public class RegisterdataEndringshåndtererImplTest {
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
         new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)),
-        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0), Period.of(0, 6, 0), Period.of(1, 0, 0)),
+        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
         Period.of(0, 3, 0),
         Period.of(0, 10, 0));
     private OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste = new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste,
-        Period.of(0, 4, 0), Period.of(1, 0, 0), Period.of(1, 0, 0), Period.of(0, 6, 0));
+        Period.of(0, 4, 0), Period.of(1, 0, 0));
     private HistorikkRepositoryImpl historikkRepository = new HistorikkRepositoryImpl(repositoryRule.getEntityManager());
     private RegisterinnhentingHistorikkinnslagTjeneste historikkinnslagTjeneste = new RegisterinnhentingHistorikkinnslagTjenesteImpl(historikkRepository);
     private BehandlingModellRepository behandlingModellRepository = new BehandlingModellRepositoryImpl(repositoryRule.getEntityManager());
@@ -221,7 +222,7 @@ public class RegisterdataEndringshåndtererImplTest {
             .medBehandlingStegStart(BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR);
         scenario.medSøknadHendelse().medFødselsDato(LocalDate.now().minusDays(2));
         Behandling behandling = scenario.lagre(repositoryProvider);
-
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         EndringsresultatDiff idDiff = EndringsresultatDiff.medDiff(PersonInformasjon.class, 1L, 2L);
         EndringsresultatDiff sporingDiff = EndringsresultatDiff.medDiffPåSporedeFelt(idDiff, true, null);
         when(endringsresultatSjekker.finnSporedeEndringerPåBehandlingsgrunnlag(any(Behandling.class), any(EndringsresultatSnapshot.class)))
@@ -258,6 +259,7 @@ public class RegisterdataEndringshåndtererImplTest {
             .medUtstedtDato(LocalDate.now())
             .medNavnPå("Legen min"));
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         lagRegisterdataEndringshåndterer()
@@ -284,6 +286,7 @@ public class RegisterdataEndringshåndtererImplTest {
         scenario.medSøknadHendelse().leggTilBarn(LocalDate.now())
             .medAdopsjon(scenario.medSøknadHendelse().getAdopsjonBuilder().medOmsorgsovertakelseDato(LocalDate.now()));
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         when(personinfoAdapter.innhentPersonopplysningerHistorikk(Mockito.any(AktørId.class), any()))
             .thenReturn(opprettSøkerHistorikkInfo(søker.getPersonstatus()));

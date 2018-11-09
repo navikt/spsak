@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.behandling.steg.iverksettevedtak.tjeneste;
 
+import static org.mockito.Mockito.mock;
+
 import javax.inject.Inject;
 
 import org.junit.Before;
@@ -10,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
@@ -24,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
@@ -52,9 +54,6 @@ public class HenleggBehandlingUtenSøknadTest {
     @Mock
     private ProsessTaskRepository prosessTaskRepositoryMock;
 
-    @Mock
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjenesteMock;
-
     private HenleggBehandlingTjeneste henleggBehandlingTjeneste;
     private Behandling behandling;
 
@@ -67,7 +66,7 @@ public class HenleggBehandlingUtenSøknadTest {
         behandling = scenario.lagre(repositoryProvider);
 
         BehandlingskontrollTjenesteImpl behandlingskontrollTjenesteImpl = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository, null);
-        henleggBehandlingTjeneste = new HenleggBehandlingTjenesteImpl(repositoryProvider, behandlingskontrollTjenesteImpl, dokumentBestillerApplikasjonTjenesteMock, prosessTaskRepositoryMock);
+        henleggBehandlingTjeneste = new HenleggBehandlingTjenesteImpl(repositoryProvider, behandlingskontrollTjenesteImpl, prosessTaskRepositoryMock, mock(SendVarselTjeneste.class));
     }
 
     @Test

@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
@@ -19,8 +20,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
-import no.nav.foreldrepenger.domene.dokument.DokumentBestillerTjeneste;
-import no.nav.foreldrepenger.domene.dokument.KlageVurderingAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktOppdaterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OppdateringResultat;
@@ -32,9 +31,9 @@ import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAd
 @DtoTilServiceAdapter(dto = KlageVurderingResultatAksjonspunktDto.class, adapter = AksjonspunktOppdaterer.class)
 public class KlagevurderingOppdaterer implements AksjonspunktOppdaterer<KlageVurderingResultatAksjonspunktDto> {
     private BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste;
+    private SendVarselTjeneste varselTjeneste;
     private HistorikkTjenesteAdapter historikkApplikasjonTjeneste;
     private KodeverkRepository kodeverkRepository;
-    private DokumentBestillerTjeneste dokumentTjeneste;
     private AksjonspunktRepository aksjonspunktRepository;
 
     KlagevurderingOppdaterer() {
@@ -44,13 +43,13 @@ public class KlagevurderingOppdaterer implements AksjonspunktOppdaterer<KlageVur
     @Inject
     public KlagevurderingOppdaterer(BehandlingRepositoryProvider repositoryProvider,
                                     HistorikkTjenesteAdapter historikkApplikasjonTjeneste,
-                                    DokumentBestillerTjeneste dokumentTjeneste,
-                                    BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste) {
+                                    BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste,
+                                    SendVarselTjeneste varselTjeneste) {
         this.historikkApplikasjonTjeneste = historikkApplikasjonTjeneste;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
-        this.dokumentTjeneste = dokumentTjeneste;
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
         this.behandlingsutredningApplikasjonTjeneste = behandlingsutredningApplikasjonTjeneste;
+        this.varselTjeneste = varselTjeneste;
     }
 
     @Override
@@ -67,11 +66,7 @@ public class KlagevurderingOppdaterer implements AksjonspunktOppdaterer<KlageVur
     }
 
     private void håndterKlageVurdering(KlageVurderingResultatAksjonspunktDto dto, Behandling behandling, AksjonspunktDefinisjon aksjonspunktDefinisjon) {
-        final KlageVurderingAksjonspunktDto adapter = new KlageVurderingAksjonspunktDto(dto.getKlageVurdering().getKode(),
-            dto.getBegrunnelse(), dto.getVedtaksdatoPaklagdBehandling(), getKlageAvvistÅrsak(dto),
-            getKlageMedholdÅrsak(dto), erNfpAksjonspunkt(aksjonspunktDefinisjon));
-
-        dokumentTjeneste.aksjonspunktKlageVurdering(behandling, adapter);
+        varselTjeneste.sendVarsel(behandling.getId(), "KlageVurdering");
     }
 
     private void håndterToTrinnsBehandling(Behandling behandling, AksjonspunktDefinisjon aksjonspunktDefinisjon, KlageVurdering klageVurdering) {

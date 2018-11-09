@@ -49,7 +49,7 @@ public class PersonopplysningTjenesteImplTest {
     public void before() {
         personopplysningTjeneste = new PersonopplysningTjenesteImpl(repositoryProvider,
             tpsAdapterImpl, navBrukerRepository, new SkjæringstidspunktTjenesteImpl(repositoryProvider, Mockito.mock(BeregnMorsMaksdatoTjeneste.class),
-            new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0), Period.of(0, 6, 0), Period.of(1, 0, 0)),
+            new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
             Period.of(0, 3, 0),
             Period.of(0, 10, 0)));
     }

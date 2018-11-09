@@ -35,7 +35,7 @@ public class BehandlingRelaterteYtelserMapperTest {
     private static final LocalDate I_DAG = LocalDate.now();
     private static final Saksnummer SAKSNUMMER_42 = new Saksnummer("42");
     private NavBruker navBruker = new NavBrukerBuilder().medAktørId(new AktørId("99")).build();
-    private Fagsak fagsakFødsel = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, navBruker, null, new Saksnummer("66"));
+    private Fagsak fagsakFødsel = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, navBruker, null, new Saksnummer("66"));
 
     @Test
     public void skal_returnerer_tilgrensende_ytelser_for_soker() {

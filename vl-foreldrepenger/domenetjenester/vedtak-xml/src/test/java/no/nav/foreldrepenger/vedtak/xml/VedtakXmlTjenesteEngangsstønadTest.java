@@ -153,7 +153,7 @@ public class VedtakXmlTjenesteEngangsstønadTest {
 
     private Fagsak opprettFagsak() {
         NavBruker søker = NavBruker.opprettNy(personinfoMor);
-        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, søker);
+        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, søker);
         fagsakRepository.opprettNy(fagsak);
         return fagsak;
     }

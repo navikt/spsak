@@ -76,11 +76,6 @@
 
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingsprosess-varsel-revurdering</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingsprosess-klage</artifactId>
         </dependency>
 

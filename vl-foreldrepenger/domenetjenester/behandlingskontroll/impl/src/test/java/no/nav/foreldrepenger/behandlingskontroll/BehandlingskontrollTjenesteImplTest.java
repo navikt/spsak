@@ -54,7 +54,7 @@ public class BehandlingskontrollTjenesteImplTest {
 
     static class BehandlingModellForTest {
         BehandlingType behandlingType = BehandlingType.FØRSTEGANGSSØKNAD;
-        FagsakYtelseType fagsakYtelseType = FagsakYtelseType.ENGANGSTØNAD;
+        FagsakYtelseType fagsakYtelseType = FagsakYtelseType.FORELDREPENGER;
 
         // random liste av aksjonspunkt og steg i en definert rekkefølge for å kunne sette opp modellen
         AksjonspunktDefinisjon a2_0 = AksjonspunktDefinisjon.AVKLAR_OPPHOLDSRETT;

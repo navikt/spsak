@@ -28,7 +28,7 @@ public class OppgaveBehandlingKoblingRepositoryImplTest {
     public void skal_hente_opp_oppgave_behandling_kobling_basert_på_oppgave_id() {
         // Arrange
         String oppgaveId = "G1502453";
-        Behandling behandling = new BasicBehandlingBuilder(repoRule.getEntityManager()).opprettOgLagreFørstegangssøknad(FagsakYtelseType.ENGANGSTØNAD);
+        Behandling behandling = new BasicBehandlingBuilder(repoRule.getEntityManager()).opprettOgLagreFørstegangssøknad(FagsakYtelseType.FORELDREPENGER);
         lagOppgave(new OppgaveBehandlingKobling(OppgaveÅrsak.BEHANDLE_SAK, oppgaveId, DUMMY_SAKSNUMMER, behandling));
 
         // Act

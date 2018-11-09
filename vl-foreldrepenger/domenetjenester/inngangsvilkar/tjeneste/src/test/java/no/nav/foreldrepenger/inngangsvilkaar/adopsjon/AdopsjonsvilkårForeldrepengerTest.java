@@ -25,6 +25,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.VilkårData;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
@@ -48,7 +49,7 @@ public class AdopsjonsvilkårForeldrepengerTest {
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
         new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)),
-        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0), Period.of(0, 6, 0), Period.of(1, 0, 0)),
+        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
         Period.of(0, 3, 0),
         Period.of(0, 10, 0));
     private BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
@@ -167,7 +168,9 @@ public class AdopsjonsvilkårForeldrepengerTest {
                 .medErEktefellesBarn(ektefellesBarn)
                 .medAdoptererAlene(adoptererAlene))
             .leggTilBarn(omsorgsovertakelsedato.minusYears(alder));
-        return scenario.lagre(repositoryProvider);
+        Behandling lagre = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(lagre, new AvklarteUttakDatoerEntitet(omsorgsovertakelsedato, null));
+        return lagre;
     }
 
     private void leggTilSøker(AbstractTestScenario<?> scenario, NavBrukerKjønn kjønn) {

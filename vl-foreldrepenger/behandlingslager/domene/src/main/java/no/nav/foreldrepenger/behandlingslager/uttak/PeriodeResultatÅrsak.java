@@ -2,12 +2,12 @@ package no.nav.foreldrepenger.behandlingslager.uttak;
 
 import java.util.Optional;
 
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
-import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+
+import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
+import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 
 @Entity(name = "PeriodeResultatAarsak")
 @DiscriminatorValue(PeriodeResultatÅrsak.DISCRIMINATOR)
@@ -33,9 +33,7 @@ public class PeriodeResultatÅrsak extends Kodeliste {
 
     public Optional<String> getLovReferanse(FagsakYtelseType fagsakYtelseType) {
         if (lovReferanse == null) {
-            if (fagsakYtelseType.gjelderEngangsstønad()) {
-                lovReferanse = getJsonField("fagsakYtelseType", "ES", "lovreferanse"); //$NON-NLS-1$
-            } else if (fagsakYtelseType.gjelderForeldrepenger()) {
+            if (fagsakYtelseType.gjelderForeldrepenger()) {
                 lovReferanse = getJsonField("fagsakYtelseType", "FP", "lovreferanse"); //$NON-NLS-1$
             }
         }

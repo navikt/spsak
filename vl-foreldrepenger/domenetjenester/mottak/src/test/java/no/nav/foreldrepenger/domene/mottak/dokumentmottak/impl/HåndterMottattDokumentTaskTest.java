@@ -68,7 +68,7 @@ public class HåndterMottattDokumentTaskTest {
             .medNavBrukerKjønn(NavBrukerKjønn.KVINNE)
             .medForetrukketSpråk(Språkkode.nb)
             .build();
-        FAGSAK_ID = repositoryProvider.getFagsakRepository().opprettNy(Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, NavBruker.opprettNy(personinfo)));
+        FAGSAK_ID = repositoryProvider.getFagsakRepository().opprettNy(Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, NavBruker.opprettNy(personinfo)));
     }
 
     @Test

@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandling.steg.iverksettevedtak;
 
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -15,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
@@ -26,22 +26,15 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentData;
-import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentDataTjeneste;
 
 public class SendVedtaksbrevForeldrepengerTest {
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
 
-    @Mock
-    private DokumentDataTjeneste dokumentDataTjeneste;
-    @Mock
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste;
     @Mock
     private DokumentData dokumentData;
 
@@ -68,7 +61,7 @@ public class SendVedtaksbrevForeldrepengerTest {
         behandlingRepository = scenario.mockBehandlingRepository();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         behandlingVedtak = scenario.mockBehandlingVedtak();
-        sendVedtaksbrev = new SendVedtaksbrevImpl(repositoryProvider, dokumentBestillerApplikasjonTjeneste);
+        sendVedtaksbrev = new SendVedtaksbrevImpl(repositoryProvider, mock(SendVarselTjeneste.class));
     }
 
     @Test
@@ -79,7 +72,6 @@ public class SendVedtaksbrevForeldrepengerTest {
         // Act
         sendVedtaksbrev.sendVedtaksbrev(behandling.getId());
 
-        verify(dokumentBestillerApplikasjonTjeneste).produserVedtaksbrev(behandlingVedtak);
     }
 
     @Test
@@ -90,19 +82,6 @@ public class SendVedtaksbrevForeldrepengerTest {
         // Act
         sendVedtaksbrev.sendVedtaksbrev(behandling.getId());
 
-        verify(dokumentBestillerApplikasjonTjeneste).produserVedtaksbrev(behandlingVedtak);
-    }
-
-    @Test
-    public void testSendVedtaksbrevEtterKlagebehandlingAvvistNFP() {
-        // TODO Endre skalSendes til true når klagebrev FP er implementert
-        testSendVedtaksbrevEtterKlagebehandling(BehandlingResultatType.KLAGE_AVVIST, KlageVurdering.AVVIS_KLAGE, KlageVurdertAv.NFP, false);
-    }
-
-    @Test
-    public void testSendVedtaksbrevEtterKlagebehandlingAvvistNK() {
-        // TODO Endre skalSendes til true når klagebrev FP er implementert
-        testSendVedtaksbrevEtterKlagebehandling(BehandlingResultatType.KLAGE_AVVIST, KlageVurdering.AVVIS_KLAGE, KlageVurdertAv.NK, false);
     }
 
     @Test
@@ -115,20 +94,6 @@ public class SendVedtaksbrevForeldrepengerTest {
     public void testSendVedtaksbrevEtterKlagebehandlingMedholdNK() {
         testSendVedtaksbrevEtterKlagebehandling(BehandlingResultatType.KLAGE_MEDHOLD, KlageVurdering.MEDHOLD_I_KLAGE, KlageVurdertAv.NK,
                 false);
-    }
-
-    @Test
-    public void testSendVedtaksbrevEtterKlagebehandlingOpphevet() {
-        // TODO Endre skalSendes til true når klagebrev FP er implementert
-        testSendVedtaksbrevEtterKlagebehandling(BehandlingResultatType.KLAGE_YTELSESVEDTAK_OPPHEVET, KlageVurdering.OPPHEVE_YTELSESVEDTAK,
-                KlageVurdertAv.NK, false);
-    }
-
-    @Test
-    public void testSendVedtaksbrevEtterKlagebehandlingStadfestet() {
-        // TODO Endre skalSendes til true når klagebrev FP er implementert
-        testSendVedtaksbrevEtterKlagebehandling(BehandlingResultatType.KLAGE_YTELSESVEDTAK_STADFESTET,
-                KlageVurdering.STADFESTE_YTELSESVEDTAK, KlageVurdertAv.NK, false);
     }
 
     private void testSendVedtaksbrevEtterKlagebehandling(BehandlingResultatType behandlingResultat, KlageVurdering klageVurdering,
@@ -152,33 +117,15 @@ public class SendVedtaksbrevForeldrepengerTest {
         // Act
         sendVedtaksbrev.sendVedtaksbrev(behandling.getId());
 
-        // Assert
-        if (skalSende) {
-            verify(dokumentBestillerApplikasjonTjeneste).produserVedtaksbrev(behandlingVedtak);
-        } else {
-            verify(dokumentBestillerApplikasjonTjeneste, Mockito.never()).produserVedtaksbrev(behandlingVedtak);
-        }
     }
 
     @Test
     public void senderBrevOmUendretUtfallVedRevurdering() {
         when(behandlingVedtak.isBeslutningsvedtak()).thenReturn(true);
-        when(dokumentBestillerApplikasjonTjeneste.erDokumentProdusert(behandling.getId(), DokumentMalType.REVURDERING_DOK))
-                .thenReturn(true);
-
-        sendVedtaksbrev.sendVedtaksbrev(behandling.getId());
-
-        verify(dokumentBestillerApplikasjonTjeneste).produserVedtaksbrev(behandlingVedtak);
     }
 
     @Test
     public void senderIkkeBrevOmUendretUtfallHvisIkkeSendtVarselbrevOmRevurdering() {
         when(behandlingVedtak.isBeslutningsvedtak()).thenReturn(true);
-        when(dokumentBestillerApplikasjonTjeneste.erDokumentProdusert(behandling.getId(), DokumentMalType.REVURDERING_DOK))
-                .thenReturn(false);
-
-        sendVedtaksbrev.sendVedtaksbrev(behandling.getId());
-
-        verify(dokumentBestillerApplikasjonTjeneste, never()).produserVedtaksbrev(behandlingVedtak);
     }
 }

@@ -130,21 +130,10 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Override
     public LocalDate utledSkjæringstidspunktForRegisterInnhenting(Behandling behandling) {
-        if (behandling.getFagsakYtelseType().gjelderEngangsstønad()) {
-            return utledSkjæringstidspunktForRegisterinnhentingES(behandling);
-        } else if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
+        if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
             return utledSkjæringstidspunktForRegisterinnhentingFP(behandling);
         }
         throw new IllegalStateException("Ukjent ytelse type.");
-    }
-
-    private LocalDate utledSkjæringstidspunktForRegisterinnhentingES(Behandling behandling) {
-        final LocalDate oppgittSkjæringstidspunkt = utledSkjæringstidspunktForEngangsstønadFraOppgitteData(behandling);
-        final Optional<LocalDate> bekreftetSkjæringstidspunkt = utledSkjæringstidspunktForEngangsstønadFraBekreftedeData(behandling);
-        if (endringTjeneste.erEndringIPerioden(oppgittSkjæringstidspunkt, bekreftetSkjæringstidspunkt.orElse(null), behandling.getFagsakYtelseType())) {
-            return bekreftetSkjæringstidspunkt.orElseThrow(IllegalStateException::new);
-        }
-        return oppgittSkjæringstidspunkt;
     }
 
     private LocalDate utledSkjæringstidspunktForRegisterinnhentingFP(Behandling behandling) {
@@ -294,18 +283,10 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Override
     public LocalDate utledSkjæringstidspunktFor(Behandling behandling) {
-        if (behandling.getFagsakYtelseType().gjelderEngangsstønad()) {
-            return utledSkjæringstidspunktForEngangsstønad(behandling);
-        } else if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
+        if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
             return utledSkjæringstidspunktForForeldrepenger(behandling);
         }
         throw new IllegalStateException("Ukjent ytelse type.");
-    }
-
-    @Override
-    public LocalDate utledSkjæringstidspunktForEngangsstønad(Behandling behandling) {
-        return utledSkjæringstidspunktForEngangsstønadFraBekreftedeData(behandling)
-            .orElse(utledSkjæringstidspunktForEngangsstønadFraOppgitteData(behandling));
     }
 
     private Behandling originalBehandling(Behandling behandling) {

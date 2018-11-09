@@ -191,7 +191,7 @@ public class RegisterdataInnhenterTest {
         MedlemTjeneste medlemTjeneste = mock(MedlemTjeneste.class);
         ProsessTaskRepository prosessTaskRepository = mock(ProsessTaskRepository.class);
         OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste = new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste,
-            Period.of(0, 4, 0), Period.of(1, 0, 0), Period.of(1, 0, 0), Period.of(0, 6, 0));
+            Period.of(0, 4, 0), Period.of(1, 0, 0));
         BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste = new BehandlingskontrollTaskTjenesteImpl(prosessTaskRepository);
 
         return new RegisterdataInnhenterImpl(personinfoAdapter, medlemTjeneste,

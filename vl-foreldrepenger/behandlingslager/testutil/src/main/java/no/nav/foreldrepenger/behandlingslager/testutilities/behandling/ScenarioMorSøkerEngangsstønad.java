@@ -22,7 +22,7 @@ import no.nav.vedtak.util.FPDateUtil;
 public class ScenarioMorSøkerEngangsstønad extends AbstractTestScenario<ScenarioMorSøkerEngangsstønad> {
 
     private ScenarioMorSøkerEngangsstønad( boolean medDefaultSøknad) {
-        super(FagsakYtelseType.ENGANGSTØNAD, RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE);
+        super(FagsakYtelseType.FORELDREPENGER, RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE);
         if (medDefaultSøknad) {
             // Defaults - antar default alltid minimum med en søknad
             medDefaultOppgittTilknytning();

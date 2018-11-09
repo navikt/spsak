@@ -9,14 +9,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
@@ -29,20 +28,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageAvvistÅrsak
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
-import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveBehandlingKoblingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
-import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioKlageEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
-import no.nav.foreldrepenger.dokumentbestiller.api.mal.dto.BestillBrevDto;
-import no.nav.foreldrepenger.domene.dokument.impl.DokumentBestillerTjenesteImpl;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.KlageVurderingResultatAksjonspunktDto.KlageVurderingResultatNfpAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.KlageVurderingResultatAksjonspunktDto.KlageVurderingResultatNkAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsutredningApplikasjonTjeneste;
@@ -51,14 +44,14 @@ import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAd
 public class KlagevurderingOppdatererTest {
 
     private HistorikkTjenesteAdapter historikkApplikasjonTjeneste;
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste;
+    private SendVarselTjeneste varselTjeneste;
     private BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste;
 
     // TODO (FLUORITT): Renskriv tester med færre mocks
     @Before
     public void oppsett() {
         historikkApplikasjonTjeneste = mock(HistorikkTjenesteAdapter.class);
-        dokumentBestillerApplikasjonTjeneste = mock(DokumentBestillerApplikasjonTjeneste.class);
+        varselTjeneste = mock(SendVarselTjeneste.class);
         behandlingsutredningApplikasjonTjeneste = mock(BehandlingsutredningApplikasjonTjeneste.class);
     }
 
@@ -90,11 +83,6 @@ public class KlagevurderingOppdatererTest {
         assertThat(klageBehandling.hentKlageVurderingResultat(KlageVurdertAv.NFP)).isEqualTo(Optional.of(klageVurderingResultat));
 
         // verifiserer BestillBrevDto
-        ArgumentCaptor<BestillBrevDto> brevDtoCaptor = ArgumentCaptor.forClass(BestillBrevDto.class);
-        verify(dokumentBestillerApplikasjonTjeneste).bestillDokument(brevDtoCaptor.capture(), eq(HistorikkAktør.SAKSBEHANDLER));
-        BestillBrevDto bestillBrevDto = brevDtoCaptor.getValue();
-        assertThat(bestillBrevDto.getBrevmalkode()).isEqualTo(DokumentMalType.KLAGE_OVERSENDT_KLAGEINSTANS_DOK);
-        assertThat(bestillBrevDto.getFritekst()).isNull();
 
         // Verifiserer HistorikkinnslagDto
         ArgumentCaptor<Historikkinnslag> historikkCapture = ArgumentCaptor.forClass(Historikkinnslag.class);
@@ -119,11 +107,8 @@ public class KlagevurderingOppdatererTest {
 
     private KlagevurderingOppdaterer getKlageVurderer(AbstractTestScenario<?> scenario) {
         final BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
-        final DokumentBestillerTjenesteImpl dokumentTjeneste = new DokumentBestillerTjenesteImpl(Period.parse("P4W"), repositoryProvider, mock(OppgaveTjeneste.class),
-                mock(OppgaveBehandlingKoblingRepository.class), mock(BehandlingskontrollTjeneste.class),
-                dokumentBestillerApplikasjonTjeneste);
         return new KlagevurderingOppdaterer(repositoryProvider,
-                historikkApplikasjonTjeneste, dokumentTjeneste, behandlingsutredningApplikasjonTjeneste);
+                historikkApplikasjonTjeneste, behandlingsutredningApplikasjonTjeneste, mock(SendVarselTjeneste.class));
     }
 
     @Test

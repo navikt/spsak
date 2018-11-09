@@ -1,8 +1,6 @@
 package no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,12 +12,10 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.domene.vedtak.VurderOmArenaYtelseSkalOpphøre;
-import no.nav.modig.core.test.LogSniffer;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 
 public class VurderOppgaveArenaTaskTest {
@@ -28,8 +24,6 @@ public class VurderOppgaveArenaTaskTest {
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
-    @Rule
-    public final LogSniffer logSniffer = new LogSniffer();
     @Mock
     private BehandlingRepositoryProvider behandlingRepository;
     @Mock
@@ -56,21 +50,6 @@ public class VurderOppgaveArenaTaskTest {
 
         oppgaveArenaTask.doTask(prosessTaskData);
 
-        logSniffer.assertHasInfoMessage("VurderOppgaveArenaTask: Vurderer for behandling: "+behandling.getId());
         verify(vurdereOmArenaYtelseSkalOpphøre).opprettOppgaveHvisArenaytelseSkalOpphøre(any(), any());
-    }
-
-    @Test
-    public void skal_ikke_opprett_oppgave(){
-        behandling = ScenarioMorSøkerEngangsstønad.forFødsel().lagMocked();
-        when(prosessTaskData.getBehandlingId()).thenReturn(behandling.getId());
-        behandlingRepository = ScenarioMorSøkerEngangsstønad.forFødsel().mockBehandlingRepositoryProvider();
-        when(behandlingRepository.getBehandlingRepository().hentBehandling(behandling.getId())).thenReturn(behandling);
-        oppgaveArenaTask = new VurderOppgaveArenaTask(behandlingRepository, vurdereOmArenaYtelseSkalOpphøre);
-
-        oppgaveArenaTask.doTask(prosessTaskData);
-
-        logSniffer.assertHasInfoMessage("VurderOppgaveArenaTask: Ikke aktuelt for behandling: "+behandling.getId());
-        verify(vurdereOmArenaYtelseSkalOpphøre, never()).opprettOppgaveHvisArenaytelseSkalOpphøre(any(), any());
     }
 }

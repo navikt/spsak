@@ -47,6 +47,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMe
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.VilkårData;
@@ -76,7 +77,7 @@ public class MedlemskapsvilkårTest {
 
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
         new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)),
-        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0), Period.of(0, 6, 0), Period.of(1, 0, 0)),
+        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
         Period.of(0, 3, 0),
         Period.of(0, 10, 0));
     private BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
@@ -101,6 +102,7 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.FTL_2_7_a, Landkoder.NOR, PersonstatusType.BOSA, true);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.SAKSBEHANDLER_SETTER_OPPHØR_AV_MEDL_PGA_ENDRINGER_I_TPS);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -122,6 +124,7 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.FTL_2_7_a, Landkoder.NOR, PersonstatusType.BOSA, true);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.UNNTAK);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -143,6 +146,7 @@ public class MedlemskapsvilkårTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.FTL_2_6, Landkoder.NOR, PersonstatusType.BOSA, true);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -170,6 +174,7 @@ public class MedlemskapsvilkårTest {
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.MEDLEM);
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.UDEFINERT, Landkoder.SWE);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -201,6 +206,7 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.UNNTATT, Landkoder.NOR, PersonstatusType.UTVA, false);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -226,6 +232,7 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.UNNTATT, Landkoder.NOR, PersonstatusType.UTVA, true);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -253,6 +260,7 @@ public class MedlemskapsvilkårTest {
         scenario.medMedlemskap().medBosattVurdering(false).medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
         ;
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -280,6 +288,7 @@ public class MedlemskapsvilkårTest {
         scenario.medMedlemskap().medBosattVurdering(false).medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
         ;
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -309,6 +318,7 @@ public class MedlemskapsvilkårTest {
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.UDEFINERT, Landkoder.NOR);
         scenario.medMedlemskap().medBosattVurdering(true);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -339,6 +349,7 @@ public class MedlemskapsvilkårTest {
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.EOS, Landkoder.SWE);
         scenario.medMedlemskap().medBosattVurdering(true).medOppholdsrettVurdering(true);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -369,6 +380,7 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(landkodeEOS, PersonstatusType.BOSA);
         scenario.medMedlemskap().medBosattVurdering(true).medOppholdsrettVurdering(false);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -401,6 +413,7 @@ public class MedlemskapsvilkårTest {
         scenario.medMedlemskap().medBosattVurdering(true).medLovligOppholdVurdering(false)
             .medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -432,6 +445,7 @@ public class MedlemskapsvilkårTest {
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.UDEFINERT, Landkoder.USA);
         scenario.medMedlemskap().medBosattVurdering(true).medLovligOppholdVurdering(true);
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -454,6 +468,7 @@ public class MedlemskapsvilkårTest {
         leggTilSøker(scenario, PersonstatusType.UREG, Region.NORDEN, Landkoder.SWE);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         final PersonInformasjonBuilder personInformasjonBuilder = repositoryProvider.getPersonopplysningRepository().opprettBuilderForOverstyring(behandling);
         LocalDate utvandretDato = LocalDate.now().minusYears(10);
@@ -483,6 +498,7 @@ public class MedlemskapsvilkårTest {
         leggTilSøker(scenario, PersonstatusType.UREG, Region.NORDEN, Landkoder.SWE);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
+        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         final PersonInformasjonBuilder personInformasjonBuilder = repositoryProvider.getPersonopplysningRepository().opprettBuilderForOverstyring(behandling);
         LocalDate utvandretDato = LocalDate.now().minusYears(10);

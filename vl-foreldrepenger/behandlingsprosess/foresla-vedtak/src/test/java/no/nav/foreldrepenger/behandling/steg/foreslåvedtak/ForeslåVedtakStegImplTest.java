@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.behandling.steg.foreslåvedtak;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -54,7 +52,6 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivite
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.felles.testutilities.Whitebox;
@@ -72,8 +69,6 @@ public class ForeslåVedtakStegImplTest {
     private BehandlingRepository behandlingRepository = spy(repositoryProvider.getBehandlingRepository());
     @Mock
     private OppgaveTjeneste oppgaveTjeneste;
-    @Mock
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste;
     private HistorikkRepository historikkRepository = spy(repositoryProvider.getHistorikkRepository());
     @Mock
     private Behandling behandling;
@@ -95,7 +90,6 @@ public class ForeslåVedtakStegImplTest {
         kontekst = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), repositoryProvider.getBehandlingRepository().taSkriveLås(behandling));
 
         when(oppgaveTjeneste.hentOppgaveListe(any(AktørId.class), any())).thenReturn(oppgaveinfoerSomReturneres);
-        when(dokumentBestillerApplikasjonTjeneste.erDokumentProdusert(anyLong(), anyString())).thenReturn(true);
 
         SjekkMotEksisterendeOppgaverTjeneste gsakTjeneste = new SjekkMotEksisterendeOppgaverTjeneste(historikkRepository, oppgaveTjeneste);
         ForeslåVedtakTjeneste foreslåVedtakTjeneste = new ForeslåVedtakTjenesteEngangsstønadImpl(repositoryProvider, gsakTjeneste);
@@ -233,7 +227,7 @@ public class ForeslåVedtakStegImplTest {
     @Test
     public void foreslårVedtakForForeldrepengerMedInnvilgetUttaksperiode() {
         SjekkMotEksisterendeOppgaverTjeneste gsakTjeneste = new SjekkMotEksisterendeOppgaverTjeneste(historikkRepository, oppgaveTjeneste);
-        ForeslåVedtakTjeneste foreslåVedtakTjeneste = new ForeslåVedtakTjenesteForeldrepengerImpl(repositoryProvider, gsakTjeneste, dokumentBestillerApplikasjonTjeneste, null);
+        ForeslåVedtakTjeneste foreslåVedtakTjeneste = new ForeslåVedtakTjenesteForeldrepengerImpl(repositoryProvider, gsakTjeneste, null);
         ForeslåVedtakStegForeldrepengerImpl fpSteg = new ForeslåVedtakStegForeldrepengerImpl(behandlingRepository, foreslåVedtakTjeneste);
         UttakResultatPerioderEntitet uttak = opprettUttak(true);
 
@@ -258,7 +252,7 @@ public class ForeslåVedtakStegImplTest {
     public void foreslårVedtakForForeldrepengerMedAvslåttUttaksperiode() {
 
         SjekkMotEksisterendeOppgaverTjeneste gsakTjeneste = new SjekkMotEksisterendeOppgaverTjeneste(historikkRepository, oppgaveTjeneste);
-        ForeslåVedtakTjeneste foreslåVedtakTjeneste = new ForeslåVedtakTjenesteForeldrepengerImpl(repositoryProvider, gsakTjeneste, dokumentBestillerApplikasjonTjeneste, null);
+        ForeslåVedtakTjeneste foreslåVedtakTjeneste = new ForeslåVedtakTjenesteForeldrepengerImpl(repositoryProvider, gsakTjeneste, null);
         ForeslåVedtakStegForeldrepengerImpl fpSteg = new ForeslåVedtakStegForeldrepengerImpl(behandlingRepository, foreslåVedtakTjeneste);
         entityManager.persist(behandling.getBehandlingsresultat());
         UttakResultatPerioderEntitet uttak = opprettUttak(false);

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
@@ -18,8 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
-import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
 
 @ApplicationScoped
 public class SendVedtaksbrevImpl implements SendVedtaksbrev {
@@ -27,20 +26,19 @@ public class SendVedtaksbrevImpl implements SendVedtaksbrev {
     private static final Logger log = LoggerFactory.getLogger(SendVedtaksbrevImpl.class);
 
     private BehandlingRepository behandlingRepository;
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste;
 
     private BehandlingVedtakRepository behandlingVedtakRepository;
+    private SendVarselTjeneste varselTjeneste;
 
     SendVedtaksbrevImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public SendVedtaksbrevImpl(BehandlingRepositoryProvider repositoryProvider,
-                               DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste) {
+    public SendVedtaksbrevImpl(BehandlingRepositoryProvider repositoryProvider, SendVarselTjeneste varselTjeneste) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
-        this.dokumentBestillerApplikasjonTjeneste = dokumentBestillerApplikasjonTjeneste;
+        this.varselTjeneste = varselTjeneste;
     }
 
     @Override
@@ -57,7 +55,7 @@ public class SendVedtaksbrevImpl implements SendVedtaksbrev {
             if (!skalSendeVedtaksbrevIKlagebehandling(behandling)) {
                 log.info("Sender ikke vedtaksbrev for klagebehandling: {}, gjelder medhold fra NFP", behandlingId); //$NON-NLS-1$
                 return;
-            } else if (!gjelderEngangsstønad(behandling)) {
+            } else if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
                 SendVedtaksbrevFeil.FACTORY.kanIkkeSendeVedtaksbrev(behandlingVedtak.getVedtakResultatType().getNavn(), behandlingId).log(log);
                 return;
             }
@@ -75,16 +73,19 @@ public class SendVedtaksbrevImpl implements SendVedtaksbrev {
                 log.info("Uendret utfall av revurdering og har ikke sendt varsel om revurdering. Sender ikke brev for behandling: {}", behandlingId); //$NON-NLS-1$
                 return;
             }
-        } else if (gjelderEngangsstønad(behandling)) {
-            log.info("Sender vedtaksbrev({}) for engangsstønad i behandling: {}", behandlingVedtak.getVedtakResultatType().getNavn(), behandlingId); //$NON-NLS-1$
         } else {
             log.info("Sender vedtaksbrev({}) for foreldrepenger i behandling: {}", behandlingVedtak.getVedtakResultatType().getNavn(), behandlingId); //$NON-NLS-1
         }
-        dokumentBestillerApplikasjonTjeneste.produserVedtaksbrev(behandlingVedtak);
+        sendBrev(behandlingId);
     }
 
-    private boolean gjelderEngangsstønad(Behandling behandling) {
-        return behandling.getFagsak().getYtelseType().gjelderEngangsstønad();
+    private void sendBrev(Long behandlingId) {
+        varselTjeneste.sendVarsel(behandlingId, "VedtaksBrev");
+    }
+
+    private boolean harSendtVarselOmRevurdering(Long behandlingId) {
+        // TODO: Vurder om vi har sendt brev om revurdering
+        return false;
     }
 
     private boolean skalSendeVedtaksbrevIKlagebehandling(Behandling behandling) {
@@ -121,9 +122,5 @@ public class SendVedtaksbrevImpl implements SendVedtaksbrev {
 
     private boolean erBehandlingEtterKlage(Behandling behandling) {
         return BehandlingÅrsakType.årsakerEtterKlageBehandling().stream().anyMatch(behandling::harBehandlingÅrsak);
-    }
-
-    private Boolean harSendtVarselOmRevurdering(Long behandlingId) {
-        return dokumentBestillerApplikasjonTjeneste.erDokumentProdusert(behandlingId, DokumentMalType.REVURDERING_DOK);
     }
 }

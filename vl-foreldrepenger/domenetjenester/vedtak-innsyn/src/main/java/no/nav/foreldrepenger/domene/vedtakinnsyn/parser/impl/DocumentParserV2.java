@@ -12,6 +12,6 @@ import no.nav.vedtak.felles.integrasjon.felles.ws.JaxbHelper;
 public class DocumentParserV2 implements DocumentParser {
     @Override
     public void valider(String xml) throws JAXBException, XMLStreamException, SAXException {
-        JaxbHelper.unmarshalAndValidateXMLWithStAX(VedtakConstants.JAXB_CLASS, xml, VedtakConstants.XSD_LOCATION, VedtakConstants.ADDITIONAL_XSD_LOCATIONS, VedtakConstants.ADDITIONAL_CLASSES);
+        JaxbHelper.unmarshalXMLWithStAX(VedtakConstants.JAXB_CLASS, xml, VedtakConstants.ADDITIONAL_CLASSES);
     }
 }

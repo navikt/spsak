@@ -72,7 +72,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     @Test
     public void skal_opprette_aksjonspunkt_om_bruker_har_hatt_vartpenger() {
         // Arrange
-        Behandling behandling = opprettBehandling(ArbeidType.VARTPENGER);
+        Behandling behandling = opprettBehandling(ArbeidType.VENTELØNN_VARTPENGER);
 
         //Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -126,7 +126,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     @Test
     public void skal_opprette_aksjonspunkt_om_bruker_har_hatt_ventelønn() {
         // Arrange
-        Behandling behandling = opprettBehandling(ArbeidType.VENTELØNN);
+        Behandling behandling = opprettBehandling(ArbeidType.VENTELØNN_VARTPENGER);
 
         //Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -150,7 +150,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     @Test
     public void skal_opprette_aksjonspunkt_om_bruker_har_hatt_etterlønn_sluttvederlag() {
         // Arrange
-        Behandling behandling = opprettBehandling(ArbeidType.SLUTTPAKKE);
+        Behandling behandling = opprettBehandling(ArbeidType.ETTERLØNN_SLUTTPAKKE);
 
         //Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);

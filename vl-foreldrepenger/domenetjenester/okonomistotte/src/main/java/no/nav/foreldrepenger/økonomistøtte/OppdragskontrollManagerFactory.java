@@ -10,7 +10,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
-import no.nav.foreldrepenger.økonomistøtte.es.OppdragskontrollEngangsstønad;
 import no.nav.foreldrepenger.økonomistøtte.fp.OppdragskontrollEndringFP;
 import no.nav.foreldrepenger.økonomistøtte.fp.OppdragskontrollFørstegangFP;
 import no.nav.foreldrepenger.økonomistøtte.fp.OppdragskontrollOpphørFP;
@@ -21,7 +20,6 @@ public class OppdragskontrollManagerFactory {
     private OppdragskontrollFørstegangFP oppdragskontrollFørstegangFP;
     private OppdragskontrollEndringFP oppdragskontrollEndringFP;
     private OppdragskontrollOpphørFP oppdragskontrollOpphørFP;
-    private OppdragskontrollEngangsstønad oppdragskontrollEngangsstønad;
     private UttakRepository uttakRepository;
 
     OppdragskontrollManagerFactory() {
@@ -29,12 +27,10 @@ public class OppdragskontrollManagerFactory {
     }
 
     @Inject
-    public OppdragskontrollManagerFactory(OppdragskontrollEngangsstønad oppdragskontrollEngangsstønad,
-                                          OppdragskontrollFørstegangFP oppdragskontrollFørstegangFP,
+    public OppdragskontrollManagerFactory(OppdragskontrollFørstegangFP oppdragskontrollFørstegangFP,
                                           OppdragskontrollEndringFP oppdragskontrollEndringFP,
                                           OppdragskontrollOpphørFP oppdragskontrollOpphørFP,
                                           UttakRepository uttakRepository) {
-        this.oppdragskontrollEngangsstønad = oppdragskontrollEngangsstønad;
         this.oppdragskontrollFørstegangFP = oppdragskontrollFørstegangFP;
         this.oppdragskontrollEndringFP = oppdragskontrollEndringFP;
         this.oppdragskontrollOpphørFP = oppdragskontrollOpphørFP;
@@ -45,9 +41,8 @@ public class OppdragskontrollManagerFactory {
     public OppdragskontrollManager getManager(Behandling behandling, boolean eksistererForrigeOppdrag) {
         if (erOppdragForFP(behandling)) {
             return finnFPManager(behandling, eksistererForrigeOppdrag);
-        } else {
-            return oppdragskontrollEngangsstønad;
         }
+        throw new IllegalStateException();
     }
 
     private Boolean erOppdragForFP(Behandling behandling) {

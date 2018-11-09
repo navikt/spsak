@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import java.time.Period;
 import java.util.function.BiConsumer;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -64,5 +65,14 @@ public class InngangsvilkårAutoTest {
                 ((OpptjeningsPeriode) extra).getOpptjeningsperiodeTom(), equalTo(resultat.getOpptjeningTom()));
         };
         new VilkårVurdering().vurderVilkår(collector, VilkårType.OPPTJENINGSPERIODEVILKÅR, extraDataSjekk);
+    }
+
+    @Test
+    @Ignore("Kan brukes for å debugge et enkelt case")
+    public void run_one_test() {
+        new VilkårVurdering().vurderVilkår("1007351-5c69e8b1-b19e-4ad7-8a60-7d4bb8885944",
+            collector,
+            VilkårType.FØDSELSVILKÅRET_MOR,
+            VilkårVurdering.DO_NOTHING);
     }
 }

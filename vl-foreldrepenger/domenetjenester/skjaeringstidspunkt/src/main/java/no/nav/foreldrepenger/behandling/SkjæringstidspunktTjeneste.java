@@ -61,7 +61,4 @@ public interface SkjæringstidspunktTjeneste {
      * @return datoen
      */
     LocalDate utledSkjæringstidspunktFor(Behandling behandling);
-
-
-    LocalDate utledSkjæringstidspunktForEngangsstønad(Behandling behandling);
 }

@@ -121,7 +121,7 @@ public class RegisterdataEndringshåndtererImpl implements RegisterdataEndringsh
         }
 
         // TODO (essv): PK-50959 Splitt tjenesten for ENGANGSTØNAD og FORELDREPENGER
-        if (FagsakYtelseType.ENGANGSTØNAD.equals(behandling.getFagsak().getYtelseType())) {
+        if (FagsakYtelseType.FORELDREPENGER.equals(behandling.getFagsak().getYtelseType())) {
             doOppdaterRegisteropplysningerOgRestartBehandlingVedEndringerES(behandling);
             return;
         }

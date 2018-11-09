@@ -13,9 +13,7 @@ import no.nav.vedtak.konfig.KonfigVerdi;
 @ApplicationScoped
 public class RegisterInnhentingIntervallEndringTjeneste {
 
-    private Period grenseverdiFørES;
     private Period grenseverdiFørFP;
-    private Period grenseverdiEtterES;
     private Period grenseverdiEtterFP;
 
     RegisterInnhentingIntervallEndringTjeneste() {
@@ -23,13 +21,9 @@ public class RegisterInnhentingIntervallEndringTjeneste {
     }
 
     @Inject
-    public RegisterInnhentingIntervallEndringTjeneste(@KonfigVerdi("registerinnhenting.es.avvik.periode.før") Period grenseverdiFørES,
-                                                      @KonfigVerdi("registerinnhenting.fp.avvik.periode.før") Period grenseverdiFørFP,
-                                                      @KonfigVerdi("registerinnhenting.es.avvik.periode.etter") Period grenseverdiEtterES,
+    public RegisterInnhentingIntervallEndringTjeneste(@KonfigVerdi("registerinnhenting.fp.avvik.periode.før") Period grenseverdiFørFP,
                                                       @KonfigVerdi("registerinnhenting.fp.avvik.periode.etter") Period grenseverdiEtterFP) {
-        this.grenseverdiFørES = grenseverdiFørES;
         this.grenseverdiFørFP = grenseverdiFørFP;
-        this.grenseverdiEtterES = grenseverdiEtterES;
         this.grenseverdiEtterFP = grenseverdiEtterFP;
     }
 
@@ -40,15 +34,8 @@ public class RegisterInnhentingIntervallEndringTjeneste {
         }
         if (ytelseType.gjelderForeldrepenger()) {
             return vurderEndringIPeriodenForeldrepenger(oppgittSkjæringstidspunkt, bekreftetSkjæringstidspunkt);
-        } else if (ytelseType.gjelderEngangsstønad()) {
-            return vurderEndringIPeriodenEngangsstønad(oppgittSkjæringstidspunkt, bekreftetSkjæringstidspunkt);
         }
         throw new IllegalStateException("Ukjent ytelsetype" + ytelseType);
-    }
-
-    private boolean vurderEndringIPeriodenEngangsstønad(LocalDate oppgittSkjæringstidspunkt, LocalDate bekreftetSkjæringstidspunkt) {
-        return vurderEndringFør(oppgittSkjæringstidspunkt, bekreftetSkjæringstidspunkt, grenseverdiFørES)
-            || vurderEndringEtter(bekreftetSkjæringstidspunkt, oppgittSkjæringstidspunkt, grenseverdiEtterES);
     }
 
     private boolean vurderEndringIPeriodenForeldrepenger(LocalDate oppgittSkjæringstidspunkt, LocalDate bekreftetSkjæringstidspunkt) {

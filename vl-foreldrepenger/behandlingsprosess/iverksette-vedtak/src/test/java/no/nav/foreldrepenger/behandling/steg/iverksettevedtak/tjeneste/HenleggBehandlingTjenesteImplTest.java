@@ -3,11 +3,10 @@ package no.nav.foreldrepenger.behandling.steg.iverksettevedtak.tjeneste;
 import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType.IVERKSETT_VEDTAK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -24,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
@@ -38,7 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -47,8 +46,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
-import no.nav.foreldrepenger.dokumentbestiller.api.mal.dto.BestillBrevDto;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
@@ -71,9 +68,6 @@ public class HenleggBehandlingTjenesteImplTest {
 
     @Mock
     private HistorikkRepository historikkRepositoryMock;
-
-    @Mock
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjenesteMock;
 
     @Mock
     private BehandlingModellRepository behandlingModellRepository;
@@ -124,7 +118,7 @@ public class HenleggBehandlingTjenesteImplTest {
 
         henleggBehandlingTjeneste = new HenleggBehandlingTjenesteImpl(repositoryProviderMock,
                 behandlingskontrollTjenesteImpl,
-                dokumentBestillerApplikasjonTjenesteMock, prosessTaskRepositoryMock);
+            prosessTaskRepositoryMock, mock(SendVarselTjeneste.class));
     }
 
     @Test
@@ -138,7 +132,6 @@ public class HenleggBehandlingTjenesteImplTest {
         // Assert
         verify(historikkRepositoryMock).lagre(any(Historikkinnslag.class));
         verify(repositoryProviderMock.getBehandlingRepository(), atLeast(2)).lagre(eq(behandling), any(BehandlingLås.class));
-        verify(dokumentBestillerApplikasjonTjenesteMock).bestillDokument(any(BestillBrevDto.class), eq(HistorikkAktør.VEDTAKSLØSNINGEN));
         verify(prosessTaskRepositoryMock).lagre(any(ProsessTaskData.class));
     }
 
@@ -153,7 +146,6 @@ public class HenleggBehandlingTjenesteImplTest {
         // Assert
         verify(historikkRepositoryMock).lagre(any(Historikkinnslag.class));
         verify(repositoryProviderMock.getBehandlingRepository(), atLeast(2)).lagre(eq(behandling), any(BehandlingLås.class));
-        verify(dokumentBestillerApplikasjonTjenesteMock, never()).bestillDokument(any(), any(), anyString());
     }
 
     @Test
@@ -169,7 +161,6 @@ public class HenleggBehandlingTjenesteImplTest {
         // Assert
         verify(historikkRepositoryMock).lagre(any(Historikkinnslag.class));
         verify(repositoryProviderMock.getBehandlingRepository(), atLeastOnce()).lagre(eq(behandling), any(BehandlingLås.class));
-        verify(dokumentBestillerApplikasjonTjenesteMock, never()).produserDokument(any(), any(), anyString());
         assertThat(aksjonspunkt.getStatus()).isEqualTo(AksjonspunktStatus.AVBRUTT);
     }
 
@@ -184,7 +175,6 @@ public class HenleggBehandlingTjenesteImplTest {
         // Assert
         verify(historikkRepositoryMock).lagre(any(Historikkinnslag.class));
         verify(repositoryProviderMock.getBehandlingRepository(), atLeast(2)).lagre(eq(behandling), any(BehandlingLås.class));
-        verify(dokumentBestillerApplikasjonTjenesteMock, never()).produserDokument(any(), any(), anyString());
     }
 
     @Test

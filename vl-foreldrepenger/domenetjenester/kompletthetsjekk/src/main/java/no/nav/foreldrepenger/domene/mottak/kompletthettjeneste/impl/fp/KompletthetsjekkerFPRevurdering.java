@@ -187,6 +187,6 @@ public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
 
     private Behandling finnOriginalBehandling(Behandling revurdering) {
         return revurdering.getOriginalBehandling()
-                .orElseThrow(() -> new IllegalStateException("Utviklerfeil: Original behandling mangler på revurdering - skal ikke skje"));
+            .orElseThrow(() -> new IllegalStateException("Utviklerfeil: Original behandling mangler på revurdering - skal ikke skje"));
     }
 }

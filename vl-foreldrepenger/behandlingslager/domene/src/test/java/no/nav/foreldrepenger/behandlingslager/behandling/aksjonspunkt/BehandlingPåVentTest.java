@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
@@ -25,7 +24,7 @@ public class BehandlingPåVentTest {
 
     @Before
     public void setup() {
-        fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, null);
+        fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, null);
     }
 
     @Test

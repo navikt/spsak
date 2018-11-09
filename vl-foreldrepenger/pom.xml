@@ -243,11 +243,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-varsel-revurdering</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-klage</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -518,16 +513,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>dokumentbestiller</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>dokumentbestiller-xsd</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>okonomistotte</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -556,12 +541,6 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>grensesnittavstemming-v1</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<classifier>jaxb</classifier>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>dokumentbestiller-v1</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 				<classifier>jaxb</classifier>
 			</dependency>
@@ -944,14 +923,14 @@
 				<artifactId>maven-enforcer-plugin</artifactId>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<configuration>
-					<deployAtEnd>true</deployAtEnd>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.apache.maven.plugins</groupId>-->
+				<!--<artifactId>maven-deploy-plugin</artifactId>-->
+				<!--<configuration>-->
+					<!--<deployAtEnd>true</deployAtEnd>-->
+					<!--<skip>true</skip>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

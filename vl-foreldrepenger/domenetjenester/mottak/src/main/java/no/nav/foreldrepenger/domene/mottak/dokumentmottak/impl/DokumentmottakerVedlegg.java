@@ -76,7 +76,7 @@ class DokumentmottakerVedlegg implements Dokumentmottaker {
     }
 
     private void håndterÅpenBehandling(Fagsak fagsak, Behandling behandling, MottattDokument mottattDokument) {
-        /** TODO (essv): Digitalen - løfte {@link FagsakYtelseType.ENGANGSTØNAD} til protokoll for Startpunkt,
+        /** TODO (essv): Digitalen - løfte {@link FagsakYtelseType.FORELDREPENGER} til protokoll for Startpunkt,
          * slik at samme protokoll som for FP kan brukes */
         if (fagsak.getYtelseType().equals(FagsakYtelseType.FORELDREPENGER) && asList(BehandlingType.FØRSTEGANGSSØKNAD, BehandlingType.REVURDERING).contains(behandling.getType())) {
             kompletthetskontroller.persisterDokumentOgVurderKompletthet(behandling, mottattDokument);

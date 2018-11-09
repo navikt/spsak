@@ -72,10 +72,6 @@ public class VurderArbeidsforholdTjenesteImpl implements VurderArbeidsforholdTje
     public Map<Arbeidsgiver, Set<ArbeidsforholdRef>> vurder(Behandling behandling) {
         Map<Arbeidsgiver, Set<ArbeidsforholdRef>> result = new HashMap<>();
 
-        if (behandling.getFagsakYtelseType().gjelderEngangsstønad()) {
-            return result;
-        }
-
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseTjeneste.hentAggregatHvisEksisterer(behandling);
         if (!inntektArbeidYtelseGrunnlagOptional.isPresent()) {
             return result;
@@ -94,10 +90,6 @@ public class VurderArbeidsforholdTjenesteImpl implements VurderArbeidsforholdTje
     @Override
     public Map<Arbeidsgiver, Set<ArbeidsforholdRef>> endringerIInntektsmelding(Behandling behandling) {
         Map<Arbeidsgiver, Set<ArbeidsforholdRef>> result = new HashMap<>();
-
-        if (behandling.getFagsakYtelseType().gjelderEngangsstønad()) {
-            return result;
-        }
 
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseTjeneste.hentAggregatHvisEksisterer(behandling);
         if (!inntektArbeidYtelseGrunnlagOptional.isPresent()) {

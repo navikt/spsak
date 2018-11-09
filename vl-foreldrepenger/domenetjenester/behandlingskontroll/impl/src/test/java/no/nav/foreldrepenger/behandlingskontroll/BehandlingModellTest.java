@@ -39,7 +39,7 @@ public class BehandlingModellTest {
     private static final LocalDateTime FRIST_TID = LocalDateTime.now().plusWeeks(4);
 
     private final BehandlingType behandlingType = BehandlingType.FØRSTEGANGSSØKNAD;
-    private final FagsakYtelseType fagsakYtelseType = FagsakYtelseType.ENGANGSTØNAD;
+    private final FagsakYtelseType fagsakYtelseType = FagsakYtelseType.FORELDREPENGER;
 
     @Rule
     public final ExpectedException expectedException = ExpectedException.none();

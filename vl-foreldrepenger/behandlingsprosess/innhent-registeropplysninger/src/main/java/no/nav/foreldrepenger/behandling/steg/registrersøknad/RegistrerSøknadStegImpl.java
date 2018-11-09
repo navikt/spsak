@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandling.steg.registrersøknad;
 
 import static java.util.Collections.singletonList;
-import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.REGISTRER_PAPIRSØKNAD_ENGANGSSTØNAD;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.REGISTRER_PAPIRSØKNAD_FORELDREPENGER;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.REGISTRER_PAPIR_ENDRINGSØKNAD_FORELDREPENGER;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.VENT_PÅ_SØKNAD;
@@ -85,10 +84,6 @@ public class RegistrerSøknadStegImpl implements RegistrerSøknadSteg {
         KompletthetResultat søknadMottatt = kompletthetsjekker.vurderSøknadMottatt(behandling);
         if (!søknadMottatt.erOppfylt()) {
             return evaluerSøknadMottattUoppfylt(behandling, søknadMottatt, VENT_PÅ_SØKNAD);
-        }
-
-        if (FagsakYtelseType.ENGANGSTØNAD.equals(ytelseType) && erUstrukturertEngangsstønadSøknad(nyttDokument)) {
-            return BehandleStegResultat.utførtMedAksjonspunkter(singletonList(REGISTRER_PAPIRSØKNAD_ENGANGSSTØNAD));
         }
 
         if (FagsakYtelseType.FORELDREPENGER.equals(ytelseType) && erUstrukturertForeldrepengerSøknad(nyttDokument)) {

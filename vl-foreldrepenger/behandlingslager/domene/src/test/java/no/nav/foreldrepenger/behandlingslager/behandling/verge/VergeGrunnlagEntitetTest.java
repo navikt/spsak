@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.verge;
 
-import no.nav.foreldrepenger.domene.typer.AktørId;
 import static java.time.Month.JANUARY;
 import static no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn.KVINNE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.testutilities.db.Repository;
@@ -85,7 +85,7 @@ public class VergeGrunnlagEntitetTest {
                 .build());
 
         // Opprett fagsak
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, bruker, null, new Saksnummer("1000"));
+        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, bruker, null, new Saksnummer("1000"));
         repository.lagre(bruker);
         repository.lagre(fagsak);
         repository.flush();

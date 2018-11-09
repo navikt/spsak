@@ -48,9 +48,7 @@ public class BehandlingRelaterteYtelserMapper {
 
     public static TilgrensendeYtelserDto mapFraFagsak(Fagsak fagsak, LocalDate periodeDato) {
         TilgrensendeYtelserDto tilgrensendeYtelserDto = new TilgrensendeYtelserDto();
-        if (FagsakYtelseType.ENGANGSTØNAD.equals(fagsak.getYtelseType())) {
-            tilgrensendeYtelserDto.setRelatertYtelseType(RelatertYtelseType.ENGANGSSTØNAD.getKode());
-        } else if (FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType())) {
+        if (FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType())) {
             tilgrensendeYtelserDto.setRelatertYtelseType(RelatertYtelseType.FORELDREPENGER.getKode());
         }
         tilgrensendeYtelserDto.setStatus(fagsak.getStatus().getKode());

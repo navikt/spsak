@@ -8,13 +8,11 @@ import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
-import no.nav.foreldrepenger.dokumentbestiller.api.mal.dto.BestillBrevDto;
 import no.nav.vedtak.util.FPDateUtil;
 
 /**
@@ -34,16 +32,16 @@ public class KompletthetsjekkerFPFelles {
     private static final Integer VENTEFRIST_FOR_MANGLENDE_SØKNAD = 4;
 
     private SøknadRepository søknadRepository;
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste;
+    private SendVarselTjeneste sendVarselTjeneste;
 
     KompletthetsjekkerFPFelles() {
         // CDI
     }
 
     @Inject
-    public KompletthetsjekkerFPFelles(BehandlingRepositoryProvider provider, DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste) {
+    public KompletthetsjekkerFPFelles(BehandlingRepositoryProvider provider, SendVarselTjeneste sendVarselTjeneste) {
         this.søknadRepository = provider.getSøknadRepository();
-        this.dokumentBestillerApplikasjonTjeneste = dokumentBestillerApplikasjonTjeneste;
+        this.sendVarselTjeneste = sendVarselTjeneste;
     }
 
     public Optional<LocalDateTime> finnVentefristTilForTidligMottattSøknad(Behandling behandling) {
@@ -68,9 +66,6 @@ public class KompletthetsjekkerFPFelles {
     }
 
     public void sendBrev(Behandling behandling, String dokumentMalType, String årsakskode) {
-        if (!dokumentBestillerApplikasjonTjeneste.erDokumentProdusert(behandling.getId(), dokumentMalType)) {
-            BestillBrevDto bestillBrevDto = new BestillBrevDto(behandling.getId(), dokumentMalType, null, årsakskode);
-            dokumentBestillerApplikasjonTjeneste.bestillDokument(bestillBrevDto, HistorikkAktør.VEDTAKSLØSNINGEN);
-        }
+        sendVarselTjeneste.sendVarsel(behandling.getId(), dokumentMalType);
     }
 }

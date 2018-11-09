@@ -16,11 +16,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
-import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
-import no.nav.foreldrepenger.dokumentbestiller.api.DokumentBestillerApplikasjonTjeneste;
 
 @FagsakYtelseTypeRef("FP")
 @ApplicationScoped
@@ -28,7 +26,6 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
 
     private UttakRepository uttakRepository;
     private RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder;
-    private DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste;
     private BehandlingRepository behandlingRepository;
 
     protected ForeslåVedtakTjenesteForeldrepengerImpl() {
@@ -37,11 +34,10 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
 
     @Inject
     ForeslåVedtakTjenesteForeldrepengerImpl(BehandlingRepositoryProvider repositoryProvider, SjekkMotEksisterendeOppgaverTjeneste sjekkMotEksisterendeOppgaverTjeneste,
-                                            DokumentBestillerApplikasjonTjeneste dokumentBestillerApplikasjonTjeneste, RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder) {
+                                            RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder) {
         super(repositoryProvider, sjekkMotEksisterendeOppgaverTjeneste);
         this.uttakRepository = repositoryProvider.getUttakRepository();
         this.revurderingFPBehandlingsresultatutleder = revurderingFPBehandlingsresultatutleder;
-        this.dokumentBestillerApplikasjonTjeneste = dokumentBestillerApplikasjonTjeneste;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
     }
 
@@ -61,7 +57,7 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
             return;
         }
         Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
-        boolean erVarselOmRevurderingSendt = dokumentBestillerApplikasjonTjeneste.erDokumentProdusert(behandling.getId(), DokumentMalType.REVURDERING_DOK);
+        boolean erVarselOmRevurderingSendt = false; // TODO: Hente ut om varsel er sendt
         if (sjekkVilkårAvslått(behandlingsresultat)) {
             vilkårAvslått(behandling, behandlingsresultat, erVarselOmRevurderingSendt);
         } else {

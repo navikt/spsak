@@ -110,10 +110,6 @@ public class OpprettSakTjenesteImpl implements OpprettSakTjeneste {
             return FagsakYtelseType.FORELDREPENGER;
         }
 
-        if (BehandlingTema.gjelderEngangsstønad(behandlingTema)) {
-            return FagsakYtelseType.ENGANGSTØNAD;
-        }
-
         throw OpprettSakFeil.FACTORY.ukjentBehandlingstemaKode(behandlingTema.getOffisiellKode(), aktorId).toException();
     }
 

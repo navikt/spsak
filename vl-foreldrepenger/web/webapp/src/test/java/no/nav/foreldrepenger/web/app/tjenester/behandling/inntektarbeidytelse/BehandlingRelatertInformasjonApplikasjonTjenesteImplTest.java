@@ -178,7 +178,7 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
     }
 
     private Fagsak lagFagsak(Long fagsakId, NavBruker navBruker) {
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, navBruker);
+        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, navBruker);
         fagsak.setId(fagsakId);
         return fagsak;
     }

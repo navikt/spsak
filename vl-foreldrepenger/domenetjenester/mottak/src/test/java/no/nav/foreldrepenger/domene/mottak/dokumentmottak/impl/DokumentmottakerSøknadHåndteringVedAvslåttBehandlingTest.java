@@ -36,7 +36,7 @@ public class DokumentmottakerSøknadHåndteringVedAvslåttBehandlingTest extends
         Mockito.doNothing().when(behandlingsoppretterSpied).opprettNyFørstegangsbehandling(Mockito.any(), Mockito.any(), Mockito.any());
 
         Behandling behandling = opprettBehandling(
-            FagsakYtelseType.ENGANGSTØNAD,
+            FagsakYtelseType.FORELDREPENGER,
             BehandlingType.FØRSTEGANGSSØKNAD,
             BehandlingResultatType.AVSLÅTT,
             Avslagsårsak.MANGLENDE_DOKUMENTASJON,

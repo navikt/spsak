@@ -64,9 +64,7 @@ public class VilkårType extends Kodeliste {
 
     public String getLovReferanse(FagsakYtelseType fagsakYtelseType) {
         if (lovReferanse == null) {
-            if(fagsakYtelseType.gjelderEngangsstønad()){
-                lovReferanse = getJsonField("fagsakYtelseType","ES","lovreferanse"); //$NON-NLS-1$
-            } else if(fagsakYtelseType.gjelderForeldrepenger()) {
+            if(fagsakYtelseType.gjelderForeldrepenger()) {
                 lovReferanse = getJsonField("fagsakYtelseType","FP","lovreferanse"); //$NON-NLS-1$
             }
         }
@@ -75,7 +73,7 @@ public class VilkårType extends Kodeliste {
 
     @Override
     public String toString() {
-        return super.toString() + "<lovReferanse ES=" + getLovReferanse(FagsakYtelseType.ENGANGSTØNAD) + ">"
-            +"<lovReferanse FP=" + getLovReferanse(FagsakYtelseType.FORELDREPENGER) + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        return super.toString() +
+            "<lovReferanse FP=" + getLovReferanse(FagsakYtelseType.FORELDREPENGER) + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 }

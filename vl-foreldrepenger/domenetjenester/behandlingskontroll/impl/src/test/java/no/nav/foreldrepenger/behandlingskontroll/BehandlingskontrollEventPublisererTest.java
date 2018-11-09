@@ -33,7 +33,7 @@ import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 @RunWith(CdiRunner.class)
 public class BehandlingskontrollEventPublisererTest {
     private final BehandlingType behandlingType = BehandlingType.FØRSTEGANGSSØKNAD;
-    private final FagsakYtelseType fagsakYtelseType = FagsakYtelseType.ENGANGSTØNAD;
+    private final FagsakYtelseType fagsakYtelseType = FagsakYtelseType.FORELDREPENGER;
 
     private static final BehandlingStegType STEG_1 = BehandlingStegType.INNHENT_REGISTEROPP;
     private static final BehandlingStegType STEG_2 = BehandlingStegType.KONTROLLER_FAKTA;

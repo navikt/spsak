@@ -12,19 +12,6 @@
 	<packaging>jar</packaging>
     <name>FPSAK :: Domenetjenester - Beregningsgrunnlag Regelmodell</name>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <deployAtEnd>true</deployAtEnd>
-                    <skip>false</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>no.nav.fpsak.nare</groupId>

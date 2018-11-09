@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.domene.produksjonsstyring.sakogbehandling.observer;
 
-import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema.ENGANGSSTØNAD_FØDSEL;
+import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema.FORELDREPENGER_FØDSEL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -86,7 +86,6 @@ public class OppdaterSakOgBehandlingEventObserverTest {
         ProsessTaskData prosessTaskData = captor.getValue();
         verifiserProsessTaskData(scenario, prosessTaskData, BehandlingStatus.OPPRETTET.getKode());
 
-        verify(metricRegistryMock).meter("fpsak.ab0050.ny.behandling");
         verify(meterMock).mark();
     }
 
@@ -128,7 +127,7 @@ public class OppdaterSakOgBehandlingEventObserverTest {
         assertThat(prosessTaskData.getPropertyValue(SakOgBehandlingTask.BEHANDLINGS_TYPE_KODE_KEY))
             .isEqualTo(scenario.getBehandling().getType().getOffisiellKode());
         assertThat(prosessTaskData.getPropertyValue(SakOgBehandlingTask.BEHANDLINGSTEMAKODE))
-            .isEqualTo(kodeverkRepository.finn(BehandlingTema.class, ENGANGSSTØNAD_FØDSEL.getKode()).getOffisiellKode());
+            .isEqualTo(kodeverkRepository.finn(BehandlingTema.class, FORELDREPENGER_FØDSEL.getKode()).getOffisiellKode());
         assertThat(prosessTaskData.getPropertyValue(SakOgBehandlingTask.BEHANDLING_STATUS_KEY)).isEqualTo(behandlingStatusKode);
     }
 

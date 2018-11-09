@@ -335,8 +335,6 @@ public class OppgaveTjenesteImpl implements OppgaveTjeneste {
 
         if (fagsak.getYtelseType().gjelderForeldrepenger()) {
             builder = builder.medUnderkategoriKode(FP_UNDERKATEGORI);
-        } else if (fagsak.getYtelseType().gjelderEngangsstønad()) {
-            builder = builder.medUnderkategoriKode(ES_UNDERKATEGORI);
         }
         return builder
             .medOpprettetAvEnhetId(Integer.parseInt(enhetsId))

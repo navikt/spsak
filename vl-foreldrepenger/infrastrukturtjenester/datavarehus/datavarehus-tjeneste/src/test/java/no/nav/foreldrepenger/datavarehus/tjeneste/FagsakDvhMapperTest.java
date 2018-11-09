@@ -10,19 +10,18 @@ import java.util.Optional;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType;
-import no.nav.vedtak.felles.testutilities.Whitebox;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.datavarehus.FagsakDvh;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.vedtak.felles.testutilities.Whitebox;
 
 @SuppressWarnings("deprecation")
 public class FagsakDvhMapperTest {
@@ -49,7 +48,7 @@ public class FagsakDvhMapperTest {
         assertThat(dvh.getBrukerAktørId()).isEqualTo(BRUKER_AKTØR_ID.getId());
         assertThat(dvh.getEndretAv()).isEqualTo("OpprettetAv");
         assertThat(dvh.getFagsakAarsak()).isEqualTo(FamilieHendelseType.FØDSEL.getKode());
-        assertThat(dvh.getFagsakYtelse()).isEqualTo(FagsakYtelseType.ENGANGSTØNAD.getKode());
+        assertThat(dvh.getFagsakYtelse()).isEqualTo(FagsakYtelseType.FORELDREPENGER.getKode());
         assertThat(new Saksnummer(Long.toString(dvh.getSaksnummer()))).isEqualTo(SAKSNUMMER);
         assertThat(dvh.getOpprettetDato()).isEqualTo(OPPRETTET_TID.toLocalDate());
         assertThat(dvh.getEpsAktørId()).isEqualTo(ANNEN_PART_AKTØR_ID.getId());

@@ -35,10 +35,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>uttaksplan</artifactId>
         </dependency>
-		<dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>dokumentbestiller</artifactId>
-        </dependency>
 		 <dependency>
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>arbeidsforhold</artifactId>

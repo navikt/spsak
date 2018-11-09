@@ -199,26 +199,6 @@ public class HendelseSorteringRepositoryImplTest {
         assertThat(resultat).contains(navBrukerMedÅpenOgAvsluttetSak.getAktørId());
     }
 
-    @Test
-    public void skal_ikke_publisere_videre_hendelser_på_saker_om_engangsstønad() {
-        List<Personinfo> personinfoList = genererPersonInfo(1, new AktørId("100"));
-        NavBruker navBruker = NavBruker.opprettNy(personinfoList.get(0));
-        Fagsak fagsak = opprettFagsak(navBruker, FagsakYtelseType.ENGANGSTØNAD);
-
-        repository.lagre(navBruker);
-        repository.lagre(fagsak);
-        repository.flushAndClear();
-
-        List<AktørId> finnAktørIder = new ArrayList<>(
-            Arrays.asList(
-                100L, 657L
-            )).stream().map(AktørId::new).collect(Collectors.toList());
-
-
-        List<AktørId> resultat = sorteringRepository.hentEksisterendeAktørIderMedSak(finnAktørIder);
-        assertThat(resultat).isEmpty();
-    }
-
     private Fagsak opprettFagsak(NavBruker bruker, FagsakYtelseType fagsakYtelseType) {
         return Fagsak.opprettNy(fagsakYtelseType, bruker);
     }

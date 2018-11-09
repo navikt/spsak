@@ -30,9 +30,7 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.Totri
 import no.nav.foreldrepenger.web.app.tjenester.behandling.uttak.UttakRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vilkår.VilkårRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.ytelsefordeling.YtelsefordelingRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.brev.BrevRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.dokument.DokumentRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.dokumentbestiller.DokumentBestillerRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.fagsak.FagsakRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.fordeling.FordelRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.forsendelse.ForsendelseStatusRestTjeneste;
@@ -87,10 +85,8 @@ public class ApplicationConfig extends Application {
         classes.add(BeregningsgrunnlagRestTjeneste.class);
         classes.add(AksjonspunktRestTjeneste.class);
         classes.add(DokumentRestTjeneste.class);
-        classes.add(BrevRestTjeneste.class);
         classes.add(HistorikkRestTjeneste.class);
         classes.add(BehandlingskontrollRestTjeneste.class);
-        classes.add(DokumentBestillerRestTjeneste.class);
         classes.add(KodeverkRestTjeneste.class);
         classes.add(KonfigRestTjeneste.class);
         classes.add(BatchRestTjeneste.class);

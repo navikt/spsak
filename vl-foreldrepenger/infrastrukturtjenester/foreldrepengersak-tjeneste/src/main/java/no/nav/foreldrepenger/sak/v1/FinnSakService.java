@@ -158,8 +158,7 @@ public class FinnSakService implements ForeldrepengesakV1 {
     }
 
     private boolean erStøttetYtelseType(FagsakYtelseType fagsakYtelseType) {
-        return FagsakYtelseType.ENGANGSTØNAD.equals(fagsakYtelseType) ||
-            FagsakYtelseType.FORELDREPENGER.equals(fagsakYtelseType);
+        return FagsakYtelseType.FORELDREPENGER.equals(fagsakYtelseType);
     }
 
     public static class AbacDataSupplier implements Function<Object, AbacDataAttributter> {

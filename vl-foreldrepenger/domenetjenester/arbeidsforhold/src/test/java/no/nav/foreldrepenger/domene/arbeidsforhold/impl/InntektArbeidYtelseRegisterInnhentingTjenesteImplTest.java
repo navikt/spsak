@@ -101,7 +101,7 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
             skjæringstidspunktTjeneste,
             innhentingSamletTjeneste,
             new BasisPersonopplysningTjenesteImpl(behandlingRepositoryProvider, skjæringstidspunktTjeneste),
-            new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(0, 17, 0), Period.of(4, 0, 0), Period.of(1, 0, 0), Period.of(0, 6, 0)));
+            new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(0, 17, 0), Period.of(4, 0, 0)));
     }
 
     private UttakResultatEntitet opprettUttak(boolean innvilget, Behandling behandling, LocalDate fom, LocalDate tom, Virksomhet virksomhet) {
@@ -292,29 +292,6 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         assertThat(ytelse.getRelatertYtelseType().getKode()).isEqualTo(ytelseHjelper.fagSakType);
     }
 
-    @Test
-    public void hent_invilget_engansstønader_med_en_ytelse() {
-        YtelseHjelperTester ytelseHjelper = new YtelseHjelperTester();
-        ytelseHjelper.medAktørId(new AktørId("1")).medArbeidsForhold("55L").medSaksnummer(new Saksnummer("3"))
-            .medKilde("FPSAK").medFagsakType("ENGANGSSTØNAD");
-
-        when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any(Behandling.class))).thenReturn(LocalDate.now());
-        Behandling gammelBehandling = opprettEngansstønadMedVedtak(ytelseHjelper);
-        gammelBehandling.avsluttBehandling();
-
-        ytelseHjelper.medUttakFom(gammelBehandling.getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato()) //andre verdier enn for foreldrepenger
-            .medUttakTom(gammelBehandling.getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato());
-
-        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forFødselMedGittBruker(repositoryProvider.getFagsakRepository().hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider);
-
-        Interval periode = iayRegisterInnhentingTjeneste.beregnOpplysningsPeriode(nyBehandling);
-        InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = iayRegisterInnhentingTjeneste.innhentYtelserForInvolverteParter(nyBehandling, periode);
-        InntektArbeidYtelseAggregat build = inntektArbeidYtelseAggregatBuilder.build();
-        Collection<AktørYtelse> aktørYtelse = build.getAktørYtelse();
-
-        sjekkVerdier(aktørYtelse.iterator().next().getYtelser().iterator().next(), ytelseHjelper);
-    }
 
     private Behandling opprettEngansstønadMedVedtak(YtelseHjelperTester ytelseHjelper) {
         ScenarioMorSøkerEngangsstønad scenarioMorSøkerEngangsstønad = ScenarioMorSøkerEngangsstønad.forFødsel();

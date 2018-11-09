@@ -64,7 +64,6 @@ import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.ØkonomiKodeEndringLin
 import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.ØkonomiKodeFagområde;
 import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.ØkonomiKodeKlassifik;
 import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.ØkonomiKodeStatusLinje;
-import no.nav.foreldrepenger.økonomistøtte.es.OppdragskontrollEngangsstønad;
 import no.nav.foreldrepenger.økonomistøtte.fp.OppdragskontrollEndringFP;
 import no.nav.foreldrepenger.økonomistøtte.fp.OppdragskontrollFørstegangFP;
 import no.nav.foreldrepenger.økonomistøtte.fp.OppdragskontrollOpphørFP;
@@ -121,13 +120,11 @@ abstract public class OppdragskontrollTjenesteImplFPBaseTest {
         TpsTjeneste tpsTjeneste = mock(TpsTjeneste.class);
         endringsdatoUtleder = mock(EndringsdatoRevurderingUtleder.class);
 
-        OppdragskontrollEngangsstønad oppdragskontrollEngangsstønad = new OppdragskontrollEngangsstønad(repositoryProvider, tpsTjeneste);
         OppdragskontrollFørstegangFP oppdragskontrollFørstegangFP = new OppdragskontrollFørstegangFP(repositoryProvider, tpsTjeneste, økonomioppdragRepository);
         OppdragskontrollOpphørFP oppdragskontrollOpphørFP = new OppdragskontrollOpphørFP(repositoryProvider, tpsTjeneste, økonomioppdragRepository);
         OppdragskontrollEndringFP oppdragskontrollEndringFP = new OppdragskontrollEndringFP(repositoryProvider, tpsTjeneste, økonomioppdragRepository,
             oppdragskontrollOpphørFP, oppdragskontrollFørstegangFP, endringsdatoUtleder);
-        OppdragskontrollManagerFactory oppdragskontrollManagerFactory = new OppdragskontrollManagerFactory(
-            oppdragskontrollEngangsstønad, oppdragskontrollFørstegangFP, oppdragskontrollEndringFP, oppdragskontrollOpphørFP, uttakRepository);
+        OppdragskontrollManagerFactory oppdragskontrollManagerFactory = new OppdragskontrollManagerFactory(oppdragskontrollFørstegangFP, oppdragskontrollEndringFP, oppdragskontrollOpphørFP, uttakRepository);
         oppdragskontrollTjeneste = new OppdragskontrollTjenesteImpl(repositoryProvider, oppdragskontrollManagerFactory, økonomioppdragRepository);
 
         behandlingFP = opprettOgLagreBehandlingFP();

@@ -64,9 +64,6 @@ public class RevurderingFPTjenesteImplTest {
     private RevurderingTjeneste revurderingTjeneste;
     private Behandling behandling;
     @Inject
-    @FagsakYtelseTypeRef("ES")
-    private RevurderingEndring revurderingEndringES;
-    @Inject
     @FagsakYtelseTypeRef("FP")
     private RevurderingEndring revurderingEndringFP;
 
@@ -74,13 +71,14 @@ public class RevurderingFPTjenesteImplTest {
     public void setup() {
         opprettRevurderingsKandidat();
     }
+
     @Test
     public void skal_opprette_historikkinnslag_for_registrert_fødsel() {
         LocalDate fødselsdato = LocalDate.parse("2017-09-04");
         List<FødtBarnInfo> barn = Collections.singletonList(byggBaby(fødselsdato));
         final BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             behandlingModellRepository, null);
-        revurderingTjeneste = new RevurderingFPTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndringES);
+        revurderingTjeneste = new RevurderingFPTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndringFP);
         revurderingTjeneste.opprettHistorikkinnslagForFødsler(behandling, barn);
         ArgumentCaptor<Historikkinnslag> captor = ArgumentCaptor.forClass(Historikkinnslag.class);
 
@@ -107,7 +105,7 @@ public class RevurderingFPTjenesteImplTest {
 
         final BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             behandlingModellRepository, null);
-        revurderingTjeneste = new RevurderingFPTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndringES);
+        revurderingTjeneste = new RevurderingFPTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndringFP);
         revurderingTjeneste.opprettHistorikkinnslagForFødsler(behandling, barn);
         ArgumentCaptor<Historikkinnslag> captor = ArgumentCaptor.forClass(Historikkinnslag.class);
 
@@ -135,7 +133,7 @@ public class RevurderingFPTjenesteImplTest {
 
         final BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             behandlingModellRepository, null);
-        revurderingTjeneste = new RevurderingFPTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndringES);
+        revurderingTjeneste = new RevurderingFPTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndringFP);
 
         // Act
         Behandling revurdering = revurderingTjeneste

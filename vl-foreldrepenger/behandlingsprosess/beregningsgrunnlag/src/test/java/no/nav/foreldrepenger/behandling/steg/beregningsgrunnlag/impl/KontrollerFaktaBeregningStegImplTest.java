@@ -133,7 +133,7 @@ public class KontrollerFaktaBeregningStegImplTest {
     public void setUp() {
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(any())).thenReturn(SKJÆRINGSTIDSPUNKT_OPPTJENING);
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(any())).thenReturn(LocalDate.now());
-        opplysningsPeriodeTjeneste = new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(1, 0, 0), Period.of(0, 4, 0), Period.of(0, 6, 0), Period.of(1, 0, 0));
+        opplysningsPeriodeTjeneste = new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(1, 0, 0), Period.of(0, 4, 0));
         virksomhetTestUtil = new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository());
         opptjeningTestUtil = new BeregningOpptjeningTestUtil(repositoryProvider, virksomhetTestUtil);
         iayTestUtil = new BeregningIAYTestUtil(repositoryProvider, virksomhetTestUtil, inntektArbeidYtelseTjeneste);

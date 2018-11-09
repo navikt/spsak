@@ -49,7 +49,7 @@ public class PersonopplysningRepositoryImplTest {
     @Test
     public void skal_hente_eldste_versjon_av_aggregat() {
         final Personinfo personinfo = lagPerson();
-        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.ENGANGSTØNAD, NavBruker.opprettNy(personinfo));
+        final Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, NavBruker.opprettNy(personinfo));
         fagsakRepository.opprettNy(fagsak);
         final Behandling.Builder builder = Behandling.forFørstegangssøknad(fagsak);
         final Behandling behandling = builder.build();

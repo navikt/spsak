@@ -80,10 +80,8 @@ public abstract class VedtakXmlTjeneste {
     public String opprettVedtakXml(Long behandlingId) {
         Vedtak vedtak = fraBehandling(behandlingId);
         try {
-            return JaxbHelper.marshalAndValidateJaxb(VedtakConstants.JAXB_CLASS,
+            return JaxbHelper.marshalJaxb(VedtakConstants.JAXB_CLASS,
                 vedtak,
-                VedtakConstants.XSD_LOCATION,
-                VedtakConstants.ADDITIONAL_XSD_LOCATIONS,
                 VedtakConstants.ADDITIONAL_CLASSES);
         } catch (JAXBException | SAXException e) {
             throw FeilFactory.create(VedtakXmlFeil.class).serialiseringsfeil(behandlingId, e).toException();
@@ -159,9 +157,9 @@ public abstract class VedtakXmlTjeneste {
 
     void setFagsakType(Vedtak vedtak, Fagsak fagsak) {
         KodeverksOpplysning kodeverksOpplysning = new KodeverksOpplysning();
-        if (FagsakYtelseType.ENGANGSTØNAD.equals(fagsak.getYtelseType())) {
+        if (FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType())) {
             kodeverksOpplysning.setValue(FagsakType.ENGANGSSTOENAD.value());
-        } else if ((FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType())) || ((FagsakYtelseType.ENDRING_FORELDREPENGER.equals(fagsak.getYtelseType())))) {
+        } else if ((FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType()))) {
             kodeverksOpplysning.setValue(FagsakType.FORELDREPENGER.value());
         }
         vedtak.setFagsakType(kodeverksOpplysning);

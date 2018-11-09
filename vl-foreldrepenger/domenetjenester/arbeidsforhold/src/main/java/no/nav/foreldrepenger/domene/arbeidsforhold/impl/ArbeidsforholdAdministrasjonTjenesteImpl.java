@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.domene.arbeidsforhold.impl;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.emptySet;
 import static java.util.Objects.nonNull;
 import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdHandlingType.BRUK;
 import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdHandlingType.NYTT_ARBEIDSFORHOLD;
@@ -104,10 +103,6 @@ public class ArbeidsforholdAdministrasjonTjenesteImpl implements ArbeidsforholdA
 
     @Override
     public Set<ArbeidsforholdWrapper> hentArbeidsforholdFerdigUtledet(Behandling behandling) {
-        if (behandling.getFagsakYtelseType().gjelderEngangsstønad()) {
-            return emptySet();
-        }
-        // må hente data fra følgende steder
         List<ArbeidsforholdOverstyringEntitet> overstyringer = iayRepository.hentArbeidsforholdInformasjon(behandling)
             .map(ArbeidsforholdInformasjon::getOverstyringer).orElse(emptyList());
         Optional<InntektArbeidYtelseGrunnlag> grunnlagOptional = iayRepository.hentAggregatHvisEksisterer(behandling, skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling));

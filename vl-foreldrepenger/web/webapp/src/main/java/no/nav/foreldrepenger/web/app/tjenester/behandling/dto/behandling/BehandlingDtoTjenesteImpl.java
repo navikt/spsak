@@ -23,7 +23,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.behandlingslager.uttak.Stønadskontoberegning;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
@@ -222,30 +221,26 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/totrinnskontroll/arsaker_read_only", "totrinnskontroll-arsaker-readOnly", idDto));
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/inntekt-arbeid-ytelse", "inntekt-arbeid-ytelse", idDto));
 
-        if (FagsakYtelseType.ENGANGSTØNAD.equals(behandling.getFagsakYtelseType())) {
-            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsresultat/engangsstonad", "beregningsresultat-engangsstonad", idDto));
-        } else {
-            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/ytelsefordeling", "ytelsefordeling", idDto));
-            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/opptjening", "opptjening", idDto));
+        dto.leggTil(ResourceLink.post("/fpsak/api/behandling/ytelsefordeling", "ytelsefordeling", idDto));
+        dto.leggTil(ResourceLink.post("/fpsak/api/behandling/opptjening", "opptjening", idDto));
 
-            Optional<Beregningsgrunnlag> beregningsgrunnlag = beregningsgrunnlagRepository.hentBeregningsgrunnlag(behandling);
-            if (beregningsgrunnlag.isPresent()) {
-                dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsgrunnlag", "beregningsgrunnlag", idDto));
-            }
+        Optional<Beregningsgrunnlag> beregningsgrunnlag = beregningsgrunnlagRepository.hentBeregningsgrunnlag(behandling);
+        if (beregningsgrunnlag.isPresent()) {
+            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsgrunnlag", "beregningsgrunnlag", idDto));
+        }
 
-            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/periode-grense", "uttak-periode-grense", idDto));
-            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/kontroller-fakta-perioder", "uttak-kontroller-fakta-perioder", idDto));
-            Optional<Stønadskontoberegning> stønadskontoberegning = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(behandling.getFagsak())
-                .flatMap(FagsakRelasjon::getStønadskontoberegning);
-            if (stønadskontoberegning.isPresent()) {
-                dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/stonadskontoer", "uttak-stonadskontoer", idDto));
-            }
+        dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/periode-grense", "uttak-periode-grense", idDto));
+        dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/kontroller-fakta-perioder", "uttak-kontroller-fakta-perioder", idDto));
+        Optional<Stønadskontoberegning> stønadskontoberegning = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(behandling.getFagsak())
+            .flatMap(FagsakRelasjon::getStønadskontoberegning);
+        if (stønadskontoberegning.isPresent()) {
+            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/stonadskontoer", "uttak-stonadskontoer", idDto));
+        }
 
-            Optional<UttakResultatEntitet> uttakResultatHvisEksisterer = uttakRepository.hentUttakResultatHvisEksisterer(behandling);
-            if (uttakResultatHvisEksisterer.isPresent()) {
-                dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/resultat-perioder", "uttaksresultat-perioder", idDto));
-                dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsresultat/foreldrepenger", "beregningsresultat-foreldrepenger", idDto));
-            }
+        Optional<UttakResultatEntitet> uttakResultatHvisEksisterer = uttakRepository.hentUttakResultatHvisEksisterer(behandling);
+        if (uttakResultatHvisEksisterer.isPresent()) {
+            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/resultat-perioder", "uttaksresultat-perioder", idDto));
+            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsresultat/foreldrepenger", "beregningsresultat-foreldrepenger", idDto));
         }
 
         return dto;
