@@ -550,25 +550,25 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>okonomistotte-v1</artifactId>
-				<version>2.0_20180730135256_2912e61</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>inntektsmelding-v1</artifactId>
-				<version>2.4_20180925124533_8df3d6a</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>grensesnittavstemming-v1</artifactId>
-				<version>2.3_20180507114256_2ed2065</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>dokumentbestiller-v1</artifactId>
-				<version>2.0_20181102144509_7e0802f</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
@@ -613,13 +613,13 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
-				<version>2.3_20180507113926_0beea2f</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>soeknad-v1</artifactId>
-				<version>1.0_20181102085631_678475a</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 

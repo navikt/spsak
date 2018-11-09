@@ -60,6 +60,18 @@ public class AktivitetIdentifikator {
         return arbeidsgiverType;
     }
 
+    public static AktivitetIdentifikator ingenAktivitet() {
+        return new AktivitetIdentifikator(AktivitetType.INGEN_AKTIVITET, null);
+    }
+
+    /**
+     * HACK
+     * @return
+     */
+    public String getOrgNr() {
+        return getArbeidsgiverIdentifikator();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

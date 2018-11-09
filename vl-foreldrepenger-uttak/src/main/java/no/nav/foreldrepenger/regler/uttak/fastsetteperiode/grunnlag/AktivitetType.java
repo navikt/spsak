@@ -4,5 +4,6 @@ public enum AktivitetType {
     ARBEID,
     SELVSTENDIG_NÆRINGSDRIVENDE,
     FRILANS,
-    ANNET
+    ANNET,
+    INGEN_AKTIVITET
 }
