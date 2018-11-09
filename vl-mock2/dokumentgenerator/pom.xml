@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>no.nav.vedtak.fpmock2</groupId>
+        <artifactId>fpmock2</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
+    <artifactId>dokumentgenerator</artifactId>
+    <packaging>jar</packaging>
+    <name>FPMock2 :: Dokumentgenerator</name>
+
+    <properties>
+        <vl-kontrakt-soeknad.version>1.0_20181102085631_678475a</vl-kontrakt-soeknad.version>
+        <vl-kontrakt-inntektsmelding.version>2.4_20180925124533_8df3d6a</vl-kontrakt-inntektsmelding.version>
+    </properties>
+
+    <dependencies>
+        <!-- Engangsstønad -og foreldrepenger-skjema for Utbyggeren -->
+        <dependency>
+            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <artifactId>soeknad-v1</artifactId>
+            <version>${vl-kontrakt-soeknad.version}</version>
+            <classifier>jaxb</classifier>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <artifactId>inntektsmelding-v1</artifactId>
+            <version>${vl-kontrakt-inntektsmelding.version}</version>
+            <classifier>jaxb</classifier>
+        </dependency>
+
+
+        <!-- 3dje parts biblioteker -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        
+    	<dependency>
+		    <groupId>no.nav.vedtak.fpmock2</groupId>
+		    <artifactId>testmodell</artifactId>
+		</dependency>
+    </dependencies>
+</project>
