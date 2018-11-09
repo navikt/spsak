@@ -1,3 +1,0 @@
-INSERT INTO KODELISTE (id, kode, navn, beskrivelse, gyldig_fom, kodeverk) VALUES (seq_kodeliste.nextval, 'FORDELING_FOR_ANDEL', 'Fordeling for arbeidsforhold', 'Fordeling for arbeidsforhold', to_date('2000-01-01', 'YYYY-MM-DD'), 'HISTORIKK_ENDRET_FELT_TYPE');
-INSERT INTO KODELISTE (id, kode, navn, beskrivelse, gyldig_fom, kodeverk) VALUES (seq_kodeliste.nextval, 'FORDELING_FOR_NY_ANDEL', 'Ny andel med fordeling', 'Ny andel med fordeling', to_date('2000-01-01', 'YYYY-MM-DD'), 'HISTORIKK_ENDRET_FELT_TYPE');
-INSERT INTO KODELISTE (id, kode, navn, beskrivelse, gyldig_fom, kodeverk) VALUES (seq_kodeliste.nextval, 'INNTEKTSKATEGORI_FOR_ANDEL', 'Inntektskategori for andel', 'Inntektskategori for andel', to_date('2000-01-01', 'YYYY-MM-DD'), 'HISTORIKK_ENDRET_FELT_TYPE');

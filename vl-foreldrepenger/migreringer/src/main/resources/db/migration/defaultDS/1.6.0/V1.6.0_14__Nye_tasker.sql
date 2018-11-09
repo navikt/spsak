@@ -1,2 +1,0 @@
-INSERT INTO PROSESS_TASK_TYPE (kode, navn, feil_maks_forsoek, feil_sek_mellom_forsoek, feilhandtering_algoritme, beskrivelse) VALUES ('innhentsaksopplysninger.startBehandling', 'Start behandling',  3, 60, 'DEFAULT', 'Task som starter behandling');
-INSERT INTO PROSESS_TASK_TYPE (kode, navn, feil_maks_forsoek, feil_sek_mellom_forsoek, feilhandtering_algoritme, beskrivelse) VALUES ('oppgavebehandling.opprettOppgaveVurderDokument', 'Oppretter oppgave i GSAK for å vurdere dokument',  3, 60, 'DEFAULT', 'Oppretter oppgave i GSAK for å vurdere dokument');

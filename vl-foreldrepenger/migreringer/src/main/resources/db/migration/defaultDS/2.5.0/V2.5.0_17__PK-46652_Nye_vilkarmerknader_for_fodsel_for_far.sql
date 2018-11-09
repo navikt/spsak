@@ -1,3 +1,0 @@
-insert into kodeliste (id, kode, navn, BESKRIVELSE, kodeverk, gyldig_fom) values (seq_kodeliste.nextval, '1027', '1027', 'ingen barn dokumentert på far/medmor', 'VILKAR_UTFALL_MERKNAD', to_date('2000-01-01', 'yyyy-mm-dd'));
-insert into kodeliste (id, kode, navn, BESKRIVELSE, kodeverk, gyldig_fom) values (seq_kodeliste.nextval, '1028', '1028', 'mor fyller ikke vilkåret for sykdom', 'VILKAR_UTFALL_MERKNAD', to_date('2000-01-01', 'yyyy-mm-dd'));
-insert into kodeliste (id, kode, navn, BESKRIVELSE, kodeverk, gyldig_fom) values (seq_kodeliste.nextval, '1029', '1029', 'bruker er ikke registrert som far/medmor til barnet', 'VILKAR_UTFALL_MERKNAD', to_date('2000-01-01', 'yyyy-mm-dd'));

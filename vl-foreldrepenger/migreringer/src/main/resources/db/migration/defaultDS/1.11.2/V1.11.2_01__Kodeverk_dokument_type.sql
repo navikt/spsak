@@ -1,1 +1,0 @@
-update KODEVERK set KODEVERK_SYNK_NYE = 'J' where KODE = 'DOKUMENT_TYPE';

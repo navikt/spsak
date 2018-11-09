@@ -1,1 +1,0 @@
-UPDATE KODELISTE SET EKSTRA_DATA = '{ "fagsakYtelseType" : {"FP" : { "kategori": "vilkår", "lovreferanse": "§ 14-5, første ledd eller tredje ledd" } } }' WHERE kodeverk = 'VILKAR_TYPE' AND KODE = 'FP_VK_16';

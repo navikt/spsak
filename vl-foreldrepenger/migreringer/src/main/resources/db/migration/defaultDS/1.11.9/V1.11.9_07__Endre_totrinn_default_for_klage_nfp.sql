@@ -1,1 +1,0 @@
-update AKSJONSPUNKT_DEF set TOTRINN_BEHANDLING_DEFAULT = 'N' where kode = '5035';

@@ -1,2 +1,0 @@
-insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('søknadfrist.måneder.etter.første.uttaksdag', 'Søknadsfrist i måneder etter første uttaksdag', 'INGEN', 'INTEGER', 'Maks antall måneder mellom søknadens mottattdato og første uttaksdag i søknaden.');
-insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'søknadfrist.måneder.etter.første.uttaksdag', 'INGEN', '3', to_date('01.01.2016', 'dd.mm.yyyy'));

@@ -1,7 +1,0 @@
-INSERT INTO AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, VILKAR_TYPE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, SKJERMLENKE_TYPE)
-VALUES ('5071', 'Fastsett uttaksperioder manuelt', 'VURDER_UTTAK.UT', 'Fastsetter uttaksperioder manuelt.', '-', 'J', 'MANU', '-');
-
-INSERT INTO KODELISTE (id, kode, navn, beskrivelse, gyldig_fom, kodeverk) VALUES (seq_kodeliste.nextval, 'UTTAK', 'Uttak', 'Uttak', to_date('2000-01-01', 'YYYY-MM-DD'), 'SKJERMLENKE_TYPE');
-
-INSERT INTO AKSJONSPUNKT_DEF (KODE, NAVN, VURDERINGSPUNKT, BESKRIVELSE, VILKAR_TYPE, TOTRINN_BEHANDLING_DEFAULT, AKSJONSPUNKT_TYPE, SKJERMLENKE_TYPE)
-VALUES ('6008', 'Overstyr uttaksperioder', 'VURDER_UTTAK.UT', 'Overstyr uttaksperioder.', '-', 'J', 'OVST', 'UTTAK');

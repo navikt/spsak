@@ -1,2 +1,0 @@
-insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('brev.returadresse.klage.enhet.navn', 'NAV Klageinstans enhetsnavn i returadresse', 'INGEN', 'STRING', 'NAV Klageinstans enhetsnavn i returadresse');
-insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'brev.returadresse.klage.enhet.navn', 'INGEN', 'NAV Klageinstans', to_date('01.01.2016', 'dd.mm.yyyy'));

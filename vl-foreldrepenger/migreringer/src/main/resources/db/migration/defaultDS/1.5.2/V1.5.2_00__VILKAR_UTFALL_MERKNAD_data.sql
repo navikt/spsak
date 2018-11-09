@@ -1,1 +1,0 @@
-INSERT INTO VILKAR_UTFALL_MERKNAD (kode, navn, beskrivelse) VALUES ('1007', '1007', 'Søknadsfristvilkåret er ikke oppfylt');

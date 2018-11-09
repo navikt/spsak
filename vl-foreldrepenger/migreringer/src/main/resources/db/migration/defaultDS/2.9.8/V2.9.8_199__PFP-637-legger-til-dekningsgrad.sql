@@ -1,3 +1,0 @@
-ALTER TABLE FAGSAK_RELASJON
-  ADD dekningsgrad NUMBER(3) DEFAULT 100 NOT NULL;
-COMMENT ON COLUMN FAGSAK_RELASJON.dekningsgrad IS 'Dekningsgrad for begge søkere';

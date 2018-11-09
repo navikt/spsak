@@ -1,1 +1,0 @@
-UPDATE AKSJONSPUNKT_DEF set FRIST_PERIODE = null where kode = 7002;

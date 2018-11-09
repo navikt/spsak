@@ -1,1 +1,0 @@
-INSERT INTO KODELISTE (id, kode, navn, beskrivelse, gyldig_fom, kodeverk) VALUES (seq_kodeliste.nextval, 'STARTDATO_FRA_SOKNAD', 'Startdato fra søknad', 'Startdato fra søknad', to_date('2000-01-01', 'YYYY-MM-DD'), 'HISTORIKK_ENDRET_FELT_TYPE');

@@ -1,2 +1,0 @@
-ALTER TABLE EGEN_NAERING MODIFY (regnskapsfoerer_navn NULL);
-ALTER TABLE EGEN_NAERING MODIFY (regnskapsfoerer_tlf NULL);
