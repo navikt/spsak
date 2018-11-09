@@ -1,2 +1,0 @@
-UPDATE AKSJONSPUNKT_DEF SET FRIST_PERIODE='P3W', BESKRIVELSE='Venter på mottak av manglende søknad. Har tilbakehopp for å kjøre registrering av søknad fra starten når søknad blir mottatt etter inntektsmelding.' WHERE KODE='7013';
-UPDATE AKSJONSPUNKT_DEF SET AKSJONSPUNKT_TYPE='AUTO', BESKRIVELSE='Venter på scanning av dokumenter. Frist settes automatisk til 3 dager frem i tid, men kan manuelt overstyres av saksbehandler. Har tilbakehopp for å få med nye dokumenter som har kommet inn mens behandling er på vent.' WHERE KODE='7007';

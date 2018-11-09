@@ -1,2 +1,0 @@
-INSERT INTO PROSESS_TASK_TYPE (kode, navn, feil_maks_forsoek, feil_sek_mellom_forsoek, feilhandtering_algoritme, beskrivelse)
-     VALUES ('behandlingskontroll.fortsettBehandling', 'Forsetter automatisk behandling.',  3, 60, 'DEFAULT', 'Task som melder om kjører automatisk behandling for behandlingskontroll.  Starter i det steget behandlingen står og forsetter til den stopper på et Aksjonspunkt.');

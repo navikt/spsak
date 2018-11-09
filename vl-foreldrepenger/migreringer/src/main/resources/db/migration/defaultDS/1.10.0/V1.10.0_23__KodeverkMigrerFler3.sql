@@ -1,2 +1,0 @@
-alter table BEHANDLING_STEG_TILSTAND drop  (behandling_steg_tilstand);
-insert into kodeliste (id, kode, kodeverk, navn, beskrivelse) values (seq_kodeliste.nextval, 'AVBRUTT', 'BEHANDLING_STEG_STATUS', 'Avbrutt', 'Steget er avbrutt');

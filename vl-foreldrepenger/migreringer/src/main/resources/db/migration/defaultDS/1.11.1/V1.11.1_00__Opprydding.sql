@@ -1,2 +1,0 @@
--- Reservet for intern bruk.
--- Her kommer SQL endringer som utføres før andre skriptene.

@@ -1,2 +1,0 @@
-insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('gsak.ehentsid.fordelingsoppgaver', 'EnhetsId til bruk for fordelingsoppgaver', 'INGEN', 'STRING', 'EnhetsId til bruk for fordelingsoppgaver');
-insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'gsak.ehentsid.fordelingsoppgaver', 'INGEN', '2820', to_date('01.01.2017', 'dd.mm.yyyy'));

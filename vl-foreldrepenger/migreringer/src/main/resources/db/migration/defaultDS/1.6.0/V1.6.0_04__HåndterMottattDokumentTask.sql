@@ -1,1 +1,0 @@
-INSERT INTO PROSESS_TASK_TYPE (kode, navn, feil_maks_forsoek, feil_sek_mellom_forsoek, feilhandtering_algoritme, beskrivelse) VALUES ('innhentsaksopplysninger.håndterMottattDokument', 'Håndter mottatt dokument',  3, 60, 'DEFAULT', 'Task som håndterer mottatte dokumenter ved å innhente saksopplysninger');

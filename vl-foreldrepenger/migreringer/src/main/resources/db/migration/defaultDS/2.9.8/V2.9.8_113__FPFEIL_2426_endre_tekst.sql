@@ -1,7 +1,0 @@
-UPDATE KODELISTE
-SET BESKRIVELSE = '§14-9: Ferie/arbeid innenfor de første 6 ukene'
-WHERE KODEVERK = 'IKKE_OPPFYLT_AARSAK' and KODE = '4031';
-
-UPDATE KODELISTE_NAVN_I18N
-SET NAVN = '§14-9: Ferie/arbeid innenfor de første 6 ukene'
-WHERE KL_KODEVERK = 'IKKE_OPPFYLT_AARSAK' and KL_KODE = '4031';

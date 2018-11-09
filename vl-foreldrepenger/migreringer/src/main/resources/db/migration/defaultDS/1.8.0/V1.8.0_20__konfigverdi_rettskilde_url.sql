@@ -1,2 +1,0 @@
-insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('rettskilde.url', 'Rettskilde URL', 'INGEN', 'URI', 'Url som peker på rettkildene som brukes som beslutningsstøtte');
-insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'rettskilde.url', 'INGEN', 'https://www.nav.no/rettskildene-intern/', to_date('01.01.2017', 'dd.mm.yyyy'));

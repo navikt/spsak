@@ -1,5 +1,0 @@
---COPY THREE COLUMNS FROM OPPDRAG_KONTROLL AND INSERT INTO OPPDRAG_KVITTERING TABELL
-INSERT INTO OPPDRAG_KVITTERING (id, alvorlighetsgrad, beskr_melding, melding_kode, oppdrag_110_id)
-SELECT SEQ_OPPDRAG_KVITTERING.NEXTVAL as id, ok.alvorlighetsgrad, ok.beskr_melding, ok.melding_kode, o.id as oppdrag_110_id
-FROM OPPDRAG_KONTROLL ok
-INNER JOIN OKO_OPPDRAG_110 o ON o.OPPDRAGS_KONTROLL_ID = ok.ID;

@@ -1,2 +1,0 @@
-insert into KONFIG_VERDI_KODE (kode, navn, konfig_gruppe, konfig_type, beskrivelse) values ('infotrygd.sak.gyldig.periode', 'Tidsperiode i mnd for saker i infotrygd', 'INGEN', 'INTEGER', 'Tidsperiode for sjekk av saker mot infotrygd. Oppgitt i måneder');
-insert into KONFIG_VERDI (id, konfig_kode, konfig_gruppe, konfig_verdi, gyldig_fom) values (SEQ_KONFIG_VERDI.nextval, 'infotrygd.sak.gyldig.periode', 'INGEN', 'P10M', to_date('01.01.2016', 'dd.mm.yyyy'));

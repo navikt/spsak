@@ -1,1 +1,0 @@
-INSERT INTO AVSLAGSARSAK(avslag_kode, vilkar_kode, navn) VALUES ('1012', 'FP_VK_5', 'Far har ikke omsorg for barnet');
