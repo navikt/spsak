@@ -23,12 +23,6 @@
 		<!-- Web klient og server -->
 		<module>web</module>
 
-		<!-- Dokumenasjonskode -->
-		<module>docs</module>
-
-		<!-- Sammensatt test etter at web er bygd -->
-		<module>integrasjonstest</module>
-
 		<!-- diverse tester på tvers av all kode -->
 		<module>alle</module>
 

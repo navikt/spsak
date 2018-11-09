@@ -26,11 +26,12 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
-import no.nav.foreldrepenger.vedtak.v2.VedtakParser;
+import no.nav.foreldrepenger.vedtak.v2.VedtakConstants;
 import no.nav.foreldrepenger.vedtak.xml.behandlingsresultat.BehandlingsresultatXmlTjeneste;
 import no.nav.foreldrepenger.vedtak.xml.oppdrag.OppdragXmlTjeneste;
 import no.nav.foreldrepenger.vedtak.xml.personopplysninger.PersonopplysningXmlTjeneste;
 import no.nav.vedtak.feil.FeilFactory;
+import no.nav.vedtak.felles.integrasjon.felles.ws.JaxbHelper;
 import no.nav.vedtak.felles.xml.felles.v2.KodeverksOpplysning;
 import no.nav.vedtak.felles.xml.vedtak.v2.FagsakType;
 import no.nav.vedtak.felles.xml.vedtak.v2.ObjectFactory;
@@ -79,8 +80,11 @@ public abstract class VedtakXmlTjeneste {
     public String opprettVedtakXml(Long behandlingId) {
         Vedtak vedtak = fraBehandling(behandlingId);
         try {
-            String xml = VedtakParser.marshall(vedtak);
-            return xml;
+            return JaxbHelper.marshalAndValidateJaxb(VedtakConstants.JAXB_CLASS,
+                vedtak,
+                VedtakConstants.XSD_LOCATION,
+                VedtakConstants.ADDITIONAL_XSD_LOCATIONS,
+                VedtakConstants.ADDITIONAL_CLASSES);
         } catch (JAXBException | SAXException e) {
             throw FeilFactory.create(VedtakXmlFeil.class).serialiseringsfeil(behandlingId, e).toException();
         }
@@ -157,7 +161,7 @@ public abstract class VedtakXmlTjeneste {
         KodeverksOpplysning kodeverksOpplysning = new KodeverksOpplysning();
         if (FagsakYtelseType.ENGANGSTØNAD.equals(fagsak.getYtelseType())) {
             kodeverksOpplysning.setValue(FagsakType.ENGANGSSTOENAD.value());
-        } else if( (FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType())) || ((FagsakYtelseType.ENDRING_FORELDREPENGER.equals(fagsak.getYtelseType())))) {
+        } else if ((FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType())) || ((FagsakYtelseType.ENDRING_FORELDREPENGER.equals(fagsak.getYtelseType())))) {
             kodeverksOpplysning.setValue(FagsakType.FORELDREPENGER.value());
         }
         vedtak.setFagsakType(kodeverksOpplysning);
