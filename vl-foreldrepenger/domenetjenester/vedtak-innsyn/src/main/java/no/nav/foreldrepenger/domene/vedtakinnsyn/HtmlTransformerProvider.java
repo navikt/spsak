@@ -10,7 +10,7 @@ public class HtmlTransformerProvider {
 
     private static Map<String, String> transformers = Collections.unmodifiableMap(Stream.of(
             new AbstractMap.SimpleEntry<>(no.nav.foreldrepenger.vedtak.v1.ForeldrepengerVedtakConstants.NAMESPACE, "vedtakXmlTilHtml_v1.xsl"),
-            new AbstractMap.SimpleEntry<>(no.nav.foreldrepenger.vedtak.v2.ForeldrepengerVedtakConstants.NAMESPACE, "vedtakXmlTilHtml_v2.xsl"))
+            new AbstractMap.SimpleEntry<>(no.nav.foreldrepenger.vedtak.v2.VedtakConstants.NAMESPACE, "vedtakXmlTilHtml_v2.xsl"))
             .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue())));
 
     private HtmlTransformerProvider() {

@@ -14,7 +14,7 @@ public class DocumentParserProvider {
 
     private static Map<String, DocumentParser> transformers = Collections.unmodifiableMap(Stream.of(
         new AbstractMap.SimpleEntry<>(no.nav.foreldrepenger.vedtak.v1.ForeldrepengerVedtakConstants.NAMESPACE, new DocumentParserV1()),
-        new AbstractMap.SimpleEntry<>(no.nav.foreldrepenger.vedtak.v2.ForeldrepengerVedtakConstants.NAMESPACE, new DocumentParserV2()))
+        new AbstractMap.SimpleEntry<>(no.nav.foreldrepenger.vedtak.v2.VedtakConstants.NAMESPACE, new DocumentParserV2()))
         .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue())));
 
     private DocumentParserProvider() {

@@ -213,7 +213,7 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>fordel-v1</artifactId>
-				<version>2.3_20181019122308_f1ced3f</version>
+				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
@@ -228,7 +228,7 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>abonnent-v1</artifactId>
-				<version>2.0_20180624192358_8b33f6f</version>
+				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>

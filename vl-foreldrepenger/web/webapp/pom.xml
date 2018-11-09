@@ -318,7 +318,7 @@
 		<!-- setter til app da det er default for jar som kjøres i nais baseimages -->
 		<finalName>app</finalName>
 		<plugins>
-			<plugin>
+			<!--plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
 				<executions>
@@ -333,7 +333,7 @@
 					<addOutputDirectoryToResources>true</addOutputDirectoryToResources>
 					<timestampFormat>dd.MM.yyyy HH.mm.ss</timestampFormat>
 				</configuration>
-			</plugin>
+			</plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
