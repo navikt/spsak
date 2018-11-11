@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.impl;
+package no.nav.foreldrepenger.domene.vurderfagsystem.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,8 +13,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandling.BehandlendeFagsystem;
-import no.nav.foreldrepenger.behandling.VurderFagsystem;
-import no.nav.foreldrepenger.behandling.VurderFagsystemTjeneste;
+import no.nav.foreldrepenger.behandling.impl.FagsakTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
@@ -38,16 +37,16 @@ import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.DokumentPersi
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystem;
+import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystemTjeneste;
 
-public class VurderFagsystemTjenesteImplForAvlsluttetFagsakOgAvslåttBehandlingTest {
-
-    private static final int FRIST_INNSENDING_UKER = 6;
+public class VurderFagsystemTjenesteImplTest {
     public static final Period VENTE_FRIST_AAREG = Period.parse("P1D");
-    private final LocalDate DATO_ETTER_FRISTEN = LocalDate.now().minusWeeks(FRIST_INNSENDING_UKER + 2);
-    private final LocalDate DATO_FØR_FRISTEN = LocalDate.now().minusWeeks(FRIST_INNSENDING_UKER - 2);
-
+    private static final int FRIST_INNSENDING_UKER = 6;
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
+    private final LocalDate DATO_ETTER_FRISTEN = LocalDate.now().minusWeeks(FRIST_INNSENDING_UKER + 2);
+    private final LocalDate DATO_FØR_FRISTEN = LocalDate.now().minusWeeks(FRIST_INNSENDING_UKER - 2);
     private final EntityManager entityManager = repoRule.getEntityManager();
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
     private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
@@ -193,4 +192,3 @@ public class VurderFagsystemTjenesteImplForAvlsluttetFagsakOgAvslåttBehandlingT
         return new VurderFagsystemTjenesteImpl(VENTE_FRIST_AAREG, fagsakTjeneste, arbeidsforholdTjenesteMock, tpsTjenesteMock, repositoryProvider, mottatteDokumentTjeneste);
     }
 }
-

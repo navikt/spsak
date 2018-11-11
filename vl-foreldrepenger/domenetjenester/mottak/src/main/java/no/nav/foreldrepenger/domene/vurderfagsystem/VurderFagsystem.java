@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling;
+package no.nav.foreldrepenger.domene.vurderfagsystem;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

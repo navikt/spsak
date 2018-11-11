@@ -43,7 +43,6 @@
         <module>ytelse-fordeling</module>
         <module>vedtak-innsyn</module>
         <module>vedtak-xml</module>
-        <module>vurder-fagsystem</module>
     </modules>
 
 </project>

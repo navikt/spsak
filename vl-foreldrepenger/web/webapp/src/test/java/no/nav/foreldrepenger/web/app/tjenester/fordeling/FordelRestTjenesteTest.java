@@ -3,12 +3,9 @@ package no.nav.foreldrepenger.web.app.tjenester.fordeling;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-
-import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,11 +13,8 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandling.BehandlendeFagsystem;
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
-import no.nav.foreldrepenger.behandling.VurderFagsystem;
-import no.nav.foreldrepenger.behandling.VurderFagsystemTjeneste;
 import no.nav.foreldrepenger.behandling.impl.FagsakTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -28,15 +22,13 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.kodeverk.KodeverkTestHelper;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.dokumentarkiv.ArkivDokument;
-import no.nav.foreldrepenger.domene.dokumentarkiv.ArkivJournalPost;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
-import no.nav.foreldrepenger.domene.dokumentarkiv.journal.InngåendeJournalAdapter;
-import no.nav.foreldrepenger.domene.dokumentarkiv.journal.JournalTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystem;
+import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystemTjeneste;
 import no.nav.foreldrepenger.kontrakter.fordel.BehandlendeFagsystemDto;
 import no.nav.foreldrepenger.kontrakter.fordel.FagsakInfomasjonDto;
 import no.nav.foreldrepenger.kontrakter.fordel.SaksnummerDto;

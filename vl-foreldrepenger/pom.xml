@@ -481,12 +481,6 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>vurder-fagsystem</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>no.nav.modig</groupId>
 				<artifactId>modig-testcertificates</artifactId>
 				<version>1.2.5-vedfp-SNAPSHOT</version>

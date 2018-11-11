@@ -140,10 +140,6 @@
 			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>vedtak-innsyn</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>vurder-fagsystem</artifactId>
-		</dependency>
 
 		<!-- REST + WebService -->
 		<dependency>

@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.web.app.tjenester.fordeling;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import javax.enterprise.context.RequestScoped;
@@ -19,8 +18,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import no.nav.foreldrepenger.behandling.BehandlendeFagsystem;
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
-import no.nav.foreldrepenger.behandling.VurderFagsystem;
-import no.nav.foreldrepenger.behandling.VurderFagsystemTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
@@ -38,6 +35,8 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokument
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystem;
+import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystemTjeneste;
 import no.nav.foreldrepenger.kontrakter.fordel.BehandlendeFagsystemDto;
 import no.nav.foreldrepenger.kontrakter.fordel.FagsakInfomasjonDto;
 import no.nav.foreldrepenger.kontrakter.fordel.JournalpostKnyttningDto;

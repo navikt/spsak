@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.impl;
+package no.nav.foreldrepenger.domene.vurderfagsystem.impl;
 
 import static java.util.Arrays.asList;
 import static no.nav.foreldrepenger.behandling.BehandlendeFagsystem.BehandlendeSystem.INFOTRYGD;
@@ -28,8 +28,6 @@ import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandling.BehandlendeFagsystem;
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
-import no.nav.foreldrepenger.behandling.VurderFagsystem;
-import no.nav.foreldrepenger.behandling.VurderFagsystemTjeneste;
 import no.nav.foreldrepenger.behandlingslager.IntervallUtil;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
@@ -55,6 +53,8 @@ import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystem;
+import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystemTjeneste;
 import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -174,7 +174,7 @@ public class VurderFagsystemTjenesteImpl implements VurderFagsystemTjeneste {
         }
 
         if (harAnnenPartSakForSammeBarn(vurderFagsystem)) {
-            throw SkjæringstidspunktFeil.FACTORY.brukersSaknummerIkkeFunnetIVLSelvOmAnnenPartsSakErDer(saksnummer).toException();
+            throw VurderFagsystemFeil.FACTORY.brukersSaknummerIkkeFunnetIVLSelvOmAnnenPartsSakErDer(saksnummer).toException();
         }
 
         return new BehandlendeFagsystem(MANUELL_VURDERING);
@@ -280,7 +280,7 @@ public class VurderFagsystemTjenesteImpl implements VurderFagsystemTjeneste {
             Optional<LocalDate> mottattDagOptional = vurderFagsystem.getForsendelseMottatt();
             if (mottattTidspunktOptional.isPresent()) {
                 return finnBehandlendeFagsystemBasertPåFrist(mottattTidspunktOptional.get());
-            } else if (mottattDagOptional.isPresent()){
+            } else if (mottattDagOptional.isPresent()) {
                 return finnBehandlendeFagsystemBasertPåFristDag(mottattDagOptional.get());
             } else {
                 throw new IllegalStateException("Utviklerfeil - mangler mottattidspunkt for inntektsmelding, aktørId " + vurderFagsystem.getAktørId());
