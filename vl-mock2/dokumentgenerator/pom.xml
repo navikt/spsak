@@ -15,14 +15,14 @@
     <name>FPMock2 :: Dokumentgenerator</name>
 
     <properties>
-        <vl-kontrakt-soeknad.version>1.0_20181102085631_678475a</vl-kontrakt-soeknad.version>
-        <vl-kontrakt-inntektsmelding.version>2.4_20180925124533_8df3d6a</vl-kontrakt-inntektsmelding.version>
+        <vl-kontrakt-soeknad.version>0.0.1-SNAPSHOT</vl-kontrakt-soeknad.version>
+        <vl-kontrakt-inntektsmelding.version>0.0.1-SNAPSHOT</vl-kontrakt-inntektsmelding.version>
     </properties>
 
     <dependencies>
         <!-- Engangsstønad -og foreldrepenger-skjema for Utbyggeren -->
         <dependency>
-            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>soeknad-v1</artifactId>
             <version>${vl-kontrakt-soeknad.version}</version>
             <classifier>jaxb</classifier>
@@ -31,7 +31,7 @@
 
 
         <dependency>
-            <groupId>no.nav.foreldrepenger.kontrakter</groupId>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>inntektsmelding-v1</artifactId>
             <version>${vl-kontrakt-inntektsmelding.version}</version>
             <classifier>jaxb</classifier>
