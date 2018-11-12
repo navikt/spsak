@@ -26,6 +26,7 @@
         <dependency>
             <groupId>com.ibm.mq</groupId>
             <artifactId>com.ibm.mq.allclient</artifactId>
+            <version>8.0.0.6</version>
         </dependency>
 
         <dependency>

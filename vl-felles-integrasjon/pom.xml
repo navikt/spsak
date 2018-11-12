@@ -65,7 +65,7 @@
 
 		<vl-felles.version>0.0.1-SNAPSHOT</vl-felles.version>
 
-		<ibmmq.version>8.0.0.4</ibmmq.version>
+		<ibmmq.version>8.0.0.6</ibmmq.version>
 
 		<jms-api.version>2.0.1</jms-api.version>
 

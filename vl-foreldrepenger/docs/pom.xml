@@ -38,6 +38,11 @@
 		</dependency>
 
 		<!-- avhengigheter som trengs av doclets -->
+        <dependency>
+            <groupId>ca.szc.thirdparty.nl.jworks.markdown_to_asciidoc</groupId>
+            <artifactId>markdown_to_asciidoc</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>io.github.swagger2markup</groupId>
 			<artifactId>markup-document-builder</artifactId>

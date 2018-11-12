@@ -23,13 +23,6 @@
         <jaxb2.basics.version>1.11.1</jaxb2.basics.version>
     </properties>
 
-    <scm>
-        <connection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-behandlingsprosess-vedtak.git</connection>
-        <developerConnection>scm:git:http://stash.devillo.no/scm/vedfp/vl-kontrakt-behandlingsprosess-vedtak.git</developerConnection>
-        <url>http://stash.devillo.no/projects/VEDFP/repos/vl-kontrakt-behandlingsprosess-vedtak/browse</url>
-    </scm>
-
-
     <dependencies>
        
         <dependency>

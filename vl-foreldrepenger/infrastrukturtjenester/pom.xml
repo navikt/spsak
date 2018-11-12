@@ -11,6 +11,16 @@
     <packaging>pom</packaging>
     <name>FPSAK :: Infrastrukturtjenester - Pom</name>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.ibm.mq</groupId>
+                <artifactId>com.ibm.mq.allclient</artifactId>
+                <version>8.0.0.6</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <modules>
         <module>json-feed</module>
         <module>batch</module>

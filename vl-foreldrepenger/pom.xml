@@ -629,6 +629,11 @@
 				<artifactId>encoder</artifactId>
 				<version>1.2.1</version>
 			</dependency>
+            <dependency>
+                <groupId>com.ibm.mq</groupId>
+                <artifactId>com.ibm.mq.allclient</artifactId>
+                <version>8.0.0.6</version>
+            </dependency>
 
 			<!-- Java10 -->
 			<dependency>
@@ -844,17 +849,17 @@
 					<version>0.8.2</version>
 				</plugin>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.8.0</version>
-					<configuration>
-						<source>${java.version}</source>
-						<target>${java.version}</target>
-						<encoding>UTF-8</encoding>
-						<release>${java.version}</release>
-					</configuration>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.0</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>UTF-8</encoding>
+                        <release>${java.version}</release>
+                    </configuration>
+                </plugin>
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
