@@ -78,10 +78,6 @@
             <artifactId>behandling</artifactId>
         </dependency>
 		
-		<dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandling-kriterier</artifactId>
-        </dependency>
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-status</artifactId>
