@@ -33,7 +33,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnresultat
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -223,47 +222,6 @@ public class TotrinnskontrollAksjonspunkterTjenesteImplTest {
 
             });
         }
-
-    }
-
-    @Test
-    public void skal_hente_en_skjermlenketype_og_ett_totrinnskontrollaksjonspunkt_for_behandling_men_en_totrinnsvurdering_og_ett_aksjonspunkt_som_omhander_omsorgsovertakelse(){
-
-        // Arrange
-        AksjonspunktDefinisjon aksjonspunktDefinisjon = AksjonspunktDefinisjon.AVKLAR_VILKÅR_FOR_OMSORGSOVERTAKELSE;
-        boolean ttvGodkjent = true;
-        boolean apAvbrutt = false;
-
-        Map<FagsakYtelseType, SkjermlenkeType> fagsakYtelseTypeSkjermlenkeTypeMap = new HashMap<>();
-        fagsakYtelseTypeSkjermlenkeTypeMap.put(FagsakYtelseType.FORELDREPENGER, SkjermlenkeType.FAKTA_OM_OMSORG_OG_FORELDREANSVAR);
-
-        fagsakYtelseTypeSkjermlenkeTypeMap.keySet().forEach(fagsakYtelseType -> {
-
-            opprettBehandlingForFP(Optional.empty());
-
-            Totrinnsvurdering ttv = opprettTotrinnsvurdering(behandling, aksjonspunktDefinisjon, ttvGodkjent);
-            TotrinnskontrollAksjonspunkterDto totrinnskontrollAksjonspunkterDto = opprettTotrinnskontrollAksjonspunkterDto(Optional.of(aksjonspunktDefinisjon), Optional.of(ttv));
-            opprettAksjonspunkt(behandling, aksjonspunktDefinisjon, apAvbrutt);
-
-            setFelleseMockMetoder(totrinnskontrollAksjonspunkterDto, Collections.singletonList(ttv));
-
-            // Act
-            List<TotrinnskontrollSkjermlenkeContextDto> context = totrinnskontrollAksjonspunkterTjeneste.hentTotrinnsSkjermlenkeContext(behandling);
-
-            // Arrange
-            assertThat(context).hasSize(1);
-
-            TotrinnskontrollSkjermlenkeContextDto totrinnskontrollSkjermlenkeContextDto = context.get(0);
-            assertThat(totrinnskontrollSkjermlenkeContextDto.getSkjermlenkeType()).isEqualTo(fagsakYtelseTypeSkjermlenkeTypeMap.get(fagsakYtelseType).getKode());
-
-            List<TotrinnskontrollAksjonspunkterDto> totrinnskontrollAksjonspunkter = totrinnskontrollSkjermlenkeContextDto.getTotrinnskontrollAksjonspunkter();
-            assertThat(totrinnskontrollAksjonspunkter).hasSize(1);
-
-            TotrinnskontrollAksjonspunkterDto enesteTotrinnskontrollAksjonspunkt = totrinnskontrollAksjonspunkter.get(0);
-            assertThat(enesteTotrinnskontrollAksjonspunkt.getAksjonspunktKode()).isEqualTo(aksjonspunktDefinisjon.getKode());
-            assertThat(enesteTotrinnskontrollAksjonspunkt.getTotrinnskontrollGodkjent()).isTrue();
-
-        });
 
     }
 

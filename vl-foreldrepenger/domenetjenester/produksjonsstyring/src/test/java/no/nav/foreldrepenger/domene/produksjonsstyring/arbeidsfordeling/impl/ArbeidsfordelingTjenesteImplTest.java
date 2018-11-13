@@ -10,18 +10,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import ch.qos.logback.classic.Level;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.kodeverk.KodeverkTestHelper;
 import no.nav.foreldrepenger.domene.produksjonsstyring.arbeidsfordeling.ArbeidsfordelingTjeneste;
-import no.nav.modig.core.test.LogSniffer;
 import no.nav.tjeneste.virksomhet.arbeidsfordeling.v1.informasjon.Enhetsstatus;
 import no.nav.tjeneste.virksomhet.arbeidsfordeling.v1.informasjon.Organisasjonsenhet;
 import no.nav.tjeneste.virksomhet.arbeidsfordeling.v1.meldinger.FinnAlleBehandlendeEnheterListeRequest;
@@ -40,9 +37,6 @@ public class ArbeidsfordelingTjenesteImplTest {
     private static final String KODE6_DISKRESJON = "SPSF";
     private static final String KODE6_ENHET = "2103";
     private static final BehandlingTema BEHANDLING_TEMA = BehandlingTema.ENGANGSSTØNAD_FØDSEL;
-
-    @Rule
-    public LogSniffer logSniffer = new LogSniffer(Level.WARN);
 
     private ArbeidsfordelingConsumer consumer = mock(ArbeidsfordelingConsumer.class);
     private ArbeidsfordelingTjeneste tjeneste = new ArbeidsfordelingTjenesteImpl(consumer);
@@ -94,8 +88,6 @@ public class ArbeidsfordelingTjenesteImplTest {
         OrganisasjonsEnhet organisasjonsEnhet = tjeneste.finnBehandlendeEnhet(GEOGRAFISK_TILKNYTNING, DISKRESJONSKODE, behandlingTema);
         //Verifiser svar
         assertThat(organisasjonsEnhet.getEnhetId()).isEqualTo(RESPONSE_ENHETS_ID);
-
-        logSniffer.assertHasWarnMessage("Forventet en, men fikk flere alternative behandlende enheter");
     }
 
     @Test

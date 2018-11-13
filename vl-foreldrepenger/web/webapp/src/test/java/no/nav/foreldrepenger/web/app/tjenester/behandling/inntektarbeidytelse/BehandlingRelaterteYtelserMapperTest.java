@@ -76,7 +76,7 @@ public class BehandlingRelaterteYtelserMapperTest {
 
         TilgrensendeYtelserDto tilgrensendeYtelserDto = BehandlingRelaterteYtelserMapper.mapFraFagsak(fagsakFødsel, I_DAG.minusDays(5));
 
-        assertThat(tilgrensendeYtelserDto.getRelatertYtelseType()).isEqualTo(RelatertYtelseType.ENGANGSSTØNAD.getKode());
+        assertThat(tilgrensendeYtelserDto.getRelatertYtelseType()).isEqualTo(RelatertYtelseType.FORELDREPENGER.getKode());
         assertThat(tilgrensendeYtelserDto.getStatus()).isEqualTo(FagsakStatus.AVSLUTTET.getKode());
         assertThat(tilgrensendeYtelserDto.getPeriodeTilDato()).isEqualTo(I_DAG.minusDays(5));
         assertThat(tilgrensendeYtelserDto.getPeriodeFraDato()).isEqualTo(I_DAG.minusDays(5));

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.sql.Clob;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Properties;
@@ -19,7 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-import ch.qos.logback.classic.Level;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
@@ -51,8 +49,6 @@ import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.SoeknadsskjemaEngangsstoenad;
-import no.nav.modig.core.test.LogSniffer;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
@@ -61,9 +57,6 @@ public class DokumentmottakerKlageTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-
-    @Rule
-    public LogSniffer logSniffer = new LogSniffer(Level.WARN);
 
     @Inject
     private BehandlingRepositoryProvider repositoryProvider;
@@ -120,25 +113,6 @@ public class DokumentmottakerKlageTest {
 
         //Assert
         verify(dokumentmottaker).startBehandlingAvKlage(mottattDokument, fagsak);
-    }
-
-    @Test
-    public void skal_kaste_feil_når_det_kommer_inn_klage_og_det_ikke_finnes_en_vanlig_behandlig() {
-        //Arrange
-        Fagsak fagsak = nyMorFødselFagsak();
-        Long fagsakId = fagsak.getId();
-        DokumentTypeId dokumentTypeId = DokumentTypeId.KLAGE_DOKUMENT;
-
-        SoeknadsskjemaEngangsstoenad skjema = DokumentmottakTestUtil.byggSøknadEngangsstønad();
-        Clob xml = DokumentmottakTestUtil.byggXml(skjema);
-
-        MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, fagsakId, xml.toString(), now(), true, "123");
-
-        //Act
-        dokumentmottaker.mottaDokument(mottattDokument, fagsak, dokumentTypeId, BehandlingÅrsakType.UDEFINERT);
-
-        logSniffer.assertHasWarnMessage("Fant ingen passende behandling for saksnummer");
-
     }
 
     private Behandling byggAvsluttetSøknadsbehandlingForFødsel(int antallBarn) {

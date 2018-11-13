@@ -129,7 +129,7 @@ public class FagsakRestTjenesteTest {
 
         int alder = Period.between(personinfo.getFødselsdato(), LocalDate.now()).getYears();
         String expectedJson = "[" +
-            "{\"saksnummer\":123,\"sakstype\":{\"kode\":\"ES\",\"navn\":\"Engangsstønad\",\"kodeverk\":\"FAGSAK_YTELSE\"},\"status\":{\"kode\":\"OPPR\",\"navn\":\"Opprettet\",\"kodeverk\":\"FAGSAK_STATUS\"},\"barnFodt\":\"2017-01-01\",\"person\":{\"erDod\":true,\"navn\":\"Anne-Berit Hjartdal\",\"alder\":"
+            "{\"saksnummer\":123,\"sakstype\":{\"kode\":\"FP\",\"navn\":\"Foreldrepenger\",\"kodeverk\":\"FAGSAK_YTELSE\"},\"status\":{\"kode\":\"OPPR\",\"navn\":\"Opprettet\",\"kodeverk\":\"FAGSAK_STATUS\"},\"barnFodt\":\"2017-01-01\",\"person\":{\"erDod\":true,\"navn\":\"Anne-Berit Hjartdal\",\"alder\":"
             + alder
             + ",\"personnummer\":\"13107221234\",\"erKvinne\":true,\"personstatusType\":{\"kode\":\"DØD\",\"navn\":null,\"kodeverk\":\"PERSONSTATUS_TYPE\"},\"diskresjonskode\":\"6\",\"dodsdato\":null},\"opprettet\":null,\"endret\":null,\"antallBarn\":0,\"kanRevurderingOpprettes\":false,\"skalBehandlesAvInfotrygd\":false}"
             +

@@ -108,30 +108,6 @@ public class DokumentmottakerInntektsmeldingTest {
 
     }
 
-    @Test
-    public void skal_oppdatere_ukomplett_behandling_med_IM_dersom_fagsak_har_avsluttet_behandling_og_åpen_behandling_og_kompletthet_ikke_passert() {
-        // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        behandling.avsluttBehandling();
-        BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
-        behandlingRepository.lagre(behandling, behandlingLås);
-
-        ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forFødsel()
-            .medFagsakId(behandling.getFagsakId())
-            .medBehandlingStegStart(BehandlingStegType.REGISTRER_SØKNAD)
-            .medOriginalBehandling(behandling, BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER);
-        Behandling revurderingBehandling = revurderingScenario.lagre(repositoryProvider);
-        DokumentTypeId dokumentTypeId = DokumentTypeId.INNTEKTSMELDING;
-        MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, revurderingBehandling.getFagsakId(), "", now(), true, "123");
-
-        //Act
-        dokumentmottaker.mottaDokument(mottattDokument, revurderingBehandling.getFagsak(), dokumentTypeId, BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER);
-
-        //Assert
-        verify(kompletthetskontroller).persisterDokumentOgVurderKompletthet(revurderingBehandling, mottattDokument);
-        verify(dokumentmottakerFelles).opprettHistorikkinnslagForVedlegg(behandling.getFagsakId(), mottattDokument.getJournalpostId(), dokumentTypeId);
-    }
 
     @Test
     public void skal_oppdatere_behandling_vurdere_kompletthet_og_spole_til_nytt_startpunkt_dersom_fagsak_har_avsluttet_behandling_har_åpen_behandling_og_kompletthet_passert() {

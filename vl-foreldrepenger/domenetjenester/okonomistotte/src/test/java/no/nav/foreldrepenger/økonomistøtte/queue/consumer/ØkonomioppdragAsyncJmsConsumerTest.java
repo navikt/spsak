@@ -1,11 +1,20 @@
 package no.nav.foreldrepenger.økonomistøtte.queue.consumer;
 
-import no.nav.foreldrepenger.økonomistøtte.api.ØkonomiKvittering;
-import no.nav.foreldrepenger.økonomistøtte.api.ØkonomioppdragApplikasjonTjeneste;
-import no.nav.modig.core.test.LogSniffer;
-import no.nav.vedtak.exception.TekniskException;
-import no.nav.vedtak.felles.integrasjon.jms.BaseJmsKonfig;
-import no.nav.vedtak.felles.integrasjon.jms.precond.DefaultDatabaseOppePreconditionChecker;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javax.jms.JMSException;
+import javax.jms.TextMessage;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,25 +23,16 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import javax.jms.JMSException;
-import javax.jms.TextMessage;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import no.nav.foreldrepenger.økonomistøtte.api.ØkonomiKvittering;
+import no.nav.foreldrepenger.økonomistøtte.api.ØkonomioppdragApplikasjonTjeneste;
+import no.nav.vedtak.exception.TekniskException;
+import no.nav.vedtak.felles.integrasjon.jms.BaseJmsKonfig;
+import no.nav.vedtak.felles.integrasjon.jms.precond.DefaultDatabaseOppePreconditionChecker;
 
 public class ØkonomioppdragAsyncJmsConsumerTest {
 
     private static final long BEHANDLINGID = 802L;
-    @Rule
-    public final LogSniffer logSniffer = new LogSniffer();
+
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
     @Mock

@@ -77,7 +77,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling</artifactId>
         </dependency>
-		
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-status</artifactId>

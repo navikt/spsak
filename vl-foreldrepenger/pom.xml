@@ -1160,15 +1160,10 @@
 	</profiles>
 
 	<distributionManagement>
-		<repository>
-			<id>m2internal</id>
-			<name>NAV Maven2 Internal Repository</name>
-			<url>http://maven.adeo.no/nexus/content/repositories/m2internal</url>
-		</repository>
 		<snapshotRepository>
 			<id>m2snapshot</id>
 			<name>NAV Maven2 Snapshot Repository</name>
-			<url>http://maven.adeo.no/nexus/content/repositories/m2snapshot</url>
+			<url>https://repo.adeo.no/repository/maven-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 

@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste;
 
 import static java.util.stream.Collectors.toList;
-import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.AUTO_KØET_BEHANDLING;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.AUTO_VENTER_PÅ_KOMPLETT_SØKNAD;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.VENT_PGA_FOR_TIDLIG_SØKNAD;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.VENT_PÅ_SØKNAD;
@@ -37,9 +36,6 @@ public class KompletthetModell {
         map.put(VENT_PGA_FOR_TIDLIG_SØKNAD, (kontroller, behandling) -> finnKompletthetssjekker(kontroller, behandling).vurderSøknadMottattForTidlig(behandling));
         map.put(VENT_PÅ_SØKNAD, (kontroller, behandling) -> finnKompletthetssjekker(kontroller, behandling).vurderSøknadMottatt(behandling));
 
-        // Køet behandling kan inntreffe FØR kompletthetssteget er passert - men er ikke tilknyttet til noen kompletthetssjekk
-        map.put(AUTO_KØET_BEHANDLING, (kontroller, behandling) -> KompletthetResultat.oppfylt());
-        
         KOMPLETTHETSFUNKSJONER = Collections.unmodifiableMap(map);
     }
 

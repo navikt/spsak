@@ -25,9 +25,6 @@ public class InngangsvilkårTjenesteTest {
         sjekkVilkårKonfigurasjon(VilkårType.FØDSELSVILKÅRET_MOR);
         sjekkVilkårKonfigurasjon(VilkårType.MEDLEMSKAPSVILKÅRET);
         sjekkVilkårKonfigurasjon(VilkårType.SØKNADSFRISTVILKÅRET);
-        sjekkVilkårKonfigurasjon(VilkårType.OMSORGSVILKÅRET);
-        sjekkVilkårKonfigurasjon(VilkårType.FORELDREANSVARSVILKÅRET_2_LEDD);
-        sjekkVilkårKonfigurasjon(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD);
     }
 
     private void sjekkVilkårKonfigurasjon(VilkårType vilkårType) {

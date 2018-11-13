@@ -39,7 +39,6 @@ import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.modig.core.test.LogSniffer;
 import no.nav.tjeneste.virksomhet.behandleoppgave.v1.meldinger.WSOpprettOppgaveResponse;
 import no.nav.tjeneste.virksomhet.oppgave.v3.informasjon.oppgave.Oppgave;
 import no.nav.tjeneste.virksomhet.oppgave.v3.informasjon.oppgave.Oppgavetype;
@@ -59,9 +58,6 @@ public class OppgaveTjenesteImplTest {
     private static final String FNR = "000000000000";
 
     private static final LocalDate FØDSELSDATO = LocalDate.now().minusYears(20);
-
-    @Rule
-    public LogSniffer logSniffer = new LogSniffer();
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
@@ -102,7 +98,6 @@ public class OppgaveTjenesteImplTest {
             .medNavBrukerKjønn(NavBrukerKjønn.KVINNE)
             .build();
         when(tpsTjeneste.hentBrukerForAktør(behandling.getAktørId())).thenReturn(Optional.of(personinfo));
-        logSniffer.clearLog();
     }
 
     private void lagBehandling() {
@@ -228,21 +223,6 @@ public class OppgaveTjenesteImplTest {
         List<OppgaveBehandlingKobling> oppgaver = repository.hentAlle(OppgaveBehandlingKobling.class);
         OppgaveBehandlingKobling behandlingKobling = oppgaver.get(0);
         assertThat(behandlingKobling.isFerdigstilt()).isTrue();
-    }
-
-    @Test
-    public void skal_logge_warning_når_oppgave_som_skal_avsluttes_ikke_finnes() {
-        // Arrange
-        Long behandlingId = behandling.getId();
-        String gsakOppgaveId = "GSAK1110";
-        WSOpprettOppgaveResponse mockResponse = new WSOpprettOppgaveResponse();
-        mockResponse.setOppgaveId(gsakOppgaveId);
-
-        // Act
-        tjeneste.avslutt(behandlingId, OppgaveÅrsak.BEHANDLE_SAK);
-
-        // Assert
-        logSniffer.assertHasWarnMessage(behandlingId.toString());
     }
 
     @Test

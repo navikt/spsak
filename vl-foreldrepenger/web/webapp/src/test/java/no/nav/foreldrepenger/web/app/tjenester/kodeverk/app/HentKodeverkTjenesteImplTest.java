@@ -29,6 +29,6 @@ public class HentKodeverkTjenesteImplTest {
         Map<String, List<Kodeliste>> resultat = kodeverk.hentGruppertKodeliste();
 
         List<Kodeliste> arbeidType = resultat.get("ArbeidType");
-        assertThat(arbeidType).hasSize(8);
+        assertThat(arbeidType).hasSize(6);
     }
 }

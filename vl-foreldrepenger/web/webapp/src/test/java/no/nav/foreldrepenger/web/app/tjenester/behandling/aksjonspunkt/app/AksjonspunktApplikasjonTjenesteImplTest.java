@@ -90,24 +90,6 @@ public class AksjonspunktApplikasjonTjenesteImplTest {
     }
 
     @Test
-    public void skal_sette_aksjonspunkt_til_utført_og_lagre_behandling() {
-        // Arrange
-        // Bruker BekreftTerminbekreftelseAksjonspunktDto som konkret case
-        AbstractTestScenario<?> scenario = lagScenarioMedAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_TERMINBEKREFTELSE);
-        Behandling behandling = scenario.lagre(repositoryProvider);
-
-        BekreftTerminbekreftelseAksjonspunktDto dto = new BekreftTerminbekreftelseAksjonspunktDto(BEGRUNNELSE, TERMINDATO, UTSTEDTDATO, 1);
-
-        // Act
-        aksjonspunktApplikasjonTjeneste.bekreftAksjonspunkter(singletonList(dto), behandling.getId());
-
-        // Assert
-        Behandling oppdatertBehandling = behandlingRepository.hentBehandling(behandling.getId());
-        Assertions.assertThat(oppdatertBehandling.getAksjonspunkter()).first().matches(a -> a.erUtført());
-
-    }
-
-    @Test
     public void skal_håndtere_aksjonspunkt_for_omsorgsvilkåret() {
         AbstractTestScenario<?> scenario = lagScenarioMedAksjonspunkt(AksjonspunktDefinisjon.MANUELL_VURDERING_AV_OMSORGSVILKÅRET);
         Behandling behandling = scenario.lagre(repositoryProvider);

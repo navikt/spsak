@@ -54,11 +54,7 @@ public class OpprettOppgaveEventObserver {
         Collection<Totrinnsvurdering> totrinnsvurderings = totrinnTjeneste.hentTotrinnaksjonspunktvurderinger(behandling);
         //TODO(OJR) kunne informasjonen om hvilken oppgaveårsak som skal opprettes i GSAK være knyttet til AksjonspunktDef?
         if (!åpneAksjonspunkt.isEmpty()) {
-            if (harAksjonspunkt(åpneAksjonspunkt, AksjonspunktDefinisjon.REGISTRER_PAPIRSØKNAD_ENGANGSSTØNAD) || (harAksjonspunkt(åpneAksjonspunkt, AksjonspunktDefinisjon.REGISTRER_PAPIRSØKNAD_FORELDREPENGER)) || (harAksjonspunkt(åpneAksjonspunkt, AksjonspunktDefinisjon.REGISTRER_PAPIR_ENDRINGSØKNAD_FORELDREPENGER))) {
-                ProsessTaskData enkeltTask = opprettProsessTaskData(behandling, OpprettOppgaveRegistrerSøknadTask.TASKTYPE);
-                enkeltTask.setCallIdFraEksisterende();
-                prosessTaskRepository.lagre(enkeltTask);
-            } else if (harAksjonspunkt(åpneAksjonspunkt, AksjonspunktDefinisjon.FATTER_VEDTAK)) {
+            if (harAksjonspunkt(åpneAksjonspunkt, AksjonspunktDefinisjon.FATTER_VEDTAK)) {
                 oppgaveTjeneste.avsluttOppgaveOgStartTask(behandling, behandling.getBehandleOppgaveÅrsak(), OpprettOppgaveGodkjennVedtakTask.TASKTYPE);
             } else if (erSendtTilbakeFraBeslutter(totrinnsvurderings)) {
                 opprettOppgaveVedBehov(behandling);

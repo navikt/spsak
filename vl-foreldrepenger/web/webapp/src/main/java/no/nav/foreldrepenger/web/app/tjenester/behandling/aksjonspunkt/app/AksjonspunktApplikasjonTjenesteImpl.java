@@ -359,7 +359,7 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
 
     private boolean aksjonspunktStøtterTotrinn(Aksjonspunkt aksjonspunkt) {
         // TODO MAUR en mer generell måte. Ikke alle som endrer grunnlaget som støttes i totrinn
-        return !asList(AksjonspunktDefinisjon.FORESLÅ_VEDTAK, AksjonspunktDefinisjon.REGISTRER_PAPIR_ENDRINGSØKNAD_FORELDREPENGER,
+        return !asList(AksjonspunktDefinisjon.FORESLÅ_VEDTAK,
             AksjonspunktDefinisjon.KONTROLL_AV_MANUELT_OPPRETTET_REVURDERINGSBEHANDLING)
             .contains(aksjonspunkt.getAksjonspunktDefinisjon());
     }
