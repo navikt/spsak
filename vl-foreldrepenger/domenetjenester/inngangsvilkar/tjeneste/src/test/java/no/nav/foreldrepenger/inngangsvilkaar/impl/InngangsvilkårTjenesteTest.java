@@ -18,14 +18,13 @@ import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 public class InngangsvilkårTjenesteTest {
 
     @Inject
-    InngangsvilkårTjeneste inngangsvilkårTjeneste;
+    private InngangsvilkårTjeneste inngangsvilkårTjeneste;
 
     @Test
     public void skal_slå_opp_inngangsvilkår() throws Exception {
         sjekkVilkårKonfigurasjon(VilkårType.FØDSELSVILKÅRET_MOR);
         sjekkVilkårKonfigurasjon(VilkårType.MEDLEMSKAPSVILKÅRET);
         sjekkVilkårKonfigurasjon(VilkårType.SØKNADSFRISTVILKÅRET);
-        sjekkVilkårKonfigurasjon(VilkårType.ADOPSJONSVILKÅRET_ENGANGSSTØNAD);
         sjekkVilkårKonfigurasjon(VilkårType.OMSORGSVILKÅRET);
         sjekkVilkårKonfigurasjon(VilkårType.FORELDREANSVARSVILKÅRET_2_LEDD);
         sjekkVilkårKonfigurasjon(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD);

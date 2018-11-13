@@ -70,8 +70,7 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
     }
 
     @Inject
-    public AksjonspunktApplikasjonTjenesteImpl(
-                                               BehandlingRepositoryProvider repositoryProvider,
+    public AksjonspunktApplikasjonTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
                                                BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                                BehandlingsprosessApplikasjonTjeneste behandlingsprosessApplikasjonTjeneste,
                                                HistorikkTjenesteAdapter historikkTjenesteAdapter,

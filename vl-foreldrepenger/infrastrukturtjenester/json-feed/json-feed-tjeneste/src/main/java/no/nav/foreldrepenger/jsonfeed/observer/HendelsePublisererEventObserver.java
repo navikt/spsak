@@ -14,7 +14,7 @@ public class HendelsePublisererEventObserver {
 
     private HendelsePublisererTjeneste hendelsePublisererTjeneste;
 
-    public HendelsePublisererEventObserver() {
+    HendelsePublisererEventObserver() {
         //Classic Design Institute
     }
 
