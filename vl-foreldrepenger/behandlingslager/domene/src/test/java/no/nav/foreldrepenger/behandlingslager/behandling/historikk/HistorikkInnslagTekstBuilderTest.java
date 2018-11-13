@@ -60,28 +60,18 @@ public class HistorikkInnslagTekstBuilderTest {
         vurderPåNytt2.setAksjonspunktSistEndret(LocalDateTime.now());
         vurdering.put(SkjermlenkeType.FAKTA_OM_FOEDSEL, Arrays.asList(godkjent, vurderPåNytt2));
 
-        HistorikkinnslagTotrinnsvurdering vurderPåNytt3 = new HistorikkinnslagTotrinnsvurdering();
-        vurderPåNytt3.setGodkjent(false);
-        vurderPåNytt3.setAksjonspunktDefinisjon(aksjonspunktRepository.finnAksjonspunktDefinisjon(AksjonspunktDefinisjon.REGISTRER_PAPIRSØKNAD_ENGANGSSTØNAD.getKode()));
-        vurderPåNytt3.setBegrunnelse("Ikke enig.");
-        vurderPåNytt3.setAksjonspunktSistEndret(LocalDateTime.now());
-
-
-        vurderingUtenVilkar.add(vurderPåNytt3);
-
         List<HistorikkinnslagDel> deler = tekstBuilder
             .medTotrinnsvurdering(vurdering, vurderingUtenVilkar)
             .medHendelse(HistorikkinnslagType.SAK_RETUR)
             .build(historikkinnslag);
 
-        assertThat(deler).hasSize(3);
+        assertThat(deler).hasSize(2);
         HistorikkinnslagDel historikkinnslagDel = deler.get(0);
         List<HistorikkinnslagTotrinnsvurdering> aksjonspunkter = historikkinnslagDel.getTotrinnsvurderinger(aksjonspunktRepository);
         assertThat(aksjonspunkter).hasSize(1);
         HistorikkinnslagTotrinnsvurdering aksjonspunkt = aksjonspunkter.get(0);
-        assertThat(aksjonspunkt.getAksjonspunktDefinisjon()).as("aksjonspunktKode").isEqualTo(aksjonspunktRepository.finnAksjonspunktDefinisjon(AksjonspunktDefinisjon.REGISTRER_PAPIRSØKNAD_ENGANGSSTØNAD.getKode()));
         assertThat(aksjonspunkt.erGodkjent()).as("godkjent").isFalse();
-        assertThat(aksjonspunkt.getBegrunnelse()).as("begrunnelse").isEqualTo("Ikke enig.");
+        assertThat(aksjonspunkt.getBegrunnelse()).as("begrunnelse").isEqualTo("Må vurderes igjen. Se på dokumentasjon.");
     }
 
 }

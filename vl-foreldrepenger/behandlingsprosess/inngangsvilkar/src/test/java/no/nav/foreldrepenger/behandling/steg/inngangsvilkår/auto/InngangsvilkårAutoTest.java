@@ -29,26 +29,6 @@ public class InngangsvilkårAutoTest {
     }
 
     @Test
-    public void vurderFødselMor() {
-        new VilkårVurdering().vurderVilkår(collector, VilkårType.FØDSELSVILKÅRET_MOR);
-    }
-
-    @Test
-    public void vurderFødselFarMedMor() {
-        new VilkårVurdering().vurderVilkår(collector, VilkårType.FØDSELSVILKÅRET_FAR_MEDMOR);
-    }
-
-    @Test
-    public void vurderAdopsjonEngangsstønad() {
-        new VilkårVurdering().vurderVilkår(collector, VilkårType.ADOPSJONSVILKÅRET_ENGANGSSTØNAD);
-    }
-
-    @Test
-    public void vurderAdopsjonForeldrepenger() {
-        new VilkårVurdering().vurderVilkår(collector, VilkårType.ADOPSJONSVILKARET_FORELDREPENGER);
-    }
-
-    @Test
     public void vurderOpptjening() {
         final BiConsumer<VilkårResultat, Object> extraDataSjekk = (resultat, extra) ->
             collector.checkThat("Avvik i opptjeningstid for " + resultat,

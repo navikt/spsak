@@ -11,14 +11,11 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.modig.core.test.LogSniffer;
 
 public class HendelsemottakRepositoryImplTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    @Rule
-    public final LogSniffer logSniffer = new LogSniffer();
 
     private HendelsemottakRepositoryImpl repo = new HendelsemottakRepositoryImpl(repoRule.getEntityManager());
 
@@ -42,8 +39,6 @@ public class HendelsemottakRepositoryImplTest {
             fail("Skal få exception");
         } catch (PersistenceException e) {
             Assertions.assertThat(e.getCause()).isInstanceOf(ConstraintViolationException.class);
-            logSniffer.assertHasWarnMessage("SQL Error: 1, SQLState: 23000");
-            logSniffer.assertHasErrorMessage("ORA-00001: unique constraint ");
         }
 
     }

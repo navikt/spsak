@@ -86,8 +86,6 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     public static final AksjonspunktDefinisjon OVERSTYRING_AV_SØKNADSFRISTVILKÅRET = new AksjonspunktDefinisjon("6006"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon OVERSTYRING_AV_OPPTJENINGSVILKÅRET = new AksjonspunktDefinisjon("6011"); //$NON-NLS-1$
 
-    public static final AksjonspunktDefinisjon REGISTRER_PAPIRSØKNAD_ENGANGSSTØNAD = new AksjonspunktDefinisjon("5012"); //$NON-NLS-1$
-
     public static final AksjonspunktDefinisjon SØKERS_OPPLYSNINGSPLIKT_MANU = new AksjonspunktDefinisjon("5017"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon SØKERS_OPPLYSNINGSPLIKT_OVST = new AksjonspunktDefinisjon("6002"); //$NON-NLS-1$
 
@@ -119,8 +117,6 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
 
     public static final AksjonspunktDefinisjon MANUELL_KONTROLL_AV_OM_BRUKER_HAR_ALENEOMSORG = new AksjonspunktDefinisjon("5060"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VURDER_VARIG_ENDRET_ELLER_NYOPPSTARTET_NÆRING_SELVSTENDIG_NÆRINGSDRIVENDE = new AksjonspunktDefinisjon("5039");
-    public static final AksjonspunktDefinisjon REGISTRER_PAPIRSØKNAD_FORELDREPENGER = new AksjonspunktDefinisjon("5040");
-    public static final AksjonspunktDefinisjon REGISTRER_PAPIR_ENDRINGSØKNAD_FORELDREPENGER = new AksjonspunktDefinisjon("5057");
     public static final AksjonspunktDefinisjon VURDER_FAKTA_FOR_ATFL_SN = new AksjonspunktDefinisjon("5058");
 
     public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_SØKNADSFRIST_FORELDREPENGER = new AksjonspunktDefinisjon("5043");
