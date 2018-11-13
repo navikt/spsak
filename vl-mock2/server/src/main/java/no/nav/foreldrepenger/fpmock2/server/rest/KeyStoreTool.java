@@ -65,11 +65,11 @@ public class KeyStoreTool {
     }
 
     public static String getDefaultKeyStorePath() {
-        return System.getProperty("no.nav.modig.security.appcert.keystore");
+        return new File(System.getProperty("user.home")+"/spsak/keystore.jks").getAbsolutePath();
     }
 
     public static char[] getKeyStoreAndKeyPassword() {
-        return System.getProperty("no.nav.modig.security.appcert.password").toCharArray();
+        return "changeit".toCharArray();
     }
 
     public static String getKeyAndCertAlias() {

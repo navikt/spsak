@@ -7,6 +7,8 @@ import org.jose4j.lang.JoseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.*;
 import java.security.cert.Certificate;
@@ -19,20 +21,27 @@ public class KeyStoreTool {
 
     private static final Logger log = LoggerFactory.getLogger(KeyStoreTool.class);
 
-    static {
+    static synchronized void init() {
 
         PublicKey myPublicKey;
         PrivateKey myPrivateKey;
-        try {
+        char[] keystorePassword = getKeyStoreAndKeyPassword();
+        String keystorePath = getDefaultKeyStorePath();
+        String keyAndCertAlias = getKeyAndCertAlias();
+
+        try (FileInputStream keystoreFile = new FileInputStream(new File(keystorePath))) {
             KeyStore ks = KeyStore.getInstance("JKS");
-            ks.load(KeyStoreTool.class.getClassLoader().getResourceAsStream("no/nav/modig/testcertificates/keystore.jks"), "devillokeystore1234".toCharArray());
-            KeyStore.ProtectionParameter protParam = new KeyStore.PasswordProtection("devillokeystore1234".toCharArray());
-            KeyStore.PrivateKeyEntry pk = (KeyStore.PrivateKeyEntry) ks.getEntry("app-key", protParam);
+            ks.load(keystoreFile, keystorePassword);
+
+            KeyStore.ProtectionParameter protParam = new KeyStore.PasswordProtection(keystorePassword);
+            KeyStore.PrivateKeyEntry pk = (KeyStore.PrivateKeyEntry) ks.getEntry(keyAndCertAlias, protParam);
             myPrivateKey = pk.getPrivateKey();
-            Certificate cert = ks.getCertificate("app-key");
+            Certificate cert = ks.getCertificate(keyAndCertAlias);
             myPublicKey = cert.getPublicKey();
+
+            //KeyStoreTool.keystore = ks;
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | UnrecoverableEntryException e) {
-            log.error("Error during loading of keystore. Is modig-testcertificates on your classpath?: ", e);
+            log.error("Error during loading of keystore. Do you have your keystore in order, soldier?", e);
             throw new RuntimeException(e);
         }
 
@@ -45,6 +54,18 @@ public class KeyStoreTool {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static String getDefaultKeyStorePath() {
+        return new File(System.getProperty("user.home")+"/spsak/keystore.jks").getAbsolutePath();
+    }
+
+    public static char[] getKeyStoreAndKeyPassword() {
+        return "changeit".toCharArray();
+    }
+
+    public static String getKeyAndCertAlias() {
+        return System.getProperty("no.nav.modig.security.appkey", "app-key");
     }
 
     public static RsaJsonWebKey getJsonWebKey() {

@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.autotest.klienter.vtp.openam;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -10,14 +11,13 @@ import org.apache.http.impl.cookie.BasicClientCookie;
 import no.nav.foreldrepenger.autotest.klienter.vtp.VTPKlient;
 import no.nav.foreldrepenger.autotest.util.http.HttpSession;
 import no.nav.foreldrepenger.fpmock2.server.rest.OidcTokenGenerator;
-import no.nav.modig.testcertificates.TestCertificates;
 
 public class OpenamKlient extends VTPKlient {
 
     static {
-        TestCertificates.setupKeyAndTrustStore();
+        System.setProperty("javax.net.ssl.trustStore", new File(System.getProperty("user.home")+"/spsak/truststore.jks").getAbsolutePath());
+        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
     }
-
     public OpenamKlient(HttpSession session) {
         super(session);
     }

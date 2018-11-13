@@ -54,7 +54,7 @@
 		<swagger.version>1.5.13</swagger.version>
 
 		<nav.modig.core.test.version>1.0.0</nav.modig.core.test.version>
-		<nav.modig.testcertificates.version>1.2.0</nav.modig.testcertificates.version>
+
 		<nav.fim.virgo.v2.version>0.0.1-alpha007</nav.fim.virgo.v2.version>
 
 		<!-- NAV tjenestespesifikasjon versjoner -->
@@ -521,11 +521,7 @@
 				<artifactId>modig-core-test</artifactId>
 				<version>${nav.modig.core.test.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>no.nav.modig</groupId>
-				<artifactId>modig-testcertificates</artifactId>
-				<version>${nav.modig.testcertificates.version}</version>
-			</dependency>
+
 			<dependency>
 				<groupId>io.github.lukehutch</groupId>
 				<artifactId>fast-classpath-scanner</artifactId>

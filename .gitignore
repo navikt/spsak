@@ -1,4 +1,7 @@
 .DS_Store
 .idea
 vl-foreldrepenger/logback.xml
+keystore.jks
+truststore.jts
+
 

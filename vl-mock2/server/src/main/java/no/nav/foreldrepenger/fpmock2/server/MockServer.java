@@ -35,7 +35,6 @@ import no.nav.foreldrepenger.fpmock2.testmodell.repo.impl.DelegatingTestscenario
 import no.nav.foreldrepenger.fpmock2.testmodell.repo.impl.JournalRepositoryImpl;
 import no.nav.foreldrepenger.fpmock2.testmodell.repo.impl.TestscenarioRepositoryImpl;
 import no.nav.foreldrepenger.fpmock2.testmodell.repo.impl.TestscenarioTemplateRepositoryImpl;
-import no.nav.modig.testcertificates.TestCertificates;
 import no.nav.tjeneste.virksomhet.sak.v1.GsakRepo;
 
 public class MockServer {
@@ -52,8 +51,7 @@ public class MockServer {
     private static final Logger LOG = LoggerFactory.getLogger(MockServer.class);
 
     public static void main(String[] args) throws Exception {
-        TestCertificates.setupKeyAndTrustStore();
-        
+
         PropertiesUtils.initProperties();
 
         
@@ -180,11 +178,11 @@ public class MockServer {
     }
 
     private String getKeyStorePassword() {
-        return System.getProperty("no.nav.modig.security.appcert.password", "changeit");
+        return "changeit";
     }
 
     private String getKeystoreFilePath() {
-        return System.getProperty("no.nav.modig.security.appcert.keystore");
+        return new File(System.getProperty("user.home") + "/spsak/keystore.jks").getAbsolutePath();
     }
 
     private Integer getSslPort() {

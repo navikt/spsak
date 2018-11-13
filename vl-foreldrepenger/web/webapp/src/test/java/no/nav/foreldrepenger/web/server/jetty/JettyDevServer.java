@@ -22,7 +22,6 @@ import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
 import no.nav.foreldrepenger.web.server.jetty.JettyDevDbKonfigurasjon.ConnectionHandler;
-import no.nav.modig.testcertificates.TestCertificates;
 
 public class JettyDevServer extends JettyServer {
     private static final String VTP_ARGUMENT = "--vtp";
@@ -80,7 +79,11 @@ public class JettyDevServer extends JettyServer {
     protected void konfigurerSikkerhet() {
         System.setProperty("conf", "src/main/resources/jetty/");
         super.konfigurerSikkerhet();
-        TestCertificates.setupKeyAndTrustStore();
+        System.setProperty("javax.net.ssl.trustStore", new File(System.getProperty("user.home")+"/spsak/truststore.jks").getAbsolutePath());
+        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+        System.setProperty("no.nav.modig.security.appcert.keystore", new File(System.getProperty("user.home")+"/spsak/keystore.jks").getAbsolutePath());
+        System.setProperty("no.nav.modig.security.appcert.password", "changeit");
+
     }
 
     @Override

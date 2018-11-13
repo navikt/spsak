@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.fail;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -39,6 +40,8 @@ import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAd
 import no.nav.foreldrepenger.web.app.tjenester.historikk.dto.HistorikkInnslagKonverter;
 import no.nav.vedtak.exception.FunksjonellException;
 
+// Gaar amok paa CPUen.. så ignorerer inntil videre
+@Ignore
 public class OpptjeningsvilkåretOverstyringshåndtererTest {
 
     @Rule

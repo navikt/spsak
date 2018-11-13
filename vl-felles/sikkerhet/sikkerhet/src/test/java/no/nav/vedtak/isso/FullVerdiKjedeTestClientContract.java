@@ -21,7 +21,6 @@ import org.junit.Test;
 
 import ch.qos.logback.classic.Level;
 import no.nav.modig.core.test.LogSniffer;
-import no.nav.modig.testcertificates.TestCertificates;
 import no.nav.tjeneste.virksomhet.virgo.v2.VirgoPortType;
 import no.nav.vedtak.isso.config.ServerInfo;
 import no.nav.vedtak.sikkerhet.ContextPathHolder;
@@ -42,7 +41,7 @@ public class FullVerdiKjedeTestClientContract {
 
     @BeforeClass
     public static void settPåTestsertifikater() {
-        TestCertificates.setupKeyAndTrustStore();
+        // TODO - setopp sertifikater hvis du vil at testen skal kjøres
     }
 
     @BeforeClass

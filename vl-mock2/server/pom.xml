@@ -76,12 +76,6 @@
 		</dependency>
 		-->
 
-		<!-- NAV biblioteker -->
-		<dependency>
-			<groupId>no.nav.modig</groupId>
-			<artifactId>modig-testcertificates</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
