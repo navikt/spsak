@@ -150,8 +150,6 @@ public class JettyDevDbKonfigurasjon {
         }
         flyway.configure(flywayKonfig.lesFlywayPlaceholders());
 
-        flyway.migrate();
-
         try {
             flyway.migrate();
         } catch (FlywayException e) {

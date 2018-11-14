@@ -58,7 +58,7 @@
 			<dependency>
 				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -726,38 +726,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-eclipse-plugin</artifactId>
 					<version>2.10</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>3.0.0-M2</version>
-					<executions>
-						<execution>
-							<id>enforce-versions</id>
-							<goals>
-								<goal>enforce</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<rules>
-							<requireJavaVersion>
-								<version>[1.8,)</version>
-							</requireJavaVersion>
-							<requireMavenVersion>
-								<version>[3.5.3,)</version>
-							</requireMavenVersion>
-							<bannedDependencies>
-								<excludes>
-									<exclude>commons-logging:commons-logging</exclude>
-								</excludes>
-							</bannedDependencies>
-							<!-- Kommentert ut, gir problemer med bruk av snapshot avhengigheter - <dependencyConvergence> </dependencyConvergence> -->
-							<!-- Ikke kommenter inn denne. Det brekker muligheten til å bygge bare deler av prosjektet https://issues.apache.org/jira/browse/MENFORCER-189
-								-> "ReactorModuleConvergence is not compatible with 'advanced' reactor options: -pl, -rf" <reactorModuleConvergence /> -->
-						</rules>
-					</configuration>
 				</plugin>
 
 				<plugin>

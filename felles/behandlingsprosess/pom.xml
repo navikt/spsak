@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>no.nav.spvedtak.felles</groupId>
+		<artifactId>felles-root</artifactId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+
+	<artifactId>felles-behandlingsprosess</artifactId>
+	<packaging>pom</packaging>
+	<name>Felles Behandlingsprosess :: Root</name>
+
+	<modules>
+		<module>migreringer</module>
+		<module>prosesstask</module>
+	</modules>
+
+	<properties>
+		
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Felles biblioteker -->
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles</artifactId>
+				<version>${project.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			
+			<!-- prosjektavhengigheter -->
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles-behandlingsprosess-prosesstask-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles-behandlingsprosess-prosesstask</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles-behandlingsprosess-prosesstask-rest-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>migreringer</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>migreringer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- Test -->
+		</dependencies>
+	</dependencyManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>m2internal</id>
+			<name>NAV Maven2 Internal Repository</name>
+			<url>http://maven.adeo.no/nexus/content/repositories/m2internal</url>
+		</repository>
+		<snapshotRepository>
+			<id>m2snapshot</id>
+			<name>NAV Maven2 Snapshot Repository</name>
+			<url>http://maven.adeo.no/nexus/content/repositories/m2snapshot</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
+

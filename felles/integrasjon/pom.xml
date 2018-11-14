@@ -1,0 +1,463 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>no.nav.spvedtak.felles</groupId>
+		<artifactId>felles-root</artifactId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+	
+	<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+	<artifactId>felles-integrasjon-pom</artifactId>
+	<packaging>pom</packaging>
+	<name>Felles Integrasjon</name>
+
+	<modules>
+		<module>webservice</module>
+		<module>rest</module>
+		<module>rest-klient</module>
+		<module>jms</module>
+
+		<!-- spesifikke klienter -->
+		<module>ldap-klient</module>
+
+		<module>arbeidsfordeling-klient</module>
+		<module>aktoer-klient</module>
+		<module>person-klient</module>
+		<module>dokumentproduksjon-klient</module>
+		<module>journal-klient</module>
+		<module>inngaaendejournal-klient</module>
+		<module>behandleinngaaendejournal-klient</module>
+		<module>behandlesak-klient</module>
+		<module>sak-klient</module>
+		<module>sakogbehandling-klient</module>
+		<module>infotrygdberegningsgrunnlag-klient</module>
+		<module>infotrygdsak-klient</module>
+		<module>inntekt-klient</module>
+		<module>behandleoppgave-klient</module>
+		<module>medl-klient</module>
+		<module>meldekortutbetalingsgrunnlag-klient</module>
+		<module>oppgave-klient</module>
+		<module>arbeidsforhold-klient</module>
+		<module>organisasjon-klient</module>
+		<module>kodeverk-klient</module>
+		<module>sigrun-klient</module>
+		<module>mottainngaaendeforsendelse-klient</module>
+		<module>unleash-klient</module>
+		<module>behandlejournal-klient</module>
+
+		<!-- Bill of Material - klienter -->
+		<module>bom</module>
+
+	</modules>
+
+	<properties>
+		
+		<vl-felles.version>${project.version}</vl-felles.version>
+
+		<ibmmq.version>8.0.0.6</ibmmq.version>
+
+		<jms-api.version>2.0.1</jms-api.version>
+
+		<!-- NAV tjenestespesifikasjon versjoner -->
+		<doksys.dokumentproduksjon.version>2.1.3</doksys.dokumentproduksjon.version>
+
+		<infotrygd.sak.version>1.1.2</infotrygd.sak.version>
+		<infotrygd.beregningsgrunnlag.version>1.0.2</infotrygd.beregningsgrunnlag.version>
+		<inntekt.version>2.0.0</inntekt.version>
+
+		<gsak.sak.version>1.0.0</gsak.sak.version>
+		<gsak.behandleoppgave.version>1.0.7</gsak.behandleoppgave.version>
+		<nav-fim-behandleSak-v2-tjenestespesifikasjon.version>2.0.0</nav-fim-behandleSak-v2-tjenestespesifikasjon.version>
+
+		<joark.journal.v2.version>1.0.3</joark.journal.v2.version>
+		<joark.journal.v3.version>3.1.5</joark.journal.v3.version>
+		<joark.inngaaendejournal.version>1.1.3</joark.inngaaendejournal.version>
+		<joark.behandleinngaaendejournal.version>1.0.1</joark.behandleinngaaendejournal.version>
+		<joark.behandlejournal.version>3.0.2</joark.behandlejournal.version>
+
+		<joark.mottainngaaendeforsendelse.version>1.0.1</joark.mottainngaaendeforsendelse.version>
+
+		<medlem.version>2.0.6</medlem.version>
+
+		<norg2.arbeidsfordeling.version>1.1.0</norg2.arbeidsfordeling.version>
+
+		<sob.melding.version>1.1.0</sob.melding.version>
+
+		<tps.aktoer.version>2.0.1</tps.aktoer.version>
+		<tps.person.version>3.4.1</tps.person.version>
+
+		<meldekortutbelingsgrunnlag.version>1.0.1</meldekortutbelingsgrunnlag.version>
+		<oppgave.version>3.0.0</oppgave.version>
+		<arbeidsforhold.version>3.0.0</arbeidsforhold.version>
+		<organisasjon.version>1.0.4</organisasjon.version>
+
+		<felles.adapter.version>0.1.8</felles.adapter.version>
+		<unleash.version>3.1.1</unleash.version>
+
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles</artifactId>
+				<version>${vl-felles.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>no.finn.unleash</groupId>
+				<artifactId>unleash-client-java</artifactId>
+				<version>${unleash.version}</version>
+				<!-- <exclusions> <exclusion> <groupId>org.apache.logging.log4j</groupId> 
+					<artifactId>log4j-api</artifactId> </exclusion> </exclusions> -->
+			</dependency>
+
+			<!-- reaktor -->
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>felles-integrasjon-jms</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>felles-integrasjon-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>felles-integrasjon-rest-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>felles-integrasjon-webservice</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>felles-integrasjon-bom</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>ldap-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>aktoer-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>person-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>behandlesak-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>sakogbehandling-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>infotrygdberegningsgrunnlag-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>infotrygdsak-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>dokumentproduksjon-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>journal-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>inngaaendejournal-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>behandleinngaaendejournal-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>behandleoppgave-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>sak-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>inntekt-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>medl-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>meldekortutbetalingsgrunnlag-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>arbeidsfordeling-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>oppgave-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>sigrun-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>arbeidsforhold-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>organisasjon-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>unleash-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>kodeverk-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>mottainngaaendeforsendelse-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+				<artifactId>behandlejournal-klient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- NAV interne 3djepart avhengigheter til kontrakter og bibliotek -->
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-arbeidsfordeling-v1-tjenestespesifikasjon</artifactId>
+				<version>${norg2.arbeidsfordeling.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>nav-fim-aktoer-v2-tjenestespesifikasjon</artifactId>
+				<version>${tps.aktoer.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-person-v3-tjenestespesifikasjon</artifactId>
+				<version>${tps.person.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-journal-v2-tjenestespesifikasjon</artifactId>
+				<version>${joark.journal.v2.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-journal-v3-tjenestespesifikasjon</artifactId>
+				<version>${joark.journal.v3.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-inngaaendeJournal-v1-tjenestespesifikasjon</artifactId>
+				<version>${joark.inngaaendejournal.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-behandleInngaaendeJournal-v1-tjenestespesifikasjon</artifactId>
+				<version>${joark.behandleinngaaendejournal.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>nav-fim-behandleJournal-v3-tjenestespesifikasjon</artifactId>
+				<version>${joark.behandlejournal.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>nav-fim-dokumentproduksjon-v2-tjenestespesifikasjon</artifactId>
+				<version>${doksys.dokumentproduksjon.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.sbl.dialogarena</groupId>
+				<artifactId>behandleoppgave-v1-tjenestespesifikasjon</artifactId>
+				<version>${gsak.behandleoppgave.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>nav-fim-sak-v1-tjenestespesifikasjon</artifactId>
+				<version>${gsak.sak.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.sbl.dialogarena</groupId>
+				<artifactId>behandlesak-v2-tjenestespesifikasjon</artifactId>
+				<version>${nav-fim-behandleSak-v2-tjenestespesifikasjon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-infotrygdSak-v1-tjenestespesifikasjon</artifactId>
+				<version>${infotrygd.sak.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-infotrygdBeregningsgrunnlag-v1-tjenestespesifikasjon</artifactId>
+				<version>${infotrygd.beregningsgrunnlag.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>nav-fim-inntekt-v3-tjenestespesifikasjon</artifactId>
+				<version>${inntekt.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-medlemskap-v2-tjenestespesifikasjon</artifactId>
+				<version>${medlem.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-meldekortUtbetalingsgrunnlag-v1-tjenestespesifikasjon</artifactId>
+				<version>${meldekortutbelingsgrunnlag.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>nav-fim-oppgave-v3-tjenestespesifikasjon</artifactId>
+				<version>${oppgave.version}</version>
+				<classifier>jaxws</classifier>
+			</dependency>
+
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>nav-arbeidsforhold-v3-tjenestespesifikasjon</artifactId>
+				<classifier>jaxws</classifier>
+				<version>${arbeidsforhold.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>nav-fim-organisasjon-v4-tjenestespesifikasjon</artifactId>
+				<classifier>jaxws</classifier>
+				<version>${organisasjon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.fim</groupId>
+				<artifactId>no-nav-dok-tjenester-mottainngaaendeforsendelse</artifactId>
+				<version>${joark.mottainngaaendeforsendelse.version}</version>
+			</dependency>
+
+			<!-- JMS -->
+			<dependency>
+				<groupId>javax.jms</groupId>
+				<artifactId>javax.jms-api</artifactId>
+				<version>${jms-api.version}</version>
+			</dependency>
+
+			<!-- Meldingsspesifikasjoner -->
+			<dependency>
+				<groupId>no.nav.meldinger.virksomhet</groupId>
+				<artifactId>nav-virksomhet-hendelsehandterer-behandlingstatus-v1-meldingsdefinisjon</artifactId>
+				<version>${sob.melding.version}</version>
+				<classifier>jaxb</classifier>
+			</dependency>
+
+			<!--Denne er lagt inn på grunn av konflikt i versjonsnummer mellom medl 
+				og person -->
+			<dependency>
+				<groupId>no.nav.tjenester</groupId>
+				<artifactId>nav-tjenestespesifikasjoner-felles-adapter</artifactId>
+				<version>${felles.adapter.version}</version>
+			</dependency>
+
+			<!-- Andre 3djepart avhengigheter -->
+			<dependency>
+				<groupId>com.ibm.mq</groupId>
+				<artifactId>com.ibm.mq.allclient</artifactId>
+				<version>${ibmmq.version}</version>
+			</dependency>
+
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>m2internal</id>
+			<name>NAV Maven2 Internal Repository</name>
+			<url>http://maven.adeo.no/nexus/content/repositories/m2internal</url>
+		</repository>
+		<snapshotRepository>
+			<id>m2snapshot</id>
+			<name>NAV Maven2 Snapshot Repository</name>
+			<url>http://maven.adeo.no/nexus/content/repositories/m2snapshot</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
