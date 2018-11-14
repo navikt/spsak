@@ -11,17 +11,15 @@
         <revision>0.0.1</revision>
         <sha1></sha1>
         <changelist>-SNAPSHOT</changelist>
-			<java.version>1.8</java.version>
+			<java.version>10</java.version>
 			<maven.compiler.source>${java.version}</maven.compiler.source>
 			<maven.compiler.target>${java.version}</maven.compiler.target>
 			<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 			<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-			<fpsak.nare.version>1.4.5</fpsak.nare.version>
-        <fpsak.tidsserie.version>1.7</fpsak.tidsserie.version>
 			<junit.version>4.12</junit.version>
 			<assertj.version>3.8.0</assertj.version>
-			<jackson.version>2.9.3</jackson.version>
+			<jackson.version>2.9.7</jackson.version>
 		    </properties>
 
 
@@ -29,12 +27,12 @@
 			<dependency>
 			    <groupId>no.nav.fpsak.nare</groupId>
 			    <artifactId>fpsak-nare-core</artifactId>
-			    <version>${fpsak.nare.version}</version>
+			    <version>2.0_20181105115918_47dcace</version>
 			</dependency>
                 <dependency>
                     <groupId>no.nav.fpsak.tidsserie</groupId>
                     <artifactId>fpsak-tidsserie</artifactId>
-                    <version>${fpsak.tidsserie.version}</version>
+                    <version>2.0_20180831125757_006dad2</version>
                 </dependency>
 			<dependency>
 			    <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -73,32 +71,6 @@
                 </plugin>
 
                 <plugin>
-                    <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.jacoco</groupId>
-                                        <artifactId>jacoco-maven-plugin</artifactId>
-                                        <versionRange>[0.7.2.201409121644,)</versionRange>
-                                        <goals>
-                                            <goal>prepare-agent</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.0.0</version>
@@ -106,10 +78,11 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.7.0</version>
+                    <version>3.8.0</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
+						<release>${java.version}</release>
                         <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
@@ -136,7 +109,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.9</version>
+                    <version>0.8.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -168,140 +141,8 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
-
-    <profiles>
-       <profile>
-            <id>runSonar</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <!-- maven.root bør overstyres fra cmdline -->
-                <maven.root>${project.basedir}</maven.root>
-
-                <sonar.language />
-                <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-                <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-                <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
-                <sonar.java.source>1.8</sonar.java.source>
-                <sonar.exclusions>**/test/**,**/testutilities/**,**/fitnesse/**</sonar.exclusions>
-                <sonar.coverage.exclusions>${sonar.exclusions}</sonar.coverage.exclusions>
-                <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-                <sonar.jacoco.itReportPath>${maven.root}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
-                <sonar.jacoco.reportPath>${maven.root}/target/jacoco.exec</sonar.jacoco.reportPath>
-                <!--<sonar.javascript.lcov.reportPath>${maven.root}/web/klient/coverage/lcov.info
-                </sonar.javascript.lcov.reportPath>-->
-                <sonar.javascript.file.suffixes>.js,.jsx</sonar.javascript.file.suffixes>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                                <configuration>
-                                    <propertyName>jacoco.agent.argLine</propertyName>
-                                    <destFile>${sonar.jacoco.reportPath}</destFile>
-                                    <append>true</append>
-                                    <excludes>${sonar.coverage.exclusions}</excludes>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>agent-it</id>
-                                <goals>
-                                    <goal>prepare-agent-integration</goal>
-                                </goals>
-                                <configuration>
-                                    <propertyName>jacoco.agent.itArgLine</propertyName>
-                                    <destFile>${sonar.jacoco.itReportPath}</destFile>
-                                    <append>true</append>
-                                    <excludes>${sonar.coverage.exclusions}</excludes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <argLine>${jacoco.agent.argLine} -Xms384M -Dfile.encoding=UTF-8 -Dlog.level.no.nav=WARN</argLine>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>failsafe-integration-test</id>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>failsafe-verify</id>
-                                <goals>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <excludedGroups>${e2e.test.group}</excludedGroups>
-                            <forkCount>1</forkCount>
-                            <reuseForks>true</reuseForks>
-                            <useFile>true</useFile>
-                            <argLine>${jacoco.agent.itArgLine} -Xms384M -Dfile.encoding=UTF-8
-                                -Dsurefire.forkNumber=${surefire.forkNumber} -Dlog.level.no.nav=WARN
-                            </argLine>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>iapp</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <distributionManagement>
-                <repository>
-                    <id>iapp-releases</id>
-                    <name>NAV internal Nexus</name>
-                    <url>https://repo.adeo.no/repository/maven-releases</url>
-                </repository>
-                <snapshotRepository>
-                    <id>iapp-snapshots</id>
-                    <name>NAV Snapshot Repository</name>
-                    <url>https://repo.adeo.no/repository/maven-snapshots</url>
-                    <uniqueVersion>false</uniqueVersion>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-    </profiles>
 
     <distributionManagement>
         <repository>
