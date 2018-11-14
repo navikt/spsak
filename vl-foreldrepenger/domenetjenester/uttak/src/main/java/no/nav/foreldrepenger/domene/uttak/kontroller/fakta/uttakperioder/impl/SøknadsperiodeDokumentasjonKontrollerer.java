@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.OverføringÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.UtsettelseÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.Årsak;
-import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.ArbeidPåHeltidTjeneste;
 import no.nav.foreldrepenger.domene.uttak.kontroller.fakta.uttakperioder.KontrollerFaktaData;
 import no.nav.foreldrepenger.domene.uttak.kontroller.fakta.uttakperioder.KontrollerFaktaPeriode;
 import no.nav.foreldrepenger.domene.uttak.perioder.PerioderUtenHelgUtil;
@@ -39,32 +38,28 @@ import no.nav.vedtak.felles.jpa.tid.IntervalUtils;
 class SøknadsperiodeDokumentasjonKontrollerer {
     private final List<PeriodeUttakDokumentasjon> dokumentasjonPerioder;
     private final List<Inntektsmelding> inntektsmeldinger;
-    private final ArbeidPåHeltidTjeneste arbeidPåHeltidTjeneste;
 
     private final LocalDate fødselsDatoTilTidligOppstart;
     private final boolean erArbeidstaker;
 
     SøknadsperiodeDokumentasjonKontrollerer(List<PeriodeUttakDokumentasjon> dokumentasjonPerioder,
                                             List<Inntektsmelding> inntektsmeldinger,
-                                            ArbeidPåHeltidTjeneste arbeidPåHeltidTjeneste,
                                             LocalDate fødselsDatoTilTidligOppstart,
                                             boolean erArbeidstaker) {
         this.dokumentasjonPerioder = dokumentasjonPerioder;
         this.inntektsmeldinger = inntektsmeldinger;
-        this.arbeidPåHeltidTjeneste = arbeidPåHeltidTjeneste;
         this.fødselsDatoTilTidligOppstart = fødselsDatoTilTidligOppstart;
         this.erArbeidstaker = erArbeidstaker;
     }
 
     static KontrollerFaktaData kontrollerPerioder(YtelseFordelingAggregat ytelseFordeling,
                                                   List<Inntektsmelding> inntektsmeldinger,
-                                                  ArbeidPåHeltidTjeneste arbeidPåHeltidTjeneste,
                                                   LocalDate fødselsDatoTilTidligOppstart,
                                                   boolean erArbeidstaker) {
         List<PeriodeUttakDokumentasjon> dokumentasjonPerioder = hentDokumentasjonPerioder(ytelseFordeling);
 
         SøknadsperiodeDokumentasjonKontrollerer kontrollerer = new SøknadsperiodeDokumentasjonKontrollerer(dokumentasjonPerioder,
-            inntektsmeldinger, arbeidPåHeltidTjeneste, fødselsDatoTilTidligOppstart, erArbeidstaker);
+            inntektsmeldinger, fødselsDatoTilTidligOppstart, erArbeidstaker);
         return kontrollerer.kontrollerSøknadsperioder(ytelseFordeling.getGjeldendeSøknadsperioder().getOppgittePerioder());
     }
 
@@ -233,9 +228,6 @@ class SøknadsperiodeDokumentasjonKontrollerer {
             return KontrollerFaktaPeriode.automatiskBekreftet(søknadsperiode);
         }
 
-        if (arbeidPåHeltidTjeneste.jobberFulltid(søknadsperiode) && !utsettelsePeriodeFinnesPåInntektsmelding(søknadsperiode, UtsettelseÅrsak.ARBEID)) {
-            return KontrollerFaktaPeriode.ubekreftet(søknadsperiode);
-        }
         return KontrollerFaktaPeriode.automatiskBekreftet(søknadsperiode);
     }
 

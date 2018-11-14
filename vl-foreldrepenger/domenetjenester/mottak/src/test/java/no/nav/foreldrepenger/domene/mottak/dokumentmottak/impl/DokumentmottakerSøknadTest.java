@@ -4,13 +4,11 @@ import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anySet;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.sql.Clob;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -25,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import no.nav.foreldrepenger.behandlingskontroll.task.StartBehandlingTask;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -40,8 +37,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Relasj
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
@@ -58,7 +53,6 @@ import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.Behandl
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveVurderDokumentTask;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.SoeknadsskjemaEngangsstoenad;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
@@ -114,56 +108,6 @@ public class DokumentmottakerSøknadTest {
     }
 
     @Test
-    public void skal_starte_behandling_av_søknad() {
-        //Arrange
-        Fagsak fagsak = nyMorFødselFagsak();
-        Long fagsakId = fagsak.getId();
-        DokumentTypeId dokumentTypeId = DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL;
-
-        SoeknadsskjemaEngangsstoenad skjema = DokumentmottakTestUtil.byggSøknadEngangsstønad();
-        Clob xml = DokumentmottakTestUtil.byggXml(skjema);
-
-        MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, fagsakId, xml.toString(), now(), true, null);
-
-        Behandling behandlingMock = mock(Behandling.class);
-        when(behandlingMock.getAktørId()).thenReturn(fagsak.getAktørId());
-        when(behandlingsoppretter.finnEllerOpprettFørstegangsbehandling(fagsak)).thenReturn(behandlingMock);
-
-        //Act
-        dokumentmottaker.mottaDokument(mottattDokument, fagsak, dokumentTypeId, null);
-
-        //Assert
-        verify(dokumentmottaker).håndterIngenTidligereBehandling(fagsak, mottattDokument, null);
-        verify(behandlingsoppretter).finnEllerOpprettFørstegangsbehandling(fagsak);
-        verify(dokumentmottakerFelles).opprettHistorikk(any(Behandling.class), eq(mottattDokument.getJournalpostId()));
-    }
-
-    @Test
-    public void skal_starte_behandling_av_papirsøknad_uten_metadata() {
-        //Arrange
-        Fagsak fagsak = nyMorFødselFagsak();
-        Long fagsakId = fagsak.getId();
-        DokumentTypeId dokumentTypeId = DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL;
-
-        SoeknadsskjemaEngangsstoenad skjema = DokumentmottakTestUtil.byggSøknadEngangsstønad();
-        Clob xml = DokumentmottakTestUtil.byggXml(skjema);
-
-        MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattPapirsøknad(DokumentTypeId.UDEFINERT, fagsakId, xml.toString(), now(), true, null);
-
-        Behandling behandlingMock = mock(Behandling.class);
-        when(behandlingMock.getAktørId()).thenReturn(fagsak.getAktørId());
-        when(behandlingsoppretter.finnEllerOpprettFørstegangsbehandling(fagsak)).thenReturn(behandlingMock);
-
-        //Act
-        dokumentmottaker.mottaDokument(mottattDokument, fagsak, dokumentTypeId, null);
-
-        //Assert
-        verify(dokumentmottaker).håndterIngenTidligereBehandling(fagsak, mottattDokument, null);
-        verify(behandlingsoppretter).finnEllerOpprettFørstegangsbehandling(fagsak);
-        verify(dokumentmottakerFelles).opprettHistorikk(any(Behandling.class), eq(mottattDokument.getJournalpostId()));
-    }
-
-    @Test
     public void skal_tilbake_til_steg_registrer_søknad_dersom_åpen_behandling() {
         //Arrange
         Behandling behandling = ScenarioMorSøkerEngangsstønad
@@ -203,70 +147,6 @@ public class DokumentmottakerSøknadTest {
         ArgumentCaptor<ProsessTaskData> captor = ArgumentCaptor.forClass(ProsessTaskData.class);
 
         when(kompletthetskontroller.støtterBehandlingstypePapirsøknad(behandling)).thenReturn(false);
-
-        //Act
-        dokumentmottaker.mottaDokument(mottattDokument, behandling.getFagsak(), dokumentTypeId, null);
-
-        //Assert
-        verify(dokumentmottakerFelles).opprettTaskForÅVurdereDokument(behandling.getFagsak(), behandling, mottattDokument);
-        verify(dokumentmottakerFelles).opprettHistorikk(behandling, mottattDokument.getJournalpostId());
-
-        //Verifiser at korrekt prosesstask for vurder dokument blir opprettet
-        verify(prosessTaskRepository).lagre(captor.capture());
-        ProsessTaskData prosessTaskData = captor.getValue();
-        assertThat(prosessTaskData.getTaskType()).isEqualTo(OpprettOppgaveVurderDokumentTask.TASKTYPE);
-    }
-
-    @Test
-    public void skal_lage_ny_behandling_når_det_finnes_en_avsluttet_behandling_på_saken_fra_før() {
-        //Arrange
-        Behandling behandling = ScenarioMorSøkerEngangsstønad
-            .forFødselUtenSøknad()
-            .lagre(repositoryProvider);
-
-        BehandlingVedtak vedtak = DokumentmottakTestUtil.oppdaterVedtaksresultat(behandling, VedtakResultatType.AVSLAG);
-        repoRule.getRepository().lagre(vedtak.getBehandlingsresultat());
-
-        //simulere at den tidliggere behandligen er avsluttet
-        behandling.avsluttBehandling();
-        Long fagsakId = behandling.getFagsakId();
-        DokumentTypeId dokumentTypeId = DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL;
-
-        SoeknadsskjemaEngangsstoenad skjema = DokumentmottakTestUtil.byggSøknadEngangsstønad();
-        Clob xml = DokumentmottakTestUtil.byggXml(skjema);
-
-        MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, fagsakId, xml.toString(), now(), true, null);
-        ArgumentCaptor<ProsessTaskData> captor = ArgumentCaptor.forClass(ProsessTaskData.class);
-        doReturn(behandling).when(behandlingsoppretter).opprettNyFørstegangsbehandling(null, behandling.getFagsak());
-
-        //Act
-        dokumentmottaker.mottaDokument(mottattDokument, behandling.getFagsak(), dokumentTypeId, null);
-
-        //Assert
-        verify(dokumentmottaker).håndterAvsluttetTidligereBehandling(mottattDokument, behandling.getFagsak(), null);
-
-        //Verifiser at korrekt prosesstask for vurder dokument blir opprettet
-        verify(prosessTaskRepository).lagre(captor.capture());
-        ProsessTaskData prosessTaskData = captor.getValue();
-        assertThat(prosessTaskData.getTaskType()).isEqualTo(StartBehandlingTask.TASKTYPE);
-        verify(dokumentmottakerFelles).opprettHistorikk(behandling, mottattDokument.getJournalpostId());
-    }
-
-    @Test
-    public void skal_opprette_oppgave_når_det_kommer_en_ny_søknad_men_det_finnes_en_behandling_under_arbeid() {
-        //Arrange
-        Behandling behandling = ScenarioMorSøkerEngangsstønad
-            .forFødselUtenSøknad()
-            .lagre(repositoryProvider);
-
-        Long fagsakId = behandling.getFagsakId();
-        DokumentTypeId dokumentTypeId = DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL;
-
-        SoeknadsskjemaEngangsstoenad skjema = DokumentmottakTestUtil.byggSøknadEngangsstønad();
-        Clob xml = DokumentmottakTestUtil.byggXml(skjema);
-
-        MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, fagsakId, xml.toString(), now(), true, null);
-        ArgumentCaptor<ProsessTaskData> captor = ArgumentCaptor.forClass(ProsessTaskData.class);
 
         //Act
         dokumentmottaker.mottaDokument(mottattDokument, behandling.getFagsak(), dokumentTypeId, null);

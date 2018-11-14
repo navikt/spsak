@@ -30,7 +30,7 @@ public abstract class KodeverkTabell extends BaseEntitet {
     /**
      * Navn registrert i databasen.
      */
-    @Column(name = "navn", updatable = false, insertable = false, nullable = false)
+    @Column(name = "navn", updatable = false, insertable = false)
     private String navn;
 
     protected KodeverkTabell() {

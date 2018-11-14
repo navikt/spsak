@@ -24,13 +24,9 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokument
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl.MottatteDokumentTjenesteImpl;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentPersistererTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.DokumentPersistererTjenesteImpl;
-import no.nav.foreldrepenger.domene.mottak.søknad.SoeknadsskjemaEngangsstoenadTestdataBuilder;
 import no.nav.foreldrepenger.domene.mottak.søknad.SøknadTestdataBuilder;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.ObjectFactory;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.SoeknadsskjemaEngangsstoenad;
-import no.nav.vedtak.felles.integrasjon.felles.ws.JaxbHelper;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.prosesstask.impl.ProsessTaskRepositoryImpl;
 import no.nav.vedtak.felles.testutilities.db.Commit;
@@ -65,22 +61,6 @@ public class SaksbehandlingDokumentmottakTjenesteImplDbCommitTest {
         BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
         MottatteDokumentTjeneste mottatteDokumentTjeneste = new MottatteDokumentTjenesteImpl(FRIST_INNSENDING_UKER, dokumentPersistererTjeneste, mottatteDokumentRepository, repositoryProvider);
         tjeneste = new SaksbehandlingDokumentmottakTjenesteImpl(prosessTaskRepository, mottatteDokumentTjeneste);
-    }
-
-    @Test
-    @Commit
-    public void skal_ta_i_mot_søknad_og_opprette_prosesstask() throws Exception {
-        SoeknadsskjemaEngangsstoenad søknad = new SoeknadsskjemaEngangsstoenadTestdataBuilder().søknadAdopsjonEngangsstønadMor().build();
-        String søknadXml = JaxbHelper.marshalJaxb(SoeknadsskjemaEngangsstoenad.class, new ObjectFactory().createSoeknadsskjemaEngangsstoenad(søknad));
-        InngåendeSaksdokument saksdokument = InngåendeSaksdokument.builder()
-                .medFagsakId(FAGSAK_ID)
-                .medJournalpostId(JOURNALPOST_ID)
-                .medBehandlingTema(BEHANDLINGTEMA)
-                .medDokumentTypeId(DOKUMENTTYPE)
-                .medForsendelseMottatt(FORSENDELSE_MOTTATT)
-                .medPayloadXml(søknadXml)
-                .build();
-        tjeneste.dokumentAnkommet(saksdokument);
     }
 
     @Test

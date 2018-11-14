@@ -9,7 +9,6 @@ import java.util.Optional;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType;
 import no.nav.foreldrepenger.domene.uttak.saldo.Saldoer;
-import no.nav.foreldrepenger.regler.uttak.fastsetteperiode.grunnlag.Virkedager;
 
 class MaxDatoUttakTjeneste {
 

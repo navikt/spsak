@@ -30,7 +30,7 @@ import no.nav.vedtak.sikkerhet.context.SubjectHandler;
 @Table(name = "PROSESS_TASK")
 public class ProsessTaskEntitet {
 
-    @Column(name = "feilede_forsoek", nullable = false)
+    @Column(name = "feilede_forsoek")
     private Integer feiledeForsøk = 0;
 
     @Column(name = "task_gruppe")
@@ -47,14 +47,14 @@ public class ProsessTaskEntitet {
     @Column(name = "task_payload")
     private String payload;
 
-    @Column(name = "prioritet")
+    @Column(name = "prioritet", nullable = false)
     private int prioritet;
 
     @Convert(converter = PropertiesToStringConverter.class)
     @Column(name = "task_parametere")
     private Properties props = new Properties();
 
-    @Column(name = "task_sekvens")
+    @Column(name = "task_sekvens", nullable = false)
     private String sekvens;
 
     @Column(name = "siste_kjoering_feil_kode")
@@ -70,17 +70,17 @@ public class ProsessTaskEntitet {
     @Column(name = "siste_kjoering_server")
     private String sisteKjøringServerProsess;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status = ProsessTaskStatus.KLAR.getDbKode();
 
-    @Column(name = "task_type")
+    @Column(name = "task_type", nullable = false)
     private String taskType;
 
     @Column(name = "opprettet_av", nullable = false)
     private String opprettetAv;
 
     @Version
-    @Column(name = "versjon")
+    @Column(name = "versjon", nullable = false)
     private Long versjon;
 
     ProsessTaskEntitet() {

@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
@@ -19,15 +18,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 @ApplicationScoped
 public class UttakStillingsprosentTjenesteImpl implements UttakStillingsprosentTjeneste {
 
-    private UttakArbeidTjeneste uttakArbeidTjeneste;
 
     UttakStillingsprosentTjenesteImpl() {
         //For CDI
-    }
-
-    @Inject
-    public UttakStillingsprosentTjenesteImpl(UttakArbeidTjeneste uttakArbeidTjeneste) {
-        this.uttakArbeidTjeneste = uttakArbeidTjeneste;
     }
 
     @Override
@@ -35,8 +28,7 @@ public class UttakStillingsprosentTjenesteImpl implements UttakStillingsprosentT
                                                                    String arbeidsforholdOrgnr,
                                                                    String arbeidsforholdId,
                                                                    LocalDate dato) {
-        List<Yrkesaktivitet> ytelseAktiviteter = uttakArbeidTjeneste.hentYrkesAktiviteterOrdinærtArbeidsforhold(behandling);
-        return finnStillingsprosentOrdinærtArbeid(arbeidsforholdOrgnr, arbeidsforholdId, ytelseAktiviteter, dato);
+        return Optional.ofNullable(BigDecimal.valueOf(100));
     }
 
     @Override

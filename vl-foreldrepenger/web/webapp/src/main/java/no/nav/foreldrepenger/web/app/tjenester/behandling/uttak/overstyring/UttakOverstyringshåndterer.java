@@ -15,13 +15,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
-import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.FastsettePerioderTjeneste;
-import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.UttakResultatPerioder;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OppdateringResultat;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.overstyring.AbstractOverstyringshåndterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.overstyring.Overstyringshåndterer;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.overstyring.uttak.UttakPerioderMapper;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.uttak.dto.OverstyringUttakDto;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
 
@@ -30,7 +27,6 @@ import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAd
 @DtoTilServiceAdapter(dto = OverstyringUttakDto.class, adapter = Overstyringshåndterer.class)
 public class UttakOverstyringshåndterer extends AbstractOverstyringshåndterer<OverstyringUttakDto> {
 
-    private FastsettePerioderTjeneste tjeneste;
     private UttakRepository uttakRepository;
     private UttakResultatEntitet forrigeResultat;
     private AksjonspunktRepository aksjonspunktRepository;
@@ -42,10 +38,8 @@ public class UttakOverstyringshåndterer extends AbstractOverstyringshåndterer<
     @Inject
     public UttakOverstyringshåndterer(BehandlingRepositoryProvider repositoryProverider,
                                       HistorikkTjenesteAdapter historikkTjenesteAdapter,
-                                      FastsettePerioderTjeneste tjeneste,
                                       AksjonspunktRepository aksjonspunktRepository) {
         super(repositoryProverider, historikkTjenesteAdapter, OVERSTYRING_AV_UTTAKPERIODER);
-        this.tjeneste = tjeneste;
         this.uttakRepository = repositoryProverider.getUttakRepository();
         this.aksjonspunktRepository = aksjonspunktRepository;
     }
@@ -53,8 +47,6 @@ public class UttakOverstyringshåndterer extends AbstractOverstyringshåndterer<
     @Override
     public OppdateringResultat håndterOverstyring(OverstyringUttakDto dto, Behandling behandling, BehandlingskontrollKontekst kontekst) {
         this.forrigeResultat = uttakRepository.hentUttakResultat(behandling);
-        UttakResultatPerioder perioder = UttakPerioderMapper.map(dto.getPerioder(), forrigeResultat.getGjeldendePerioder());
-        tjeneste.manueltFastsettePerioder(behandling, perioder);
         return OppdateringResultat.utenOveropp();
     }
 

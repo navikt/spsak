@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandling.steg.uttak.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,46 +13,33 @@ import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Yrkesaktivitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
-import no.nav.foreldrepenger.domene.uttak.UttakArbeidTjeneste;
 
 @ApplicationScoped
 class FastsettUttakManueltAksjonspunktUtleder implements AksjonspunktUtleder {
 
     private UttakRepository uttakRepository;
     private AksjonspunktRepository aksjonspunktRepository;
-    private UttakArbeidTjeneste uttakArbeidTjeneste;
 
     FastsettUttakManueltAksjonspunktUtleder() {
         //CDI
     }
 
     @Inject
-    FastsettUttakManueltAksjonspunktUtleder(UttakRepository uttakRepository, AksjonspunktRepository aksjonspunktRepository,
-                                            UttakArbeidTjeneste uttakArbeidTjeneste){
+    FastsettUttakManueltAksjonspunktUtleder(UttakRepository uttakRepository, AksjonspunktRepository aksjonspunktRepository){
         this.uttakRepository = uttakRepository;
         this.aksjonspunktRepository = aksjonspunktRepository;
-        this.uttakArbeidTjeneste = uttakArbeidTjeneste;
     }
 
     public List<AksjonspunktResultat> utledAksjonspunkterFor(Behandling behandling) {
         avsluttÅpentManuellFastsetteUttakAksjonspunkt(behandling);
 
         UttakResultatEntitet uttakResultat = uttakRepository.hentUttakResultat(behandling);
-        Collection<Yrkesaktivitet> yrkesaktiviteter = uttakArbeidTjeneste.hentAlleYrkesaktiviteter(behandling);
 
         List<AksjonspunktResultat> aksjonspunktArray = new ArrayList<>();
-
-        for (Yrkesaktivitet yrkesaktivitet : yrkesaktiviteter) {
-            if (yrkesaktivitet.getArbeidsgiver() != null && yrkesaktivitet.getArbeidsgiver().getVirksomhet() != null && aktivitetErTilknyttetStortinget(yrkesaktivitet)) {
-                aksjonspunktArray.add(AksjonspunktResultat.opprettForAksjonspunkt(AksjonspunktDefinisjon.TILKNYTTET_STORTINGET));
-                break;
-            }
-        }
 
         for (UttakResultatPeriodeEntitet periode : uttakResultat.getGjeldendePerioder().getPerioder()) {
 
@@ -75,11 +61,6 @@ class FastsettUttakManueltAksjonspunktUtleder implements AksjonspunktUtleder {
             .filter(ap -> AksjonspunktDefinisjon.FASTSETT_UTTAKPERIODER.equals(ap.getAksjonspunktDefinisjon()))
             .filter(ap -> !ap.erUtført())
             .forEach(ap -> aksjonspunktRepository.setTilAvbrutt(ap));
-    }
-
-    private boolean aktivitetErTilknyttetStortinget(Yrkesaktivitet yrkesaktivitet) {
-        return yrkesaktivitet.getArbeidsgiver().getVirksomhet().getOrgnr() != null
-            && !uttakRepository.finnOrgManuellÅrsak(yrkesaktivitet.getArbeidsgiver().getVirksomhet().getOrgnr()).isEmpty();
     }
 
 }

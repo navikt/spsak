@@ -77,17 +77,6 @@
 				<type>pom</type>
 			</dependency>
 
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>uttak-regler</artifactId>
-				<version>${vl-foreldrepenger-uttak-regler.version}</version>
-			</dependency>
-			<dependency>
-                <groupId>no.nav.sykepenger</groupId>
-                <artifactId>uttak-regler</artifactId>
-                <version>${vl-foreldrepenger-uttak-regler.version}</version>
-                <classifier>sources</classifier>
-            </dependency>
 
 
 			<!-- Prosjektets egne biblioteker -->
@@ -567,12 +556,6 @@
 				<classifier>jaxb</classifier>
 			</dependency>
 
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<classifier>jaxb</classifier>
-			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>soeknad-v1</artifactId>

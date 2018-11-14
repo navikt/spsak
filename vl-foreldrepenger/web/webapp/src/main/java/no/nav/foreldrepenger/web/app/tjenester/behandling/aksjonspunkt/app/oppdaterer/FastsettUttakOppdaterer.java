@@ -14,12 +14,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
-import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.FastsettePerioderTjeneste;
-import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.UttakResultatPerioder;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktOppdaterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OppdateringResultat;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.overstyring.uttak.UttakPerioderMapper;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.uttak.dto.FastsetteUttakDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.uttak.overstyring.UttakHistorikkUtil;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
@@ -29,7 +26,6 @@ import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAd
 public class FastsettUttakOppdaterer implements AksjonspunktOppdaterer<FastsetteUttakDto> {
 
     private HistorikkTjenesteAdapter historikkAdapter;
-    private FastsettePerioderTjeneste tjeneste;
     private UttakRepository uttakRepository;
     private AksjonspunktRepository aksjonspunktRepository;
 
@@ -40,10 +36,8 @@ public class FastsettUttakOppdaterer implements AksjonspunktOppdaterer<Fastsette
     @Inject
     public FastsettUttakOppdaterer(BehandlingRepositoryProvider repositoryProverider,
                                    HistorikkTjenesteAdapter historikkAdapter,
-                                   FastsettePerioderTjeneste tjeneste,
                                    AksjonspunktRepository aksjonspunktRepository) {
         this.historikkAdapter = historikkAdapter;
-        this.tjeneste = tjeneste;
         this.uttakRepository = repositoryProverider.getUttakRepository();
         this.aksjonspunktRepository = aksjonspunktRepository;
     }
@@ -59,8 +53,6 @@ public class FastsettUttakOppdaterer implements AksjonspunktOppdaterer<Fastsette
 
     private UttakResultatEntitet håndterOverstyring(FastsetteUttakDto dto, Behandling behandling) {
         UttakResultatEntitet forrigeResultat = uttakRepository.hentUttakResultat(behandling);
-        UttakResultatPerioder perioder = UttakPerioderMapper.map(dto.getPerioder(), forrigeResultat.getGjeldendePerioder());
-        tjeneste.manueltFastsettePerioder(behandling, perioder);
         return forrigeResultat;
     }
 

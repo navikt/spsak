@@ -48,11 +48,6 @@
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger.kontrakter</groupId>
-            <artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
-            <classifier>jaxb</classifier>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>inntektsmelding-v1</artifactId>
             <classifier>jaxb</classifier>
         </dependency>

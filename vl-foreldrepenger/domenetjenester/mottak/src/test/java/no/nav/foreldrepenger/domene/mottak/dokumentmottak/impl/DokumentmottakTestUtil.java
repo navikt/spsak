@@ -1,17 +1,7 @@
 package no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl;
 
-import static java.util.Collections.emptyList;
-
-import java.sql.Clob;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
-
-import javax.sql.rowset.serial.SerialClob;
-import javax.xml.bind.JAXBException;
-import javax.xml.datatype.DatatypeConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
@@ -35,13 +25,9 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
-import no.nav.foreldrepenger.domene.mottak.søknad.SoeknadsskjemaEngangsstoenadTestdataBuilder;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.ObjectFactory;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.SoeknadsskjemaEngangsstoenad;
-import no.nav.vedtak.felles.integrasjon.felles.ws.JaxbHelper;
 
 public class DokumentmottakTestUtil {
 
@@ -59,45 +45,6 @@ public class DokumentmottakTestUtil {
             }
         };
         return behandlingskontrollTjeneste;
-    }
-
-    static SoeknadsskjemaEngangsstoenad byggSøknadEngangsstønad() {
-        SoeknadsskjemaEngangsstoenadTestdataBuilder builder = new SoeknadsskjemaEngangsstoenadTestdataBuilder();
-        try {
-            builder
-                .fødsel()
-                .engangsstønadMor()
-                .medVedleggsliste(emptyList())
-                .medTermindato(LocalDate.now())
-                .medTerminbekreftelsesdato(LocalDate.now())
-                .medTilleggsopplysninger("tilleggsopplysninger")
-                .medAntallBarn(1)
-                .medTidligereOppholdNorge(true)
-                .medOppholdNorgeNå(true)
-                .medFremtidigOppholdNorge(true)
-                .medUtenlandsopphold(true)
-                .medKanIkkeOppgiFar();
-        } catch (DatatypeConfigurationException e) {
-            throw new IllegalStateException("Kunne ikke bygge testsøknad", e);
-        }
-        SoeknadsskjemaEngangsstoenad skjema = builder.build();
-        return skjema;
-    }
-
-    static Clob byggXml(SoeknadsskjemaEngangsstoenad skjema) {
-        Clob xml;
-        try {
-            xml = skjemaTilClob(skjema);
-        } catch (Exception e) {
-            throw new IllegalStateException("Feilet oppretting av test-xml", e);
-        }
-        return xml;
-    }
-
-    private static Clob skjemaTilClob(SoeknadsskjemaEngangsstoenad skjema) throws JAXBException, SAXException, SQLException {
-        String xml = JaxbHelper.marshalJaxb(SoeknadsskjemaEngangsstoenad.class,
-            new ObjectFactory().createSoeknadsskjemaEngangsstoenad(skjema));
-        return new SerialClob(xml.toCharArray());
     }
 
     static MottattDokument byggMottattDokument(DokumentTypeId dokumentTypeId, Long fagsakId, String xml, LocalDate mottattDato, boolean elektroniskRegistrert, String journalpostId) {

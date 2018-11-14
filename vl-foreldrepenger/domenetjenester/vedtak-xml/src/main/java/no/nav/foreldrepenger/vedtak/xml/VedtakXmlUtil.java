@@ -3,11 +3,11 @@ package no.nav.foreldrepenger.vedtak.xml;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
 
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
@@ -36,7 +36,7 @@ public class VedtakXmlUtil {
             return Optional.empty();
         }
         DateOpplysning dateOpplysning = fellesObjectFactory.createDateOpplysning();
-        dateOpplysning.setValue(localDate);
+        dateOpplysning.setValue(tilCalendar(localDate));
         return Optional.of(dateOpplysning);
     }
 
@@ -77,8 +77,8 @@ public class VedtakXmlUtil {
 
     public static PeriodeOpplysning lagPeriodeOpplysning(LocalDate fom, LocalDate tom) {
         PeriodeOpplysning periodeOpplysning = fellesObjectFactory.createPeriodeOpplysning();
-        periodeOpplysning.setFom(fom);
-        periodeOpplysning.setTom(tom);
+        periodeOpplysning.setFom(tilCalendar(fom));
+        periodeOpplysning.setTom(tilCalendar(tom));
         return periodeOpplysning;
     }
 
@@ -111,9 +111,9 @@ public class VedtakXmlUtil {
         return decimalOpplysning;
     }
 
-    public static Calendar tilCalendar(LocalDate localDate) {
+    public static XMLGregorianCalendar tilCalendar(LocalDate localDate) {
         try {
-            return DateUtil.convertToXMLGregorianCalendarRemoveTimezone(localDate).toGregorianCalendar();
+            return DateUtil.convertToXMLGregorianCalendarRemoveTimezone(localDate);
         } catch (DatatypeConfigurationException e) {
             throw new IllegalArgumentException("Ugyldig argument for konvertering til calendar", e);
         }

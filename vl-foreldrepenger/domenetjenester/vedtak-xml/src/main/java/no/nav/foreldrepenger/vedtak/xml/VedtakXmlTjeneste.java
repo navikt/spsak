@@ -125,13 +125,13 @@ public abstract class VedtakXmlTjeneste {
         Optional<Søknad> søknadOptional = søknadRepository.hentSøknadHvisEksisterer(behandling);
         if (søknadOptional.isPresent()) {
             Søknad søknad = søknadOptional.get();
-            vedtak.setSoeknadsdato(søknad.getSøknadsdato());
+            vedtak.setSoeknadsdato(VedtakXmlUtil.tilCalendar(søknad.getSøknadsdato()));
         }
     }
 
     private void setKlagedato(Vedtak vedtak, Behandling behandling) {
         if (BehandlingType.KLAGE.equals(behandling.getType())) {
-            vedtak.setKlagedato(behandling.getOpprettetDato().toLocalDate());
+            vedtak.setKlagedato(VedtakXmlUtil.tilCalendar(behandling.getOpprettetDato().toLocalDate()));
         }
     }
 
@@ -157,9 +157,7 @@ public abstract class VedtakXmlTjeneste {
 
     void setFagsakType(Vedtak vedtak, Fagsak fagsak) {
         KodeverksOpplysning kodeverksOpplysning = new KodeverksOpplysning();
-        if (FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType())) {
-            kodeverksOpplysning.setValue(FagsakType.ENGANGSSTOENAD.value());
-        } else if ((FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType()))) {
+        if ((FagsakYtelseType.FORELDREPENGER.equals(fagsak.getYtelseType()))) {
             kodeverksOpplysning.setValue(FagsakType.FORELDREPENGER.value());
         }
         vedtak.setFagsakType(kodeverksOpplysning);
@@ -171,7 +169,7 @@ public abstract class VedtakXmlTjeneste {
 
     private void setVedtaksdato(Behandling behandling, Vedtak vedtakKontrakt) {
         Optional<BehandlingVedtak> vedtak = behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(behandling.getId());
-        vedtak.ifPresent(v -> vedtakKontrakt.setVedtaksdato(v.getVedtaksdato()));
+        vedtak.ifPresent(v -> vedtakKontrakt.setVedtaksdato(VedtakXmlUtil.tilCalendar(v.getVedtaksdato())));
     }
 
     private void setVedtaksResultat(Vedtak vedtak, Behandling behandling) {

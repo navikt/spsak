@@ -123,7 +123,7 @@ public class GrensesnittavstemmingMapper {
 
     private String lagXmlMelding(Avstemmingsdata avstemmingsdata) {
         try {
-            return JaxbHelper.marshalAndValidateJaxb(GrensesnittavstemmingSkjemaConstants.JAXB_CLASS, avstemmingsdata, GrensesnittavstemmingSkjemaConstants.XSD_LOCATION);
+            return JaxbHelper.marshalAndValidateJaxb(GrensesnittavstemmingSkjemaConstants.JAXB_CLASS, new ObjectFactory().createAvstemmingsdata(avstemmingsdata), GrensesnittavstemmingSkjemaConstants.XSD_LOCATION);
         } catch (JAXBException | SAXException e) {
             throw GrensesnittavstemmingFeil.FACTORY.xmlgenereringsfeil(e).toException();
         }

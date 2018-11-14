@@ -61,8 +61,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.impl.BeregnMorsMaksdatoTjenesteImpl;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.impl.RelatertBehandlingTjenesteImpl;
 import no.nav.foreldrepenger.skjæringstidspunkt.regelmodell.AktivitetStatusModell;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
@@ -120,7 +118,6 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
         List<RegelResultat> regelresultater = Arrays.asList(new RegelResultat(ResultatBeregningType.BEREGNET, "sporing"));
 
         final SkjæringstidspunktTjenesteImpl skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
-            new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)),
             new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
             Period.of(0, 3, 0),
             Period.of(0, 10, 0));

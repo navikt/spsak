@@ -19,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndr
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInnslagTekstBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
@@ -28,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.UtsettelseÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.Årsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
-import no.nav.foreldrepenger.domene.uttak.UttakArbeidTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.uttak.dto.AvklarFaktaUttakDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.uttak.dto.BekreftetUttakPeriodeDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.uttak.dto.KontrollerFaktaPeriodeDto;
@@ -47,7 +45,6 @@ public class FaktaUttakHistorikkTjenesteImpl implements FaktaUttakHistorikkTjene
 
     private HistorikkTjenesteAdapter historikkApplikasjonTjeneste;
     private KodeverkRepository kodeverkRepository;
-    private UttakArbeidTjeneste uttakArbeidTjeneste;
 
     FaktaUttakHistorikkTjenesteImpl() {
         //FOR CDI proxy
@@ -55,11 +52,9 @@ public class FaktaUttakHistorikkTjenesteImpl implements FaktaUttakHistorikkTjene
 
     @Inject
     public FaktaUttakHistorikkTjenesteImpl(HistorikkTjenesteAdapter historikkApplikasjonTjeneste,
-                                           BehandlingRepositoryProvider behandlingRepositoryProvider,
-                                           UttakArbeidTjeneste uttakArbeidTjeneste) {
+                                           BehandlingRepositoryProvider behandlingRepositoryProvider) {
         this.historikkApplikasjonTjeneste = historikkApplikasjonTjeneste;
         this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
-        this.uttakArbeidTjeneste = uttakArbeidTjeneste;
     }
 
     @Override
@@ -177,11 +172,6 @@ public class FaktaUttakHistorikkTjenesteImpl implements FaktaUttakHistorikkTjene
                                                          HistorikkAvklartSoeknadsperiodeType soeknadsperiodeType, boolean gradering) {
         if (erEndretPeriodeEllerArbeidsprosentEllerBegrunnelseEllerResultat(dto, gradering)) {
             String arbeidsgiverNavnOgOrgnr = "";
-            List<Inntektsmelding> inntektsmeldinger = getInntektsmelding(behandling);
-            if (!inntektsmeldinger.isEmpty()) {
-                //TODO SOMMERFUGL Har er det vel feil ved flere arbeidsforhold?
-                arbeidsgiverNavnOgOrgnr = inntektsmeldinger.get(0).getVirksomhet().getNavn() + "(" + inntektsmeldinger.get(0).getVirksomhet().getOrgnr() + ")";
-            }
 
             LocalDateInterval orgPeriode = new LocalDateInterval(dto.getOrginalFom(), dto.getOrginalTom());
             KontrollerFaktaPeriodeDto bekreftetPeriode = dto.getBekreftetPeriode();
@@ -285,10 +275,6 @@ public class FaktaUttakHistorikkTjenesteImpl implements FaktaUttakHistorikkTjene
             return kodeverkRepository.finn(OverføringÅrsak.class, årsak.getKode());
         }
         return null;
-    }
-
-    private List<Inntektsmelding> getInntektsmelding(Behandling behandling) {
-        return uttakArbeidTjeneste.hentInntektsmeldinger(behandling);
     }
 
     private List<LocalDateInterval> mapDokumentertPerioder(List<UttakDokumentasjonDto> dokumentertePerioder) {

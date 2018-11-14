@@ -30,3 +30,4 @@ dep.txt
 *.patch
 /.mvn/
 target/
+.idea/

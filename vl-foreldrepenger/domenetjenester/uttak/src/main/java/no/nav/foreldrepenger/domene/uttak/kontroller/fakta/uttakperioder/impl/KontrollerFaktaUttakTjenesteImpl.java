@@ -29,6 +29,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.Familie
 import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
@@ -37,9 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.Ytelses
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordeling;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeVurderingType;
-import no.nav.foreldrepenger.domene.uttak.UttakArbeidTjeneste;
-import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.ArbeidPåHeltidTjeneste;
-import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.impl.ArbeidPåHeltidTjenesteImpl;
 import no.nav.foreldrepenger.domene.uttak.kontroller.fakta.uttakperioder.KontrollerFaktaData;
 import no.nav.foreldrepenger.domene.uttak.kontroller.fakta.uttakperioder.KontrollerFaktaPeriode;
 import no.nav.foreldrepenger.domene.uttak.kontroller.fakta.uttakperioder.KontrollerFaktaUttakTjeneste;
@@ -60,7 +58,6 @@ public class KontrollerFaktaUttakTjenesteImpl implements KontrollerFaktaUttakTje
 
     private FamilieHendelseRepository familieGrunnlagRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
-    private UttakArbeidTjeneste uttakArbeidTjeneste;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
 
     KontrollerFaktaUttakTjenesteImpl() {
@@ -71,14 +68,12 @@ public class KontrollerFaktaUttakTjenesteImpl implements KontrollerFaktaUttakTje
     public KontrollerFaktaUttakTjenesteImpl(@FagsakYtelseTypeRef("FP") KontrollerFaktaUttakUtledereTjeneste uttakUtledereTjeneste,
                                             BehandlingRepositoryProvider behandlingRepositoryProvider,
                                             SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
-                                            UttakArbeidTjeneste uttakArbeidTjeneste,
                                             BeregningsgrunnlagRepository beregningsgrunnlagRepository) {
         this.aksjonspunktUtlederTjeneste = uttakUtledereTjeneste;
         this.ytelsesFordelingRepository = behandlingRepositoryProvider.getYtelsesFordelingRepository();
         this.inntektArbeidYtelseRepository = behandlingRepositoryProvider.getInntektArbeidYtelseRepository();
         this.familieGrunnlagRepository = behandlingRepositoryProvider.getFamilieGrunnlagRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
-        this.uttakArbeidTjeneste = uttakArbeidTjeneste;
         this.beregningsgrunnlagRepository = beregningsgrunnlagRepository;
     }
 
@@ -107,13 +102,8 @@ public class KontrollerFaktaUttakTjenesteImpl implements KontrollerFaktaUttakTje
 
         List<Inntektsmelding> innteksmeldinger = hentInntektsmeldinger(behandling);
         LocalDate fødselsDatoTilTidligOppstart = utledOmSøkerTidligOppstart(behandling);
-        ArbeidPåHeltidTjeneste arbeidPåHeltidTjeneste = lagArbeidPåHeltidTjeneste(behandling);
-        boolean erArbeidstaker = uttakArbeidTjeneste.erArbeidstaker(behandling);
-        return SøknadsperiodeDokumentasjonKontrollerer.kontrollerPerioder(ytelseFordeling.get(), innteksmeldinger, arbeidPåHeltidTjeneste, fødselsDatoTilTidligOppstart, erArbeidstaker);
-    }
-
-    private ArbeidPåHeltidTjeneste lagArbeidPåHeltidTjeneste(Behandling behandling) {
-        return new ArbeidPåHeltidTjenesteImpl(behandling, uttakArbeidTjeneste);
+        boolean erArbeidstaker = true;
+        return SøknadsperiodeDokumentasjonKontrollerer.kontrollerPerioder(ytelseFordeling.get(), innteksmeldinger, fødselsDatoTilTidligOppstart, erArbeidstaker);
     }
 
     private KontrollerFaktaData utenGrunnlagResultat(Optional<YtelseFordelingAggregat> ytelseFordeling) {
@@ -242,6 +232,9 @@ public class KontrollerFaktaUttakTjenesteImpl implements KontrollerFaktaUttakTje
     }
 
     private List<Inntektsmelding> hentInntektsmeldinger(Behandling behandling) {
-        return uttakArbeidTjeneste.hentInntektsmeldinger(behandling);
+        return inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling, null)
+            .flatMap(InntektArbeidYtelseGrunnlag::getInntektsmeldinger)
+            .map(InntektsmeldingAggregat::getInntektsmeldinger)
+            .orElse(Collections.emptyList()); //
     }
 }

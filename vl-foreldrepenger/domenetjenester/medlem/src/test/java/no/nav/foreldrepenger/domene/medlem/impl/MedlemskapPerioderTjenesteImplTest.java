@@ -16,8 +16,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.impl.BeregnMorsMaksdatoTjenesteImpl;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.impl.RelatertBehandlingTjenesteImpl;
 
 public class MedlemskapPerioderTjenesteImplTest {
 
@@ -81,7 +79,6 @@ public class MedlemskapPerioderTjenesteImplTest {
         BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         return new MedlemskapPerioderTjenesteImpl(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO, ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO,
             new SkjæringstidspunktTjenesteImpl(repositoryProvider,
-                new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)),
                 new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
                 Period.of(0, 3, 0),
                 Period.of(0, 10, 0)));

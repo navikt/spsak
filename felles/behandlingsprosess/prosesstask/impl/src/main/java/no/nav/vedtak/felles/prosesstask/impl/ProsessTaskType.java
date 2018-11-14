@@ -16,10 +16,10 @@ import no.nav.vedtak.felles.prosesstask.api.ProsessTaskTypeInfo;
 @Table(name = "PROSESS_TASK_TYPE")
 public class ProsessTaskType extends KodeverkTabell {
 
-    @Column(name = "feil_maks_forsoek", updatable = false, insertable = false)
+    @Column(name = "feil_maks_forsoek", updatable = false, insertable = false, nullable = false)
     private int maksForsøk = 1;
 
-    @Column(name = "feil_sek_mellom_forsoek", updatable = false, insertable = false)
+    @Column(name = "feil_sek_mellom_forsoek", updatable = false, insertable = false, nullable = false)
     private int sekundeFørNesteForsøk = 1;
 
     @ManyToOne

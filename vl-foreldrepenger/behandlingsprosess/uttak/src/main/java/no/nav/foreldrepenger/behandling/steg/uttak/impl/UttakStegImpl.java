@@ -23,8 +23,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
-import no.nav.foreldrepenger.domene.uttak.beregnkontoer.BeregnStønadskontoerTjeneste;
-import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.FastsettePerioderTjeneste;
 
 @BehandlingStegRef(kode = "VURDER_UTTAK")
 @BehandlingTypeRef
@@ -32,22 +30,16 @@ import no.nav.foreldrepenger.domene.uttak.fastsetteperioder.FastsettePerioderTje
 @ApplicationScoped
 public class UttakStegImpl implements UttakSteg {
 
-    private BeregnStønadskontoerTjeneste beregnStønadskontoerTjeneste;
-    private FastsettePerioderTjeneste fastsettePerioderTjeneste;
     private BehandlingRepository behandlingRepository;
     private FastsettUttakManueltAksjonspunktUtleder fastsettUttakManueltAksjonspunktUtleder;
     private FagsakRelasjonRepository fagsakRelasjonRepository;
     private BehandlingRepositoryProvider repositoryProvider;
 
     @Inject
-    public UttakStegImpl(BeregnStønadskontoerTjeneste beregnStønadskontoerTjeneste,
-                         BehandlingRepositoryProvider behandlingRepositoryProvider,
-                         FastsettePerioderTjeneste fastsettePerioderTjeneste,
+    public UttakStegImpl(BehandlingRepositoryProvider behandlingRepositoryProvider,
                          FastsettUttakManueltAksjonspunktUtleder fastsettUttakManueltAksjonspunktUtleder) {
-        this.beregnStønadskontoerTjeneste = beregnStønadskontoerTjeneste;
         this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
         this.fastsettUttakManueltAksjonspunktUtleder = fastsettUttakManueltAksjonspunktUtleder;
-        this.fastsettePerioderTjeneste = fastsettePerioderTjeneste;
         this.fagsakRelasjonRepository = behandlingRepositoryProvider.getFagsakRelasjonRepository();
         this.repositoryProvider = behandlingRepositoryProvider;
     }
@@ -59,7 +51,6 @@ public class UttakStegImpl implements UttakSteg {
         beregnStønadskontoer(behandling);
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        fastsettePerioderTjeneste.fastsettePerioder(behandling);
         behandlingRepository.lagre(behandling, lås);
 
         List<AksjonspunktResultat> aksjonspunkter = fastsettUttakManueltAksjonspunktUtleder.utledAksjonspunkterFor(behandling);
@@ -68,7 +59,7 @@ public class UttakStegImpl implements UttakSteg {
 
     private void beregnStønadskontoer(Behandling behandling) {
         if (skalBeregneStønadskontoer(behandling)) {
-            beregnStønadskontoerTjeneste.beregnStønadskontoer(behandling); //Trenger ikke behandlingslås siden stønadskontoer lagres på fagsakrelasjon.
+
         }
     }
 

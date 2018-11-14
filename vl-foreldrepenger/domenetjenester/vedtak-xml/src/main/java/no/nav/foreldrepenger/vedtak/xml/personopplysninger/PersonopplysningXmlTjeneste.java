@@ -20,6 +20,7 @@ import no.nav.foreldrepenger.vedtak.xml.VedtakXmlUtil;
 import no.nav.vedtak.felles.xml.felles.v2.DateOpplysning;
 import no.nav.vedtak.felles.xml.felles.v2.KodeverksOpplysning;
 import no.nav.vedtak.felles.xml.felles.v2.StringOpplysning;
+import no.nav.vedtak.felles.xml.vedtak.personopplysninger.fp.v2.PersonopplysningerForeldrepenger;
 import no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.Medlemskapsperiode;
 import no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.ObjectFactory;
 import no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.PersonIdentifiserbar;
@@ -51,7 +52,7 @@ public abstract class PersonopplysningXmlTjeneste {
             personopplysninger = lagPersonopplysning(personopplysningerAggregat.get(), behandling);//Implementeres i hver subklasse
         }
         no.nav.vedtak.felles.xml.vedtak.v2.Personopplysninger personopplysninger1 = new no.nav.vedtak.felles.xml.vedtak.v2.Personopplysninger();
-        personopplysninger1.getAny().add(personopplysninger);
+        personopplysninger1.getAny().add(new no.nav.vedtak.felles.xml.vedtak.personopplysninger.fp.v2.ObjectFactory().createPersonopplysningerForeldrepenger((PersonopplysningerForeldrepenger) personopplysninger));
         vedtak.setPersonOpplysninger(personopplysninger1);
     }
 

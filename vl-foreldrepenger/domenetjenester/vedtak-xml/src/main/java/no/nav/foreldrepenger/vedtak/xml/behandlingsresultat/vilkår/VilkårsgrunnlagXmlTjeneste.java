@@ -45,7 +45,7 @@ public abstract class VilkårsgrunnlagXmlTjeneste {
         Vilkaarsgrunnlag vilkaarsgrunnlag = getVilkaarsgrunnlag(behandling, vilkårFraBehandling, søknad); //Må implementeres i hver subklasse
 
         no.nav.vedtak.felles.xml.vedtak.v2.Vilkaarsgrunnlag vilkaarsgrunnlag1 = new no.nav.vedtak.felles.xml.vedtak.v2.Vilkaarsgrunnlag();
-        vilkaarsgrunnlag1.getAny().add(vilkaarsgrunnlag);
+        vilkaarsgrunnlag1.getAny().add(new no.nav.vedtak.felles.xml.vedtak.vilkaarsgrunnlag.v2.ObjectFactory().createVilkaarsgrunnlag(vilkaarsgrunnlag));
         vilkår.setVilkaarsgrunnlag(vilkaarsgrunnlag1);
     }
 

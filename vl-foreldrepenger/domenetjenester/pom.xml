@@ -16,7 +16,6 @@
         <module>behandling-status</module>
         <module>behandling-gjenopptagelse</module>
         <module>behandling-revurdering</module>
-        <module>behandling-soknadsfrist-foreldrepenger</module>
         <module>beregningsgrunnlag</module>
         <module>behandling-innsyn</module>
         <module>beregning-ytelse</module>
@@ -36,7 +35,6 @@
 		<module>kompletthetsjekk</module>
 		<module>kontrollerfakta</module>
 		<module>skjaeringstidspunkt</module>
-		<module>uttaksplan</module>
         <module>bom</module>
 
         <module>behandlingskontroll</module>

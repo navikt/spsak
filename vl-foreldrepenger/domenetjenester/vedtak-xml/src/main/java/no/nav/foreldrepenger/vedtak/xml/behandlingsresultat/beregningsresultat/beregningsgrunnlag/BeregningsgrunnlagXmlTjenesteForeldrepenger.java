@@ -55,7 +55,7 @@ public class BeregningsgrunnlagXmlTjenesteForeldrepenger implements Beregningsgr
             setBeregningsgrunnlagPerioder(beregningsgrunnlag, beregningsgrunnlagDomene.getBeregningsgrunnlagPerioder());
         }
         Beregningsgrunnlag beregningsgrunnlag1 = new Beregningsgrunnlag();
-        beregningsgrunnlag1.getAny().add(beregningsgrunnlag);
+        beregningsgrunnlag1.getAny().add(new no.nav.vedtak.felles.xml.vedtak.beregningsgrunnlag.fp.v2.ObjectFactory().createBeregningsgrunnlag(beregningsgrunnlag));
         beregningsresultat.setBeregningsgrunnlag(beregningsgrunnlag1);
     }
 

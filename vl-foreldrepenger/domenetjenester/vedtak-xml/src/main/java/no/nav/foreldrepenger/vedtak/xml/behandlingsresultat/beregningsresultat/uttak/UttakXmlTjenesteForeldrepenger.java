@@ -64,7 +64,7 @@ public class UttakXmlTjenesteForeldrepenger {
         setFordelingPerioder(uttakForeldrepenger, behandling);
 
         Uttak uttak = new Uttak();
-        uttak.getAny().add(uttakForeldrepenger);
+        uttak.getAny().add(new no.nav.vedtak.felles.xml.vedtak.uttak.fp.v2.ObjectFactory().createUttak(uttakForeldrepenger));
         beregningsresultat.setUttak(uttak);
     }
 

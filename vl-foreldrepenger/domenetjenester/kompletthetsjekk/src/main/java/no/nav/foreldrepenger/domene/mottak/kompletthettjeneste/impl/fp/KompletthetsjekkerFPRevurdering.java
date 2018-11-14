@@ -30,7 +30,6 @@ import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.Kompletthetsjekke
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetssjekkerInntektsmelding;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetssjekkerSøknad;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
-import no.nav.foreldrepenger.domene.uttak.InntektsmeldingVilEndreUttakTjeneste;
 
 @ApplicationScoped
 @BehandlingTypeRef("BT-004")
@@ -44,7 +43,6 @@ public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private SøknadRepository søknadRepository;
     private BehandlingVedtakRepository behandlingVedtakRepository;
-    private InntektsmeldingVilEndreUttakTjeneste inntektsmeldingVilEndreUttakTjeneste;
 
     KompletthetsjekkerFPRevurdering() {
         // CDI
@@ -55,15 +53,13 @@ public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
                                            @FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding,
                                            KompletthetsjekkerFPFelles fellesUtil,
                                            InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                           BehandlingRepositoryProvider repositoryProvider,
-                                           InntektsmeldingVilEndreUttakTjeneste inntektsmeldingVilEndreUttakTjeneste) {
+                                           BehandlingRepositoryProvider repositoryProvider) {
         this.kompletthetssjekkerSøknad = kompletthetssjekkerSøknad;
         this.kompletthetssjekkerInntektsmelding = kompletthetssjekkerInntektsmelding;
         this.fellesUtil = fellesUtil;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
-        this.inntektsmeldingVilEndreUttakTjeneste = inntektsmeldingVilEndreUttakTjeneste;
     }
 
     @Override
@@ -165,9 +161,6 @@ public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
         boolean ferieEndret = false;
 
         for (Inntektsmelding inntektsmelding : inntektsmeldinger) {
-            graderingEndret = graderingEndret || inntektsmeldingVilEndreUttakTjeneste.graderingVilEndreUttak(originalBehandling, inntektsmelding);
-            arbeidEndret = arbeidEndret || inntektsmeldingVilEndreUttakTjeneste.utsettelseArbeidVilEndreUttak(originalBehandling, inntektsmelding);
-            ferieEndret = ferieEndret || inntektsmeldingVilEndreUttakTjeneste.utsettelseFerieVilEndreUttak(originalBehandling, inntektsmelding);
         }
 
         if (graderingEndret || arbeidEndret || ferieEndret) {

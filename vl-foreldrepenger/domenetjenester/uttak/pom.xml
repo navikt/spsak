@@ -14,10 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>uttak-regler</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-domene</artifactId>
         </dependency>
         <dependency>

@@ -30,7 +30,6 @@ import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.person.impl.TpsAdapterImpl;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.BeregnMorsMaksdatoTjeneste;
 
 public class PersonopplysningTjenesteImplTest {
 
@@ -48,7 +47,7 @@ public class PersonopplysningTjenesteImplTest {
     @Before
     public void before() {
         personopplysningTjeneste = new PersonopplysningTjenesteImpl(repositoryProvider,
-            tpsAdapterImpl, navBrukerRepository, new SkjæringstidspunktTjenesteImpl(repositoryProvider, Mockito.mock(BeregnMorsMaksdatoTjeneste.class),
+            tpsAdapterImpl, navBrukerRepository, new SkjæringstidspunktTjenesteImpl(repositoryProvider,
             new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
             Period.of(0, 3, 0),
             Period.of(0, 10, 0)));

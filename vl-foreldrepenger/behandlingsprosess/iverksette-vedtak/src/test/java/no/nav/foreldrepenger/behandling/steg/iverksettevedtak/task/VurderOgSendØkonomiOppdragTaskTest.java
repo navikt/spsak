@@ -21,7 +21,6 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioM
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskHendelse;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
-import no.nav.vedtak.felles.prosesstask.impl.LogSniffer;
 
 public class VurderOgSendØkonomiOppdragTaskTest {
 
@@ -31,10 +30,6 @@ public class VurderOgSendØkonomiOppdragTaskTest {
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
-
-    @Rule
-    public final LogSniffer logSniffer = new LogSniffer();
-
 
     @Mock
     private VurderOgSendØkonomiOppdrag tjeneste;
@@ -66,8 +61,6 @@ public class VurderOgSendØkonomiOppdragTaskTest {
         task.doTask(prosessTaskData);
 
         // Assert
-        logSniffer.assertHasInfoMessage("Klargjør økonomioppdrag");
-        logSniffer.assertHasInfoMessage("Økonomioppdrag er klargjort");
         verify(prosessTaskData).venterPåHendelse(ProsessTaskHendelse.ØKONOMI_OPPDRAG_KVITTERING);
         verify(repo).lagre(prosessTaskData);
         verify(tjeneste).sendOppdrag(BEHANDLING_ID, TASK_ID, true);
@@ -84,8 +77,6 @@ public class VurderOgSendØkonomiOppdragTaskTest {
         task.doTask(prosessTaskData);
 
         // Assert
-        logSniffer.assertHasInfoMessage("Klargjør økonomioppdrag");
-        logSniffer.assertHasInfoMessage("Økonomioppdrag er klargjort");
         verify(prosessTaskData).venterPåHendelse(ProsessTaskHendelse.ØKONOMI_OPPDRAG_KVITTERING);
         verify(repo).lagre(prosessTaskData);
         verify(tjeneste).sendOppdrag(BEHANDLING_ID, TASK_ID,false);
@@ -102,7 +93,6 @@ public class VurderOgSendØkonomiOppdragTaskTest {
         task.doTask(prosessTaskData);
 
         // Assert
-        logSniffer.assertHasInfoMessage("Ikke aktuelt");
         verify(prosessTaskData, never()).venterPåHendelse(any());
         verify(repo, never()).lagre((ProsessTaskData) any());
         verify(tjeneste, never()).sendOppdrag(anyLong(), anyLong(), anyBoolean());
@@ -117,7 +107,6 @@ public class VurderOgSendØkonomiOppdragTaskTest {
         task.doTask(prosessTaskData);
 
         // Assert
-        logSniffer.assertHasInfoMessage("Økonomioppdrag-kvittering mottatt");
         verify(tjeneste, never()).skalSendeOppdrag(anyLong());
         verify(prosessTaskData, never()).venterPåHendelse(any());
         verify(repo, never()).lagre(any(ProsessTaskData.class));

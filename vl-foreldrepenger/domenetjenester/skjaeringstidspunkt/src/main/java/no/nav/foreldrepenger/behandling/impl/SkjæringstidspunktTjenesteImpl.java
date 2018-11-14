@@ -34,7 +34,6 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.BeregnMorsMaksdatoTjeneste;
 import no.nav.foreldrepenger.inngangsvilkaar.opptjeningsperiode.RegelFastsettOpptjeningsperiode;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.OpptjeningsperiodeGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.FagsakÅrsak;
@@ -52,7 +51,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
     private UttakRepository uttakRepository;
     private OpptjeningRepository opptjeningRepository;
     private SøknadRepository søknadRepository;
-    private BeregnMorsMaksdatoTjeneste beregnMorsMaksdatoTjeneste;
     private RegisterInnhentingIntervallEndringTjeneste endringTjeneste;
     private Period antallMånederOpptjeningsperiode;
     private Period tidligsteUttakFørFødselPeriode;
@@ -63,7 +61,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Inject
     public SkjæringstidspunktTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
-                                          BeregnMorsMaksdatoTjeneste beregnMorsMaksdatoTjeneste,
                                           RegisterInnhentingIntervallEndringTjeneste endringTjeneste,
                                           @KonfigVerdi(value = "opptjeningsperiode.lengde") Period antallMånederOpptjeningsperiode,
                                           @KonfigVerdi(value = "uttak.tidligst.før.fødsel") Period tidligsteUttakFørFødselPeriode) {
@@ -72,7 +69,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
         this.uttakRepository = repositoryProvider.getUttakRepository();
         this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();
-        this.beregnMorsMaksdatoTjeneste = beregnMorsMaksdatoTjeneste;
         this.endringTjeneste = endringTjeneste;
         this.antallMånederOpptjeningsperiode = antallMånederOpptjeningsperiode;
         this.tidligsteUttakFørFødselPeriode = tidligsteUttakFørFødselPeriode;
@@ -174,7 +170,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
         grunnlag.setFagsakÅrsak(finnFagsakÅrsak(hendelse));
         grunnlag.setSøkerRolle(finnFagsakSøkerRolle(behandling));
-        beregnMorsMaksdatoTjeneste.beregnMorsMaksdato(behandling).ifPresent(grunnlag::setMorsMaksdato);
         if (grunnlag.getFagsakÅrsak() == null || grunnlag.getSøkerRolle() == null) {
             throw new IllegalArgumentException("Utvikler-feil: Finner ikke årsak(" + grunnlag.getFagsakÅrsak() + ")/rolle(" + grunnlag.getSøkerRolle() + ") for behandling:" + behandling.getId());
         }

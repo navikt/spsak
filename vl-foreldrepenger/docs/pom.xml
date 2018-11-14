@@ -25,11 +25,6 @@
 		</dependency>
 
 		<!-- ekstra source moduler vi ønsker å dokumentere -->
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>uttak-regler</artifactId>
-			<classifier>sources</classifier>
-		</dependency>
 
 		<!-- WAR classes -->
 		<dependency>

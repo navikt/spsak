@@ -12,7 +12,6 @@ import javax.xml.stream.XMLStreamException;
 import org.xml.sax.SAXException;
 
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.MottattDokumentWrapper;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.SoeknadsskjemaEngangsstoenadContants;
 import no.nav.foreldrepenger.søknad.v1.SøknadConstants;
 import no.nav.vedtak.felles.integrasjon.felles.ws.JaxbHelper;
 import no.seres.xsd.nav.inntektsmelding_m._201809.InntektsmeldingConstants;
@@ -22,8 +21,6 @@ public final class MottattDokumentXmlParser {
     private static Map<String, DokumentParserKonfig> SCHEMA_AND_CLASSES_TIL_STRUKTURERTE_DOKUMENTER = new HashMap<>();
 
     static {
-        SCHEMA_AND_CLASSES_TIL_STRUKTURERTE_DOKUMENTER.put(SoeknadsskjemaEngangsstoenadContants.NAMESPACE, new DokumentParserKonfig(
-            SoeknadsskjemaEngangsstoenadContants.JAXB_CLASS, SoeknadsskjemaEngangsstoenadContants.XSD_LOCATION));
         SCHEMA_AND_CLASSES_TIL_STRUKTURERTE_DOKUMENTER.put(InntektsmeldingConstants.NAMESPACE, new DokumentParserKonfig(
             InntektsmeldingConstants.JAXB_CLASS, InntektsmeldingConstants.XSD_LOCATION));
         SCHEMA_AND_CLASSES_TIL_STRUKTURERTE_DOKUMENTER.put(SøknadConstants.NAMESPACE,
