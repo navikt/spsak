@@ -15,7 +15,6 @@ import no.nav.foreldrepenger.batch.BatchArguments;
 import no.nav.foreldrepenger.batch.BatchStatus;
 import no.nav.foreldrepenger.batch.BatchTjeneste;
 import no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdrag110;
-import no.nav.foreldrepenger.grensesnittavstemming.queue.producer.GrensesnittavstemmingJmsProducer;
 import no.nav.foreldrepenger.økonomistøtte.OppdragskontrollTjeneste;
 
 /**
@@ -29,13 +28,10 @@ public class GrensesnittavstemmingApplikasjonBatchTjeneste implements BatchTjene
     private static final String BATCHNAVN = "BVL001";
     private static final Logger log = LoggerFactory.getLogger(GrensesnittavstemmingApplikasjonBatchTjeneste.class);
     private OppdragskontrollTjeneste oppdragskontrollTjeneste;
-    private GrensesnittavstemmingJmsProducer grensesnittavstemmingJmsProducer;
 
     @Inject
-    public GrensesnittavstemmingApplikasjonBatchTjeneste(OppdragskontrollTjeneste oppdragskontrollTjeneste,
-                                                         GrensesnittavstemmingJmsProducer grensesnittavstemmingJmsProducer) {
+    public GrensesnittavstemmingApplikasjonBatchTjeneste(OppdragskontrollTjeneste oppdragskontrollTjeneste) {
         this.oppdragskontrollTjeneste = oppdragskontrollTjeneste;
-        this.grensesnittavstemmingJmsProducer = grensesnittavstemmingJmsProducer;
     }
 
     private void utførGrensesnittavstemming(LocalDate fomDato, LocalDate tomDato, String fagområde) {
@@ -54,11 +50,7 @@ public class GrensesnittavstemmingApplikasjonBatchTjeneste implements BatchTjene
         }
         String sluttmelding = mapper.lagSluttmelding();
         logMelding("sluttmelding", sluttmelding);
-        grensesnittavstemmingJmsProducer.sendGrensesnittavstemming(startmelding);
-        for (String datamelding : datameldinger) {
-            grensesnittavstemmingJmsProducer.sendGrensesnittavstemming(datamelding);
-        }
-        grensesnittavstemmingJmsProducer.sendGrensesnittavstemming(sluttmelding);
+        log.warn("Grensesnittavstemning er fjernet.");
         log.info("Fullført grensesnittavstemming med id: {}", mapper.getAvstemmingId()); //NOSONAR
     }
 

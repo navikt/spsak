@@ -14,7 +14,6 @@ public class JettyTestApplication extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
         classes.add(JettyLoginResource.class);
-        classes.add(TestØkonomiKvitteringLokaltRestTjeneste.class);
         return classes;
     }
 }

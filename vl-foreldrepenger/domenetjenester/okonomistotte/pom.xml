@@ -43,11 +43,6 @@
             <artifactId>grensesnittavstemming-v1</artifactId>
             <classifier>jaxb</classifier>
         </dependency>
-     
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>felles-integrasjon-jms</artifactId>
-        </dependency>
 
         <!-- Test -->
         <dependency>

@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.jms.JMSException;
-import javax.naming.NamingException;
-
 import org.eclipse.jetty.plus.jndi.EnvEntry;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
@@ -93,15 +90,6 @@ public class JettyServer extends AbstractJettyServer {
     @Override
     protected void konfigurerJndi() throws Exception {
         new EnvEntry("jdbc/defaultDS", dataSourceKonfig.getDefaultDatasource().getDatasource());
-        konfigurerJms();
-    }
-
-    protected void konfigurerJms() throws JMSException, NamingException {
-        JmsKonfig.settOppJndiConnectionfactory("jms/ConnectionFactory", "mqGateway02", "fpsak_channel");
-        JmsKonfig.settOppJndiMessageQueue("jms/QueueSakOgBehandling", "SBEH_SAKSBEHANDLING");
-        JmsKonfig.settOppJndiMessageQueue("jms/QueueFpsakOkonomiOppdragSend", "fpsak_okonomi_oppdrag_send");
-        JmsKonfig.settOppJndiMessageQueue("jms/QueueFpsakOkonomiOppdragMotta", "fpsak_okonomi_oppdrag_mottak");
-        JmsKonfig.settOppJndiMessageQueue("jms/QueueFpsakGrensesnittavstemmingSend", "RAY.AVSTEM_DATA", true);
     }
 
     @Override

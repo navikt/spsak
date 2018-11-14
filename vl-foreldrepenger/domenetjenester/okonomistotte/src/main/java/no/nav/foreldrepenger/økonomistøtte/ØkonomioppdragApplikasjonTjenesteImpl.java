@@ -13,7 +13,6 @@ import no.nav.foreldrepenger.behandlingslager.økonomioppdrag.OppdragKvittering;
 import no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdragskontroll;
 import no.nav.foreldrepenger.økonomistøtte.api.ØkonomiKvittering;
 import no.nav.foreldrepenger.økonomistøtte.api.ØkonomioppdragApplikasjonTjeneste;
-import no.nav.foreldrepenger.økonomistøtte.queue.producer.ØkonomioppdragJmsProducer;
 import no.nav.vedtak.felles.AktiverContextOgTransaksjon;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskHendelse;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskHendelseMottak;
@@ -25,7 +24,6 @@ public class ØkonomioppdragApplikasjonTjenesteImpl implements ØkonomioppdragAp
     private OppdragskontrollTjeneste oppdragskontrollTjeneste;
     private ProsessTaskHendelseMottak hendelsesmottak;
     private ØkonomioppdragRepository økonomioppdragRepository;
-    private ØkonomioppdragJmsProducer økonomioppdragJmsProducer;
 
     private static final Logger log = LoggerFactory.getLogger(ØkonomioppdragApplikasjonTjenesteImpl.class);
 
@@ -36,12 +34,10 @@ public class ØkonomioppdragApplikasjonTjenesteImpl implements ØkonomioppdragAp
     @Inject
     public ØkonomioppdragApplikasjonTjenesteImpl(OppdragskontrollTjeneste oppdragskontrollTjeneste,
                                                  ProsessTaskHendelseMottak hendelsesmottak,
-                                                 ØkonomioppdragRepository økonomioppdragRepository,
-                                                 ØkonomioppdragJmsProducer økonomioppdragJmsProducer) {
+                                                 ØkonomioppdragRepository økonomioppdragRepository) {
         this.oppdragskontrollTjeneste = oppdragskontrollTjeneste;
         this.hendelsesmottak = hendelsesmottak;
         this.økonomioppdragRepository = økonomioppdragRepository;
-        this.økonomioppdragJmsProducer = økonomioppdragJmsProducer;
     }
 
     @Override
@@ -56,7 +52,7 @@ public class ØkonomioppdragApplikasjonTjenesteImpl implements ØkonomioppdragAp
             List<String> oppdragXMLListe = mapper.generateOppdragXML();
             //Legge oppdragXML i kø til Økonomiløsningen
             for (String oppdragXML : oppdragXMLListe) {
-                økonomioppdragJmsProducer.sendØkonomiOppdrag(oppdragXML);
+                log.warn("Skulle sendt oppdrag til økonomi \n" + oppdragXML);
             }
         }
     }

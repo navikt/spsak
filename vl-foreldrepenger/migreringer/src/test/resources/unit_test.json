@@ -4,7 +4,7 @@
       "datasource": "defaultDS",
       "defaultSchema": "fpsak_unit",
       "schema": "${flyway.placeholders.vl_fpsak_schema_unit}",
-      "url": "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp) (HOST=0.0.0.0)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))",
+      "url": "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp) (HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))",
       "default": true,
       "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
     },
@@ -12,7 +12,7 @@
       "datasource": "dvhDS",
       "defaultSchema": "fpsak_hist_unit",
       "schema": "${flyway.placeholders.vl_fpsak_hist_schema_unit}",
-      "url": "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp) (HOST=0.0.0.0)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))",
+      "url": "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp) (HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))",
       "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
     }
   ]

@@ -35,10 +35,6 @@
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>oppgave-klient</artifactId>
         </dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>sakogbehandling-klient</artifactId>
-        </dependency>
 
         <!-- Prosjektinterne avhengigheter -->
         <dependency>
