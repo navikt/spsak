@@ -259,18 +259,6 @@ public class HistorikkInnslagTekstBuilder {
         return sekvensNr;
     }
 
-    /**
-     * @deprecated Use at your own risk
-     */
-    @Deprecated
-    public HistorikkInnslagTekstBuilder medTotrinnsvurdering(AksjonspunktDefinisjon aksjonspunktDefinisjon, boolean godkjent, String besluttersBegrunnelse) {
-        HistorikkinnslagTotrinnsvurdering totrinnsvurdering = new HistorikkinnslagTotrinnsvurdering();
-        totrinnsvurdering.setAksjonspunktDefinisjon(aksjonspunktDefinisjon);
-        totrinnsvurdering.setGodkjent(godkjent);
-        totrinnsvurdering.setBegrunnelse(besluttersBegrunnelse);
-        return leggTilTotrinnsvurdering(totrinnsvurdering);
-    }
-
     public HistorikkInnslagTekstBuilder medTotrinnsvurdering(Map<SkjermlenkeType, List<HistorikkinnslagTotrinnsvurdering>> vurdering,
                                                              List<HistorikkinnslagTotrinnsvurdering> vurderingUtenVilkar) {
         boolean første = true;

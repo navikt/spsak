@@ -143,21 +143,21 @@ public class HistorikkinnslagDel extends BaseEntitet {
         return totrinnsvurderinger;
     }
 
-    private HistorikkinnslagTotrinnsvurdering lagHistorikkinnslagAksjonspunkt(Integer sekvensNr, List<HistorikkinnslagFelt> aksjonspunktFeltListe, AksjonspunktRepository aksjonspunktRepository) {
-        HistorikkinnslagTotrinnsvurdering aksjonspunkt = new HistorikkinnslagTotrinnsvurdering(sekvensNr);
-        aksjonspunktFeltListe.forEach(felt -> {
+    private HistorikkinnslagTotrinnsvurdering lagHistorikkinnslagAksjonspunkt(Integer sekvensNr, List<HistorikkinnslagFelt> historikkinnslagFelt, AksjonspunktRepository aksjonspunktRepository) {
+        HistorikkinnslagTotrinnsvurdering historikkinnslagTotrinnsvurdering = new HistorikkinnslagTotrinnsvurdering(sekvensNr);
+        historikkinnslagFelt.forEach(felt -> {
             if (HistorikkinnslagFeltType.AKSJONSPUNKT_BEGRUNNELSE.equals(felt.getFeltType())) {
-                aksjonspunkt.setBegrunnelse(felt.getTilVerdi());
+                historikkinnslagTotrinnsvurdering.setBegrunnelse(felt.getTilVerdi());
             } else if (HistorikkinnslagFeltType.AKSJONSPUNKT_GODKJENT.equals(felt.getFeltType())) {
-                aksjonspunkt.setGodkjent(Boolean.parseBoolean(felt.getTilVerdi()));
+                historikkinnslagTotrinnsvurdering.setGodkjent(Boolean.parseBoolean(felt.getTilVerdi()));
             } else if (HistorikkinnslagFeltType.AKSJONSPUNKT_KODE.equals(felt.getFeltType())) {
                 AksjonspunktDefinisjon aksjonspunktDefinisjon = aksjonspunktRepository.finnAksjonspunktDefinisjon(felt.getTilVerdi());
-                aksjonspunkt.setAksjonspunktDefinisjon(aksjonspunktDefinisjon);
+                historikkinnslagTotrinnsvurdering.setAksjonspunktDefinisjon(aksjonspunktDefinisjon);
             } else {
                 throw new IllegalStateException("Uventet feltnavn " + felt.getFeltType().getKode());
             }
         });
-        return aksjonspunkt;
+        return historikkinnslagTotrinnsvurdering;
     }
 
     private Optional<HistorikkinnslagFelt> finnFelt(HistorikkinnslagFeltType historikkinnslagFeltType) {
