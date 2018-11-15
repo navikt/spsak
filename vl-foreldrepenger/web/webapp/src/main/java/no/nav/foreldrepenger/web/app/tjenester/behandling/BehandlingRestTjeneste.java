@@ -46,7 +46,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.RelatertBehandlingTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsprosessApplikasjonTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsutredningApplikasjonTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.AsyncPollingStatus;
@@ -57,7 +56,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.NyBehandlingDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.Redirect;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.ReåpneBehandlingDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.SettBehandlingPaVentDto;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.AnnenPartBehandlingDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingDtoTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingIdDto;
@@ -92,7 +90,6 @@ public class BehandlingRestTjeneste {
     private KodeverkRepository kodeverkRepository;
     private HenleggBehandlingTjeneste henleggBehandlingTjeneste;
     private BehandlingDtoTjeneste behandlingDtoTjeneste;
-    private RelatertBehandlingTjeneste relatertBehandlingTjeneste;
 
     public BehandlingRestTjeneste() {
         // for resteasy
@@ -104,8 +101,7 @@ public class BehandlingRestTjeneste {
                                   BehandlingsprosessApplikasjonTjeneste behandlingsprosessTjeneste,
                                   FagsakTjeneste fagsakTjeneste,
                                   HenleggBehandlingTjeneste henleggBehandlingTjeneste,
-                                  BehandlingDtoTjeneste behandlingDtoTjeneste,
-                                  RelatertBehandlingTjeneste relatertBehandlingTjeneste) {
+                                  BehandlingDtoTjeneste behandlingDtoTjeneste) {
 
         this.behandlingutredningTjeneste = behandlingsutredningApplikasjonTjeneste;
         this.behandlingsprosessTjeneste = behandlingsprosessTjeneste;
@@ -113,7 +109,6 @@ public class BehandlingRestTjeneste {
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.henleggBehandlingTjeneste = henleggBehandlingTjeneste;
         this.behandlingDtoTjeneste = behandlingDtoTjeneste;
-        this.relatertBehandlingTjeneste = relatertBehandlingTjeneste;
     }
 
     @POST
@@ -352,34 +347,5 @@ public class BehandlingRestTjeneste {
         return Redirect.tilBehandlingPollStatus(behandlingId, Optional.empty());
     }
 
-    @GET
-    @Path("/annen-part-behandling")
-    @Timed
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Søk etter annenpart behandling på saksnummer", notes = ("Returnerer annenpart behandling som er tilknyttet saksnummer."))
-    @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
-    @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
-    public Response hentAnnenPartsGjeldendeBehandling(
-        @NotNull @QueryParam("saksnummer") @ApiParam("Saksnummer må være et eksisterende saksnummer") @Valid SaksnummerDto s) {
-        Saksnummer saksnummer = new Saksnummer(s.getVerdi());
-        Optional<Fagsak> funnetFagsak = fagsakTjeneste.finnFagsakGittSaksnummer(saksnummer, false);
-        if (!funnetFagsak.isPresent()) {
-            throw BehandlingRestTjenesteFeil.FACTORY.fantIkkeFagsak(saksnummer).toException();
-        }
-
-        Fagsak fagsak = funnetFagsak.get();
-        Optional<Behandling> behandlingOpt = relatertBehandlingTjeneste.hentAnnenPartsGjeldendeBehandling(fagsak);
-
-        ResponseBuilder responseBuilder;
-        if(behandlingOpt.isPresent()) {
-            Behandling behandling = behandlingOpt.get();
-            AnnenPartBehandlingDto dto = behandlingDtoTjeneste.lagAnnenPartBehandlingDto(behandling);
-            responseBuilder = Response.ok().entity(dto);
-        } else {
-            responseBuilder = Response.ok();
-        }
-
-        return responseBuilder.build();
-    }
 
 }

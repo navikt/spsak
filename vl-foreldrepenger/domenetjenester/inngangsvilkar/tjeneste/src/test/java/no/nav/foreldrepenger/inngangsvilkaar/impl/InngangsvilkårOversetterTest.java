@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -53,7 +51,6 @@ import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon.Builder;
@@ -62,9 +59,6 @@ import no.nav.foreldrepenger.domene.medlem.impl.MedlemskapPerioderTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.impl.BasisPersonopplysningTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.impl.BeregnMorsMaksdatoTjenesteImpl;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.impl.RelatertBehandlingTjenesteImpl;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.AdopsjonsvilkårGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.FødselsvilkårGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.Kjoenn;
@@ -89,8 +83,7 @@ public class InngangsvilkårOversetterTest {
             Period.of(0, 3, 0),
             Period.of(0, 10, 0));
         BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
-        oversetter = new InngangsvilkårOversetter(repositoryProvider, new MedlemskapPerioderTjenesteImpl(12, 6, skjæringstidspunktTjeneste), skjæringstidspunktTjeneste, personopplysningTjeneste,
-            new BeregnMorsMaksdatoTjenesteImpl(repositoryProvider, new RelatertBehandlingTjenesteImpl(repositoryProvider)));
+        oversetter = new InngangsvilkårOversetter(repositoryProvider, new MedlemskapPerioderTjenesteImpl(12, 6, skjæringstidspunktTjeneste), skjæringstidspunktTjeneste, personopplysningTjeneste);
     }
 
     @Test
@@ -168,50 +161,6 @@ public class InngangsvilkårOversetterTest {
         scenario.medRegisterOpplysninger(fødtBarn);
 
         return scenario.lagre(repositoryProvider);
-    }
-
-    @Test
-    public void skal_mappe_fra_domeneadoosjon_til_regeladopsjon() {
-        // Arrange
-        LocalDate søknadsdato = LocalDate.now().plusDays(1);
-        LocalDate søknadFødselsdato = LocalDate.now().plusDays(2);
-        LocalDate fødselAdopsjonsdatoFraSøknad = LocalDate.now().plusDays(8);
-        Map<Integer, LocalDate> map = new HashMap<>();
-        map.put(1, fødselAdopsjonsdatoFraSøknad);
-
-        AbstractTestScenario<?> scenario = ScenarioFarSøkerEngangsstønad.forAdopsjon();
-        scenario.medSøknad()
-            .medSøknadsdato(søknadsdato)
-            .build();
-        scenario.medSøknadHendelse().medFødselsDato(søknadFødselsdato);
-
-        scenario.medBekreftetHendelse().medAdopsjon(
-            scenario.medBekreftetHendelse().getAdopsjonBuilder()
-                .medErEktefellesBarn(true)
-                .medAdoptererAlene(true)
-                .medOmsorgsovertakelseDato(fødselAdopsjonsdatoFraSøknad)
-        ).leggTilBarn(fødselAdopsjonsdatoFraSøknad)
-            // Adosjon
-            .build();
-        
-        PersonInformasjon søker = scenario.opprettBuilderForRegisteropplysninger()
-                .medPersonas()
-                .mann(scenario.getDefaultBrukerAktørId(), SivilstandType.UOPPGITT, Region.NORDEN)
-                .statsborgerskap(Landkoder.NOR)
-                .build();
-        scenario.medRegisterOpplysninger(søker);
-
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-
-        AdopsjonsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellAdopsjon(behandling);
-
-        // Assert
-        assertThat(grunnlag.getSoekersKjonn()).isEqualTo(Kjoenn.MANN);
-        assertThat(grunnlag.getBekreftetAdopsjonBarn().get(0).getFoedselsdato()).isEqualTo(map.get(1));
-        assertThat(grunnlag.isEktefellesBarn()).isTrue();
-        assertThat(grunnlag.isMannAdoptererAlene()).isTrue();
-        assertThat(grunnlag.getOmsorgsovertakelsesdato()).isEqualTo(fødselAdopsjonsdatoFraSøknad);
     }
 
     @Test
@@ -327,7 +276,7 @@ public class InngangsvilkårOversetterTest {
         return scenario;
     }
 
-    private InntektArbeidYtelseAggregatBuilder opprettArbeidOgInntektForBehandling(AbstractTestScenario scenario, LocalDate fom, LocalDate tom, boolean harPensjonsgivendeInntekt) {
+    private InntektArbeidYtelseAggregatBuilder opprettArbeidOgInntektForBehandling(AbstractTestScenario<?> scenario, LocalDate fom, LocalDate tom, boolean harPensjonsgivendeInntekt) {
 
         VirksomhetEntitet virksomhet = new VirksomhetEntitet.Builder().medNavn("OrgA").medOrgnr("42").oppdatertOpplysningerNå().build();
         repositoryProvider.getVirksomhetRepository().lagre(virksomhet);

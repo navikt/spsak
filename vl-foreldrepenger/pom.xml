@@ -38,9 +38,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<vl-kontrakt-fp-feed.version>0.0.1-SNAPSHOT</vl-kontrakt-fp-feed.version>
-		<vl-kontrakt-vedtak.version>0.0.1-SNAPSHOT</vl-kontrakt-vedtak.version>
-		<vl-foreldrepenger-uttak-regler.version>0.0.1-SNAPSHOT</vl-foreldrepenger-uttak-regler.version>
 	</properties>
 
 	<prerequisites>
@@ -65,19 +62,17 @@
 			<dependency>
 				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles-behandlingsprosess</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>felles-integrasjon-pom</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
-
-
 
 			<!-- Prosjektets egne biblioteker -->
 			<dependency>
@@ -174,11 +169,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-uttak</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingsprosess-soknadsfrist-foreldrepenger</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -190,34 +180,32 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>behandlingsprosess-vedtak-v1</artifactId>
-				<version>${vl-kontrakt-vedtak.version}</version>
 				<classifier>jaxb</classifier>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>behandlingsprosess-vedtak-v2</artifactId>
-				<version>${vl-kontrakt-vedtak.version}</version>
 				<classifier>jaxb</classifier>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>fordel-v1</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
-				<version>${vl-kontrakt-fp-feed.version}</version>
+				<version>${project.version}</version>
+				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
-				<version>${vl-kontrakt-fp-feed.version}</version>
+				<version>${project.version}</version>
+				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>abonnent-v1</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<classifier>jaxb</classifier>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
@@ -287,16 +275,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>uttak</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandling-soknadsfrist-foreldrepenger</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>virksomhet</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -355,11 +333,6 @@
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>skjaeringstidspunkt</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>uttaksplan</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -502,19 +475,19 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>okonomistotte-v1</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>inntektsmelding-v1</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>grensesnittavstemming-v1</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 			<dependency>
@@ -559,7 +532,7 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>soeknad-v1</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<classifier>jaxb</classifier>
 			</dependency>
 

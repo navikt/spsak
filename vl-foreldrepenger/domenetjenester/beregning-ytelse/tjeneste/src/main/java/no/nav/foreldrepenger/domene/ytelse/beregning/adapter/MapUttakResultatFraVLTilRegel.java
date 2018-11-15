@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.domene.ytelse.beregning.adapter;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,20 +18,12 @@ import no.nav.foreldrepenger.beregning.regelmodell.UttakResultat;
 import no.nav.foreldrepenger.beregning.regelmodell.UttakResultatPeriode;
 import no.nav.foreldrepenger.beregning.regelmodell.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.beregning.regelmodell.beregningsgrunnlag.Arbeidsforhold;
-import no.nav.foreldrepenger.domene.uttak.UttakStillingsprosentTjeneste;
 
 @ApplicationScoped
 public class MapUttakResultatFraVLTilRegel {
 
-    private UttakStillingsprosentTjeneste uttakStillingsprosentTjeneste;
-
-    public MapUttakResultatFraVLTilRegel() {
-        //Default
-    }
-
     @Inject
-    public MapUttakResultatFraVLTilRegel(UttakStillingsprosentTjeneste uttakStillingsprosentTjeneste) {
-        this.uttakStillingsprosentTjeneste = uttakStillingsprosentTjeneste;
+    public MapUttakResultatFraVLTilRegel() {
     }
 
     public UttakResultat mapFra(UttakResultatEntitet vlUttakResultat, Behandling behandling) {
@@ -79,14 +70,16 @@ public class MapUttakResultatFraVLTilRegel {
     }
 
     private BigDecimal mapStillingsprosent(Behandling behandling, UttakResultatPeriodeAktivitetEntitet uttakAktivitet) {
-        Optional<BigDecimal> stillingsprosent;
+        /*
+        // FIXME SP - hent ut stillingsprosent riktig
         if (UttakArbeidType.FRILANS.equals(uttakAktivitet.getUttakArbeidType())) {
             stillingsprosent = uttakStillingsprosentTjeneste.finnStillingsprosentFrilans(behandling, uttakAktivitet.getFom());
         } else {
             stillingsprosent = uttakStillingsprosentTjeneste.finnStillingsprosentOrdinærtArbeid(behandling, uttakAktivitet.getArbeidsforholdOrgnr(),
                 uttakAktivitet.getArbeidsforholdId(), uttakAktivitet.getFom());
         }
-
         return stillingsprosent.orElse(BigDecimal.valueOf(100));
+        */
+        return BigDecimal.valueOf(100);
     }
 }

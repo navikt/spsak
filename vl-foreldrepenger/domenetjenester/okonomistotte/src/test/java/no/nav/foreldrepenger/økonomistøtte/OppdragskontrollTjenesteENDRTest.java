@@ -25,6 +25,7 @@ import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.ØkonomiKodeKlassifik;
 
 public class OppdragskontrollTjenesteENDRTest extends OppdragskontrollTjenesteImplFPBaseTest {
 
+    @Override
     @Before
     public void setUp() {
         super.setUp();

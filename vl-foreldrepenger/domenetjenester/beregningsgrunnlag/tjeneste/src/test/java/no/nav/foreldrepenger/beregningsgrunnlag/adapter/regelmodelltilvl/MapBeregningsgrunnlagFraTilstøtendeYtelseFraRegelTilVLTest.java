@@ -10,7 +10,6 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,12 +17,7 @@ import org.junit.runner.RunWith;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.beregningsgrunnlag.FastsettInntektskategoriFraSøknadTjeneste;
 import no.nav.foreldrepenger.beregningsgrunnlag.Grunnbeløp;
-import no.nav.foreldrepenger.beregningsgrunnlag.MatchBeregningsgrunnlagTjeneste;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.AktivitetStatus;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.grunnlag.inntekt.Inntektskategori;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.grunnlag.inntekt.RelatertYtelseType;

@@ -25,7 +25,6 @@
         <module>klage</module>
         <module>vurder-innsyn</module>
         <module>kompletthetssjekk</module>
-		<module>uttak</module>
         <module>simulering</module>
 
 		<!-- Bill of Material (BOM) modul som samler alle over -->

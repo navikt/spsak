@@ -93,11 +93,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingsprosess-beregningsgrunnlag</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingsprosess-uttak</artifactId>
-        </dependency>
-
+		
 	</dependencies>
 </project>

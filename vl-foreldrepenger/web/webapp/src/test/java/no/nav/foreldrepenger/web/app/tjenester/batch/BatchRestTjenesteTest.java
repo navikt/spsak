@@ -4,19 +4,12 @@ import no.nav.foreldrepenger.batch.BatchArguments;
 import no.nav.foreldrepenger.batch.BatchSupportTjeneste;
 import no.nav.foreldrepenger.batch.BatchTjeneste;
 import no.nav.foreldrepenger.batch.feil.InvalidArgumentsVLBatchException;
-import no.nav.foreldrepenger.batch.impl.BatchSupportTjenesteImpl;
 import no.nav.foreldrepenger.web.app.tjenester.batch.args.BatchArgumentsDto;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-
-import no.nav.vedtak.felles.testutilities.Whitebox;
-
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;

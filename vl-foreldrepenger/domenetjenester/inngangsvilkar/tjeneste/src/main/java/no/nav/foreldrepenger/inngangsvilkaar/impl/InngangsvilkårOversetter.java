@@ -1,8 +1,5 @@
 package no.nav.foreldrepenger.inngangsvilkaar.impl;
 
-import static java.util.stream.Collectors.toList;
-import static no.nav.foreldrepenger.inngangsvilkaar.regelmodell.adapter.RegelintegrasjonFeil.FEILFACTORY;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -22,7 +19,6 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.Adopsjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
@@ -57,10 +53,6 @@ import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.VilkårData;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.BeregnMorsMaksdatoTjeneste;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.AdopsjonsvilkårGrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.BekreftetAdopsjon;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.BekreftetAdopsjonBarn;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.FødselsvilkårGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.OpptjeningsperiodeGrunnlag;
@@ -83,7 +75,6 @@ public class InngangsvilkårOversetter {
     private SøknadRepository søknadRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private BasisPersonopplysningTjeneste personopplysningTjeneste;
-    private BeregnMorsMaksdatoTjeneste beregnMorsMaksdatoTjeneste;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
 
     InngangsvilkårOversetter() {
@@ -94,8 +85,7 @@ public class InngangsvilkårOversetter {
     public InngangsvilkårOversetter(BehandlingRepositoryProvider repositoryProvider,
                                     MedlemskapPerioderTjeneste medlemskapPerioderTjeneste,
                                     SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
-                                    BasisPersonopplysningTjeneste personopplysningTjeneste,
-                                    BeregnMorsMaksdatoTjeneste beregnMorsMaksdatoTjeneste) {
+                                    BasisPersonopplysningTjeneste personopplysningTjeneste) {
         this.kodeverkRepository = repositoryProvider.getVilkårKodeverkRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
@@ -104,7 +94,6 @@ public class InngangsvilkårOversetter {
         this.medlemskapPerioderTjeneste = medlemskapPerioderTjeneste;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.personopplysningTjeneste = personopplysningTjeneste;
-        this.beregnMorsMaksdatoTjeneste = beregnMorsMaksdatoTjeneste;
     }
 
     public FødselsvilkårGrunnlag oversettTilRegelModellFødsel(Behandling behandling) {
@@ -208,35 +197,6 @@ public class InngangsvilkårOversetter {
             søknad.getMottattDato());
     }
 
-    public AdopsjonsvilkårGrunnlag oversettTilRegelModellAdopsjon(Behandling behandling) {
-        BekreftetAdopsjon bekreftetAdopsjon = byggBekreftetAdopsjon(behandling);
-        List<BekreftetAdopsjonBarn> adopsjonBarn = bekreftetAdopsjon.getAdopsjonBarn();
-        return new AdopsjonsvilkårGrunnlag(
-            adopsjonBarn,
-            bekreftetAdopsjon.isEktefellesBarn(),
-            tilSoekerKjoenn(getSøkersKjønn(behandling)),
-            bekreftetAdopsjon.isAdoptererAlene(),
-            bekreftetAdopsjon.getOmsorgsovertakelseDato(),
-            erStønadperiodeBruktOpp(behandling));
-    }
-
-    private boolean erStønadperiodeBruktOpp(Behandling behandling) {
-        final FamilieHendelseGrunnlag familieHendelseGrunnlag = familieGrunnlagRepository.hentAggregat(behandling);
-        Optional<FamilieHendelse> versjon = familieHendelseGrunnlag.getGjeldendeBekreftetVersjon();
-        FamilieHendelse familieHendelse = versjon.orElseGet(familieHendelseGrunnlag::getSøknadVersjon);
-
-        // TODO PK-48734 - er omsorgsovertakelseDato riktig dato?
-        if (familieHendelse.getAdopsjon().isPresent()) {
-            LocalDate omsorgsovertakelseDato = familieHendelse.getAdopsjon().get().getOmsorgsovertakelseDato();
-            Optional<LocalDate> maksdatoForeldrepenger = beregnMorsMaksdatoTjeneste.beregnMaksdatoForeldrepenger(behandling);
-
-            if (!maksdatoForeldrepenger.isPresent() || omsorgsovertakelseDato.isBefore(maksdatoForeldrepenger.get())) {
-                return false; // stønadsperioden er ikke brukt opp av annen forelder
-            }
-        }
-        return true;
-    }
-
     public MedlemskapsvilkårGrunnlag oversettTilRegelModellMedlemskap(Behandling behandling) {
         PersonopplysningerAggregat personopplysninger = personopplysningTjeneste.hentPersonopplysninger(behandling);
 
@@ -269,7 +229,8 @@ public class InngangsvilkårOversetter {
 
     private boolean finnOmSøkerHarArbeidsforholdOgInntekt(Behandling behandling) {
         LocalDate skjæringstidspunkt = skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling);
-        Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling, skjæringstidspunkt);
+        Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling,
+            skjæringstidspunkt);
 
         if (inntektArbeidYtelseGrunnlagOptional.isPresent()) {
             InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag = inntektArbeidYtelseGrunnlagOptional.get();
@@ -278,7 +239,8 @@ public class InngangsvilkårOversetter {
                 return false;
             }
 
-            Optional<List<Arbeidsgiver>> arbeidsgivere = finnRelevanteArbeidsgivereMedLøpendeAvtaleEllerAvtaleSomErGyldigPåStp(skjæringstidspunkt, søkersArbeid.get());
+            Optional<List<Arbeidsgiver>> arbeidsgivere = finnRelevanteArbeidsgivereMedLøpendeAvtaleEllerAvtaleSomErGyldigPåStp(skjæringstidspunkt,
+                søkersArbeid.get());
             if (!arbeidsgivere.isPresent()) {
                 return false;
             }
@@ -293,13 +255,15 @@ public class InngangsvilkårOversetter {
         return false;
     }
 
-    private Optional<List<Arbeidsgiver>> finnRelevanteArbeidsgivereMedLøpendeAvtaleEllerAvtaleSomErGyldigPåStp(LocalDate skjæringstidspunkt, AktørArbeid søkerArbeid) {
+    private Optional<List<Arbeidsgiver>> finnRelevanteArbeidsgivereMedLøpendeAvtaleEllerAvtaleSomErGyldigPåStp(LocalDate skjæringstidspunkt,
+                                                                                                               AktørArbeid søkerArbeid) {
         List<Arbeidsgiver> relevanteArbeid = new ArrayList<>();
         for (Yrkesaktivitet yrkesaktivitet : søkerArbeid.getYrkesaktiviteter()) {
             if (yrkesaktivitet.erArbeidsforhold() && yrkesaktivitet.getAnsettelsesPeriode().isPresent()) {
                 AktivitetsAvtale aktivitetsAvtale = yrkesaktivitet.getAnsettelsesPeriode().get();
                 // Hvis har en løpende avtale fom før skjæringstidspunktet eller den som dekker skjæringstidspunktet
-                if ((aktivitetsAvtale.getErLøpende() && aktivitetsAvtale.getFraOgMed().isBefore(skjæringstidspunkt)) || (aktivitetsAvtale.getFraOgMed().isBefore(skjæringstidspunkt) && aktivitetsAvtale.getTilOgMed().isAfter(skjæringstidspunkt))) {
+                if ((aktivitetsAvtale.getErLøpende() && aktivitetsAvtale.getFraOgMed().isBefore(skjæringstidspunkt))
+                    || (aktivitetsAvtale.getFraOgMed().isBefore(skjæringstidspunkt) && aktivitetsAvtale.getTilOgMed().isAfter(skjæringstidspunkt))) {
                     relevanteArbeid.add(yrkesaktivitet.getArbeidsgiver());
                 }
             }
@@ -314,7 +278,8 @@ public class InngangsvilkårOversetter {
 
     private boolean sjekkOmSaksbehandlerHarSattOophørtIMedlemskapPgaEndringerITps(Optional<VurdertMedlemskap> vurdertMedlemskap) {
         if (vurdertMedlemskap.isPresent()) {
-            if (MedlemskapManuellVurderingType.SAKSBEHANDLER_SETTER_OPPHØR_AV_MEDL_PGA_ENDRINGER_I_TPS.equals(vurdertMedlemskap.get().getMedlemsperiodeManuellVurdering())) {
+            if (MedlemskapManuellVurderingType.SAKSBEHANDLER_SETTER_OPPHØR_AV_MEDL_PGA_ENDRINGER_I_TPS
+                .equals(vurdertMedlemskap.get().getMedlemsperiodeManuellVurdering())) {
                 return true;
             }
         }
@@ -338,7 +303,8 @@ public class InngangsvilkårOversetter {
                     return false;
                 }
             }
-            return medlemskapPerioderTjeneste.brukerMaskineltAvklartSomFrivilligEllerPliktigMedlem(behandling, familieGrunnlagRepository.hentAggregat(behandling),
+            return medlemskapPerioderTjeneste.brukerMaskineltAvklartSomFrivilligEllerPliktigMedlem(behandling,
+                familieGrunnlagRepository.hentAggregat(behandling),
                 medlemskap.map(MedlemskapAggregat::getRegistrertMedlemskapPerioder).orElse(Collections.emptySet()));
 
         } else {
@@ -387,7 +353,8 @@ public class InngangsvilkårOversetter {
 
     private PersonStatusType tilPersonStatusType(PersonopplysningerAggregat personopplysninger) {
         // Bruker overstyrt personstatus hvis det finnes
-        PersonstatusType type = Optional.ofNullable(personopplysninger.getPersonstatusFor(personopplysninger.getSøker().getAktørId())).map(Personstatus::getPersonstatus).orElse(null);
+        PersonstatusType type = Optional.ofNullable(personopplysninger.getPersonstatusFor(personopplysninger.getSøker().getAktørId()))
+            .map(Personstatus::getPersonstatus).orElse(null);
 
         if (PersonstatusType.BOSA.equals(type)) {
             return PersonStatusType.BOSA;
@@ -398,33 +365,6 @@ public class InngangsvilkårOversetter {
         }
 
         return null;
-    }
-
-    private BekreftetAdopsjon byggBekreftetAdopsjon(Behandling behandling) {
-        final Optional<FamilieHendelse> bekreftetVersjon = familieGrunnlagRepository.hentAggregat(behandling).getGjeldendeBekreftetVersjon();
-        final Optional<Adopsjon> adopsjon = bekreftetVersjon.flatMap(FamilieHendelse::getAdopsjon);
-
-        if (!adopsjon.isPresent()) {
-            throw FEILFACTORY.kanIkkeOversetteAdopsjonsgrunnlag(String.valueOf(behandling.getId())).toException();
-        }
-        if (!bekreftetVersjon.isPresent()) {
-            throw FEILFACTORY.kanIkkeOversetteAdopsjonsgrunnlag(String.valueOf(behandling.getId())).toException();
-        }
-
-        List<BekreftetAdopsjonBarn> bekreftetAdopsjonBarn = bekreftetVersjon.get().getBarna().stream()
-            .map(barn -> new BekreftetAdopsjonBarn(barn.getFødselsdato()))
-            .collect(toList());
-        BekreftetAdopsjon bekreftetAdopsjon = new BekreftetAdopsjon(adopsjon.get().getOmsorgsovertakelseDato(), bekreftetAdopsjonBarn);
-        bekreftetAdopsjon.setAdoptererAlene(getBooleanOrDefaultFalse(adopsjon.get().getAdoptererAlene()));
-        bekreftetAdopsjon.setEktefellesBarn(getBooleanOrDefaultFalse(adopsjon.get().getErEktefellesBarn()));
-        return bekreftetAdopsjon;
-    }
-
-    private boolean getBooleanOrDefaultFalse(Boolean bool) {
-        if (bool == null) {
-            return false;
-        }
-        return bool;
     }
 
     private Kjoenn tilSoekerKjoenn(NavBrukerKjønn søkerKjønn) {
@@ -443,7 +383,6 @@ public class InngangsvilkårOversetter {
 
         grunnlag.setFagsakÅrsak(finnFagsakÅrsak(behandling));
         grunnlag.setSøkerRolle(finnFagsakSøkerRolle(behandling));
-        beregnMorsMaksdatoTjeneste.beregnMorsMaksdato(behandling).ifPresent(grunnlag::setMorsMaksdato);
         if (grunnlag.getFagsakÅrsak() == null || grunnlag.getSøkerRolle() == null) {
             throw new IllegalArgumentException("Utvikler-feil: Finner ikke årsak/rolle for behandling:" + behandling.getId());
         }

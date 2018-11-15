@@ -4,6 +4,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 
 import org.xml.sax.SAXException;
 
@@ -37,8 +39,17 @@ import no.nav.vedtak.felles.xml.vedtak.v2.FagsakType;
 import no.nav.vedtak.felles.xml.vedtak.v2.ObjectFactory;
 import no.nav.vedtak.felles.xml.vedtak.v2.Vedtak;
 
-
 public abstract class VedtakXmlTjeneste {
+
+    private static final DatatypeFactory DATATYPE_FACTORY;
+
+    static {
+        try {
+            DATATYPE_FACTORY = DatatypeFactory.newInstance();
+        } catch (DatatypeConfigurationException e) {
+            throw new IllegalStateException("Fant ikke DataTypeFactory", e);
+        }
+    }
 
     private BehandlingRepository behandlingRepository;
     private FagsakRepository fagsakRepository;
@@ -107,7 +118,7 @@ public abstract class VedtakXmlTjeneste {
         personopplysningXmlTjeneste.setPersonopplysninger(vedtak, behandling);
         behandlingsresultatXmlTjeneste.setBehandlingresultat(vedtak, behandling);
 
-        //Sett inn spesifikke elementer fra hver subklasse
+        // Sett inn spesifikke elementer fra hver subklasse
         leggTilOptionalElementerPåVedtak(vedtak, behandling);
         return vedtak;
     }
@@ -136,7 +147,8 @@ public abstract class VedtakXmlTjeneste {
     }
 
     private void setBehandlingsTema(Vedtak vedtak, Behandling behandling) {
-        final FamilieHendelse familieHendelse = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling).map(FamilieHendelseGrunnlag::getGjeldendeVersjon).orElse(null);
+        final FamilieHendelse familieHendelse = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling)
+            .map(FamilieHendelseGrunnlag::getGjeldendeVersjon).orElse(null);
         Kodeliste behandlingTema = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.fraFagsak(behandling.getFagsak(), familieHendelse));
         vedtak.setBehandlingsTema(VedtakXmlUtil.lagKodeverksOpplysning(behandlingTema));
     }

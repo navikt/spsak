@@ -17,10 +17,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-revurdering</artifactId>
         </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>uttak</artifactId>
-        </dependency>
         
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

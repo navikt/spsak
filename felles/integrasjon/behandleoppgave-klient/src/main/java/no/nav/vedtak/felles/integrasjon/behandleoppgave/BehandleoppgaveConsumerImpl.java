@@ -3,7 +3,6 @@ package no.nav.vedtak.felles.integrasjon.behandleoppgave;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import no.nav.tjeneste.virksomhet.behandleoppgave.v1.BehandleOppgaveV1;
@@ -69,19 +68,11 @@ public class BehandleoppgaveConsumerImpl implements BehandleoppgaveConsumer {
         oppgave.setFagomradeKode(request.getFagomradeKode().toString());        
         oppgave.setGjelderBruker(byggWSAktor(request.getFnr(), request.getBrukerTypeKode()));
 
-        try {
-            oppgave.setAktivFra(DateUtil.convertToXMLGregorianCalendar(request.getAktivFra().atStartOfDay()));
-        } catch (DatatypeConfigurationException e) {
-            throw new IllegalArgumentException("Kan ikke sette aktiv fradato", e);
-        }
+        oppgave.setAktivFra(DateUtil.convertToXMLGregorianCalendar(request.getAktivFra().atStartOfDay()));
 
-        try {
-            Optional<LocalDate> aktivTil = request.getAktivTil();
-            if (aktivTil.isPresent()) {
-                oppgave.setAktivTil(DateUtil.convertToXMLGregorianCalendar(aktivTil.get().atStartOfDay()));
-            }
-        } catch (DatatypeConfigurationException e) {
-            throw new IllegalArgumentException("Kan ikke sette aktiv tildato", e);
+        Optional<LocalDate> aktivTil = request.getAktivTil();
+        if (aktivTil.isPresent()) {
+            oppgave.setAktivTil(DateUtil.convertToXMLGregorianCalendar(aktivTil.get().atStartOfDay()));
         }
 
         oppgave.setOppgavetypeKode(request.getOppgavetypeKode());
@@ -90,17 +81,9 @@ public class BehandleoppgaveConsumerImpl implements BehandleoppgaveConsumer {
         oppgave.setBeskrivelse(request.getBeskrivelse());
         oppgave.setLest(request.isLest());
         oppgave.setDokumentId(request.getDokumentId());
-        try {
-            oppgave.setNormDato(DateUtil.convertToXMLGregorianCalendar(request.getNormertBehandlingsTidInnen()));
-        } catch (DatatypeConfigurationException e) {
-            throw new IllegalArgumentException("Kan ikke sette NormDato", e);
-        }
-        try {
-            oppgave.setMottattDato(DateUtil.convertToXMLGregorianCalendar(request.getMottattDato()));
-        } catch (DatatypeConfigurationException e) {
-            throw new IllegalArgumentException("Kan ikke sette MottattDato", e);
-        }
 
+        oppgave.setNormDato(DateUtil.convertToXMLGregorianCalendar(request.getNormertBehandlingsTidInnen()));
+        oppgave.setMottattDato(DateUtil.convertToXMLGregorianCalendar(request.getMottattDato()));
         WSOpprettOppgaveRequest result = new WSOpprettOppgaveRequest();
         result.setOpprettetAvEnhetId(request.getOpprettetAvEnhetId());
         result.setWsOppgave(oppgave);

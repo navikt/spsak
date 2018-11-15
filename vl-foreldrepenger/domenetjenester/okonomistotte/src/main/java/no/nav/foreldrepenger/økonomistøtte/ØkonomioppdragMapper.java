@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.xml.sax.SAXException;
@@ -32,7 +31,6 @@ import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.ØkonomiKodeFagområde
 import no.nav.foreldrepenger.økonomistøtte.api.ØkonomistøtteFeil;
 import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
 import no.nav.vedtak.felles.integrasjon.felles.ws.JaxbHelper;
-
 
 public class ØkonomioppdragMapper {
     private Oppdragskontroll oppdragskontroll;
@@ -76,11 +74,11 @@ public class ØkonomioppdragMapper {
 
     private Oppdrag110 mapOppdrag110(no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdrag110 okoOppdrag110) {
         final Oppdrag110 oppdrag110 = objectFactory.createOppdrag110();
-        //TODO (TOPAS): Løsningsbeskrivelse viser at Oppdrag110 er en liste men Økonomi Oppdrag tar bare et Oppdrag110
+        // TODO (TOPAS): Løsningsbeskrivelse viser at Oppdrag110 er en liste men Økonomi Oppdrag tar bare et Oppdrag110
         String kode = okoOppdrag110.getKodeFagomrade();
         oppdrag110.setKodeAksjon(okoOppdrag110.getKodeAksjon());
         oppdrag110.setKodeEndring(okoOppdrag110.getKodeEndring());
-        //TODO (TOPAS): Sjekk vis dette må være enum eller ikke
+        // TODO (TOPAS): Sjekk vis dette må være enum eller ikke
         oppdrag110.setKodeFagomraade(okoOppdrag110.getKodeFagomrade());
         oppdrag110.setFagsystemId(String.valueOf(okoOppdrag110.getFagsystemId()));
         oppdrag110.setUtbetFrekvens(okoOppdrag110.getUtbetFrekvens());
@@ -189,10 +187,6 @@ public class ØkonomioppdragMapper {
     }
 
     private XMLGregorianCalendar toXmlGregCal(LocalDate dato) {
-        try {
-            return dato != null ? DateUtil.convertToXMLGregorianCalendarRemoveTimezone(dato) : null;
-        } catch (DatatypeConfigurationException e) {
-            throw ØkonomistøtteFeil.FACTORY.datokonverteringsfeil(dato.toString(), e).toException();
-        }
+        return dato != null ? DateUtil.convertToXMLGregorianCalendarRemoveTimezone(dato) : null;
     }
 }

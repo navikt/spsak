@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
@@ -82,7 +80,7 @@ public class TpsAdapterImpl implements TpsAdapter {
     }
 
     private Personinfo håndterPersoninfoRespons(AktørId aktørId, HentPersonRequest request)
-        throws HentPersonPersonIkkeFunnet, HentPersonSikkerhetsbegrensning {
+            throws HentPersonPersonIkkeFunnet, HentPersonSikkerhetsbegrensning {
         HentPersonResponse response = personConsumer.hentPersonResponse(request);
         Person person = response.getPerson();
         if (!(person instanceof Bruker)) {
@@ -92,7 +90,7 @@ public class TpsAdapterImpl implements TpsAdapter {
     }
 
     private Personhistorikkinfo håndterPersonhistorikkRespons(HentPersonhistorikkRequest request, String aktørId)
-        throws HentPersonhistorikkSikkerhetsbegrensning, HentPersonhistorikkPersonIkkeFunnet {
+            throws HentPersonhistorikkSikkerhetsbegrensning, HentPersonhistorikkPersonIkkeFunnet {
         HentPersonhistorikkResponse response = personConsumer.hentPersonhistorikkResponse(request);
         return tpsOversetter.tilPersonhistorikkInfo(aktørId, response);
     }
@@ -120,12 +118,8 @@ public class TpsAdapterImpl implements TpsAdapter {
         aktoerId.setAktoerId(aktørId.getId());
         Periode periode = new Periode();
 
-        try {
-            periode.setTom(DateUtil.convertToXMLGregorianCalendar(LocalDateTime.ofInstant(interval.getEnd(), ZoneId.systemDefault())));
-            periode.setFom(DateUtil.convertToXMLGregorianCalendar(LocalDateTime.ofInstant(interval.getStart(), ZoneId.systemDefault())));
-        } catch (DatatypeConfigurationException e) {
-            throw TpsFeilmeldinger.FACTORY.xmlGregorianCalendarParsingFeil(e).toException();
-        }
+        periode.setTom(DateUtil.convertToXMLGregorianCalendar(LocalDateTime.ofInstant(interval.getEnd(), ZoneId.systemDefault())));
+        periode.setFom(DateUtil.convertToXMLGregorianCalendar(LocalDateTime.ofInstant(interval.getStart(), ZoneId.systemDefault())));
 
         request.setAktoer(aktoerId);
         request.setPeriode(periode);
@@ -184,7 +178,6 @@ public class TpsAdapterImpl implements TpsAdapter {
             throw TpsFeilmeldinger.FACTORY.tpsUtilgjengeligSikkerhetsbegrensning(e).toException();
         }
     }
-
 
     @Override
     public List<FødtBarnInfo> hentFødteBarn(AktørId aktørId) {

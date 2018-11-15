@@ -25,11 +25,6 @@
             <artifactId>beregning-ytelse-regelmodell</artifactId>
         </dependency>
 
-		<!-- Domenetjenester avhengigheter -->
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>uttak</artifactId>
-        </dependency>
         <!-- Prosjekt avhengigheter -->
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

@@ -49,13 +49,10 @@ public class BehandlingStegType extends KodeverkTabell {
     public static final BehandlingStegType SIMULER_OPPDRAG = new BehandlingStegType("SIMOPP"); //$NON-NLS-1$
 
     // Kun for Foreldrepenger
-    public static final BehandlingStegType VURDER_UTTAK = new BehandlingStegType("VURDER_UTTAK"); //$NON-NLS-1$
     public static final BehandlingStegType VURDER_OPPTJENINGSVILKÅR = new BehandlingStegType("VURDER_OPPTJ"); //$NON-NLS-1$
     public static final BehandlingStegType FORESLÅ_BEREGNINGSGRUNNLAG = new BehandlingStegType("FORS_BERGRUNN"); //$NON-NLS-1$
     public static final BehandlingStegType FASTSETT_BEREGNINGSGRUNNLAG = new BehandlingStegType("FAST_BERGRUNN"); //$NON-NLS-1$
     public static final BehandlingStegType KONTROLLER_FAKTA_BEREGNING = new BehandlingStegType("KOFAKBER"); //$NON-NLS-1$
-    public static final BehandlingStegType SØKNADSFRIST_FORELDREPENGER = new BehandlingStegType("SØKNADSFRIST_FP"); //$NON-NLS-1$
-    public static final BehandlingStegType KONTROLLER_FAKTA_UTTAK = new BehandlingStegType("KOFAKUT"); //$NON-NLS-1$
     public static final BehandlingStegType KONTROLLER_FAKTA_ARBEIDSFORHOLD = new BehandlingStegType("KOARB"); //$NON-NLS-1$
     public static final BehandlingStegType FASTSETT_OPPTJENINGSPERIODE = new BehandlingStegType("VURDER_OPPTJ_PERIODE"); //$NON-NLS-1$
     public static final BehandlingStegType KONTROLLER_LØPENDE_MEDLEMSKAP = new BehandlingStegType("KOFAK_LOP_MEDL"); //$NON-NLS-1$

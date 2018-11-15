@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Alternative;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 import no.nav.tjeneste.virksomhet.infotrygdberegningsgrunnlag.v1.informasjon.Arbeidsforhold;
 import no.nav.tjeneste.virksomhet.infotrygdberegningsgrunnlag.v1.informasjon.Arbeidskategori;
@@ -29,7 +28,7 @@ import no.nav.vedtak.felles.integrasjon.infotrygdberegningsgrunnlag.InfotrygdBer
 class InfotrygdBeregningsgrunnlagConsumerMock implements InfotrygdBeregningsgrunnlagConsumer {
     private FinnGrunnlagListeResponse finnGrunnlagListeResponse;
 
-    InfotrygdBeregningsgrunnlagConsumerMock(){
+    InfotrygdBeregningsgrunnlagConsumerMock() {
         finnGrunnlagListeResponse = new FinnGrunnlagListeResponse();
     }
 
@@ -38,7 +37,7 @@ class InfotrygdBeregningsgrunnlagConsumerMock implements InfotrygdBeregningsgrun
         return finnGrunnlagListeResponse;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock clean(){
+    public InfotrygdBeregningsgrunnlagConsumerMock clean() {
         finnGrunnlagListeResponse.getForeldrepengerListe().clear();
         finnGrunnlagListeResponse.getEngangstoenadListe().clear();
         finnGrunnlagListeResponse.getPaaroerendeSykdomListe().clear();
@@ -46,7 +45,7 @@ class InfotrygdBeregningsgrunnlagConsumerMock implements InfotrygdBeregningsgrun
         return this;
     }
 
-    private Arbeidsforhold lagArbeidsforhold(){
+    private Arbeidsforhold lagArbeidsforhold() {
         Inntektsperiode inntektsperiode = new Inntektsperiode();
         inntektsperiode.setValue("M");
 
@@ -57,101 +56,85 @@ class InfotrygdBeregningsgrunnlagConsumerMock implements InfotrygdBeregningsgrun
         return arbeidsforhold;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock lagPaaroerendeSykdom(int identdatoMinus){
+    public InfotrygdBeregningsgrunnlagConsumerMock lagPaaroerendeSykdom(int identdatoMinus) {
 
         PaaroerendeSykdom paaroerendeSykdom = new PaaroerendeSykdom();
-        try {
-            Arbeidskategori arbeidskategori = new Arbeidskategori();
-            arbeidskategori.setValue("01");
+        Arbeidskategori arbeidskategori = new Arbeidskategori();
+        arbeidskategori.setValue("01");
 
-            Behandlingstema behandlingstema = new Behandlingstema();
-            behandlingstema.setValue("OM");
+        Behandlingstema behandlingstema = new Behandlingstema();
+        behandlingstema.setValue("OM");
 
-            Periode periode = new Periode();
-            periode.setFom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(9)));
-            periode.setTom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1)));
+        Periode periode = new Periode();
+        periode.setFom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(9)));
+        periode.setTom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1)));
 
-            paaroerendeSykdom.setFoedselsdatoPleietrengende(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1000)));
-            paaroerendeSykdom.setArbeidskategori(arbeidskategori);
-            paaroerendeSykdom.setBehandlingstema(behandlingstema);
-            paaroerendeSykdom.setIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(identdatoMinus)));
-            paaroerendeSykdom.setPeriode( periode );
-            paaroerendeSykdom.getArbeidsforholdListe().add(lagArbeidsforhold());
-            finnGrunnlagListeResponse.getPaaroerendeSykdomListe().add(paaroerendeSykdom);
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
+        paaroerendeSykdom.setFoedselsdatoPleietrengende(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1000)));
+        paaroerendeSykdom.setArbeidskategori(arbeidskategori);
+        paaroerendeSykdom.setBehandlingstema(behandlingstema);
+        paaroerendeSykdom.setIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(identdatoMinus)));
+        paaroerendeSykdom.setPeriode(periode);
+        paaroerendeSykdom.getArbeidsforholdListe().add(lagArbeidsforhold());
+        finnGrunnlagListeResponse.getPaaroerendeSykdomListe().add(paaroerendeSykdom);
         return this;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock lagSykepenger(int identdatoMinus){
+    public InfotrygdBeregningsgrunnlagConsumerMock lagSykepenger(int identdatoMinus) {
         Sykepenger sykepenger = new Sykepenger();
-        try{
-            Arbeidskategori arbeidskategori = new Arbeidskategori();
-            arbeidskategori.setValue("01");
+        Arbeidskategori arbeidskategori = new Arbeidskategori();
+        arbeidskategori.setValue("01");
 
-            Periode periode = new Periode();
-            periode.setFom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(9)));
-            periode.setTom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1)));
+        Periode periode = new Periode();
+        periode.setFom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(9)));
+        periode.setTom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1)));
 
-            sykepenger.setInntektsgrunnlagProsent(100);
-            sykepenger.setArbeidskategori(arbeidskategori);
-            sykepenger.setIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(identdatoMinus)));
-            sykepenger.setPeriode( periode );
-            sykepenger.getArbeidsforholdListe().add(lagArbeidsforhold());
-            finnGrunnlagListeResponse.getSykepengerListe().add(sykepenger);
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
+        sykepenger.setInntektsgrunnlagProsent(100);
+        sykepenger.setArbeidskategori(arbeidskategori);
+        sykepenger.setIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(identdatoMinus)));
+        sykepenger.setPeriode(periode);
+        sykepenger.getArbeidsforholdListe().add(lagArbeidsforhold());
+        finnGrunnlagListeResponse.getSykepengerListe().add(sykepenger);
 
         return this;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock lagEngangsstoenad(int identdatoMinus){
+    public InfotrygdBeregningsgrunnlagConsumerMock lagEngangsstoenad(int identdatoMinus) {
         Engangsstoenad engangsstoenad = new Engangsstoenad();
-        try{
-            Arbeidskategori arbeidskategori = new Arbeidskategori();
-            arbeidskategori.setValue("01");
+        Arbeidskategori arbeidskategori = new Arbeidskategori();
+        arbeidskategori.setValue("01");
 
-            Periode periode = new Periode();
-            periode.setFom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(9)));
-            periode.setTom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1)));
+        Periode periode = new Periode();
+        periode.setFom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(9)));
+        periode.setTom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1)));
 
-            engangsstoenad.setIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(identdatoMinus)));
-            engangsstoenad.setPeriode( periode );
-            finnGrunnlagListeResponse.getEngangstoenadListe().add(engangsstoenad);
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
+        engangsstoenad.setIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(identdatoMinus)));
+        engangsstoenad.setPeriode(periode);
+        finnGrunnlagListeResponse.getEngangstoenadListe().add(engangsstoenad);
         return this;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock lagForeldrepenger(int identdatoMinus){
+    public InfotrygdBeregningsgrunnlagConsumerMock lagForeldrepenger(int identdatoMinus) {
         Foreldrepenger foreldrepenger = new Foreldrepenger();
-        try {
-            Arbeidskategori arbeidskategori = new Arbeidskategori();
-            arbeidskategori.setValue("01");
+        Arbeidskategori arbeidskategori = new Arbeidskategori();
+        arbeidskategori.setValue("01");
 
-            Behandlingstema behandlingstema = new Behandlingstema();
-            behandlingstema.setValue("FP");
+        Behandlingstema behandlingstema = new Behandlingstema();
+        behandlingstema.setValue("FP");
 
-            Periode periode = new Periode();
-            periode.setFom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(9)));
-            periode.setTom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1)));
+        Periode periode = new Periode();
+        periode.setFom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(9)));
+        periode.setTom(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1)));
 
-            foreldrepenger.setOpprinneligIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(11)));
-            foreldrepenger.setDekningsgrad(100);
-            foreldrepenger.setGradering(100);
-            foreldrepenger.setFoedselsdatoBarn(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1011)));
-            foreldrepenger.setArbeidskategori(arbeidskategori);
-            foreldrepenger.setBehandlingstema(behandlingstema);
-            foreldrepenger.setIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(identdatoMinus)));
-            foreldrepenger.setPeriode( periode );
-            foreldrepenger.getArbeidsforholdListe().add(lagArbeidsforhold());
-            finnGrunnlagListeResponse.getForeldrepengerListe().add(foreldrepenger);
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
+        foreldrepenger.setOpprinneligIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(11)));
+        foreldrepenger.setDekningsgrad(100);
+        foreldrepenger.setGradering(100);
+        foreldrepenger.setFoedselsdatoBarn(convertToXMLGregorianCalendar(LocalDate.now().minusDays(1011)));
+        foreldrepenger.setArbeidskategori(arbeidskategori);
+        foreldrepenger.setBehandlingstema(behandlingstema);
+        foreldrepenger.setIdentdato(convertToXMLGregorianCalendar(LocalDate.now().minusDays(identdatoMinus)));
+        foreldrepenger.setPeriode(periode);
+        foreldrepenger.getArbeidsforholdListe().add(lagArbeidsforhold());
+        finnGrunnlagListeResponse.getForeldrepengerListe().add(foreldrepenger);
         return this;
     }
 }

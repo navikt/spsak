@@ -34,6 +34,7 @@ import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 
 public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
 
+    private static final TransisjonIdentifikator TRANSISJON = TransisjonIdentifikator.forId("revurdering-fremoverhopp-til-VURDER_OPPTJ_PERIODE");
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final EntityManager entityManager = repoRule.getEntityManager();
@@ -50,10 +51,8 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
         Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(behandlingRepositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         Aksjonspunkt ap1 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
-        Aksjonspunkt ap2 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_FAKTA_UTTAK);
         Aksjonspunkt ap3 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.FORESLÅ_VEDTAK);
         aksjonspunktRepository.setTilUtført(ap1, "test");
-        aksjonspunktRepository.setTilUtført(ap2, "test");
         aksjonspunktRepository.setTilUtført(ap3, "test");
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, lås);
@@ -63,7 +62,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
         BehandlingLås låsR = behandlingRepository.taSkriveLås(revurdering);
         behandlingRepository.lagre(revurdering, låsR);
 
-        assertThat(revurdering.getAlleAksjonspunkterInklInaktive()).hasSize(3);
+        assertThat(revurdering.getAlleAksjonspunkterInklInaktive()).hasSize(2);
 
         BehandlingLås låsEvent = behandlingRepository.taSkriveLås(revurdering);
         BehandlingskontrollKontekst kontekstEvent = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), låsEvent);
@@ -71,13 +70,13 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
         BehandlingStegType tilSteg = BehandlingStegType.INNHENT_SØKNADOPP;
 
         //act
-        BehandlingTransisjonEvent event = new BehandlingTransisjonEvent(kontekstEvent, TransisjonIdentifikator.forId("revurdering-fremoverhopp-til-SØKNADSFRIST_FP"), fraTilstand, tilSteg, true);
+        BehandlingTransisjonEvent event = new BehandlingTransisjonEvent(kontekstEvent, TRANSISJON, fraTilstand, tilSteg, true);
         transisjonEventObserver.observerBehandlingSteg(event);
 
         //assert
         Set<Aksjonspunkt> aper = revurdering.getAlleAksjonspunkterInklInaktive();
-        assertThat(aper).hasSize(3);
-        assertThat(aper.stream().filter(ap -> ap.getReaktiveringStatus().equals(ReaktiveringStatus.SLETTET)).collect(toList())).hasSize(2);
+        assertThat(aper).hasSize(2);
+        assertThat(aper.stream().filter(ap -> ap.getReaktiveringStatus().equals(ReaktiveringStatus.SLETTET)).collect(toList())).hasSize(1);
         assertThat(aper.stream().filter(ap -> !ap.getReaktiveringStatus().equals(ReaktiveringStatus.SLETTET)).findFirst().get().getAksjonspunktDefinisjon())
             .isEqualTo(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
     }
@@ -87,13 +86,10 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
         Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(behandlingRepositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         Aksjonspunkt ap1 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
-        Aksjonspunkt ap2 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_FAKTA_UTTAK);
         Aksjonspunkt ap3 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.FORESLÅ_VEDTAK_MANUELT);
         aksjonspunktRepository.setTilManueltOpprettet(ap1);
-        aksjonspunktRepository.setTilManueltOpprettet(ap2);
         aksjonspunktRepository.setTilManueltOpprettet(ap3);
         aksjonspunktRepository.setTilUtført(ap1, "test");
-        aksjonspunktRepository.setTilUtført(ap2, "test");
         aksjonspunktRepository.setTilUtført(ap3, "test");
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, lås);
@@ -103,7 +99,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
         BehandlingLås låsR = behandlingRepository.taSkriveLås(revurdering);
         behandlingRepository.lagre(revurdering, låsR);
 
-        assertThat(revurdering.getAlleAksjonspunkterInklInaktive()).hasSize(3);
+        assertThat(revurdering.getAlleAksjonspunkterInklInaktive()).hasSize(2);
 
         BehandlingLås låsEvent = behandlingRepository.taSkriveLås(revurdering);
         BehandlingskontrollKontekst kontekstEvent = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), låsEvent);
@@ -111,15 +107,12 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
         BehandlingStegType tilSteg = BehandlingStegType.INNHENT_SØKNADOPP;
 
         //act
-        BehandlingTransisjonEvent event = new BehandlingTransisjonEvent(kontekstEvent, TransisjonIdentifikator.forId("revurdering-fremoverhopp-til-SØKNADSFRIST_FP"), fraTilstand, tilSteg, true);
+        BehandlingTransisjonEvent event = new BehandlingTransisjonEvent(kontekstEvent, TRANSISJON, fraTilstand, tilSteg, true);
         transisjonEventObserver.observerBehandlingSteg(event);
 
         //assert
-        assertThat(revurdering.getAlleAksjonspunkterInklInaktive()).hasSize(3);
+        assertThat(revurdering.getAlleAksjonspunkterInklInaktive()).hasSize(2);
         assertThat(revurdering.getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL)).isNotPresent();
-        Optional<Aksjonspunkt> apUttak = revurdering.getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.AVKLAR_FAKTA_UTTAK);
-        assertThat(apUttak).isPresent();
-        assertThat(apUttak.get().getStatus()).isEqualTo(AksjonspunktStatus.OPPRETTET);
         Optional<Aksjonspunkt> apForeslå = revurdering.getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.FORESLÅ_VEDTAK_MANUELT);
         assertThat(apForeslå).isPresent();
         assertThat(apForeslå.get().getStatus()).isEqualTo(AksjonspunktStatus.OPPRETTET);

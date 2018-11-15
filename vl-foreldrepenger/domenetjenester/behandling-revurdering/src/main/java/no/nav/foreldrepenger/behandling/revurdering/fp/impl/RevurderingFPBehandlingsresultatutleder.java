@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandling.revurdering.EndringsdatoRevurderingUtleder;
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingFeil;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
@@ -17,7 +18,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
-import no.nav.foreldrepenger.domene.uttak.fastsettuttaksgrunnlag.impl.EndringsdatoRevurderingUtleder;
 import no.nav.vedtak.feil.FeilFactory;
 
 @Dependent

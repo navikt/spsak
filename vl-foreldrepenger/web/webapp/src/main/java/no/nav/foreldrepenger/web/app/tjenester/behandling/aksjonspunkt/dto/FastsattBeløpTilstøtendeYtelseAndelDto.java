@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto;
 
 import java.util.Optional;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.dto;
 import java.util.List;
 import java.util.Set;
 
-import no.nav.foreldrepenger.domene.uttak.kontroller.fakta.uttakperioder.UttakPeriodeEndringDto;
-
 public class TotrinnskontrollAksjonspunkterDto {
 
     private String aksjonspunktKode;
@@ -13,7 +11,6 @@ public class TotrinnskontrollAksjonspunkterDto {
     private String besluttersBegrunnelse;
     private Boolean totrinnskontrollGodkjent;
     private Set<TotrinnskontrollVurderÅrsak> vurderPaNyttArsaker;
-    private List<UttakPeriodeEndringDto> uttakPerioder;
     private List<TotrinnsArbeidsforholdDto> arbeidforholdDtos;
 
 
@@ -39,10 +36,6 @@ public class TotrinnskontrollAksjonspunkterDto {
 
     public TotrinnsBeregningDto getBeregningDto() {
         return beregningDto;
-    }
-
-    public List<UttakPeriodeEndringDto> getUttakPerioder() {
-        return uttakPerioder;
     }
 
     public List<TotrinnsArbeidsforholdDto> getArbeidforholdDtos() {
@@ -79,11 +72,6 @@ public class TotrinnskontrollAksjonspunkterDto {
 
         public Builder medVurderPaNyttArsaker(Set<TotrinnskontrollVurderÅrsak> vurderPaNyttArsaker) {
             kladd.vurderPaNyttArsaker = vurderPaNyttArsaker;
-            return this;
-        }
-
-        public Builder medEndretUttakPerioder(List<UttakPeriodeEndringDto> uttakPerioder) {
-            kladd.uttakPerioder = uttakPerioder;
             return this;
         }
 

@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import no.nav.foreldrepenger.behandling.revurdering.EndringsdatoRevurderingUtleder;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
@@ -30,11 +31,10 @@ import no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdrag110;
 import no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdragskontroll;
 import no.nav.foreldrepenger.behandlingslager.økonomioppdrag.Oppdragslinje150;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
-import no.nav.foreldrepenger.domene.uttak.fastsettuttaksgrunnlag.impl.EndringsdatoRevurderingUtleder;
 import no.nav.foreldrepenger.økonomistøtte.Oppdragsmottaker;
+import no.nav.foreldrepenger.økonomistøtte.ØkonomioppdragRepository;
 import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.OppdragsmottakerStatus;
 import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.ØkonomiKodeFagområde;
-import no.nav.foreldrepenger.økonomistøtte.ØkonomioppdragRepository;
 
 @ApplicationScoped
 public class OppdragskontrollEndringFP extends OppdragskontrollForeldrepenger {

@@ -52,6 +52,7 @@ import no.nav.foreldrepenger.økonomistøtte.api.kodeverk.ØkonomiUtbetFrekvens;
 
 public class OppdragskontrollTjenesteImplFPTest extends OppdragskontrollTjenesteImplFPBaseTest {
 
+    @Override
     @Before
     public void setUp() {
         super.setUp();

@@ -28,7 +28,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Samm
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.beregningsgrunnlag.Grunnbeløp;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.AktivitetStatusMedHjemmel;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.BeregningsgrunnlagHjemmel;
@@ -36,7 +35,6 @@ import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.Periode;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.grunnlag.inntekt.Inntektsgrunnlag;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPrStatus;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.resultat.SammenligningsGrunnlag;
-import no.nav.foreldrepenger.domene.typer.AktørId;
 
 public class RegelMapperTestDataHelper {
     public static final LocalDate NOW = LocalDate.now();

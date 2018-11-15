@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.ForeldreType;
@@ -45,7 +44,7 @@ public class SøknadTestdataBuilder {
 
     private Soeknad søknad = new Soeknad();
 
-    private SoekersRelasjonTilBarnet relasjonTilBarnet; //Fødsel eller adopsjon
+    private SoekersRelasjonTilBarnet relasjonTilBarnet; // Fødsel eller adopsjon
     private Ytelse ytelsestype;
     private Rettigheter rettigheter;
     private Dekningsgrad dekningsgrad;
@@ -139,11 +138,7 @@ public class SøknadTestdataBuilder {
         if (isNull(dato)) {
             return null;
         }
-        try {
-            return DateUtil.convertToXMLGregorianCalendar(dato);
-        } catch (DatatypeConfigurationException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return DateUtil.convertToXMLGregorianCalendar(dato);
     }
 
     static class ForeldrepengerBuilder {
@@ -151,7 +146,7 @@ public class SøknadTestdataBuilder {
         private Rettigheter rettighet;
         private Dekningsgrad dekningsgrad;
 
-        //TODO: Opprett medlemskap mapper
+        // TODO: Opprett medlemskap mapper
         public ForeldrepengerBuilder medMedlemskap() {
             medlemskap = new no.nav.vedtak.felles.xml.soeknad.felles.v1.Medlemskap();
             OppholdNorge oppholdNorge = new OppholdNorge();
@@ -190,7 +185,6 @@ public class SøknadTestdataBuilder {
         }
     }
 
-
     static class EngangsstønadBuilder {
         private no.nav.vedtak.felles.xml.soeknad.felles.v1.Medlemskap medlemskap;
         private AnnenForelder annenForelder;
@@ -208,25 +202,29 @@ public class SøknadTestdataBuilder {
         }
 
         public EngangsstønadBuilder medMedlemskapOppholdNorge() {
-            EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(true).medTidligereOppholdNorge(true).medOppholdNorgeNå(true);
+            EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(true)
+                .medTidligereOppholdNorge(true).medOppholdNorgeNå(true);
             medlemskap = engangstønadMedlemskapBuilder.build();
             return this;
         }
 
         public EngangsstønadBuilder medMedlemskapFremtidigOppholdUtlandOgTidligereOppholdNorge() {
-            EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(false).medTidligereOppholdNorge(true).medOppholdNorgeNå(true);
+            EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(false)
+                .medTidligereOppholdNorge(true).medOppholdNorgeNå(true);
             medlemskap = engangstønadMedlemskapBuilder.build();
             return this;
         }
 
         public EngangsstønadBuilder medMedlemskapTidligereOppholdUtlandOgFremtidigOppholdNorge() {
-            EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(true).medTidligereOppholdNorge(false).medOppholdNorgeNå(true);
+            EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(true)
+                .medTidligereOppholdNorge(false).medOppholdNorgeNå(true);
             medlemskap = engangstønadMedlemskapBuilder.build();
             return this;
         }
 
         public EngangsstønadBuilder medMedlemskapOppholdUtland() {
-            EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(false).medTidligereOppholdNorge(false).medOppholdNorgeNå(true);
+            EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(false)
+                .medTidligereOppholdNorge(false).medOppholdNorgeNå(true);
             medlemskap = engangstønadMedlemskapBuilder.build();
             return this;
         }

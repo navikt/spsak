@@ -115,30 +115,12 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     public static final AksjonspunktDefinisjon FASTSETT_BEREGNINGSGRUNNLAG_TIDSBEGRENSET_ARBEIDSFORHOLD = new AksjonspunktDefinisjon("5047"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon FASTSETT_BEREGNINGSGRUNNLAG_FOR_SN_NY_I_ARBEIDSLIVET = new AksjonspunktDefinisjon("5049"); //$NON-NLS-1$
 
-    public static final AksjonspunktDefinisjon MANUELL_KONTROLL_AV_OM_BRUKER_HAR_ALENEOMSORG = new AksjonspunktDefinisjon("5060"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VURDER_VARIG_ENDRET_ELLER_NYOPPSTARTET_NÆRING_SELVSTENDIG_NÆRINGSDRIVENDE = new AksjonspunktDefinisjon("5039");
     public static final AksjonspunktDefinisjon VURDER_FAKTA_FOR_ATFL_SN = new AksjonspunktDefinisjon("5058");
 
-    public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_SØKNADSFRIST_FORELDREPENGER = new AksjonspunktDefinisjon("5043");
-
     public static final AksjonspunktDefinisjon FASTSETT_BEREGNINGSGRUNNLAG_SELVSTENDIG_NÆRINGSDRIVENDE = new AksjonspunktDefinisjon("5042"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon MANUELL_KONTROLL_AV_OM_BRUKER_HAR_OMSORG = new AksjonspunktDefinisjon("5061"); //$NON-NLS-1$
 
     public static final AksjonspunktDefinisjon AVKLAR_STARTDATO_FOR_FORELDREPENGEPERIODEN = new AksjonspunktDefinisjon("5045"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AVKLAR_FAKTA_UTTAK = new AksjonspunktDefinisjon("5070"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon MANUELL_AVKLAR_FAKTA_UTTAK = new AksjonspunktDefinisjon("6070"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon FASTSETT_UTTAKPERIODER = new AksjonspunktDefinisjon("5071"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AVKLAR_FØRSTE_UTTAKSDATO = new AksjonspunktDefinisjon("5081"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon TILKNYTTET_STORTINGET = new AksjonspunktDefinisjon("5072"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon OVERSTYRING_AV_UTTAKPERIODER = new AksjonspunktDefinisjon("6008"); //$NON-NLS-1$
-
-    public static final AksjonspunktDefinisjon KONTROLLER_REALITETSBEHANDLING_ELLER_KLAGE = new AksjonspunktDefinisjon("5073"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon KONTROLLER_OPPLYSNINGER_OM_MEDLEMSKAP = new AksjonspunktDefinisjon("5074"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon KONTROLLER_OPPLYSNINGER_OM_FORDELING_AV_STØNADSPERIODEN = new AksjonspunktDefinisjon("5075"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon KONTROLLER_OPPLYSNINGER_OM_DØD = new AksjonspunktDefinisjon("5076"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon KONTROLLER_OPPLYSNINGER_OM_SØKNADSFRIST = new AksjonspunktDefinisjon("5077"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon KONTROLLER_TILSTØTENDE_YTELSER_INNVILGET = new AksjonspunktDefinisjon("5078"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon KONTROLLER_TILSTØTENDE_YTELSER_OPPHØRT = new AksjonspunktDefinisjon("5079"); //$NON-NLS-1$
 
     public static final AksjonspunktDefinisjon VURDER_PERIODER_MED_OPPTJENING = new AksjonspunktDefinisjon("5051"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VURDER_ARBEIDSFORHOLD = new AksjonspunktDefinisjon("5080"); //$NON-NLS-1$

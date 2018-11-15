@@ -10,9 +10,6 @@ import java.time.Period;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
-import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,8 +24,6 @@ import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingT
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -38,18 +33,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.Personopplysning;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.foreldrepenger.domene.uttak.uttaksplan.impl.RelatertBehandlingTjenesteImpl;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsprosessApplikasjonTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsutredningApplikasjonTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingDto;
@@ -73,7 +64,6 @@ public class BehandlingRestTjenesteTest {
         unleash.disableAll();
         repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
         FagsakTjenesteImpl fagsakTjeneste = new FagsakTjenesteImpl(repositoryProvider, null);
-        RelatertBehandlingTjenesteImpl relatertBehandlingTjeneste = new RelatertBehandlingTjenesteImpl(repositoryProvider);
         skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
             new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
             Period.of(0, 3, 0),
@@ -85,8 +75,7 @@ public class BehandlingRestTjenesteTest {
             behandlingsprosessTjenste,
             fagsakTjeneste,
             Mockito.mock(HenleggBehandlingTjeneste.class),
-            behandlingDtoTjeneste,
-            relatertBehandlingTjeneste);
+            behandlingDtoTjeneste);
     }
 
     @Test
@@ -138,30 +127,5 @@ public class BehandlingRestTjenesteTest {
         List<BehandlingDto> dto = behandlingRestTjeneste.hentBehandlinger(new SaksnummerDto(saksnummer.getVerdi()));
 
         assertThat(dto).hasSize(1);
-    }
-
-    @Test
-    public void henteAnnenPartsGjeldeneBehandling() {
-        // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        Behandling morsBehandling = scenario.lagre(repositoryProvider);
-
-        Behandlingsresultat behandlingsresultat = morsBehandling.getBehandlingsresultat();
-        Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
-        repoRule.getRepository().lagre(behandlingsresultat);
-        morsBehandling.avsluttBehandling();
-        repoRule.getRepository().lagre(morsBehandling);
-
-        Behandling farsBehandling = ScenarioFarSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
-        repositoryProvider.getFagsakRelasjonRepository().opprettRelasjon(morsBehandling.getFagsak(), Dekningsgrad._100);
-        repositoryProvider.getFagsakRelasjonRepository().kobleFagsaker(morsBehandling.getFagsak(), farsBehandling.getFagsak());
-
-        repoRule.getRepository().flushAndClear();
-
-        // Act
-        Response response = behandlingRestTjeneste.hentAnnenPartsGjeldendeBehandling(new SaksnummerDto(farsBehandling.getFagsak().getSaksnummer()));
-
-        // Assert
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.SC_OK);
     }
 }

@@ -8,8 +8,6 @@ import org.junit.Test;
 
 import no.finn.unleash.FakeUnleash;
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegProsesseringResultat;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.FellesTransisjoner;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;

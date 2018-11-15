@@ -5,7 +5,6 @@ import java.time.Month;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,8 +57,6 @@ public class InfotrygdBeregningsgrunnlagTjenesteImpl implements  InfotrygdBeregn
             finnGrunnlagListeRequest.setPersonident(fnr);
             return infotrygdBeregningsgrunnlagConsumer.finnBeregningsgrunnlagListe(finnGrunnlagListeRequest);
 
-        } catch (DatatypeConfigurationException e) {
-            throw InfotrygdTjenesteFeil.FACTORY.tekniskFeil(TJENESTE, e).toException();
         } catch (FinnGrunnlagListeSikkerhetsbegrensning e) {
             throw InfotrygdTjenesteFeil.FACTORY.tjenesteUtilgjengeligSikkerhetsbegrensning(TJENESTE, e).toException();
         } catch (FinnGrunnlagListeUgyldigInput e) {

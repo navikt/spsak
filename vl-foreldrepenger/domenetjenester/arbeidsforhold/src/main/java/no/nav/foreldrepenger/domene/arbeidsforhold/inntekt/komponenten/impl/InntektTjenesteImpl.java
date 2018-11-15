@@ -11,8 +11,6 @@ import java.util.Set;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsFilter;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsFormål;
@@ -97,12 +95,8 @@ public class InntektTjenesteImpl implements InntektTjeneste {
         request.setAinntektsfilter(ainntektsfilter);
 
         Uttrekksperiode uttrekksperiode = objectFactory.createUttrekksperiode();
-        try {
-            uttrekksperiode.setMaanedFom(DateUtil.convertToXMLGregorianCalendar(finnInntektRequest.getFom().atDay(1)));
-            uttrekksperiode.setMaanedTom(DateUtil.convertToXMLGregorianCalendar(finnInntektRequest.getTom().atEndOfMonth()));
-        } catch (DatatypeConfigurationException e) {
-            throw InntektFeil.FACTORY.feilVedOpprettelseAvInntektRequest(e).toException();
-        }
+        uttrekksperiode.setMaanedFom(DateUtil.convertToXMLGregorianCalendar(finnInntektRequest.getFom().atDay(1)));
+        uttrekksperiode.setMaanedTom(DateUtil.convertToXMLGregorianCalendar(finnInntektRequest.getTom().atEndOfMonth()));
         request.setUttrekksperiode(uttrekksperiode);
 
         Formaal formaal = objectFactory.createFormaal();
@@ -191,7 +185,8 @@ public class InntektTjenesteImpl implements InntektTjeneste {
         } else if (arbeidsgiver instanceof Organisasjon) {
             builder.medArbeidsgiverOrgnr(((Organisasjon) arbeidsgiver).getOrgnummer());
         } else if (arbeidsgiver instanceof PersonIdent) {
-            final AktørId aktørId = tpsTjeneste.hentAktørForFnr(no.nav.foreldrepenger.domene.typer.PersonIdent.fra(((PersonIdent) arbeidsgiver).getPersonIdent()))
+            final AktørId aktørId = tpsTjeneste
+                .hentAktørForFnr(no.nav.foreldrepenger.domene.typer.PersonIdent.fra(((PersonIdent) arbeidsgiver).getPersonIdent()))
                 .orElse(null);
             builder.medArbeidsgiverAktørId(aktørId);
         }
@@ -220,7 +215,7 @@ public class InntektTjenesteImpl implements InntektTjeneste {
             final YtelseFraOffentlige ytelseFraOffentlige = (YtelseFraOffentlige) inntekt; // NOSONAR
             månedsinntekt.medYtelse(true)
                 .medYtelseKode(ytelseFraOffentlige.getBeskrivelse().getValue());
-        } else if(erPensjonEllerTrygd(inntekt)) {
+        } else if (erPensjonEllerTrygd(inntekt)) {
             final PensjonEllerTrygd pensjonEllerTrygd = (PensjonEllerTrygd) inntekt; // NOSONAR
             månedsinntekt.medYtelse(true)
                 .medPensjonEllerTrygdKode(pensjonEllerTrygd.getBeskrivelse().getValue());
@@ -242,7 +237,7 @@ public class InntektTjenesteImpl implements InntektTjeneste {
     private String byggSikkerhetsavvikString(HentInntektListeBolkResponse response) {
         StringBuilder stringBuilder = new StringBuilder();
         List<Sikkerhetsavvik> sikkerhetsavvikListe = response.getSikkerhetsavvikListe();
-        if(!sikkerhetsavvikListe.isEmpty()) {
+        if (!sikkerhetsavvikListe.isEmpty()) {
             stringBuilder.append(sikkerhetsavvikListe.get(0).getTekst());
             for (int i = 1; i < sikkerhetsavvikListe.size(); i++) {
                 stringBuilder.append(", ");

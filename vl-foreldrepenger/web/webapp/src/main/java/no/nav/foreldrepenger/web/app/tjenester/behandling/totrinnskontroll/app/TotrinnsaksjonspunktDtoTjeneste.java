@@ -18,7 +18,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.dto.T
 public class TotrinnsaksjonspunktDtoTjeneste {
     private TotrinnsBeregningDtoTjeneste totrinnsBeregningDtoTjeneste;
     private TotrinnskontrollAktivitetDtoTjeneste totrinnskontrollAktivitetDtoTjeneste;
-    private UttakPeriodeEndringDtoTjeneste uttakPeriodeEndringDtoTjeneste;
     private TotrinnArbeidsforholdDtoTjeneste totrinnArbeidsforholdDtoTjeneste;
 
 
@@ -29,12 +28,10 @@ public class TotrinnsaksjonspunktDtoTjeneste {
 
     @Inject
     public TotrinnsaksjonspunktDtoTjeneste(TotrinnsBeregningDtoTjeneste totrinnsBeregningDtoTjeneste,
-                                           UttakPeriodeEndringDtoTjeneste uttakPeriodeEndringDtoTjeneste,
                                            TotrinnArbeidsforholdDtoTjeneste totrinnArbeidsforholdDtoTjeneste,
                                            TotrinnskontrollAktivitetDtoTjeneste totrinnskontrollAktivitetDtoTjeneste) {
         this.totrinnskontrollAktivitetDtoTjeneste = totrinnskontrollAktivitetDtoTjeneste;
         this.totrinnsBeregningDtoTjeneste = totrinnsBeregningDtoTjeneste;
-        this.uttakPeriodeEndringDtoTjeneste = uttakPeriodeEndringDtoTjeneste;
         this.totrinnArbeidsforholdDtoTjeneste = totrinnArbeidsforholdDtoTjeneste;
     }
 
@@ -50,7 +47,6 @@ public class TotrinnsaksjonspunktDtoTjeneste {
             .medArbeidsforhold(totrinnArbeidsforholdDtoTjeneste.hentArbeidsforhold(aksjonspunkt, behandling, totrinnresultatgrunnlag.flatMap(Totrinnresultatgrunnlag::getInntektArbeidYtelseGrunnlagId)))
             .medTotrinnskontrollGodkjent(aksjonspunkt.isGodkjent())
             .medVurderPaNyttArsaker(hentVurderPåNyttÅrsaker(aksjonspunkt))
-            .medEndretUttakPerioder(uttakPeriodeEndringDtoTjeneste.hentEndringPåUttakPerioder(aksjonspunkt, behandling, totrinnresultatgrunnlag))
             .build();
     }
 

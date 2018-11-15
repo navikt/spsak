@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -103,7 +101,7 @@ public class ØkonomioppdragMapperTest {
         assertThat(oppdragXmlListe).isNotNull();
     }
 
-    //    ---------------------------------------------
+    // ---------------------------------------------
 
     private List<Oppdrag110> opprettOppdrag110(Boolean gjelderFP) {
 
@@ -132,41 +130,36 @@ public class ØkonomioppdragMapperTest {
 
             no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.Avstemming115 avstemming115Generert = oppdrag110Generert.getAvstemming115();
             assertThat(avstemming115Generert.getKodeKomponent()).isEqualTo(avstemming115.getKodekomponent());
-            assertThat(avstemming115Generert.getNokkelAvstemming()).isEqualTo(ØkonomioppdragMapper.tilSpesialkodetDatoOgKlokkeslett(avstemming115.getNokkelAvstemming()));
-            assertThat(avstemming115Generert.getTidspktMelding()).isEqualTo(ØkonomioppdragMapper.tilSpesialkodetDatoOgKlokkeslett(avstemming115.getTidspnktMelding()));
+            assertThat(avstemming115Generert.getNokkelAvstemming())
+                .isEqualTo(ØkonomioppdragMapper.tilSpesialkodetDatoOgKlokkeslett(avstemming115.getNokkelAvstemming()));
+            assertThat(avstemming115Generert.getTidspktMelding())
+                .isEqualTo(ØkonomioppdragMapper.tilSpesialkodetDatoOgKlokkeslett(avstemming115.getTidspnktMelding()));
 
             no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.OppdragsEnhet120 oppdragsEnhet120Generert = oppdrag110Generert.getOppdragsEnhet120().get(0);
 
             Oppdragsenhet120 oppdragsEnhet120 = oppdrag110.getOppdragsenhet120Liste().get(0);
             assertThat(oppdragsEnhet120Generert.getTypeEnhet()).isEqualTo(oppdragsEnhet120.getTypeEnhet());
             assertThat(oppdragsEnhet120Generert.getEnhet()).isEqualTo(oppdragsEnhet120.getEnhet());
-            try {
-                assertThat(oppdragsEnhet120Generert.getDatoEnhetFom()).isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(oppdragsEnhet120.getDatoEnhetFom()));
-            } catch (DatatypeConfigurationException e) {
-                e.printStackTrace();
-            }
+            assertThat(oppdragsEnhet120Generert.getDatoEnhetFom())
+                .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(oppdragsEnhet120.getDatoEnhetFom()));
 
-            List<no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.OppdragsLinje150> oppdragsLinje150GenerertListe = oppdrag110Generert.getOppdragsLinje150();
+            List<no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.OppdragsLinje150> oppdragsLinje150GenerertListe = oppdrag110Generert
+                .getOppdragsLinje150();
 
             int ix = 0;
             for (OppdragsLinje150 oppdragsLinje150Generert : oppdragsLinje150GenerertListe) {
                 Oppdragslinje150 oppdragslinje150 = oppdrag110.getOppdragslinje150Liste().get(ix);
                 assertThat(oppdragsLinje150Generert.getKodeEndringLinje()).isEqualTo(oppdragslinje150.getKodeEndringLinje());
                 assertThat(oppdragsLinje150Generert.getKodeStatusLinje()).isEqualTo(TkodeStatusLinje.fromValue(oppdragslinje150.getKodeStatusLinje()));
-                try {
-                    assertThat(oppdragsLinje150Generert.getDatoStatusFom()).isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(oppdragslinje150.getDatoStatusFom()));
-                } catch (DatatypeConfigurationException e) {
-                    e.printStackTrace();
-                }
+                assertThat(oppdragsLinje150Generert.getDatoStatusFom())
+                    .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(oppdragslinje150.getDatoStatusFom()));
                 assertThat(oppdragsLinje150Generert.getVedtakId()).isEqualTo(String.valueOf(oppdragslinje150.getVedtakId()));
                 assertThat(oppdragsLinje150Generert.getDelytelseId()).isEqualTo(String.valueOf(oppdragslinje150.getDelytelseId()));
                 assertThat(oppdragsLinje150Generert.getKodeKlassifik()).isEqualTo(oppdragslinje150.getKodeKlassifik());
-                try {
-                    assertThat(oppdragsLinje150Generert.getDatoVedtakFom()).isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(oppdragslinje150.getDatoVedtakFom()));
-                    assertThat(oppdragsLinje150Generert.getDatoVedtakTom()).isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(oppdragslinje150.getDatoVedtakTom()));
-                } catch (DatatypeConfigurationException e) {
-                    e.printStackTrace();
-                }
+                assertThat(oppdragsLinje150Generert.getDatoVedtakFom())
+                    .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(oppdragslinje150.getDatoVedtakFom()));
+                assertThat(oppdragsLinje150Generert.getDatoVedtakTom())
+                    .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(oppdragslinje150.getDatoVedtakTom()));
                 assertThat(oppdragsLinje150Generert.getSats()).isEqualTo(new BigDecimal(oppdragslinje150.getSats()));
                 assertThat(oppdragsLinje150Generert.getFradragTillegg()).isEqualTo(TfradragTillegg.fromValue(oppdragslinje150.getFradragTillegg()));
                 assertThat(oppdragsLinje150Generert.getTypeSats()).isEqualTo(oppdragslinje150.getTypeSats());
@@ -179,7 +172,8 @@ public class ØkonomioppdragMapperTest {
                     assertThat(oppdragsLinje150Generert.getRefDelytelseId()).isNull();
                 }
 
-                List<no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.Attestant180> attestant180GenerertListe = oppdragsLinje150Generert.getAttestant180();
+                List<no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.Attestant180> attestant180GenerertListe = oppdragsLinje150Generert
+                    .getAttestant180();
                 for (no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.Attestant180 attestant180Generert : attestant180GenerertListe) {
                     Attestant180 attestant180 = oppdragslinje150.getAttestant180Liste().get(0);
                     assertThat(attestant180Generert.getAttestantId()).isEqualTo(attestant180.getAttestantId());
@@ -193,16 +187,15 @@ public class ØkonomioppdragMapperTest {
                         assertThat(grad170Generert.getTypeGrad()).isEqualTo(grad170.getTypeGrad());
                     }
 
-                    no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.Refusjonsinfo156 refusjonsinfo156Generert = oppdragsLinje150Generert.getRefusjonsinfo156();
+                    no.nav.foreldrepenger.integrasjon.økonomistøtte.oppdrag.Refusjonsinfo156 refusjonsinfo156Generert = oppdragsLinje150Generert
+                        .getRefusjonsinfo156();
                     Optional<Refusjonsinfo156> refusjonsinfo156Opt = Optional.ofNullable(oppdragslinje150.getRefusjonsinfo156());
                     refusjonsinfo156Opt.ifPresent(refusjonsinfo156 -> {
                         assertThat(refusjonsinfo156Generert.getRefunderesId()).isEqualTo(refusjonsinfo156.getRefunderesId());
-                        try {
-                            assertThat(refusjonsinfo156Generert.getDatoFom()).isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getDatoFom()));
-                            assertThat(refusjonsinfo156Generert.getMaksDato()).isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getMaksDato()));
-                        } catch (DatatypeConfigurationException e) {
-                            e.printStackTrace();
-                        }
+                        assertThat(refusjonsinfo156Generert.getDatoFom())
+                            .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getDatoFom()));
+                        assertThat(refusjonsinfo156Generert.getMaksDato())
+                            .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getMaksDato()));
                     });
                 }
                 ix++;
@@ -236,8 +229,8 @@ public class ØkonomioppdragMapperTest {
 
     private List<Refusjonsinfo156> buildRefusjonsinfo156(List<Oppdragslinje150> oppdragslinje150Liste) {
         List<Refusjonsinfo156> refusjonsinfo156Liste = new ArrayList<>();
-        List<Oppdragslinje150> oppdragslinje150List = oppdragslinje150Liste.stream().
-            filter(oppdragslinje150 -> oppdragslinje150.getOppdrag110().getKodeFagomrade().equals("FPREF")).collect(Collectors.toList());
+        List<Oppdragslinje150> oppdragslinje150List = oppdragslinje150Liste.stream()
+            .filter(oppdragslinje150 -> oppdragslinje150.getOppdrag110().getKodeFagomrade().equals("FPREF")).collect(Collectors.toList());
         for (Oppdragslinje150 opp150 : oppdragslinje150List) {
             refusjonsinfo156Liste.add(refusjonsinfo156Builder
                 .medMaksDato(LocalDate.now())
@@ -273,7 +266,8 @@ public class ØkonomioppdragMapperTest {
 
     private Oppdragslinje150 buildOppdragslinje150Feriepenger(Oppdrag110 oppdrag110) {
         settFellesFelterIOpp150();
-        String kodeKlassifik = oppdrag110.getKodeFagomrade().equals("FP") ? ØkonomiKodeKlassifik.FPATFER.getKodeKlassifik() : ØkonomiKodeKlassifik.FPREFAGFER_IOP.getKodeKlassifik();
+        String kodeKlassifik = oppdrag110.getKodeFagomrade().equals("FP") ? ØkonomiKodeKlassifik.FPATFER.getKodeKlassifik()
+            : ØkonomiKodeKlassifik.FPREFAGFER_IOP.getKodeKlassifik();
         return oppdrLinje150Builder
             .medKodeKlassifik(kodeKlassifik)
             .medTypeSats(ØkonomiTypeSats.ENG.name())
@@ -324,7 +318,6 @@ public class ØkonomioppdragMapperTest {
             .medTidspnktMelding(LocalDateTime.now().minusDays(1))
             .build();
     }
-
 
     private List<Oppdrag110> buildOppdrag110(Oppdragskontroll oppdragskontroll, Avstemming115 avstemming115, Boolean gjelderFP) {
 

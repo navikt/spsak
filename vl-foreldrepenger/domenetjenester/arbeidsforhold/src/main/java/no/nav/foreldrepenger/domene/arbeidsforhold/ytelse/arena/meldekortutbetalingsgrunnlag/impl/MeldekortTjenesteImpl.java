@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
@@ -177,8 +176,6 @@ public class MeldekortTjenesteImpl implements MeldekortTjeneste {
             }
 
             return saker;
-        } catch (DatatypeConfigurationException e) {
-            throw MeldekortFeil.FACTORY.tekniskFeil(TJENESTE, e).toException();
         } catch (FinnMeldekortUtbetalingsgrunnlagListeSikkerhetsbegrensning e) {
             throw MeldekortFeil.FACTORY.tjenesteUtilgjengeligSikkerhetsbegrensning(TJENESTE, e).toException();
         } catch (FinnMeldekortUtbetalingsgrunnlagListeUgyldigInput e) {

@@ -30,7 +30,6 @@
         <module>produksjonsstyring</module>
         <module>registerinnhenting</module>
         <module>vedtak</module>
-        <module>uttak</module>
         <module>virksomhet</module>
 		<module>kompletthetsjekk</module>
 		<module>kontrollerfakta</module>

@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.behandling.statusobserver;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -16,36 +16,28 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatusEventPubliserer;
-import no.nav.foreldrepenger.domene.uttak.saldo.StønadskontoSaldoTjeneste;
 import no.nav.vedtak.konfig.KonfigVerdi;
 
-@Dependent
+@ApplicationScoped
 public class OppdaterFagsakStatusFelles {
 
     private FagsakRepository fagsakRepository;
     private FagsakStatusEventPubliserer fagsakStatusEventPubliserer;
     private BehandlingRepository behandlingRepository;
-    private StønadskontoSaldoTjeneste stønadskontoSaldoTjeneste;
     private FamilieHendelseRepository familieGrunnlagRepository;
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
     private final Integer foreldelsesfristFP;
 
     @Inject
     public OppdaterFagsakStatusFelles(BehandlingRepositoryProvider provider,
                                       FagsakStatusEventPubliserer fagsakStatusEventPubliserer,
-                                      StønadskontoSaldoTjeneste stønadskontoSaldoTjeneste,
-                                      FagsakRelasjonRepository fagsakRelasjonRepository,
                                       @KonfigVerdi("foreldelsesfrist.foreldrenger.år") Integer foreldelsesfristFP) {
         this.fagsakRepository = provider.getFagsakRepository();
         this.fagsakStatusEventPubliserer = fagsakStatusEventPubliserer;
         this.behandlingRepository = provider.getBehandlingRepository();
-        this.stønadskontoSaldoTjeneste = stønadskontoSaldoTjeneste;
         this.familieGrunnlagRepository = provider.getFamilieGrunnlagRepository();
-        this.fagsakRelasjonRepository = fagsakRelasjonRepository;
         this.foreldelsesfristFP = foreldelsesfristFP;
     }
 
@@ -72,10 +64,9 @@ public class OppdaterFagsakStatusFelles {
                 .map(FamilieHendelseGrunnlag::getGjeldendeVersjon)
                 .flatMap(FamilieHendelse::getAdopsjon)
                 .map(Adopsjon::getOmsorgsovertakelseDato);
-            Optional<LocalDate> maksDatoUttak = fagsakRelasjonRepository
-                .finnRelasjonForHvisEksisterer(behandling.getFagsak()) // Guard for at StønadskontoSaldoTjeneste ikke feiler
-                .flatMap(dummmy -> stønadskontoSaldoTjeneste.finnSaldoer(behandling).getMaksDatoUttak());
 
+            Optional<LocalDate> maksDatoUttak = Optional.of(LocalDate.now()); // FIXME SP - har fjernet uttak, trenger erstatning?
+            
             return erDatoUtløpt(maksDatoUttak, LocalDate.now())
                 || erDatoUtløpt(fødselsdato, LocalDate.now().minusYears(foreldelsesfristFP))
                 || erDatoUtløpt(omsorgsovertalsesdato, LocalDate.now().minusYears(foreldelsesfristFP))

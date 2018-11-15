@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapKildeType;
@@ -44,17 +42,13 @@ public class HentMedlemskapFraRegister {
     public List<Medlemskapsperiode> finnMedlemskapPerioder(FinnMedlemRequest finnMedlemRequest) {
         HentPeriodeListeRequest request = new HentPeriodeListeRequest();
         List<Medlemskapsperiode> medlemskapsperiodeList;
-        try {
-            request.setIdent(new Foedselsnummer().withValue(finnMedlemRequest.getFnr()));
-            request.setInkluderPerioderFraOgMed(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(finnMedlemRequest.getFom()));
-            request.setInkluderPerioderTilOgMed(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(finnMedlemRequest.getTom()));
-            request.withInkluderStatuskodeListe(
-                new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.GYLD.toString()),
-                new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.INNV.toString()),
-                new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.UAVK.toString()));
-        } catch (DatatypeConfigurationException ex) {
-            throw MedlemFeil.FACTORY.feilVedOpprettelseAvMedlemRequest(ex).toException();
-        }
+        request.setIdent(new Foedselsnummer().withValue(finnMedlemRequest.getFnr()));
+        request.setInkluderPerioderFraOgMed(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(finnMedlemRequest.getFom()));
+        request.setInkluderPerioderTilOgMed(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(finnMedlemRequest.getTom()));
+        request.withInkluderStatuskodeListe(
+            new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.GYLD.toString()),
+            new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.INNV.toString()),
+            new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.UAVK.toString()));
 
         try {
             HentPeriodeListeResponse response = medlemConsumer.hentPeriodeListe(request);

@@ -35,7 +35,7 @@
 			<dependency>
 				<groupId>no.nav.spvedtak.felles</groupId>
 				<artifactId>felles</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>

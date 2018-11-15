@@ -14,29 +14,21 @@
     <packaging>jar</packaging>
     <name>FPMock2 :: Dokumentgenerator</name>
 
-    <properties>
-        <vl-kontrakt-soeknad.version>0.0.1-SNAPSHOT</vl-kontrakt-soeknad.version>
-        <vl-kontrakt-inntektsmelding.version>0.0.1-SNAPSHOT</vl-kontrakt-inntektsmelding.version>
-    </properties>
-
     <dependencies>
         <!-- Engangsstønad -og foreldrepenger-skjema for Utbyggeren -->
         <dependency>
             <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>soeknad-v1</artifactId>
-            <version>${vl-kontrakt-soeknad.version}</version>
+            <version>${project.version}</version>
             <classifier>jaxb</classifier>
         </dependency>
-
-
 
         <dependency>
             <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>inntektsmelding-v1</artifactId>
-            <version>${vl-kontrakt-inntektsmelding.version}</version>
+            <version>${project.version}</version>
             <classifier>jaxb</classifier>
         </dependency>
-
 
         <!-- 3dje parts biblioteker -->
         <dependency>

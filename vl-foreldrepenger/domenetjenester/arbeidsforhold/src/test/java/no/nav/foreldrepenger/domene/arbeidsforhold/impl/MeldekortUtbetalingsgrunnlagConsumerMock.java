@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Alternative;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.tjeneste.virksomhet.meldekortutbetalingsgrunnlag.v1.informasjon.Meldekort;
@@ -79,7 +78,6 @@ class MeldekortUtbetalingsgrunnlagConsumerMock implements MeldekortUtbetalingsgr
         meldekort.setDagsats(1000);
         meldekort.setBeloep(7500);
 
-        try {
             vedtak.setDatoKravMottatt(convertToXMLGregorianCalendar(LocalDate.of(2017, 12, 12)));
             vedtak.setVedtaksdato(convertToXMLGregorianCalendar(LocalDate.of(2017, 12, 24)));
             Periode periode = of.createPeriode();
@@ -90,9 +88,6 @@ class MeldekortUtbetalingsgrunnlagConsumerMock implements MeldekortUtbetalingsgr
             pm.setFom(convertToXMLGregorianCalendar(LocalDate.of(2018, 1, 22)));
             pm.setTom(convertToXMLGregorianCalendar(LocalDate.of(2018, 2, 4)));
             meldekort.setMeldekortperiode(pm);
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
 
         vedtak.getMeldekortListe().add(meldekort);
         sak.getVedtakListe().add(vedtak);

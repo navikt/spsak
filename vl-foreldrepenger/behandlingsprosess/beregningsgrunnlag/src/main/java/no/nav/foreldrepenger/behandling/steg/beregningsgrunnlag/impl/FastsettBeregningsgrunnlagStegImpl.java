@@ -71,7 +71,9 @@ public class FastsettBeregningsgrunnlagStegImpl implements BeregningsgrunnlagSte
             ryddBeregningsgrunnlag.ryddFastsettBeregningsgrunnlagVedTilbakeføring();
         }
 
-        if (transisjonType.equals(TransisjonType.HOPP_OVER_FRAMOVER) && sisteSteg.equals(BehandlingStegType.SØKNADSFRIST_FORELDREPENGER)) {
+        if (transisjonType.equals(TransisjonType.HOPP_OVER_FRAMOVER)) {
+            // FIXME SP - var tidligere sjekk på at sisteSteg == SØKNADSFRIST_FORELDREPENGER.  Trengs det lenger?
+            
             if (behandling.erRevurdering()) {
                 // Kopier beregningsgrunnlag fra original, da uttaksresultat avhenger av denne
                 behandling.getOriginalBehandling()

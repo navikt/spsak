@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.opptjening.OpptjeningR
 import no.nav.foreldrepenger.web.app.tjenester.behandling.personopplysning.PersonRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.søknad.SøknadRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.TotrinnskontrollRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.uttak.UttakRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vilkår.VilkårRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.ytelsefordeling.YtelsefordelingRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.dokument.DokumentRestTjeneste;
@@ -94,7 +93,6 @@ public class ApplicationConfig extends Application {
         classes.add(VedtakJsonFeedRestTjeneste.class);
         classes.add(FordelRestTjeneste.class);
         classes.add(HendelserRestTjeneste.class);
-        classes.add(UttakRestTjeneste.class);
         classes.add(BeregningsresultatRestTjeneste.class);
         classes.add(VedtakRestTjeneste.class);
         classes.add(TotrinnskontrollRestTjeneste.class);

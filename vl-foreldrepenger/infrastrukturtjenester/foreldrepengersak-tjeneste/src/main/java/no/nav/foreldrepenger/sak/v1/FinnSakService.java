@@ -7,8 +7,6 @@ import java.util.function.Function;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.jws.WebService;
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,12 +43,7 @@ import no.nav.vedtak.sikkerhet.abac.TilpassetAbacAttributt;
  */
 
 @Dependent
-@WebService(
-    wsdlLocation = "wsdl/no/nav/tjeneste/virksomhet/foreldrepengesak/v1/foreldrepengesak.wsdl",
-    serviceName = "foreldrepengesak_v1",
-    portName = "foreldrepengesak_v1Port",
-    endpointInterface = "no.nav.tjeneste.virksomhet.foreldrepengesak.v1.binding.ForeldrepengesakV1"
-)
+@WebService(wsdlLocation = "wsdl/no/nav/tjeneste/virksomhet/foreldrepengesak/v1/foreldrepengesak.wsdl", serviceName = "foreldrepengesak_v1", portName = "foreldrepengesak_v1Port", endpointInterface = "no.nav.tjeneste.virksomhet.foreldrepengesak.v1.binding.ForeldrepengesakV1")
 @SoapWebService(endpoint = "/sak/finnSak/v1", tjenesteBeskrivelseURL = "https://confluence.adeo.no/pages/viewpage.action?pageId=220528950")
 public class FinnSakService implements ForeldrepengesakV1 {
 
@@ -81,7 +74,7 @@ public class FinnSakService implements ForeldrepengesakV1 {
     @Override
     @BeskyttetRessurs(action = BeskyttetRessursActionAttributt.READ, ressurs = BeskyttetRessursResourceAttributt.FAGSAK)
     public FinnSakListeResponse finnSakListe(@TilpassetAbacAttributt(supplierClass = AbacDataSupplier.class) FinnSakListeRequest request)
-        throws FinnSakListeSikkerhetsbegrensning {
+            throws FinnSakListeSikkerhetsbegrensning {
 
         Aktoer sakspart = request.getSakspart();
         String aktørid = sakspart.getAktoerId();
@@ -107,12 +100,8 @@ public class FinnSakService implements ForeldrepengesakV1 {
         sak.setStatus(lagEksternRepresentasjon(status));
         sak.setBehandlingstema(lagEksternRepresentasjonBehandlingstema(fagsak));
         sak.setSakId(fagsak.getSaksnummer().getVerdi());
-        try {
-            sak.setEndret(DateUtil.convertToXMLGregorianCalendar(fagsak.getEndretTidspunkt()));
-            sak.setOpprettet(DateUtil.convertToXMLGregorianCalendar(fagsak.getOpprettetTidspunkt()));
-        } catch (DatatypeConfigurationException e) {
-            throw FinnSakServiceFeil.FACTORY.konverteringsfeil(e).toException();
-        }
+        sak.setEndret(DateUtil.convertToXMLGregorianCalendar(fagsak.getEndretTidspunkt()));
+        sak.setOpprettet(DateUtil.convertToXMLGregorianCalendar(fagsak.getOpprettetTidspunkt()));
         return sak;
     }
 
@@ -141,7 +130,7 @@ public class FinnSakService implements ForeldrepengesakV1 {
         if (BehandlingTema.gjelderEngangsstønad(behandlingTema) || BehandlingTema.gjelderForeldrepenger(behandlingTema)) {
             return behandlingTema;
         } else {
-            //det er riktig å rapportere på årsakstype, selv om koden over bruker BehandlingTema
+            // det er riktig å rapportere på årsakstype, selv om koden over bruker BehandlingTema
             throw FinnSakServiceFeil.FACTORY.ikkeStøttetÅrsakstype(behandlingTema).toException();
         }
     }
@@ -171,5 +160,3 @@ public class FinnSakService implements ForeldrepengesakV1 {
     }
 
 }
-
-
