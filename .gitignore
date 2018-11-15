@@ -16,7 +16,6 @@ es.properties.backup
 *.zip
 *.versionsBackup
 *.log
-es-local.properties
 *.db
 mqjms.log*
 maven-eclipse.xml
@@ -30,3 +29,8 @@ dep.txt
 *.patch
 /.mvn/
 target/
+vl-foreldrepenger/logback.xml
+keystore.jks
+truststore.jts
+truststore.jks
+.DS_Store
