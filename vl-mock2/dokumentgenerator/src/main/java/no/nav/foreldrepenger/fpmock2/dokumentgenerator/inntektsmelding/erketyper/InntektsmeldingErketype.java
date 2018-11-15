@@ -26,24 +26,22 @@ public class InntektsmeldingErketype {
         inntektsmeldingDTO.setBeregnetInntektBelop(35000);
         inntektsmeldingDTO.setInntektsmeldingID(UUID.randomUUID().toString().substring(0, 7));
         inntektsmeldingDTO.setInntektsmeldingType(ÅrsakInnsendingKodeliste.NY.NY);
-        inntektsmeldingDTO.setInntektsmeldingYtelse(YtelseKodeliste.FORELDREPENGER);
-        inntektsmeldingDTO.setStartDatoForeldrepengePerioden(LocalDate.of(2018, 10, 1));
+        inntektsmeldingDTO.setInntektsmeldingYtelse(YtelseKodeliste.SYKEPENGER);
+        //inntektsmeldingDTO.setStartDatoForeldrepengePerioden(LocalDate.of(2018, 10, 1));
         inntektsmeldingDTO.setOrganisasjonsnummer(EksempelArbeidsgiver.STATOILSOKKEL.getOrgNummer());
         inntektsmeldingDTO.setEksempelArbeidsgiver(EksempelArbeidsgiver.STATOILSOKKEL);
 
         return makeInntektsmeldingFromRequestToString(inntektsmeldingDTO);
 
     }
-    
+
     public InntektsmeldingBuilder makeInntektsmeldingFromRequest(InntektsmeldingDTO request) {
-        InntektsmeldingBuilder inntektsmeldingBuilder = new InntektsmeldingBuilder(
-                request.getInntektsmeldingID(),
-                request.getInntektsmeldingYtelse(),
-                request.getInntektsmeldingType(),
-                request.getArbeidstakerFNR(),
-                request.getStartDatoForeldrepengePerioden());
-
-
+        InntektsmeldingBuilder inntektsmeldingBuilder =
+                new InntektsmeldingBuilder(
+                        request.getInntektsmeldingID(),
+                        request.getInntektsmeldingYtelse(),
+                        request.getInntektsmeldingType(),
+                        request.getArbeidstakerFNR());
 
         if(request.getInntektsmeldingType() != null){
             inntektsmeldingBuilder.setAarsakTilInnsending(request.getInntektsmeldingType());
@@ -73,12 +71,12 @@ public class InntektsmeldingErketype {
         List<EndringIRefusjon> endringIRefusjonListe = new ArrayList<>();
         if(request.getInntektsmeldingEndringIRefusjonDTOS() != null){
             request.getInntektsmeldingEndringIRefusjonDTOS().forEach(t ->
-                endringIRefusjonListe.add(
-                        InntektsmeldingBuilder.createEndringIRefusjon(
-                                t.getEndringsdato(),
-                                t.getRefusjonsbeloepPrMnd()
-                        )
-                )
+                    endringIRefusjonListe.add(
+                            InntektsmeldingBuilder.createEndringIRefusjon(
+                                    t.getEndringsdato(),
+                                    t.getRefusjonsbeloepPrMnd()
+                            )
+                    )
             );
         }
 
@@ -132,7 +130,7 @@ public class InntektsmeldingErketype {
         }
 
 
-        List<UtsettelseAvForeldrepenger> utsettelseAvForeldrepengerListe = new ArrayList<>();
+        /*List<UtsettelseAvForeldrepenger> utsettelseAvForeldrepengerListe = new ArrayList<>();
         if (request.getUtsettelseAvForeldrepengerDTOliste() != null) {
             request.getUtsettelseAvForeldrepengerDTOliste().forEach(t ->
                     utsettelseAvForeldrepengerListe.add(InntektsmeldingBuilder.createUtsettelseAvForeldrepenger(
@@ -149,7 +147,7 @@ public class InntektsmeldingErketype {
                             InntektsmeldingBuilder.createPeriode(t.getFom(), t.getTom())
                     ))
             );
-        }
+        }*/
 
         List<Periode> avtaltFerieListe = new ArrayList<>();
         if(request.getInntektsmeldingArbeidsforholdAvtaltFerieDTOS() != null){
@@ -164,10 +162,11 @@ public class InntektsmeldingErketype {
         inntektsmeldingBuilder.setArbeidsforhold(InntektsmeldingBuilder.createArbeidsforhold(
                 request.getArbeidsforholdId(),
                 request.getKodelisteArsakEndring(),
-                new BigDecimal(request.getBeregnetInntektBelop()),
+                new BigDecimal(request.getBeregnetInntektBelop())
+                /*,
                 utsettelseAvForeldrepengerListe,
                 graderingIForeldrepengerListe,
-                avtaltFerieListe
+                avtaltFerieListe*/
         ));
 
         return inntektsmeldingBuilder;

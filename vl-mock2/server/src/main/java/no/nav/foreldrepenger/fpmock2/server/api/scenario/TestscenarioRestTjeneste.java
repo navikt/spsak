@@ -55,9 +55,9 @@ public class TestscenarioRestTjeneste {
         Map<String, String> variabler = testscenario.getVariabelContainer().getVars();
         
         String fnrSøker = testscenario.getPersonopplysninger().getSøker().getIdent();
-        String fnrAnnenPart = testscenario.getPersonopplysninger().getAnnenPart().getIdent();
+        String fnrAnnenPart = testscenario.getPersonopplysninger().getAnnenPart() != null ? testscenario.getPersonopplysninger().getAnnenPart().getIdent() : null;
         String aktørIdSøker = testscenario.getPersonopplysninger().getSøker().getAktørIdent();
-        TestscenarioPersonopplysningDto scenarioPersonopplysninger = new TestscenarioPersonopplysningDto(fnrSøker ,fnrAnnenPart, aktørIdSøker);
+        TestscenarioPersonopplysningDto scenarioPersonopplysninger = new TestscenarioPersonopplysningDto(fnrSøker ,fnrAnnenPart,  aktørIdSøker);
 
         LOG.info("Testscenario med templateKey: {}, for søker: {}, med aktørId: {}.", templateKey, fnrSøker, aktørIdSøker);
 

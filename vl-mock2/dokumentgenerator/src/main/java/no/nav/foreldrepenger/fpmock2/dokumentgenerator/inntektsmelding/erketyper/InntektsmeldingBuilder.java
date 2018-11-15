@@ -1,6 +1,21 @@
 package no.nav.foreldrepenger.fpmock2.dokumentgenerator.inntektsmelding.erketyper;
 
 
+import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import no.nav.inntektsmelding.xml.kodeliste._20180702.BegrunnelseIngenEllerRedusertUtbetalingKodeliste;
 import no.nav.inntektsmelding.xml.kodeliste._20180702.NaturalytelseKodeliste;
 import no.nav.inntektsmelding.xml.kodeliste._20180702.YtelseKodeliste;
@@ -29,19 +44,6 @@ import no.seres.xsd.nav.inntektsmelding_m._20180924.Skjemainnhold;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.SykepengerIArbeidsgiverperioden;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepenger;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepengerListe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.io.StringWriter;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
 
 public class InntektsmeldingBuilder {
@@ -56,7 +58,7 @@ public class InntektsmeldingBuilder {
     String inntektsmeldingID;
     ÅrsakInnsendingKodeliste aarsakTilInnsending;
     Refusjon refusjon;
-    LocalDate startdatoForeldrepengeperiodenFOM;
+    //LocalDate startdatoForeldrepengeperiodenFOM;
     OpphoerAvNaturalytelseListe opphoerAvNaturalytelseListe;
     GjenopptakelseNaturalytelseListe gjenopptakelseNaturalytelseListe;
     SykepengerIArbeidsgiverperioden sykepengerIArbeidsgiverperioden;
@@ -108,12 +110,12 @@ public class InntektsmeldingBuilder {
             skjemainnhold.setAarsakTilInnsending(this.aarsakTilInnsending.value());
         }
 
-        if(this.startdatoForeldrepengeperiodenFOM != null){
+        /*if(this.startdatoForeldrepengeperiodenFOM != null){
             skjemainnhold.setStartdatoForeldrepengeperiode(
                     objectFactory.createSkjemainnholdStartdatoForeldrepengeperiode(
                             makeXMLGregorianCalenderFromLocalDate(startdatoForeldrepengeperiodenFOM)
                     ));
-        }
+        }*/
 
 
 
@@ -134,16 +136,13 @@ public class InntektsmeldingBuilder {
     public InntektsmeldingBuilder(String inntektsmeldingID,
                                   YtelseKodeliste ytelse,
                                   ÅrsakInnsendingKodeliste aarsakTilInnsending,
-                                  String arbeidstakerFNR,
-                                  LocalDate startdatoForeldrepengeperiodenFOM){
+                                  String arbeidstakerFNR){
         this.inntektsmelding = new InntektsmeldingM();
         this.opphoerAvNaturalytelseListe = new OpphoerAvNaturalytelseListe();
         this.inntektsmeldingID = inntektsmeldingID;
-        this.ytelse = isNull(ytelse) ? YtelseKodeliste.FORELDREPENGER: ytelse;
+        this.ytelse = isNull(ytelse) ? YtelseKodeliste.SYKEPENGER: ytelse;
         this.aarsakTilInnsending = aarsakTilInnsending;
         this.arbeidstakerFNR = arbeidstakerFNR;
-        this.startdatoForeldrepengeperiodenFOM = startdatoForeldrepengeperiodenFOM;
-
     }
 
 
@@ -206,23 +205,23 @@ public class InntektsmeldingBuilder {
         this.naerRelasjon = naerRelasjon;
         return this;
     }
-    
+
     public InntektsmeldingBuilder addGradertperiode(int arbeidsprosent, Periode periode) {
-        if(null == this.arbeidsforhold.getGraderingIForeldrepengerListe()) {
+        /*if(null == this.arbeidsforhold.getGraderingIForeldrepengerListe()) {
             ObjectFactory objectFactory = new ObjectFactory();
             arbeidsforhold.setGraderingIForeldrepengerListe(objectFactory.createArbeidsforholdGraderingIForeldrepengerListe(objectFactory.createGraderingIForeldrepengerListe()));
-        }
-        
-        GraderingIForeldrepenger gradering = createGraderingIForeldrepenger(new BigDecimal(arbeidsprosent), periode);
-        this.arbeidsforhold.getGraderingIForeldrepengerListe().getValue().getGraderingIForeldrepenger().add(gradering);
+        }*/
+
+        /*GraderingIForeldrepenger gradering = createGraderingIForeldrepenger(new BigDecimal(arbeidsprosent), periode);
+        this.arbeidsforhold.getGraderingIForeldrepengerListe().getValue().getGraderingIForeldrepenger().add(gradering);*/
         return this;
     }
 
 
 
-    public void setStartdatoForeldrepengeperiodenFOM(LocalDate startdatoForeldrepengeperiodenFOM) {
+    /*public void setStartdatoForeldrepengeperiodenFOM(LocalDate startdatoForeldrepengeperiodenFOM) {
         this.startdatoForeldrepengeperiodenFOM = startdatoForeldrepengeperiodenFOM;
-    }
+    }*/
 
     public OpphoerAvNaturalytelseListe getOpphoerAvNaturalytelsesList() {
         return opphoerAvNaturalytelseListe;
@@ -273,7 +272,7 @@ public class InntektsmeldingBuilder {
 
 
 
-    public static UtsettelseAvForeldrepenger createUtsettelseAvForeldrepenger(ÅrsakUtsettelseKodeliste aarsakTilUtsettelse,
+    /*public static UtsettelseAvForeldrepenger createUtsettelseAvForeldrepenger(ÅrsakUtsettelseKodeliste aarsakTilUtsettelse,
                                                                                                               Periode periode){
 
         ObjectFactory objectFactory = new ObjectFactory();
@@ -283,7 +282,7 @@ public class InntektsmeldingBuilder {
         );
         utsettelseAvForeldrepenger.setPeriode(objectFactory.createUtsettelseAvForeldrepengerPeriode(periode));
         return utsettelseAvForeldrepenger;
-    }
+    }*/
 
 
     public static GraderingIForeldrepenger createGraderingIForeldrepenger(BigDecimal arbeidstidIProsent,
@@ -311,7 +310,7 @@ public class InntektsmeldingBuilder {
     public static SykepengerIArbeidsgiverperioden createSykepengerIArbeidsgiverperioden (BigDecimal bruttoUtbetalt,
                                                                                          List<Periode> arbeidsgiverperiodelist,
                                                                                          BegrunnelseIngenEllerRedusertUtbetalingKodeliste begrunnelse
-                                                                                         ){
+    ){
         ObjectFactory objectFactory = new ObjectFactory();
         SykepengerIArbeidsgiverperioden sykepengerIArbeidsgiverperioden = new SykepengerIArbeidsgiverperioden();
         sykepengerIArbeidsgiverperioden.setBruttoUtbetalt(objectFactory.createSykepengerIArbeidsgiverperiodenBruttoUtbetalt(bruttoUtbetalt));
@@ -337,16 +336,16 @@ public class InntektsmeldingBuilder {
 
     public static Arbeidsforhold createArbeidsforhold(String arbeidsforholdId,
                                                       ÅrsakBeregnetInntektEndringKodeliste aarsakVedEndring,
-                                                      BigDecimal beregnetInntektBelop,
-                                                      List<UtsettelseAvForeldrepenger> utsettelseAvForeldrepengerList,
+                                                      BigDecimal beregnetInntektBelop
+                                                      /*List<UtsettelseAvForeldrepenger> utsettelseAvForeldrepengerList,
                                                       List<GraderingIForeldrepenger> graderingIForeldrepengerList,
-                                                      List<Periode> avtaltFerieListeList){
+                                                      List<Periode> avtaltFerieListeList*/){
 
 
         ObjectFactory objectFactory = new ObjectFactory();
         Arbeidsforhold arbeidsforhold = objectFactory.createArbeidsforhold();
 
-        if(utsettelseAvForeldrepengerList != null && utsettelseAvForeldrepengerList.size() > 0) {
+        /*if(utsettelseAvForeldrepengerList != null && utsettelseAvForeldrepengerList.size() > 0) {
             UtsettelseAvForeldrepengerListe utsettelseAvForeldrepengerListe = objectFactory.createUtsettelseAvForeldrepengerListe();
             utsettelseAvForeldrepengerListe.getUtsettelseAvForeldrepenger().addAll(utsettelseAvForeldrepengerList);
             arbeidsforhold.setUtsettelseAvForeldrepengerListe(
@@ -365,7 +364,7 @@ public class InntektsmeldingBuilder {
             graderingIForeldrepengerListe.getGraderingIForeldrepenger().addAll(graderingIForeldrepengerList);
             arbeidsforhold.setGraderingIForeldrepengerListe(
                     objectFactory.createArbeidsforholdGraderingIForeldrepengerListe(graderingIForeldrepengerListe));
-        }
+        }*/
 
         if(arbeidsforholdId != null && arbeidsforholdId.length() > 0) {
             arbeidsforhold.setArbeidsforholdId(objectFactory

@@ -88,7 +88,7 @@ public class FpsakTestBase extends TestScenarioTestBase{
     }
 
     protected InntektsmeldingBuilder lagInntektsmeldingBuilderFraInntektsperiode(Integer beløp, String fnr, String orgnummer, LocalDate startDatoForeldrepenger) {
-        InntektsmeldingBuilder builder = new InntektsmeldingBuilder(UUID.randomUUID().toString().substring(0, 7),
+        /*InntektsmeldingBuilder builder = new InntektsmeldingBuilder(UUID.randomUUID().toString().substring(0, 7),
                 YtelseKodeliste.FORELDREPENGER,
                 ÅrsakInnsendingKodeliste.NY.NY,
                 fnr,
@@ -103,7 +103,8 @@ public class FpsakTestBase extends TestScenarioTestBase{
                 new ArrayList<>(),
                 new ArrayList<>()));
 
-        return builder;
+        return builder;*/
+        return null;
     }
 
 }
