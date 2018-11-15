@@ -88,23 +88,22 @@ public class FpsakTestBase extends TestScenarioTestBase{
     }
 
     protected InntektsmeldingBuilder lagInntektsmeldingBuilderFraInntektsperiode(Integer beløp, String fnr, String orgnummer, LocalDate startDatoForeldrepenger) {
-        /*InntektsmeldingBuilder builder = new InntektsmeldingBuilder(UUID.randomUUID().toString().substring(0, 7),
+        InntektsmeldingBuilder builder = new InntektsmeldingBuilder(UUID.randomUUID().toString().substring(0, 7),
                 YtelseKodeliste.FORELDREPENGER,
                 ÅrsakInnsendingKodeliste.NY.NY,
-                fnr,
-                startDatoForeldrepenger);
+                fnr
+                /*,                startDatoForeldrepenger*/);
         builder.setArbeidsgiver(InntektsmeldingBuilder.createArbeidsgiver(orgnummer, "41925090"));
         builder.setAvsendersystem(InntektsmeldingBuilder.createAvsendersystem("FS22","1.0"));
         builder.setArbeidsforhold(InntektsmeldingBuilder.createArbeidsforhold(
                 "", //TODO arbeidsforhold id
                 null,
-                new BigDecimal(beløp),
+                new BigDecimal(beløp)/*,
                 new ArrayList<>(),
                 new ArrayList<>(),
-                new ArrayList<>()));
+                new ArrayList<>()*/));
 
-        return builder;*/
-        return null;
+        return builder;
     }
 
 }
