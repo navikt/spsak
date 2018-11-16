@@ -28,7 +28,11 @@ public class OppdaterFagsakStatusFelles {
     private FagsakStatusEventPubliserer fagsakStatusEventPubliserer;
     private BehandlingRepository behandlingRepository;
     private FamilieHendelseRepository familieGrunnlagRepository;
-    private final Integer foreldelsesfristFP;
+    private Integer foreldelsesfristFP;
+
+    OppdaterFagsakStatusFelles(){
+        // for CDI proxy
+    }
 
     @Inject
     public OppdaterFagsakStatusFelles(BehandlingRepositoryProvider provider,
