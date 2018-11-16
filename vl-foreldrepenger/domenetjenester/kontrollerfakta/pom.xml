@@ -25,11 +25,7 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>medlem</artifactId>
         </dependency>
-        <dependency>                
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>ytelse-fordeling</artifactId>
-        </dependency>
-        
+
         <!-- Prosjekt interne avhengigheter -->
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

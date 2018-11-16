@@ -35,11 +35,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>mottak</artifactId>
         </dependency>
-        
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>ytelse-fordeling</artifactId>
-        </dependency>
 
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>

@@ -37,7 +37,6 @@
         <module>bom</module>
 
         <module>behandlingskontroll</module>
-        <module>ytelse-fordeling</module>
         <module>vedtak-innsyn</module>
         <module>vedtak-xml</module>
     </modules>

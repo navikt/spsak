@@ -337,11 +337,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>ytelse-fordeling</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>vedtak</artifactId>
 				<version>${project.version}</version>
 			</dependency>

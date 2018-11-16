@@ -30,7 +30,6 @@ import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
-import no.nav.foreldrepenger.domene.ytelsefordeling.YtelseFordelingTjeneste;
 
 @Dependent
 class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
@@ -39,7 +38,6 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     private FamilieHendelseTjeneste familieHendelseTjeneste;
     private MedlemTjeneste medlemTjeneste;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
-    private YtelseFordelingTjeneste ytelseFordelingTjeneste;
 
     private OpptjeningRepository opptjeningRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
@@ -53,13 +51,11 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     public EndringsresultatSjekkerImpl(PersonopplysningTjeneste personopplysningTjeneste,
                                        FamilieHendelseTjeneste familieHendelseTjeneste, MedlemTjeneste medlemTjeneste,
                                        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                       YtelseFordelingTjeneste ytelseFordelingTjeneste,
                                        BehandlingRepositoryProvider provider) {
         this.personopplysningTjeneste = personopplysningTjeneste;
         this.familieHendelseTjeneste = familieHendelseTjeneste;
         this.medlemTjeneste = medlemTjeneste;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
-        this.ytelseFordelingTjeneste = ytelseFordelingTjeneste;
         this.opptjeningRepository = provider.getOpptjeningRepository();
         this.beregningsgrunnlagRepository = provider.getBeregningsgrunnlagRepository();
         this.uttakRepository = provider.getUttakRepository();
@@ -72,7 +68,6 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
         snapshot.leggTil(familieHendelseTjeneste.finnAktivAggregatId(behandling));
         snapshot.leggTil(medlemTjeneste.finnAktivGrunnlagId(behandling));
         snapshot.leggTil(inntektArbeidYtelseTjeneste.finnAktivAggregatId(behandling));
-        snapshot.leggTil(ytelseFordelingTjeneste.finnAktivAggregatId(behandling));
 
         return snapshot;
     }
@@ -95,8 +90,6 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
             sporedeEndringerDiff.leggTilSporetEndring(idEndring, () -> medlemTjeneste.diffResultat(idEndring, ytelseType, kunSporedeEndringer)));
         idDiff.hentDelresultat(InntektArbeidYtelseGrunnlag.class).ifPresent(idEndring ->
             sporedeEndringerDiff.leggTilSporetEndring(idEndring, () -> inntektArbeidYtelseTjeneste.diffResultat(idEndring, ytelseType, kunSporedeEndringer)));
-        idDiff.hentDelresultat(YtelseFordelingAggregat.class).ifPresent(idEndring ->
-            sporedeEndringerDiff.leggTilSporetEndring(idEndring, () -> ytelseFordelingTjeneste.diffResultat(idEndring, ytelseType, kunSporedeEndringer)));
         return sporedeEndringerDiff;
     }
 
