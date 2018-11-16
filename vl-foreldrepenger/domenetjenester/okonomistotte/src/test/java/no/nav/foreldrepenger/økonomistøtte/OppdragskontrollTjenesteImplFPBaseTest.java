@@ -253,7 +253,6 @@ abstract public class OppdragskontrollTjenesteImplFPBaseTest {
 
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(revurdering);
         behandlingRepository.lagre(revurdering, behandlingLås);
-        repositoryProvider.getFamilieGrunnlagRepository().kopierGrunnlagFraEksisterendeBehandling(originalBehandling, revurdering);
         OpprettBehandling.genererBehandlingOgResultat(revurdering, resultat, antallbarn);
         behandlingRepository.lagre(revurdering.getBehandlingsresultat().getVilkårResultat(), behandlingLås);
         if (VedtakResultatType.INNVILGET.equals(resultat)) {

@@ -56,12 +56,9 @@ import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
@@ -69,8 +66,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingL�
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
@@ -98,10 +93,7 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.sigrun.SigrunTjeneste
 import no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.arena.meldekortutbetalingsgrunnlag.MeldekortTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.infotrygd.beregningsgrunnlag.InfotrygdBeregningsgrunnlagTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.infotrygd.sak.InfotrygdTjeneste;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
-import no.nav.foreldrepenger.domene.medlem.api.FinnMedlemRequest;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
-import no.nav.foreldrepenger.domene.medlem.api.Medlemskapsperiode;
 import no.nav.foreldrepenger.domene.person.PersoninfoAdapter;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
@@ -115,7 +107,6 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
-import no.nav.vedtak.felles.testutilities.cdi.UnitTestInstanceImpl;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
 
 public class InnhentRegisteropplysningerStegFPImplTest {
@@ -172,8 +163,6 @@ public class InnhentRegisteropplysningerStegFPImplTest {
     private TpsTjeneste tpsTjeneste;
     @Mock
     private ProsessTaskRepository prosessTaskRepository;
-    @Mock
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
     @Mock
     private IAYRegisterInnhentingTjeneste iayTjeneste;
     @Mock
@@ -307,9 +296,6 @@ public class InnhentRegisteropplysningerStegFPImplTest {
             .medBruker(AKTØR_ID_MOR, NavBrukerKjønn.KVINNE);
 
         scenario.medSøknad();
-        scenario.medSøknadAnnenPart()
-            .medAktørId(AKTØR_ID_FAR);
-        scenario.medSøknadHendelse(scenario.medSøknadHendelse().medFødselsDato(FØDSELSDATO_BARN1));
         Behandling behandling = scenario.lagre(repositoryProvider);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(FØDSELSDATO_BARN1, null));
         repositoryProvider.getFagsakRepository().oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.UNDER_BEHANDLING);
@@ -328,13 +314,11 @@ public class InnhentRegisteropplysningerStegFPImplTest {
         when(personinfoAdapter.innhentSaksopplysningerForSøker(eq(AKTØR_ID_MOR)))
             .thenReturn(personinfoMorFdat);
         when(personinfoAdapter.innhentSaksopplysningerForBarn(eq(FDATNR_BARN))).thenReturn(Optional.empty());
-        when(personinfoAdapter.innhentAlleFødteForBehandling(any(Behandling.class), any(FamilieHendelseGrunnlag.class))).thenReturn(barnet);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
             .medBruker(AKTØR_ID_MOR, NavBrukerKjønn.KVINNE);
 
         scenario.medSøknad();
-        scenario.medSøknadHendelse(scenario.medSøknadHendelse().medFødselsDato(FØDSELSDATO_FDAT.plusDays(1)));
         Behandling behandling = scenario.lagre(repositoryProvider);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(FØDSELSDATO_FDAT.plusDays(1), null));
 
@@ -348,8 +332,6 @@ public class InnhentRegisteropplysningerStegFPImplTest {
 
         // Assert
         verify(personinfoAdapter).innhentSaksopplysningerForBarn(eq(FDATNR_BARN));
-        verify(personinfoAdapter).innhentAlleFødteForBehandling(any(Behandling.class), any(FamilieHendelseGrunnlag.class));
-        verify(familieHendelseTjeneste).oppdaterFødselPåGrunnlag(any(Behandling.class), eq(barnet));
     }
 
 
@@ -363,9 +345,6 @@ public class InnhentRegisteropplysningerStegFPImplTest {
             .medBruker(AKTØR_ID_MOR, NavBrukerKjønn.KVINNE);
 
         scenario.medSøknad();
-        scenario.medSøknadAnnenPart()
-            .medAktørId(AKTØR_ID_FAR);
-        scenario.medSøknadHendelse(scenario.medSøknadHendelse().medFødselsDato(FØDSELSDATO_BARN1.plusDays(1)));
         Behandling behandling = scenario.lagre(repositoryProvider);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(FØDSELSDATO_BARN1.plusDays(1), null));
 
@@ -392,12 +371,10 @@ public class InnhentRegisteropplysningerStegFPImplTest {
             Period.of(0, 3, 0),
             Period.of(0, 10, 0));
         behandlingskontrollTaskTjeneste = new BehandlingskontrollTaskTjenesteImpl(prosessTaskRepository);
-        BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository = new BehandlingsgrunnlagKodeverkRepositoryImpl(repositoryRule.getEntityManager());
         OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste = new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(1, 0, 0), Period.of(0, 4, 0));
         RegisterdataInnhenter registerdataInnhenter = new TestRegisterdataInnhenter(personinfoAdapter, medlemTjeneste,
-            skjæringstidspunktTjeneste, behandlingskontrollTaskTjeneste, repositoryProvider, familieHendelseTjeneste, sigrunTjeneste,
-            inntektArbeidYtelseTjeneste, medlemskapRepository, behandlingsgrunnlagKodeverkRepository, opplysningsPeriodeTjeneste,
-            new UnitTestInstanceImpl<>(Period.parse("P1W")), new UnitTestInstanceImpl<>(Period.parse("P4W")));
+            skjæringstidspunktTjeneste, behandlingskontrollTaskTjeneste, repositoryProvider, sigrunTjeneste,
+            inntektArbeidYtelseTjeneste, opplysningsPeriodeTjeneste);
 
         FagsakTjeneste fagsakTjeneste = new FagsakTjenesteImpl(repositoryProvider, null);
 
@@ -422,7 +399,7 @@ public class InnhentRegisteropplysningerStegFPImplTest {
 
         ArrayList<BehandlingSteg> behandlingStegs = new ArrayList<>();
         behandlingStegs.add(new InnhentRegisteropplysningerStegFPImpl(repositoryProvider, registerdataInnhenter));
-        behandlingStegs.add(new InnhentRegisteropplysningerResterendeOppgaverStegImpl(repositoryProvider, fagsakTjeneste, personopplysningTjeneste, familieHendelseTjeneste));
+        behandlingStegs.add(new InnhentRegisteropplysningerResterendeOppgaverStegImpl(repositoryProvider, fagsakTjeneste, personopplysningTjeneste));
         return behandlingStegs;
     }
 
@@ -445,9 +422,6 @@ public class InnhentRegisteropplysningerStegFPImplTest {
             .medBruker(AKTØR_ID_MOR, NavBrukerKjønn.KVINNE);
 
         scenario.medSøknad();
-        scenario.medSøknadAnnenPart()
-            .medAktørId(AKTØR_ID_FAR);
-        scenario.medSøknadHendelse(scenario.medSøknadHendelse().medFødselsDato(FØDSELSDATO_BARN1));
         Behandling behandling = scenario.lagre(repositoryProvider);
         repositoryProvider.getFagsakRepository().oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.UNDER_BEHANDLING);
 
@@ -491,43 +465,6 @@ public class InnhentRegisteropplysningerStegFPImplTest {
         return arbeidsforhold.stream().collect(Collectors.groupingBy(Arbeidsforhold::getIdentifikator));
     }
 
-    @Ignore // FIXME (diamant): Refaktorer som følge av at logikk ligger i prosesstask. Ikke relevant.
-    @Test
-    public void skal_innhente_medlemskapssopplysninger_for_søker_og_oppdatere_behandlingsgrunnlaget() {
-        // Arrange
-        when(personinfoAdapter.innhentSaksopplysningerForSøker(eq(AKTØR_ID_MOR)))
-            .thenReturn(personinfoMor);
-
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
-            .medBruker(AKTØR_ID_MOR, NavBrukerKjønn.KVINNE);
-
-        scenario.medSøknad();
-        scenario.medSøknadAnnenPart()
-            .medAktørId(AKTØR_ID_FAR);
-        scenario.medSøknadHendelse(scenario.medSøknadHendelse().medFødselsDato(FØDSELSDATO_BARN1));
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        repositoryProvider.getFagsakRepository().oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.UNDER_BEHANDLING);
-
-        when(medlemTjeneste.finnMedlemskapPerioder(any(FinnMedlemRequest.class)))
-            .thenReturn(Collections.singletonList(new Medlemskapsperiode.Builder()
-                .medFom(LocalDate.now())
-                .medTom(LocalDate.now())
-                .medDatoBesluttet(LocalDate.now())
-                .build()));
-        Fagsak fagsak = behandling.getFagsak();
-        // Act
-        lagInnhentRegisterOpplysningerSteg().stream().forEach(a -> a.utførSteg(new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), behandlingRepository.taSkriveLås(behandling))));
-
-        // Assert
-        verify(medlemTjeneste, times(1)).finnMedlemskapPerioder(any(FinnMedlemRequest.class));
-
-        MedlemskapRepository medlemskapRepository = repositoryProvider.getMedlemskapRepository();
-        Optional<MedlemskapAggregat> medlemskap = medlemskapRepository.hentMedlemskap(behandling);
-        assertThat(medlemskap).isPresent();
-
-        assertThat(medlemskap.get().getRegistrertMedlemskapPerioder().iterator().next().getFom()).isEqualTo(LocalDate.now());
-    }
-
     @Test
     public void utleder_aksjonspunkt_for_verge_hvis_søker_er_under_18_år() {
         // Arrange
@@ -538,15 +475,6 @@ public class InnhentRegisteropplysningerStegFPImplTest {
 
         LocalDate termindato = LocalDate.now().plusMonths(3);
         scenario.medSøknad();
-        scenario.medSøknadAnnenPart()
-            .medAktørId(AKTØR_ID_FAR);
-        final FamilieHendelseBuilder hendelseBuilder = scenario.medSøknadHendelse();
-        scenario.medSøknadHendelse(hendelseBuilder.medTerminbekreftelse(hendelseBuilder.getTerminbekreftelseBuilder()
-            .medUtstedtDato(LocalDate.now())
-            .medTermindato(termindato)
-            .medNavnPå("Doktor Lege"))
-            .medFødselsDato(FØDSELSDATO_BARN1)
-            .medAntallBarn(1));
         Behandling behandling = scenario.lagre(repositoryProvider);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(FØDSELSDATO_BARN1, null));
         repositoryProvider.getFagsakRepository().oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.UNDER_BEHANDLING);
@@ -608,13 +536,10 @@ public class InnhentRegisteropplysningerStegFPImplTest {
 
         TestRegisterdataInnhenter(PersoninfoAdapter personinfoAdapter, MedlemTjeneste medlemTjeneste, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                   BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste, BehandlingRepositoryProvider repositoryProvider,
-                                  FamilieHendelseTjeneste familieHendelseTjeneste, SigrunTjeneste sigrunTjeneste, InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                  MedlemskapRepository medlemskapRepository, BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository,
-                                  OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste, Instance<Period> etterkontrollTidsromFørSøknadsdato,
-                                  Instance<Period> etterkontrollTidsromEtterTermindato) {
-            super(personinfoAdapter, medlemTjeneste, skjæringstidspunktTjeneste, behandlingskontrollTaskTjeneste, repositoryProvider,
-                familieHendelseTjeneste, sigrunTjeneste, inntektArbeidYtelseTjeneste, medlemskapRepository, behandlingsgrunnlagKodeverkRepository,
-                opplysningsPeriodeTjeneste, etterkontrollTidsromFørSøknadsdato, etterkontrollTidsromEtterTermindato);
+                                  SigrunTjeneste sigrunTjeneste, InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
+                                  OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste) {
+            super(personinfoAdapter, medlemTjeneste, skjæringstidspunktTjeneste, behandlingskontrollTaskTjeneste, repositoryProvider, sigrunTjeneste,
+                inntektArbeidYtelseTjeneste, opplysningsPeriodeTjeneste);
         }
 
         @Override

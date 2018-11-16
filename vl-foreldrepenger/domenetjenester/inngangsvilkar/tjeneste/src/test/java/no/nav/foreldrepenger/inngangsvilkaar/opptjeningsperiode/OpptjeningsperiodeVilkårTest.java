@@ -55,11 +55,6 @@ public class OpptjeningsperiodeVilkårTest {
     public void skal_fastsette_periode_med_termindato() {
         final LocalDate skjæringstidspunkt = LocalDate.now().plusWeeks(1L).minusDays(1L);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medBekreftetHendelse()
-            .medTerminbekreftelse(scenario.medBekreftetHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(LocalDate.now().plusWeeks(4L))
-                .medUtstedtDato(LocalDate.now())
-                .medNavnPå("Doktor Dankel"));
         Behandling behandling = scenario.lagre(repositoryProvider);
         final OppgittPeriodeBuilder oppgittPeriodeBuilder = OppgittPeriodeBuilder.ny().medPeriode(LocalDate.now().plusWeeks(2), LocalDate.now().plusWeeks(4)).medPeriodeType(UttakPeriodeType.FORELDREPENGER_FØR_FØDSEL);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new OppgittFordelingEntitet(Collections.singletonList(oppgittPeriodeBuilder.build()), true));
@@ -74,7 +69,6 @@ public class OpptjeningsperiodeVilkårTest {
     @Test
     public void skal_fastsette_periode_ved_fødsel_mor() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medBekreftetHendelse().medFødselsDato(LocalDate.now()).medAntallBarn(Integer.valueOf(1));
         Behandling behandling = scenario.lagre(repositoryProvider);
         final OppgittPeriodeBuilder oppgittPeriodeBuilder = OppgittPeriodeBuilder.ny().medPeriode(LocalDate.now().plusWeeks(2), LocalDate.now().plusWeeks(4)).medPeriodeType(UttakPeriodeType.FORELDREPENGER_FØR_FØDSEL);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new OppgittFordelingEntitet(Collections.singletonList(oppgittPeriodeBuilder.build()), true));
@@ -89,12 +83,6 @@ public class OpptjeningsperiodeVilkårTest {
     public void skal_fastsette_periode_ved_tidlig_uttak_termin_fødsel_mor() {
         final LocalDate skjæringstidspunkt = LocalDate.now().plusWeeks(1L).minusDays(1);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medBekreftetHendelse()
-            .medTerminbekreftelse(scenario.medBekreftetHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(LocalDate.now().plusWeeks(13L))
-                .medUtstedtDato(LocalDate.now())
-                .medNavnPå("Doktor Dankel"));
-        scenario.medBekreftetHendelse().medFødselsDato(LocalDate.now().plusWeeks(14)).medAntallBarn(Integer.valueOf(1));
         Behandling behandling = scenario.lagre(repositoryProvider);
         final OppgittPeriodeBuilder oppgittPeriodeBuilder = OppgittPeriodeBuilder.ny()
             .medPeriode(LocalDate.now().plusWeeks(1), LocalDate.now().plusWeeks(10).minusDays(1)).medPeriodeType(UttakPeriodeType.FELLESPERIODE);
@@ -115,7 +103,6 @@ public class OpptjeningsperiodeVilkårTest {
     public void skal_fastsette_periode_ved_fødsel_far() {
         LocalDate fødselsdato = LocalDate.now();
         ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forFødsel();
-        scenario.medBekreftetHendelse().medFødselsDato(fødselsdato).medAntallBarn(Integer.valueOf(1));
         Builder builderForRegisteropplysninger = scenario.opprettBuilderForRegisteropplysninger();
         AktørId barnAktørId = new AktørId("123");
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
@@ -172,12 +159,10 @@ public class OpptjeningsperiodeVilkårTest {
         LocalDate omsorgsovertakelsedato = LocalDate.of(2018, 1, 1);
         if (kjønn.equals(NavBrukerKjønn.KVINNE)) {
             ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forAdopsjon();
-            scenario.medBekreftetHendelse().medAdopsjon(scenario.medBekreftetHendelse().getAdopsjonBuilder().medOmsorgsovertakelseDato(omsorgsovertakelsedato).medErEktefellesBarn(ektefellesBarn).medAdoptererAlene(adoptererAlene)).leggTilBarn(omsorgsovertakelsedato.minusYears(alder));
             Behandling behandling = scenario.lagre(repositoryProvider);
             return behandling;
         } else {
             ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forAdopsjon();
-            scenario.medBekreftetHendelse().medAdopsjon(scenario.medBekreftetHendelse().getAdopsjonBuilder().medOmsorgsovertakelseDato(omsorgsovertakelsedato).medErEktefellesBarn(ektefellesBarn).medAdoptererAlene(adoptererAlene)).leggTilBarn(omsorgsovertakelsedato.minusYears(alder));
             Behandling behandling = scenario.lagre(repositoryProvider);
             return behandling;
         }

@@ -16,15 +16,11 @@ import com.codahale.metrics.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import no.nav.foreldrepenger.behandling.BehandlendeFagsystem;
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -35,8 +31,6 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokument
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystem;
-import no.nav.foreldrepenger.domene.vurderfagsystem.VurderFagsystemTjeneste;
 import no.nav.foreldrepenger.sak.tjeneste.OpprettSakOrchestrator;
 import no.nav.foreldrepenger.sak.tjeneste.OpprettSakTjeneste;
 import no.nav.vedtak.felles.jpa.Transaction;
@@ -63,8 +57,6 @@ public class FordelRestTjeneste {
     private OpprettSakOrchestrator opprettSakOrchestrator;
     private OpprettSakTjeneste opprettSakTjeneste;
     private KodeverkRepository kodeverkRepository;
-    private VurderFagsystemTjeneste vurderFagsystemTjeneste;
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private BehandlingRepository behandlingRepository;
 
     public FordelRestTjeneste() {// For Rest-CDI
@@ -74,16 +66,14 @@ public class FordelRestTjeneste {
     public FordelRestTjeneste(SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste,
                               DokumentArkivTjeneste dokumentArkivTjeneste,
                               FagsakTjeneste fagsakTjeneste, OpprettSakOrchestrator opprettSakOrchestrator, OpprettSakTjeneste opprettSakTjeneste,
-                              BehandlingRepositoryProvider repositoryProvider, VurderFagsystemTjeneste vurderFagsystemTjeneste) {
+                              BehandlingRepositoryProvider repositoryProvider) {
         this.dokumentmottakTjeneste = dokumentmottakTjeneste;
         this.dokumentArkivTjeneste = dokumentArkivTjeneste;
         this.fagsakTjeneste = fagsakTjeneste;
         this.opprettSakOrchestrator = opprettSakOrchestrator;
         this.opprettSakTjeneste = opprettSakTjeneste;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.vurderFagsystemTjeneste = vurderFagsystemTjeneste;
     }
 
     @POST
@@ -95,10 +85,7 @@ public class FordelRestTjeneste {
     )
     @BeskyttetRessurs(action = BeskyttetRessursActionAttributt.READ, ressurs = BeskyttetRessursResourceAttributt.FAGSAK)
     public BehandlendeFagsystemDto vurderFagsystem(@ApiParam("Krever behandlingstemaOffisiellKode") @Valid VurderFagsystemDto vurderFagsystemDto) {
-        VurderFagsystem vurderFagsystem = map(vurderFagsystemDto);
-        BehandlendeFagsystem behandlendeFagsystem = vurderFagsystemTjeneste.vurderFagsystem(vurderFagsystem);
-        return map(behandlendeFagsystem);
-
+        return null;
     }
 
     @POST
@@ -117,11 +104,7 @@ public class FordelRestTjeneste {
             return null;
         }
         final Optional<Behandling> behandling = behandlingRepository.hentSisteBehandlingForFagsakId(optFagsak.get().getId());
-        FamilieHendelse familieHendelse = null;
-        if (behandling.isPresent()) {
-            familieHendelse = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling.get()).map(FamilieHendelseGrunnlag::getGjeldendeVersjon).orElse(null);
-        }
-        BehandlingTema behandlingTemaFraKodeverksRepo = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.fraFagsak(optFagsak.get(), familieHendelse));
+        BehandlingTema behandlingTemaFraKodeverksRepo = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.fraFagsak(optFagsak.get()));
         String behandlingstemaOffisiellKode = behandlingTemaFraKodeverksRepo.getOffisiellKode();
         AktørId aktørId = optFagsak.get().getAktørId();
         return new FagsakInfomasjonDto(aktørId.getId(), behandlingstemaOffisiellKode);
@@ -172,69 +155,6 @@ public class FordelRestTjeneste {
 
         InngåendeSaksdokument saksdokument = map(mottattJournalpost);
         dokumentmottakTjeneste.dokumentAnkommet(saksdokument);
-    }
-
-    private VurderFagsystem map(VurderFagsystemDto dto) {
-        VurderFagsystem v = new VurderFagsystem();
-        dto.getJournalpostId().map(jpi -> new JournalpostId(jpi)).ifPresent(v::setJournalpostId);
-        v.setStrukturertSøknad(dto.isStrukturertSøknad());
-        v.setAktørId(new AktørId(dto.getAktørId()));
-        BehandlingTema behandlingTema = kodeverkRepository.finnForKodeverkEiersKode(BehandlingTema.class, dto.getBehandlingstemaOffisiellKode(),
-            BehandlingTema.UDEFINERT);
-
-        v.setBehandlingTema(behandlingTema);
-        v.setAdopsjonsbarnFodselsdatoer(dto.getAdopsjonsBarnFodselsdatoer());
-
-        dto.getBarnTermindato().ifPresent(v::setBarnTermindato);
-        dto.getBarnFodselsdato().ifPresent(v::setBarnFodselsdato);
-        dto.getOmsorgsovertakelsedato().ifPresent(v::setOmsorgsovertakelsedato);
-        dto.getÅrsakInnsendingInntektsmelding().ifPresent(v::setÅrsakInnsendingInntektsmelding);
-        dto.getVirksomhetsnummer().ifPresent(v::setVirksomhetsnummer);
-        dto.getArbeidsforholdsid().ifPresent(v::setArbeidsforholdsid);
-        dto.getForsendelseMottatt().ifPresent(v::setForsendelseMottatt);
-        dto.getForsendelseMottattTidspunkt().ifPresent(v::setForsendelseMottattTidspunkt);
-        dto.getStartDatoForeldrepengerInntektsmelding().ifPresent(v::setStartDatoForeldrepengerInntektsmelding);
-
-        dto.getSaksnummer().ifPresent(sn -> v.setSaksnummer(new Saksnummer(sn)));
-        dto.getAnnenPart().map(AktørId::new).ifPresent(v::setAnnenPart);
-
-        v.setDokumentTypeId(DokumentTypeId.UDEFINERT);
-        v.setDokumentKategori(DokumentKategori.UDEFINERT);
-        if (dto.getDokumentTypeIdOffisiellKode() != null) {
-            v.setDokumentTypeId(kodeverkRepository.finnForKodeverkEiersKode(DokumentTypeId.class, dto.getDokumentTypeIdOffisiellKode(), DokumentTypeId.UDEFINERT));
-        }
-        if (dto.getDokumentKategoriOffisiellKode() != null) {
-            v.setDokumentKategori(kodeverkRepository.finnForKodeverkEiersKode(DokumentKategori.class, dto.getDokumentKategoriOffisiellKode(), DokumentKategori.UDEFINERT));
-        }
-
-        return v;
-    }
-
-    private BehandlendeFagsystemDto map(BehandlendeFagsystem behandlendeFagsystem) {
-        BehandlendeFagsystemDto dto;
-        if (behandlendeFagsystem.getSaksnummer().isPresent()) {
-            dto = new BehandlendeFagsystemDto(behandlendeFagsystem.getSaksnummer().get().getVerdi()); // NOSONAR
-        } else {
-            dto = new BehandlendeFagsystemDto();
-        }
-        switch (behandlendeFagsystem.getBehandlendeSystem()) {
-            case VEDTAKSLØSNING:
-                dto.setBehandlesIVedtaksløsningen(true);
-                break;
-            case INFOTRYGD:
-                dto.setSjekkMotInfotrygd(true);
-                break;
-            case MANUELL_VURDERING:
-                dto.setManuellVurdering(true);
-                break;
-            case PRØV_IGJEN:
-                dto.setPrøvIgjen(true);
-                dto.setPrøvIgjenTidspunkt(behandlendeFagsystem.getPrøvIgjenTidspunkt());
-                break;
-            default:
-                throw new IllegalArgumentException("Utviklerfeil, manglende mapping");
-        }
-        return dto;
     }
 
     private InngåendeSaksdokument map(JournalpostMottakDto mottattJournalpost) {

@@ -15,7 +15,6 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
-import no.nav.foreldrepenger.domene.person.TpsFamilieTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 
@@ -37,7 +36,6 @@ public class PersoninfoAdapterImplTest {
         Personinfo kjerneinfobarn = lagHentPersonResponseForBarn();
 
         TpsAdapter mockTpsAdapter = mock(TpsAdapter.class);
-        TpsFamilieTjeneste mockTpsFamilieTjeneste = mock(TpsFamilieTjeneste.class);
         when(mockTpsAdapter.hentAktørIdForPersonIdent(FNR_BARN)).thenReturn(Optional.of(AKTØR_ID_BARN));
         when(mockTpsAdapter.hentIdentForAktørId(AKTØR_ID_SØKER)).thenReturn(Optional.of(FNR_SØKER));
         when(mockTpsAdapter.hentIdentForAktørId(AKTØR_ID_BARN)).thenReturn(Optional.of(FNR_BARN));
@@ -47,7 +45,7 @@ public class PersoninfoAdapterImplTest {
         mockPersoninfo = mock(Personinfo.class);
         when(mockPersoninfo.getFødselsdato()).thenReturn(LocalDate.now()); // trenger bare en verdi
 
-        adapter = new PersoninfoAdapterImpl(mockTpsAdapter, mockTpsFamilieTjeneste);
+        adapter = new PersoninfoAdapterImpl(mockTpsAdapter);
     }
 
     @Test

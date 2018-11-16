@@ -53,7 +53,6 @@ public class VurderVarigEndringEllerNyoppstartetSNOppdatererTest {
     @Before
     public void setup() {
         scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now().minusMonths(3));
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.VURDER_VARIG_ENDRET_ELLER_NYOPPSTARTET_NÆRING_SELVSTENDIG_NÆRINGSDRIVENDE,
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);
 

@@ -72,7 +72,6 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperiodenTest {
         LocalDate fødselsdato = LocalDate.now().minusDays(1);
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(aktørId);
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         opprettArbeidsforhold(scenario, aktørId, fødselsdato, Tid.TIDENES_ENDE);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
@@ -93,7 +92,6 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperiodenTest {
         LocalDate fødselsdato = LocalDate.now();
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(aktørId);
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         opprettArbeidsforhold(scenario, aktørId, fødselsdato, fødselsdato.plusMonths(3L));
 
         Behandling behandling = scenario.lagre(repositoryProvider);
@@ -114,7 +112,6 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperiodenTest {
         LocalDate fødselsdato = LocalDate.now();
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(aktørId);
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         opprettArbeidsforhold(scenario, aktørId, fødselsdato, Tid.TIDENES_ENDE);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
@@ -136,7 +133,6 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperiodenTest {
         LocalDate fødselsdato = endreDatoTilLørdag(LocalDate.now());
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(aktørId);
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         opprettArbeidsforhold(scenario, aktørId, fødselsdato, Tid.TIDENES_ENDE);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
@@ -157,7 +153,6 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperiodenTest {
         LocalDate fødselsdato = endreDatoHvisLørdagEllerSøndag(LocalDate.now());
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(aktørId);
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         scenario.removeDodgyDefaultInntektArbeidYTelse();
         opprettArbeidsforhold(scenario, aktørId, fødselsdato.minusDays(2), Tid.TIDENES_ENDE);
 

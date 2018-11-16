@@ -327,11 +327,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>familie-hendelse</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>skjaeringstidspunkt</artifactId>
 				<version>${project.version}</version>
 			</dependency>

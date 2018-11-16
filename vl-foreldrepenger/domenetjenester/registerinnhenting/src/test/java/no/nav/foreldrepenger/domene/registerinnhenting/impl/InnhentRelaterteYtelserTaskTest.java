@@ -5,9 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
 import javax.enterprise.inject.Instance;
 
 import org.junit.Rule;
@@ -78,7 +75,6 @@ public class InnhentRelaterteYtelserTaskTest {
     public void innhentTaskForBareSøker() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now());
         Behandling behandling = scenario.lagMocked();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         behandlingRepository = repositoryProvider.getBehandlingRepository();
@@ -100,8 +96,6 @@ public class InnhentRelaterteYtelserTaskTest {
     public void innhentTaskForSøkerOgAnnenForelder() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now());
-        scenario.medSøknadAnnenPart().medAktørId(AKTØRID_ANNEN);
         final Behandling behandling = scenario.lagMocked();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         behandlingRepository = repositoryProvider.getBehandlingRepository();
@@ -110,8 +104,6 @@ public class InnhentRelaterteYtelserTaskTest {
         ProsessTaskData prosessTask = new ProsessTaskData(InnhentRelaterteYtelserTask.TASKTYPE);
         prosessTask.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());
         prosessTask.setSekvens("101");
-
-        when(registerdataInnhenter.innhentSaksopplysningerForMedSøker(any())).thenReturn(Optional.of(personinfo));
 
         // Act
         task.doTask(prosessTask);

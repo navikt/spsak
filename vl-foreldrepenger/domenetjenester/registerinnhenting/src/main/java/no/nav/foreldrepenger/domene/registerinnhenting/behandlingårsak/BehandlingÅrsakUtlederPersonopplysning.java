@@ -14,9 +14,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
-import no.nav.foreldrepenger.domene.familiehendelse.dødsfall.BarnetsDødsdatoEndringIdentifiserer;
-import no.nav.foreldrepenger.domene.familiehendelse.dødsfall.ForelderErDødEndringIdentifiserer;
-import no.nav.foreldrepenger.domene.familiehendelse.dødsfall.MorErDødEndringIdentifiserer;
 import no.nav.foreldrepenger.domene.registerinnhenting.startpunkt.GrunnlagRef;
 
 @ApplicationScoped
@@ -26,23 +23,13 @@ class BehandlingÅrsakUtlederPersonopplysning implements BehandlingÅrsakUtleder
 
     private PersonopplysningRepository personopplysningRepository;
 
-    private MorErDødEndringIdentifiserer morErDødEndringIdentifiserer;
-    private ForelderErDødEndringIdentifiserer forelderErDødEndringIdentifiserer;
-    private BarnetsDødsdatoEndringIdentifiserer barnetsDødsdatoEndringIdentifiserer;
-
     BehandlingÅrsakUtlederPersonopplysning() {
         // For CDI
     }
 
     @Inject
-    BehandlingÅrsakUtlederPersonopplysning(PersonopplysningRepository personopplysningRepository,
-                                           MorErDødEndringIdentifiserer morErDødEndringIdentifiserer, ForelderErDødEndringIdentifiserer forelderErDødEndringIdentifiserer,
-                                           BarnetsDødsdatoEndringIdentifiserer barnetsDødsdatoEndringIdentifiserer) {
+    BehandlingÅrsakUtlederPersonopplysning(PersonopplysningRepository personopplysningRepository) {
         this.personopplysningRepository = personopplysningRepository;
-        this.morErDødEndringIdentifiserer = morErDødEndringIdentifiserer;
-        this.forelderErDødEndringIdentifiserer = forelderErDødEndringIdentifiserer;
-        this.barnetsDødsdatoEndringIdentifiserer = barnetsDødsdatoEndringIdentifiserer;
-
     }
 
     @Override
@@ -51,9 +38,10 @@ class BehandlingÅrsakUtlederPersonopplysning implements BehandlingÅrsakUtleder
         PersonopplysningGrunnlag grunnlag1 = personopplysningRepository.hentPersonopplysningerPåId(grunnlagId1);
         PersonopplysningGrunnlag grunnlag2 = personopplysningRepository.hentPersonopplysningerPåId(grunnlagId2);
 
-        boolean morErDødEndret = morErDødEndringIdentifiserer.erEndret(behandling1, grunnlag2);
-        boolean forelderErDødEndret = forelderErDødEndringIdentifiserer.erEndret(behandling1.getAktørId(), grunnlag1, grunnlag2);
-        boolean barnetsDødsdatoEndret = barnetsDødsdatoEndringIdentifiserer.erEndret(behandling1, grunnlag2);
+        // FIXME SP : Tilpasse etter behov?
+        boolean morErDødEndret = false;
+        boolean forelderErDødEndret = false;
+        boolean barnetsDødsdatoEndret = false;
 
         if (morErDødEndret || forelderErDødEndret || barnetsDødsdatoEndret) {
             log.info("Setter behandlingårsak til opplysning om død, har endring morErDødEndret {} forelderErDødEndret {} barnetsDødsdatoEndret {}, grunnlagid1: {}, grunnlagid2: {}", morErDødEndret, forelderErDødEndret, barnetsDødsdatoEndret, grunnlagId1, grunnlagId2); //$NON-NLS-1

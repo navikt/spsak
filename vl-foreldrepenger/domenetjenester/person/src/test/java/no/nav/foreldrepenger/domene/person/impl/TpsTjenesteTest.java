@@ -24,7 +24,6 @@ import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.Familierelasjon;
-import no.nav.foreldrepenger.behandlingslager.aktør.FødtBarnInfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.GeografiskTilknytning;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
@@ -35,8 +34,6 @@ import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.person.RelasjonKriteria;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
-import no.nav.foreldrepenger.domene.person.impl.TpsFeilmeldinger;
-import no.nav.foreldrepenger.domene.person.impl.TpsTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentGeografiskTilknytningPersonIkkeFunnet;
@@ -199,17 +196,6 @@ public class TpsTjenesteTest {
             throw TpsFeilmeldinger.FACTORY.geografiskTilknytningIkkeFunnet(
                 new HentGeografiskTilknytningPersonIkkeFunnet("finner ikke person", new PersonIkkeFunnet())).toException();
         }
-
-        @Override
-        public List<FødtBarnInfo> hentFødteBarn(AktørId aktørId) {
-            return Collections.singletonList(new FødtBarnInfo.Builder()
-                .medIdent(FNR)
-                .medNavn(NAVN)
-                .medNavBrukerKjønn(KVINNE)
-                .medFødselsdato(FØDSELSDATO)
-                .build());
-        }
-
 
         @Override
         public List<GeografiskTilknytning> hentDiskresjonskoderForFamilierelasjoner(PersonIdent fnr) {

@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.behandlingslager.behandling;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,56 +55,9 @@ public class PipRepositoryTest {
     }
 
     @Test
-    public void skal_finne_behandligstatus_og_sakstatus_for_behandling() throws Exception {
-        Fagsak fagsak = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER);
-//        leggTilBarnPåFagsakRelasjon(fagsak.getFagsakRelasjon(), 201L);
-//        leggTilBarnPåFagsakRelasjon(fagsak.getFagsakRelasjon(), 202L);
-        behandling = BehandlingTestUtils.byggForElektroniskSøknadOmFødsel(fagsak, LocalDate.now(), LocalDate.now(), ANSVARLIG_SAKSBEHANDLER, repositoryProvider);
-        BehandlingTestUtils.leggTilAnnenPartPaSokand(behandling, new AktørId("203"), repositoryProvider);
-        lagreBehandling(behandling);
-
-        Optional<PipBehandlingsData> pipBehandlingsData = pipRepository.hentDataForBehandling(behandling.getId());
-        assertThat(pipBehandlingsData.get()).isNotNull();
-        assertThat(pipBehandlingsData.get().getBehandligStatus()).isEqualTo(behandling.getStatus().getKode());
-        assertThat(pipBehandlingsData.get().getAnsvarligSaksbehandler().get()).isEqualTo(ANSVARLIG_SAKSBEHANDLER);
-        assertThat(pipBehandlingsData.get().getFagsakStatus()).isEqualTo(behandling.getFagsak().getStatus().getKode());
-    }
-
-    @Test
     public void skal_returne_tomt_resultat_når_det_søkes_etter_behandling_id_som_ikke_finnes() throws Exception {
         Optional<PipBehandlingsData> pipBehandlingsData = pipRepository.hentDataForBehandling(1241L);
         assertThat(pipBehandlingsData).isNotPresent();
-    }
-
-    @Test
-    public void skal_finne_alle_fagsaker_for_en_søker() throws Exception {
-        Fagsak fagsak1 = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER);
-//        leggTilBarnPåFagsakRelasjon(fagsak1.getFagsakRelasjon(), 201L);
-//        leggTilBarnPåFagsakRelasjon(fagsak1.getFagsakRelasjon(), 202L);
-        Fagsak fagsak2 = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER2);
-        @SuppressWarnings("unused")
-        Fagsak fagsakAnnenAktør = byggFagsak(new AktørId("201"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER3);
-        behandling = BehandlingTestUtils.byggForElektroniskSøknadOmFødsel(fagsak1, LocalDate.now(), LocalDate.now(), ANSVARLIG_SAKSBEHANDLER, repositoryProvider);
-        BehandlingTestUtils.leggTilAnnenPartPaSokand(behandling, new AktørId("203"), repositoryProvider);
-        lagreBehandling(behandling);
-
-        Set<Long> resultat = pipRepository.fagsakIderForSøker(Collections.singleton(new AktørId("200")));
-
-        assertThat(resultat).containsOnly(fagsak1.getId(), fagsak2.getId());
-    }
-
-    @Test
-    public void skal_finne_aktoerId_for_fagsak() throws Exception {
-        Fagsak fagsak = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER);
-//        leggTilBarnPåFagsakRelasjon(fagsak.getFagsakRelasjon(), 201L);
-//        leggTilBarnPåFagsakRelasjon(fagsak.getFagsakRelasjon(), 202L);
-        behandling = BehandlingTestUtils.byggForElektroniskSøknadOmFødsel(fagsak, LocalDate.now(), LocalDate.now(), ANSVARLIG_SAKSBEHANDLER, repositoryProvider);
-        BehandlingTestUtils.leggTilAnnenPartPaSokand(behandling, new AktørId("203"), repositoryProvider);
-        lagreBehandling(behandling);
-
-
-        Set<AktørId> aktørIder = pipRepository.hentAktørIdKnyttetTilFagsaker(Collections.singleton(fagsak.getId()));
-        assertThat(aktørIder).containsOnly(new AktørId("200"), new AktørId("203"));
     }
 
     @Test

@@ -25,7 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -39,7 +38,6 @@ public class InnhentRegisteropplysningerResterendeOppgaverStegImpl implements Be
     private BehandlingRepository behandlingRepository;
     private FagsakTjeneste fagsakTjeneste;
     private PersonopplysningTjeneste personopplysningTjeneste;
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
 
     InnhentRegisteropplysningerResterendeOppgaverStegImpl() {
         // for CDI proxy
@@ -47,22 +45,18 @@ public class InnhentRegisteropplysningerResterendeOppgaverStegImpl implements Be
 
     @Inject
     public InnhentRegisteropplysningerResterendeOppgaverStegImpl(BehandlingRepositoryProvider repositoryProvider,
-                                                                   FagsakTjeneste fagsakTjeneste,
-                                                                   PersonopplysningTjeneste personopplysningTjeneste,
-                                                                   FamilieHendelseTjeneste familieHendelseTjeneste) {
+                                                                 FagsakTjeneste fagsakTjeneste,
+                                                                 PersonopplysningTjeneste personopplysningTjeneste) {
 
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.fagsakTjeneste = fagsakTjeneste;
         this.personopplysningTjeneste = personopplysningTjeneste;
-        this.familieHendelseTjeneste = familieHendelseTjeneste;
     }
 
     @Override
     public BehandleStegResultat utførSteg(BehandlingskontrollKontekst kontekst) {
         long behandlingId = kontekst.getBehandlingId();
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-
-        oppdaterFagsak(behandling);
 
         return BehandleStegResultat.utførtMedAksjonspunkter(sjekkPersonstatus(behandling));
 
@@ -92,12 +86,6 @@ public class InnhentRegisteropplysningerResterendeOppgaverStegImpl implements Be
         PersonopplysningerAggregat personopplysninger = personopplysningTjeneste.hentPersonopplysninger(behandling);
         Personopplysning søker = personopplysninger.getSøker();
         return søker.getFødselsdato().isAfter(LocalDate.now(FPDateUtil.getOffset()).minusYears(18));
-    }
-
-    private void oppdaterFagsak(Behandling behandling) {
-        List<Personopplysning> barnSøktStønadFor = familieHendelseTjeneste.finnBarnSøktStønadFor(behandling);
-        PersonopplysningerAggregat personopplysninger = personopplysningTjeneste.hentPersonopplysninger(behandling);
-        fagsakTjeneste.oppdaterFagsak(behandling, personopplysninger, barnSøktStønadFor);
     }
 
 }

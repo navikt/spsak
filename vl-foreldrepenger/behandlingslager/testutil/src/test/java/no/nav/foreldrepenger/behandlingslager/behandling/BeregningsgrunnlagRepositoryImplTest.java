@@ -63,7 +63,6 @@ public class BeregningsgrunnlagRepositoryImplTest {
             .build();
         repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(LocalDate.now());
         behandling = scenario.lagre(repositoryProvider);
     }
 
@@ -228,7 +227,6 @@ public class BeregningsgrunnlagRepositoryImplTest {
     public void toBehandlingerKanHaSammeBeregningsgrunnlag() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(LocalDate.now());
         scenario.removeDodgyDefaultInntektArbeidYTelse();
         Behandling behandling2 = scenario.lagre(repositoryProvider);
         Beregningsgrunnlag beregningsgrunnlag = buildBeregningsgrunnlag();
@@ -250,7 +248,6 @@ public class BeregningsgrunnlagRepositoryImplTest {
     public void skalHenteRiktigBeregningsgrunnlagBasertPåId() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(LocalDate.now());
         scenario.removeDodgyDefaultInntektArbeidYTelse();
         Behandling behandling2 = scenario.lagre(repositoryProvider);
         Beregningsgrunnlag beregningsgrunnlag = buildBeregningsgrunnlag();

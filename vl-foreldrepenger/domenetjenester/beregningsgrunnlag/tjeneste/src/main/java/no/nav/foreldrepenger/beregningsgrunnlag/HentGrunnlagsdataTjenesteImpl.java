@@ -24,7 +24,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Akti
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
@@ -52,7 +51,6 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private OpptjeningRepository opptjeningRepository;
     private OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste;
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste;
 
@@ -66,7 +64,6 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
         this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
         this.opptjeningInntektArbeidYtelseTjeneste = opptjeningInntektArbeidYtelseTjeneste;
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.iayRegisterInnhentingTjeneste = iayRegisterInnhentingTjeneste;
     }
@@ -239,10 +236,6 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
     private boolean brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(Behandling behandling, Beregningsgrunnlag beregningsgrunnlag, Opptjening opptjening) {
         boolean erMoren = RelasjonsRolleType.MORA.equals(behandling.getRelasjonsRolleType());
         if (!erMoren) {
-            return false;
-        }
-        boolean gjelderFødsel = familieGrunnlagRepository.hentAggregat(behandling).getGjeldendeVersjon().getGjelderFødsel();
-        if (!gjelderFødsel) {
             return false;
         }
         boolean harDagpengerStatus = beregningsgrunnlag.getBeregningsgrunnlagPerioder().stream()

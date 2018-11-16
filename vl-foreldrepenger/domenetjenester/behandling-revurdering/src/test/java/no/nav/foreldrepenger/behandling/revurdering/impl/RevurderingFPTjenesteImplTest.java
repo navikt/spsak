@@ -153,14 +153,6 @@ public class RevurderingFPTjenesteImplTest {
 
         LocalDate terminDato = LocalDate.now().minusDays(70);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse()
-            .medTerminbekreftelse(scenario.medSøknadHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(terminDato).medUtstedtDato(terminDato))
-            .medAntallBarn(1);
-        scenario.medBekreftetHendelse()
-            .medTerminbekreftelse(scenario.medBekreftetHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(terminDato).medUtstedtDato(terminDato.minusDays(40)))
-            .medAntallBarn(1);
         behandling = scenario.lagre(repositoryProvider);
     }
 

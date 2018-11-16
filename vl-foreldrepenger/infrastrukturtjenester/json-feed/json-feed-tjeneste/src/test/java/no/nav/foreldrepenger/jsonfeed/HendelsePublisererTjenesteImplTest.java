@@ -18,7 +18,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryImpl;
@@ -222,9 +221,6 @@ public class HendelsePublisererTjenesteImplTest {
                                                   UttakResultatPerioderEntitet nyUttaksPlan, VedtakResultatType nyttVedtakResultat) {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medBehandlingType(behandlingType);
-        final FamilieHendelseBuilder familieHendelseBuilder = scenario.medSøknadHendelse();
-        familieHendelseBuilder.medAntallBarn(1)
-            .medFødselsDato(LocalDate.now());
         Behandling behandling = scenario.lagre(repositoryProvider);
         Behandlingsresultat.Builder behandlingresultatBuilder = Behandlingsresultat.builder();
         behandlingresultatBuilder.medBehandlingResultatType(nyUttaksPlan == null ? behandlingResultatType : BehandlingResultatType.INNVILGET);

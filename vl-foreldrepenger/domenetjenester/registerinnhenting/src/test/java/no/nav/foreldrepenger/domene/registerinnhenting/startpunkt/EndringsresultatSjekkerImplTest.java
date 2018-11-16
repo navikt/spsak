@@ -17,7 +17,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
@@ -31,7 +30,6 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
@@ -45,8 +43,6 @@ public class EndringsresultatSjekkerImplTest {
 
     @Mock
     private PersonopplysningTjeneste personopplysningTjeneste;
-    @Mock
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
     @Mock
     private MedlemTjeneste medlemTjeneste;
     @Mock
@@ -89,7 +85,6 @@ public class EndringsresultatSjekkerImplTest {
     @Before
     public void setup() {
         personopplysningTjeneste = mock(PersonopplysningTjeneste.class);
-        familieHendelseTjeneste = mock(FamilieHendelseTjeneste.class);
         medlemTjeneste = mock(MedlemTjeneste.class);
         inntektArbeidYtelseTjeneste = mock(InntektArbeidYtelseTjeneste.class);
         ytelseFordelingTjeneste = mock(YtelseFordelingTjeneste.class);
@@ -111,13 +106,12 @@ public class EndringsresultatSjekkerImplTest {
         when(behandlingRepositoryProvider.getUttakRepository()).thenReturn(uttakRepository);
 
 
-        endringsresultatSjekker = new EndringsresultatSjekkerImpl(personopplysningTjeneste, familieHendelseTjeneste, medlemTjeneste, inntektArbeidYtelseTjeneste, ytelseFordelingTjeneste, behandlingRepositoryProvider);
+        endringsresultatSjekker = new EndringsresultatSjekkerImpl(personopplysningTjeneste, medlemTjeneste, inntektArbeidYtelseTjeneste, ytelseFordelingTjeneste, behandlingRepositoryProvider);
         opprettMockTjenesteResponse();
     }
 
     private void opprettMockTjenesteResponse() {
         when(personopplysningTjeneste.finnAktivGrunnlagId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(PersonInformasjon.class, personGrunnlagID));
-        when(familieHendelseTjeneste.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(FamilieHendelseGrunnlag.class, familieGrunnlagID));
         when(medlemTjeneste.finnAktivGrunnlagId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(MedlemskapAggregat.class, medlemGrunnlagID));
         when(inntektArbeidYtelseTjeneste.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(InntektArbeidYtelseGrunnlag.class, iayGrunnlagID));
         when(ytelseFordelingTjeneste.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(YtelseFordelingAggregat.class, ytelseGrunnlagID));
@@ -140,7 +134,6 @@ public class EndringsresultatSjekkerImplTest {
         EndringsresultatSnapshot endringsresultatSnapshot = endringsresultatSjekker.opprettEndringsresultatIdPåBehandlingSnapshot(behandling);
 
         assertThat(personGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(PersonInformasjon.class).get().getGrunnlagId());
-        assertThat(familieGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(FamilieHendelseGrunnlag.class).get().getGrunnlagId());
         assertThat(medlemGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(MedlemskapAggregat.class).get().getGrunnlagId());
         assertThat(iayGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(InntektArbeidYtelseGrunnlag.class).get().getGrunnlagId());
         assertThat(ytelseGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(YtelseFordelingAggregat.class).get().getGrunnlagId());

@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.behandlingslager.diff;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,10 +104,8 @@ public class TraverseEntityGraphTest {
     public void skal_diffe_fødselsdato() {
 
         final ScenarioMorSøkerEngangsstønad scenario = lagTestScenario();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now().plusDays(2));
         Behandling target1 = scenario.lagMocked();
         final ScenarioMorSøkerEngangsstønad scenario1 = lagTestScenario();
-        scenario1.medSøknadHendelse().medFødselsDato(LocalDate.now().plusDays(3));
         final Behandling target2 = scenario.lagMocked();
 
         DiffEntity differ = new DiffEntity(lagTraverser());

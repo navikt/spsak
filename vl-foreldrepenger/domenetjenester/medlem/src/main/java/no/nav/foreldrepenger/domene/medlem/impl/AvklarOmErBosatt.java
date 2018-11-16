@@ -9,13 +9,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall;
 import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
@@ -28,14 +25,11 @@ import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.fpsak.tidsserie.LocalDateInterval;
 import no.nav.fpsak.tidsserie.LocalDateSegment;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
-import no.nav.fpsak.tidsserie.StandardCombinators;
 
 class AvklarOmErBosatt {
     //Setter den til 364 for å unngå skuddårproblemer, (365 og 366 blir da "større" enn et år)
     private static final int ANTALL_DAGER_I_ÅRET = 364;
 
-    private FamilieHendelseRepository familieHendelseRepository;
     private PersonopplysningTjeneste personopplysningTjeneste;
     private MedlemskapRepository medlemskapRepository;
     private MedlemskapPerioderTjeneste medlemskapPerioderTjeneste;
@@ -46,13 +40,10 @@ class AvklarOmErBosatt {
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.medlemskapPerioderTjeneste = medlemskapPerioderTjeneste;
         this.personopplysningTjeneste = personopplysningTjeneste;
-        this.familieHendelseRepository = repositoryProvider.getFamilieGrunnlagRepository();
     }
 
     Optional<MedlemResultat> utled(Behandling behandling, LocalDate vurderingsdato) {
-        if (søkerHarSøktPåTerminOgSkalOppholdeSegIUtlandetImerEnn12M(behandling, vurderingsdato)) {
-            return Optional.of(MedlemResultat.AVKLAR_OM_ER_BOSATT);
-        } else if (harBrukerTilknytningHjemland(behandling) == NEI) {
+        if (harBrukerTilknytningHjemland(behandling) == NEI) {
             return Optional.of(MedlemResultat.AVKLAR_OM_ER_BOSATT);
         } else if (harBrukerUtenlandskPostadresseITps(behandling, vurderingsdato) == NEI) {
             return Optional.empty();
@@ -63,30 +54,6 @@ class AvklarOmErBosatt {
                 return Optional.empty();
             }
         }
-    }
-
-    private boolean søkerHarSøktPåTerminOgSkalOppholdeSegIUtlandetImerEnn12M(Behandling behandling, LocalDate vurderingsdato) {
-        FamilieHendelseGrunnlag grunnlag = familieHendelseRepository.hentAggregat(behandling);
-        if (grunnlag.getGjeldendeVersjon().getTerminbekreftelse().isPresent()) {
-            final Optional<MedlemskapAggregat> medlemskapAggregat = medlemskapRepository.hentMedlemskap(behandling);
-            final OppgittTilknytning oppgittTilknytning = medlemskapAggregat.flatMap(MedlemskapAggregat::getOppgittTilknytning)
-                .orElseThrow(IllegalStateException::new);
-
-            List<LocalDateSegment<Boolean>> fremtidigeOpphold = oppgittTilknytning.getOpphold()
-                .stream()
-                .filter(opphold -> !opphold.isTidligereOpphold()
-                    && !opphold.getLand().equals(Landkoder.NOR))
-                .map(o -> finnSegment(vurderingsdato, o.getPeriodeFom(), o.getPeriodeTom()))
-                .collect(Collectors.toList());
-
-            LocalDateTimeline<Boolean> fremtidigePerioder = new LocalDateTimeline<>(fremtidigeOpphold,
-                StandardCombinators::alwaysTrueForMatch).compress();
-
-           return fremtidigePerioder.getDatoIntervaller()
-               .stream()
-               .anyMatch(this::periodeLengreEnn12M);
-        }
-        return false;
     }
 
     private boolean periodeLengreEnn12M(LocalDateInterval localDateInterval) {

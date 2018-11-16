@@ -97,7 +97,6 @@
 
     <sequence-generator name="SEQ_UIDENTIFISERT_BARN" allocation-size="50" sequence-name="SEQ_UIDENTIFISERT_BARN"/>
     <sequence-generator name="SEQ_FAMILIE_HENDELSE" allocation-size="50" sequence-name="SEQ_FAMILIE_HENDELSE"/>
-    <sequence-generator name="SEQ_GR_FAMILIE_HENDELSE" allocation-size="50" sequence-name="SEQ_GR_FAMILIE_HENDELSE"/>
 
     <sequence-generator name="SEQ_BEREGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_BEREGNINGSGRUNNLAG"/>
     <sequence-generator name="SEQ_BG_AKTIVITET_STATUS" allocation-size="50" sequence-name="SEQ_BG_AKTIVITET_STATUS"/>
@@ -249,7 +248,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Diskresjonskode"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OpplysningsKilde"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPartEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlagEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonAdresseEntitet"/>
@@ -257,15 +255,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonstatusEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonRelasjonEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.StatsborgerskapEntitet"/>
-
-    <!-- FamilieHendelse aggregat og grunnlag -->
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlagEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.AdopsjonEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.TerminbekreftelseEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.UidentifisertBarnEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.OmsorgsovertakelseVilkårType"/>
 
     <!-- InntektArbeidYtelser aggregat og grunnlag-->
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.TypeFiske"/>

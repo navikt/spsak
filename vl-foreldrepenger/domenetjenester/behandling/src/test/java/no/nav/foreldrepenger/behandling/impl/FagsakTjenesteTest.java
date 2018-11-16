@@ -1,12 +1,9 @@
 package no.nav.foreldrepenger.behandling.impl;
 
 import static java.time.Month.JANUARY;
-import static no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn.MANN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -22,14 +19,7 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -37,12 +27,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadReposito
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
-import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
-import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.felles.testutilities.Whitebox;
 import no.nav.vedtak.felles.testutilities.db.Repository;
 
@@ -96,60 +84,6 @@ public class FagsakTjenesteTest {
         Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, søker);
         tjeneste.opprettFagsak(fagsak, personinfo);
         return fagsak;
-    }
-
-    @Test
-    public void skal_oppdatere_fagsakrelasjon_med_barn_og_endret_kjønn() {
-
-        LocalDate barnsFødselsdato = LocalDate.of(2017, JANUARY, 1);
-        AktørId barnAktørId = new AktørId("123");
-
-        // Arrange
-        Behandling.Builder behandlingBuilder = Behandling.forFørstegangssøknad(fagsak);
-        Behandling behandling = behandlingBuilder.build();
-        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        behandlingRepository.lagre(behandling, lås);
-
-        // TODO opplegg for å opprette PersonInformasjon og PersonopplysningerAggregat på en enklere måte
-        final PersonInformasjonBuilder medBarnOgOppdatertKjønn = personopplysningRepository.opprettBuilderForRegisterdata(behandling);
-        medBarnOgOppdatertKjønn
-            .leggTil(
-                medBarnOgOppdatertKjønn.getPersonopplysningBuilder(barnAktørId)
-                    .medKjønn(MANN)
-                    .medNavn("Baby Nordmann")
-                    .medFødselsdato(barnsFødselsdato)
-                    .medSivilstand(SivilstandType.UGIFT)
-                    .medRegion(Region.NORDEN))
-            .leggTil(
-                medBarnOgOppdatertKjønn.getPersonopplysningBuilder(forelderAktørId)
-                    .medKjønn(MANN)
-                    .medSivilstand(SivilstandType.UGIFT)
-                    .medFødselsdato(forelderFødselsdato)
-                    .medRegion(Region.NORDEN)
-                    .medNavn("Kari Nordmann"))
-            .leggTil(
-                medBarnOgOppdatertKjønn
-                    .getRelasjonBuilder(forelderAktørId, barnAktørId, RelasjonsRolleType.BARN)
-                    .harSammeBosted(true))
-            .leggTil(
-                medBarnOgOppdatertKjønn
-                    .getRelasjonBuilder(barnAktørId, forelderAktørId, RelasjonsRolleType.FARA)
-                    .harSammeBosted(true));
-
-        Whitebox.setInternalState(fagsak, "fagsakStatus", FagsakStatus.LØPENDE); // dirty, men eksponerer ikke status nå
-        personopplysningRepository.lagre(behandling, medBarnOgOppdatertKjønn);
-        final PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
-
-        PersonopplysningerAggregat personopplysningerAggregat = new PersonopplysningerAggregat(personopplysningGrunnlag,
-            forelderAktørId, DatoIntervallEntitet.fraOgMedTilOgMed(LocalDate.now(), LocalDate.now()), Collections.emptyMap());
-
-        // Act
-        tjeneste.oppdaterFagsak(behandling, personopplysningerAggregat, personopplysningerAggregat.getBarna());
-
-        // Assert
-        List<Fagsak> oppdatertFagsak = repository.hentAlle(Fagsak.class);
-        assertThat(oppdatertFagsak).hasSize(1);
-        assertThat(oppdatertFagsak.get(0).getRelasjonsRolleType().getKode()).isEqualTo(RelasjonsRolleType.FARA.getKode());
     }
 
     @Test

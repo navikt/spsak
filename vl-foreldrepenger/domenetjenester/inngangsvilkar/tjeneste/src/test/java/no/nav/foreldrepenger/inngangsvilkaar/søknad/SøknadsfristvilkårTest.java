@@ -51,9 +51,6 @@ public class SøknadsfristvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forAdopsjon();
         scenario.medSøknad().medElektroniskRegistrert(true);
         scenario.medSøknad().medMottattDato(LocalDate.now().plusMonths(6));
-        scenario.medBekreftetHendelse()
-            .medAdopsjon(scenario.medBekreftetHendelse().getAdopsjonBuilder()
-                .medOmsorgsovertakelseDato(LocalDate.now()));
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -128,9 +125,6 @@ public class SøknadsfristvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forAdopsjon();
         scenario.medSøknad().medElektroniskRegistrert(elektronisk);
         scenario.medSøknad().medMottattDato(mottakDato);
-        scenario.medBekreftetHendelse()
-            .medAdopsjon(scenario.medBekreftetHendelse().getAdopsjonBuilder()
-                .medOmsorgsovertakelseDato(omsorgsovertakelsesDato));
         return scenario.lagre(repositoryProvider);
     }
 

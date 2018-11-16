@@ -3,10 +3,8 @@ package no.nav.foreldrepenger.behandlingslager.behandling.søknad;
 import java.time.LocalDate;
 import java.util.Set;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgrad;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittRettighet;
@@ -26,8 +24,6 @@ public interface Søknad {
 
     FarSøkerType getFarSøkerType();
 
-    FamilieHendelse getFamilieHendelse();
-
     OppgittFordeling getFordeling();
 
     OppgittDekningsgrad getDekningsgrad();
@@ -35,8 +31,6 @@ public interface Søknad {
     OppgittRettighet getRettighet();
 
     OppgittTilknytning getOppgittTilknytning();
-
-    OppgittAnnenPart getSøknadAnnenPart();
 
     String getTilleggsopplysninger();
 

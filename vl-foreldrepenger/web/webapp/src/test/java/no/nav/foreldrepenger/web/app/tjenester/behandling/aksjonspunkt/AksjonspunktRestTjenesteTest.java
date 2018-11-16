@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.Bekre
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FatterVedtakAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.SjekkManglendeFodselDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsutredningApplikasjonTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.familiehendelse.BekreftTerminbekreftelseAksjonspunktDto;
 import no.nav.vedtak.exception.FunksjonellException;
 
 public class AksjonspunktRestTjenesteTest {
@@ -60,37 +59,6 @@ public class AksjonspunktRestTjenesteTest {
 
     }
 
-    @Test
-    public void skal_bekrefte_terminbekreftelse() throws URISyntaxException {
-        Collection<BekreftetAksjonspunktDto> aksjonspunkt = new ArrayList<>();
-        aksjonspunkt.add(
-            new BekreftTerminbekreftelseAksjonspunktDto(
-                begrunnelse,
-                termindato,
-                utstedtdato,
-                antallBarn
-                ));
-
-        aksjonspunktRestTjeneste.bekreft(BekreftedeAksjonspunkterDto.lagDto(behandlingId, behandlingVersjon, aksjonspunkt));
-
-        verify(aksjonspunktApplikasjonTjenesteMock).bekreftAksjonspunkter(ArgumentMatchers.anyCollection(), anyLong());
-    }
-
-    @Test
-    public void skal_bekrefte_fødsel() throws URISyntaxException {
-        Collection<BekreftetAksjonspunktDto> aksjonspunkt = new ArrayList<>();
-        aksjonspunkt.add(
-            new SjekkManglendeFodselDto(
-                begrunnelse,
-                true,
-                false,
-                fødselsdato,
-                antallBarn));
-
-        aksjonspunktRestTjeneste.bekreft(BekreftedeAksjonspunkterDto.lagDto(behandlingId, behandlingVersjon, aksjonspunkt));
-
-        verify(aksjonspunktApplikasjonTjenesteMock).bekreftAksjonspunkter(ArgumentMatchers.anyCollection(), anyLong());
-    }
 
     @Test
     public void skal_bekrefte_antall_barn() throws URISyntaxException {

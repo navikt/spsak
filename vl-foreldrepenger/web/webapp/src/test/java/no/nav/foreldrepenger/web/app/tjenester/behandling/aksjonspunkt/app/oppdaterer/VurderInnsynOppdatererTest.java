@@ -65,7 +65,6 @@ public class VurderInnsynOppdatererTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
         scenario.medSøknad().medSøknadsdato(idag);
-        scenario.medDefaultBekreftetTerminbekreftelse();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         Behandling innsynbehandling = innsynTjeneste.opprettManueltInnsyn(behandling.getFagsak().getSaksnummer());

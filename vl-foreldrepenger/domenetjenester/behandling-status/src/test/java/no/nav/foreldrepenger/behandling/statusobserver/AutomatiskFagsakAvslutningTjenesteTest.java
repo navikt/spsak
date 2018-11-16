@@ -100,7 +100,6 @@ public class AutomatiskFagsakAvslutningTjenesteTest {
 
     private void opprettBehandlingMedFødselsdato(LocalDate fødselsDato) {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medBekreftetHendelse().medFødselsDato(fødselsDato);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         repositoryProvider.getFagsakRepository().oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.LØPENDE);
@@ -111,10 +110,6 @@ public class AutomatiskFagsakAvslutningTjenesteTest {
 
     private void opprettBehandlingMedOvertakelsesdato(LocalDate omsorgsovertakelseDato) {
         ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forAdopsjon();
-        scenario.medBekreftetHendelse()
-            .medAdopsjon(scenario.medBekreftetHendelse().getAdopsjonBuilder()
-                .medOmsorgsovertakelseDato(omsorgsovertakelseDato))
-            .leggTilBarn(LocalDate.now()); // Fødselsdato skal ikke påvirke SUT, settes til now()
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 

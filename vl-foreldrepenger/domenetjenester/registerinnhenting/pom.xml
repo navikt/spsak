@@ -22,11 +22,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>person</artifactId>
         </dependency>
-        
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>familie-hendelse</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,7 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.kodeverk.KodeverkTestHelper;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.Whitebox;
@@ -55,9 +53,6 @@ public class AvsluttBehandlingImplTest {
 
     @Mock
     private BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer;
-
-    @Mock
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
 
     @Mock
     private ProsessTaskRepository prosessTaskRepository;
@@ -78,9 +73,6 @@ public class AvsluttBehandlingImplTest {
         fagsak = behandling.getFagsak();
 
         when(repositoryProvider.getKodeverkRepository()).thenReturn(kodeverkRepository);
-
-        when(familieHendelseTjeneste.hentFamilieHendelseGrunnlagForBehandling(behandling))
-            .thenAnswer(invocationOnMock -> Optional.of(repositoryProvider.getFamilieGrunnlagRepository().hentAggregat(behandling)));
 
         avsluttBehandling = new AvsluttBehandlingImpl(repositoryProvider, behandlingskontrollTjeneste, behandlingVedtakEventPubliserer, prosessTaskRepository);
 
@@ -214,12 +206,11 @@ public class AvsluttBehandlingImplTest {
 
     private Behandling lagBehandling(LocalDateTime opprettet, LocalDateTime vedtaksdato) {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now());
         if (fagsak != null) {
             scenario.medFagsakId(fagsak.getId());
             scenario.medSaksnummer(fagsak.getSaksnummer());
         }
-        if(repositoryProvider==null) {
+        if (repositoryProvider == null) {
             repositoryProvider = scenario.mockBehandlingRepositoryProvider();
             behandlingRepository = repositoryProvider.getBehandlingRepository();
         }

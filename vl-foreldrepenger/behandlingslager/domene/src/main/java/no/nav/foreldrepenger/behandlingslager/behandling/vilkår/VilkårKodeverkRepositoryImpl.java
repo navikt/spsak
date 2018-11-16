@@ -16,7 +16,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.OmsorgsovertakelseVilkårType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
@@ -139,11 +138,6 @@ public class VilkårKodeverkRepositoryImpl implements VilkårKodeverkRepository 
             return Optional.of(resultat.get(0));
         }
         return Optional.empty();
-    }
-
-    @Override
-    public OmsorgsovertakelseVilkårType finnOmsorgsovertakelseVilkårtype(String kode) {
-        return kodeverkRepository.finn(OmsorgsovertakelseVilkårType.class, kode);
     }
 
     @Override

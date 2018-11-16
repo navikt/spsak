@@ -46,8 +46,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.PermisjonsbeskrivelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
@@ -125,9 +123,6 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = inntektArbeidYtelseTjeneste.opprettBuilderForRegister(behandling);
         byggOpptjeningOpplysningene(behandling, behandling.getAktørId(), opplysningsPeriode, inntektArbeidYtelseAggregatBuilder);
 
-        // For annen forelder
-        final Optional<AktørId> annenPartAktørId = finnAnnenPartFraSøknad(behandling);
-        annenPartAktørId.ifPresent(a -> byggOpptjeningOpplysningene(behandling, a, opplysningsPeriode, inntektArbeidYtelseAggregatBuilder));
         return inntektArbeidYtelseAggregatBuilder;
     }
 
@@ -136,22 +131,12 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = inntektArbeidYtelseTjeneste.opprettBuilderForRegister(behandling);
         byggYtelser(behandling, behandling.getAktørId(), opplysningsPeriode, inntektArbeidYtelseAggregatBuilder, medGrunnlag);
 
-        // For annen forelder
-        final Optional<AktørId> annenPartAktørId = finnAnnenPartFraSøknad(behandling);
-        annenPartAktørId.ifPresent(aLong -> byggYtelser(behandling, aLong, opplysningsPeriode, inntektArbeidYtelseAggregatBuilder, false));
-
         return inntektArbeidYtelseAggregatBuilder;
     }
 
     @Override
     public void lagre(Behandling behandling, InntektArbeidYtelseAggregatBuilder builder) {
         inntektArbeidYtelseTjeneste.lagre(behandling, builder);
-    }
-
-    private Optional<AktørId> finnAnnenPartFraSøknad(Behandling behandling) {
-        return personopplysningTjeneste.hentPersonopplysningerHvisEksisterer(behandling)
-            .flatMap(PersonopplysningerAggregat::getOppgittAnnenPart)
-            .map(OppgittAnnenPart::getAktørId);
     }
 
     public InntektArbeidYtelseAggregatBuilder innhentInntekterFor(Behandling behandling, AktørId aktørId, Interval opplysningsPeriode,

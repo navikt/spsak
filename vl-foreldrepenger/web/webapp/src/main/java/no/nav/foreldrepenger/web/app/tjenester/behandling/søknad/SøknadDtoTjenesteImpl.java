@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.søknad;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -13,10 +12,6 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.Adopsjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.Terminbekreftelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.grunnlag.UidentifisertBarn;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
@@ -61,35 +56,22 @@ public class SøknadDtoTjenesteImpl implements SøknadDtoTjeneste {
         Optional<Søknad> søknadOpt = repositoryProvider.getSøknadRepository().hentSøknadHvisEksisterer(behandling);
         if (søknadOpt.isPresent()) {
             Søknad søknad = søknadOpt.get();
-
-            if (søknad.getFamilieHendelse().getGjelderFødsel()) {
-                return lagSoknadFodselDto(søknad, behandling);
-            } else if (søknad.getFamilieHendelse().getGjelderAdopsjon()) {
-                return lagSoknadAdopsjonDto(søknad, behandling);
-            }
         }
         return Optional.empty();
     }
 
     private Optional<SoknadDto> lagSoknadFodselDto(Søknad søknad, Behandling behandling) {
         SoknadFodselDto soknadFodselDto = new SoknadFodselDto();
-        Map<Integer, LocalDate> fødselsdatoer = søknad.getFamilieHendelse().getBarna().stream()
-            .collect(Collectors.toMap(UidentifisertBarn::getBarnNummer, UidentifisertBarn::getFødselsdato));
         soknadFodselDto.setMottattDato(søknad.getMottattDato());
         soknadFodselDto.setTilleggsopplysninger(søknad.getTilleggsopplysninger());
         soknadFodselDto.setSoknadType(SøknadType.FØDSEL);
-        soknadFodselDto.setUtstedtdato(søknad.getFamilieHendelse().getTerminbekreftelse().map(Terminbekreftelse::getUtstedtdato).orElse(null));
-        soknadFodselDto.setTermindato(søknad.getFamilieHendelse().getTerminbekreftelse().map(Terminbekreftelse::getTermindato).orElse(null));
-        soknadFodselDto.setAntallBarn(søknad.getFamilieHendelse().getAntallBarn());
         soknadFodselDto.setBegrunnelseForSenInnsending(søknad.getBegrunnelseForSenInnsending());
         soknadFodselDto.setFarSokerType(søknad.getFarSøkerType());
-        soknadFodselDto.setAnnenPartNavn(Optional.ofNullable(søknad.getSøknadAnnenPart()).map(OppgittAnnenPart::getNavn).orElse(null));
         soknadFodselDto.setOppgittTilknytning(OppgittTilknytningDto.mapFra(søknad));
         soknadFodselDto.setOppgittRettighet(OppgittRettighetDto.mapFra(søknad));
         soknadFodselDto.setOppgittFordeling(OppgittFordelingDto.mapFra(søknad, hentOppgittStartdatoForPermisjon(behandling)));
         soknadFodselDto.setManglendeVedlegg(genererManglendeVedlegg(behandling));
         soknadFodselDto.setDekningsgrad(hentDekningsgrad(behandling).orElse(null));
-        soknadFodselDto.setFodselsdatoer(fødselsdatoer);
 
         return Optional.of(soknadFodselDto);
     }
@@ -136,19 +118,12 @@ public class SøknadDtoTjenesteImpl implements SøknadDtoTjeneste {
     }
 
     private Optional<SoknadDto> lagSoknadAdopsjonDto(Søknad søknad, Behandling behandling) {
-        Map<Integer, LocalDate> fødselsdatoer = søknad.getFamilieHendelse().getBarna().stream()
-            .collect(Collectors.toMap(UidentifisertBarn::getBarnNummer, UidentifisertBarn::getFødselsdato));
         SoknadAdopsjonDto soknadAdopsjonDto = new SoknadAdopsjonDto();
         soknadAdopsjonDto.setMottattDato(søknad.getMottattDato());
         soknadAdopsjonDto.setTilleggsopplysninger(søknad.getTilleggsopplysninger());
         soknadAdopsjonDto.setSoknadType(SøknadType.ADOPSJON);
-        soknadAdopsjonDto.setOmsorgsovertakelseDato(søknad.getFamilieHendelse().getAdopsjon().map(Adopsjon::getOmsorgsovertakelseDato).orElse(null));
-        soknadAdopsjonDto.setBarnetsAnkomstTilNorgeDato(søknad.getFamilieHendelse().getAdopsjon().map(Adopsjon::getAnkomstNorgeDato).orElse(null));
         soknadAdopsjonDto.setFarSokerType(søknad.getFarSøkerType());
-        soknadAdopsjonDto.setAdopsjonFodelsedatoer(fødselsdatoer);
-        soknadAdopsjonDto.setAntallBarn(søknad.getFamilieHendelse().getAntallBarn());
         soknadAdopsjonDto.setBegrunnelseForSenInnsending(søknad.getBegrunnelseForSenInnsending());
-        soknadAdopsjonDto.setAnnenPartNavn(Optional.ofNullable(søknad.getSøknadAnnenPart()).map(OppgittAnnenPart::getNavn).orElse(null));
         soknadAdopsjonDto.setOppgittTilknytning(OppgittTilknytningDto.mapFra(søknad));
         soknadAdopsjonDto.setOppgittRettighet(OppgittRettighetDto.mapFra(søknad));
         soknadAdopsjonDto.setOppgittFordeling(OppgittFordelingDto.mapFra(søknad, hentOppgittStartdatoForPermisjon(behandling)));

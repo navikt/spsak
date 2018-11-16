@@ -1,32 +1,10 @@
 package no.nav.foreldrepenger.behandling;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 
 public interface SkjæringstidspunktTjeneste {
-
-    /**
-     * Skjæringstidspunkt for hendelsen(fødsel, termin, omsorgovertakelsedato osv)
-     * @param behandling behandlingen
-     * @return Dato
-     */
-    Optional<LocalDate> utledSkjæringstidspunktForEngangsstønadFraBekreftedeData(Behandling behandling);
-
-    /**
-     * Skjæringstidspunkt for hendelsen(fødsel, termin, omsorgovertakelsedato osv)
-     * @param behandling behandlingen
-     * @return Dato
-     */
-    LocalDate utledSkjæringstidspunktForEngangsstønadFraOppgitteData(Behandling behandling);
-
-    /**
-     * Skjæringstidspunkt for hendelsen(fødsel, termin, omsorgovertakelsedato osv)
-     * @param behandlingId behandlingen
-     * @return Dato
-     */
-    LocalDate utledSkjæringstidspunktForEngangsstønadFraOppgitteData(Long behandlingId);
 
     /**
      * Skjæringstidspunkt for foreldrepenger

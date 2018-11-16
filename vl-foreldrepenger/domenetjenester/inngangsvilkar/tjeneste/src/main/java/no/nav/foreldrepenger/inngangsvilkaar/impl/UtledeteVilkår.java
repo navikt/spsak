@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.inngangsvilkaar.impl;
 import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,11 +29,9 @@ public class UtledeteVilkår {
 
          return utledeteVilkår;
      }
-
-     static no.nav.foreldrepenger.inngangsvilkaar.impl.UtledeteVilkår forPotensielleRelasjonsvilkårTilBarn(List<VilkårType> potensielleVilkårtyper,
-                                                                                                           List<VilkårType> tilhørendeVilkårTyper) {
+     static no.nav.foreldrepenger.inngangsvilkaar.impl.UtledeteVilkår forAvklartRelasjonsvilkårTilBarn(List<VilkårType> tilhørendeVilkårTyper) {
          no.nav.foreldrepenger.inngangsvilkaar.impl.UtledeteVilkår utledeteVilkår = new no.nav.foreldrepenger.inngangsvilkaar.impl.UtledeteVilkår();
-         utledeteVilkår.potensielleBetingedeVilkårtyper = potensielleVilkårtyper;
+         utledeteVilkår.potensielleBetingedeVilkårtyper = Collections.emptyList();
          utledeteVilkår.avklartBetingetVilkårType = null;
          utledeteVilkår.tilhørendeVilkår = tilhørendeVilkårTyper;
 

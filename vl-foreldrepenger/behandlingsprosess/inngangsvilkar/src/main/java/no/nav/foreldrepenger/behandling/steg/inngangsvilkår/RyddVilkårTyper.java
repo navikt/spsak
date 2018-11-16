@@ -3,14 +3,7 @@ package no.nav.foreldrepenger.behandling.steg.inngangsvilkår;
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType.IKKE_FASTSATT;
-import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.ADOPSJONSVILKARET_FORELDREPENGER;
-import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.ADOPSJONSVILKÅRET_ENGANGSSTØNAD;
-import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.FORELDREANSVARSVILKÅRET_2_LEDD;
-import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD;
-import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.FØDSELSVILKÅRET_FAR_MEDMOR;
-import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.FØDSELSVILKÅRET_MOR;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.MEDLEMSKAPSVILKÅRET;
-import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.OMSORGSVILKÅRET;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -43,25 +35,16 @@ class RyddVilkårTyper {
     private final BehandlingskontrollKontekst kontekst;
 
     static Map<VilkårType, Consumer<RyddVilkårTyper>> OPPRYDDER_FOR_AVKLARTE_DATA = new HashMap<>();
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private MedlemskapRepository medlemskapRepository;
 
 
     static {
-        OPPRYDDER_FOR_AVKLARTE_DATA.put(FØDSELSVILKÅRET_MOR, r -> r.familieGrunnlagRepository.slettAvklarteData(r.behandling, r.kontekst.getSkriveLås()));
-        OPPRYDDER_FOR_AVKLARTE_DATA.put(FØDSELSVILKÅRET_FAR_MEDMOR, r -> r.familieGrunnlagRepository.slettAvklarteData(r.behandling, r.kontekst.getSkriveLås()));
-        OPPRYDDER_FOR_AVKLARTE_DATA.put(ADOPSJONSVILKÅRET_ENGANGSSTØNAD, r -> r.familieGrunnlagRepository.slettAvklarteData(r.behandling, r.kontekst.getSkriveLås()));
-        OPPRYDDER_FOR_AVKLARTE_DATA.put(ADOPSJONSVILKARET_FORELDREPENGER, r -> r.familieGrunnlagRepository.slettAvklarteData(r.behandling, r.kontekst.getSkriveLås()));
-        OPPRYDDER_FOR_AVKLARTE_DATA.put(OMSORGSVILKÅRET, r -> r.familieGrunnlagRepository.slettAvklarteData(r.behandling, r.kontekst.getSkriveLås()));
-        OPPRYDDER_FOR_AVKLARTE_DATA.put(FORELDREANSVARSVILKÅRET_2_LEDD, r -> r.familieGrunnlagRepository.slettAvklarteData(r.behandling, r.kontekst.getSkriveLås()));
-        OPPRYDDER_FOR_AVKLARTE_DATA.put(FORELDREANSVARSVILKÅRET_4_LEDD, r -> r.familieGrunnlagRepository.slettAvklarteData(r.behandling, r.kontekst.getSkriveLås()));
         OPPRYDDER_FOR_AVKLARTE_DATA.put(MEDLEMSKAPSVILKÅRET, r -> r.medlemskapRepository.slettAvklarteMedlemskapsdata(r.behandling, r.kontekst.getSkriveLås()));
     }
 
     public RyddVilkårTyper(BehandlingStegModell modell, BehandlingRepositoryProvider repositoryProvider, Behandling behandling, BehandlingskontrollKontekst kontekst) {
         this.modell = modell;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
         this.behandling = behandling;

@@ -178,7 +178,6 @@ public class FastsettBGTidsbegrensetArbeidsforholdOppdatererTest {
 
     private void lagBehandlingMedBeregningsgrunnlag() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now().minusMonths(3));
 
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.FASTSETT_BEREGNINGSGRUNNLAG_TIDSBEGRENSET_ARBEIDSFORHOLD,
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);

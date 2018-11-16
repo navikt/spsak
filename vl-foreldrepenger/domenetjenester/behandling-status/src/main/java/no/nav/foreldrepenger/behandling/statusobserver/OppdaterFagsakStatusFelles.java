@@ -8,10 +8,6 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.Adopsjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
@@ -27,11 +23,9 @@ public class OppdaterFagsakStatusFelles {
     private FagsakRepository fagsakRepository;
     private FagsakStatusEventPubliserer fagsakStatusEventPubliserer;
     private BehandlingRepository behandlingRepository;
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private Integer foreldelsesfristFP;
 
-    OppdaterFagsakStatusFelles(){
-        // for CDI proxy
+    OppdaterFagsakStatusFelles() {
     }
 
     @Inject
@@ -41,7 +35,6 @@ public class OppdaterFagsakStatusFelles {
         this.fagsakRepository = provider.getFagsakRepository();
         this.fagsakStatusEventPubliserer = fagsakStatusEventPubliserer;
         this.behandlingRepository = provider.getBehandlingRepository();
-        this.familieGrunnlagRepository = provider.getFamilieGrunnlagRepository();
         this.foreldelsesfristFP = foreldelsesfristFP;
     }
 
@@ -61,13 +54,8 @@ public class OppdaterFagsakStatusFelles {
 
         if (sisteInnvilgedeBehandling.isPresent()) {
             Behandling sisteBehandling = sisteInnvilgedeBehandling.get();
-            Optional<LocalDate> fødselsdato = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling)
-                .map(FamilieHendelseGrunnlag::getGjeldendeVersjon)
-                .flatMap(FamilieHendelse::getFødselsdato);
-            Optional<LocalDate> omsorgsovertalsesdato = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling)
-                .map(FamilieHendelseGrunnlag::getGjeldendeVersjon)
-                .flatMap(FamilieHendelse::getAdopsjon)
-                .map(Adopsjon::getOmsorgsovertakelseDato);
+            Optional<LocalDate> fødselsdato = Optional.of(LocalDate.now()); // FIXME SP - Fjernet FamilieHendelse, trenger erstattning?
+            Optional<LocalDate> omsorgsovertalsesdato = Optional.of(LocalDate.now()); // FIXME SP - Fjernet FamilieHendelse, trenger erstattning?
 
             Optional<LocalDate> maksDatoUttak = Optional.of(LocalDate.now()); // FIXME SP - har fjernet uttak, trenger erstatning?
             

@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.SøknadType.SøknadTypeDeserializer;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
@@ -59,16 +58,8 @@ public enum SøknadType {
         throw new IllegalArgumentException("Ukjent " + SøknadType.class.getSimpleName() + ": " + kode); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-    public static SøknadType fra(FamilieHendelse type) {
-        if (type == null) {
+    public static SøknadType fra() {
             return null;
-        } else if (type.getGjelderFødsel()) {
-            return SøknadType.FØDSEL;
-        } else if (type.getGjelderAdopsjon()) {
-            return SøknadType.ADOPSJON;
-        } else {
-            throw new IllegalArgumentException("Kan ikke mappe fra familieHendelse" + type + " til SøknadType"); //$NON-NLS-1$ //$NON-NLS-2$
-        }
     }
 
     static class SøknadTypeDeserializer extends StdDeserializer<SøknadType> {

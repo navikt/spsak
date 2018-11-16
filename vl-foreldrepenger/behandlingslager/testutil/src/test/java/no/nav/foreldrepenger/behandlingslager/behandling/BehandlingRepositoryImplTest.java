@@ -25,7 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsa
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageAvvistÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
@@ -430,9 +429,6 @@ public class BehandlingRepositoryImplTest {
         LocalDate tidsfrist = LocalDate.now().minusDays(1);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
             .medBehandlingstidFrist(tidsfrist);
-        final FamilieHendelseBuilder familieHendelseBuilder = scenario.medSøknadHendelse();
-        familieHendelseBuilder.medAntallBarn(1)
-            .medFødselsDato(LocalDate.now());
         scenario.lagre(repositoryProvider);
 
         // Act
@@ -464,7 +460,6 @@ public class BehandlingRepositoryImplTest {
 
         // Lagre Personopplysning
         AbstractTestScenario<?> scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(LocalDate.now());
         scenario.lagre(repositoryProvider);
     }
 
@@ -538,18 +533,6 @@ public class BehandlingRepositoryImplTest {
 
         LocalDate terminDato = LocalDate.now().plusDays(5);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse()
-            .medTerminbekreftelse(scenario.medSøknadHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(terminDato)
-                .medUtstedtDato(LocalDate.now())
-                .medNavnPå("Lege Legesen"))
-            .medAntallBarn(1);
-        scenario.medBekreftetHendelse(scenario.medBekreftetHendelse()
-            .medTerminbekreftelse(scenario.medBekreftetHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(terminDato)
-                .medNavnPå("NAVNSENASDA ")
-                .medUtstedtDato(terminDato.minusDays(40)))
-            .medAntallBarn(1));
 
         Behandling behandling = scenario.lagre(repositoryProvider);
         return behandling;
@@ -580,16 +563,11 @@ public class BehandlingRepositoryImplTest {
         Behandling behandling = behandlingBuilder.build();
         behandling.setAnsvarligSaksbehandler(ANSVARLIG_SAKSBEHANDLER);
         lagreBehandling(behandling);
-        final FamilieHendelseBuilder søknadHendelse = repositoryProvider.getFamilieGrunnlagRepository().opprettBuilderFor(behandling)
-            .medAntallBarn(1)
-            .medFødselsDato(fødselsdato);
-        repositoryProvider.getFamilieGrunnlagRepository().lagre(behandling, søknadHendelse);
 
         final Søknad søknad = new SøknadEntitet.Builder()
             .medSøknadsdato(LocalDate.now())
             .medMottattDato(mottattDato)
-            .medElektroniskRegistrert(true)
-            .medFamilieHendelse(repositoryProvider.getFamilieGrunnlagRepository().hentAggregat(behandling).getSøknadVersjon()).build();
+            .medElektroniskRegistrert(true).build();
         repositoryProvider.getSøknadRepository().lagreOgFlush(behandling, søknad);
 
         return behandling;
@@ -622,18 +600,6 @@ public class BehandlingRepositoryImplTest {
     private Behandling opprettBehandlingMedTermindato() {
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse()
-            .medTerminbekreftelse(scenario.medSøknadHendelse().getTerminbekreftelseBuilder()
-                .medNavnPå("ASDASD ASD ASD")
-                .medUtstedtDato(LocalDate.now())
-                .medTermindato(LocalDate.now().plusDays(40)))
-            .medAntallBarn(1);
-        scenario.medBekreftetHendelse(scenario.medBekreftetHendelse()
-            .medTerminbekreftelse(scenario.medBekreftetHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(LocalDate.now().plusDays(40))
-                .medUtstedtDato(LocalDate.now().minusDays(7))
-                .medNavnPå("NAVN"))
-            .medAntallBarn(1));
 
         behandling = scenario.lagre(repositoryProvider);
         return behandling;
@@ -643,18 +609,6 @@ public class BehandlingRepositoryImplTest {
 
         LocalDate terminDato = LocalDate.now().minusDays(dagerTilbake);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse()
-            .medTerminbekreftelse(scenario.medSøknadHendelse().getTerminbekreftelseBuilder()
-                .medNavnPå("ASDASD ASD ASD")
-                .medUtstedtDato(LocalDate.now().minusDays(40))
-                .medTermindato(terminDato))
-            .medAntallBarn(1);
-        scenario.medBekreftetHendelse(scenario.medBekreftetHendelse()
-            .medTerminbekreftelse(scenario.medBekreftetHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(terminDato)
-                .medNavnPå("LEGESEN")
-                .medUtstedtDato(terminDato.minusDays(40)))
-            .medAntallBarn(1));
 
         behandling = scenario.lagre(repositoryProvider);
         Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()

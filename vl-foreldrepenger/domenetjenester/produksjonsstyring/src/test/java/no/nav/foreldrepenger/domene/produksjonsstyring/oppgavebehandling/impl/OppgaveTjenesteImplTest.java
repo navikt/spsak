@@ -102,7 +102,6 @@ public class OppgaveTjenesteImplTest {
 
     private void lagBehandling() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now()).medAntallBarn(1);
         behandling = scenario.lagre(repositoryProvider);
         behandling.setBehandlendeEnhet(new OrganisasjonsEnhet("4802", null));
     }

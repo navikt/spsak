@@ -17,7 +17,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResu
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 
 
@@ -35,23 +34,6 @@ class OpprettBehandling {
             .medFødselsdato(LocalDate.of(1990, JANUARY, 1))
             .medNavBrukerKjønn(KVINNE)
             .build();
-    }
-
-    public static ScenarioMorSøkerEngangsstønad opprettBehandlingMedTermindato() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse()
-            .medTerminbekreftelse(scenario.medSøknadHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(LocalDate.now().plusDays(40))
-                .medNavnPå("LEGEN MIN")
-                .medUtstedtDato(LocalDate.now()))
-            .medAntallBarn(1);
-        scenario.medBekreftetHendelse()
-            .medTerminbekreftelse(scenario.medBekreftetHendelse().getTerminbekreftelseBuilder()
-                .medTermindato(LocalDate.now().plusDays(40))
-                .medNavnPå("LEGEN MIN")
-                .medUtstedtDato(LocalDate.now().minusDays(7)))
-            .medAntallBarn(1);
-        return scenario;
     }
 
     public static void genererBehandlingOgResultat(Behandling behandling, VedtakResultatType resultat, long antallBarn) {

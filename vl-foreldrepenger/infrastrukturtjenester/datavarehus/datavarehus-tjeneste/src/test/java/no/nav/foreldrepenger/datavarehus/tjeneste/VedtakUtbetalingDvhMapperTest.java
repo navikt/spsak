@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
@@ -41,14 +40,12 @@ public class VedtakUtbetalingDvhMapperTest {
             .build();
 
 
-        final FamilieHendelseGrunnlag familieHendelseGrunnlag = behandlingRepositoryProvider.getFamilieGrunnlagRepository().hentAggregat(behandling);
-        VedtakUtbetalingDvh mapped = vedtakUtbetalingDvhMapper.map(XML, behandling, vedtak, familieHendelseGrunnlag.getGjeldendeVersjon().getType());
+        VedtakUtbetalingDvh mapped = vedtakUtbetalingDvhMapper.map(XML, behandling, vedtak);
         assertThat(mapped.getBehandlingId()).isEqualTo(behandling.getId());
         assertThat(mapped.getXmlClob()).isEqualTo(XML);
         assertThat(mapped.getVedtakDato()).isEqualTo(VEDTAK_DATO);
         assertThat(mapped.getFagsakId()).isEqualTo(behandling.getFagsakId());
         assertThat(mapped.getFagsakType()).isEqualTo(behandling.getFagsak().getYtelseType().getKode());
-        assertThat(mapped.getSøknadType()).isEqualTo(familieHendelseGrunnlag.getGjeldendeVersjon().getType().getKode());
     }
 
 

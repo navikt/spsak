@@ -52,7 +52,6 @@ public class MedlemDtoTest {
     @Test
     public void skal_lage_medlem_dto() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now());
         String navn = "Lisa gikk til skolen";
         AktørId søkerAktørId = new AktørId("123");
 
@@ -125,7 +124,6 @@ public class MedlemDtoTest {
     @Test
     public void skal_lage_inntekt_for_ektefelle() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now());
         String navn = "Lisa gikk til skolen";
         String annenPart = "Tripp, tripp, tripp, det sa";
         AktørId aktørIdSøker = new AktørId("123");

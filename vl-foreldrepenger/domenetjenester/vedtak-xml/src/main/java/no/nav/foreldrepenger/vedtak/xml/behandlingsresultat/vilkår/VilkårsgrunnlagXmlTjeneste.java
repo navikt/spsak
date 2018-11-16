@@ -1,15 +1,9 @@
 package no.nav.foreldrepenger.vedtak.xml.behandlingsresultat.vilkår;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.grunnlag.UidentifisertBarn;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
@@ -22,16 +16,14 @@ public abstract class VilkårsgrunnlagXmlTjeneste {
 
     private VilkårJsonObjectMapper objectMapper = new VilkårJsonObjectMapper();
     private SøknadRepository søknadRepository;
-    protected FamilieHendelseRepository familieHendelseRepository;
     private KompletthetsjekkerProvider kompletthetsjekkerProvider;
 
     public VilkårsgrunnlagXmlTjeneste() {
         // For CDI
     }
 
-    public VilkårsgrunnlagXmlTjeneste(SøknadRepository søknadRepository, FamilieHendelseRepository familieHendelseRepository, KompletthetsjekkerProvider kompletthetsjekkerProvider) {
+    public VilkårsgrunnlagXmlTjeneste(SøknadRepository søknadRepository, KompletthetsjekkerProvider kompletthetsjekkerProvider) {
         this.søknadRepository = søknadRepository;
-        this.familieHendelseRepository = familieHendelseRepository;
         this.kompletthetsjekkerProvider = kompletthetsjekkerProvider;
     }
 
@@ -50,21 +42,6 @@ public abstract class VilkårsgrunnlagXmlTjeneste {
     }
 
     protected abstract Vilkaarsgrunnlag getVilkaarsgrunnlag(Behandling behandling, Vilkår vilkårFraBehandling, Optional<Søknad> søknad);
-
-    protected boolean erBarnetFødt(Behandling behandling) {
-        Optional<Søknad> søknadOptional = søknadRepository.hentSøknadHvisEksisterer(behandling);
-        if (søknadOptional.isPresent()) {
-            Søknad søknad = søknadOptional.get();
-            Optional<LocalDate> fødselsdato1 = søknad.getFamilieHendelse().getFødselsdato();
-            if (!fødselsdato1.isPresent()) {
-                return false;
-            }
-            final FamilieHendelseGrunnlag familieHendelseGrunnlag = familieHendelseRepository.hentAggregat(behandling);
-            final List<UidentifisertBarn> barna = familieHendelseGrunnlag.getBekreftetVersjon().map(FamilieHendelse::getBarna).orElse(Collections.emptyList());
-            return !barna.isEmpty();
-        }
-        return false;
-    }
 
     protected boolean erKomplettSøknad(Behandling behandling) {
         return kompletthetsjekkerProvider.finnKompletthetsjekkerFor(behandling).erForsendelsesgrunnlagKomplett(behandling);

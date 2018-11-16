@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.behandlingslager.behandling.oppgave;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.Before;
@@ -10,7 +9,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -46,9 +44,6 @@ public class OppgaveBehandlingKoblingTest {
         OppgaveÅrsak behandleSøknad = OppgaveÅrsak.BEHANDLE_SAK;
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        final FamilieHendelseBuilder familieHendelseBuilder = scenario.medSøknadHendelse();
-        familieHendelseBuilder.medAntallBarn(1)
-            .medFødselsDato(LocalDate.now());
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -71,9 +66,6 @@ public class OppgaveBehandlingKoblingTest {
         OppgaveÅrsak behandleSøknad = OppgaveÅrsak.BEHANDLE_SAK;
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        final FamilieHendelseBuilder familieHendelseBuilder = scenario.medSøknadHendelse();
-        familieHendelseBuilder.medAntallBarn(1)
-            .medFødselsDato(LocalDate.now());
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -95,9 +87,6 @@ public class OppgaveBehandlingKoblingTest {
         String saksbehandler = "R160223";
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        final FamilieHendelseBuilder familieHendelseBuilder = scenario.medSøknadHendelse();
-        familieHendelseBuilder.medAntallBarn(1)
-            .medFødselsDato(LocalDate.now());
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         OppgaveBehandlingKobling oppgave = new OppgaveBehandlingKobling(behandleSøknad, oppgaveIdFraGSAK, SAKSNUMMER, behandling);

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Alternative;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.tjeneste.virksomhet.meldekortutbetalingsgrunnlag.v1.informasjon.Meldekort;
@@ -56,7 +57,7 @@ class MeldekortUtbetalingsgrunnlagConsumerMock implements MeldekortUtbetalingsgr
         return this;
     }
 
-    public MeldekortUtbetalingsgrunnlagConsumerMock lagSakVedtak(Saksnummer saksnummer) {
+    public MeldekortUtbetalingsgrunnlagConsumerMock lagSakVedtak(Saksnummer saksnummer) throws DatatypeConfigurationException {
         Sak sak = of.createSak();
         sak.setFagsystemSakId(saksnummer.getVerdi());
         Tema tema = of.createTema();

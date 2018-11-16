@@ -19,7 +19,6 @@ public class VurderMedlemskapTjenesteImpl implements VurderMedlemskapTjeneste {
 
     private AvklarOmErBosatt avklarOmErBosatt;
     private AvklarGyldigPeriode avklarGyldigPeriode;
-    private AvklarBarnFødtUtenlands avklarBarnFødtUtenlands;
     private AvklarOmSøkerOppholderSegINorge avklarOmSøkerOppholderSegINorge;
     private AvklaringFaktaMedlemskap avklaringFaktaMedlemskap;
     private BehandlingRepository behandlingRepository;
@@ -35,7 +34,6 @@ public class VurderMedlemskapTjenesteImpl implements VurderMedlemskapTjeneste {
         this.behandlingRepository = provider.getBehandlingRepository();
         this.avklarOmErBosatt = new AvklarOmErBosatt(provider, medlemskapPerioderTjeneste, personopplysningTjeneste);
         this.avklarGyldigPeriode = new AvklarGyldigPeriode(provider, medlemskapPerioderTjeneste);
-        this.avklarBarnFødtUtenlands = new AvklarBarnFødtUtenlands(provider);
         this.avklarOmSøkerOppholderSegINorge = new AvklarOmSøkerOppholderSegINorge(provider, personopplysningTjeneste);
         this.avklaringFaktaMedlemskap = new AvklaringFaktaMedlemskap(provider, medlemskapPerioderTjeneste, personopplysningTjeneste);
     }
@@ -46,7 +44,6 @@ public class VurderMedlemskapTjenesteImpl implements VurderMedlemskapTjeneste {
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
         avklarOmErBosatt.utled(behandling, vurderingsdato).ifPresent(resultat::add);
         avklarGyldigPeriode.utled(behandling, vurderingsdato).ifPresent(resultat::add);
-        avklarBarnFødtUtenlands.utled(behandling, vurderingsdato).ifPresent(resultat::add);
         avklarOmSøkerOppholderSegINorge.utled(behandling, vurderingsdato).ifPresent(resultat::add);
         avklaringFaktaMedlemskap.utled(behandling, vurderingsdato).ifPresent(resultat::add);
         return resultat;

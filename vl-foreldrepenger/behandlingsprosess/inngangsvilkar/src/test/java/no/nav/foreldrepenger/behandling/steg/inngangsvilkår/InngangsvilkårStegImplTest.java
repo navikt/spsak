@@ -13,7 +13,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.Before;
@@ -120,11 +119,6 @@ public class InngangsvilkårStegImplTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
             .medVilkårResultatType(VilkårResultatType.INNVILGET)
             .leggTilVilkår(sutVilkårType, VilkårUtfallType.OPPFYLT);
-        scenario.medBekreftetHendelse(scenario.medBekreftetHendelse().medFødselsDato(LocalDate.now()));
-        /*
-                    .medFødsel(new FødselEntitet.Builder()
-                .medFødselsdato(LocalDate.now()))
-         */
 
         Behandling behandling = scenario.lagMocked();
         Whitebox.setInternalState(behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().get(0),

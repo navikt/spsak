@@ -24,8 +24,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
@@ -67,10 +65,6 @@ public class AksjonspunktUtlederForTidligereMottattEngangsstønad implements Aks
             return opprettListeForAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_OM_SØKER_HAR_MOTTATT_STØTTE);
         }
 
-        if (harAnnenForelderMottattStønad(behandling, inntektArbeidYtelseGrunnlag) == JA) {
-            return opprettListeForAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_OM_ANNEN_FORELDRE_HAR_MOTTATT_STØTTE);
-        }
-
         return INGEN_AKSJONSPUNKTER;
     }
 
@@ -79,22 +73,6 @@ public class AksjonspunktUtlederForTidligereMottattEngangsstønad implements Aks
             return NEI;
         }
         return harMottattStønadSiste10Mnd(behandling, aktørYtelse);
-    }
-
-    private Utfall harAnnenForelderMottattStønad(Behandling behandling, InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag) {
-        PersonopplysningerAggregat personopplysninger = personopplysningTjeneste.hentPersonopplysninger(behandling);
-        OppgittAnnenPart annenPartFraSøknad = personopplysninger.getOppgittAnnenPart().orElse(null);
-
-        if (annenPartFraSøknad != null && annenPartFraSøknad.getAktørId() != null) {
-            AktørYtelse aktørYtelseAnnenForelder = hentAktørYtelseEllerNull(annenPartFraSøknad.getAktørId(), inntektArbeidYtelseGrunnlag);
-            if (aktørYtelseAnnenForelder != null) {
-                if (harYtelseEngangsstønad(aktørYtelseAnnenForelder)) {
-                    return JA;
-                }
-                return harMottattStønadSiste10Mnd(behandling, aktørYtelseAnnenForelder);
-            }
-        }
-        return NEI;
     }
 
     private Utfall harMottattStønadSiste10Mnd(Behandling behandling, AktørYtelse aktørYtelse) {

@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.OmsorgsovertakelseVilkårType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 
 public interface VilkårKodeverkRepository extends BehandlingslagerRepository {
@@ -30,8 +29,6 @@ public interface VilkårKodeverkRepository extends BehandlingslagerRepository {
     List<VilkårType> finnVilkårTypeListe(String avslagsårsakKode);
 
     Avslagsårsak finnAvslagÅrsak(String avslagKode);
-
-    OmsorgsovertakelseVilkårType finnOmsorgsovertakelseVilkårtype(String kode);
 
     KodeverkRepository getKodeverkRepository();
 

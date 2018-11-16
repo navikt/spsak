@@ -6,7 +6,6 @@ import java.util.Optional;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 
@@ -21,12 +20,6 @@ public interface BehandlendeEnhetTjeneste {
     // Sjekk om andre angitte personer (Verge mm) har diskresjonskode som tilsier spesialenhet. Returnerer empty() hvis ingen endring.
     Optional<OrganisasjonsEnhet> endretBehandlendeEnhetFraAndrePersoner(Behandling behandling, List<AktørId> aktører);
     Optional<OrganisasjonsEnhet> endretBehandlendeEnhetFraAndrePersoner(Behandling behandling, PersonIdent relatert);
-
-    // Sjekk om oppgitt annen part fra søknad har diskresjonskode som tilsier spesialenhet. Returnerer empty() hvis ingen endring.
-    Optional<OrganisasjonsEnhet> endretBehandlendeEnhetFraOppgittAnnenPart(Behandling behandling);
-
-    // Sjekk om enhet skal endres etter kobling av fagsak. Andre fagsak vil arve enhet fra første i relasjon, med mindre det er diskresjonskoder. empty() betyr ingen endring
-    Optional<OrganisasjonsEnhet> endretBehandlendeEnhetEtterFagsakKobling(Behandling behandling, FagsakRelasjon kobling);
 
     // Brukes for å utlede enhet ved opprettelse av klage, revurdering, ny førstegangsbehandling, innsyn mv. Vil normalt videreføre enhet fra tidligere behandling
     OrganisasjonsEnhet sjekkEnhetVedNyAvledetBehandling(Behandling behandling, OrganisasjonsEnhet enhetOpprinneligBehandling);

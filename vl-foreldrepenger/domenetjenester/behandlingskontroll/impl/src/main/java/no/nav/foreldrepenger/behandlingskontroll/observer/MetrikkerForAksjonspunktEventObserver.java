@@ -5,7 +5,6 @@ import static no.nav.vedtak.feil.LogLevel.WARN;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -23,8 +22,6 @@ import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktUtførtEvent;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -44,7 +41,6 @@ public class MetrikkerForAksjonspunktEventObserver {
 
     private static final Logger log = LoggerFactory.getLogger(MetrikkerForAksjonspunktEventObserver.class);
 
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private MetricRegistry metricRegistry;
     private BehandlingRepository behandlingRepository;
     private FagsakRepository fagsakRepository;
@@ -56,7 +52,6 @@ public class MetrikkerForAksjonspunktEventObserver {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
     }
 
     public void måleTidFraBehandlingÅpnetTilFørsteAksjonspunktUtført(@Observes AksjonspunktUtførtEvent aksjonspunktUtførtEvent) {
@@ -102,14 +97,7 @@ public class MetrikkerForAksjonspunktEventObserver {
     }
 
     private BehandlingTema getBehandlingsTemaForFagsak(Fagsak s) {
-        Optional<Behandling> behandling = behandlingRepository.hentSisteBehandlingForFagsakId(s.getId());
-        if (!behandling.isPresent()) {
-            return BehandlingTema.UDEFINERT;
-        }
-
-        Behandling sisteBehandling = behandling.get();
-        final Optional<FamilieHendelseGrunnlag> grunnlag = familieGrunnlagRepository.hentAggregatHvisEksisterer(sisteBehandling);
-        return BehandlingTema.fraFagsak(s, grunnlag.map(FamilieHendelseGrunnlag::getSøknadVersjon).orElse(null));
+        return BehandlingTema.fraFagsak(s);
     }
 
     interface Feilene extends DeklarerteFeil {

@@ -38,8 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.VurderÅrsakTot
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
-import no.nav.foreldrepenger.domene.familiehendelse.impl.FamilieHendelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.impl.FatterVedtakAksjonspunkt;
@@ -74,21 +72,18 @@ public class AksjonspunktOppdatererTest {
     @Mock
     private BasisPersonopplysningTjeneste personopplysningTjeneste;
 
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
-
     @Inject
     private VedtakTjeneste vedtakTjeneste;
 
 
     @Before
     public void setup() {
-        familieHendelseTjeneste = new FamilieHendelseTjenesteImpl(personopplysningTjeneste, 16, 4, repositoryProvider);
         RevurderingTjenesteProvider revurderingTjenesteProvider = new RevurderingTjenesteProvider();
         totrinnRepository = new TotrinnRepositoryImpl(repoRule.getEntityManager());
 
         TotrinnTjeneste totrinnTjeneste = new TotrinnTjenesteImpl(repositoryProvider, totrinnRepository);
 
-        VedtakTjeneste vedtakTjeneste = new VedtakTjenesteImpl(lagretVedtakRepository, historikkRepository, revurderingTjenesteProvider, familieHendelseTjeneste, totrinnTjeneste);
+        VedtakTjeneste vedtakTjeneste = new VedtakTjenesteImpl(lagretVedtakRepository, historikkRepository, revurderingTjenesteProvider, totrinnTjeneste);
         fatterVedtakAksjonspunkt = new FatterVedtakAksjonspunkt(repositoryProvider, vedtakTjeneste, totrinnTjeneste);
     }
 
@@ -97,8 +92,6 @@ public class AksjonspunktOppdatererTest {
         ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forFødsel();
         scenario.medSøknad()
                 .medFarSøkerType(FarSøkerType.OVERTATT_OMSORG);
-        scenario.medSøknadHendelse()
-                .medFødselsDato(now);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -123,8 +116,6 @@ public class AksjonspunktOppdatererTest {
         ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forFødsel();
         scenario.medSøknad()
                 .medFarSøkerType(FarSøkerType.OVERTATT_OMSORG);
-
-        scenario.medSøknadHendelse().medFødselsDato(now);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -158,8 +149,6 @@ public class AksjonspunktOppdatererTest {
         ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forFødsel();
         scenario.medSøknad()
                 .medFarSøkerType(FarSøkerType.OVERTATT_OMSORG);
-        scenario.medSøknadHendelse().medFødselsDato(now);
-
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         Aksjonspunkt aksjonspunktGodkjent = leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);

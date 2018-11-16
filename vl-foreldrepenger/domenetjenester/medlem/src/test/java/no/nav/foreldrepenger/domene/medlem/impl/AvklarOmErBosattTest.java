@@ -69,7 +69,6 @@ public class AvklarOmErBosattTest {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(fødselsDato).medAntallBarn(1);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.SWE);
         Behandling behandling = scenario.lagre(provider);
 
@@ -85,7 +84,6 @@ public class AvklarOmErBosattTest {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(fødselsDato).medAntallBarn(1);
 
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
         Behandling behandling = scenario.lagre(provider);
@@ -103,7 +101,6 @@ public class AvklarOmErBosattTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
         leggTilSøker(scenario, AdresseType.MIDLERTIDIG_POSTADRESSE_UTLAND, Landkoder.USA);
         LocalDate fødselsDato = LocalDate.now();
-        scenario.medSøknadHendelse().medFødselsDato(fødselsDato);
         RegistrertMedlemskapPerioder gyldigPeriodeUnderFødsel = new MedlemskapPerioderBuilder()
             .medDekningType(MedlemskapDekningType.FTL_2_9_2_a) // hjemlet i bokstav a
             .medMedlemskapType(MedlemskapType.ENDELIG) // gyldig
@@ -126,7 +123,6 @@ public class AvklarOmErBosattTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
         leggTilSøker(scenario, AdresseType.MIDLERTIDIG_POSTADRESSE_UTLAND, Landkoder.USA);
         LocalDate fødselsDato = LocalDate.now();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now());
         RegistrertMedlemskapPerioder gyldigPeriodeUnderFødsel = new MedlemskapPerioderBuilder()
             .medDekningType(MedlemskapDekningType.FTL_2_6) // hjemlet i bokstav a
             .medMedlemskapType(MedlemskapType.ENDELIG) // gyldig
@@ -170,7 +166,6 @@ public class AvklarOmErBosattTest {
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medSøknad().medMottattDato(LocalDate.now(FPDateUtil.getOffset()));
-        scenario.medDefaultSøknadTerminbekreftelse();
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
@@ -204,7 +199,6 @@ public class AvklarOmErBosattTest {
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medSøknad().medMottattDato(LocalDate.now(FPDateUtil.getOffset()));
-        scenario.medDefaultSøknadTerminbekreftelse();
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
@@ -255,7 +249,6 @@ public class AvklarOmErBosattTest {
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medSøknad().medMottattDato(LocalDate.now(FPDateUtil.getOffset()));
-        scenario.medDefaultSøknadTerminbekreftelse();
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
@@ -337,7 +330,6 @@ public class AvklarOmErBosattTest {
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medSøknad().medMottattDato(LocalDate.now(FPDateUtil.getOffset()));
-        scenario.medDefaultSøknadTerminbekreftelse();
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
@@ -374,7 +366,6 @@ public class AvklarOmErBosattTest {
             .medPeriode(LocalDate.now(), LocalDate.now().plusYears(1))
             .build();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now()).medAntallBarn(1);
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
         OppgittTilknytning oppgittTilknytning = new OppgittTilknytningEntitet.Builder().leggTilOpphold(oppholdNorgeNestePeriode).medOppholdNå(true).build();
         scenario.medSøknad().medOppgittTilknytning(oppgittTilknytning);

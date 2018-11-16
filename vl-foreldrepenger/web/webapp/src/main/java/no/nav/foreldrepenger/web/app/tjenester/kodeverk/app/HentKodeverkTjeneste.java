@@ -18,8 +18,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregn
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAndeltype;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.OmsorgsovertakelseVilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkBegrunnelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori;
@@ -69,7 +67,6 @@ public interface HentKodeverkTjeneste {
         Landkoder.class,
         PersonstatusType.class,
         FagsakYtelseType.class,
-        FamilieHendelseType.class,
         Venteårsak.class,
         ForeldreType.class,
         InnsynResultatType.class,
@@ -89,7 +86,6 @@ public interface HentKodeverkTjeneste {
         AktivitetStatus.class,
         Arbeidskategori.class,
         UttakPeriodeVurderingType.class,
-        OmsorgsovertakelseVilkårType.class,
         Fagsystem.class,
         Region.class,
         SivilstandType.class,

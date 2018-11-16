@@ -25,10 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlagBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.HendelseVersjonType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -37,7 +33,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavPersoninfoBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
@@ -60,7 +55,6 @@ public class FagsakRestTjenesteTest {
     private BehandlingRepository behandlingRepository;
     private RevurderingTjeneste fagsakRevurderingTjeneste;
     private RevurderingTjenesteProvider fagsakRevurderingTjenesteProvider;
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
 
     @Before
     public void oppsett() {
@@ -69,7 +63,6 @@ public class FagsakRestTjenesteTest {
         behandlingRepository = mock(BehandlingRepository.class);
         fagsakRevurderingTjeneste = mock(RevurderingTjeneste.class);
         fagsakRevurderingTjenesteProvider = mock(RevurderingTjenesteProvider.class);
-        familieHendelseTjeneste = mock(FamilieHendelseTjeneste.class);
         when(fagsakRevurderingTjenesteProvider.finnRevurderingTjenesteFor(any())).thenReturn(fagsakRevurderingTjeneste);
         when(fagsakRevurderingTjeneste.kanRevurderingOpprettes(any())).thenReturn(false);
 
@@ -79,7 +72,7 @@ public class FagsakRestTjenesteTest {
         when(repositoryProvider.getFagsakRepository()).thenReturn(fagsakRepository);
         when(repositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
 
-        applikasjonTjeneste = new FagsakApplikasjonTjenesteImpl(repositoryProvider, behandlingskontrollAsynkTjeneste, tpsTjeneste, familieHendelseTjeneste);
+        applikasjonTjeneste = new FagsakApplikasjonTjenesteImpl(repositoryProvider, behandlingskontrollAsynkTjeneste, tpsTjeneste);
 
         tjeneste = new FagsakRestTjeneste(applikasjonTjeneste, fagsakRevurderingTjenesteProvider);
     }
@@ -108,15 +101,7 @@ public class FagsakRestTjenesteTest {
         when(fagsakRepository.hentForBruker(aktørId)).thenReturn(Collections.singletonList(fagsak));
 
         LocalDate fødselsdato = LocalDate.of(2017, JANUARY, 1);
-        final FamilieHendelseBuilder hendelseBuilder = FamilieHendelseBuilder.oppdatere(Optional.empty(), HendelseVersjonType.SØKNAD);
-        hendelseBuilder.medFødselsDato(fødselsdato);
-        final FamilieHendelseGrunnlag build = FamilieHendelseGrunnlagBuilder.oppdatere(Optional.empty())
-            .medSøknadVersjon(hendelseBuilder)
-            .medBekreftetVersjon(FamilieHendelseBuilder.oppdatere(Optional.empty(), HendelseVersjonType.BEKREFTET)
-                .medFødselsDato(fødselsdato))
-            .build();
         when(behandlingRepository.hentSisteBehandlingForFagsakId(anyLong())).thenReturn(Optional.of(Behandling.forFørstegangssøknad(fagsak).build()));
-        when(familieHendelseTjeneste.finnAggregat(any())).thenReturn(Optional.of(build));
 
         // Act
         Collection<FagsakDto> fagsakDtos = tjeneste.søkFagsaker(new SokefeltDto(fnr.getIdent()));

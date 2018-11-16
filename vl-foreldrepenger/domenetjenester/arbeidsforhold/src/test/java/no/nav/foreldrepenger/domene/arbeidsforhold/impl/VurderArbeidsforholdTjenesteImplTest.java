@@ -72,7 +72,6 @@ public class VurderArbeidsforholdTjenesteImplTest {
     @Test
     public void skal_ikke_gi_aksjonspunkt() {
         final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(SKJÆRINGSTIDSPUNKT);
 
         final Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -134,7 +133,6 @@ public class VurderArbeidsforholdTjenesteImplTest {
     @Test
     public void skal_ikke_gi_aksjonspunkt_2() {
         final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(SKJÆRINGSTIDSPUNKT);
 
         final Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -173,7 +171,6 @@ public class VurderArbeidsforholdTjenesteImplTest {
     @Test
     public void skal_ikke_gi_aksjonspunkt_3() {
         final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(SKJÆRINGSTIDSPUNKT);
         scenario.removeDodgyDefaultInntektArbeidYTelse();
         final Behandling behandling = scenario.lagre(repositoryProvider);
 

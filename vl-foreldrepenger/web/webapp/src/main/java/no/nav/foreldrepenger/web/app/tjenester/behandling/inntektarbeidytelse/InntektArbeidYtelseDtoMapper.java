@@ -1,9 +1,7 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.inntektarbeidytelse;
 
-import static no.nav.foreldrepenger.web.app.tjenester.behandling.inntektarbeidytelse.BehandlingRelaterteYtelserMapper.RELATERT_YTELSE_TYPER_FOR_ANNEN_FORELDER;
 import static no.nav.foreldrepenger.web.app.tjenester.behandling.inntektarbeidytelse.BehandlingRelaterteYtelserMapper.RELATERT_YTELSE_TYPER_FOR_SØKER;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,14 +16,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdWrapper;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørYtelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.ArbeidsforholdAdministrasjonTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.konfig.Tid;
-import no.nav.vedtak.util.FPDateUtil;
 
 @ApplicationScoped
 public class InntektArbeidYtelseDtoMapper {
@@ -120,29 +116,11 @@ public class InntektArbeidYtelseDtoMapper {
 
     private void mapRelaterteYtelser(InntektArbeidYtelseDto dto, Behandling behandling) {
         dto.setRelatertTilgrensendeYtelserForSoker(mapTilDtoSøker(hentRelaterteYtelser(behandling, behandling.getAktørId())));
-        hentAktørIdForAnnenPart(behandling).ifPresent(aktørId -> {
-            dto.setRelatertTilgrensendeYtelserForAnnenForelder(mapTilDtoAnnenPart(hentRelaterteYtelser(behandling, aktørId)));
-            // TODO Termitt. Trengs denne måten å skille på? For å evt. få til dette må det filtreres her etter at det hentes.(bare innvilget)
-            dto.setInnvilgetRelatertTilgrensendeYtelserForAnnenForelder(mapTilDtoAnnenPart(hentRelaterteYtelser(behandling, aktørId)));
-        });
 
-    }
-
-    private List<RelaterteYtelserDto> mapTilDtoAnnenPart(List<TilgrensendeYtelserDto> tilgrensendeYtelserDtos) {
-        return BehandlingRelaterteYtelserMapper.samleYtelserBasertPåYtelseType(tilgrensendeYtelserDtos, RELATERT_YTELSE_TYPER_FOR_ANNEN_FORELDER);
     }
 
     private List<RelaterteYtelserDto> mapTilDtoSøker(List<TilgrensendeYtelserDto> tilgrensendeYtelserDtos) {
         return BehandlingRelaterteYtelserMapper.samleYtelserBasertPåYtelseType(tilgrensendeYtelserDtos, RELATERT_YTELSE_TYPER_FOR_SØKER);
-    }
-
-    private Optional<AktørId> hentAktørIdForAnnenPart(Behandling behandling) {
-        LocalDate now = LocalDate.now(FPDateUtil.getOffset());
-        Optional<PersonopplysningerAggregat> aggregat = personopplysningTjeneste.hentGjeldendePersoninformasjonPåTidspunktHvisEksisterer(behandling, now);
-        if (aggregat.flatMap(PersonopplysningerAggregat::getAnnenPart).isPresent()) {
-            return Optional.ofNullable(aggregat.flatMap(PersonopplysningerAggregat::getAnnenPart).get().getAktørId());
-        }
-        return Optional.empty();
     }
 
     private List<TilgrensendeYtelserDto> hentRelaterteYtelser(Behandling behandling, AktørId aktørId) {

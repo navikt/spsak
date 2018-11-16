@@ -318,7 +318,6 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         behandling.avsluttBehandling();
 
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(ytelseHjelper.annenPartAktørId);
-        scenarioMorSøkerForeldrepenger1.medSøknadAnnenPart().medAktørId(ytelseHjelper.aktørId);
         scenarioMorSøkerForeldrepenger1.removeDodgyDefaultInntektArbeidYTelse();
         Behandling behandling2 = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider);
 

@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.personopplysning;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,8 +10,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
@@ -30,12 +26,10 @@ public class PersonopplysningerAggregat {
     private final List<Personstatus> overstyrtPersonstatus;
     private final List<Personstatus> orginalPersonstatus;
     private final List<Statsborgerskap> aktuelleStatsborgerskap;
-    private final OppgittAnnenPart oppgittAnnenPart;
     private final DatoIntervallEntitet forPeriode;
 
     public PersonopplysningerAggregat(PersonopplysningGrunnlag grunnlag, AktørId aktørId, DatoIntervallEntitet forPeriode, Map<Landkoder, Region> landkoderRegionMap) {
         this.søkerAktørId = aktørId;
-        this.oppgittAnnenPart = grunnlag.getOppgittAnnenPart().orElse(null);
         this.forPeriode = forPeriode;
         if (grunnlag.getRegisterVersjon() != null) {
             this.alleRelasjoner = grunnlag.getRegisterVersjon().getRelasjoner();
@@ -154,8 +148,8 @@ public class PersonopplysningerAggregat {
     /**
      * Returnerer opprinnelig personstatus der hvor personstatus har blitt overstyrt
      *
-     * @return personstatus
      * @param søkerAktørId
+     * @return personstatus
      */
     public Optional<Personstatus> getOrginalPersonstatusFor(AktørId søkerAktørId) {
         return orginalPersonstatus.stream()
@@ -181,23 +175,6 @@ public class PersonopplysningerAggregat {
 
     public List<Personopplysning> getBarnaTil(AktørId aktørId) {
         return getTilPersonerFor(aktørId, RelasjonsRolleType.BARN);
-    }
-
-    public List<Personopplysning> getFellesBarn() {
-        Optional<Personopplysning> annenPart = getAnnenPart();
-        List<Personopplysning> fellesBarn = new ArrayList<>();
-        if (annenPart.isPresent()) {
-            fellesBarn.addAll(getBarna());
-            fellesBarn.retainAll(getBarnaTil(annenPart.get().getAktørId()));
-        }
-        return fellesBarn;
-    }
-
-    public Optional<Personopplysning> getAnnenPart() {
-        if (getOppgittAnnenPart().isPresent()) {
-            return getPersonopplysninger().stream().filter(it -> it.getAktørId().equals(getOppgittAnnenPart().get().getAktørId())).findFirst();
-        }
-        return Optional.empty();
     }
 
     public Optional<Personopplysning> getEktefelle() {
@@ -240,34 +217,6 @@ public class PersonopplysningerAggregat {
             .collect(Collectors.toList());
     }
 
-    public Optional<OppgittAnnenPart> getOppgittAnnenPart() {
-        return Optional.ofNullable(oppgittAnnenPart);
-    }
-
-    public List<Personopplysning> getAlleBarnFødtI(Interval fødselIntervall) {
-        return getBarnaTil(søkerAktørId).stream()
-            .filter(barn -> fødselIntervall.overlaps(byggInterval(barn.getFødselsdato())))
-            .collect(Collectors.toList());
-    }
-
-    private Interval byggInterval(LocalDate dato) {
-        return Interval.of(dato.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant(),
-            dato.atStartOfDay().plusDays(1).atZone(ZoneId.systemDefault()).toInstant());
-    }
-
-    public boolean søkerHarSammeAdresseSom(AktørId aktørId, RelasjonsRolleType relasjonsRolle) {
-        Optional<PersonRelasjon> ektefelleRelasjon = getRelasjoner().stream()
-            .filter(familierelasjon -> familierelasjon.getAktørId().equals(søkerAktørId) &&
-                familierelasjon.getTilAktørId().equals(aktørId) &&
-                familierelasjon.getRelasjonsrolle().equals(relasjonsRolle))
-            .findFirst();
-        if (ektefelleRelasjon.isPresent() && ektefelleRelasjon.get().getHarSammeBosted() != null) {
-            return ektefelleRelasjon.get().getHarSammeBosted();
-        } else {
-            return harSammeAdresseSom(aktørId);
-        }
-    }
-
     private boolean harSammeAdresseSom(AktørId aktørId) {
         if (getPersonopplysninger().stream().noneMatch(it -> it.getAktørId().equals(aktørId))) {
             return false;
@@ -300,14 +249,12 @@ public class PersonopplysningerAggregat {
             Objects.equals(alleRelasjoner, that.alleRelasjoner) &&
             Objects.equals(aktuelleAdresser, that.aktuelleAdresser) &&
             Objects.equals(aktuellePersonstatus, that.aktuellePersonstatus) &&
-            Objects.equals(aktuelleStatsborgerskap, that.aktuelleStatsborgerskap) &&
-            Objects.equals(oppgittAnnenPart, that.oppgittAnnenPart);
+            Objects.equals(aktuelleStatsborgerskap, that.aktuelleStatsborgerskap);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(søkerAktørId, allePersonopplysninger, alleRelasjoner, aktuelleAdresser, aktuellePersonstatus, aktuelleStatsborgerskap,
-            oppgittAnnenPart);
+        return Objects.hash(søkerAktørId, allePersonopplysninger, alleRelasjoner, aktuelleAdresser, aktuellePersonstatus, aktuelleStatsborgerskap);
     }
 
     @Override
@@ -315,7 +262,6 @@ public class PersonopplysningerAggregat {
         return "PersonopplysningerAggregat{" +
             "søkerAktørId=" + søkerAktørId +
             ", allePersonopplysninger=" + allePersonopplysninger +
-            ", oppgittAnnenPart=" + oppgittAnnenPart +
             ", forPeriode=" + forPeriode +
             '}';
     }

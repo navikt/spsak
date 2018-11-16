@@ -74,8 +74,6 @@ public class KontrollerFaktaStegImplForeldrepengerTest {
         scenario.medBruker(aktørId, NavBrukerKjønn.MANN);
         scenario.medSøknad()
             .medFarSøkerType(farSøkerType);
-        scenario.medSøknadHendelse()
-            .medFødselsDato(FØDSELSDATO_BARN);
 
         leggTilSøker(scenario, NavBrukerKjønn.MANN);
 

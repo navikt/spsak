@@ -98,7 +98,6 @@ public class BeregningsgrunnlagDtoTest {
             .medOpprinneligSkjæringstidspunkt(SKJAERINGSTIDSPUNKT)
             .medGrunnbeløp(grunnbeløp)
             .medRedusertGrunnbeløp(grunnbeløp);
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now().minusMonths(3));
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.FASTSETT_BEREGNINGSGRUNNLAG_ARBEIDSTAKER_FRILANS,
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);
         behandling = scenario.lagre(repositoryProvider);

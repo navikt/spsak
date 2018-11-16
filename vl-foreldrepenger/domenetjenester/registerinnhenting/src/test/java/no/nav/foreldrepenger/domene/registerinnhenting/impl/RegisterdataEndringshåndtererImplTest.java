@@ -76,8 +76,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjene
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.komponenten.FinnInntektRequest;
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.komponenten.InntektTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.sigrun.SigrunTjeneste;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
-import no.nav.foreldrepenger.domene.familiehendelse.impl.FamilieHendelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.kontrollerfakta.BehandlingÅrsakTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.domene.person.PersoninfoAdapter;
@@ -91,7 +89,6 @@ import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
-import no.nav.vedtak.felles.testutilities.cdi.UnitTestInstanceImpl;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
 
 @RunWith(CdiRunner.class)
@@ -138,8 +135,6 @@ public class RegisterdataEndringshåndtererImplTest {
     @Mock
     private MedlemskapRepository medlemskapRepository;
 
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
-
     @Inject
     private BasisPersonopplysningTjeneste personopplysningTjeneste;
 
@@ -184,8 +179,6 @@ public class RegisterdataEndringshåndtererImplTest {
         when(medlemTjeneste.oppdaterMedlemskapHvisEndret(any(), any(), any(), any()))
             .thenReturn(false);
 
-        familieHendelseTjeneste = new FamilieHendelseTjenesteImpl(personopplysningTjeneste, 16, 4, repositoryProvider);
-
         Mockito.doNothing().when(behandlingskontrollTjeneste).prosesserBehandling(any());
     }
 
@@ -217,7 +210,6 @@ public class RegisterdataEndringshåndtererImplTest {
             .medSøker(søker)
             .medOpplysningerOppdatertTidspunkt(LocalDateTime.now().minusDays(1))
             .medBehandlingStegStart(BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR);
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now().minusDays(2));
         Behandling behandling = scenario.lagre(repositoryProvider);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         EndringsresultatDiff idDiff = EndringsresultatDiff.medDiff(PersonInformasjon.class, 1L, 2L);
@@ -251,10 +243,6 @@ public class RegisterdataEndringshåndtererImplTest {
             .medOpplysningerOppdatertTidspunkt(LocalDateTime.now().minusDays(1))
             .medSøker(søker)
             .medBehandlingStegStart(BehandlingStegType.KONTROLLER_FAKTA);
-        scenario.medSøknadHendelse().medTerminbekreftelse(scenario.medSøknadHendelse().getTerminbekreftelseBuilder()
-            .medTermindato(LocalDate.now().minusDays(30))
-            .medUtstedtDato(LocalDate.now())
-            .medNavnPå("Legen min"));
         Behandling behandling = scenario.lagre(repositoryProvider);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
@@ -280,8 +268,6 @@ public class RegisterdataEndringshåndtererImplTest {
             .medOpplysningerOppdatertTidspunkt(opplysningerOppdatertTidspunkt)
             .medSøker(søker)
             .medBehandlingStegStart(BehandlingStegType.KONTROLLER_FAKTA);
-        scenario.medSøknadHendelse().leggTilBarn(LocalDate.now())
-            .medAdopsjon(scenario.medSøknadHendelse().getAdopsjonBuilder().medOmsorgsovertakelseDato(LocalDate.now()));
         Behandling behandling = scenario.lagre(repositoryProvider);
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
@@ -311,21 +297,14 @@ public class RegisterdataEndringshåndtererImplTest {
             skjæringstidspunktTjeneste,
             behandlingskontrollTaskTjeneste,
             repositoryProvider,
-            familieHendelseTjeneste,
             sigrunTjeneste,
             inntektArbeidYtelseTjeneste,
-            medlemskapRepository,
-            behandlingsgrunnlagKodeverkRepository,
-            opplysningsPeriodeTjeneste,
-            new UnitTestInstanceImpl<>(Period.parse("P1W")),
-            new UnitTestInstanceImpl<>(Period.parse("P4W"))
-        );
+            opplysningsPeriodeTjeneste);
 
         return new RegisterdataEndringshåndtererImpl(
-            Period.parse("P25D"),
             repositoryProvider,
             registerdataInnhenter,
-            durationInstance, personopplysningTjeneste, endringskontroller, endringsresultatSjekker, historikkinnslagTjeneste, behandlingÅrsakTjeneste);
+            durationInstance, endringskontroller, endringsresultatSjekker, historikkinnslagTjeneste, behandlingÅrsakTjeneste);
     }
 
     private Personinfo opprettSøkerinfo() {
@@ -350,17 +329,14 @@ public class RegisterdataEndringshåndtererImplTest {
 
         TestRegisterdataInnhenter(PersoninfoAdapter personinfoAdapter, MedlemTjeneste medlemTjeneste, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                   BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste, BehandlingRepositoryProvider repositoryProvider,
-                                  FamilieHendelseTjeneste familieHendelseTjeneste, SigrunTjeneste sigrunTjeneste,
-                                  InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, MedlemskapRepository medlemskapRepository,
-                                  BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository, OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste,
-                                  Instance<Period> etterkontrollTidsromFørSøknadsdato, Instance<Period> etterkontrollTidsromEtterTermindato) {
+                                  SigrunTjeneste sigrunTjeneste,
+                                  InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
+                                  OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste) {
             super(personinfoAdapter,
                 medlemTjeneste, skjæringstidspunktTjeneste,
                 behandlingskontrollTaskTjeneste, repositoryProvider,
-                familieHendelseTjeneste, sigrunTjeneste,
-                inntektArbeidYtelseTjeneste, medlemskapRepository,
-                behandlingsgrunnlagKodeverkRepository, opplysningsPeriodeTjeneste,
-                etterkontrollTidsromFørSøknadsdato, etterkontrollTidsromEtterTermindato);
+                sigrunTjeneste,
+                inntektArbeidYtelseTjeneste, opplysningsPeriodeTjeneste);
         }
 
         @Override

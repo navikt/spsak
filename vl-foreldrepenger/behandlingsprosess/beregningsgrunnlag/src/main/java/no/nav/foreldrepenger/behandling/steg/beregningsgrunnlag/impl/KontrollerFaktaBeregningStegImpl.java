@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandling.steg.beregningsgrunnlag.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.beregningsgrunnlag.AksjonspunktUtlederForBeregning;
-import no.nav.foreldrepenger.beregningsgrunnlag.BeregningInfotrygdsakTjeneste;
 import no.nav.foreldrepenger.beregningsgrunnlag.OpprettBeregningsgrunnlagTjeneste;
 
 @BehandlingStegRef(kode = "KOFAKBER")
@@ -31,7 +29,6 @@ import no.nav.foreldrepenger.beregningsgrunnlag.OpprettBeregningsgrunnlagTjenest
 public class KontrollerFaktaBeregningStegImpl implements BeregningsgrunnlagSteg {
     private BehandlingRepositoryProvider repositoryProvider;
     private OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste;
-    private BeregningInfotrygdsakTjeneste beregningInfotrygdsakTjeneste;
     private BehandlingRepository behandlingRepository;
     private AksjonspunktUtlederForBeregning aksjonspunktUtlederForBeregning;
 
@@ -42,22 +39,16 @@ public class KontrollerFaktaBeregningStegImpl implements BeregningsgrunnlagSteg 
     @Inject
     public KontrollerFaktaBeregningStegImpl(BehandlingRepositoryProvider repositoryProvider,
                                             AksjonspunktUtlederForBeregning aksjonspunktUtlederForBeregning,
-                                            OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste,
-                                            BeregningInfotrygdsakTjeneste beregningInfotrygdsakTjeneste) {
+                                            OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste) {
         this.repositoryProvider = repositoryProvider;
         this.opprettBeregningsgrunnlagTjeneste = opprettBeregningsgrunnlagTjeneste;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.aksjonspunktUtlederForBeregning = aksjonspunktUtlederForBeregning;
-        this.beregningInfotrygdsakTjeneste = beregningInfotrygdsakTjeneste;
     }
 
     @Override
     public BehandleStegResultat utførSteg(BehandlingskontrollKontekst kontekst) {
         Behandling behandling = behandlingRepository.hentBehandling(kontekst.getBehandlingId());
-        Optional<BehandleStegResultat> stegResultat = beregningInfotrygdsakTjeneste.vurderOgOppdaterSakSomBehandlesAvInfotrygd(behandling);
-        if (stegResultat.isPresent()) {
-            return stegResultat.get();
-        }
         opprettBeregningsgrunnlagTjeneste.opprettOgLagreBeregningsgrunnlag(behandling);
         List<AksjonspunktResultat> aksjonspunkter = aksjonspunktUtlederForBeregning.utledAksjonspunkterFor(behandling);
         if (aksjonspunkter.isEmpty()) {

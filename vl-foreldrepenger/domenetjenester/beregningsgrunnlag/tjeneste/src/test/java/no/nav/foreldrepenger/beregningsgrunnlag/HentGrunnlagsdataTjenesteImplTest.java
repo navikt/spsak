@@ -112,7 +112,6 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Before
     public void setUp() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(SKJÆRINGSTIDSPUNKT.plusWeeks(3));
         forrigeBehandling = scenario.lagre(repositoryProvider);
         avsluttBehandlingOgFagsak(forrigeBehandling);
         virksomhet = hentVirksomhet();
@@ -498,7 +497,6 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Test
     public void skalGiBesteberegningNårOvergangFraSykepengerMedKat06eller23() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(SKJÆRINGSTIDSPUNKT.plusWeeks(3));
         behandling = scenario.lagre(repositoryProvider);
         opprettOpptjening(behandling, false);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, true, null, arbeidsforholdId, true);
@@ -512,7 +510,6 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Test
     public void skalIkkeGiBesteberegningNårOvergangFraSykepengerMenIkkeDagpenger() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(SKJÆRINGSTIDSPUNKT.plusWeeks(3));
         behandling = scenario.lagre(repositoryProvider);
         opprettOpptjening(behandling, false);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, true);
@@ -526,7 +523,6 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Test
     public void skalIkkeGiBesteberegningNårOvergangFraSykepengerMenIkkeEkstraOpptjeningsaktivitet() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(SKJÆRINGSTIDSPUNKT.plusWeeks(3));
         behandling = scenario.lagre(repositoryProvider);
         opprettOpptjening(behandling, OpptjeningAktivitetType.DAGPENGER, OpptjeningAktivitetType.SYKEPENGER);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, true, null, arbeidsforholdId, true);
@@ -540,7 +536,6 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Test
     public void skalIkkeGiBesteberegningNårDagpengerMenIkkeEkstraOpptjeningsaktivitet() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(SKJÆRINGSTIDSPUNKT.plusWeeks(3));
         behandling = scenario.lagre(repositoryProvider);
         opprettOpptjening(behandling, OpptjeningAktivitetType.DAGPENGER);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, true, null, arbeidsforholdId, false);

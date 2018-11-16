@@ -33,7 +33,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapKi
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonAdresse;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
@@ -145,15 +144,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImpl implements UtledVurd
         Set<LocalDate> resultat = førsteVersjon.combine(sisteVersjon, this::sjekkForBortfallAvInntekt, LocalDateTimeline.JoinStyle.CROSS_JOIN)
             .getDatoIntervaller().stream().map(LocalDateInterval::getFomDato).collect(Collectors.toSet());
 
-        PersonopplysningerAggregat personopplysningerAggregat = personopplysningTjeneste.hentPersonopplysninger(revurdering);
-        Optional<OppgittAnnenPart> oppgittAnnenPartOpt = personopplysningerAggregat.getOppgittAnnenPart();
-        if (oppgittAnnenPartOpt.isPresent()) {
-            OppgittAnnenPart oppgittAnnenPart = oppgittAnnenPartOpt.get();
-            LocalDateTimeline<BigDecimal> førsteVersjonAnnenPart = lagTidsserieFor(førsteVersjonInntektArbeidYtelseGrunnlag, periode, oppgittAnnenPart.getAktørId());
-            LocalDateTimeline<BigDecimal> sisteVersjonAnnenPart = lagTidsserieFor(inntektArbeidYtelseGrunnlag, periode, oppgittAnnenPart.getAktørId());
-            resultat.addAll(førsteVersjonAnnenPart.combine(sisteVersjonAnnenPart, this::sjekkForBortfallAvInntekt, LocalDateTimeline.JoinStyle.CROSS_JOIN)
-                .getDatoIntervaller().stream().map(LocalDateInterval::getFomDato).collect(Collectors.toSet()));
-        }
         final Map<LocalDate, Set<VurderingsÅrsak>> map = new HashMap<>();
         for (LocalDate localDate : resultat) {
             map.put(localDate, Set.of(VurderingsÅrsak.BORTFALL_INNTEKT));

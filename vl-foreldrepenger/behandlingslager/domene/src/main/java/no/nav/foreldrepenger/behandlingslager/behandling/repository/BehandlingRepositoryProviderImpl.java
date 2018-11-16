@@ -8,8 +8,6 @@ import javax.persistence.EntityManager;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
@@ -58,7 +56,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     private BehandlingsgrunnlagKodeverkRepositoryImpl behandlingsgrunnlagKodeverkRepository;
     private MedlemskapRepository medlemskapRepository;
     private MedlemskapVilkårPeriodeRepository medlemskapVilkårPeriodeRepository;
-    private FamilieHendelseRepository familieHendelseRepository;
     private HistorikkRepository historikkRepository;
     private SøknadRepository søknadRepository;
     private VergeRepository vergeRepository;
@@ -112,7 +109,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         this.innsynRepository = new InnsynRepositoryImpl(entityManager);
 
         // behandling aggregater
-        this.familieHendelseRepository = new FamilieHendelseRepositoryImpl(entityManager);
         this.medlemskapRepository = new MedlemskapRepositoryImpl(entityManager);
         this.medlemskapVilkårPeriodeRepository = new MedlemskapVilkårPeriodeRepositoryImpl(entityManager);
         this.opptjeningRepository = new OpptjeningRepositoryImpl(entityManager, this.behandlingRepository, this.kodeverkRepository);
@@ -191,11 +187,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     public FagsakRepository getFagsakRepository() {
         // bridge metode før sammenkobling medBehandling
         return fagsakRepository;
-    }
-
-    @Override
-    public FamilieHendelseRepository getFamilieGrunnlagRepository() {
-        return familieHendelseRepository;
     }
 
     @Override

@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.FødtBarnInfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.GeografiskTilknytning;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.historikk.Personhistorikkinfo;
@@ -26,7 +26,6 @@ import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonhistorikkPersonIkk
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonhistorikkSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.AktoerId;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Bruker;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Familierelasjon;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Informasjonsbehov;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Periode;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Person;
@@ -118,18 +117,20 @@ public class TpsAdapterImpl implements TpsAdapter {
         aktoerId.setAktoerId(aktørId.getId());
         Periode periode = new Periode();
 
-        periode.setTom(DateUtil.convertToXMLGregorianCalendar(LocalDateTime.ofInstant(interval.getEnd(), ZoneId.systemDefault())));
-        periode.setFom(DateUtil.convertToXMLGregorianCalendar(LocalDateTime.ofInstant(interval.getStart(), ZoneId.systemDefault())));
-
-        request.setAktoer(aktoerId);
-        request.setPeriode(periode);
-
         try {
+            periode.setTom(DateUtil.convertToXMLGregorianCalendar(LocalDateTime.ofInstant(interval.getEnd(), ZoneId.systemDefault())));
+            periode.setFom(DateUtil.convertToXMLGregorianCalendar(LocalDateTime.ofInstant(interval.getStart(), ZoneId.systemDefault())));
+
+            request.setAktoer(aktoerId);
+            request.setPeriode(periode);
+
             return håndterPersonhistorikkRespons(request, String.valueOf(aktørId));
         } catch (HentPersonhistorikkPersonIkkeFunnet e) {
             throw TpsFeilmeldinger.FACTORY.fantIkkePersonhistorikkForAktørId(e).toException();
         } catch (HentPersonhistorikkSikkerhetsbegrensning e) {
             throw TpsFeilmeldinger.FACTORY.tpsUtilgjengeligSikkerhetsbegrensning(e).toException();
+        } catch (DatatypeConfigurationException e) {
+            throw TpsFeilmeldinger.FACTORY.xmlGregorianCalendarParsingFeil(e).toException();
         }
     }
 
@@ -176,47 +177,6 @@ public class TpsAdapterImpl implements TpsAdapter {
             throw TpsFeilmeldinger.FACTORY.fantIkkePerson(e).toException();
         } catch (HentPersonSikkerhetsbegrensning e) {
             throw TpsFeilmeldinger.FACTORY.tpsUtilgjengeligSikkerhetsbegrensning(e).toException();
-        }
-    }
-
-    @Override
-    public List<FødtBarnInfo> hentFødteBarn(AktørId aktørId) {
-        Optional<PersonIdent> personIdent = hentIdentForAktørId(aktørId);
-        if (!personIdent.isPresent()) {
-            throw TpsFeilmeldinger.FACTORY.fantIkkePersonForAktørId().toException();
-        }
-        HentPersonRequest request = new HentPersonRequest();
-        request.setAktoer(TpsUtil.lagPersonIdent(personIdent.get().getIdent()));
-        request.getInformasjonsbehov().add(Informasjonsbehov.FAMILIERELASJONER);
-        try {
-            HentPersonResponse response = personConsumer.hentPersonResponse(request);
-            Person person = response.getPerson();
-            return person.getHarFraRolleI()
-                .stream()
-                .filter(rel -> tpsOversetter.erBarnRolle(rel.getTilRolle()))
-                .map(this::mapTilInfo)
-                .collect(Collectors.toList());
-        } catch (HentPersonPersonIkkeFunnet e) {
-            throw TpsFeilmeldinger.FACTORY.fantIkkePerson(e).toException();
-        } catch (HentPersonSikkerhetsbegrensning e) {
-            throw TpsFeilmeldinger.FACTORY.tpsUtilgjengeligSikkerhetsbegrensning(e).toException();
-        }
-    }
-
-    private FødtBarnInfo mapTilInfo(Familierelasjon familierelasjon) {
-        String identNr = ((no.nav.tjeneste.virksomhet.person.v3.informasjon.PersonIdent) familierelasjon.getTilPerson().getAktoer()).getIdent().getIdent();
-        no.nav.foreldrepenger.domene.typer.PersonIdent ident = no.nav.foreldrepenger.domene.typer.PersonIdent.fra(identNr);
-        if (ident.erFdatNummer()) {
-            return tpsOversetter.relasjonTilPersoninfo(familierelasjon);
-        } else {
-            final PersonIdent fra = PersonIdent.fra(identNr);
-            Optional<AktørId> aktørId = hentAktørIdForPersonIdent(fra);
-            if (!aktørId.isPresent()) {
-                return tpsOversetter.relasjonTilPersoninfo(familierelasjon);
-            }
-
-            final Personinfo personinfo = hentKjerneinformasjon(fra, aktørId.get());
-            return tpsOversetter.tilFødteBarn(personinfo);
         }
     }
 }

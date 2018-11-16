@@ -10,12 +10,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -45,7 +39,6 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
     private PersonopplysningRepository personopplysningRepository;
     private BehandlingVedtakRepository behandlingVedtakRepository;
     private DvhVedtakTjenesteProvider dvhVedtakTjenesteProvider;
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private TotrinnRepository totrinnRepository;
 
     public DatavarehusTjenesteImpl() {
@@ -63,24 +56,14 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
         this.personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
         this.dvhVedtakTjenesteProvider = dvhVedtakTjenesteProvider;
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.totrinnRepository = totrinnRepository;
     }
 
     @Override
     public void lagreNedFagsak(Long fagsakId) {
         Fagsak fagsak = fagsakRepository.finnEksaktFagsak(fagsakId);
-        Optional<Behandling> behandling = behandlingRepository.hentSisteBehandlingForFagsakId(fagsakId);
         Optional<AktørId> annenPartAktørId = Optional.empty();
-        Optional<FamilieHendelseType> hendelseType = Optional.empty();
-        if (behandling.isPresent()) {
-            annenPartAktørId = personopplysningRepository.hentPersonopplysningerHvisEksisterer(behandling.get())
-                .flatMap(PersonopplysningGrunnlag::getOppgittAnnenPart).map(OppgittAnnenPart::getAktørId);
-            hendelseType = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling.get())
-                .map(FamilieHendelseGrunnlag::getGjeldendeVersjon)
-                .map(FamilieHendelse::getType);
-        }
-        FagsakDvh fagsakDvh = new FagsakDvhMapper().map(fagsak, annenPartAktørId, hendelseType);
+        FagsakDvh fagsakDvh = new FagsakDvhMapper().map(fagsak, annenPartAktørId);
         datavarehusRepository.lagre(fagsakDvh);
     }
 
@@ -148,11 +131,7 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
         if (behandlingVedtak.isPresent()) {
             DvhVedtakTjeneste dvhVedtakXmlTjeneste = dvhVedtakTjenesteProvider.getVedtakTjeneste(behandling);
             String vedtakXml = dvhVedtakXmlTjeneste.opprettDvhVedtakXml(behandlingId);
-            final FamilieHendelseType hendelseType = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling)
-                .map(FamilieHendelseGrunnlag::getGjeldendeVersjon)
-                .map(FamilieHendelse::getType)
-                .orElse(FamilieHendelseType.UDEFINERT);
-            VedtakUtbetalingDvh vedtakUtbetalingDvh = new VedtakUtbetalingDvhMapper().map(vedtakXml, behandling, behandlingVedtak.get(), hendelseType);
+            VedtakUtbetalingDvh vedtakUtbetalingDvh = new VedtakUtbetalingDvhMapper().map(vedtakXml, behandling, behandlingVedtak.get());
             datavarehusRepository.lagre(vedtakUtbetalingDvh);
         }
     }

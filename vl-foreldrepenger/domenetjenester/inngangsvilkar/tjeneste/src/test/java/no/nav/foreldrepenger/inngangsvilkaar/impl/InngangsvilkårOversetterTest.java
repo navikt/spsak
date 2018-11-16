@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.inngangsvilkaar.impl;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -39,7 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilkn
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -53,16 +51,12 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon.Builder;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.medlem.impl.MedlemskapPerioderTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.impl.BasisPersonopplysningTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.FødselsvilkårGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.Kjoenn;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.SoekerRolle;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 public class InngangsvilkårOversetterTest {
@@ -84,83 +78,6 @@ public class InngangsvilkårOversetterTest {
             Period.of(0, 10, 0));
         BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
         oversetter = new InngangsvilkårOversetter(repositoryProvider, new MedlemskapPerioderTjenesteImpl(12, 6, skjæringstidspunktTjeneste), skjæringstidspunktTjeneste, personopplysningTjeneste);
-    }
-
-    @Test
-    public void skal_mappe_fra_domenefødsel_til_regelfødsel() {
-        LocalDate now = LocalDate.now();
-        LocalDate søknadsdato = now.plusDays(1);
-        LocalDate fødselFødselsdato = now.plusDays(7);
-        Behandling behandling = opprettBehandlingForFødsel(now, søknadsdato, fødselFødselsdato, RelasjonsRolleType.MORA);
-        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        FødselsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellFødsel(behandling);
-
-        // Assert
-        assertThat(grunnlag.getSoekersKjonn()).isEqualTo(Kjoenn.KVINNE);
-        assertThat(grunnlag.getBekreftetFoedselsdato()).isEqualTo(fødselFødselsdato);
-        assertThat(grunnlag.getAntallBarn()).isEqualTo(1);
-        assertThat(grunnlag.getBekreftetTermindato()).isNull();
-        assertThat(grunnlag.getSoekerRolle()).isEqualTo(SoekerRolle.MORA);
-        assertThat(grunnlag.getSoeknadsdato()).isEqualTo(søknadsdato);
-        assertThat(grunnlag.isErSøktOmTermin()).isFalse();
-    }
-
-    @Test
-    public void skal_mappe_fra_domenefødsel_til_regelfødsel_dersom_søker_er_medmor() {
-        LocalDate now = LocalDate.now();
-        LocalDate søknadsdato = now.plusDays(1);
-        LocalDate fødselFødselsdato = now.plusDays(7);
-        Behandling behandling = opprettBehandlingForFødsel(now, søknadsdato, fødselFødselsdato, RelasjonsRolleType.FARA);
-        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        FødselsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellFødsel(behandling);
-
-        // Assert
-        assertThat(grunnlag.getSoekersKjonn()).isEqualTo(Kjoenn.KVINNE); // snodig, men søker er kvinne her med rolle FARA
-        assertThat(grunnlag.getBekreftetFoedselsdato()).isEqualTo(fødselFødselsdato);
-        assertThat(grunnlag.getBekreftetTermindato()).isNull();
-        assertThat(grunnlag.getSoekerRolle()).isEqualTo(SoekerRolle.FARA);
-        assertThat(grunnlag.getSoeknadsdato()).isEqualTo(søknadsdato);
-        assertThat(grunnlag.isErSøktOmTermin()).isFalse();
-    }
-
-    private Behandling opprettBehandlingForFødsel(LocalDate now, LocalDate søknadsdato, LocalDate fødselFødselsdato,
-                                                  RelasjonsRolleType rolle) {
-        // Arrange
-        LocalDate søknadFødselsdato = now.plusDays(2);
-
-        AbstractTestScenario<?> scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-
-        scenario.medSøknad()
-            .medSøknadsdato(søknadsdato);
-
-        scenario.medSøknadHendelse().medFødselsDato(søknadFødselsdato);
-
-        scenario.medBekreftetHendelse()
-            // Fødsel
-            .leggTilBarn(fødselFødselsdato)
-            .medAntallBarn(1);
-        
-
-        Builder builderForRegisteropplysninger = scenario.opprettBuilderForRegisteropplysninger();
-        AktørId barnAktørId = new AktørId("123");
-        AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
-
-        PersonInformasjon fødtBarn = builderForRegisteropplysninger
-            .medPersonas()
-            .fødtBarn(barnAktørId, LocalDate.now().plusDays(7))
-            .relasjonTil(søkerAktørId, rolle, null)
-            .build();
-
-        PersonInformasjon søker = builderForRegisteropplysninger
-            .medPersonas()
-            .kvinne(søkerAktørId, SivilstandType.GIFT, Region.NORDEN)
-            .statsborgerskap(Landkoder.NOR)
-            .relasjonTil(barnAktørId, RelasjonsRolleType.BARN, null)
-            .build();
-        scenario.medRegisterOpplysninger(søker);
-        scenario.medRegisterOpplysninger(fødtBarn);
-
-        return scenario.lagre(repositoryProvider);
     }
 
     @Test
@@ -246,7 +163,6 @@ public class InngangsvilkårOversetterTest {
             .build();
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(skjæringstidspunkt);
         OppgittLandOpphold utlandsopphold1 = new OppgittLandOppholdEntitet.Builder()
             .medLand(kodeverkRepository.finn(Landkoder.class, "PNG"))
             .medPeriode(LocalDate.of(2017, 1, 1), LocalDate.of(2017, 2, 1))

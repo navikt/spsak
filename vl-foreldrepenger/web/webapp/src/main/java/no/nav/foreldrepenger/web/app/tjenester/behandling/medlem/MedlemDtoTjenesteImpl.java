@@ -121,8 +121,7 @@ public class MedlemDtoTjenesteImpl implements MedlemDtoTjeneste {
         Optional<MedlemskapAggregat> medlemskapOpt = medlemskapRepository.hentMedlemskap(behandlingId);
         MedlemDto dto = new MedlemDto();
         inntektArbeidYtelseTjeneste.hentAggregatHvisEksisterer(behandlingId).ifPresent(aggregat -> dto.setInntekt(lagInntektDto(aggregat)));
-        // TODO(OJR) oppgitte eller bekreftet her? :D
-        dto.setSkjearingstidspunkt(skjæringstidspunktTjeneste.utledSkjæringstidspunktForEngangsstønadFraOppgitteData(behandlingId));
+        dto.setSkjearingstidspunkt(skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandlingRepository.hentBehandling(behandlingId)));
 
         if (medlemskapOpt.isPresent()) {
             MedlemskapAggregat aggregat = medlemskapOpt.get();

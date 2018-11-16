@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.økonomistøtte;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -76,13 +79,13 @@ public class ØkonomioppdragMapperTest {
     }
 
     @Test
-    public void testMapVedtaksDataToOppdragES() {
+    public void testMapVedtaksDataToOppdragES() throws DatatypeConfigurationException {
         List<Oppdrag110> oppdrag110 = opprettOppdrag110(false);
         verifyMapVedtaksDataToOppdrag(oppdrag110, false);
     }
 
     @Test
-    public void testMapVedtaksDataToOppdragFP() {
+    public void testMapVedtaksDataToOppdragFP() throws DatatypeConfigurationException {
         List<Oppdrag110> oppdrag110 = opprettOppdrag110(true);
         verifyMapVedtaksDataToOppdrag(oppdrag110, true);
     }
@@ -117,7 +120,7 @@ public class ØkonomioppdragMapperTest {
         return oppdrag110Liste;
     }
 
-    private void verifyMapVedtaksDataToOppdrag(List<Oppdrag110> oppdrag110Liste, Boolean gjelderFP) {
+    private void verifyMapVedtaksDataToOppdrag(List<Oppdrag110> oppdrag110Liste, Boolean gjelderFP) throws DatatypeConfigurationException {
 
         for (Oppdrag110 oppdrag110 : oppdrag110Liste) {
             Oppdrag oppdrag = økonomioppdragMapper.mapVedtaksDataToOppdrag(oppdrag110);
@@ -192,10 +195,14 @@ public class ØkonomioppdragMapperTest {
                     Optional<Refusjonsinfo156> refusjonsinfo156Opt = Optional.ofNullable(oppdragslinje150.getRefusjonsinfo156());
                     refusjonsinfo156Opt.ifPresent(refusjonsinfo156 -> {
                         assertThat(refusjonsinfo156Generert.getRefunderesId()).isEqualTo(refusjonsinfo156.getRefunderesId());
-                        assertThat(refusjonsinfo156Generert.getDatoFom())
-                            .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getDatoFom()));
-                        assertThat(refusjonsinfo156Generert.getMaksDato())
-                            .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getMaksDato()));
+                        try {
+                            assertThat(refusjonsinfo156Generert.getDatoFom())
+                                .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getDatoFom()));
+                            assertThat(refusjonsinfo156Generert.getMaksDato())
+                                .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getMaksDato()));
+                        } catch (DatatypeConfigurationException e) {
+                            fail(e.getMessage());
+                        }
                     });
                 }
                 ix++;

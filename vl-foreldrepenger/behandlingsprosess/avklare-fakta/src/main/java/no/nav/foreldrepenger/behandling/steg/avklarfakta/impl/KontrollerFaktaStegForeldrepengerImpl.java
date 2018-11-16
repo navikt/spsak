@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandling.steg.avklarfakta.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,9 +16,6 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -61,11 +57,7 @@ public class KontrollerFaktaStegForeldrepengerImpl implements KontrollerFaktaSte
 
     private void utledVilkår(BehandlingskontrollKontekst kontekst) {
         Behandling behandling = behandlingRepository.hentBehandling(kontekst.getBehandlingId());
-        final Optional<FamilieHendelseType> hendelseType = repositoryProvider.getFamilieGrunnlagRepository()
-            .hentAggregatHvisEksisterer(behandling)
-            .map(FamilieHendelseGrunnlag::getGjeldendeVersjon)
-            .map(FamilieHendelse::getType);
-        UtledeteVilkår utledeteVilkår = new ForeldrepengerVilkårUtleder().utledVilkår(behandling, hendelseType);
+        UtledeteVilkår utledeteVilkår = new ForeldrepengerVilkårUtleder().utledVilkår(behandling);
         opprettVilkår(utledeteVilkår, behandling, kontekst.getSkriveLås());
     }
 

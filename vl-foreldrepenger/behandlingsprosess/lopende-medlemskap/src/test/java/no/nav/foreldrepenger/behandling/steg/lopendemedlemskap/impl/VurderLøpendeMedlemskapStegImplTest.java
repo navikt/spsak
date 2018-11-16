@@ -20,7 +20,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType;
@@ -67,7 +66,6 @@ public class VurderLøpendeMedlemskapStegImplTest {
     private VirksomhetRepository virksomhetRepository = provider.getVirksomhetRepository();
     private PersonopplysningRepository personopplysningRepository = provider.getPersonopplysningRepository();
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = provider.getInntektArbeidYtelseRepository();
-    private FamilieHendelseRepository familieHendelseRepository = provider.getFamilieGrunnlagRepository();
     private FagsakRepository fagsakRepository = provider.getFagsakRepository();
 
     private VurderLøpendeMedlemskapStegImpl steg;
@@ -91,7 +89,6 @@ public class VurderLøpendeMedlemskapStegImplTest {
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        scenario.medDefaultSøknadTerminbekreftelse();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
         Behandling behandling = scenario.lagre(provider);
@@ -121,7 +118,6 @@ public class VurderLøpendeMedlemskapStegImplTest {
         unleash.disableAll();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        scenario.medDefaultSøknadTerminbekreftelse();
         Behandling behandling = scenario.lagre(provider);
 
         Behandling revudering = opprettRevudering(behandling);
@@ -150,7 +146,6 @@ public class VurderLøpendeMedlemskapStegImplTest {
         medlemskapRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revudering);
         inntektArbeidYtelseRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revudering);
         personopplysningRepository.kopierGrunnlagFraEksisterendeBehandlingForRevurdering(behandling, revudering);
-        familieHendelseRepository.kopierGrunnlagFraEksisterendeBehandlingForRevurdering(behandling, revudering);
 
         return revudering;
     }

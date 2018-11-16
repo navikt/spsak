@@ -14,7 +14,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
@@ -26,7 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseF
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
@@ -35,7 +33,6 @@ import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
 class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
 
     private PersonopplysningTjeneste personopplysningTjeneste;
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
     private MedlemTjeneste medlemTjeneste;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
 
@@ -49,11 +46,10 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
 
     @Inject
     public EndringsresultatSjekkerImpl(PersonopplysningTjeneste personopplysningTjeneste,
-                                       FamilieHendelseTjeneste familieHendelseTjeneste, MedlemTjeneste medlemTjeneste,
+                                       MedlemTjeneste medlemTjeneste,
                                        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
                                        BehandlingRepositoryProvider provider) {
         this.personopplysningTjeneste = personopplysningTjeneste;
-        this.familieHendelseTjeneste = familieHendelseTjeneste;
         this.medlemTjeneste = medlemTjeneste;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.opptjeningRepository = provider.getOpptjeningRepository();
@@ -61,11 +57,15 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
         this.uttakRepository = provider.getUttakRepository();
     }
 
+    static Long mapFraLocalDateTimeTilLong(LocalDateTime ldt) {
+        ZonedDateTime zdt = ldt.atZone(ZoneId.of("Europe/Paris"));
+        return zdt.toInstant().toEpochMilli();
+    }
+
     @Override
     public EndringsresultatSnapshot opprettEndringsresultatPåBehandlingsgrunnlagSnapshot(Behandling behandling) {
         EndringsresultatSnapshot snapshot = EndringsresultatSnapshot.opprett();
         snapshot.leggTil(personopplysningTjeneste.finnAktivGrunnlagId(behandling));
-        snapshot.leggTil(familieHendelseTjeneste.finnAktivAggregatId(behandling));
         snapshot.leggTil(medlemTjeneste.finnAktivGrunnlagId(behandling));
         snapshot.leggTil(inntektArbeidYtelseTjeneste.finnAktivAggregatId(behandling));
 
@@ -81,11 +81,10 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
         EndringsresultatDiff idDiff = idSnapshotNå.minus(idSnapshotFør);
 
         // Del 2: Transformer diff på grunnlagets id til diff på grunnlagets sporede endringer (@ChangeTracked)
+        // FIXME SP : Legge inn sykemelding ?
         EndringsresultatDiff sporedeEndringerDiff = EndringsresultatDiff.opprettForSporingsendringer();
         idDiff.hentDelresultat(PersonInformasjon.class).ifPresent(idEndring ->
             sporedeEndringerDiff.leggTilSporetEndring(idEndring, () -> personopplysningTjeneste.diffResultat(idEndring, ytelseType, kunSporedeEndringer)));
-        idDiff.hentDelresultat(FamilieHendelseGrunnlag.class).ifPresent(idEndring ->
-            sporedeEndringerDiff.leggTilSporetEndring(idEndring, () -> familieHendelseTjeneste.diffResultat(idEndring, ytelseType, kunSporedeEndringer)));
         idDiff.hentDelresultat(MedlemskapAggregat.class).ifPresent(idEndring ->
             sporedeEndringerDiff.leggTilSporetEndring(idEndring, () -> medlemTjeneste.diffResultat(idEndring, ytelseType, kunSporedeEndringer)));
         idDiff.hentDelresultat(InntektArbeidYtelseGrunnlag.class).ifPresent(idEndring ->
@@ -118,15 +117,15 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     }
 
     private EndringsresultatSnapshot lagVilkårResultatIdSnapshotAvTidsstempel(Behandling behandling) {
-       return Optional.ofNullable(behandling.getBehandlingsresultat())
-                 .map(Behandlingsresultat::getVilkårResultat)
-                 .map(vilkårResultat ->
-                     EndringsresultatSnapshot.medSnapshot(VilkårResultat.class, hentLongVerdiAvEndretTid(vilkårResultat)))
-                 .orElse(EndringsresultatSnapshot.utenSnapshot(VilkårResultat.class));
+        return Optional.ofNullable(behandling.getBehandlingsresultat())
+            .map(Behandlingsresultat::getVilkårResultat)
+            .map(vilkårResultat ->
+                EndringsresultatSnapshot.medSnapshot(VilkårResultat.class, hentLongVerdiAvEndretTid(vilkårResultat)))
+            .orElse(EndringsresultatSnapshot.utenSnapshot(VilkårResultat.class));
     }
 
     private EndringsresultatSnapshot lagBeregningResultatIdSnapshotAvTidsstempel(Behandling behandling) {
-       return Optional.ofNullable(behandling.getBehandlingsresultat())
+        return Optional.ofNullable(behandling.getBehandlingsresultat())
             .map(Behandlingsresultat::getBeregningResultat)
             .map(beregningResultat ->
                 EndringsresultatSnapshot.medSnapshot(BeregningResultat.class, hentLongVerdiAvEndretTid(beregningResultat)))
@@ -134,15 +133,10 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     }
 
     private Long hentLongVerdiAvEndretTid(BaseEntitet entitet) {
-       LocalDateTime endretTidspunkt = entitet.getOpprettetTidspunkt();
-       if(entitet.getEndretTidspunkt()!=null){
-           endretTidspunkt = entitet.getEndretTidspunkt();
-       }
-       return mapFraLocalDateTimeTilLong(endretTidspunkt);
-    }
-
-    static Long mapFraLocalDateTimeTilLong(LocalDateTime ldt){
-        ZonedDateTime zdt = ldt.atZone(ZoneId.of("Europe/Paris"));
-        return zdt.toInstant().toEpochMilli();
+        LocalDateTime endretTidspunkt = entitet.getOpprettetTidspunkt();
+        if (entitet.getEndretTidspunkt() != null) {
+            endretTidspunkt = entitet.getEndretTidspunkt();
+        }
+        return mapFraLocalDateTimeTilLong(endretTidspunkt);
     }
 }

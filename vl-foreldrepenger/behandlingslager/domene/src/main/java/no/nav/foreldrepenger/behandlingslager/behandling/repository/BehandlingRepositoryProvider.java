@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.repository;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
@@ -38,8 +37,6 @@ public interface BehandlingRepositoryProvider {
     BehandlingsgrunnlagKodeverkRepository getBehandlingsgrunnlagKodeverkRepository();
 
     BehandlingRepository getBehandlingRepository();
-
-    FamilieHendelseRepository getFamilieGrunnlagRepository();
 
     HistorikkRepository getHistorikkRepository();
 

@@ -5,10 +5,12 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapKildeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
+import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.medlem.api.FinnMedlemRequest;
 import no.nav.foreldrepenger.domene.medlem.api.Medlemskapsperiode;
@@ -43,20 +45,22 @@ public class HentMedlemskapFraRegister {
         HentPeriodeListeRequest request = new HentPeriodeListeRequest();
         List<Medlemskapsperiode> medlemskapsperiodeList;
         request.setIdent(new Foedselsnummer().withValue(finnMedlemRequest.getFnr()));
-        request.setInkluderPerioderFraOgMed(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(finnMedlemRequest.getFom()));
-        request.setInkluderPerioderTilOgMed(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(finnMedlemRequest.getTom()));
-        request.withInkluderStatuskodeListe(
-            new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.GYLD.toString()),
-            new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.INNV.toString()),
-            new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.UAVK.toString()));
-
         try {
+            request.setInkluderPerioderFraOgMed(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(finnMedlemRequest.getFom()));
+            request.setInkluderPerioderTilOgMed(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(finnMedlemRequest.getTom()));
+            request.withInkluderStatuskodeListe(
+                new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.GYLD.toString()),
+                new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.INNV.toString()),
+                new Statuskode().withValue(MedlemskapsperiodeKoder.PeriodeStatus.UAVK.toString()));
+
             HentPeriodeListeResponse response = medlemConsumer.hentPeriodeListe(request);
             medlemskapsperiodeList = oversettFraPeriodeListeResponse(response);
         } catch (PersonIkkeFunnet ex) {
             throw MedlemFeil.FACTORY.feilVedKallTilMedlem(ex).toException();
         } catch (Sikkerhetsbegrensning ex) {
             throw MedlemFeil.FACTORY.fikkSikkerhetsavvikFraMedlem(ex).toException();
+        } catch (DatatypeConfigurationException e) {
+            throw MedlemFeil.FACTORY.feilVedOpprettelseAvMedlemRequest(e).toException();
         }
 
         return medlemskapsperiodeList;

@@ -20,7 +20,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregningsres
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -63,7 +62,6 @@ public class BeregningsresultatFPRepositoryImplTest {
         repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(LocalDate.now());
         behandling = scenario.lagre(repositoryProvider);
         dagensDato = LocalDate.now();
 
@@ -211,9 +209,6 @@ public class BeregningsresultatFPRepositoryImplTest {
     public void toBehandlingerKanHaSammeBeregningsresultatFP() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        final FamilieHendelseBuilder familieHendelseBuilder = scenario.medSøknadHendelse();
-        familieHendelseBuilder.medAntallBarn(1)
-            .medFødselsDato(LocalDate.now());
         Behandling behandling2 = scenario.lagre(repositoryProvider);
         BeregningsresultatFP BeregningsresultatFP = buildBeregningsresultatFP(Optional.of(dagensDato));
 

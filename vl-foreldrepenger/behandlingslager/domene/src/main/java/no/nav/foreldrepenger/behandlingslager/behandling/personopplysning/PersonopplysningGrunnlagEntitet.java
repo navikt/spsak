@@ -15,9 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
-import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 /**
@@ -34,11 +34,6 @@ public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements Pers
     @ManyToOne(cascade = { /* NONE - Aldri cascade til behandling! */}, fetch = FetchType.LAZY)
     @JoinColumn(name = "behandling_id", updatable = false, nullable = false)
     private Behandling behandling;
-
-    @ChangeTracked
-    @ManyToOne(cascade = { /* NONE - Aldri cascade til et selvstendig aggregat! */}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "so_annen_part_id", updatable = false)
-    private OppgittAnnenPartEntitet søknadAnnenPart;
 
     @Convert(converter = BooleanToStringConverter.class)
     @Column(name = "aktiv", nullable = false)
@@ -62,9 +57,6 @@ public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements Pers
     }
 
     PersonopplysningGrunnlagEntitet(PersonopplysningGrunnlag behandlingsgrunnlag) {
-        if(behandlingsgrunnlag.getOppgittAnnenPart().isPresent()) {
-            this.søknadAnnenPart = (OppgittAnnenPartEntitet) behandlingsgrunnlag.getOppgittAnnenPart().get();
-        }
         if (behandlingsgrunnlag.getOverstyrtVersjon().isPresent()) {
             this.overstyrtePersonopplysninger = (PersonInformasjonEntitet) behandlingsgrunnlag.getOverstyrtVersjon().get();
         }
@@ -73,6 +65,7 @@ public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements Pers
 
     /**
      * Kun synlig for abstract test scenario
+     *
      * @return id
      */
     @Override
@@ -84,16 +77,12 @@ public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements Pers
         return behandling;
     }
 
-    void setAktiv(final boolean aktiv) {
-        this.aktiv = aktiv;
-    }
-
     void setBehandling(Behandling behandling) {
         this.behandling = behandling;
     }
 
-    void setOppgittAnnenPart(OppgittAnnenPartEntitet søknadAnnenPart) {
-        this.søknadAnnenPart = søknadAnnenPart;
+    void setAktiv(final boolean aktiv) {
+        this.aktiv = aktiv;
     }
 
     void setRegistrertePersonopplysninger(PersonInformasjonEntitet registrertePersonopplysninger) {
@@ -102,14 +91,6 @@ public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements Pers
 
     void setOverstyrtePersonopplysninger(PersonInformasjonEntitet overstyrtePersonopplysninger) {
         this.overstyrtePersonopplysninger = overstyrtePersonopplysninger;
-    }
-
-    @Override
-    public PersonInformasjon getGjeldendeVersjon() {
-        if (getOverstyrtVersjon().isPresent()) {
-            return getOverstyrtVersjon().get();
-        }
-        return registrertePersonopplysninger;
     }
 
     @Override
@@ -123,31 +104,24 @@ public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements Pers
     }
 
     @Override
-    public Optional<OppgittAnnenPart> getOppgittAnnenPart() {
-        return Optional.ofNullable(søknadAnnenPart);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonopplysningGrunnlagEntitet that = (PersonopplysningGrunnlagEntitet) o;
         return Objects.equals(behandling, that.behandling) &&
-            Objects.equals(søknadAnnenPart, that.søknadAnnenPart) &&
             Objects.equals(registrertePersonopplysninger, that.registrertePersonopplysninger) &&
             Objects.equals(overstyrtePersonopplysninger, that.overstyrtePersonopplysninger);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(behandling, søknadAnnenPart, registrertePersonopplysninger, overstyrtePersonopplysninger);
+        return Objects.hash(behandling, registrertePersonopplysninger, overstyrtePersonopplysninger);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("PersonopplysningGrunnlagEntitet{");
         sb.append("id=").append(id);
-        sb.append(", søknadAnnenPart=").append(søknadAnnenPart);
         sb.append(", aktiv=").append(aktiv);
         sb.append(", registrertePersonopplysninger=").append(registrertePersonopplysninger);
         sb.append(", overstyrtePersonopplysninger=").append(overstyrtePersonopplysninger);

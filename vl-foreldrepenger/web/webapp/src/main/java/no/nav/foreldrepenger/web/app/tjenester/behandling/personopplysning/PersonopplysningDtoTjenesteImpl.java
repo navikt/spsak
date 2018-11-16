@@ -10,26 +10,18 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.FødtBarnInfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.grunnlag.UidentifisertBarn;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OpplysningsKilde;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonAdresse;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personopplysning;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeAggregat;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
-import no.nav.foreldrepenger.domene.person.TpsFamilieTjeneste;
-import no.nav.foreldrepenger.domene.person.impl.TpsFødselUtil;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.søknad.SøknadDtoFeil;
 
@@ -38,16 +30,14 @@ public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjene
 
     private PersonopplysningTjeneste personopplysningTjeneste;
     private BehandlingRepositoryProvider repositoryProvider;
-    private TpsFamilieTjeneste tpsFamilieTjeneste;
 
     PersonopplysningDtoTjenesteImpl() {
     }
 
     @Inject
-    public PersonopplysningDtoTjenesteImpl(PersonopplysningTjeneste personopplysningTjeneste, BehandlingRepositoryProvider repositoryProvider, TpsFamilieTjeneste tpsFamilieTjeneste) {
+    public PersonopplysningDtoTjenesteImpl(PersonopplysningTjeneste personopplysningTjeneste, BehandlingRepositoryProvider repositoryProvider) {
         this.personopplysningTjeneste = personopplysningTjeneste;
         this.repositoryProvider = repositoryProvider;
-        this.tpsFamilieTjeneste = tpsFamilieTjeneste;
     }
 
     private static List<PersonadresseDto> lagAddresseDto(Personopplysning personopplysning, PersonopplysningerAggregat aggregat) {
@@ -105,17 +95,15 @@ public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjene
         Optional<PersonopplysningerAggregat> aggregatOpt = personopplysningTjeneste.hentGjeldendePersoninformasjonPåTidspunktHvisEksisterer(behandling, tidspunkt);
 
         if (aggregatOpt.isPresent()) {
-            Optional<FamilieHendelseGrunnlag> familieHendelseAggregat = repositoryProvider.getFamilieGrunnlagRepository()
-                .hentAggregatHvisEksisterer(behandlingId);
             PersonopplysningerAggregat aggregat = aggregatOpt.get();
             return Optional.ofNullable(aggregat.getSøker())
-                .map(søker -> mapPersonopplysningDto(behandlingId, søker, aggregat, familieHendelseAggregat));
+                .map(søker -> mapPersonopplysningDto(behandlingId, søker, aggregat));
         }
         return Optional.empty();
     }
 
     private PersonopplysningDto mapPersonopplysningDto(Long behandlingId, Personopplysning søker,
-                                                       PersonopplysningerAggregat aggregat, Optional<FamilieHendelseGrunnlag> familieHendelseAggregat) {
+                                                       PersonopplysningerAggregat aggregat) {
 
         PersonopplysningDto dto = enkelMapping(søker, aggregat);
 
@@ -129,23 +117,6 @@ public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjene
 
         Søknad søknad = repositoryProvider.getSøknadRepository().hentSøknad(behandlingId);
 
-        if (familieHendelseAggregat.isPresent()) {
-
-            final FamilieHendelseGrunnlag grunnlag = familieHendelseAggregat.get();
-            if (TpsFødselUtil.kanFinneForventetFødselIntervall(grunnlag, søknad)) {
-                dto.setBarnFraTpsRelatertTilSoknad(hentFødteBarnFraTps(behandlingId, grunnlag));
-            }
-            dto.setBarnSoktFor(grunnlag.getGjeldendeBarna().stream()
-                .map(this::enkelFHMapping)
-                .collect(Collectors.toList()));
-        }
-
-        Optional<OppgittAnnenPart> oppgittAnnenPart = aggregat.getOppgittAnnenPart();
-
-        if (oppgittAnnenPart.isPresent()) {
-            Optional<PersonopplysningDto> annenPart = mapAnnenPart(søker, aggregat, oppgittAnnenPart.get());
-            annenPart.ifPresent(dto::setAnnenPart);
-        }
         Optional<Personopplysning> ektefelleOpt = aggregat.getEktefelle();
         if (ektefelleOpt.isPresent() && ektefelleOpt.get().equals(søker)) {
             throw SøknadDtoFeil.FACTORY.kanIkkeVæreSammePersonSomSøker().toException();
@@ -159,75 +130,6 @@ public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjene
         if (harVerge(behandlingId, repositoryProvider)) {
             dto.setHarVerge(true);
         }
-        return dto;
-    }
-
-    private Optional<PersonopplysningDto> mapAnnenPart(Personopplysning søker, PersonopplysningerAggregat aggregat, OppgittAnnenPart oppgittAnnenPart) {
-        if (søker.getAktørId().equals(oppgittAnnenPart.getAktørId())) {
-            throw SøknadDtoFeil.FACTORY.kanIkkeVæreBådeFarOgMorTilEtBarn().toException();
-        }
-
-        PersonopplysningDto annenPart = null;
-        Optional<Personopplysning> annenPartOpt = aggregat.getAnnenPart();
-
-        if (annenPartOpt.isPresent()) {
-            annenPart = enkelMapping(annenPartOpt.get(), aggregat);
-        } else if (harOppgittLand(oppgittAnnenPart.getUtenlandskFnrLand())) {
-            annenPart = enkelUtenlandskAnnenPartMapping(oppgittAnnenPart);
-        }
-
-        if (annenPart != null) {
-            annenPart.setBarn(aggregat.getFellesBarn().stream()
-                .map(e -> enkelMapping(e, aggregat))
-                .collect(Collectors.toList()));
-        }
-        return Optional.ofNullable(annenPart);
-    }
-
-    private boolean harOppgittLand(Landkoder utenlandskFnrLand) {
-        return utenlandskFnrLand != null && !Landkoder.UDEFINERT.equals(utenlandskFnrLand);
-    }
-
-    private List<PersonopplysningDto> hentFødteBarnFraTps(Long behandlingId, FamilieHendelseGrunnlag familieHendelseGrunnlag) {
-        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
-        List<FødtBarnInfo> fødteBarn = tpsFamilieTjeneste.getFødslerRelatertTilBehandling(behandlingRepository.hentBehandling(behandlingId), familieHendelseGrunnlag);
-
-        return fødteBarn.stream().map(this::enkelFødtBarnMapping).collect(Collectors.toList());
-    }
-
-    private PersonopplysningDto enkelFødtBarnMapping(FødtBarnInfo fødtBarn) {
-        PersonopplysningDto dto = new PersonopplysningDto();
-        dto.setFnr(fødtBarn.getIdent().getIdent());
-        dto.setNavn(fødtBarn.getNavn());
-        dto.setNavBrukerKjonn(fødtBarn.getKjønn());
-        dto.setFodselsdato(fødtBarn.getFødselsdato());
-        fødtBarn.getDødsdato().ifPresent(dto::setDodsdato);
-        return dto;
-    }
-
-
-    private PersonopplysningDto enkelUtenlandskAnnenPartMapping(OppgittAnnenPart oppgittAnnenPart) {
-        PersonopplysningDto dto = new PersonopplysningDto();
-        dto.setAvklartPersonstatus(new AvklartPersonstatus(PersonstatusType.UREG, PersonstatusType.UREG));
-        dto.setPersonstatus(PersonstatusType.UREG);
-
-        dto.setNavBrukerKjonn(NavBrukerKjønn.UDEFINERT);
-        if (oppgittAnnenPart.getAktørId() != null) {
-            dto.setAktoerId(oppgittAnnenPart.getAktørId());
-        }
-        dto.setNavn(oppgittAnnenPart.getNavn());
-        if (oppgittAnnenPart.getUtenlandskFnrLand() != null) {
-            dto.setStatsborgerskap(lagLandkoderDto(oppgittAnnenPart.getUtenlandskFnrLand()));
-        }
-        return dto;
-    }
-
-
-    private PersonopplysningDto enkelFHMapping(UidentifisertBarn uidentifisertBarn) {
-        PersonopplysningDto dto = new PersonopplysningDto();
-        dto.setNummer(uidentifisertBarn.getBarnNummer());
-        dto.setOpplysningsKilde(OpplysningsKilde.UDEFINERT);
-        dto.setFodselsdato(uidentifisertBarn.getFødselsdato());
         return dto;
     }
 

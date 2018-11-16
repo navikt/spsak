@@ -41,7 +41,7 @@ public class PersonInformasjonBuilderTest {
         assertThat(oppdater.build().getPersonopplysninger()).hasSize(4);
         assertThat(oppdater.build().getRelasjoner()).hasSize(2);
 
-        oppdater.tilbakestill(søker, Optional.ofNullable(anpa));
+        oppdater.tilbakestill(søker);
 
         assertThat(oppdater.build().getPersonopplysninger().stream().map(HarAktørId::getAktørId)).containsExactly(søker, anpa); // søker og anpa
         assertThat(oppdater.build().getRelasjoner()).hasSize(0);
@@ -77,7 +77,7 @@ public class PersonInformasjonBuilderTest {
         assertThat(oppdater.build().getPersonopplysninger()).hasSize(4);
         assertThat(oppdater.build().getRelasjoner()).hasSize(4);
 
-        oppdater.tilbakestill(søker, Optional.ofNullable(anpa));
+        oppdater.tilbakestill(søker);
 
         assertThat(oppdater.build().getPersonopplysninger().stream().map(HarAktørId::getAktørId)).containsExactly(søker, anpa); // søker og anpa
         assertThat(oppdater.build().getRelasjoner()).hasSize(0);

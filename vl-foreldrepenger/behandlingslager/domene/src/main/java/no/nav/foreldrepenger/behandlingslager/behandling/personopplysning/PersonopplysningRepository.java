@@ -19,8 +19,6 @@ public interface PersonopplysningRepository extends BehandlingslagerRepository {
 
     void lagre(Behandling behandling, PersonInformasjonBuilder builder);
 
-    void lagre(Behandling behandling, OppgittAnnenPartBuilder oppgittAnnenPart);
-
     PersonInformasjonBuilder opprettBuilderForOverstyring(Behandling behandling);
 
     PersonInformasjonBuilder opprettBuilderForRegisterdata(Behandling behandling);

@@ -15,8 +15,6 @@ public interface RegisterdataEndringshåndterer {
     /** Innhent nye registeropplysninger. Spol til {@link StartpunktType} dersom endringer*/
     EndringsresultatDiff oppdaterRegisteropplysninger(Behandling behandling, EndringsresultatSnapshot grunnlagSnapshot);
 
-    void doOppdaterRegisteropplysningerOgRestartBehandlingVedEndringerES(Behandling behandling);
-
     /** Utfør {@link #oppdaterRegisteropplysningerOgRestartBehandlingVedEndringer(Behandling)} asynkront, inklusiv start prosesser behandling .
      * @param innhentRegisteropplysninger TODO
      * @param manuellGjenopptakelse om registerinnhenting skjer ifm at bruker fortsetter behandlingen manuelt  */

@@ -374,7 +374,6 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
 
         repositoryProvider.getMedlemskapRepository().kopierGrunnlagFraEksisterendeBehandling(gammelBehandling, nyBehandling);
         repositoryProvider.getPersonopplysningRepository().kopierGrunnlagFraEksisterendeBehandling(gammelBehandling, nyBehandling);
-        repositoryProvider.getFamilieGrunnlagRepository().kopierGrunnlagFraEksisterendeBehandling(gammelBehandling, nyBehandling);
 
         return nyBehandling;
     }

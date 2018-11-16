@@ -14,9 +14,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Tema;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
@@ -58,7 +55,6 @@ public abstract class VedtakXmlTjeneste {
     private BehandlingsresultatXmlTjeneste behandlingsresultatXmlTjeneste;
     private SøknadRepository søknadRepository;
     private KodeverkRepository kodeverkRepository;
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private BehandlingVedtakRepository behandlingVedtakRepository;
 
     private Optional<OppdragXmlTjeneste> oppdragXmlTjeneste = Optional.empty();
@@ -75,7 +71,6 @@ public abstract class VedtakXmlTjeneste {
         this.behandlingsresultatXmlTjeneste = behandlingsresultatXmlTjeneste;
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
         this.factory = new ObjectFactory();
     }
@@ -147,9 +142,7 @@ public abstract class VedtakXmlTjeneste {
     }
 
     private void setBehandlingsTema(Vedtak vedtak, Behandling behandling) {
-        final FamilieHendelse familieHendelse = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling)
-            .map(FamilieHendelseGrunnlag::getGjeldendeVersjon).orElse(null);
-        Kodeliste behandlingTema = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.fraFagsak(behandling.getFagsak(), familieHendelse));
+        Kodeliste behandlingTema = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.fraFagsak(behandling.getFagsak()));
         vedtak.setBehandlingsTema(VedtakXmlUtil.lagKodeverksOpplysning(behandlingTema));
     }
 

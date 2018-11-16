@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.domene.registerinnhenting.impl;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -19,21 +18,13 @@ import org.slf4j.LoggerFactory;
 import no.nav.foreldrepenger.behandlingskontroll.task.FortsettBehandlingTaskProperties;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.Terminbekreftelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.kontrollerfakta.BehandlingÅrsakTjeneste;
-import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.Endringskontroller;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataEndringshåndterer;
@@ -52,12 +43,9 @@ import no.nav.vedtak.util.FPDateUtil;
 public class RegisterdataEndringshåndtererImpl implements RegisterdataEndringshåndterer {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterdataEndringshåndtererImpl.class);
 
-    private Period antallDagerOverTerminRestartBehandling;
     private RegisterdataInnhenter registerdataInnhenter;
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private TemporalAmount oppdatereRegisterdataTidspunkt;
     private BehandlingRepository behandlingRepository;
-    private BasisPersonopplysningTjeneste personopplysningTjeneste;
     private Endringskontroller endringskontroller;
     private EndringsresultatSjekker endringsresultatSjekker;
     private RegisterinnhentingHistorikkinnslagTjeneste historikkinnslagTjeneste;
@@ -69,20 +57,15 @@ public class RegisterdataEndringshåndtererImpl implements RegisterdataEndringsh
 
     @Inject
     public RegisterdataEndringshåndtererImpl( // NOSONAR - ingen umiddelbar mulighet for å redusere denne til >= 7 parametere
-                                              @KonfigVerdi(value = "aksjonspunkt.dager.etter.termin.sjekk.fødsel") Period antallDagerOverTerminRestartBehandling,
                                               BehandlingRepositoryProvider repositoryProvider,
                                               RegisterdataInnhenter registerdataInnhenter,
                                               @KonfigVerdi("oppdatere.registerdata.tidspunkt") Instance<String> periode,
-                                              BasisPersonopplysningTjeneste personopplysningTjeneste,
                                               Endringskontroller endringskontroller,
                                               EndringsresultatSjekker endringsresultatSjekker,
                                               RegisterinnhentingHistorikkinnslagTjeneste historikkinnslagTjeneste, BehandlingÅrsakTjeneste behandlingÅrsakTjeneste) {
 
-        this.antallDagerOverTerminRestartBehandling = antallDagerOverTerminRestartBehandling;
         this.registerdataInnhenter = registerdataInnhenter;
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.personopplysningTjeneste = personopplysningTjeneste;
         this.endringskontroller = endringskontroller;
         this.endringsresultatSjekker = endringsresultatSjekker;
         this.historikkinnslagTjeneste = historikkinnslagTjeneste;
@@ -120,12 +103,7 @@ public class RegisterdataEndringshåndtererImpl implements RegisterdataEndringsh
             return;
         }
 
-        // TODO (essv): PK-50959 Splitt tjenesten for ENGANGSTØNAD og FORELDREPENGER
-        if (FagsakYtelseType.FORELDREPENGER.equals(behandling.getFagsak().getYtelseType())) {
-            doOppdaterRegisteropplysningerOgRestartBehandlingVedEndringerES(behandling);
-            return;
-        }
-        doOppdaterRegisteropplysningerOgRestartBehandlingVedEndringerFP(behandling);
+        doOppdaterRegisteropplysningerOgRestartBehandlingVedEndringer(behandling);
     }
 
     @Override
@@ -156,33 +134,6 @@ public class RegisterdataEndringshåndtererImpl implements RegisterdataEndringsh
         return endringsresultat;
     }
 
-
-    @Override
-    public void doOppdaterRegisteropplysningerOgRestartBehandlingVedEndringerES(Behandling behandling) {
-        // Ta snapshot av behandlingsgrunnlaget før oppdatering
-        EndringsresultatSnapshot grunnlagSnapshot = endringsresultatSjekker.opprettEndringsresultatPåBehandlingsgrunnlagSnapshot(behandling);
-
-        // Innhent evt. nye registeropplysninger
-        oppdaterRegisteropplysninger(behandling);
-
-        // Finn alle endringer som registerinnhenting har gjort på behandlingsgrunnlaget
-        EndringsresultatDiff endringsresultat = endringsresultatSjekker.finnSporedeEndringerPåBehandlingsgrunnlag(behandling, grunnlagSnapshot);
-
-        // Engangsstønad skal i tillegg til behandlingsgrunnlaget se på betingelse om passering av termindato
-        PersonopplysningerAggregat personopplysninger = personopplysningTjeneste.hentPersonopplysninger(behandling);
-        FamilieHendelse bekreftetFH = familieGrunnlagRepository.hentAggregat(behandling).getBekreftetVersjon().orElse(null);
-        boolean gåttOverTerminDatoOgIngenFødselsdato = gåttOverTerminDatoOgIngenFødselsdato(personopplysninger, bekreftetFH, behandling);
-
-        if (endringsresultat.erSporedeFeltEndret() || gåttOverTerminDatoOgIngenFødselsdato) {
-            LOGGER.info("Starter behandlingId={} på nytt. gåttOverTerminDatoOgIngenFødselsdato={}, {}", // NOSONAR //$NON-NLS-1$
-                behandling.getId(), gåttOverTerminDatoOgIngenFødselsdato, endringsresultat);
-
-            leggTilBehandlingsårsak(behandling, BehandlingÅrsakType.RE_REGISTEROPPLYSNING);
-            historikkinnslagTjeneste.opprettHistorikkinnslagForNyeRegisteropplysninger(behandling);
-            endringskontroller.spolTilSteg(behandling, BehandlingStegType.KONTROLLER_FAKTA);
-        }
-    }
-
     @Override
     public ProsessTaskGruppe opprettProsessTaskOppdaterRegisteropplysningerOgRestartBehandlingVedEndringer(Behandling behandling,
                                                                                                            boolean innhentRegisteropplysninger, boolean manuellGjenopptakelse) {
@@ -207,52 +158,9 @@ public class RegisterdataEndringshåndtererImpl implements RegisterdataEndringsh
         behandlingRepository.oppdaterSistOppdatertTidspunkt(behandling, LocalDateTime.now(FPDateUtil.getOffset()));
     }
 
-    private void doOppdaterRegisteropplysningerOgRestartBehandlingVedEndringerFP(Behandling behandling) {
+    private void doOppdaterRegisteropplysningerOgRestartBehandlingVedEndringer(Behandling behandling) {
         EndringsresultatSnapshot grunnlagSnapshot = endringsresultatSjekker.opprettEndringsresultatPåBehandlingsgrunnlagSnapshot(behandling);
         oppdaterRegisteropplysninger(behandling, grunnlagSnapshot);
-    }
-
-    /**
-     * Skal starte behandling på nytt hvis dagens dato er mer enn 25 dager etter termin
-     * OG det ikke finnes noen fødselsdato i TPS.
-     */
-    private boolean gåttOverTerminDatoOgIngenFødselsdato(PersonopplysningerAggregat personopplysningerAggregat,
-                                                         FamilieHendelse bekreftet, Behandling behandling) {
-        if (ikkeErFødselssak(behandling)) { // NOSONAR
-            return false;
-        }
-
-        if (bekreftet != null && !bekreftet.getBarna().isEmpty()) {
-            return false;
-        }
-
-        boolean ingenFødselsdatoFraTPS = personopplysningerAggregat.getBarna().stream().noneMatch(barn -> barn.getFødselsdato() != null);
-        Optional<LocalDate> terminDato = finnTerminDato(familieGrunnlagRepository.hentAggregat(behandling));
-        return (ingenFødselsdatoFraTPS && terminDato.isPresent()
-            && LocalDate.now(FPDateUtil.getOffset()).minus(antallDagerOverTerminRestartBehandling).isAfter(terminDato.get()));
-    }
-
-    private boolean ikkeErFødselssak(Behandling behandling) {
-        final Optional<FamilieHendelseGrunnlag> familieHendelseGrunnlag = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling);
-        return !familieHendelseGrunnlag.isPresent()
-            || !familieHendelseGrunnlag.get().getGjeldendeVersjon().getGjelderFødsel();
-    }
-
-    private Optional<LocalDate> finnTerminDato(FamilieHendelseGrunnlag grunnlag) {
-        final Optional<Terminbekreftelse> terminbekreftelse = grunnlag.getGjeldendeBekreftetVersjon()
-            .flatMap(FamilieHendelse::getTerminbekreftelse);
-        if (terminbekreftelse.isPresent() && terminbekreftelse.get().getTermindato() != null) {
-            return Optional.of(terminbekreftelse.get().getTermindato());
-        }
-        Optional<Terminbekreftelse> terminbekreftelseOptional = grunnlag.getSøknadVersjon().getTerminbekreftelse();
-        return terminbekreftelseOptional.isPresent()
-            ? Optional.ofNullable(terminbekreftelseOptional.get().getTermindato())
-            : Optional.empty();
-    }
-
-    private void leggTilBehandlingsårsak(Behandling behandling, BehandlingÅrsakType behandlingÅrsak) {
-        BehandlingÅrsak.Builder builder = BehandlingÅrsak.builder(behandlingÅrsak);
-        builder.buildFor(behandling);
     }
 
     private Set<BehandlingÅrsakType> leggTilBehandlingsårsaker(Behandling behandling, EndringsresultatDiff endringsresultat) {

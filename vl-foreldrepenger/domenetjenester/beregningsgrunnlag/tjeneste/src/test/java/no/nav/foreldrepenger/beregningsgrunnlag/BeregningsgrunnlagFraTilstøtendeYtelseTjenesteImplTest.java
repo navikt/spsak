@@ -151,8 +151,7 @@ public class BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImplTest {
 
     private void mockBehandlingOgBeregningsgrunnlag(RelatertYtelseType relatertYtelseType, int dekningsgrad, Arbeidskategori arbeidskategori, VirksomhetEntitet virksomhet,
                                                     boolean medEkstraAndel, Virksomhet virksomhet2) {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID)
-            .medDefaultSøknadTerminbekreftelse();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
         mockTidligereYtelse(scenario, relatertYtelseType, dekningsgrad, arbeidskategori, virksomhet, medEkstraAndel, virksomhet2);
         Beregningsgrunnlag.Builder beregningsgrunnlagBuilder = scenario.medBeregningsgrunnlag()
             .medSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT)

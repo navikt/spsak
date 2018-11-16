@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.vedtak.xml.behandlingsresultat.vilkår;
 
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,8 +10,6 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
@@ -48,8 +45,8 @@ public class VilkårsgrunnlagXmlTjenesteForeldrepenger extends VilkårsgrunnlagX
     }
 
     @Inject
-    public VilkårsgrunnlagXmlTjenesteForeldrepenger(SøknadRepository søknadRepository, FamilieHendelseRepository familieHendelseRepository, KompletthetsjekkerProvider kompletthetsjekkerProvider, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
-        super(søknadRepository, familieHendelseRepository, kompletthetsjekkerProvider);
+    public VilkårsgrunnlagXmlTjenesteForeldrepenger(SøknadRepository søknadRepository, KompletthetsjekkerProvider kompletthetsjekkerProvider, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
+        super(søknadRepository, kompletthetsjekkerProvider);
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
     }
 
@@ -136,12 +133,6 @@ public class VilkårsgrunnlagXmlTjenesteForeldrepenger extends VilkårsgrunnlagX
 
         Optional<DateOpplysning> bekreftetTerminDato = VedtakXmlUtil.lagDateOpplysning(grunnlagForVilkår.getBekreftetTermindato());
         bekreftetTerminDato.ifPresent(vilkårgrunnlagFødselForeldrepenger::setTermindato);
-
-        final FamilieHendelseGrunnlag familieHendelseGrunnlag = familieHendelseRepository.hentAggregat(behandling);
-
-        if (Objects.nonNull(familieHendelseGrunnlag.getGjeldendeVersjon().erMorForSykVedFødsel())) {
-            vilkårgrunnlagFødselForeldrepenger.setErMorForSykVedFodsel(VedtakXmlUtil.lagBooleanOpplysning(familieHendelseGrunnlag.getGjeldendeVersjon().erMorForSykVedFødsel()));
-        }
 
         return vilkårgrunnlagFødselForeldrepenger;
     }

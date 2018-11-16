@@ -109,8 +109,6 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImplTest {
 
         førstegangScenario.medRegisterOpplysninger(personInformasjon);
 
-        førstegangScenario.medSøknadHendelse().medFødselsDato(LocalDate.now().minusDays(10));
-
         personopplysningBuilder = førstegangScenario.opprettBuilderForRegisteropplysninger();
         personopplysningBuilder.leggTilPersonopplysninger(
             Personopplysning.builder().aktørId(aktørId).sivilstand(SivilstandType.GIFT)
@@ -161,7 +159,6 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImplTest {
 
         revurderingScenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
-        revurderingScenario.medSøknadHendelse().medFødselsDato(LocalDate.now().minusDays(10));
         behandling = revurderingScenario.lagre(repositoryProvider);
         //kopierer ytelsefordeling grunnlag
         repositoryProvider.getYtelsesFordelingRepository().kopierGrunnlagFraEksisterendeBehandling(originalBehandling, behandling);
@@ -314,7 +311,6 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImplTest {
 
         revurderingScenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
-        revurderingScenario.medSøknadHendelse().medFødselsDato(LocalDate.now().minusDays(10));
         Behandling revurdering = revurderingScenario.lagre(repositoryProvider);
         //Legg til fordelingsperiode
         OppgittPeriode foreldrepenger = OppgittPeriodeBuilder.ny()

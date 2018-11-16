@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.behandlingslager.behandling;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
@@ -56,18 +55,10 @@ public class BehandlingTema extends Kodeliste {
             || (gjelderEngangsstønad(tema1) && gjelderEngangsstønad(tema2));
     }
 
-    public static BehandlingTema fraFagsak(Fagsak fagsak, FamilieHendelse hendelse) {
+    public static BehandlingTema fraFagsak(Fagsak fagsak) {
         FagsakYtelseType ytelseType = fagsak.getYtelseType();
 
-        if (hendelse != null && hendelse.getGjelderFødsel()) {
-            if (ytelseType.gjelderForeldrepenger()) {
-                return FORELDREPENGER_FØDSEL;
-            }
-        } else if (hendelse != null && hendelse.getGjelderAdopsjon()) {
-            if (ytelseType.gjelderForeldrepenger()) {
-                return FORELDREPENGER_ADOPSJON;
-            }
-        } else if (ytelseType.gjelderForeldrepenger()) {
+        if (ytelseType.gjelderForeldrepenger()) {
             return FORELDREPENGER;
         }
 

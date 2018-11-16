@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.ForeldreType;
@@ -52,27 +53,27 @@ public class SøknadTestdataBuilder {
     private no.nav.vedtak.felles.xml.soeknad.felles.v1.Medlemskap medlemskap;
     private AnnenForelder annenForelder;
 
-    public SøknadTestdataBuilder søknadForeldrepenger() {
+    public SøknadTestdataBuilder søknadForeldrepenger() throws DatatypeConfigurationException {
         return this
             .medMottattdato(MOTTATTDATO)
             .foreldrepenger(new ForeldrepengerBuilder().medMedlemskap().medSøkersRettighet().medDekningsgrad("100"));
     }
 
-    public SøknadTestdataBuilder søknadEngangsstønadMor() {
+    public SøknadTestdataBuilder søknadEngangsstønadMor() throws DatatypeConfigurationException {
         return this
             .medMottattdato(MOTTATTDATO)
             .engangsstønad(new EngangsstønadBuilder().medMedlemskapOppholdNorge())
             .medSøker(ForeldreType.MOR, STD_KVINNE_AKTØR_ID);
     }
 
-    public SøknadTestdataBuilder søknadEngangsstønadFar() {
+    public SøknadTestdataBuilder søknadEngangsstønadFar() throws DatatypeConfigurationException {
         return this
             .medMottattdato(MOTTATTDATO)
             .engangsstønad(new EngangsstønadBuilder().medMedlemskapOppholdNorge())
             .medSøker(ForeldreType.FAR, STD_MANN_AKTØR_ID);
     }
 
-    public SøknadTestdataBuilder medMottattdato(LocalDate mottattDato) {
+    public SøknadTestdataBuilder medMottattdato(LocalDate mottattDato) throws DatatypeConfigurationException {
         søknad.setMottattDato(konverterDato(mottattDato));
         return this;
     }
@@ -134,7 +135,7 @@ public class SøknadTestdataBuilder {
         return omYtelse;
     }
 
-    private static XMLGregorianCalendar konverterDato(LocalDate dato) {
+    private static XMLGregorianCalendar konverterDato(LocalDate dato) throws DatatypeConfigurationException {
         if (isNull(dato)) {
             return null;
         }
@@ -147,7 +148,7 @@ public class SøknadTestdataBuilder {
         private Dekningsgrad dekningsgrad;
 
         // TODO: Opprett medlemskap mapper
-        public ForeldrepengerBuilder medMedlemskap() {
+        public ForeldrepengerBuilder medMedlemskap() throws DatatypeConfigurationException {
             medlemskap = new no.nav.vedtak.felles.xml.soeknad.felles.v1.Medlemskap();
             OppholdNorge oppholdNorge = new OppholdNorge();
             Periode periode = new Periode();
@@ -201,28 +202,28 @@ public class SøknadTestdataBuilder {
             return this;
         }
 
-        public EngangsstønadBuilder medMedlemskapOppholdNorge() {
+        public EngangsstønadBuilder medMedlemskapOppholdNorge() throws DatatypeConfigurationException {
             EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(true)
                 .medTidligereOppholdNorge(true).medOppholdNorgeNå(true);
             medlemskap = engangstønadMedlemskapBuilder.build();
             return this;
         }
 
-        public EngangsstønadBuilder medMedlemskapFremtidigOppholdUtlandOgTidligereOppholdNorge() {
+        public EngangsstønadBuilder medMedlemskapFremtidigOppholdUtlandOgTidligereOppholdNorge() throws DatatypeConfigurationException {
             EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(false)
                 .medTidligereOppholdNorge(true).medOppholdNorgeNå(true);
             medlemskap = engangstønadMedlemskapBuilder.build();
             return this;
         }
 
-        public EngangsstønadBuilder medMedlemskapTidligereOppholdUtlandOgFremtidigOppholdNorge() {
+        public EngangsstønadBuilder medMedlemskapTidligereOppholdUtlandOgFremtidigOppholdNorge() throws DatatypeConfigurationException {
             EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(true)
                 .medTidligereOppholdNorge(false).medOppholdNorgeNå(true);
             medlemskap = engangstønadMedlemskapBuilder.build();
             return this;
         }
 
-        public EngangsstønadBuilder medMedlemskapOppholdUtland() {
+        public EngangsstønadBuilder medMedlemskapOppholdUtland() throws DatatypeConfigurationException {
             EngangstønadMedlemskapBuilder engangstønadMedlemskapBuilder = new EngangstønadMedlemskapBuilder().medFremtidigOppholdNorge(false)
                 .medTidligereOppholdNorge(false).medOppholdNorgeNå(true);
             medlemskap = engangstønadMedlemskapBuilder.build();
@@ -256,7 +257,7 @@ public class SøknadTestdataBuilder {
                 return this;
             }
 
-            public Medlemskap build() {
+            public Medlemskap build() throws DatatypeConfigurationException {
                 Medlemskap medlemskap = new Medlemskap();
                 medlemskap.setINorgeVedFoedselstidspunkt(oppholdNorgeNå);
                 if (tidligereOppholdNorge) {

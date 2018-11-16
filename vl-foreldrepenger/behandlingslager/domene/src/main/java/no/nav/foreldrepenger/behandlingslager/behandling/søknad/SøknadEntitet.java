@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,14 +24,11 @@ import javax.persistence.Version;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinFormula;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseEntitet;
+import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPartEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgrad;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgradEntitet;
@@ -40,8 +36,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.Oppgitt
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittRettighetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordeling;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
-import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "Søknad")
@@ -76,14 +70,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     @Column(name = "tilleggsopplysninger")
     private String tilleggsopplysninger;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "familie_hendelse_id", nullable = false, unique = true)
-    private FamilieHendelseEntitet familieHendelse;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = {/* NONE! */})
-    @JoinColumn(name = "annen_part_id", unique = true)
-    private OppgittAnnenPartEntitet søknadAnnenPart;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {/* NONE! */})
     @JoinColumn(name = "fordeling_id", unique = true)
@@ -138,9 +124,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
         this.erEndringssøknad = søknadMal.erEndringssøknad();
         this.tilleggsopplysninger = søknadMal.getTilleggsopplysninger();
 
-        if (søknadMal.getSøknadAnnenPart() != null) {
-            this.søknadAnnenPart = new OppgittAnnenPartEntitet(søknadMal.getSøknadAnnenPart());
-        }
         if (søknadMal.getOppgittTilknytning() != null) {
             this.oppgittTilknytning = new OppgittTilknytningEntitet(søknadMal.getOppgittTilknytning());
         }
@@ -150,7 +133,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             this.søknadVedlegg.add(kopi);
         }
 
-        this.familieHendelse = (FamilieHendelseEntitet) søknadMal.getFamilieHendelse();
         this.oppgittDekningsgrad = (OppgittDekningsgradEntitet) søknadMal.getDekningsgrad();
         this.oppgittRettighet = (OppgittRettighetEntitet) søknadMal.getRettighet();
         this.oppgittPerioder = (OppgittFordelingEntitet) søknadMal.getFordeling();
@@ -217,30 +199,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     }
 
     @Override
-    public OppgittAnnenPart getSøknadAnnenPart() {
-        return søknadAnnenPart;
-    }
-
-    void setSøknadAnnenPart(OppgittAnnenPart oppgittAnnenPart) {
-        this.søknadAnnenPart = (OppgittAnnenPartEntitet) oppgittAnnenPart;
-    }
-
-    public Optional<AktørId> getSøknadAnnenPartAktørId() {
-        return søknadAnnenPart != null
-            ? Optional.ofNullable(søknadAnnenPart.getAktørId())
-            : Optional.empty();
-    }
-
-    @Override
-    public FamilieHendelse getFamilieHendelse() {
-        return familieHendelse;
-    }
-
-    void setFamilieHendelse(FamilieHendelse hendelse) {
-        this.familieHendelse = (FamilieHendelseEntitet) hendelse;
-    }
-
-    @Override
     public OppgittFordeling getFordeling() {
         return oppgittPerioder;
     }
@@ -276,10 +234,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
         this.oppgittTilknytning = (OppgittTilknytningEntitet) oppgittTilknytning;
     }
 
-    public void setOppgittOpptjening(OppgittOpptjening oppgittOpptjening) {
-        this.oppgittOpptjening = (OppgittOpptjeningEntitet) oppgittOpptjening;
-    }
-
     @Override
     public Set<SøknadVedlegg> getSøknadVedlegg() {
         return Collections.unmodifiableSet(søknadVedlegg);
@@ -288,6 +242,10 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     @Override
     public OppgittOpptjening getOppgittOpptjening() {
         return oppgittOpptjening;
+    }
+
+    public void setOppgittOpptjening(OppgittOpptjening oppgittOpptjening) {
+        this.oppgittOpptjening = (OppgittOpptjeningEntitet) oppgittOpptjening;
     }
 
     @Override
@@ -308,13 +266,13 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
         this.erEndringssøknad = endringssøknad;
     }
 
-    void setRelasjonsRolleType(RelasjonsRolleType brukerRolle) {
-        this.brukerRolle = brukerRolle;
-    }
-
     @Override
     public RelasjonsRolleType getRelasjonsRolleType() {
         return brukerRolle;
+    }
+
+    void setRelasjonsRolleType(RelasjonsRolleType brukerRolle) {
+        this.brukerRolle = brukerRolle;
     }
 
     @Override
@@ -330,14 +288,12 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             && Objects.equals(this.kildeReferanse, other.kildeReferanse)
             && Objects.equals(this.mottattDato, other.mottattDato)
             // Dette er ikke en god måte å gjøre ting på, men det er en løsning på at PersistentSet.equals ikke følger spec'en.
-            && Objects.equals(this.søknadAnnenPart, other.søknadAnnenPart)
             && Objects.equals(this.søknadsdato, other.søknadsdato)
             && Objects.equals(this.oppgittTilknytning, other.oppgittTilknytning)
             && Objects.equals(this.erEndringssøknad, other.erEndringssøknad)
             && Objects.equals(this.tilleggsopplysninger, other.tilleggsopplysninger)
             && Objects.equals(this.søknadVedlegg, other.søknadVedlegg)
             && Objects.equals(this.oppgittOpptjening, other.oppgittOpptjening)
-            && Objects.equals(this.familieHendelse, other.familieHendelse)
             && Objects.equals(this.oppgittPerioder, other.oppgittPerioder)
             && Objects.equals(this.begrunnelseForSenInnsending, other.begrunnelseForSenInnsending)
             && Objects.equals(this.brukerRolle, other.brukerRolle);
@@ -345,8 +301,8 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     @Override
     public int hashCode() {
-        return Objects.hash(elektroniskRegistrert, getFarSøkerType(), kildeReferanse, mottattDato, søknadAnnenPart, erEndringssøknad,
-            søknadsdato, oppgittTilknytning, tilleggsopplysninger, søknadVedlegg, begrunnelseForSenInnsending, familieHendelse,
+        return Objects.hash(elektroniskRegistrert, getFarSøkerType(), kildeReferanse, mottattDato, erEndringssøknad,
+            søknadsdato, oppgittTilknytning, tilleggsopplysninger, søknadVedlegg, begrunnelseForSenInnsending,
             oppgittPerioder, oppgittOpptjening, brukerRolle);
     }
 
@@ -361,7 +317,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             + ", erEndringssøknad=" + erEndringssøknad
             + ", tilleggsopplysninger=" + tilleggsopplysninger
             + ", begrunnelseForSenInnsending=" + begrunnelseForSenInnsending
-            + ", familieHendelse=" + familieHendelse
             + ", relasjonsRolleType=" + brukerRolle
             + ">"; //$NON-NLS-1$ //$NON-NLS-2$
     }
@@ -399,16 +354,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
         public Builder medMottattDato(LocalDate mottattDato) {
             søknadMal.setMottattDato(mottattDato);
-            return this;
-        }
-
-        public Builder medSøknadAnnenPart(OppgittAnnenPart oppgittAnnenPart) {
-            søknadMal.setSøknadAnnenPart(oppgittAnnenPart);
-            return this;
-        }
-
-        public Builder medFamilieHendelse(FamilieHendelse hendelse) {
-            søknadMal.setFamilieHendelse(hendelse);
             return this;
         }
 

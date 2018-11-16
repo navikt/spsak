@@ -125,7 +125,6 @@ public class PersonopplysningRepositoryImpl implements PersonopplysningRepositor
 
             Optional.ofNullable(build.getRegisterVersjon()).ifPresent(this::persisterPersonInformasjon);
             build.getOverstyrtVersjon().ifPresent(this::persisterPersonInformasjon);
-            build.getOppgittAnnenPart().ifPresent(oppgittAnnenPart -> entityManager.persist(oppgittAnnenPart));
 
             entityManager.persist(build);
             entityManager.flush();
@@ -171,18 +170,6 @@ public class PersonopplysningRepositoryImpl implements PersonopplysningRepositor
     private PersonopplysningGrunnlagBuilder getGrunnlagBuilderFor(Behandling behandling) {
         final Optional<PersonopplysningGrunnlagEntitet> aktivtGrunnlag = getAktivtGrunnlag(behandling);
         return PersonopplysningGrunnlagBuilder.oppdatere(aktivtGrunnlag);
-    }
-
-    @Override
-    public void lagre(Behandling behandling, OppgittAnnenPartBuilder oppgittAnnenPart) {
-        Objects.requireNonNull(behandling, "behandling"); //$NON-NLS-1$ //NOSONAR
-        Objects.requireNonNull(oppgittAnnenPart, "oppgittAnnenPart"); //$NON-NLS-1$
-
-        final PersonopplysningGrunnlagBuilder nyttGrunnlag = getGrunnlagBuilderFor(behandling);
-
-        nyttGrunnlag.medOppgittAnnenPart(oppgittAnnenPart.build());
-
-        lagreOgFlush(behandling, nyttGrunnlag);
     }
 
     @Override

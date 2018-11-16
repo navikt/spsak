@@ -94,7 +94,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        scenario.medDefaultSøknadTerminbekreftelse();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
         Behandling behandling = scenario.lagre(provider);
@@ -120,7 +119,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        scenario.medDefaultSøknadTerminbekreftelse();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         RegistrertMedlemskapPerioder periode2 = opprettPeriode(ettÅrSiden.plusMonths(5L), iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
@@ -144,7 +142,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         // Arrange
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medDefaultSøknadTerminbekreftelse();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
@@ -175,7 +172,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         // Arrange
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medDefaultSøknadTerminbekreftelse();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
@@ -206,7 +202,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         // Arrange
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medDefaultSøknadTerminbekreftelse();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
@@ -239,7 +234,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         LocalDate datoMedBortfall = idag.minusMonths(1);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        scenario.medDefaultSøknadTerminbekreftelse();
         Virksomhet virksomhet = opprettVirksomhet();
         opprettInntekt(scenario.getDefaultBrukerAktørId(), scenario, virksomhet, idag, false);
         Behandling behandling = scenario.lagre(provider);
@@ -262,7 +256,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         LocalDate datoMedBortfall = idag.minusMonths(1);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        scenario.medDefaultSøknadTerminbekreftelse();
         Virksomhet virksomhet = opprettVirksomhet();
 
         //tester overlapp

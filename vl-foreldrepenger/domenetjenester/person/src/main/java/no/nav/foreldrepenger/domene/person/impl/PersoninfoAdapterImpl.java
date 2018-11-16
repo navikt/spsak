@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.domene.person.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -10,14 +9,10 @@ import javax.xml.ws.soap.SOAPFaultException;
 import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.FødtBarnInfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.historikk.Personhistorikkinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
 import no.nav.foreldrepenger.domene.person.PersoninfoAdapter;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
-import no.nav.foreldrepenger.domene.person.TpsFamilieTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 
@@ -25,16 +20,14 @@ import no.nav.foreldrepenger.domene.typer.PersonIdent;
 public class PersoninfoAdapterImpl implements PersoninfoAdapter {
 
     private TpsAdapter tpsAdapter;
-    private TpsFamilieTjeneste tpsFamilieTjeneste;
 
     public PersoninfoAdapterImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public PersoninfoAdapterImpl(TpsAdapter tpsAdapter, TpsFamilieTjeneste tpsFamilieTjeneste) {
+    public PersoninfoAdapterImpl(TpsAdapter tpsAdapter) {
         this.tpsAdapter = tpsAdapter;
-        this.tpsFamilieTjeneste = tpsFamilieTjeneste;
     }
 
     @Override
@@ -114,10 +107,5 @@ public class PersoninfoAdapterImpl implements PersoninfoAdapter {
 
     private Personinfo hentKjerneinformasjon(AktørId aktørId, PersonIdent personIdent) {
         return tpsAdapter.hentKjerneinformasjon(personIdent, aktørId);
-    }
-
-    @Override
-    public List<FødtBarnInfo> innhentAlleFødteForBehandling(Behandling behandling, FamilieHendelseGrunnlag familieHendelseGrunnlag) {
-        return tpsFamilieTjeneste.getFødslerRelatertTilBehandling(behandling, familieHendelseGrunnlag);
     }
 }

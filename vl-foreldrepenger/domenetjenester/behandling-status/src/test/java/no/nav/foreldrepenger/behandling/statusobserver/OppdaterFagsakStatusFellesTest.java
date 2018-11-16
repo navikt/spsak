@@ -64,7 +64,6 @@ public class OppdaterFagsakStatusFellesTest {
         LocalDate maksDatoUttak = LocalDate.now().minusDays(antallDagerEtterMaksdato);
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medBekreftetHendelse().medFødselsDato(fødselsDato);
         Behandling behandling = scenario.lagMocked();
         BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
 

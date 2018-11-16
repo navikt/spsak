@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.inntektsmelding.v1;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -101,23 +100,6 @@ public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrappe
             .map(JAXBElement::getValue)
             .map(UtsettelseAvForeldrepengerListe::getUtsettelseAvForeldrepenger)
             .orElse(Collections.emptyList());
-    }
-
-    @Override
-    public List<Vedlegg> getVedleggListe() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<String> getVedleggSkjemanummer() {
-        List<String> skjemaNummerListe = new ArrayList<>();
-        for (Vedlegg vedlegg : getVedleggListe()) {
-            String innsendingstype = "LASTET_OPP"; // FIXME (Maur) Benytt Innsendingsvalg kodeverket ...
-            if ((innsendingstype).equals(vedlegg.getInnsendingstype().getKode())) {
-                skjemaNummerListe.add(vedlegg.getSkjemanummer());
-            }
-        }
-        return skjemaNummerListe;
     }
 
     /**

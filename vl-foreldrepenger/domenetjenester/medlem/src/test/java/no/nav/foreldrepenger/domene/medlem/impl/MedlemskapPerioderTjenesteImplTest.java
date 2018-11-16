@@ -10,8 +10,6 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandling.impl.RegisterInnhentingIntervallEndringTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -29,21 +27,18 @@ public class MedlemskapPerioderTjenesteImplTest {
         LocalDate avklartFøldselsdato = LocalDate.now(); // Skal benyttes
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(oppgittFødselsdato);
-        scenario.medBekreftetHendelse().medFødselsDato(avklartFøldselsdato);
 
         // Act/Assert
         Behandling b = scenario.lagMocked();
-        FamilieHendelseGrunnlag grunnlag = getFamilieHendelseGrunnlag(scenario, b);
         final MedlemskapPerioderTjeneste medlemskapUtil = opprettTjeneste(scenario);
         assertThat(medlemskapUtil.erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(b,
-            avklartFøldselsdato.minusMonths(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO), grunnlag)).isFalse();
+            avklartFøldselsdato.minusMonths(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO))).isFalse();
         assertThat(medlemskapUtil.erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(b,
-            avklartFøldselsdato.minusMonths(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO + 1), grunnlag)).isTrue();
+            avklartFøldselsdato.minusMonths(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO + 1))).isTrue();
         assertThat(medlemskapUtil.erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(b,
-            avklartFøldselsdato.plusMonths(ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO), grunnlag)).isFalse();
+            avklartFøldselsdato.plusMonths(ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO))).isFalse();
         assertThat(medlemskapUtil.erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(b,
-            avklartFøldselsdato.plusMonths(ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO + 1), grunnlag)).isTrue();
+            avklartFøldselsdato.plusMonths(ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO + 1))).isTrue();
     }
 
     @Test
@@ -51,28 +46,20 @@ public class MedlemskapPerioderTjenesteImplTest {
         // Arrange
         LocalDate oppgittFødselsdato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(oppgittFødselsdato);
 
         // Skulle helst ha bygd med ScenarioMorSøkerEngangsstønad, men det introduserer sirkulær maven-dependency
         Behandling b = scenario.lagMocked();
         final MedlemskapPerioderTjeneste medlemskapUtil = opprettTjeneste(scenario);
 
-        FamilieHendelseGrunnlag grunnlag = getFamilieHendelseGrunnlag(scenario, b);
         // Act/Assert
         assertThat(medlemskapUtil.erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(b,
-            oppgittFødselsdato.minusMonths(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO), grunnlag)).isFalse();
+            oppgittFødselsdato.minusMonths(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO))).isFalse();
         assertThat(medlemskapUtil.erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(b,
-            oppgittFødselsdato.minusMonths(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO + 1), grunnlag)).isTrue();
+            oppgittFødselsdato.minusMonths(ANTALL_MÅNEDER_INNHENTET_FØR_SKJÆRINGSDATO + 1))).isTrue();
         assertThat(medlemskapUtil.erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(b,
-            oppgittFødselsdato.plusMonths(ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO), grunnlag)).isFalse();
+            oppgittFødselsdato.plusMonths(ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO))).isFalse();
         assertThat(medlemskapUtil.erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(b,
-            oppgittFødselsdato.plusMonths(ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO + 1), grunnlag)).isTrue();
-    }
-
-    private FamilieHendelseGrunnlag getFamilieHendelseGrunnlag(ScenarioMorSøkerForeldrepenger scenario, Behandling b) {
-        FamilieHendelseRepository familieGrunnlagRepository = scenario.mockBehandlingRepositoryProvider().getFamilieGrunnlagRepository();
-        FamilieHendelseGrunnlag grunnlag = familieGrunnlagRepository.hentAggregatHvisEksisterer(b).get();
-        return grunnlag;
+            oppgittFødselsdato.plusMonths(ANTALL_MÅNEDER_INNHENTET_ETTER_SKJÆRINGSDATO + 1))).isTrue();
     }
 
     private MedlemskapPerioderTjeneste opprettTjeneste(AbstractTestScenario<?> scenario) {

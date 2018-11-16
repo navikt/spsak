@@ -11,14 +11,10 @@ import no.nav.foreldrepenger.behandling.FagsakTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonRelasjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personopplysning;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
@@ -50,36 +46,6 @@ public class FagsakTjenesteImpl implements FagsakTjeneste {
         this.søknadRepository = repositoryProvider.getSøknadRepository();
     }
 
-
-    /**
-     * @deprecated Skal ikke lenger oppdatere fagsaks relasjonsrolle basert på registerdata, men sette det ut fra
-     * oppgitte data i søknad (steg { {@link BehandlingStegType#REGISTRER_SØKNAD}} )
-     * Likevel finnes et unntak som gjør at metoden ikke kan fjernes: gammelt søknadformat angir ikke relasjonsrolle.
-     */
-    @Deprecated
-    @Override
-    public void oppdaterFagsak(Behandling behandling, PersonopplysningerAggregat personopplysninger, List<Personopplysning> barnSøktStønadFor) {
-
-        Fagsak fagsak = behandling.getFagsak();
-        validerEksisterendeFagsak(fagsak);
-
-        // Oppdatering basert på søkers oppgitte relasjon til barn
-        Optional<RelasjonsRolleType> oppgittRelasjonsRolle = søknadRepository.hentSøknadHvisEksisterer(behandling)
-            .map(Søknad::getRelasjonsRolleType);
-        if (oppgittRelasjonsRolle.isPresent()) {
-            fagsakRepository.oppdaterRelasjonsRolle(fagsak.getId(), oppgittRelasjonsRolle.get());
-            return;
-        }
-
-        // Oppdatering basert på søkers registrerte relasjon til barn
-        Optional<PersonRelasjon> funnetRelasjon = finnBarnetsRelasjonTilSøker(barnSøktStønadFor, personopplysninger);
-        if (funnetRelasjon.isPresent()) {
-            Optional<RelasjonsRolleType> brukerRolle = navBrukerKodeverkRepository.finnBrukerRolle(funnetRelasjon.get().getRelasjonsrolle().getKode());
-            if(brukerRolle.isPresent()) {
-                fagsakRepository.oppdaterRelasjonsRolle(fagsak.getId(), brukerRolle.get());
-            }
-        }
-    }
 
     @Override
     public void opprettFagsak(Fagsak nyFagsak, Personinfo personInfo) {

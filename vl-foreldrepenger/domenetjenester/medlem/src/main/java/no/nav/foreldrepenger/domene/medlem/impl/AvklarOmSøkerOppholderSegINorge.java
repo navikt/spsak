@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.domene.medlem.impl;
 
 import static no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall.JA;
 import static no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall.NEI;
-import static no.nav.foreldrepenger.domene.medlem.impl.MedlemResultat.VENT_PÅ_FØDSEL;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,12 +11,6 @@ import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.Adopsjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.Terminbekreftelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Inntektspost;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personopplysning;
@@ -35,7 +28,6 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 
 class AvklarOmSøkerOppholderSegINorge {
 
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private SøknadRepository søknadRepository;
     private PersonopplysningTjeneste personopplysningTjeneste;
     private BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository;
@@ -44,7 +36,6 @@ class AvklarOmSøkerOppholderSegINorge {
     AvklarOmSøkerOppholderSegINorge(BehandlingRepositoryProvider repositoryProvider,
                                     PersonopplysningTjeneste personopplysningTjeneste) {
         this.behandlingsgrunnlagKodeverkRepository = repositoryProvider.getBehandlingsgrunnlagKodeverkRepository();
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
         this.personopplysningTjeneste = personopplysningTjeneste;
@@ -56,9 +47,6 @@ class AvklarOmSøkerOppholderSegINorge {
         if (!landkoder.isEmpty()) {
             region = behandlingsgrunnlagKodeverkRepository.finnHøyestRangertRegion(landkoder);
         }
-        if ((harFødselsdato(behandling) == JA) || (harDatoForOmsorgsovertakelse(behandling) == JA)) {
-            return Optional.empty();
-        }
         if ((harNordiskStatsborgerskap(region) == JA) || (harAnnetStatsborgerskap(region) == JA)) {
             return Optional.empty();
         }
@@ -68,28 +56,7 @@ class AvklarOmSøkerOppholderSegINorge {
         if (harSøkerHattInntektINorgeDeSiste3Mnd(behandling, vurderingstidspunkt) == JA) {
             return Optional.empty();
         }
-        if (harTermindatoPassertMed14Dager(behandling) == NEI) {
-            return Optional.of(VENT_PÅ_FØDSEL);
-        }
         return Optional.of(MedlemResultat.AVKLAR_OPPHOLDSRETT);
-    }
-
-    private Utfall harFødselsdato(Behandling behandling) {
-        final FamilieHendelseGrunnlag grunnlag = familieGrunnlagRepository.hentAggregat(behandling);
-        if (!grunnlag.getGjeldendeBekreftetVersjon().map(FamilieHendelse::getBarna).map(List::isEmpty).orElse(true)) {
-            return JA;
-        }
-        final FamilieHendelse søknad = grunnlag.getSøknadVersjon();
-        if (!FamilieHendelseType.FØDSEL.equals(søknad.getType())) {
-            return NEI;
-        }
-        return  søknad.getBarna().isEmpty() ? NEI : JA;
-    }
-
-    private Utfall harDatoForOmsorgsovertakelse(Behandling behandling) {
-        final FamilieHendelseGrunnlag grunnlag = familieGrunnlagRepository.hentAggregat(behandling);
-        final FamilieHendelse søknad = grunnlag.getSøknadVersjon();
-        return søknad.getAdopsjon().map(Adopsjon::getOmsorgsovertakelseDato).isPresent() ? JA : NEI;
     }
 
     private Utfall harNordiskStatsborgerskap(Region region) {
@@ -139,13 +106,6 @@ class AvklarOmSøkerOppholderSegINorge {
             }
         }
         return NEI;
-    }
-
-    private Utfall harTermindatoPassertMed14Dager(Behandling behandling) {
-        LocalDate dagensDato = LocalDate.now();
-        final Optional<LocalDate> termindato = familieGrunnlagRepository.hentAggregat(behandling).getGjeldendeTerminbekreftelse()
-            .map(Terminbekreftelse::getTermindato);
-        return termindato.filter(localDate -> localDate.plusDays(14L).isBefore(dagensDato)).map(localDate -> JA).orElse(NEI);
     }
 
     private List<String> getLandkode(Behandling behandling, LocalDate vurderingstidspunkt) {

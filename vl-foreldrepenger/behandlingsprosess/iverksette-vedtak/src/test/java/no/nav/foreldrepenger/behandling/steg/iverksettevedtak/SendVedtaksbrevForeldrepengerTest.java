@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.behandling.steg.iverksettevedtak;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -56,7 +55,6 @@ public class SendVedtaksbrevForeldrepengerTest {
     @Before
     public void oppsett() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now());
         behandling = scenario.lagMocked();
         behandlingRepository = scenario.mockBehandlingRepository();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();

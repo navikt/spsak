@@ -44,11 +44,6 @@ public class PersonopplysningGrunnlagBuilder {
             return this;
     }
 
-    public PersonopplysningGrunnlagBuilder medOppgittAnnenPart(OppgittAnnenPart oppgittAnnenPart) {
-        kladd.setOppgittAnnenPart((OppgittAnnenPartEntitet) oppgittAnnenPart);
-        return this;
-    }
-
     public PersonopplysningGrunnlag build() {
         return kladd;
     }

@@ -15,13 +15,8 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoer;
@@ -36,9 +31,6 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
 import no.nav.foreldrepenger.inngangsvilkaar.opptjeningsperiode.RegelFastsettOpptjeningsperiode;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.OpptjeningsperiodeGrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.FagsakÅrsak;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.SoekerRolle;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
 import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.konfig.Tid;
 import no.nav.vedtak.util.FPDateUtil;
@@ -46,7 +38,6 @@ import no.nav.vedtak.util.FPDateUtil;
 @ApplicationScoped
 public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjeneste {
 
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private YtelsesFordelingRepository ytelsesFordelingRepository;
     private UttakRepository uttakRepository;
     private OpptjeningRepository opptjeningRepository;
@@ -64,7 +55,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
                                           RegisterInnhentingIntervallEndringTjeneste endringTjeneste,
                                           @KonfigVerdi(value = "opptjeningsperiode.lengde") Period antallMånederOpptjeningsperiode,
                                           @KonfigVerdi(value = "uttak.tidligst.før.fødsel") Period tidligsteUttakFørFødselPeriode) {
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.ytelsesFordelingRepository = repositoryProvider.getYtelsesFordelingRepository();
         this.uttakRepository = repositoryProvider.getUttakRepository();
         this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
@@ -72,37 +62,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
         this.endringTjeneste = endringTjeneste;
         this.antallMånederOpptjeningsperiode = antallMånederOpptjeningsperiode;
         this.tidligsteUttakFørFødselPeriode = tidligsteUttakFørFødselPeriode;
-    }
-
-    /**
-     * Bestem skjæringstidspunkt ut fra bekreftede data
-     */
-    @Override
-    public Optional<LocalDate> utledSkjæringstidspunktForEngangsstønadFraBekreftedeData(Behandling behandling) {
-        final Optional<FamilieHendelseGrunnlag> familieHendelseAggregat = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling);
-        if (familieHendelseAggregat.isPresent() && familieHendelseAggregat.get().getHarBekreftedeData()) {
-            Optional<FamilieHendelse> gjeldendeBekreftetVersjon = familieHendelseAggregat.get().getGjeldendeBekreftetVersjon();
-            return gjeldendeBekreftetVersjon.map(FamilieHendelse::getSkjæringstidspunkt);
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Bestem skjæringstidspunkt ut fra oppgitte data i søknad.
-     */
-    @Override
-    public LocalDate utledSkjæringstidspunktForEngangsstønadFraOppgitteData(Behandling behandling) {
-        return utledSkjæringstidspunktForEngangsstønadFraOppgitteData(behandling.getId());
-    }
-
-    @Override
-    public LocalDate utledSkjæringstidspunktForEngangsstønadFraOppgitteData(Long behandlingId) {
-        final Optional<FamilieHendelseGrunnlag> familieHendelseAggregat = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandlingId);
-        if (!familieHendelseAggregat.isPresent() || familieHendelseAggregat.get().getSøknadVersjon() == null) {
-            return null;
-        }
-        final FamilieHendelseGrunnlag grunnlag = familieHendelseAggregat.get();
-        return grunnlag.getSøknadVersjon().getSkjæringstidspunkt();
     }
 
     @Override
@@ -134,93 +93,19 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     private LocalDate utledSkjæringstidspunktForRegisterinnhentingFP(Behandling behandling) {
         final RegelFastsettOpptjeningsperiode fastsettPeriode = new RegelFastsettOpptjeningsperiode();
-        final Optional<FamilieHendelseGrunnlag> familieHendelseGrunnlag = familieGrunnlagRepository.hentAggregatHvisEksisterer(behandling);
-        if (familieHendelseGrunnlag.isPresent()) {
-            OpptjeningsperiodeGrunnlag input = fasettPeriodefor(behandling, familieHendelseGrunnlag.get().getSøknadVersjon());
-            final OpptjeningsPeriode periode = new OpptjeningsPeriode();
-            fastsettPeriode.evaluer(input, periode);
-
-            final LocalDate oppgittSkjæringstidspunkt = periode.getOpptjeningsperiodeTom().plusDays(1);
-
-            final Optional<FamilieHendelse> bekreftetVersjon = familieHendelseGrunnlag.get().getGjeldendeBekreftetVersjon();
-            final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling);
-            LocalDate bekreftetSkjæringstidspunkt = null;
-            if (opptjening.isPresent()) {
-                bekreftetSkjæringstidspunkt = opptjening.get().getTom();
-            } else if (bekreftetVersjon.isPresent()) {
-                input = fasettPeriodefor(behandling, bekreftetVersjon.get());
-                fastsettPeriode.evaluer(input, periode);
-
-                bekreftetSkjæringstidspunkt = periode.getOpptjeningsperiodeTom().plusDays(1);
-            }
-            if (bekreftetSkjæringstidspunkt != null) {
-                if (endringTjeneste.erEndringIPerioden(oppgittSkjæringstidspunkt, bekreftetSkjæringstidspunkt, behandling.getFagsakYtelseType())) {
-                    return bekreftetSkjæringstidspunkt;
-                }
-            }
-            return oppgittSkjæringstidspunkt;
-        }
+        // TODO: Må utbedres for SP
         return LocalDate.now(FPDateUtil.getOffset());
     }
 
-    private OpptjeningsperiodeGrunnlag fasettPeriodefor(Behandling behandling, FamilieHendelse hendelse) {
+    private OpptjeningsperiodeGrunnlag fasettPeriodefor(Behandling behandling) {
         OpptjeningsperiodeGrunnlag grunnlag = new OpptjeningsperiodeGrunnlag();
 
-        final FamilieHendelseType hendelseType = hendelse.getType();
-
-        grunnlag.setFagsakÅrsak(finnFagsakÅrsak(hendelse));
-        grunnlag.setSøkerRolle(finnFagsakSøkerRolle(behandling));
-        if (grunnlag.getFagsakÅrsak() == null || grunnlag.getSøkerRolle() == null) {
-            throw new IllegalArgumentException("Utvikler-feil: Finner ikke årsak(" + grunnlag.getFagsakÅrsak() + ")/rolle(" + grunnlag.getSøkerRolle() + ") for behandling:" + behandling.getId());
-        }
-
-        if (grunnlag.getFagsakÅrsak().equals(FagsakÅrsak.FØDSEL)) {
-            if (hendelse.getTerminbekreftelse().isPresent()) {
-                grunnlag.setTerminDato(hendelse.getTerminbekreftelse().get().getTermindato());
-            }
-            grunnlag.setHendelsesDato(hendelse.getSkjæringstidspunkt());
-        } else {
-            if (hendelseType.equals(FamilieHendelseType.ADOPSJON) || hendelseType.equals(FamilieHendelseType.OMSORG)) {
-                hendelse.getAdopsjon().ifPresent(adopsjon1 -> grunnlag.setHendelsesDato(adopsjon1.getOmsorgsovertakelseDato()));
-            }
-        }
-        if (grunnlag.getHendelsesDato() == null) {
-            // TODO: FIX
-            grunnlag.setHendelsesDato(familieGrunnlagRepository.hentAggregat(behandling).finnGjeldendeFødselsdato());
-            if (grunnlag.getHendelsesDato() == null) {
-                throw new IllegalArgumentException("Utvikler-feil: Finner ikke hendelsesdato for behandling:" + behandling.getId());
-            }
-        }
 
         grunnlag.setTidligsteUttakFørFødselPeriode(tidligsteUttakFørFødselPeriode);
         grunnlag.setPeriodeLengde(antallMånederOpptjeningsperiode);
         grunnlag.setFørsteUttaksDato(førsteUttaksdag(behandling));
 
         return grunnlag;
-    }
-
-    // TODO(Termitt): Håndtere MMOR, SAMB mm.
-    private SoekerRolle finnFagsakSøkerRolle(Behandling behandling) {
-        RelasjonsRolleType relasjonsRolleType = behandling.getRelasjonsRolleType();
-        if (RelasjonsRolleType.MORA.equals(relasjonsRolleType)) {
-            return SoekerRolle.MORA;
-        }
-        if (RelasjonsRolleType.UDEFINERT.equals(relasjonsRolleType) || RelasjonsRolleType.BARN.equals(relasjonsRolleType)) {
-            return null;
-        }
-        return SoekerRolle.FARA;
-    }
-
-    private FagsakÅrsak finnFagsakÅrsak(FamilieHendelse gjeldendeVersjon) {
-        final FamilieHendelseType type = gjeldendeVersjon.getType();
-        if (gjeldendeVersjon.getGjelderFødsel()) {
-            return FagsakÅrsak.FØDSEL;
-        } else if (FamilieHendelseType.ADOPSJON.equals(type)) {
-            return FagsakÅrsak.ADOPSJON;
-        } else if (FamilieHendelseType.OMSORG.equals(type)) {
-            return FagsakÅrsak.OMSORG;
-        }
-        return null;
     }
 
     @Override

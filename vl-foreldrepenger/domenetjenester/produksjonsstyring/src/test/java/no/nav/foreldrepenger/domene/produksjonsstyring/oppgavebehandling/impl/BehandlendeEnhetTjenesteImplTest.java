@@ -99,25 +99,6 @@ public class BehandlendeEnhetTjenesteImplTest {
     }
 
     @Test
-    public void finn_mors_enhet_annenpart_kode6() {
-        // Oppsett
-        settOppTpsStrukturer(false);
-        when(enhetsTjeneste.hentEnhetSjekkRegistrerteRelasjoner(any(), any())).thenReturn(enhetNormal);
-        when(enhetsTjeneste.oppdaterEnhetSjekkOppgitte(any(), any(), any())).thenReturn(Optional.empty());
-
-        Behandling behandlingMor = opprettBehandlingMorSøkerFødselTermin(LocalDate.now(), FAR_AKTØR_ID);
-
-        OrganisasjonsEnhet morEnhet = behandlendeEnhetTjeneste.finnBehandlendeEnhetFraSøker(behandlingMor);
-
-        when(tpsTjeneste.hentGeografiskTilknytning(FAR_IDENT)).thenReturn(tilknytningKode6);
-        when(enhetsTjeneste.oppdaterEnhetSjekkOppgitte(any(), any(), any())).thenReturn(Optional.of(enhetKode6));
-        Optional<OrganisasjonsEnhet> nyEnhet = behandlendeEnhetTjeneste.endretBehandlendeEnhetFraOppgittAnnenPart(behandlingMor);
-
-        assertThat(morEnhet.getEnhetId()).isEqualTo(enhetNormal.getEnhetId());
-        assertThat(nyEnhet).hasValueSatisfying(enhet -> assertThat(enhet.getEnhetId()).isEqualTo(enhetKode6.getEnhetId()));
-    }
-
-    @Test
     public void finn_enhet_etter_kobling_far_relasjon_kode6() {
         // Oppsett
         settOppTpsStrukturer(false);
@@ -134,32 +115,18 @@ public class BehandlendeEnhetTjenesteImplTest {
         when(tpsTjeneste.hentGeografiskTilknytning(ELDRE_BARN_IDENT)).thenReturn(tilknytningKode6);
         when(enhetsTjeneste.oppdaterEnhetSjekkRegistrerteRelasjoner(any(), any(), any(), any(), any())).thenReturn(Optional.of(enhetKode6));
         when(enhetsTjeneste.enhetsPresedens(any(), any(), anyBoolean())).thenReturn(enhetKode6);
-
-        Optional<OrganisasjonsEnhet> oppdatertEnhet = behandlendeEnhetTjeneste.endretBehandlendeEnhetEtterFagsakKobling(behandlingMor, repositoryProvider.getFagsakRelasjonRepository().finnRelasjonFor(behandlingMor.getFagsak()));
-
-        assertThat(oppdatertEnhet).isPresent();
-        assertThat(oppdatertEnhet).hasValueSatisfying(it -> assertThat(it.getEnhetId()).isEqualTo(enhetKode6.getEnhetId()));
     }
 
 
 
     private Behandling opprettBehandlingMorSøkerFødselTermin(LocalDate termindato, AktørId annenPart) {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(MOR_AKTØR_ID);
-        scenario.medSøknadAnnenPart().medAktørId(annenPart).medNavn("Ola Dunk");
-        scenario.medSøknadHendelse().medTerminbekreftelse(scenario.medSøknadHendelse().getTerminbekreftelseBuilder()
-            .medUtstedtDato(LocalDate.now())
-            .medTermindato(termindato)
-            .medNavnPå("LEGEN MIN"));
         leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
         return scenario.lagre(repositoryProvider);
     }
 
     private Behandling opprettBehandlingMorSøkerFødselRegistrertTPS(LocalDate fødselsdato, int antallBarn, AktørId annenPart) {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(MOR_AKTØR_ID);
-        scenario.medSøknadAnnenPart().medAktørId(annenPart).medNavn("Ola Dunk");
-        scenario.medSøknadHendelse()
-            .medFødselsDato(fødselsdato)
-            .medAntallBarn(antallBarn);
         leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
         return scenario.lagre(repositoryProvider);
     }
@@ -167,10 +134,6 @@ public class BehandlendeEnhetTjenesteImplTest {
 
     private Behandling opprettBehandlingFarSøkerFødselRegistrertITps(LocalDate fødseldato, int antallBarnSøknad, AktørId annenPart) {
         ScenarioFarSøkerForeldrepenger scenario = ScenarioFarSøkerForeldrepenger.forFødselMedGittAktørId(FAR_AKTØR_ID);
-        scenario.medSøknadAnnenPart().medAktørId(annenPart).medNavn("Kari Dunk");
-        scenario.medSøknadHendelse()
-            .medFødselsDato(fødseldato)
-            .medAntallBarn(antallBarnSøknad);
         leggTilSøker(scenario, NavBrukerKjønn.MANN);
         return scenario.lagre(repositoryProvider);
     }

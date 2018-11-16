@@ -262,8 +262,6 @@ public class InntektArbeidYtelseTjenesteImplTest {
 
         LocalDate skjæringstidspunkt = LocalDate.now();
 
-        scenario.medSøknadHendelse().medFødselsDato(LocalDate.now());
-
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.plusMonths(4), true, false);
 
         Behandling behandling = scenario.lagre(repositoryProvider);

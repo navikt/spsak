@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Alternative;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 import no.nav.tjeneste.virksomhet.infotrygdberegningsgrunnlag.v1.informasjon.Arbeidsforhold;
 import no.nav.tjeneste.virksomhet.infotrygdberegningsgrunnlag.v1.informasjon.Arbeidskategori;
@@ -56,7 +57,7 @@ class InfotrygdBeregningsgrunnlagConsumerMock implements InfotrygdBeregningsgrun
         return arbeidsforhold;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock lagPaaroerendeSykdom(int identdatoMinus) {
+    public InfotrygdBeregningsgrunnlagConsumerMock lagPaaroerendeSykdom(int identdatoMinus) throws DatatypeConfigurationException {
 
         PaaroerendeSykdom paaroerendeSykdom = new PaaroerendeSykdom();
         Arbeidskategori arbeidskategori = new Arbeidskategori();
@@ -79,7 +80,7 @@ class InfotrygdBeregningsgrunnlagConsumerMock implements InfotrygdBeregningsgrun
         return this;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock lagSykepenger(int identdatoMinus) {
+    public InfotrygdBeregningsgrunnlagConsumerMock lagSykepenger(int identdatoMinus) throws DatatypeConfigurationException {
         Sykepenger sykepenger = new Sykepenger();
         Arbeidskategori arbeidskategori = new Arbeidskategori();
         arbeidskategori.setValue("01");
@@ -98,7 +99,7 @@ class InfotrygdBeregningsgrunnlagConsumerMock implements InfotrygdBeregningsgrun
         return this;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock lagEngangsstoenad(int identdatoMinus) {
+    public InfotrygdBeregningsgrunnlagConsumerMock lagEngangsstoenad(int identdatoMinus) throws DatatypeConfigurationException {
         Engangsstoenad engangsstoenad = new Engangsstoenad();
         Arbeidskategori arbeidskategori = new Arbeidskategori();
         arbeidskategori.setValue("01");
@@ -113,7 +114,7 @@ class InfotrygdBeregningsgrunnlagConsumerMock implements InfotrygdBeregningsgrun
         return this;
     }
 
-    public InfotrygdBeregningsgrunnlagConsumerMock lagForeldrepenger(int identdatoMinus) {
+    public InfotrygdBeregningsgrunnlagConsumerMock lagForeldrepenger(int identdatoMinus) throws DatatypeConfigurationException {
         Foreldrepenger foreldrepenger = new Foreldrepenger();
         Arbeidskategori arbeidskategori = new Arbeidskategori();
         arbeidskategori.setValue("01");

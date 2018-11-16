@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +129,6 @@ public class InnhentingSamletTjenesteImplTest {
 
         ScenarioMorSøkerForeldrepenger førstegangsscenario;
         førstegangsscenario = ScenarioMorSøkerForeldrepenger.forFødsel()
-            .medFødselAdopsjonsdato(Collections.singletonList(LocalDate.now().plusDays(1)))
             .medBruker(KVINNE_MEDL_EØSBORGER_BOSATT_NOR_AKTØRID, NavBrukerKjønn.KVINNE);
 
         behandling = førstegangsscenario.lagre(repositoryProvider);

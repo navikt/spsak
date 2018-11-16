@@ -2,16 +2,13 @@ package no.nav.foreldrepenger.domene.registerinnhenting.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
@@ -26,7 +23,6 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.InstantUtil;
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.Familierelasjon;
-import no.nav.foreldrepenger.behandlingslager.aktør.FødtBarnInfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
@@ -36,21 +32,16 @@ import no.nav.foreldrepenger.behandlingslager.aktør.historikk.PersonstatusPerio
 import no.nav.foreldrepenger.behandlingslager.aktør.historikk.StatsborgerskapPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
@@ -58,17 +49,14 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.sigrun.SigrunTjeneste;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.FinnMedlemRequest;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.Medlemskapsperiode;
 import no.nav.foreldrepenger.domene.person.PersoninfoAdapter;
-import no.nav.foreldrepenger.domene.person.impl.TpsFødselUtil;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataInnhenter;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
-import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.konfig.Tid;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -81,18 +69,14 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste;
     private PersonopplysningRepository personopplysningRepository;
-    private FamilieHendelseRepository familieHendelseRepository;
     private BehandlingRepository behandlingRepository;
     private KodeverkRepository kodeverkRepository;
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private SigrunTjeneste sigrunTjeneste;
     private MedlemskapRepository medlemskapRepository;
     private SøknadRepository søknadRepository;
     private OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste;
     private BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository;
-    private Period etterkontrollTidsromFørSøknadsdato;
-    private Period etterkontrollTidsromEtterTermindato;
 
     RegisterdataInnhenterImpl() {
         // for CDI proxy
@@ -104,47 +88,28 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
                                      SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                      BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste,
                                      BehandlingRepositoryProvider repositoryProvider,
-                                     FamilieHendelseTjeneste familieHendelseTjeneste,
                                      SigrunTjeneste sigrunTjeneste,
                                      InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                     MedlemskapRepository medlemskapRepository,
-                                     BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository,
-                                     OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste,
-                                     @KonfigVerdi("etterkontroll.førsøknad.periode") Instance<Period> etterkontrollTidsromFørSøknadsdato,
-                                     @KonfigVerdi("etterkontroll.ettertermin.periode") Instance<Period> etterkontrollTidsromEtterTermindato) {
+                                     OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste) {
         this.personinfoAdapter = personinfoAdapter;
         this.medlemTjeneste = medlemTjeneste;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.behandlingskontrollTaskTjeneste = behandlingskontrollTaskTjeneste;
         this.personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.familieHendelseRepository = repositoryProvider.getFamilieGrunnlagRepository();
-        this.familieHendelseTjeneste = familieHendelseTjeneste;
         this.sigrunTjeneste = sigrunTjeneste;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
-        this.medlemskapRepository = medlemskapRepository;
-        this.behandlingsgrunnlagKodeverkRepository = behandlingsgrunnlagKodeverkRepository;
+        this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
+        this.behandlingsgrunnlagKodeverkRepository = repositoryProvider.getBehandlingsgrunnlagKodeverkRepository();
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.opplysningsPeriodeTjeneste = opplysningsPeriodeTjeneste;
-        this.etterkontrollTidsromFørSøknadsdato = etterkontrollTidsromFørSøknadsdato.get();
-        this.etterkontrollTidsromEtterTermindato = etterkontrollTidsromEtterTermindato.get();
     }
 
     @Override
     public Personinfo innhentSaksopplysningerForSøker(Behandling behandling) {
         AktørId aktørId = behandling.getFagsak().getNavBruker().getAktørId();
         return personinfoAdapter.innhentSaksopplysningerForSøker(aktørId);
-    }
-
-    @Override
-    public Optional<Personinfo> innhentSaksopplysningerForMedSøker(Behandling behandling) {
-        final Optional<OppgittAnnenPart> oppgittAnnenPart = personopplysningRepository.hentPersonopplysningerHvisEksisterer(behandling)
-            .flatMap(PersonopplysningGrunnlag::getOppgittAnnenPart);
-        Optional<AktørId> funnetAktørId = oppgittAnnenPart.map(OppgittAnnenPart::getAktørId);
-
-        return funnetAktørId.flatMap(
-            aktørId -> personinfoAdapter.innhentSaksopplysningerForEktefelle(Optional.of(aktørId)));
     }
 
     @Override
@@ -158,27 +123,18 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
         }
 
         // Innhent øvrige data fra TPS
-        Optional<Personinfo> medsøkerInfo = innhentSaksopplysningerForMedSøker(behandling);
-        innhentPersonopplysninger(behandling, søkerInfo, medsøkerInfo);
-        innhentFamiliehendelse(behandling);
+        innhentPersonopplysninger(behandling, søkerInfo);
         return søkerInfo;
     }
 
     @Override
-    public void innhentPersonopplysninger(Behandling behandling, Personinfo søkerInfo,
-                                          Optional<Personinfo> medsøkerInfo) {
+    public void innhentPersonopplysninger(Behandling behandling, Personinfo søkerInfo) {
 
-        final PersonInformasjonBuilder personInformasjonBuilder = byggPersonopplysningMedRelasjoner(søkerInfo, medsøkerInfo, behandling);
+        final PersonInformasjonBuilder personInformasjonBuilder = byggPersonopplysningMedRelasjoner(søkerInfo, behandling);
 
         personopplysningRepository.lagre(behandling, personInformasjonBuilder);
     }
 
-
-    private void innhentFamiliehendelse(Behandling behandling) {
-        FamilieHendelseGrunnlag aggregat = familieHendelseRepository.hentAggregat(behandling);
-        List<FødtBarnInfo> fødselRegistrertTps = personinfoAdapter.innhentAlleFødteForBehandling(behandling, aggregat);
-        familieHendelseTjeneste.oppdaterFødselPåGrunnlag(behandling, fødselRegistrertTps);
-    }
 
     @Override
     public void innhentIAYOpplysninger(Behandling behandling, Personinfo søkerInfo) {
@@ -230,11 +186,10 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
 
     @Override
     public PersonInformasjonBuilder byggPersonopplysningMedRelasjoner(Personinfo søkerPersonInfo,
-                                                                      Optional<Personinfo> annenPartInfo,
                                                                       Behandling behandling) {
 
         final PersonInformasjonBuilder informasjonBuilder = personopplysningRepository.opprettBuilderForRegisterdata(behandling);
-        informasjonBuilder.tilbakestill(behandling.getAktørId(), annenPartInfo.map(Personinfo::getAktørId));
+        informasjonBuilder.tilbakestill(behandling.getAktørId());
 
         // Historikk for søker
         final Interval opplysningsperiooden = opplysningsPeriodeTjeneste.beregn(behandling);
@@ -245,12 +200,9 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
             mapPersonstatus(personhistorikkinfo.getPersonstatushistorikk(), informasjonBuilder, søkerPersonInfo);
         }
 
-        mapTilPersonopplysning(søkerPersonInfo, informasjonBuilder, true, false, behandling);
+        mapTilPersonopplysning(søkerPersonInfo, informasjonBuilder, false);
         // Ektefelle
         leggTilEktefelle(søkerPersonInfo, informasjonBuilder, behandling);
-
-        // Medsøker (annen part). kan være samme person som Ektefelle
-        annenPartInfo.ifPresent(annenPart -> leggTilMedsøkerAnnenPart(søkerPersonInfo, annenPart, informasjonBuilder, behandling));
 
         return informasjonBuilder;
     }
@@ -308,27 +260,8 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
         return dato;
     }
 
-    private void mapTilPersonopplysning(Personinfo personinfo, PersonInformasjonBuilder informasjonBuilder, boolean skalHenteBarnRelasjoner, boolean erIkkeSøker, Behandling behandling) {
+    private void mapTilPersonopplysning(Personinfo personinfo, PersonInformasjonBuilder informasjonBuilder, boolean erIkkeSøker) {
         mapInfoTilEntitet(personinfo, informasjonBuilder, erIkkeSøker);
-
-        if (skalHenteBarnRelasjoner) {
-            List<Personinfo> barna = hentBarnRelatertTil(personinfo, behandling);
-            barna.forEach(barn -> {
-                mapInfoTilEntitet(barn, informasjonBuilder, true);
-                mapRelasjon(personinfo, barn, Collections.singletonList(RelasjonsRolleType.BARN), informasjonBuilder);
-                mapRelasjon(barn, personinfo, utledRelasjonsrolleTilBarn(personinfo, barn), informasjonBuilder);
-            });
-        }
-    }
-
-    private List<RelasjonsRolleType> utledRelasjonsrolleTilBarn(Personinfo personinfo, Personinfo barn) {
-        if (barn == null) {
-            return Collections.emptyList();
-        }
-        return barn.getFamilierelasjoner().stream()
-            .filter(fr -> fr.getPersonIdent().equals(personinfo.getPersonIdent()))
-            .map(rel -> utledRelasjonsrolleTilBarn(personinfo.getKjønn(), rel.getRelasjonsrolle()))
-            .collect(Collectors.toList());
     }
 
     private void mapRelasjon(Personinfo fra, Personinfo til, List<RelasjonsRolleType> roller, PersonInformasjonBuilder informasjonBuilder) {
@@ -394,16 +327,9 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
         return DatoIntervallEntitet.fraOgMedTilOgMed(fom, tom != null ? tom : Tid.TIDENES_ENDE);
     }
 
-    private void leggTilMedsøkerAnnenPart(Personinfo søkerPersonInfo, Personinfo annenPart, PersonInformasjonBuilder informasjonBuilder, Behandling behandling) {
+    private void leggTilMedsøkerAnnenPart(Personinfo annenPart, PersonInformasjonBuilder informasjonBuilder, Behandling behandling) {
         // Medsøker - kan være samme person som ektefelle
-        List<Familierelasjon> fellesBarn = finnFellesBarn(annenPart, søkerPersonInfo);
-
-        mapTilPersonopplysning(annenPart, informasjonBuilder, false, true, behandling);
-        for (Familierelasjon familierelasjon : fellesBarn) {
-            final Personinfo til = personinfoAdapter.innhentSaksopplysninger(familierelasjon.getPersonIdent()).orElse(null);
-            mapRelasjon(annenPart, til, Collections.singletonList(RelasjonsRolleType.BARN), informasjonBuilder);
-            mapRelasjon(til, annenPart, utledRelasjonsrolleTilBarn(annenPart, til), informasjonBuilder); // NOSONAR
-        }
+        mapTilPersonopplysning(annenPart, informasjonBuilder, true);
     }
 
     private void leggTilEktefelle(Personinfo søkerPersonInfo, PersonInformasjonBuilder informasjonBuilder, Behandling behandling) {
@@ -418,31 +344,11 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
             Optional<Personinfo> ektefelleInfo = personinfoAdapter.innhentSaksopplysninger(familierelasjon.getPersonIdent());
             if (ektefelleInfo.isPresent()) {
                 final Personinfo personinfo = ektefelleInfo.get();
-                mapTilPersonopplysning(personinfo, informasjonBuilder, false, true, behandling);
+                mapTilPersonopplysning(personinfo, informasjonBuilder, true);
                 mapRelasjon(søkerPersonInfo, personinfo, Collections.singletonList(familierelasjon.getRelasjonsrolle()), informasjonBuilder);
                 mapRelasjon(personinfo, søkerPersonInfo, Collections.singletonList(familierelasjon.getRelasjonsrolle()), informasjonBuilder);
             }
         }
-    }
-
-    private List<Personinfo> hentBarnRelatertTil(Personinfo søkerPersonInfo, Behandling behandling) {
-        List<Personinfo> relaterteBarn = hentAlleRelaterteBarn(søkerPersonInfo);
-        Søknad søknad = søknadRepository.hentFørstegangsSøknad(behandling);
-        FamilieHendelseGrunnlag familieHendelseGrunnlag = familieHendelseRepository.hentAggregat(behandling);
-
-        DatoIntervallEntitet forventetFødselIntervall = TpsFødselUtil.forventetFødselIntervall(familieHendelseGrunnlag,
-            etterkontrollTidsromFørSøknadsdato, etterkontrollTidsromEtterTermindato, søknad);
-
-        return relaterteBarn.stream().filter(b -> forventetFødselIntervall.inkluderer(b.getFødselsdato())).collect(Collectors.toList());
-    }
-
-    private List<Personinfo> hentAlleRelaterteBarn(Personinfo søkerPersonInfo) {
-        return søkerPersonInfo.getFamilierelasjoner()
-            .stream()
-            .filter(r -> r.getRelasjonsrolle().equals(RelasjonsRolleType.BARN))
-            .map(r -> personinfoAdapter.innhentSaksopplysningerForBarn(r.getPersonIdent()).orElse(null))
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
     }
 
     private RelasjonsRolleType utledRelasjonsrolleTilBarn(NavBrukerKjønn kjønn, RelasjonsRolleType rolle) {

@@ -22,7 +22,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjon;
@@ -71,7 +70,6 @@ public class BehandlingÅrsakTjenesteImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel()
             .medBruker(AKTØRID, NavBrukerKjønn.KVINNE)
             .medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD);
-        scenario.medSøknadHendelse().medAntallBarn(1).medFødselsDato(LocalDate.now().minusMonths(1));
         scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now().minusMonths(1), null));
         behandling = scenario.lagre(repositoryProvider);
     }
@@ -82,25 +80,12 @@ public class BehandlingÅrsakTjenesteImplTest {
 
         EndringsresultatDiff endringsresultat = EndringsresultatDiff.opprett();
         endringsresultat.leggTilSporetEndring(EndringsresultatDiff.medDiff(PersonInformasjon.class, 1L, 1L), () -> diffResult);
-        endringsresultat.leggTilSporetEndring(EndringsresultatDiff.medDiff(FamilieHendelseGrunnlag.class, 1L, 1L), () -> diffResult);
         endringsresultat.leggTilSporetEndring(EndringsresultatDiff.medDiff(MedlemskapAggregat.class, 1L, 1L), () -> diffResult);
         endringsresultat.leggTilSporetEndring(EndringsresultatDiff.medDiff(InntektArbeidYtelseGrunnlag.class, 1L, 1L), () -> diffResult);
         endringsresultat.leggTilSporetEndring(EndringsresultatDiff.medDiff(YtelseFordelingAggregat.class, 1L, 1L), () -> diffResult);
 
         // Act/Assert
         assertThat(tjeneste.utledBehandlingÅrsakerBasertPåDiff(behandling, endringsresultat)).isEmpty();
-    }
-
-    @Test
-    public void test_behandlingsårsaker_når_endring_i_familiehendelse() {
-        EndringsresultatDiff endringsresultat = EndringsresultatDiff.opprett();
-        when(diffResult.isEmpty()).thenReturn(false); // Indikerer at det finnes diff
-        endringsresultat.leggTilSporetEndring(EndringsresultatDiff.medDiff(FamilieHendelseGrunnlag.class, 1L, 2L), () -> diffResult);
-
-        // Act/Assert
-        Set<BehandlingÅrsakType> behandlingÅrsaker = tjeneste.utledBehandlingÅrsakerBasertPåDiff(behandling, endringsresultat);
-        assertThat(behandlingÅrsaker).hasSize(1);
-        assertThat(behandlingÅrsaker).as("Begge utlederne hvor endring skal returnere samme årsak.").contains(BehandlingÅrsakType.RE_REGISTEROPPLYSNING);
     }
 
     @Test

@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.domene.produksjonsstyring.sakogbehandling.observer;
 
-import java.util.Optional;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -15,8 +13,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -32,7 +28,6 @@ import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 @ApplicationScoped
 public class OppdaterSakOgBehandlingEventObserver {
 
-    private FamilieHendelseRepository familieGrunnlagRepository;
     private BehandlingRepository behandlingRepository;
     private ProsessTaskRepository prosessTaskRepository;
     private KodeverkRepository kodeverkRepository;
@@ -48,7 +43,6 @@ public class OppdaterSakOgBehandlingEventObserver {
         this.prosessTaskRepository = prosessTaskRepository;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.metricRegistry = metricRegistry;
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
     }
 
     public void observerBehandlingStatus(@Observes BehandlingAvsluttetEvent event) {
@@ -99,17 +93,10 @@ public class OppdaterSakOgBehandlingEventObserver {
     }
 
     private BehandlingTema getBehandlingsTemaForFagsak(Fagsak s) {
-        Optional<Behandling> behandling = behandlingRepository.hentSisteBehandlingForFagsakId(s.getId());
-        if (!behandling.isPresent()) {
-            return BehandlingTema.fraFagsak(s, null);
-        }
-
-        Behandling sisteBehandling = behandling.get();
-        return behandlingTemaFraBehandling(sisteBehandling);
+        return BehandlingTema.fraFagsak(s);
     }
 
     private BehandlingTema behandlingTemaFraBehandling(Behandling sisteBehandling) {
-        final Optional<FamilieHendelseGrunnlag> grunnlag = familieGrunnlagRepository.hentAggregatHvisEksisterer(sisteBehandling);
-        return BehandlingTema.fraFagsak(sisteBehandling.getFagsak(), grunnlag.map(FamilieHendelseGrunnlag::getSøknadVersjon).orElse(null));
+        return BehandlingTema.fraFagsak(sisteBehandling.getFagsak());
     }
 }

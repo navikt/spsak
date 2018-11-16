@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,7 +41,7 @@ public class FinnSakServiceTest {
     }
 
     @Test
-    public void skal_konvertere_fagsak_uten_behandlinger_til_ekstern_representasjon() {
+    public void skal_konvertere_fagsak_uten_behandlinger_til_ekstern_representasjon() throws DatatypeConfigurationException {
         NavBruker navBruker = new NavBrukerBuilder()
             .medAktørId(new AktørId("42"))
             .medKjønn(NavBrukerKjønn.KVINNE)

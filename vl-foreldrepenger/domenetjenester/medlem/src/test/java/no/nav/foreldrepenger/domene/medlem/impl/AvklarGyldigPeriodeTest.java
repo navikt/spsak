@@ -58,7 +58,6 @@ public class AvklarGyldigPeriodeTest {
         Set<RegistrertMedlemskapPerioder> medlemskapPerioder = new HashSet<>();
         medlemskapPerioder.add(gyldigPeriodeUnderFødsel);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         medlemskapPerioder.forEach(scenario::leggTilMedlemskapPeriode);
         Behandling behandling = scenario.lagre(provider);
 
@@ -74,7 +73,6 @@ public class AvklarGyldigPeriodeTest {
         // Arrange
         LocalDate fødselsdato = LocalDate.now();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         Behandling behandling = scenario.lagre(provider);
 
         // Act
@@ -96,7 +94,6 @@ public class AvklarGyldigPeriodeTest {
         Set<RegistrertMedlemskapPerioder> medlemskapPerioder = new HashSet<>();
         medlemskapPerioder.add(lukketPeriodeFørFødselsdato);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         medlemskapPerioder.forEach(scenario::leggTilMedlemskapPeriode);
         Behandling behandling = scenario.lagre(provider);
 
@@ -119,7 +116,6 @@ public class AvklarGyldigPeriodeTest {
         Set<RegistrertMedlemskapPerioder> medlemskapPerioder = new HashSet<>();
         medlemskapPerioder.add(medlemskapPeriodeUnderAvklaring);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         medlemskapPerioder.forEach(scenario::leggTilMedlemskapPeriode);
         Behandling behandling = scenario.lagre(provider);
 
@@ -142,7 +138,6 @@ public class AvklarGyldigPeriodeTest {
         Set<RegistrertMedlemskapPerioder> medlemskapPerioder = new HashSet<>();
         medlemskapPerioder.add(åpenPeriode);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medSøknadHendelse().medFødselsDato(fødselsdato);
         medlemskapPerioder.forEach(scenario::leggTilMedlemskapPeriode);
         Behandling behandling = scenario.lagre(provider);
 

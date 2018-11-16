@@ -85,8 +85,6 @@ public class VurderOpptjeningsvilkårStegImplTest {
         AktørId aktørId = AKTØR_ID;
         scenario.medBruker(aktørId, NavBrukerKjønn.KVINNE);
 
-        scenario.medDefaultBekreftetTerminbekreftelse();
-
         scenario.leggTilVilkår(VilkårType.OPPTJENINGSPERIODEVILKÅR, VilkårUtfallType.IKKE_VURDERT); // må kjøres opp for
                                                                                                     // å få Opptjening
         scenario.leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.IKKE_VURDERT); // vurderer faktisk

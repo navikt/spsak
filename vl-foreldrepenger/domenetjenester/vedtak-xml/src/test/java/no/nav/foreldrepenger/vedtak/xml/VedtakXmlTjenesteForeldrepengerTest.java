@@ -151,9 +151,6 @@ public class VedtakXmlTjenesteForeldrepengerTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel()
             .medBruker(BRUKER_AKTØR_ID, NavBrukerKjønn.KVINNE)
             .medSaksnummer(SAKSNUMMER);
-        scenario.medSøknadAnnenPart().medAktørId(ANNEN_PART_AKTØR_ID);
-        scenario.medSøknadHendelse()
-            .medFødselsDato(FØDSELSDATO_BARN);
 
         scenario.medDefaultInntektArbeidYtelse();
 

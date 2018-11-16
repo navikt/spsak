@@ -31,7 +31,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatTy
 import no.nav.foreldrepenger.behandlingslager.lagretvedtak.LagretVedtak;
 import no.nav.foreldrepenger.behandlingslager.lagretvedtak.LagretVedtakMedBehandlingType;
 import no.nav.foreldrepenger.behandlingslager.lagretvedtak.LagretVedtakType;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
 import no.nav.foreldrepenger.vedtakslager.LagretVedtakRepository;
 
@@ -41,7 +40,6 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
     private HistorikkRepository historikkRepository;
     private LagretVedtakRepository lagretVedtakRepository;
     private RevurderingTjenesteProvider revurderingTjenesteProvider;
-    private FamilieHendelseTjeneste familieHendelseTjeneste;
     private TotrinnTjeneste totrinnTjeneste;
 
     VedtakTjenesteImpl() {
@@ -51,12 +49,10 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
     @Inject
     public VedtakTjenesteImpl(LagretVedtakRepository lagretVedtakRepository,
                               HistorikkRepository historikkRepository,
-                              RevurderingTjenesteProvider revurderingTjenesteProvider,
-                              FamilieHendelseTjeneste familieHendelseTjeneste, TotrinnTjeneste totrinnTjeneste) {
+                              RevurderingTjenesteProvider revurderingTjenesteProvider, TotrinnTjeneste totrinnTjeneste) {
         this.historikkRepository = historikkRepository;
         this.lagretVedtakRepository = lagretVedtakRepository;
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
-        this.familieHendelseTjeneste = familieHendelseTjeneste;
         this.totrinnTjeneste = totrinnTjeneste;
     }
 
@@ -84,7 +80,8 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
 
     @Override
     public LagretVedtakType finnLagretVedtakType(Behandling behandling) {
-        return familieHendelseTjeneste.gjelderFødsel(behandling).orElse(false) ? LagretVedtakType.FODSEL : LagretVedtakType.ADOPSJON;
+        // FIXME SP - Trenger noe annet?
+        return LagretVedtakType.FODSEL;
     }
 
     private boolean sendesTilbakeTilSaksbehandler(Collection<Totrinnsvurdering> medTotrinnskontroll) {

@@ -21,7 +21,6 @@ public class PersonInformasjonBuilder {
     private final boolean gjelderOppdatering;
 
     private AktørId søkerAktørId;
-    private Optional<AktørId> annenpartAktørId;
 
     private PersonInformasjonBuilder(PersonInformasjonEntitet personInfoAggregatEntitet, PersonopplysningVersjonType type, boolean gjelderOppdatering) {
         this.kladd = personInfoAggregatEntitet;
@@ -89,7 +88,6 @@ public class PersonInformasjonBuilder {
             Set<AktørId> personer = kladd.getPersonopplysninger()
                 .stream()
                 .filter(e -> !søkerAktørId.equals(e.getAktørId()))
-                .filter(e -> annenpartAktørId.isPresent() ? !annenpartAktørId.get().equals(e.getAktørId()) : true)
                 .map(e -> e.getAktørId()).collect(Collectors.toSet());
             personer.forEach(e -> {
                 if (!aktørerIRelasjoner.contains(e)) {
@@ -99,10 +97,9 @@ public class PersonInformasjonBuilder {
         }
     }
 
-    public void tilbakestill(AktørId søkerAktørId, Optional<AktørId> annenpartAktørId) {
+    public void tilbakestill(AktørId søkerAktørId) {
         if (gjelderOppdatering()) {
             this.søkerAktørId = søkerAktørId;
-            this.annenpartAktørId = annenpartAktørId;
             kladd.tilbakestill();
         }
     }

@@ -5,8 +5,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +20,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.persistence.EntityManager;
 
-import org.jboss.weld.exceptions.UnsupportedOperationException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -49,13 +46,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlagBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.HendelseVersjonType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
@@ -72,8 +62,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedle
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPart;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OppgittAnnenPartBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlagBuilder;
@@ -165,7 +153,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     private final FagsakBuilder fagsakBuilder;
     private final Map<Behandling, PersonopplysningGrunnlag> personopplysningMap = new IdentityHashMap<>();
     private final Map<Behandling, Verge> vergeMap = new IdentityHashMap<>();
-    private final Map<Behandling, FamilieHendelseGrunnlag> familieHendelseAggregatMap = new IdentityHashMap<>();
     private final Map<Long, MedlemskapBehandlingsgrunnlagEntitet> medlemskapgrunnlag = new HashMap<>();
     private List<TestScenarioTillegg> testScenarioTilleggListe = new ArrayList<>();
     private ArgumentCaptor<Behandling> behandlingCaptor = ArgumentCaptor.forClass(Behandling.class);
@@ -179,7 +166,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     private SøknadEntitet.Builder søknadBuilder;
     private VergeBuilder vergeBuilder;
 
-    private OppgittAnnenPartBuilder oppgittAnnenPartBuilder;
     private VurdertMedlemskapBuilder vurdertMedlemskapBuilder;
     private BehandlingVedtak.Builder behandlingVedtakBuilder;
     private OppgittTilknytningEntitet.Builder oppgittTilknytningBuilder;
@@ -195,9 +181,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     private LocalDateTime opplysningerOppdatertTidspunkt;
     private String behandlendeEnhet;
     private BehandlingRepository mockBehandlingRepository;
-    private FamilieHendelseBuilder søknadHendelseBuilder;
-    private FamilieHendelseBuilder bekreftetHendelseBuilder;
-    private FamilieHendelseBuilder overstyrtHendelseBuilder;
     private BehandlingVedtak behandlingVedtak;
     private BehandlingType behandlingType = BehandlingType.FØRSTEGANGSSØKNAD;
     private OppgittRettighet oppgittRettighet;
@@ -272,7 +255,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         MedlemskapRepository mockMedlemskapRepository = lagMockMedlemskapRepository();
         BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository = mockBehandlingsgrunnlagKodeverkRepository();
         KodeverkRepository kodeverkRepository = KodeverkTestHelper.getKodeverkRepository();
-        FamilieHendelseRepository familieHendelseRepository = mockFamilieHendelseGrunnlagRepository();
         VergeRepository mockVergeRepository = lagMockVergeRepository();
         SøknadRepository søknadRepository = mockSøknadRepository();
         InntektArbeidYtelseRepository inntektArbeidYtelseRepository = getIayScenario().mockInntektArbeidYtelseRepository();
@@ -299,7 +281,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         when(repositoryProvider.getAksjonspunktRepository()).thenReturn(aksjonspunktRepository);
         when(repositoryProvider.getPersonopplysningRepository()).thenReturn(mockPersonopplysningRepository);
         when(repositoryProvider.getVilkårKodeverkRepository()).thenReturn(mockVilkårKodeverkRepository);
-        when(repositoryProvider.getFamilieGrunnlagRepository()).thenReturn(familieHendelseRepository);
         when(repositoryProvider.getMedlemskapRepository()).thenReturn(mockMedlemskapRepository);
         when(repositoryProvider.getSøknadRepository()).thenReturn(søknadRepository);
         when(repositoryProvider.getVergeGrunnlagRepository()).thenReturn(mockVergeRepository);
@@ -461,173 +442,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return dokumentRepository;
     }
 
-    private FamilieHendelseRepository mockFamilieHendelseGrunnlagRepository() {
-        return new FamilieHendelseRepository() {
-            @Override
-            public FamilieHendelseGrunnlag hentAggregat(Behandling behandling) {
-                return familieHendelseAggregatMap.get(behandling);
-            }
-
-            @Override
-            public Optional<FamilieHendelseGrunnlag> hentAggregatHvisEksisterer(Long behandlingId) {
-                return familieHendelseAggregatMap.entrySet().stream().filter(e -> Objects.equals(behandlingId, e.getKey().getId())).map(e -> e.getValue())
-                    .findFirst();
-            }
-
-            @Override
-            public Optional<FamilieHendelseGrunnlag> hentAggregatHvisEksisterer(Behandling behandling) {
-                return Optional.ofNullable(familieHendelseAggregatMap.get(behandling));
-            }
-
-            @Override
-            public DiffResult diffResultat(FamilieHendelseGrunnlag grunnlag1, FamilieHendelseGrunnlag grunnlag2, FagsakYtelseType ytelseType,
-                                           boolean kunSporedeEndringer) {
-                return null;
-            }
-
-            @Override
-            public void lagre(Behandling behandling, FamilieHendelseBuilder hendelseBuilder) {
-                final Optional<FamilieHendelseGrunnlag> kladd = hentAggregatHvisEksisterer(behandling);
-                final FamilieHendelseGrunnlagBuilder builder = FamilieHendelseGrunnlagBuilder.oppdatere(kladd);
-                switch (utledTypeFor(kladd)) {
-                    case SØKNAD:
-                        builder.medSøknadVersjon(hendelseBuilder);
-                        break;
-                    case BEKREFTET:
-                        builder.medBekreftetVersjon(hendelseBuilder);
-                        break;
-                    case OVERSTYRT:
-                        builder.medOverstyrtVersjon(hendelseBuilder);
-                        break;
-                }
-                FamilieHendelseGrunnlag hendelseAggregat = builder.build();
-                familieHendelseAggregatMap.remove(behandling);
-                familieHendelseAggregatMap.put(behandling, hendelseAggregat);
-            }
-
-            @Override
-            public void lagreRegisterHendelse(Behandling behandling, FamilieHendelseBuilder hendelse) {
-                final Optional<FamilieHendelseGrunnlag> kladd = hentAggregatHvisEksisterer(behandling);
-                final FamilieHendelseGrunnlagBuilder aggregatBuilder = FamilieHendelseGrunnlagBuilder.oppdatere(kladd);
-                aggregatBuilder.medBekreftetVersjon(hendelse);
-                try {
-                    Method m = FamilieHendelseGrunnlagBuilder.class.getDeclaredMethod("getKladd");
-                    m.setAccessible(true);
-                    final FamilieHendelseGrunnlag invoke = (FamilieHendelseGrunnlag) m.invoke(aggregatBuilder);
-                    if (harOverstyrtTerminOgOvergangTilFødsel(invoke)) {
-                        aggregatBuilder.medOverstyrtVersjon(null);
-                    }
-                    familieHendelseAggregatMap.remove(behandling);
-                    familieHendelseAggregatMap.put(behandling, aggregatBuilder.build());
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    throw new IllegalStateException(e);
-                }
-            }
-
-            private boolean harOverstyrtTerminOgOvergangTilFødsel(FamilieHendelseGrunnlag kladd) {
-                return kladd.getHarOverstyrteData() && kladd.getOverstyrtVersjon()
-                    .map(FamilieHendelse::getType).orElse(FamilieHendelseType.UDEFINERT).equals(FamilieHendelseType.TERMIN)
-                    && kladd.getBekreftetVersjon().map(FamilieHendelse::getType).orElse(FamilieHendelseType.UDEFINERT)
-                        .equals(FamilieHendelseType.FØDSEL);
-            }
-
-            @Override
-            public void lagreOverstyrtHendelse(Behandling behandling, FamilieHendelseBuilder hendelse) {
-                final Optional<FamilieHendelseGrunnlag> kladd = hentAggregatHvisEksisterer(behandling);
-                final FamilieHendelseGrunnlagBuilder oppdatere = FamilieHendelseGrunnlagBuilder.oppdatere(kladd);
-                oppdatere.medOverstyrtVersjon(hendelse);
-                familieHendelseAggregatMap.remove(behandling);
-                familieHendelseAggregatMap.put(behandling, oppdatere.build());
-            }
-
-            @Override
-            public void fjernBekreftetData(Behandling behandling) {
-                throw new UnsupportedOperationException("Ikke implementert");
-            }
-
-            @Override
-            public void slettAvklarteData(Behandling behandling, BehandlingLås lås) {
-                throw new UnsupportedOperationException("Ikke implementert");
-            }
-
-            @Override
-            public Optional<FamilieHendelseGrunnlag> hentFørsteVersjonAvAggregatHvisEksisterer(Behandling behandling) {
-                throw new UnsupportedOperationException("Ikke implementert");
-            }
-
-            @Override
-            public Optional<Long> hentIdPåAktivFamiliehendelse(Behandling behandling) {
-                throw new UnsupportedOperationException("Ikke implementert");
-            }
-
-            @Override
-            public FamilieHendelseGrunnlag hentFamilieHendelserPåId(Long aggregatId) {
-                throw new UnsupportedOperationException("Ikke implementert");
-            }
-
-            @Override
-            public void kopierGrunnlagFraEksisterendeBehandling(Behandling gammelBehandling, Behandling nyBehandling) {
-                final Optional<FamilieHendelseGrunnlag> familieHendelseAggregat = hentAggregatHvisEksisterer(gammelBehandling);
-                final FamilieHendelseGrunnlagBuilder oppdatere = FamilieHendelseGrunnlagBuilder.oppdatere(familieHendelseAggregat);
-
-                familieHendelseAggregatMap.remove(nyBehandling);
-                familieHendelseAggregatMap.put(nyBehandling, oppdatere.build());
-            }
-
-            @Override
-            public void kopierGrunnlagFraEksisterendeBehandlingForRevurdering(Behandling gammelBehandling, Behandling nyBehandling) {
-                final Optional<FamilieHendelseGrunnlag> familieHendelseAggregat = hentAggregatHvisEksisterer(gammelBehandling);
-                final FamilieHendelseGrunnlagBuilder oppdatere = FamilieHendelseGrunnlagBuilder.oppdatere(familieHendelseAggregat);
-                oppdatere.medOverstyrtVersjon(null);
-                oppdatere.medBekreftetVersjon(null);
-
-                familieHendelseAggregatMap.remove(nyBehandling);
-                familieHendelseAggregatMap.put(nyBehandling, oppdatere.build());
-            }
-
-            @Override
-            public FamilieHendelseBuilder opprettBuilderFor(Behandling behandling) {
-                final FamilieHendelseGrunnlagBuilder aggregatBuilder = FamilieHendelseGrunnlagBuilder
-                    .oppdatere(hentAggregatHvisEksisterer(behandling));
-                return opprettBuilderFor(aggregatBuilder);
-            }
-
-            FamilieHendelseBuilder opprettBuilderFor(Optional<FamilieHendelseGrunnlag> aggregat) {
-                HendelseVersjonType type = utledTypeFor(aggregat);
-
-                if (type.equals(HendelseVersjonType.SØKNAD)) {
-                    return FamilieHendelseBuilder.oppdatere(aggregat.map(FamilieHendelseGrunnlag::getSøknadVersjon), type);
-                } else if (type.equals(HendelseVersjonType.BEKREFTET)) {
-                    return FamilieHendelseBuilder.oppdatere(aggregat.flatMap(FamilieHendelseGrunnlag::getBekreftetVersjon), type);
-                }
-                return FamilieHendelseBuilder.oppdatere(aggregat.flatMap(FamilieHendelseGrunnlag::getOverstyrtVersjon), type);
-            }
-
-            private HendelseVersjonType utledTypeFor(Optional<FamilieHendelseGrunnlag> aggregat) {
-                if (aggregat.isPresent()) {
-                    if (aggregat.get().getHarOverstyrteData()) {
-                        return HendelseVersjonType.OVERSTYRT;
-                    } else if (aggregat.get().getHarBekreftedeData() || aggregat.get().getSøknadVersjon() != null) {
-                        return HendelseVersjonType.BEKREFTET;
-                    } else if (aggregat.get().getSøknadVersjon() == null) {
-                        return HendelseVersjonType.SØKNAD;
-                    }
-                    throw new IllegalStateException();
-                }
-                return HendelseVersjonType.SØKNAD;
-            }
-
-            private FamilieHendelseBuilder opprettBuilderFor(FamilieHendelseGrunnlagBuilder aggregatBuilder) {
-                try {
-                    Method m = FamilieHendelseGrunnlagBuilder.class.getDeclaredMethod("getKladd");
-                    m.setAccessible(true);
-                    return opprettBuilderFor(Optional.ofNullable((FamilieHendelseGrunnlag) m.invoke(aggregatBuilder)));
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    throw new IllegalStateException(e);
-                }
-            }
-        };
-    }
 
     /**
      * Hjelpe metode for å håndtere mock repository.
@@ -885,14 +699,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
     private void lagrePersonopplysning(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
         PersonopplysningRepository personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
-        if (oppgittAnnenPartBuilder != null) {
-            personopplysningRepository.lagre(behandling, oppgittAnnenPartBuilder);
-            PersonopplysningGrunnlag grunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
-            Optional<OppgittAnnenPart> oppgittAnnenPart = grunnlag.getOppgittAnnenPart();
-            if (søknadBuilder != null && oppgittAnnenPart.isPresent()) {
-                søknadBuilder.medSøknadAnnenPart(oppgittAnnenPart.get());
-            }
-        }
 
         if (personer != null && !personer.isEmpty()) {
             personer.stream().filter(e -> e.getType().equals(PersonopplysningVersjonType.REGISTRERT))
@@ -900,12 +706,12 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
             personer.stream().filter(a -> a.getType().equals(PersonopplysningVersjonType.OVERSTYRT))
                 .findFirst().ifPresent(b -> {
-                    if (personer.stream().noneMatch(c -> c.getType().equals(PersonopplysningVersjonType.REGISTRERT))) {
-                        // Sjekker om overstyring er ok, mao om registeropplysninger finnes
-                        personopplysningRepository.opprettBuilderForOverstyring(behandling);
-                    }
-                    lagrePersoninfo(behandling, b, personopplysningRepository);
-                });
+                if (personer.stream().noneMatch(c -> c.getType().equals(PersonopplysningVersjonType.REGISTRERT))) {
+                    // Sjekker om overstyring er ok, mao om registeropplysninger finnes
+                    personopplysningRepository.opprettBuilderForOverstyring(behandling);
+                }
+                lagrePersoninfo(behandling, b, personopplysningRepository);
+            });
 
         } else {
             PersonInformasjon registerInformasjon = PersonInformasjon.builder(PersonopplysningVersjonType.REGISTRERT)
@@ -1038,7 +844,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         BehandlingLås lås = behandlingRepo.taSkriveLås(behandling);
         behandlingRepo.lagre(behandling, lås);
 
-        opprettHendelseGrunnlag(repositoryProvider);
         lagrePersonopplysning(repositoryProvider, behandling);
         lagreMedlemskapOpplysninger(repositoryProvider, behandling);
         lagreVerge(repositoryProvider, behandling);
@@ -1129,28 +934,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         }
     }
 
-    private FamilieHendelseRepository opprettHendelseGrunnlag(BehandlingRepositoryProvider repositoryProvider) {
-        final FamilieHendelseRepository grunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
-        grunnlagRepository.lagre(behandling, medSøknadHendelse());
-        if (bekreftetHendelseBuilder != null) {
-            grunnlagRepository.lagre(behandling, bekreftetHendelseBuilder);
-        }
-        if (overstyrtHendelseBuilder != null) {
-            grunnlagRepository.lagre(behandling, overstyrtHendelseBuilder);
-        }
-        if (søknadBuilder != null) {
-            søknadBuilder.medFamilieHendelse(grunnlagRepository.hentAggregat(behandling).getSøknadVersjon());
-        }
-        resetBuilders();
-        return grunnlagRepository;
-    }
-
-    private void resetBuilders() {
-        medSøknadHendelse(null);
-        medBekreftetHendelse(null);
-        medOverstyrtHendelse(null);
-    }
-
     private Builder grunnBuild(BehandlingRepositoryProvider repositoryProvider) {
         FagsakRepository fagsakRepo = repositoryProvider.getFagsakRepository();
 
@@ -1205,7 +988,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     private NavBrukerKjønn getKjønnFraFagsak() {
         return fagsakBuilder.getBrukerBuilder().getKjønn() != null ? fagsakBuilder.getBrukerBuilder().getKjønn()
             : (RelasjonsRolleType.erMor(fagsakBuilder.getRolle()) || RelasjonsRolleType.erMedmor(fagsakBuilder.getRolle()) ? NavBrukerKjønn.KVINNE
-                : NavBrukerKjønn.MANN);
+            : NavBrukerKjønn.MANN);
     }
 
     private void lagreBehandlingsresultatOgVilkårResultat(BehandlingRepositoryProvider repoProvider, BehandlingLås lås) {
@@ -1243,14 +1026,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         beregningRepo.lagre(beregningResultat, lås);
     }
 
-    @SuppressWarnings("unchecked")
-    public S medFødselAdopsjonsdato(List<LocalDate> fødselAdopsjonDatoer) {
-        for (LocalDate localDate : fødselAdopsjonDatoer) {
-            medSøknadHendelse().leggTilBarn(localDate);
-        }
-        return (S) this;
-    }
-
     public Fagsak getFagsak() {
         if (fagsak == null) {
             throw new IllegalStateException("Kan ikke hente Fagsak før denne er bygd");
@@ -1282,41 +1057,9 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     }
 
     @SuppressWarnings("unchecked")
-    public S medSøknadHendelse(FamilieHendelseBuilder søknadHendelseBuilder) {
-        this.søknadHendelseBuilder = søknadHendelseBuilder;
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
     public S medOppgittTilknytning(OppgittTilknytningEntitet.Builder builder) {
         this.oppgittTilknytningBuilder = builder;
         return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medBekreftetHendelse(FamilieHendelseBuilder bekreftetHendelseBuilder) {
-        this.bekreftetHendelseBuilder = bekreftetHendelseBuilder;
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medOverstyrtHendelse(FamilieHendelseBuilder overstyrtHendelseBuilder) {
-        this.overstyrtHendelseBuilder = overstyrtHendelseBuilder;
-        return (S) this;
-    }
-
-    public OppgittAnnenPartBuilder medSøknadAnnenPart() {
-        if (oppgittAnnenPartBuilder == null) {
-            oppgittAnnenPartBuilder = new OppgittAnnenPartBuilder();
-        }
-        return oppgittAnnenPartBuilder;
-    }
-
-    public FamilieHendelseBuilder medSøknadHendelse() {
-        if (søknadHendelseBuilder == null) {
-            søknadHendelseBuilder = FamilieHendelseBuilder.oppdatere(Optional.empty(), HendelseVersjonType.SØKNAD);
-        }
-        return søknadHendelseBuilder;
     }
 
     public BehandlingVedtak.Builder medBehandlingVedtak() {
@@ -1366,20 +1109,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return oppgittTilknytningBuilder;
     }
 
-    public FamilieHendelseBuilder medBekreftetHendelse() {
-        if (bekreftetHendelseBuilder == null) {
-            bekreftetHendelseBuilder = FamilieHendelseBuilder.oppdatere(Optional.empty(), HendelseVersjonType.BEKREFTET);
-        }
-        return bekreftetHendelseBuilder;
-    }
-
-    public FamilieHendelseBuilder medOverstyrtHendelse() {
-        if (overstyrtHendelseBuilder == null) {
-            overstyrtHendelseBuilder = FamilieHendelseBuilder.oppdatere(Optional.empty(), HendelseVersjonType.OVERSTYRT);
-        }
-        return overstyrtHendelseBuilder;
-    }
-
     public SøknadEntitet.Builder medSøknad() {
         if (søknadBuilder == null) {
             søknadBuilder = new SøknadEntitet.Builder();
@@ -1424,31 +1153,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
     public void leggTilMedlemskapPeriode(RegistrertMedlemskapPerioder medlemskapPeriode) {
         this.medlemskapPerioder.add(medlemskapPeriode);
-    }
-
-    @SuppressWarnings("unchecked")
-
-    public S medDefaultSøknadTerminbekreftelse() {
-        final FamilieHendelseBuilder.TerminbekreftelseBuilder terminbekreftelse = medSøknadHendelse().getTerminbekreftelseBuilder()
-            .medTermindato(LocalDate.now(FPDateUtil.getOffset()).plusDays(40))
-            .medNavnPå("LEGEN LEGESEN")
-            .medUtstedtDato(LocalDate.now(FPDateUtil.getOffset()).minusDays(7));
-        medSøknadHendelse()
-            .medTerminbekreftelse(terminbekreftelse);
-
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medDefaultBekreftetTerminbekreftelse() {
-        final FamilieHendelseBuilder.TerminbekreftelseBuilder terminbekreftelse = medBekreftetHendelse().getTerminbekreftelseBuilder()
-            .medTermindato(LocalDate.now(FPDateUtil.getOffset()).plusDays(40))
-            .medNavnPå("LEGEN LEGESEN")
-            .medUtstedtDato(LocalDate.now(FPDateUtil.getOffset()).minusDays(7));
-        medBekreftetHendelse()
-            .medTerminbekreftelse(terminbekreftelse);
-
-        return (S) this;
     }
 
     @SuppressWarnings("unchecked")
@@ -1665,14 +1369,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
             if (builder.getType().equals(PersonopplysningVersjonType.OVERSTYRT)) {
                 oppdatere.medOverstyrtVersjon(builder);
             }
-            personopplysningMap.put(behandling, oppdatere.build());
-        }
-
-        @Override
-        public void lagre(Behandling behandling, OppgittAnnenPartBuilder oppgittAnnenPart) {
-            final PersonopplysningGrunnlagBuilder oppdatere = PersonopplysningGrunnlagBuilder.oppdatere(
-                Optional.ofNullable((PersonopplysningGrunnlagEntitet) personopplysningMap.getOrDefault(behandling, null)));
-            oppdatere.medOppgittAnnenPart(oppgittAnnenPart.build());
             personopplysningMap.put(behandling, oppdatere.build());
         }
 

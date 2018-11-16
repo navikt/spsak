@@ -1,19 +1,17 @@
 package no.nav.foreldrepenger.sak.v1;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.jws.WebService;
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -52,7 +50,6 @@ public class FinnSakService implements ForeldrepengesakV1 {
     private FagsakRepository fagsakRepository;
     private KodeverkRepository kodeverkRepository;
     private BehandlingRepository behandlingRepository;
-    private FamilieHendelseRepository familieGrunnlagRepository;
 
     public FinnSakService() {
         // NOSONAR: for CDI
@@ -63,7 +60,6 @@ public class FinnSakService implements ForeldrepengesakV1 {
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.familieGrunnlagRepository = repositoryProvider.getFamilieGrunnlagRepository();
     }
 
     @Override
@@ -81,11 +77,15 @@ public class FinnSakService implements ForeldrepengesakV1 {
 
         List<Fagsak> fagsaker = fagsakRepository.hentForBrukerAktørId(new AktørId(aktørid));
 
-        return lagResponse(fagsaker);
+        try {
+            return lagResponse(fagsaker);
+        } catch (DatatypeConfigurationException e) {
+            throw FinnSakServiceFeil.FACTORY.konverteringsfeil(e).toException();
+        }
     }
 
     // pkg scope for enhetstest
-    FinnSakListeResponse lagResponse(List<Fagsak> fagsaker) {
+    FinnSakListeResponse lagResponse(List<Fagsak> fagsaker) throws DatatypeConfigurationException {
         FinnSakListeResponse response = new FinnSakListeResponse();
         List<Sak> saksliste = response.getSakListe();
         for (Fagsak fagsak : fagsaker) {
@@ -94,7 +94,7 @@ public class FinnSakService implements ForeldrepengesakV1 {
         return response;
     }
 
-    private Sak lagEksternRepresentasjon(Fagsak fagsak) {
+    private Sak lagEksternRepresentasjon(Fagsak fagsak) throws DatatypeConfigurationException {
         Sak sak = new Sak();
         FagsakStatus status = fagsak.getStatus();
         sak.setStatus(lagEksternRepresentasjon(status));
@@ -136,14 +136,7 @@ public class FinnSakService implements ForeldrepengesakV1 {
     }
 
     private BehandlingTema getBehandlingsTemaForFagsak(Fagsak s) {
-        Optional<Behandling> behandling = behandlingRepository.hentSisteBehandlingForFagsakId(s.getId());
-        if (!behandling.isPresent()) {
-            return BehandlingTema.fraFagsak(s, null);
-        }
-
-        Behandling sisteBehandling = behandling.get();
-        final Optional<FamilieHendelseGrunnlag> grunnlag = familieGrunnlagRepository.hentAggregatHvisEksisterer(sisteBehandling);
-        return BehandlingTema.fraFagsak(s, grunnlag.map(FamilieHendelseGrunnlag::getSøknadVersjon).orElse(null));
+        return BehandlingTema.fraFagsak(s);
     }
 
     private boolean erStøttetYtelseType(FagsakYtelseType fagsakYtelseType) {

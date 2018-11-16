@@ -9,8 +9,6 @@ import java.util.Objects;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -102,10 +100,8 @@ public class KompletthetssjekkerTestUtil {
         OppgittFordeling oppgittFordeling = repositoryProvider.getYtelsesFordelingRepository().hentAggregat(behandling).getOppgittFordeling();
         Objects.requireNonNull(oppgittFordeling, "OppgittFordeling må være lagret på forhånd"); // NOSONAR //$NON-NLS-1$
 
-        FamilieHendelse familieHendelse = byggFamilieHendelse(behandling);
         Søknad søknad = new SøknadEntitet.Builder().medElektroniskRegistrert(true)
             .medFordeling(oppgittFordeling)
-            .medFamilieHendelse(familieHendelse)
             .medSøknadsdato(LocalDate.now())
             .medMottattDato(LocalDate.now())
             .medErEndringssøknad(erEndringssøknad)
@@ -141,11 +137,4 @@ public class KompletthetssjekkerTestUtil {
         repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, oppgittFordeling);
     }
 
-    private FamilieHendelse byggFamilieHendelse(Behandling behandling) {
-        FamilieHendelseBuilder søknadHendelse = repositoryProvider.getFamilieGrunnlagRepository().opprettBuilderFor(behandling)
-            .medAntallBarn(1)
-            .medFødselsDato(LocalDate.now().minusDays(1));
-        repositoryProvider.getFamilieGrunnlagRepository().lagre(behandling, søknadHendelse);
-        return repositoryProvider.getFamilieGrunnlagRepository().hentAggregat(behandling).getSøknadVersjon();
-    }
 }

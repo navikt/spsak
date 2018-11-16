@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
@@ -51,7 +50,6 @@ public class MedlemskapPerioderTjenesteImpl implements MedlemskapPerioderTjenest
     // FP VK 2.13 Maskinell avklaring
     @Override
     public boolean brukerMaskineltAvklartSomIkkeMedlem(Behandling behandling, PersonopplysningerAggregat personopplysningerAggregat,
-                                                       FamilieHendelseGrunnlag familieHendelseGrunnlag,
                                                        Set<RegistrertMedlemskapPerioder> medlemskapPerioder) {
         LocalDate skjæringstidspunkt = skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling);
         List<MedlemskapDekningType> dekningTyper = finnGyldigeDekningstyper(medlemskapPerioder, skjæringstidspunkt);
@@ -71,8 +69,7 @@ public class MedlemskapPerioderTjenesteImpl implements MedlemskapPerioderTjenest
     }
 
     @Override
-    public boolean erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(Behandling behandling, LocalDate nyDato,
-                                                                         FamilieHendelseGrunnlag familieHendelseGrunnlag) {
+    public boolean erNySkjæringsdatoUtenforInnhentetMedlemskapsintervall(Behandling behandling, LocalDate nyDato) {
         Objects.requireNonNull(nyDato, "nyDato må være satt"); //$NON-NLS-1$
 
         LocalDate skjæringsdato = skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling);
@@ -97,7 +94,6 @@ public class MedlemskapPerioderTjenesteImpl implements MedlemskapPerioderTjenest
     // FP VK 2.2 Maskinell avklaring
     @Override
     public boolean brukerMaskineltAvklartSomFrivilligEllerPliktigMedlem(Behandling behandling,
-                                                                        FamilieHendelseGrunnlag familieHendelseGrunnlag,
                                                                         Set<RegistrertMedlemskapPerioder> medlemskapPerioder) {
         LocalDate skjæringsdato = skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling);
         List<MedlemskapDekningType> dekningTyper = finnGyldigeDekningstyper(medlemskapPerioder, skjæringsdato);

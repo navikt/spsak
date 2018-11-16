@@ -32,7 +32,6 @@ import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjenes
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataEndringshåndterer;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataInnhenter;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
-import no.nav.vedtak.felles.testutilities.cdi.UnitTestInstanceImpl;
 
 public class RegisterdataInnhenterTest {
 
@@ -180,8 +179,8 @@ public class RegisterdataInnhenterTest {
     private RegisterdataEndringshåndtererImpl lagRegisterdataOppdaterer(BehandlingRepositoryProvider repositoryProvider,
                                                                         Instance<String> durationInstance, RegisterdataInnhenter innhenter) {
 
-        RegisterdataEndringshåndtererImpl oppdaterer = new RegisterdataEndringshåndtererImpl(Period.parse("P25D"),
-            repositoryProvider, innhenter, durationInstance, personopplysningTjeneste, null, null, null, null);
+        RegisterdataEndringshåndtererImpl oppdaterer = new RegisterdataEndringshåndtererImpl(
+            repositoryProvider, innhenter, durationInstance, null, null, null, null);
         return oppdaterer;
     }
 
@@ -195,8 +194,7 @@ public class RegisterdataInnhenterTest {
         BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste = new BehandlingskontrollTaskTjenesteImpl(prosessTaskRepository);
 
         return new RegisterdataInnhenterImpl(personinfoAdapter, medlemTjeneste,
-            skjæringstidspunktTjeneste, behandlingskontrollTaskTjeneste, repositoryProvider, null, null, null,
-            null, null, opplysningsPeriodeTjeneste,
-            new UnitTestInstanceImpl<>(Period.parse("P1W")), new UnitTestInstanceImpl<>(Period.parse("P4W")));
+            skjæringstidspunktTjeneste, behandlingskontrollTaskTjeneste, repositoryProvider, null, null,
+            opplysningsPeriodeTjeneste);
     }
 }

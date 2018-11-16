@@ -117,8 +117,6 @@ public class DokumentmottakerKlageTest {
 
     private Behandling byggAvsluttetSøknadsbehandlingForFødsel(int antallBarn) {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenario.medBekreftetHendelse()
-            .medAntallBarn(antallBarn).medFødselsDato(LocalDate.now());
 
         Behandling behandling = scenario
             .medBehandlingStegStart(BehandlingStegType.FATTE_VEDTAK)

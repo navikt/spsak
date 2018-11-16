@@ -30,7 +30,6 @@ import no.nav.foreldrepenger.behandlingslager.geografisk.PoststedKodeverkReposit
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.FiktiveFnr;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
-import no.nav.foreldrepenger.domene.person.TpsFamilieTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.tjeneste.virksomhet.aktoer.v2.binding.HentAktoerIdForIdentPersonIkkeFunnet;
@@ -93,8 +92,7 @@ public class PersoninfoAdapterMedTPSOversetterTest {
     private AktørConsumerMedCache aktørConsumer;
     @Mock
     private PersonConsumer personConsumer;
-    @Mock
-    private TpsFamilieTjeneste tpsFamilieTjeneste;
+
 
     private PoststedKodeverkRepository poststedKodeverkRepository = new PoststedKodeverkRepositoryImpl(repoRule.getEntityManager());
 
@@ -115,7 +113,7 @@ public class PersoninfoAdapterMedTPSOversetterTest {
         tpsAdresseOversetter = new TpsAdresseOversetter(null, poststedKodeverkRepository);
         tpsOversetter = new TpsOversetter(null, null, null, tpsAdresseOversetter);
         tpsAdapter = new TpsAdapterImpl(aktørConsumer, personConsumer, tpsOversetter);
-        adapterMedVanligOversetter = new PersoninfoAdapterImpl(tpsAdapter, tpsFamilieTjeneste);
+        adapterMedVanligOversetter = new PersoninfoAdapterImpl(tpsAdapter);
     }
 
     @Test

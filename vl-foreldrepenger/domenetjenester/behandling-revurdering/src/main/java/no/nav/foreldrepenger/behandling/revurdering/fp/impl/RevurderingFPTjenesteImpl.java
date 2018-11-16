@@ -19,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
@@ -40,7 +39,6 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
     private BehandlingRepository behandlingRepository;
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private RevurderingHistorikk revurderingHistorikk;
-    private FamilieHendelseRepository familieHendelseRepository;
     private PersonopplysningRepository personopplysningRepository;
     private MedlemskapRepository medlemskapRepository;
     private AksjonspunktRepository aksjonspunktRepository;
@@ -61,7 +59,6 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.ytelsesFordelingRepository = repositoryProvider.getYtelsesFordelingRepository();
         this.revurderingHistorikk = new RevurderingHistorikk(historikkRepository);
-        this.familieHendelseRepository = repositoryProvider.getFamilieGrunnlagRepository();
         this.personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
@@ -97,7 +94,6 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
         behandlingskontrollTjeneste.opprettBehandling(kontekst, revurdering);
 
         // Kopier grunnlagsdata
-        familieHendelseRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
         personopplysningRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
         medlemskapRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
         ytelsesFordelingRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);

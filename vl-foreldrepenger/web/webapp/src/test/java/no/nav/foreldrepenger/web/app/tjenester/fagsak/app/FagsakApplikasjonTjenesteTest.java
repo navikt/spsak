@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.web.app.tjenester.fagsak.app;
 import static java.lang.String.valueOf;
 import static java.time.Month.JANUARY;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -19,10 +18,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollAsynkTjenest
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.FamilieHendelseGrunnlagBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.familiehendelse.HendelseVersjonType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -31,7 +26,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavPersoninfoBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
-import no.nav.foreldrepenger.domene.familiehendelse.FamilieHendelseTjeneste;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
@@ -43,32 +37,19 @@ public class FagsakApplikasjonTjenesteTest {
 
     private static final String FNR = "12345678901";
     private static final AktørId AKTØR_ID = new AktørId("1");
-    private static final Saksnummer SAKSNUMMER  = new Saksnummer("123");
+    private static final Saksnummer SAKSNUMMER = new Saksnummer("123");
 
     private FagsakApplikasjonTjeneste tjeneste;
     private FagsakRepository fagsakRepository;
     private BehandlingRepository behandlingRepository;
     private TpsTjeneste tpsTjeneste;
-    private FamilieHendelseTjeneste hendelseTjeneste;
 
-    private static FamilieHendelseGrunnlag byggHendelseGrunnlag(LocalDate fødselsdato, LocalDate oppgittFødselsdato) {
-        final FamilieHendelseBuilder hendelseBuilder = FamilieHendelseBuilder.oppdatere(Optional.empty(), HendelseVersjonType.SØKNAD);
-        if (oppgittFødselsdato != null) {
-            hendelseBuilder.medFødselsDato(oppgittFødselsdato);
-        }
-        return FamilieHendelseGrunnlagBuilder.oppdatere(Optional.empty())
-            .medSøknadVersjon(hendelseBuilder)
-            .medBekreftetVersjon(FamilieHendelseBuilder.oppdatere(Optional.empty(), HendelseVersjonType.BEKREFTET)
-                .medFødselsDato(fødselsdato))
-            .build();
-    }
 
     @Before
     public void oppsett() {
         tpsTjeneste = mock(TpsTjeneste.class);
         fagsakRepository = mock(FagsakRepository.class);
         behandlingRepository = mock(BehandlingRepository.class);
-        hendelseTjeneste = mock(FamilieHendelseTjeneste.class);
 
         BehandlingskontrollAsynkTjeneste behandlingskontrollAsynkTjeneste = mock(BehandlingskontrollAsynkTjeneste.class);
 
@@ -76,7 +57,7 @@ public class FagsakApplikasjonTjenesteTest {
         when(repositoryProvider.getFagsakRepository()).thenReturn(fagsakRepository);
         when(repositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
 
-        tjeneste = new FagsakApplikasjonTjenesteImpl(repositoryProvider, behandlingskontrollAsynkTjeneste, tpsTjeneste, hendelseTjeneste);
+        tjeneste = new FagsakApplikasjonTjenesteImpl(repositoryProvider, behandlingskontrollAsynkTjeneste, tpsTjeneste);
     }
 
     @Test
@@ -91,9 +72,7 @@ public class FagsakApplikasjonTjenesteTest {
         when(fagsakRepository.hentForBruker(AKTØR_ID)).thenReturn(Collections.singletonList(fagsak));
 
         LocalDate fødselsdato = LocalDate.of(2017, JANUARY, 1);
-        final FamilieHendelseGrunnlag grunnlag = byggHendelseGrunnlag(fødselsdato, fødselsdato);
         when(behandlingRepository.hentSisteBehandlingForFagsakId(anyLong())).thenReturn(Optional.of(Behandling.forFørstegangssøknad(fagsak).build()));
-        when(hendelseTjeneste.finnAggregat(any())).thenReturn(Optional.of(grunnlag));
 
         // Act
         FagsakSamlingForBruker view = tjeneste.hentSaker(FNR);
@@ -116,9 +95,7 @@ public class FagsakApplikasjonTjenesteTest {
         when(fagsakRepository.hentSakGittSaksnummer(SAKSNUMMER)).thenReturn(Optional.of(fagsak));
 
         final LocalDate fødselsdato = LocalDate.of(2017, JANUARY, 1);
-        final FamilieHendelseGrunnlag grunnlag = byggHendelseGrunnlag(fødselsdato, fødselsdato);
         when(behandlingRepository.hentSisteBehandlingForFagsakId(anyLong())).thenReturn(Optional.of(Behandling.forFørstegangssøknad(fagsak).build()));
-        when(hendelseTjeneste.finnAggregat(any())).thenReturn(Optional.of(grunnlag));
 
         when(tpsTjeneste.hentBrukerForAktør(AKTØR_ID)).thenReturn(Optional.of(personinfo));
 

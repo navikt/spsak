@@ -11,6 +11,8 @@ import java.util.Set;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsFilter;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsFormål;
@@ -71,10 +73,10 @@ public class InntektTjenesteImpl implements InntektTjeneste {
 
     @Override
     public InntektsInformasjon finnInntekt(FinnInntektRequest finnInntektRequest, InntektsKilde kilde) {
-        HentInntektListeBolkRequest request = opprettRequest(finnInntektRequest, kilde);
-
         HentInntektListeBolkResponse response;
         try {
+            HentInntektListeBolkRequest request = opprettRequest(finnInntektRequest, kilde);
+
             response = inntektConsumer.hentInntektListeBolk(request);
         } catch (Exception e) {
             throw InntektFeil.FACTORY.feilVedKallTilInntekt(e).toException();
@@ -82,7 +84,7 @@ public class InntektTjenesteImpl implements InntektTjeneste {
         return oversettResponse(response, kilde);
     }
 
-    private HentInntektListeBolkRequest opprettRequest(FinnInntektRequest finnInntektRequest, InntektsKilde kilde) {
+    private HentInntektListeBolkRequest opprettRequest(FinnInntektRequest finnInntektRequest, InntektsKilde kilde) throws DatatypeConfigurationException {
         HentInntektListeBolkRequest request = new HentInntektListeBolkRequest();
 
         PersonIdent personIdent = objectFactory.createPersonIdent();

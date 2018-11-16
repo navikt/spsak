@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +95,8 @@ public class ArbeidsforholdTjenesteImpl implements ArbeidsforholdTjeneste {
             throw ArbeidsforholdTjenesteFeil.FACTORY.tjenesteUtilgjengeligSikkerhetsbegrensning(TJENESTE, e).toException();
         } catch (FinnArbeidsforholdPrArbeidstakerUgyldigInput e) {
             throw ArbeidsforholdTjenesteFeil.FACTORY.ugyldigInput(TJENESTE, e).toException();
+        } catch (DatatypeConfigurationException e) {
+            throw ArbeidsforholdTjenesteFeil.FACTORY.tekniskFeil(TJENESTE, e).toException();
         }
     }
 
