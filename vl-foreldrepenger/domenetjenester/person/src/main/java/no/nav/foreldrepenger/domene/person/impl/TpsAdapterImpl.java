@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.threeten.extra.Interval;
 
@@ -129,8 +128,6 @@ public class TpsAdapterImpl implements TpsAdapter {
             throw TpsFeilmeldinger.FACTORY.fantIkkePersonhistorikkForAktørId(e).toException();
         } catch (HentPersonhistorikkSikkerhetsbegrensning e) {
             throw TpsFeilmeldinger.FACTORY.tpsUtilgjengeligSikkerhetsbegrensning(e).toException();
-        } catch (DatatypeConfigurationException e) {
-            throw TpsFeilmeldinger.FACTORY.xmlGregorianCalendarParsingFeil(e).toException();
         }
     }
 

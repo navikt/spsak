@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,8 +83,6 @@ public class InfotrygdTjenesteImpl implements InfotrygdTjeneste {
             } else {
                 throw e;
             }
-        } catch (DatatypeConfigurationException e) {
-            throw InfotrygdTjenesteFeil.FACTORY.tekniskFeil(TJENESTE, e).toException();
         }
         return new FinnSakListeResponse();
     }

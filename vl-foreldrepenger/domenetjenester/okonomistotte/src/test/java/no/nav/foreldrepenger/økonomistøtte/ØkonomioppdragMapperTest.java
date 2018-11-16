@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.økonomistøtte;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -195,14 +194,10 @@ public class ØkonomioppdragMapperTest {
                     Optional<Refusjonsinfo156> refusjonsinfo156Opt = Optional.ofNullable(oppdragslinje150.getRefusjonsinfo156());
                     refusjonsinfo156Opt.ifPresent(refusjonsinfo156 -> {
                         assertThat(refusjonsinfo156Generert.getRefunderesId()).isEqualTo(refusjonsinfo156.getRefunderesId());
-                        try {
-                            assertThat(refusjonsinfo156Generert.getDatoFom())
-                                .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getDatoFom()));
-                            assertThat(refusjonsinfo156Generert.getMaksDato())
-                                .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getMaksDato()));
-                        } catch (DatatypeConfigurationException e) {
-                            fail(e.getMessage());
-                        }
+                        assertThat(refusjonsinfo156Generert.getDatoFom())
+                            .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getDatoFom()));
+                        assertThat(refusjonsinfo156Generert.getMaksDato())
+                            .isEqualTo(DateUtil.convertToXMLGregorianCalendarRemoveTimezone(refusjonsinfo156.getMaksDato()));
                     });
                 }
                 ix++;

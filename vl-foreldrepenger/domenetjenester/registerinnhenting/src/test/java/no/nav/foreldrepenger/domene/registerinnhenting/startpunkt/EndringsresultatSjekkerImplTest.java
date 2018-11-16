@@ -33,7 +33,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
-import no.nav.foreldrepenger.domene.ytelsefordeling.YtelseFordelingTjeneste;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
@@ -47,8 +46,6 @@ public class EndringsresultatSjekkerImplTest {
     private MedlemTjeneste medlemTjeneste;
     @Mock
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
-    @Mock
-    private YtelseFordelingTjeneste ytelseFordelingTjeneste;
     @Mock
     private BehandlingRepositoryProvider behandlingRepositoryProvider;
 
@@ -87,7 +84,6 @@ public class EndringsresultatSjekkerImplTest {
         personopplysningTjeneste = mock(PersonopplysningTjeneste.class);
         medlemTjeneste = mock(MedlemTjeneste.class);
         inntektArbeidYtelseTjeneste = mock(InntektArbeidYtelseTjeneste.class);
-        ytelseFordelingTjeneste = mock(YtelseFordelingTjeneste.class);
 
         opptjeningRepository = mock(OpptjeningRepository.class);
         beregningsgrunnlagRepository = mock(BeregningsgrunnlagRepository.class);
@@ -106,7 +102,7 @@ public class EndringsresultatSjekkerImplTest {
         when(behandlingRepositoryProvider.getUttakRepository()).thenReturn(uttakRepository);
 
 
-        endringsresultatSjekker = new EndringsresultatSjekkerImpl(personopplysningTjeneste, medlemTjeneste, inntektArbeidYtelseTjeneste, ytelseFordelingTjeneste, behandlingRepositoryProvider);
+        endringsresultatSjekker = new EndringsresultatSjekkerImpl(personopplysningTjeneste, medlemTjeneste, inntektArbeidYtelseTjeneste, behandlingRepositoryProvider);
         opprettMockTjenesteResponse();
     }
 
@@ -114,7 +110,6 @@ public class EndringsresultatSjekkerImplTest {
         when(personopplysningTjeneste.finnAktivGrunnlagId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(PersonInformasjon.class, personGrunnlagID));
         when(medlemTjeneste.finnAktivGrunnlagId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(MedlemskapAggregat.class, medlemGrunnlagID));
         when(inntektArbeidYtelseTjeneste.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(InntektArbeidYtelseGrunnlag.class, iayGrunnlagID));
-        when(ytelseFordelingTjeneste.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(YtelseFordelingAggregat.class, ytelseGrunnlagID));
 
         when(opptjeningRepository.finnAktivGrunnlagId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(Opptjening.class, opptjeningGrunnlagID));
         when(beregningsgrunnlagRepository.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(Beregningsgrunnlag.class, beregningsGrunnlagID));

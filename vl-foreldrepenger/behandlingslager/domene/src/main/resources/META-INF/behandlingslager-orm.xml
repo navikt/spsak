@@ -5,17 +5,12 @@
       http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
                  version="2.1">
 
-    <sequence-generator name="SEQ_ADOPSJON" allocation-size="50" sequence-name="SEQ_ADOPSJON"/>
-    <sequence-generator name="SEQ_ADOPSJON_BARN" allocation-size="50" sequence-name="SEQ_ADOPSJON"/>
-    <sequence-generator name="SEQ_SOEKNAD_ADOPSJON_BARN" allocation-size="50" sequence-name="SEQ_SOEKNAD_ADOPSJON_BARN"/>
     <sequence-generator name="SEQ_BEHANDLING" allocation-size="50" sequence-name="SEQ_BEHANDLING"/>
     <sequence-generator name="SEQ_BEHANDLING_STEG_TYPE_SEKV" allocation-size="50" sequence-name="SEQ_BEHANDLING_STEG_TYPE_SEKV"/>
     <sequence-generator name="SEQ_BEHANDLING_STEG_TILSTAND" allocation-size="50" sequence-name="SEQ_BEHANDLING_STEG_TILSTAND"/>
     <sequence-generator name="SEQ_BEHANDLING_REL_YTELSER" allocation-size="50" sequence-name="SEQ_BEHANDLING_REL_YTELSER"/>
     <sequence-generator name="SEQ_BEHANDLING_ARSAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_ARSAK"/>
     <sequence-generator name="SEQ_ETTERKONTROLL_LOGG" allocation-size="50" sequence-name="SEQ_ETTERKONTROLL_LOGG"/>
-    <sequence-generator name="SEQ_FOEDSEL" allocation-size="50" sequence-name="SEQ_FOEDSEL"/>
-    <sequence-generator name="SEQ_TERMINBEKREFTELSE" allocation-size="50" sequence-name="SEQ_TERMINBEKREFTELSE"/>
     <sequence-generator name="SEQ_GR_SOEKNAD" allocation-size="50" sequence-name="SEQ_GR_SOEKNAD"/>
     <sequence-generator name="SEQ_SOEKNAD" allocation-size="50" sequence-name="SEQ_SOEKNAD"/>
     <sequence-generator name="SEQ_KLAGE_VURDERING_RESULTAT" allocation-size="50" sequence-name="SEQ_KLAGE_VURDERING_RESULTAT"/>
@@ -60,8 +55,6 @@
     <sequence-generator name="SEQ_SOEKNAD_ANNEN_PART" allocation-size="50" sequence-name="SEQ_SOEKNAD_ANNEN_PART"/>
     <sequence-generator name="SEQ_SOEKNAD_VEDLEGG" allocation-size="50" sequence-name="SEQ_SOEKNAD_VEDLEGG"/>
 
-    <sequence-generator name="SEQ_OMSORGSOVERTAKELSE" allocation-size="50" sequence-name="SEQ_OMSORGSOVERTAKELSE"/>
-
     <sequence-generator name="SEQ_INNTEKT" allocation-size="50" sequence-name="SEQ_INNTEKT"/>
 
     <sequence-generator name="SEQ_MEDLEMSKAP_PERIODER" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_PERIODER"/>
@@ -94,9 +87,6 @@
 
     <sequence-generator name="SEQ_VERGE" allocation-size="50" sequence-name="SEQ_VERGE"/>
     <sequence-generator name="SEQ_GR_VERGE" allocation-size="50" sequence-name="SEQ_GR_VERGE"/>
-
-    <sequence-generator name="SEQ_UIDENTIFISERT_BARN" allocation-size="50" sequence-name="SEQ_UIDENTIFISERT_BARN"/>
-    <sequence-generator name="SEQ_FAMILIE_HENDELSE" allocation-size="50" sequence-name="SEQ_FAMILIE_HENDELSE"/>
 
     <sequence-generator name="SEQ_BEREGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_BEREGNINGSGRUNNLAG"/>
     <sequence-generator name="SEQ_BG_AKTIVITET_STATUS" allocation-size="50" sequence-name="SEQ_BG_AKTIVITET_STATUS"/>

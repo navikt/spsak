@@ -41,10 +41,6 @@
     <listener>
         <listener-class>no.nav.foreldrepenger.web.app.startupinfo.AppStartupServletContextListener</listener-class>
     </listener>
-    <listener>
-        <!-- Ønsker denne _sist_. -->
-        <listener-class>no.nav.foreldrepenger.web.app.tjenester.AsyncJmsConsumerStarter</listener-class>
-    </listener>
 
     <security-constraint>
         <web-resource-collection>

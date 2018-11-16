@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapKildeType;
@@ -59,8 +58,6 @@ public class HentMedlemskapFraRegister {
             throw MedlemFeil.FACTORY.feilVedKallTilMedlem(ex).toException();
         } catch (Sikkerhetsbegrensning ex) {
             throw MedlemFeil.FACTORY.fikkSikkerhetsavvikFraMedlem(ex).toException();
-        } catch (DatatypeConfigurationException e) {
-            throw MedlemFeil.FACTORY.feilVedOpprettelseAvMedlemRequest(e).toException();
         }
 
         return medlemskapsperiodeList;

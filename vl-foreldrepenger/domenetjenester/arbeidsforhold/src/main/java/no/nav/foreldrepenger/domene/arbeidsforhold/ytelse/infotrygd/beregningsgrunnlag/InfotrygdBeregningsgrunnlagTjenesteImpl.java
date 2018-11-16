@@ -5,7 +5,6 @@ import java.time.Month;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,8 +64,6 @@ public class InfotrygdBeregningsgrunnlagTjenesteImpl implements  InfotrygdBeregn
         } catch (FinnGrunnlagListePersonIkkeFunnet e) {//$NON-NLS-1$ //NOSONAR
             // Skal ut ifra erfaringer fra fundamentet ikke gjøres noe med, fordi dette er normalt.
             InfotrygdTjenesteFeil.FACTORY.personIkkeFunnet(e).log(log);
-        } catch (DatatypeConfigurationException e) {
-            throw InfotrygdTjenesteFeil.FACTORY.tekniskFeil(TJENESTE, e).toException();
         }
         return new FinnGrunnlagListeResponse();
     }

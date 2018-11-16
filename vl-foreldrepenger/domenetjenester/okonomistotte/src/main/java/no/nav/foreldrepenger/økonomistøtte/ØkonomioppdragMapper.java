@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.xml.sax.SAXException;
@@ -188,10 +187,6 @@ public class ØkonomioppdragMapper {
     }
 
     private XMLGregorianCalendar toXmlGregCal(LocalDate dato) {
-        try {
-            return dato != null ? DateUtil.convertToXMLGregorianCalendarRemoveTimezone(dato) : null;
-        } catch (DatatypeConfigurationException e) {
-            throw ØkonomistøtteFeil.FACTORY.datokonverteringsfeil(null, e).toException();
-        }
+        return dato != null ? DateUtil.convertToXMLGregorianCalendarRemoveTimezone(dato) : null;
     }
 }

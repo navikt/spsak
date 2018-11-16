@@ -22,7 +22,6 @@ import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.Kompletthetsjekke
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.foreldrepenger.domene.ytelsefordeling.YtelseFordelingTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.SøknadType;
 
 @ApplicationScoped
@@ -42,7 +41,6 @@ public class SøknadDtoTjenesteImpl implements SøknadDtoTjeneste {
     public SøknadDtoTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
                                  SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                  KompletthetsjekkerProvider kompletthetsjekkerProvider,
-                                 YtelseFordelingTjeneste ytelseFordelingTjeneste,
                                  TpsTjeneste tpsTjeneste) {
         this.repositoryProvider = repositoryProvider;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
