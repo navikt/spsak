@@ -52,14 +52,6 @@
         </dependency>
         <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>felles-integrasjon-jms</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>sakogbehandling-klient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>infotrygdsak-klient</artifactId>
         </dependency>
         <dependency>
