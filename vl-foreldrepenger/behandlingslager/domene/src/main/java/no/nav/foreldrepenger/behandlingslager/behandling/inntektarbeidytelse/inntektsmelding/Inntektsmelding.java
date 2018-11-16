@@ -40,6 +40,13 @@ public interface Inntektsmelding {
     List<UtsettelsePeriode> getUtsettelsePerioder();
 
     /**
+     * Liste over Arbeidsgiverperiode
+     *
+     * @return {@link Arbeidsgiverperiode}
+     */
+    List<Arbeidsgiverperiode> getArbeidsgiverperiode();
+
+    /**
      * Arbeidsgivers arbeidsforhold referanse
      *
      * @return {@link ArbeidsforholdRef}

@@ -88,6 +88,11 @@ public class InntektsmeldingBuilder {
         return this;
     }
 
+    public InntektsmeldingBuilder leggTil(Arbeidsgiverperiode arbeidsgiverperiode) {
+        kladd.leggTil(arbeidsgiverperiode);
+        return this;
+    }
+
 
     public InntektsmeldingBuilder medMottattDokument(MottattDokument mottattDokument) {
         kladd.setMottattDokumentId(mottattDokument.getId());

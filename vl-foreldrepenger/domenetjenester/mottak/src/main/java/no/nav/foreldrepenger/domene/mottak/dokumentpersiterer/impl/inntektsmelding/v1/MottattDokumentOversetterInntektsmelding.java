@@ -16,6 +16,7 @@ import javax.xml.bind.JAXBElement;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.ArbeidsgiverperiodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.GraderingEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseEntitet;
@@ -94,17 +95,21 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
             if (arbeidsforholdId != null) {
                 builder.medArbeidsforholdId(arbeidsforholdId.getValue());
             }
-            builder.medBeløp(arbeidsforholdet.getBeregnetInntekt().getValue().getBeloep().getValue())
-                .medStartDatoPermisjon(DateUtil.convertToLocalDate(wrapper.getStartDatoPermisjon()));
+            builder.medBeløp(arbeidsforholdet.getBeregnetInntekt().getValue().getBeloep().getValue());
         } else {
             throw InntektsmeldingFeil.FACTORY.manglendeInformasjon().toException();
         }
 
         mapNaturalYtelser(wrapper, builder);
-        mapGradering(wrapper, builder);
+        //mapGradering(wrapper, builder);
 
         mapFerie(wrapper, builder);
-        mapUtsettelse(wrapper, builder);
+        //mapUtsettelse(wrapper, builder);
+        mapArbeidsgiverperiode(wrapper, builder);
+        if (wrapper.getArbeidsgiverPeriode() != null && !wrapper.getArbeidsgiverPeriode().isEmpty()) {
+            // TODO: HACK ? Fyller ut startdato-permisjon med første dag i arbeidsgiverperioden
+            builder.medStartDatoPermisjon(DateUtil.convertToLocalDate(wrapper.getArbeidsgiverPeriode().get(0).getFom().getValue()));
+        }
         mapRefusjon(wrapper, builder);
 
         inntektArbeidYtelseRepository.lagre(behandling, builder.build());
@@ -132,13 +137,20 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
         }
     }
 
-    private void mapUtsettelse(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
+    /*private void mapUtsettelse(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
         for (UtsettelseAvForeldrepenger detaljer : wrapper.getUtsettelser()) {
             // FIXME (weak reference)
             ÅrsakUtsettelseKodeliste årsakUtsettelse = ÅrsakUtsettelseKodeliste.fromValue(detaljer.getAarsakTilUtsettelse().getValue());
             final UtsettelseÅrsak årsak = kodeverkRepository.finn(UtsettelseÅrsak.class, årsakUtsettelse.name());
             builder.leggTil(UtsettelsePeriodeEntitet.utsettelse(DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getFom().getValue()),
                 DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getTom().getValue()), årsak));
+        }
+    }*/
+
+    private void mapArbeidsgiverperiode(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
+        for (Periode periode : wrapper.getArbeidsgiverPeriode()) {
+            builder.leggTil(new ArbeidsgiverperiodeEntitet(DateUtil.convertToLocalDate(periode.getFom().getValue()),
+                DateUtil.convertToLocalDate(periode.getTom().getValue())));
         }
     }
 
@@ -168,11 +180,11 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
         }
     }
 
-    private void mapGradering(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
+    /*private void mapGradering(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
         for (GraderingIForeldrepenger detaljer : wrapper.getGradering()) {
             builder.leggTil(new GraderingEntitet(DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getFom().getValue()),
                 DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getTom().getValue()),
                 new BigDecimal(detaljer.getArbeidstidprosent().getValue())));
         }
-    }
+    }*/
 }

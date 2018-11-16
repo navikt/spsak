@@ -100,6 +100,10 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     @ChangeTracked
     private List<RefusjonEntitet> endringerRefusjon = new ArrayList<>();
 
+    @OneToMany(mappedBy = "inntektsmelding")
+    @ChangeTracked
+    private List<ArbeidsgiverperiodeEntitet> arbeidsgiverperiode = new ArrayList<>();
+
     @ManyToOne(optional = false)
     @JoinColumnsOrFormulas({
         @JoinColumnOrFormula(column = @JoinColumn(name = "innsendingsaarsak", referencedColumnName = "kode", nullable = false)),
@@ -143,6 +147,11 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
             final RefusjonEntitet refusjonEntitet = new RefusjonEntitet(r);
             refusjonEntitet.setInntektsmelding(this);
             return refusjonEntitet;
+        }).collect(Collectors.toList());
+        this.arbeidsgiverperiode = inntektsmelding.getArbeidsgiverperiode().stream().map(a -> {
+            final ArbeidsgiverperiodeEntitet arbeidsgiverperiodeEntitet = new ArbeidsgiverperiodeEntitet(a);
+            arbeidsgiverperiodeEntitet.setInntektsmelding(this);
+            return arbeidsgiverperiodeEntitet;
         }).collect(Collectors.toList());
     }
 
@@ -201,6 +210,9 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     public List<UtsettelsePeriode> getUtsettelsePerioder() {
         return Collections.unmodifiableList(utsettelsePerioder);
     }
+
+    @Override
+    public List<Arbeidsgiverperiode> getArbeidsgiverperiode() { return Collections.unmodifiableList(arbeidsgiverperiode); }
 
     @Override
     public ArbeidsforholdRef getArbeidsforholdRef() {
@@ -293,6 +305,11 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     void leggTil(Refusjon refusjon) {
         this.endringerRefusjon.add((RefusjonEntitet) refusjon);
         ((RefusjonEntitet) refusjon).setInntektsmelding(this);
+    }
+
+    void leggTil(Arbeidsgiverperiode arbeidsgiverperiode) {
+        this.arbeidsgiverperiode.add((ArbeidsgiverperiodeEntitet) arbeidsgiverperiode);
+        ((ArbeidsgiverperiodeEntitet) arbeidsgiverperiode).setInntektsmelding(this);
     }
 
     @Override
