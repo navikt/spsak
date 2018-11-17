@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,10 +24,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 
 @ApplicationScoped
@@ -36,8 +31,6 @@ public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderin
 
     private EntityManager entityManager;
     private BehandlingRepository behandlingRepository;
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
-    private FagsakRepository fagsakRepository;
     private SøknadRepository søknadRepository;
     private BehandlingLåsRepository behandlingLåsRepository;
 
@@ -52,8 +45,6 @@ public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderin
         Objects.requireNonNull(repositoryProvider, "repositoryProvider");
         this.entityManager = entityManager;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.fagsakRelasjonRepository = repositoryProvider.getFagsakRelasjonRepository();
-        this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.behandlingLåsRepository = repositoryProvider.getBehandlingLåsRepository();
     }
@@ -86,7 +77,6 @@ public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderin
             .hentSisteBehandlingForFagsakIdEkskluderBehandlingerAvType(fagsakId, asList(KLAGE, INNSYN));
     }
 
-    @SuppressWarnings("unchecked")
     private List<Long> finnHenlagteBehandlingerEtter(Long fagsakId, Behandling sisteInnvilgede) {
         TypedQuery<Long> query = getEntityManager().createQuery(
             "SELECT b.id FROM Behandling b WHERE b.fagsak.id=:fagsakId " +
@@ -150,60 +140,6 @@ public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderin
         check(behandlinger.stream().filter(it -> !it.erKøet()).count() <= 1, "Kan maks ha én åpen ytelsesbehandling"); //$NON-NLS-1$
 
         return behandlinger;
-    }
-
-    @Override
-    public Optional<Behandling> finnÅpenBehandlingMedforelder(Fagsak fagsak) {
-        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(fagsak);
-        if (!fagsakRelasjon.isPresent() || !fagsakRelasjon.get().getFagsakNrTo().isPresent()) {
-            return Optional.empty();
-        }
-
-        Long fagsakIdEn = fagsakRelasjon.get().getFagsakNrEn().getId();
-        Long fagsakIdTo = fagsakRelasjon.get().getFagsakNrTo().get().getId();
-        Long fagsakIdMedforelder = fagsakIdEn.equals(fagsak.getId()) ? fagsakIdTo : fagsakIdEn;
-
-        return finnÅpenYtelsesbehandling(fagsakIdMedforelder);
-    }
-
-    @Override
-    public Optional<Behandling> finnKøetBehandlingMedforelder(Fagsak fagsak) {
-        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(fagsak);
-        if (!fagsakRelasjon.isPresent() || !fagsakRelasjon.get().getFagsakNrTo().isPresent()) {
-            return Optional.empty();
-        }
-        Long fagsakIdMedforelder = fagsakRelasjon.get().getFagsakNrTo().get().getId();
-        return finnKøetYtelsesbehandling(fagsakIdMedforelder);
-    }
-
-    @Override
-    public Optional<Fagsak> finnFagsakPåMedforelder(Fagsak fagsak) {
-        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(fagsak);
-        if (fagsakRelasjon.isPresent() && fagsakRelasjon.get().getFagsakNrTo().isPresent()) {
-            Long fagsakIdEn = fagsakRelasjon.get().getFagsakNrEn().getId();
-            Long fagsakIdTo = fagsakRelasjon.get().getFagsakNrTo().get().getId();
-            Long fagsakIdMedforelder = fagsakIdEn.equals(fagsak.getId()) ? fagsakIdTo : fagsakIdEn;
-            return fagsakRepository.finnUnikFagsak(fagsakIdMedforelder);
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Behandling> finnSisteInnvilgedeIkkeHenlagteBehandlingForMedforelder(Fagsak fagsak) {
-        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(fagsak);
-        if (!fagsakRelasjon.isPresent() || !fagsakRelasjon.get().getFagsakNrTo().isPresent()) {
-            return Optional.empty();
-        }
-        Fagsak fagsak1 = fagsakRelasjon.get().getFagsakNrEn();
-        Fagsak fagsak2 = fagsakRelasjon.get().getFagsakNrTo().get();
-        Optional<Long> fagsakIdMedforelder = Stream.of(fagsak1, fagsak2)
-            .filter(sak -> !fagsak.equals(sak)) // ikke egen sak = medforelders sak
-            .map(Fagsak::getId)
-            .findFirst();
-        if (!fagsakIdMedforelder.isPresent()) {
-            return Optional.empty();
-        }
-        return behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(fagsakIdMedforelder.get());
     }
 
     @Override

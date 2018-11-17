@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -45,8 +43,6 @@ import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
 public class KontrollerFaktaStegImplForeldrepengerTest {
-
-    private static final LocalDate FØDSELSDATO_BARN = LocalDate.of(2017, Month.JANUARY, 1);
 
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();

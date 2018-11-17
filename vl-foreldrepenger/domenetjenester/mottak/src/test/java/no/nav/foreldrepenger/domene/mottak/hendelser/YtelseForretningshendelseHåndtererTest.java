@@ -31,7 +31,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.hendelser.ForretningshendelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -69,9 +68,6 @@ public class YtelseForretningshendelseHåndtererTest {
     private ProsessTaskRepository prosessTaskRepository;
     @Inject
     private Endringskontroller endringskontroller;
-    @Inject
-    private FagsakLåsRepository fagsakLåsRepository;
-
     @Mock
     private MottatteDokumentTjeneste mottatteDokumentTjeneste;
     @Mock
@@ -83,7 +79,7 @@ public class YtelseForretningshendelseHåndtererTest {
 
     @Before
     public void setUp() {
-        BehandlingskontrollTjeneste behandlingskontrollTjeneste = DokumentmottakTestUtil.lagBehandlingskontrollTjenesteMock(repositoryProvider, behandlingModellRepository, fagsakLåsRepository);
+        BehandlingskontrollTjeneste behandlingskontrollTjeneste = DokumentmottakTestUtil.lagBehandlingskontrollTjenesteMock(repositoryProvider, behandlingModellRepository);
         Behandlingsoppretter behandlingsoppretter = new BehandlingsoppretterImpl(repositoryProvider, behandlingskontrollTjeneste, revurderingTjenesteProvider, null, prosessTaskRepository, mottatteDokumentTjeneste, behandlendeEnhetTjeneste, historikkinnslagTjeneste);
         håndterer = new YtelseForretningshendelseHåndterer(repositoryProvider, behandlingsoppretter, kompletthetskontroller, endringskontroller, behandlingskontrollTjeneste, historikkinnslagTjeneste);
     }

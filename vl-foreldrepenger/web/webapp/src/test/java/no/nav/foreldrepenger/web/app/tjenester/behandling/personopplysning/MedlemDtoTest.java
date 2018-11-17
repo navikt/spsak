@@ -13,7 +13,6 @@ import java.util.Optional;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
-import no.nav.foreldrepenger.behandling.impl.RegisterInnhentingIntervallEndringTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
@@ -43,6 +42,7 @@ import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.domene.person.impl.TpsTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.InntektDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemDtoTjenesteImpl;
@@ -85,10 +85,7 @@ public class MedlemDtoTest {
 
         lagreOpptjening(scenario, behandling, søkerAktørId, inntektspost);
 
-        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
-            new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
-            Period.of(0, 3, 0),
-            Period.of(0, 10, 0));
+        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
         AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
         InntektArbeidYtelseTjenesteImpl opptjeningTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         TpsTjenesteImpl tpsTjeneste = mock(TpsTjenesteImpl.class);
@@ -100,7 +97,7 @@ public class MedlemDtoTest {
         Personinfo person = new Personinfo.Builder()
             .medNavn(navn)
             .medAktørId(søkerAktørId)
-            .medFnr("12312411252")
+            .medPersonIdent(PersonIdent.fra("12312411252"))
             .medNavBrukerKjønn(NavBrukerKjønn.KVINNE)
             .medFødselsdato(LocalDate.now())
             .build();
@@ -162,10 +159,7 @@ public class MedlemDtoTest {
             .medInntektspostType(InntektspostType.UDEFINERT);
 
         lagreOpptjening(scenario, behandling, aktørIdAnnenPart, inntektspost);
-        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
-            new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
-            Period.of(0, 3, 0),
-            Period.of(0, 10, 0));
+        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
         AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
         InntektArbeidYtelseTjenesteImpl opptjeningTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         TpsTjenesteImpl tpsTjeneste = mock(TpsTjenesteImpl.class);
@@ -177,7 +171,7 @@ public class MedlemDtoTest {
         Personinfo person = new Personinfo.Builder()
             .medNavn(annenPart)
             .medAktørId(new AktørId("124"))
-            .medFnr("12312411252")
+            .medPersonIdent(PersonIdent.fra("12312411252"))
             .medNavBrukerKjønn(NavBrukerKjønn.KVINNE)
             .medFødselsdato(LocalDate.now())
             .build();

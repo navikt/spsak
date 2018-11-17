@@ -23,7 +23,6 @@ class OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt {
         set.add(VilkårType.FØDSELSVILKÅRET_MOR);
         set.add(VilkårType.FØDSELSVILKÅRET_FAR_MEDMOR);
         set.add(VilkårType.ADOPSJONSVILKARET_FORELDREPENGER);
-        set.add(VilkårType.OMSORGSVILKÅRET);
         set.add(VilkårType.OPPTJENINGSVILKÅRET);
         set.add(VilkårType.SØKERSOPPLYSNINGSPLIKT);
         set.add(VilkårType.BEREGNINGSGRUNNLAGVILKÅR);

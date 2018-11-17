@@ -28,12 +28,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverk
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -62,12 +58,10 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     private InnsynRepository innsynRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private BeregningRepository beregningRepository;
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
     private UttakRepository uttakRepository;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
     private VirksomhetRepository virksomhetRepository;
     private BehandlingVedtakRepository behandlingVedtakRepository;
-    private YtelsesFordelingRepository ytelsesFordelingRepository;
     private OpptjeningRepositoryImpl opptjeningRepository;
     private BeregningsresultatFPRepository beregningsresultatFPRepository;
     private MottatteDokumentRepository mottatteDokumentRepository;
@@ -94,17 +88,13 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         this.kodeverkRepository = new KodeverkRepositoryImpl(entityManager);
         this.behandlingsgrunnlagKodeverkRepository = new BehandlingsgrunnlagKodeverkRepositoryImpl(entityManager);
 
-        // fp spesifikke behandling aggregater
-        this.ytelsesFordelingRepository = new YtelsesFordelingRepositoryImpl(entityManager);
-
         // behandling repositories
         this.behandlingRepository = new BehandlingRepositoryImpl(entityManager);
         this.behandlingLåsRepository = new BehandlingLåsRepositoryImpl(entityManager);
         this.fagsakRepository = new FagsakRepositoryImpl(entityManager);
         this.aksjonspunktRepository = new AksjonspunktRepositoryImpl(entityManager, this.kodeverkRepository);
         this.fagsakLåsRepository = new FagsakLåsRepositoryImpl(entityManager);
-        this.fagsakRelasjonRepository = new FagsakRelasjonRepositoryImpl(entityManager, ytelsesFordelingRepository, fagsakLåsRepository);
-
+        
         // andre type behandlinger (ikke ytelse behandling)
         this.innsynRepository = new InnsynRepositoryImpl(entityManager);
 
@@ -215,11 +205,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     }
 
     @Override
-    public FagsakRelasjonRepository getFagsakRelasjonRepository() {
-        return fagsakRelasjonRepository;
-    }
-
-    @Override
     public UttakRepository getUttakRepository() {
         return uttakRepository;
     }
@@ -237,11 +222,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     @Override
     public BeregningRepository getBeregningRepository() {
         return beregningRepository;
-    }
-
-    @Override
-    public YtelsesFordelingRepository getYtelsesFordelingRepository() {
-        return ytelsesFordelingRepository;
     }
 
     @Override

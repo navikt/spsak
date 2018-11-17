@@ -60,8 +60,8 @@ public class OppdaterFagsakStatusFellesTest {
     }
 
     private boolean erVedtakUtløpt(int antallDagerEtterMaksdato, int antallÅrSidenFødsel, int foreldelsesfristAntallÅr) {
-        LocalDate fødselsDato = LocalDate.now().minusYears(antallÅrSidenFødsel);
-        LocalDate maksDatoUttak = LocalDate.now().minusDays(antallDagerEtterMaksdato);
+        LocalDate.now().minusYears(antallÅrSidenFødsel);
+        LocalDate.now().minusDays(antallDagerEtterMaksdato);
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         Behandling behandling = scenario.lagMocked();

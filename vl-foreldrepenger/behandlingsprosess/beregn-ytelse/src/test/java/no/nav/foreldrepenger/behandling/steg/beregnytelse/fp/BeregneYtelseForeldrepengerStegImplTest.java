@@ -36,7 +36,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEn
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
@@ -192,7 +191,6 @@ public class BeregneYtelseForeldrepengerStegImplTest {
             .medUttakArbeidType(UttakArbeidType.ORDINÆRT_ARBEID)
             .build();
         UttakResultatPeriodeAktivitetEntitet periodeAktivitet = new UttakResultatPeriodeAktivitetEntitet.Builder(periode, uttakAktivitet)
-            .medTrekkonto(StønadskontoType.FORELDREPENGER_FØR_FØDSEL)
             .medTrekkdager(15)
             .medArbeidsprosent(BigDecimal.ZERO)
             .medUtbetalingsprosent(BigDecimal.valueOf(100))

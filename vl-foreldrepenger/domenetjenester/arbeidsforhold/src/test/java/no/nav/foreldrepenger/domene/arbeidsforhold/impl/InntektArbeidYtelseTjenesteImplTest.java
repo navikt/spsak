@@ -435,7 +435,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
         return aksjonspunkt;
     }
 
-    private InntektArbeidYtelseAggregatBuilder opprettArbeidOgInntektForBehandling(AbstractTestScenario scenario, LocalDate fom, LocalDate tom, boolean harPensjonsgivendeInntekt, boolean skalLageArbeid) {
+    private InntektArbeidYtelseAggregatBuilder opprettArbeidOgInntektForBehandling(AbstractTestScenario<?> scenario, LocalDate fom, LocalDate tom, boolean harPensjonsgivendeInntekt, boolean skalLageArbeid) {
 
         VirksomhetEntitet virksomhet = getAndreVirsomhenten();
 

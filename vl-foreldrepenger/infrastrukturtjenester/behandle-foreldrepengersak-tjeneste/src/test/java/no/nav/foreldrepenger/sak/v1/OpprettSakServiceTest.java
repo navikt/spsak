@@ -169,7 +169,7 @@ public class OpprettSakServiceTest {
         when(journalTjeneste.hentInngåendeJournalpostHoveddokument(any(), any())).thenReturn(ArkivJournalPost.Builder.ny().medJournalpostId(JOURNALPOST_ID)
             .medHoveddokument(ArkivDokument.Builder.ny().medDokumentKategori(DokumentKategori.UDEFINERT).medDokumentTypeId(DokumentTypeId.KLAGE_DOKUMENT).build()).build());
 
-        OpprettSakResponse response = service.opprettSak(request);
+        service.opprettSak(request);
     }
 
     @Test
@@ -206,7 +206,7 @@ public class OpprettSakServiceTest {
         when(journalTjeneste.hentInngåendeJournalpostHoveddokument(any(), any())).thenReturn(ArkivJournalPost.Builder.ny().medJournalpostId(JOURNALPOST_ID)
             .medHoveddokument(ArkivDokument.Builder.ny().medDokumentKategori(DokumentKategori.KLAGE_ELLER_ANKE).medDokumentTypeId(DokumentTypeId.UDEFINERT).build()).build());
 
-        OpprettSakResponse response = service.opprettSak(request);
+        service.opprettSak(request);
     }
 
     @Test

@@ -4,7 +4,8 @@ package no.nav.foreldrepenger.behandling.steg.inngangsvilkår.auto;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import java.time.Period;
-import java.util.function.BiConsumer;
+import java.util.Objects;
+import java.util.function.BiFunction;
 
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -30,19 +31,25 @@ public class InngangsvilkårAutoTest {
 
     @Test
     public void vurderOpptjening() {
-        final BiConsumer<VilkårResultat, Object> extraDataSjekk = (resultat, extra) ->
-            collector.checkThat("Avvik i opptjeningstid for " + resultat,
-                ((OpptjeningsvilkårResultat) extra).getResultatOpptjent(), equalTo(Period.parse(resultat.getOpptjentTid())));
+        final BiFunction<VilkårResultat, Object, Boolean> extraDataSjekk = (resultat, extra) ->
+            {
+                collector.checkThat("Avvik i opptjeningstid for " + resultat,
+                    ((OpptjeningsvilkårResultat) extra).getResultatOpptjent(), equalTo(Period.parse(resultat.getOpptjentTid())));
+                return ((OpptjeningsvilkårResultat) extra).getResultatOpptjent().equals(Period.parse(resultat.getOpptjentTid()));
+            };
         new VilkårVurdering().vurderVilkår(collector, VilkårType.OPPTJENINGSVILKÅRET, extraDataSjekk);
     }
 
     @Test
     public void fastsettOpptjeningsPeriode() {
-        final BiConsumer<VilkårResultat, Object> extraDataSjekk = (resultat, extra) -> {
-            collector.checkThat("Avvik i opptjeningstid for " + resultat,
+        final BiFunction<VilkårResultat, Object, Boolean> extraDataSjekk = (resultat, extra) -> {
+            collector.checkThat("Avvik i opptjeningsperiode (fom) for " + resultat,
                 ((OpptjeningsPeriode) extra).getOpptjeningsperiodeFom(), equalTo(resultat.getOpptjeningFom()));
-            collector.checkThat("Avvik i opptjeningstid for " + resultat,
+            collector.checkThat("Avvik i opptjeningsperiode (tom) for " + resultat,
                 ((OpptjeningsPeriode) extra).getOpptjeningsperiodeTom(), equalTo(resultat.getOpptjeningTom()));
+            
+            return Objects.equals(((OpptjeningsPeriode) extra).getOpptjeningsperiodeFom(), resultat.getOpptjeningFom())
+                    && Objects.equals(((OpptjeningsPeriode) extra).getOpptjeningsperiodeTom(), resultat.getOpptjeningTom());
         };
         new VilkårVurdering().vurderVilkår(collector, VilkårType.OPPTJENINGSPERIODEVILKÅR, extraDataSjekk);
     }

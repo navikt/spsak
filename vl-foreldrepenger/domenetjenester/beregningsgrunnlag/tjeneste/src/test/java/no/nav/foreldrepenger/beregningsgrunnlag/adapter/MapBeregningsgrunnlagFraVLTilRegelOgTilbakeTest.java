@@ -44,7 +44,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.beregningsgrunnlag.HentGrunnlagsdataTjeneste;
 import no.nav.foreldrepenger.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
@@ -61,8 +60,6 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 
 public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
 
-    private static final String ARBEIDSFORHOLD_ORGNR = "42L";
-
     private static final AktørId AKTØR_ID = new AktørId(1234L);
 
     @Rule
@@ -78,9 +75,6 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
 
     @Mock
     private OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste;
-
-    @Mock
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
 
     @Mock
     private HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste;
@@ -102,7 +96,6 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
         behandling = scenario.lagre(realRepositoryProvider);
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         when(repositoryProvider.getPersonopplysningRepository()).thenReturn(personopplysningRepository);
-        when(repositoryProvider.getFagsakRelasjonRepository()).thenReturn(fagsakRelasjonRepository);
         when(repositoryProvider.getBeregningRepository()).thenReturn(realRepositoryProvider.getBeregningRepository());
         when(repositoryProvider.getVirksomhetRepository()).thenReturn(virksomhetRepository);
         when(hentGrunnlagsdataTjeneste.vurderOmNyesteGrunnlagsdataSkalHentes(behandling)).thenReturn(true);

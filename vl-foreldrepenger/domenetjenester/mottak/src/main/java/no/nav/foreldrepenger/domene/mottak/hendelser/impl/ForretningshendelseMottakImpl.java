@@ -105,12 +105,6 @@ public class ForretningshendelseMottakImpl implements ForretningshendelseMottak 
             return;
         }
 
-        // Case 2: Berørt (køet) behandling
-        if (finnesÅpenBehandlingPåMedforelder(fagsak)) {
-            håndterer.håndterKøetBehandling(fagsak, hendelseType);
-            return;
-        }
-
         // Case 3: Åpen ytelsesbehandling
         if (!sisteYtelsebehandling.erAvsluttet() && !sisteYtelsebehandling.erUnderIverksettelse()) {
             håndterer.håndterÅpenBehandling(sisteYtelsebehandling, hendelseType);
@@ -135,10 +129,6 @@ public class ForretningshendelseMottakImpl implements ForretningshendelseMottak 
         taskData.setFagsakId(fagsak.getId());
         taskData.setCallIdFraEksisterende();
         prosessTaskRepository.lagre(taskData);
-    }
-
-    private boolean finnesÅpenBehandlingPåMedforelder(Fagsak fagsak) {
-        return revurderingRepository.finnÅpenBehandlingMedforelder(fagsak).isPresent();
     }
 
     @SuppressWarnings("unchecked")

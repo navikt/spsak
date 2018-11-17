@@ -105,7 +105,7 @@ public class TraverseEntityGraphTest {
 
         final ScenarioMorSøkerEngangsstønad scenario = lagTestScenario();
         Behandling target1 = scenario.lagMocked();
-        final ScenarioMorSøkerEngangsstønad scenario1 = lagTestScenario();
+        lagTestScenario();
         final Behandling target2 = scenario.lagMocked();
 
         DiffEntity differ = new DiffEntity(lagTraverser());

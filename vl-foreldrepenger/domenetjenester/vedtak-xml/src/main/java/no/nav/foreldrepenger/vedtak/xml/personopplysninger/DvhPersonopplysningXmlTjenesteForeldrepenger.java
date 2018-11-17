@@ -48,7 +48,6 @@ import no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.Personopplysninger;
 @ApplicationScoped
 public class DvhPersonopplysningXmlTjenesteForeldrepenger extends PersonopplysningXmlTjeneste {
 
-    private final no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.ObjectFactory personopplysningBaseObjectFactory = new no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.ObjectFactory();
     private final ObjectFactory personopplysningDvhObjectFactory = new ObjectFactory();
     private VergeRepository vergeRepository;
     private MedlemskapRepository medlemskapRepository;

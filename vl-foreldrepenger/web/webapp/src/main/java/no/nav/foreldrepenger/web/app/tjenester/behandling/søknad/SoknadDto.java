@@ -24,8 +24,6 @@ public abstract class SoknadDto {
     private Integer dekningsgrad;
     private OppgittTilknytningDto oppgittTilknytning;
     private List<ManglendeVedleggDto> manglendeVedlegg;
-    private OppgittRettighetDto oppgittRettighet;
-    private OppgittFordelingDto oppgittFordeling;
 
     protected SoknadDto() {
     }
@@ -66,14 +64,6 @@ public abstract class SoknadDto {
         return oppgittTilknytning;
     }
 
-    public OppgittRettighetDto getOppgittRettighet() {
-        return oppgittRettighet;
-    }
-
-    public OppgittFordelingDto getOppgittFordeling() {
-        return oppgittFordeling;
-    }
-
     public void setSoknadType(SøknadType soknadType) {
         this.soknadType = soknadType;
     }
@@ -112,14 +102,6 @@ public abstract class SoknadDto {
 
     public void setManglendeVedlegg(List<ManglendeVedleggDto> manglendeVedlegg) {
         this.manglendeVedlegg = manglendeVedlegg;
-    }
-
-    public void setOppgittRettighet(OppgittRettighetDto oppgittRettighet) {
-        this.oppgittRettighet = oppgittRettighet;
-    }
-
-    public void setOppgittFordeling(OppgittFordelingDto oppgittFordeling) {
-        this.oppgittFordeling = oppgittFordeling;
     }
 
 }

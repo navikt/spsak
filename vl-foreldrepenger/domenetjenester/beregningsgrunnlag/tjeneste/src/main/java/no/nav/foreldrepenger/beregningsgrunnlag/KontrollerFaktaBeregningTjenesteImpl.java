@@ -362,10 +362,15 @@ public class KontrollerFaktaBeregningTjenesteImpl implements KontrollerFaktaBere
     @Override
     public Optional<Inntektsmelding> hentInntektsmeldingForAndel(Behandling behandling, BeregningsgrunnlagPrStatusOgAndel andel) {
         List<Inntektsmelding> inntektsmeldinger = inntektArbeidYtelseTjeneste.hentAlleInntektsmeldinger(behandling);
-        return inntektsmeldinger.stream()
-            .filter(inntektsmelding ->
+        List<Inntektsmelding> list = inntektsmeldinger.stream().filter(inntektsmelding ->
                 andel.gjelderSammeArbeidsforhold(inntektsmelding.getVirksomhet(), inntektsmelding.getArbeidsforholdRef()))
-            .findFirst();
+                .collect(Collectors.toList());
+        
+        if(list.size()>1) {
+            throw new IllegalStateException("Fant mer enn en matchende inntektsmelding: "+ list);
+        } else {
+            return list.isEmpty()? Optional.empty():Optional.of(list.get(0));
+        }
     }
 
     @Override

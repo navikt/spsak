@@ -60,8 +60,7 @@ public class AvklarFortsattMedlemskapOppdatererTest {
         new AvklarFortsattMedlemskapOppdaterer(medlemskapTjeneste , repositoryProvider.getAksjonspunktRepository(), lagMockHistory(), lagMockYtelseSkjæringstidspunktTjeneste(now))
             .oppdater(dto, behandling, null);
 
-        // Assert
-        VurdertMedlemskap vurdertMedlemskap = getVurdertMedlemskap(behandling, repositoryProvider);
+        getVurdertMedlemskap(behandling, repositoryProvider);
     }
 
     @Test
@@ -83,15 +82,14 @@ public class AvklarFortsattMedlemskapOppdatererTest {
         new AvklarFortsattMedlemskapOppdaterer(medlemskapTjeneste , repositoryProvider.getAksjonspunktRepository(), lagMockHistory(), lagMockYtelseSkjæringstidspunktTjeneste(now))
             .oppdater(dto, behandling, null);
 
-        VurdertMedlemskap opprinneligVurdertMedlemskap = getVurdertMedlemskap(behandling, repositoryProvider);
+        getVurdertMedlemskap(behandling, repositoryProvider);
 
         // Act
         dto = new AvklarFortsattMedlemskapDto("test", now.minusDays(8));
         new AvklarFortsattMedlemskapOppdaterer(medlemskapTjeneste , repositoryProvider.getAksjonspunktRepository(), lagMockHistory(), lagMockYtelseSkjæringstidspunktTjeneste(now.minusDays(8)))
             .oppdater(dto, behandling, null);
 
-        // Assert
-        VurdertMedlemskap vurdertMedlemskap = getVurdertMedlemskap(behandling, repositoryProvider);
+        getVurdertMedlemskap(behandling, repositoryProvider);
     }
 
     private VurdertMedlemskap getVurdertMedlemskap(Behandling behandling, BehandlingRepositoryProvider repositoryProvider) {

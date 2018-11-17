@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,11 +33,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Yte
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.YtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.YtelseStørrelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektPeriodeType;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
@@ -240,21 +236,5 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegelTest {
         when(opptjening.getTom()).thenReturn(opptjeningTom);
         when(opptjeningRepository.finnOpptjening(any(Behandling.class))).thenReturn(Optional.of(opptjening));
         when(repositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
-    }
-
-    private List<Inntektsmelding> lagInntektsmelding(InntektsmeldingInnsendingsårsak innsendingsårsak, BigDecimal beløp,
-                                                     BigDecimal refusjon, LocalDate førsteUttaksdato, String arbeidID, VirksomhetEntitet virksomhet) {
-        List<Inntektsmelding> inntektsmeldingerGrunnlag = new ArrayList<>();
-        Inntektsmelding inntektsmelding = InntektsmeldingBuilder.builder()
-            .medBeløp(beløp)
-            .medArbeidsforholdId(arbeidID)
-            .medStartDatoPermisjon(førsteUttaksdato)
-            .medVirksomhet(virksomhet)
-            .medInntektsmeldingaarsak(innsendingsårsak)
-            .medRefusjon(refusjon)
-            .build();
-
-        inntektsmeldingerGrunnlag.add(inntektsmelding);
-        return inntektsmeldingerGrunnlag;
     }
 }

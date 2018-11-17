@@ -53,7 +53,7 @@ public class KompletthetsjekkerFPTest {
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
     private SøknadRepository søknadRepository = repositoryProvider.getSøknadRepository();
 
-    private KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repoRule, repositoryProvider);
+    private KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider);
 
     @Mock
     private DokumentArkivTjeneste dokumentArkivTjeneste;
@@ -96,7 +96,7 @@ public class KompletthetsjekkerFPTest {
         // Arrange
         Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
         mockManglendeInntektsmelding();
-        testUtil.byggOgLagreSøknadMedNyOppgittFordeling(behandling, false);
+        testUtil.lagreSøknad(behandling, false);
 
         // Act
         KompletthetResultat kompletthetResultat = kompletthetsjekkerFP.vurderForsendelseKomplett(behandling);
@@ -156,7 +156,7 @@ public class KompletthetsjekkerFPTest {
     }
 
     private void opprettSøknadMedPåkrevdVedlegg(Behandling behandling) {
-        testUtil.byggOgLagreSøknadMedNyOppgittFordeling(behandling, false);
+        testUtil.lagreSøknad(behandling, false);
         Søknad søknad = new SøknadEntitet.Builder(søknadRepository.hentSøknad(behandling)).leggTilVedlegg(
             new SøknadVedleggEntitet.Builder()
                 .medSkjemanummer(KODE_INNLEGGELSE)

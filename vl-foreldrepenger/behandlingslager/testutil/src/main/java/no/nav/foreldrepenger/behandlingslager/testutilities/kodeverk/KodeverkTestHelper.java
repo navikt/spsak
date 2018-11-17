@@ -205,6 +205,7 @@ public class KodeverkTestHelper {
             throw new UnsupportedOperationException();
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public <V extends Kodeliste> V finnForKodeverkEiersNavn(Class<V> cls, String navn, V defaultValue) {
             // impl ved behov

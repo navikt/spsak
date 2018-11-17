@@ -14,7 +14,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.IntervallUtil;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.impl.ArbeidsforholdTjenesteImpl;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
@@ -42,7 +41,7 @@ public class ArbeidsforholdTjenesteImplTest {
     public void skal_kalle_consumer_og_oversette_response() throws Exception {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        Behandling behandling = scenario.lagMocked();
+        scenario.lagMocked();
 
         FinnArbeidsforholdPrArbeidstakerResponse response = opprettResponse();
 

@@ -37,14 +37,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivitetEntitet;
@@ -87,7 +85,6 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
         LocalDate ettÅrSiden = LocalDate.now().minusYears(1);
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
         Behandling behandling = scenario.lagre(provider);
@@ -114,7 +111,6 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
         LocalDate ettÅrSiden = LocalDate.now().minusYears(1);
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
         Behandling behandling = scenario.lagre(provider);
@@ -200,7 +196,6 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
             .medUtbetalingsprosent(BigDecimal.valueOf(100L))
             .medArbeidsprosent(BigDecimal.valueOf(100L))
             .medErSøktGradering(true)
-            .medTrekkonto(StønadskontoType.MØDREKVOTE)
             .build();
         periode.leggTilAktivitet(periodeAktivitet);
         UttakResultatPerioderEntitet perioder = new UttakResultatPerioderEntitet();

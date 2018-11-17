@@ -105,6 +105,11 @@ public class InntektsmeldingAggregatEntitet extends BaseEntitet implements Innte
         inntektsmeldinger.stream().filter(it -> it.gjelderSammeArbeidsforhold(inntektsmelding) && !fjernet).findFirst().ifPresent(e -> {
             logger.info("Persistert inntektsmelding med journalpostid {} er nyere enn den mottatte med journalpostid {}. Ignoreres", e.getMottattDokumentId(), inntektsmelding.getMottattDokumentId());
         });
+        
+        inntektsmeldinger.stream().filter(it -> it.getMottattDokumentId().equals(inntektsmelding.getMottattDokumentId())).findFirst().ifPresent(
+            e -> {
+                logger.info("Persistert inntektsmelding med samme journalpostid {}", e.getMottattDokumentId());
+            });
     }
 
     void taHensynTilBetraktninger(ArbeidsforholdInformasjonEntitet arbeidsforholdInformasjon) {

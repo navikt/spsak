@@ -273,7 +273,6 @@ public class SjekkDbStrukturTest {
     private boolean ignoreColumn(String table, String cols) {
         String[][] ignored = new String[][]{
             {"IAY_INNTEKTSPOST", "KL_YTELSE_TYPE"},
-            {"YF_FORDELING_PERIODE", "KL_AARSAK_TYPE"},
             {"UTTAK_RESULTAT_PERIODE", "KL_PERIODE_RESULTAT_AARSAK"},
             {"HISTORIKKINNSLAG_FELT", "KL_FRA_VERDI"},
             {"HISTORIKKINNSLAG_FELT", "KL_TIL_VERDI"},

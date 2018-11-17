@@ -143,8 +143,7 @@ public class FagsakRestTjeneste {
             Fagsak fagsak = info.getFagsak();
             Boolean kanRevurderingOpprettes = fagsakRevurderingTjenesteProvider.finnRevurderingTjenesteFor(fagsak).kanRevurderingOpprettes(fagsak);
             LocalDate fødselsdato = info.getFødselsdato();
-            Integer antallBarn = info.getAntallBarn();
-            dtoer.add(new FagsakDto(fagsak, personDto, fødselsdato, antallBarn, kanRevurderingOpprettes, fagsak.getSkalTilInfotrygd()));
+            dtoer.add(new FagsakDto(fagsak, personDto, kanRevurderingOpprettes, fagsak.getSkalTilInfotrygd()));
         }
         return dtoer;
     }

@@ -131,7 +131,7 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         final Behandling behandling = opprettBehandling();
         MottattDokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
 
-        @SuppressWarnings("rawtypes") final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
+        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
 
         // Act
         oversetter.trekkUtDataOgPersister(wrapper, mottattDokument, behandling, Optional.empty());
@@ -154,7 +154,6 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         // Arrange
         final Behandling behandling = opprettBehandling();
         MottattDokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
-        @SuppressWarnings("rawtypes")
         MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
 
         MottattDokumentWrapperInntektsmelding wrapperSpied = Mockito.spy(wrapper);
@@ -190,7 +189,6 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         // Arrange
         final Behandling behandling = opprettBehandling();
         MottattDokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
-        @SuppressWarnings("rawtypes")
         MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
 
         MottattDokumentWrapperInntektsmelding wrapperSpied = Mockito.spy(wrapper);
@@ -224,7 +222,7 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         final Behandling behandling = opprettBehandling();
         MottattDokument mottattDokument = opprettDokument(behandling, inntektsmeldingFilnavn);
 
-        @SuppressWarnings("rawtypes") final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
+        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
 
         oversetter.trekkUtDataOgPersister(wrapper, mottattDokument, behandling, Optional.empty());
         return behandling;

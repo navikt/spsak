@@ -4,14 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import no.nav.foreldrepenger.behandling.impl.RegisterInnhentingIntervallEndringTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerRepository;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
@@ -20,9 +18,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
@@ -47,10 +42,7 @@ public class PersonopplysningTjenesteImplTest {
     @Before
     public void before() {
         personopplysningTjeneste = new PersonopplysningTjenesteImpl(repositoryProvider,
-            tpsAdapterImpl, navBrukerRepository, new SkjæringstidspunktTjenesteImpl(repositoryProvider,
-            new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
-            Period.of(0, 3, 0),
-            Period.of(0, 10, 0)));
+            tpsAdapterImpl, navBrukerRepository, new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0)));
     }
 
     @Test
@@ -69,10 +61,6 @@ public class PersonopplysningTjenesteImplTest {
             .build();
 
         scenario.medRegisterOpplysninger(personInformasjon);
-        scenario.medFordeling(new OppgittFordelingEntitet(Collections.singletonList(OppgittPeriodeBuilder.ny()
-            .medPeriodeType(UttakPeriodeType.FORELDREPENGER)
-            .medPeriode(LocalDate.now().plusWeeks(8), LocalDate.now().plusWeeks(12))
-            .build()), true));
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 

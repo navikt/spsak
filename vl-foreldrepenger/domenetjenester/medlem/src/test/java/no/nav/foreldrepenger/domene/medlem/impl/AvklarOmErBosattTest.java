@@ -42,7 +42,6 @@ import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
-import no.nav.vedtak.util.FPDateUtil;
 
 @RunWith(CdiRunner.class)
 public class AvklarOmErBosattTest {
@@ -161,28 +160,28 @@ public class AvklarOmErBosattTest {
     }
 
     @Test
-    public void skal_opprette_aksjonspunkt_dersom_søker_har_søkt_termin_og_ikke_skal_bo_i_norge_de_neste_12_månedene() {
+    public void skal_opprette_aksjonspunkt_dersom_søker_har_vært_i_norge_til_nå_men_ikke_skal_bo_i_norge_de_neste_12_månedene() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknad().medMottattDato(LocalDate.now(FPDateUtil.getOffset()));
+        scenario.medSøknad().medMottattDato(LocalDate.now());
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
             .medLand(Landkoder.NOR)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).minusYears(1), LocalDate.now(FPDateUtil.getOffset()).plusDays(19))
+            .medPeriode(LocalDate.now().minusYears(1), LocalDate.now().plusDays(19))
             .build();
 
         OppgittLandOpphold fremtidigOppholdISverige = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.SWE)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusDays(20), LocalDate.now(FPDateUtil.getOffset()).plusYears(2))
+            .medPeriode(LocalDate.now().plusDays(20), LocalDate.now().plusYears(2))
             .build();
 
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
         scenario.medOppgittTilknytning()
             .medOpphold(Arrays.asList(oppholdINorge, fremtidigOppholdISverige))
-            .medOppholdNå(true);
+            .medOppholdNå(false);
         Behandling behandling = scenario.lagre(provider);
 
 
@@ -198,36 +197,36 @@ public class AvklarOmErBosattTest {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknad().medMottattDato(LocalDate.now(FPDateUtil.getOffset()));
+        scenario.medSøknad().medMottattDato(LocalDate.now());
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
             .medLand(Landkoder.NOR)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).minusYears(1), LocalDate.now(FPDateUtil.getOffset()).plusDays(19))
+            .medPeriode(LocalDate.now().minusYears(1), LocalDate.now().plusDays(19))
             .build();
 
         OppgittLandOpphold swe = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.SWE)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusDays(0), LocalDate.now(FPDateUtil.getOffset()).plusMonths(2))
+            .medPeriode(LocalDate.now().plusDays(0), LocalDate.now().plusMonths(2))
             .build();
 
         OppgittLandOpphold usa = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.USA)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusMonths(2), LocalDate.now(FPDateUtil.getOffset()).plusMonths(4))
+            .medPeriode(LocalDate.now().plusMonths(2), LocalDate.now().plusMonths(4))
             .build();
 
         OppgittLandOpphold bel = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.BEL)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusMonths(4), LocalDate.now(FPDateUtil.getOffset()).plusMonths(6))
+            .medPeriode(LocalDate.now().plusMonths(4), LocalDate.now().plusMonths(6))
             .build();
 
         OppgittLandOpphold png = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.PNG)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusMonths(6), LocalDate.now(FPDateUtil.getOffset()).plusMonths(8))
+            .medPeriode(LocalDate.now().plusMonths(6), LocalDate.now().plusMonths(8))
             .build();
 
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
@@ -244,46 +243,46 @@ public class AvklarOmErBosattTest {
     }
 
     @Test
-    public void skal_opprette_aksjonspunkt_dersom_søker_har_søkt_termin_og_skal_bo_i_mange_land_i_fremtiden_men_til_sammen_mer_12_måneder() {
+    public void skal_opprette_aksjonspunkt_dersom_søker_har_søkt_og_har_bodd_i_norge_til_nå_men__skal_bo_i_mange_land_i_fremtiden_men_til_sammen_mer_12_måneder() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknad().medMottattDato(LocalDate.now(FPDateUtil.getOffset()));
+        scenario.medSøknad().medMottattDato(LocalDate.now());
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
             .medLand(Landkoder.NOR)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).minusYears(1), LocalDate.now(FPDateUtil.getOffset()).plusDays(19))
+            .medPeriode(LocalDate.now().minusYears(1), LocalDate.now().plusDays(19))
             .build();
 
         OppgittLandOpphold swe = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.SWE)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusDays(0), LocalDate.now(FPDateUtil.getOffset()).plusMonths(2))
+            .medPeriode(LocalDate.now().plusDays(0), LocalDate.now().plusMonths(2))
             .build();
 
         OppgittLandOpphold usa = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.USA)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusMonths(2), LocalDate.now(FPDateUtil.getOffset()).plusMonths(4))
+            .medPeriode(LocalDate.now().plusMonths(2), LocalDate.now().plusMonths(4))
             .build();
 
         OppgittLandOpphold bel = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.BEL)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusMonths(4), LocalDate.now(FPDateUtil.getOffset()).plusMonths(6))
+            .medPeriode(LocalDate.now().plusMonths(4), LocalDate.now().plusMonths(6))
             .build();
 
         OppgittLandOpphold png = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.PNG)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusMonths(6), LocalDate.now(FPDateUtil.getOffset()).plusMonths(15))
+            .medPeriode(LocalDate.now().plusMonths(6), LocalDate.now().plusMonths(15))
             .build();
 
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
         scenario.medOppgittTilknytning()
             .medOpphold(Arrays.asList(oppholdINorge, swe, usa, bel, png))
-            .medOppholdNå(true);
+            .medOppholdNå(false);
         Behandling behandling = scenario.lagre(provider);
 
         // Act
@@ -302,13 +301,13 @@ public class AvklarOmErBosattTest {
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
             .medLand(Landkoder.NOR)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).minusYears(1), LocalDate.now(FPDateUtil.getOffset()).plusDays(19))
+            .medPeriode(LocalDate.now().minusYears(1), LocalDate.now().plusDays(19))
             .build();
 
         OppgittLandOpphold fremtidigOppholdISverige = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.SWE)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusDays(20), LocalDate.now(FPDateUtil.getOffset()).plusYears(2))
+            .medPeriode(LocalDate.now().plusDays(20), LocalDate.now().plusYears(2))
             .build();
 
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
@@ -329,18 +328,18 @@ public class AvklarOmErBosattTest {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medSøknad().medMottattDato(LocalDate.now(FPDateUtil.getOffset()));
+        scenario.medSøknad().medMottattDato(LocalDate.now());
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
             .medLand(Landkoder.NOR)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).minusYears(1), LocalDate.now(FPDateUtil.getOffset()).plusDays(19))
+            .medPeriode(LocalDate.now().minusYears(1), LocalDate.now().plusDays(19))
             .build();
 
         OppgittLandOpphold fremtidigOppholdISverige = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(false)
             .medLand(Landkoder.SWE)
-            .medPeriode(LocalDate.now(FPDateUtil.getOffset()).plusDays(20), LocalDate.now(FPDateUtil.getOffset()).plusMonths(9))
+            .medPeriode(LocalDate.now().plusDays(20), LocalDate.now().plusMonths(9))
             .build();
 
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);

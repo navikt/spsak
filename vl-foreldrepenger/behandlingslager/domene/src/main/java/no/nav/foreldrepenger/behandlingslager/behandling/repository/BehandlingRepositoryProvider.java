@@ -11,9 +11,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
@@ -50,8 +48,6 @@ public interface BehandlingRepositoryProvider {
 
     BeregningsgrunnlagRepository getBeregningsgrunnlagRepository();
 
-    FagsakRelasjonRepository getFagsakRelasjonRepository();
-
     UttakRepository getUttakRepository();
 
     InntektArbeidYtelseRepository getInntektArbeidYtelseRepository();
@@ -59,8 +55,6 @@ public interface BehandlingRepositoryProvider {
     VirksomhetRepository getVirksomhetRepository();
 
     BeregningRepository getBeregningRepository();
-
-    YtelsesFordelingRepository getYtelsesFordelingRepository();
 
     BehandlingVedtakRepository getBehandlingVedtakRepository();
 

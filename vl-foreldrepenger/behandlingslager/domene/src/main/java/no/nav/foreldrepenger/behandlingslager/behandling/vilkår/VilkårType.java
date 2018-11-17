@@ -34,7 +34,6 @@ public class VilkårType extends Kodeliste {
 
     public static final VilkårType FØDSELSVILKÅRET_MOR = new VilkårType(FP_VK_1);
     public static final VilkårType MEDLEMSKAPSVILKÅRET = new VilkårType(FP_VK_2);
-    public static final VilkårType SØKNADSFRISTVILKÅRET = new VilkårType(FP_VK_3);
     public static final VilkårType ADOPSJONSVILKÅRET_ENGANGSSTØNAD = new VilkårType(FP_VK_4);
     public static final VilkårType ADOPSJONSVILKARET_FORELDREPENGER = new VilkårType(FP_VK_16);
     public static final VilkårType OMSORGSVILKÅRET = new VilkårType(FP_VK_5);

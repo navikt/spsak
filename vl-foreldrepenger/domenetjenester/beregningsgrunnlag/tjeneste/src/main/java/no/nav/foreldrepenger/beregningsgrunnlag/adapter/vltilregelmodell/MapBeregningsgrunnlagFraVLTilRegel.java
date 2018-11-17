@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -60,9 +59,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAk
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgradEntitet;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.beregningsgrunnlag.Grunnbeløp;
 import no.nav.foreldrepenger.beregningsgrunnlag.HentGrunnlagsdataTjeneste;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.Aktivitet;
@@ -132,7 +128,6 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
 
     }
 
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
     private OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste;
     private BeregningRepository beregningRepository;
@@ -154,7 +149,6 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
         this.opptjeningInntektArbeidYtelseTjeneste = opptjeningInntektArbeidYtelseTjeneste;
         this.beregningRepository = repositoryProvider.getBeregningRepository();
-        this.fagsakRelasjonRepository = repositoryProvider.getFagsakRelasjonRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.hentGrunnlagsdataTjeneste = hentGrunnlagsdataTjeneste;
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
@@ -274,12 +268,6 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
     }
 
     public Dekningsgrad mapDekningsgrad(Behandling behandling) {
-        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(behandling.getFagsak());
-        if (fagsakRelasjon.isPresent()) {
-            if (Objects.equals(fagsakRelasjon.get().getDekningsgrad().getVerdi(), OppgittDekningsgradEntitet.ÅTTI_PROSENT)) {
-                return Dekningsgrad.DEKNINGSGRAD_80;
-            }
-        }
         return Dekningsgrad.DEKNINGSGRAD_100;
     }
 

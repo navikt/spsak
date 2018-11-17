@@ -38,7 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
@@ -70,8 +69,6 @@ public class DokumentmottakerEndringssøknadTest {
     private FagsakRepository fagsakRepository;
     @Inject
     private AksjonspunktRepository aksjonspunktRepository;
-    @Inject
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
 
     @Mock
     private Behandlingsoppretter behandlingsoppretter;
@@ -210,7 +207,7 @@ public class DokumentmottakerEndringssøknadTest {
     @Test
     public void skal_opprette_køet_behandling_og_kjøre_kompletthet_dersom_køet_behandling_ikke_finnes() {
         // Arrange - opprette fagsak uten behandling
-        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId("1"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, new Saksnummer("123"), fagsakRepository, fagsakRelasjonRepository);
+        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId("1"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, new Saksnummer("123"), fagsakRepository);
 
         // Arrange - mock tjenestekall
         Behandling behandling = mock(Behandling.class);

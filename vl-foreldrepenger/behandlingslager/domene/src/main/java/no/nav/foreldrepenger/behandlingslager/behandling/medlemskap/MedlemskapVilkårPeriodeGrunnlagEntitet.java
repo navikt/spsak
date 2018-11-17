@@ -25,7 +25,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_YTELSES_FORDELING")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_MEDLEMSKAP_VILKAR_PER")
     private Long id;
 
     @OneToOne(optional = false)

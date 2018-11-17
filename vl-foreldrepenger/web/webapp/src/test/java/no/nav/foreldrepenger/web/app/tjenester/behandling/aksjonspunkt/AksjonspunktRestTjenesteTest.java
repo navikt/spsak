@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -32,14 +31,9 @@ import no.nav.vedtak.exception.FunksjonellException;
 public class AksjonspunktRestTjenesteTest {
 
     // skal_håndtere_overlappende_perioder data
-    private static final LocalDate now = LocalDate.now();
     private static final long behandlingId = 1L;
     private static final Long behandlingVersjon = 2L;
     private static final String begrunnelse = "skal_håndtere_overlappende_perioder";
-    private static final LocalDate fødselsdato = now.plusDays(40);
-    private static final LocalDate termindato = now.plusDays(30);
-    private static final LocalDate utstedtdato = now.minusDays(10);
-    private static final int antallBarn = 1;
     private AksjonspunktRestTjeneste aksjonspunktRestTjeneste;
     private AksjonspunktApplikasjonTjeneste aksjonspunktApplikasjonTjenesteMock = mock(AksjonspunktApplikasjonTjeneste.class);
     private BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjenesteMock = mock(BehandlingsutredningApplikasjonTjeneste.class);

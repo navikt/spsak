@@ -12,7 +12,10 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 @Entity(name = "BehandlingÅrsakType")
 @DiscriminatorValue(BehandlingÅrsakType.DISCRIMINATOR)
 public class BehandlingÅrsakType extends Kodeliste {
-
+    
+    // FIXME SP : Rydd bort koder som ikke er relevante (fødsel etc.)
+    
+    
     public static final String DISCRIMINATOR = "BEHANDLING_AARSAK"; //$NON-NLS-1$
     public static final BehandlingÅrsakType RE_MANGLER_FØDSEL = new BehandlingÅrsakType("RE-MF"); //$NON-NLS-1$
     public static final BehandlingÅrsakType RE_MANGLER_FØDSEL_I_PERIODE = new BehandlingÅrsakType("RE-MFIP"); //$NON-NLS-1$

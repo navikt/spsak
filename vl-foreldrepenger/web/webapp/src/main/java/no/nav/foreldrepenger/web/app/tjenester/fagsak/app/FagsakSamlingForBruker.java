@@ -36,19 +36,17 @@ public class FagsakSamlingForBruker {
         return brukerInfo == null;
     }
 
-    void leggTil(Fagsak fagsak, Integer antallBarn, LocalDate fødselsdato) {
-        fagsakInfoer.add(new FagsakRad(fagsak, antallBarn, fødselsdato));
+    void leggTil(Fagsak fagsak, LocalDate dato) {
+        fagsakInfoer.add(new FagsakRad(fagsak, dato));
     }
 
     public static class FagsakRad {
         private final Fagsak fagsak;
-        private Integer antallBarn;
         private final LocalDate fødselsdato;
 
-        private FagsakRad(Fagsak fagsak, Integer antallBarn, LocalDate fødselsdato) {
+        private FagsakRad(Fagsak fagsak, LocalDate dato) {
             this.fagsak = fagsak;
-            this.antallBarn = antallBarn;
-            this.fødselsdato = fødselsdato;
+            this.fødselsdato = dato;
         }
 
         public Fagsak getFagsak() {
@@ -57,10 +55,6 @@ public class FagsakSamlingForBruker {
 
         public LocalDate getFødselsdato() {
             return fødselsdato;
-        }
-
-        public Integer getAntallBarn() {
-            return antallBarn;
         }
     }
 }

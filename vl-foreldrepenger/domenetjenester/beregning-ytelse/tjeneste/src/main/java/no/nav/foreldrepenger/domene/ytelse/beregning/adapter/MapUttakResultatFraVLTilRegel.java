@@ -41,7 +41,7 @@ public class MapUttakResultatFraVLTilRegel {
 
     private UttakAktivitet mapAktivitet(UttakResultatPeriodeAktivitetEntitet uttakResultatPeriodeAktivitet, Behandling behandling) {
         BigDecimal utbetalingsgrad = uttakResultatPeriodeAktivitet.getUtbetalingsprosent();
-        BigDecimal stillingsprosent = mapStillingsprosent(behandling, uttakResultatPeriodeAktivitet);
+        BigDecimal stillingsprosent = mapStillingsprosent(behandling);
         Arbeidsforhold arbeidsforhold = mapArbeidsforhold(uttakResultatPeriodeAktivitet.getUttakAktivitet());
         AktivitetStatus aktivitetStatus = mapAktivitetStatus(uttakResultatPeriodeAktivitet.getUttakArbeidType());
 
@@ -69,7 +69,7 @@ public class MapUttakResultatFraVLTilRegel {
         return AktivitetStatus.UDEFINERT;
     }
 
-    private BigDecimal mapStillingsprosent(Behandling behandling, UttakResultatPeriodeAktivitetEntitet uttakAktivitet) {
+    private BigDecimal mapStillingsprosent(Behandling behandling) {
         /*
         // FIXME SP - hent ut stillingsprosent riktig
         if (UttakArbeidType.FRILANS.equals(uttakAktivitet.getUttakArbeidType())) {

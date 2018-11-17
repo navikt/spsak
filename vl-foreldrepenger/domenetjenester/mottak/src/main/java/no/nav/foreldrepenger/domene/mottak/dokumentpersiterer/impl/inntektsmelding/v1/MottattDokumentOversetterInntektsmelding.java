@@ -21,10 +21,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.RefusjonEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.UtsettelsePeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.UtsettelseÅrsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.InntektsmeldingFeil;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.MottattDokumentOversetter;
@@ -32,7 +30,6 @@ import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.NamespaceRef;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import no.nav.inntektsmelding.xml.kodeliste._2018xxyy.NaturalytelseKodeliste;
 import no.nav.inntektsmelding.xml.kodeliste._2018xxyy.ÅrsakInnsendingKodeliste;
-import no.nav.inntektsmelding.xml.kodeliste._2018xxyy.ÅrsakUtsettelseKodeliste;
 import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
 import no.nav.vedtak.konfig.Tid;
 import no.seres.xsd.nav.inntektsmelding_m._201809.InntektsmeldingConstants;
@@ -40,9 +37,7 @@ import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsforhold;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.EndringIRefusjonsListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.GraderingIForeldrepenger;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.NaturalytelseDetaljer;
-import no.seres.xsd.nav.inntektsmelding_m._20180924.Periode;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Refusjon;
-import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepenger;
 
 @NamespaceRef(InntektsmeldingConstants.NAMESPACE)
 @ApplicationScoped
@@ -103,8 +98,6 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
         mapNaturalYtelser(wrapper, builder);
         mapGradering(wrapper, builder);
 
-        mapFerie(wrapper, builder);
-        mapUtsettelse(wrapper, builder);
         mapRefusjon(wrapper, builder);
 
         inntektArbeidYtelseRepository.lagre(behandling, builder.build());
@@ -129,23 +122,6 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
                 .stream()
                 .forEach(eir -> builder.leggTil(new RefusjonEntitet(eir.getRefusjonsbeloepPrMnd().getValue(), DateUtil.convertToLocalDate(eir.getEndringsdato().getValue()))));
 
-        }
-    }
-
-    private void mapUtsettelse(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
-        for (UtsettelseAvForeldrepenger detaljer : wrapper.getUtsettelser()) {
-            // FIXME (weak reference)
-            ÅrsakUtsettelseKodeliste årsakUtsettelse = ÅrsakUtsettelseKodeliste.fromValue(detaljer.getAarsakTilUtsettelse().getValue());
-            final UtsettelseÅrsak årsak = kodeverkRepository.finn(UtsettelseÅrsak.class, årsakUtsettelse.name());
-            builder.leggTil(UtsettelsePeriodeEntitet.utsettelse(DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getFom().getValue()),
-                DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getTom().getValue()), årsak));
-        }
-    }
-
-    private void mapFerie(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
-        for (Periode periode : wrapper.getAvtaltFerie()) {
-            builder.leggTil(UtsettelsePeriodeEntitet.ferie(DateUtil.convertToLocalDate(periode.getFom().getValue()),
-                DateUtil.convertToLocalDate(periode.getTom().getValue())));
         }
     }
 

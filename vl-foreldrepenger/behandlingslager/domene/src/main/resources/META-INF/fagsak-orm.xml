@@ -15,7 +15,6 @@
 	
     <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak" />
     <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsessTask"/>
-	<entity class="no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon" />
     <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus" />
     <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType" />
     <entity class="no.nav.foreldrepenger.behandlingslager.fagsak.Journalpost"/>

@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandling.steg.avklarfakta.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,8 +37,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.Beregningsgr
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseFordelingAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
@@ -211,24 +208,6 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
             beregningsgrunnlagRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering, BeregningsgrunnlagTilstand.OPPRETTET);
         }
 
-        tilbakestillOppgittFordelingBasertPåBehandlingType(revurdering);
-    }
-
-    private void tilbakestillOppgittFordelingBasertPåBehandlingType(Behandling revurdering) {
-        Optional<YtelseFordelingAggregat> ytelseFordelingAggregat = repositoryProvider.getYtelsesFordelingRepository().hentAggregatHvisEksisterer(revurdering);
-        boolean erAnnenForelderInformert = false;
-        if (ytelseFordelingAggregat.isPresent() && ytelseFordelingAggregat.get().getOppgittFordeling() != null) {
-            erAnnenForelderInformert = ytelseFordelingAggregat.get().getOppgittFordeling().getErAnnenForelderInformert();
-        }
-        repositoryProvider.getYtelsesFordelingRepository().tilbakestillOverstyringOgDokumentasjonsperioder(revurdering);
-        repositoryProvider.getYtelsesFordelingRepository().tilbakestillAvklarteDatoer(revurdering);
-        if (!erEndringsSøknad(revurdering)) {
-            repositoryProvider.getYtelsesFordelingRepository().lagre(revurdering, new OppgittFordelingEntitet(Collections.emptyList(), erAnnenForelderInformert));
-        }
-    }
-
-    private boolean erEndringsSøknad(Behandling revurdering) {
-        return revurdering.getBehandlingÅrsaker().stream().anyMatch(årsak -> Objects.equals(BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER, årsak.getBehandlingÅrsakType()));
     }
 
     private Behandling kopierUttaksperiodegrense(Behandling revurdering, Behandling origBehandling) {

@@ -32,11 +32,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.Fasts
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsattePerioderTidsbegrensetDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsettBGTidsbegrensetArbeidsforholdDto;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
-import no.nav.vedtak.feil.Feil;
-import no.nav.vedtak.feil.FeilFactory;
-import no.nav.vedtak.feil.LogLevel;
-import no.nav.vedtak.feil.deklarasjon.DeklarerteFeil;
-import no.nav.vedtak.feil.deklarasjon.TekniskFeil;
 
 @ApplicationScoped
 @DtoTilServiceAdapter(dto = FastsettBGTidsbegrensetArbeidsforholdDto.class, adapter = AksjonspunktOppdaterer.class)
@@ -182,18 +177,6 @@ public class FastsettBGTidsbegrensetArbeidsforholdOppdaterer implements Aksjonsp
             return inntekterString.substring(0, inntekterString.lastIndexOf(',')) + " og " + inntekterString.substring(inntekterString.lastIndexOf(',') + 1);
         }
         return inntekter.get(0).toString();
-    }
-
-    private interface FastsettBGTidsbegrensetArbeidsforholdOppdatererFeil extends DeklarerteFeil {
-
-        FastsettBGTidsbegrensetArbeidsforholdOppdatererFeil FACTORY = FeilFactory.create(FastsettBGTidsbegrensetArbeidsforholdOppdatererFeil.class);
-
-        @TekniskFeil(feilkode = "FP-401642", feilmelding = "Finner ikke andelen for eksisterende grunnlag. Behandling %s", logLevel = LogLevel.WARN)
-        Feil finnerIkkeAndelFeil(long behandlingId);
-
-        @TekniskFeil(feilkode = "FP-401742", feilmelding = "Finner ikke perioden for eksisterende grunnlag. Behandling %s", logLevel = LogLevel.WARN)
-        Feil finnerIkkePeriodeFeil(long behandlingId);
-
     }
 
 }

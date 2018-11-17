@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import org.junit.rules.ErrorCollector;
@@ -45,13 +45,14 @@ import no.nav.vedtak.util.Tuple;
 class VilkårVurdering {
 
     private static final Logger log = LoggerFactory.getLogger(VilkårVurdering.class);
-    static final BiConsumer<VilkårResultat, Object> DO_NOTHING = (res, obj) -> {
+    static final BiFunction<VilkårResultat, Object, Boolean> DO_NOTHING = (res, obj) -> {
+        return true;
     };
 
-    void vurderVilkår(String filenamePrefix, ErrorCollector collector, VilkårType vilkår, BiConsumer<VilkårResultat, Object> extraDataValidering) {
+    void vurderVilkår(String filenamePrefix, ErrorCollector collector, VilkårType vilkår, BiFunction<VilkårResultat, Object, Boolean> extraDataValidering) {
         Objects.requireNonNull(vilkår, "vilkår");
         final File vilkårMappe = new File("src/test/testscript/vilkår/" + vilkår.getKode() + "/");
-        if (vilkårMappe != null && vilkårMappe.listFiles() != null) {
+        if (vilkårMappe.listFiles() != null) {
             List<File> fileList = Arrays.stream(vilkårMappe.listFiles()).filter(it -> it.getName().startsWith(filenamePrefix)).collect(Collectors.toList());
             vurderCaser(collector, vilkår, extraDataValidering, fileList.toArray(new File[0]));
         }
@@ -61,14 +62,14 @@ class VilkårVurdering {
         vurderVilkår(collector, vilkår, DO_NOTHING);
     }
 
-    void vurderVilkår(ErrorCollector collector, VilkårType vilkår, BiConsumer<VilkårResultat, Object> extraDataValidering) {
+    void vurderVilkår(ErrorCollector collector, VilkårType vilkår, BiFunction<VilkårResultat, Object, Boolean> extraDataValidering) {
         Objects.requireNonNull(vilkår, "vilkår");
         final File vilkårMappe = new File("src/test/testscript/vilkår/" + vilkår.getKode() + "/");
         final File[] files = vilkårMappe.listFiles();
         vurderCaser(collector, vilkår, extraDataValidering, files);
     }
 
-    private void vurderCaser(ErrorCollector collector, VilkårType vilkår, BiConsumer<VilkårResultat, Object> extraDataValidering, File[] files) {
+    private void vurderCaser(ErrorCollector collector, VilkårType vilkår, BiFunction<VilkårResultat, Object, Boolean> extraDataValidering, File[] files) {
         if (files != null) {
             // Aktiverer funksjonell tid
             System.setProperty("funksjonelt.tidsoffset.aktivert", Boolean.TRUE.toString());
@@ -102,7 +103,13 @@ class VilkårVurdering {
 
                         collector.checkThat("Vurdering av " + inputFile.getName() + " ga ikke forventet resultat.",
                             getVilkårUtfallType(evaluationSummary), equalTo(vilkårResultat.getUtfall()));
-                        extraDataValidering.accept(vilkårResultat, resultatObject);
+                        
+                        if(!extraDataValidering.apply(vilkårResultat, resultatObject)) {
+                            log.info("Feil i output for inputFile=" + inputFile);
+                            // Kommenter inn hvis sikker på at inputfilene ikke er korrekte lenger
+                            // inputFile.delete();
+                            // outputFile.ifPresent(o -> o.delete());
+                        }
                     } else {
                         log.warn("Fant ikke output for evaluering av " + inputFile.getName());
                         collector.addError(new FileNotFoundException("Fant ikke output for evaluering av " + inputFile.getName()));
@@ -152,7 +159,7 @@ class VilkårVurdering {
         throw new IllegalArgumentException("leafEvaluations.isEmpty():" + leafEvaluations);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private <T, X> Tuple<Tuple<Class<T>, X>, RuleService<T>> getVilkårImplementasjon(VilkårType vilkår) {
         if (VilkårType.MEDLEMSKAPSVILKÅRET.equals(vilkår)) {
             return new Tuple(new Tuple<>(MedlemskapsvilkårGrunnlag.class, new NoneObject()), new Medlemskapsvilkår());

@@ -88,7 +88,7 @@ public class JournalpostMottakDto implements AbacDto {
         return Optional.ofNullable(this.forsendelseId);
     }
 
-    private JournalpostMottakDto() { //For Jackson
+    JournalpostMottakDto() { //For Jackson
     }
 
     public String getSaksnummer() {

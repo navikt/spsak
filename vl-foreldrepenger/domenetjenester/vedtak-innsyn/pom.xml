@@ -10,7 +10,7 @@
 
     <artifactId>vedtak-innsyn</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Domenetjenester - vedtak</name>
+    <name>FPSAK :: Domenetjenester - Innsynsvedtak</name>
 
     <!-- Eksterne -->
 

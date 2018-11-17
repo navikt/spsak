@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.Before;
@@ -80,36 +79,5 @@ public class BeregningsgrunnlagTest {
 
         assertThat(beregningsgrunnlag).isNotEqualTo(beregningsgrunnlag2);
         assertThat(beregningsgrunnlag.hashCode()).isNotEqualTo(beregningsgrunnlag2.hashCode());
-    }
-
-    private Beregningsgrunnlag opprettBeregningsgrunnlag(AktivitetStatus aktivitetStatus, LocalDate BeregningsgrunnlagPeriodeFom, BigDecimal rapportertPrÅr) {
-        Beregningsgrunnlag beregningsgrunnlag = lagBuilderMedPaakrevdeFelter()
-            .build();
-
-        leggTilBeregningsgrunnlagPeriode(BeregningsgrunnlagPeriodeFom, beregningsgrunnlag);
-        leggTilBeregningsgrunnlagAktivitetStatus(aktivitetStatus, beregningsgrunnlag);
-        leggTilSammenligningsgrunnlag(rapportertPrÅr, beregningsgrunnlag);
-        return beregningsgrunnlag;
-    }
-
-    private void leggTilSammenligningsgrunnlag(BigDecimal rapportertPrÅr, Beregningsgrunnlag beregningsgrunnlag) {
-        Sammenligningsgrunnlag.builder()
-            .medSammenligningsperiode(LocalDate.now(), LocalDate.now().plusDays(10))
-            .medRapportertPrÅr(rapportertPrÅr)
-            .medAvvikPromille(10L)
-            .build(beregningsgrunnlag);
-
-    }
-
-    private void leggTilBeregningsgrunnlagPeriode(LocalDate fom, Beregningsgrunnlag beregningsgrunnlag) {
-        BeregningsgrunnlagPeriode.builder()
-            .medBeregningsgrunnlagPeriode(fom, fom.plusDays(3))
-            .build(beregningsgrunnlag);
-    }
-
-    private void leggTilBeregningsgrunnlagAktivitetStatus(AktivitetStatus aktivitetStatus, Beregningsgrunnlag beregningsgrunnlag) {
-        BeregningsgrunnlagAktivitetStatus.builder()
-            .medAktivitetStatus(aktivitetStatus)
-            .build(beregningsgrunnlag);
     }
 }

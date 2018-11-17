@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.vedtak.xml;
 
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -8,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -48,17 +46,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordeling;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.Stønadskonto;
-import no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType;
-import no.nav.foreldrepenger.behandlingslager.uttak.Stønadskontoberegning;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense;
@@ -87,7 +77,6 @@ public class VedtakXmlTjenesteForeldrepengerTest {
     static final IverksettingStatus IVERKSETTING_STATUS = IverksettingStatus.IKKE_IVERKSATT;
     static final String ANSVARLIG_SAKSBEHANDLER = "fornavn etternavn";
 
-    private static final LocalDate FØDSELSDATO_BARN = LocalDate.of(2017, Month.JANUARY, 1);
     private static final LocalDate FØRSTE_UTTAKSDATO_OPPGITT = LocalDate.now().minusDays(20);
 
     @Rule
@@ -161,8 +150,6 @@ public class VedtakXmlTjenesteForeldrepengerTest {
             .medGrunnbeløp(BigDecimal.valueOf(90000))
             .medRedusertGrunnbeløp(BigDecimal.valueOf(90000));
 
-        scenario.medFordeling(opprettOppgittFordeling());
-
         OppgittOpptjeningBuilder.EgenNæringBuilder egenNæringBuilder = OppgittOpptjeningBuilder.EgenNæringBuilder.ny()
             .medVirksomhet(virksomhet(selvstendigNæringsdrivendeOrgnr))
             .medPeriode(DatoIntervallEntitet.fraOgMedTilOgMed(FØRSTE_UTTAKSDATO_OPPGITT, FØRSTE_UTTAKSDATO_OPPGITT.plusWeeks(2)));
@@ -190,7 +177,6 @@ public class VedtakXmlTjenesteForeldrepengerTest {
 
         repositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, uttakResultatPerioder1);
 
-        opprettStønadskontoer(behandling);
         beregningTestUtil.lagGjeldendeBeregningsgrunnlag(behandling, FØRSTE_UTTAKSDATO_OPPGITT);
 
         BeregningsresultatFP beregningsresultatFP = lagBeregningsresultatFP();
@@ -241,28 +227,6 @@ public class VedtakXmlTjenesteForeldrepengerTest {
         return behandlingsresultat;
     }
 
-    private void opprettStønadskontoer(Behandling behandling) {
-        Stønadskonto foreldrepengerFørFødsel = Stønadskonto.builder()
-            .medStønadskontoType(StønadskontoType.FORELDREPENGER_FØR_FØDSEL)
-            .medMaxDager(15)
-            .build();
-        Stønadskonto mødrekvote = Stønadskonto.builder()
-            .medStønadskontoType(StønadskontoType.MØDREKVOTE)
-            .medMaxDager(50)
-            .build();
-        Stønadskonto fellesperiode = Stønadskonto.builder()
-            .medStønadskontoType(StønadskontoType.FELLESPERIODE)
-            .medMaxDager(50)
-            .build();
-        Stønadskontoberegning stønadskontoberegning = Stønadskontoberegning.builder()
-            .medRegelEvaluering("evaluering")
-            .medRegelInput("grunnlag")
-            .medStønadskonto(mødrekvote).medStønadskonto(fellesperiode).medStønadskonto(foreldrepengerFørFødsel).build();
-
-        repositoryProvider.getFagsakRelasjonRepository().opprettRelasjon(behandling.getFagsak(), Dekningsgrad._100);
-        repositoryProvider.getFagsakRelasjonRepository().lagre(behandling, stønadskontoberegning);
-    }
-
     private Virksomhet virksomhet(String orgnr) {
         Optional<Virksomhet> optional = repositoryProvider.getVirksomhetRepository().hent(orgnr);
         if (optional.isPresent()) {
@@ -273,27 +237,6 @@ public class VedtakXmlTjenesteForeldrepengerTest {
             .oppdatertOpplysningerNå()
             .build();
         repositoryProvider.getVirksomhetRepository().lagre(virksomhet);
-        return virksomhet;
-    }
-
-    private OppgittFordeling opprettOppgittFordeling() {
-        OppgittPeriodeBuilder periode = OppgittPeriodeBuilder.ny()
-            .medPeriodeType(UttakPeriodeType.FORELDREPENGER_FØR_FØDSEL)
-            .medPeriode(FØRSTE_UTTAKSDATO_OPPGITT, FØRSTE_UTTAKSDATO_OPPGITT.plusWeeks(2))
-            .medVirksomhet(opprettOgLagreVirksomhet());
-
-        return new OppgittFordelingEntitet(singletonList(periode.build()), true);
-    }
-
-    private Virksomhet opprettOgLagreVirksomhet() {
-        Virksomhet virksomhet = new VirksomhetEntitet.Builder()
-            .medOrgnr("75674554355")
-            .medNavn("Virksomhet")
-            .medRegistrert(LocalDate.now().minusYears(10L))
-            .medOppstart(LocalDate.now().minusYears(10L))
-            .oppdatertOpplysningerNå()
-            .build();
-        repoRule.getEntityManager().persist(virksomhet);
         return virksomhet;
     }
 

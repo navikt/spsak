@@ -4,8 +4,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 
 import org.xml.sax.SAXException;
 
@@ -37,16 +35,6 @@ import no.nav.vedtak.felles.xml.vedtak.v2.ObjectFactory;
 import no.nav.vedtak.felles.xml.vedtak.v2.Vedtak;
 
 public abstract class VedtakXmlTjeneste {
-
-    private static final DatatypeFactory DATATYPE_FACTORY;
-
-    static {
-        try {
-            DATATYPE_FACTORY = DatatypeFactory.newInstance();
-        } catch (DatatypeConfigurationException e) {
-            throw new IllegalStateException("Fant ikke DataTypeFactory", e);
-        }
-    }
 
     private BehandlingRepository behandlingRepository;
     private FagsakRepository fagsakRepository;

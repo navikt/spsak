@@ -33,12 +33,6 @@
 			<artifactId>datavarehus-domene</artifactId>
 		</dependency>
 
-		<!-- TODO: Skal ikke ligge her (men trenger å inkludere json-feed-orm i persistence.xml)-->
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>json-feed-domene</artifactId>
-        </dependency>
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>

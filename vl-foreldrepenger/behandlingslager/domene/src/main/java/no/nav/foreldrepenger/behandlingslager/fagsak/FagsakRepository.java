@@ -8,24 +8,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Relasj
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.vedtak.felles.jpa.TomtResultatException;
 
 public interface FagsakRepository extends BehandlingslagerRepository {
 
     Fagsak finnEksaktFagsak(long fagsakId);
 
     Optional<Fagsak> finnUnikFagsak(long fagsakId);
-
-    /**
-     * Henter ut relasjonen til fagsaken.
-     *
-     * @param fagsak fagsaken
-     * @return Relasjonen hvis den eksisterer
-     * @throws TomtResultatException Ved manglende relasjon
-     * @deprecated Benytt FagsakRelasjonRepository..
-     */
-    @Deprecated
-    FagsakRelasjon finnFagsakRelasjonFor(Fagsak fagsak);
 
     Long opprettNy(Fagsak fagsak);
 

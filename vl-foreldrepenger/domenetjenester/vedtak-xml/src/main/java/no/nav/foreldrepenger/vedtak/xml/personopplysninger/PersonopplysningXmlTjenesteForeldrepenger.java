@@ -46,7 +46,6 @@ import no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.Personopplysninger;
 
 @ApplicationScoped
 public class PersonopplysningXmlTjenesteForeldrepenger extends PersonopplysningXmlTjeneste {
-    private final no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.ObjectFactory personopplysningBaseObjectFactory = new no.nav.vedtak.felles.xml.vedtak.personopplysninger.v2.ObjectFactory();
     private final ObjectFactory personopplysningObjectFactory = new ObjectFactory();
 
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;

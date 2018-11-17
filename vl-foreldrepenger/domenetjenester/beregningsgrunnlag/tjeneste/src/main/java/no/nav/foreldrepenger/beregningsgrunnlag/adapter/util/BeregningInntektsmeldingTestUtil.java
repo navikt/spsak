@@ -137,7 +137,7 @@ public class BeregningInntektsmeldingTestUtil {
         InntektsmeldingBuilder inntektsmeldingBuilder = InntektsmeldingBuilder.builder();
         inntektsmeldingBuilder.medStartDatoPermisjon(skjæringstidspunktOpptjening);
         inntektsmeldingBuilder.medBeløp(inntekt);
-        inntektsmeldingBuilder.medInnsendingstidspunkt(LocalDateTime.now());
+        inntektsmeldingBuilder.medInnsendingstidspunkt(getNow());
         if (refusjon != null) {
             inntektsmeldingBuilder.medRefusjon(refusjon, opphørsdatoRefusjon);
         }
@@ -153,5 +153,15 @@ public class BeregningInntektsmeldingTestUtil {
         inntektArbeidYtelseRepository.lagre(behandling, inntektsmelding);
 
         return inntektsmelding;
+    }
+
+    private LocalDateTime getNow() {
+        try {
+            Thread.sleep(50L);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return LocalDateTime.now();
     }
 }

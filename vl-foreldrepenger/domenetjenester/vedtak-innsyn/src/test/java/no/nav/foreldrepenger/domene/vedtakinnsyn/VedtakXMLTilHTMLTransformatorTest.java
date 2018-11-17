@@ -25,9 +25,9 @@ public class VedtakXMLTilHTMLTransformatorTest {
 
     @Test
     public void skal_transformere_XML_til_HTML_v2() throws Exception {
-        String forventet = les("/eksempel-vedtakHTML.html");
+        les("/eksempel-vedtakHTML.html");
         String inputXML = les("/eksempel_vedtakXML_v2.xml");
-        String resultat = VedtakXMLTilHTMLTransformator.transformer(inputXML, 1L);
+        VedtakXMLTilHTMLTransformator.transformer(inputXML, 1L);
 
     }
 

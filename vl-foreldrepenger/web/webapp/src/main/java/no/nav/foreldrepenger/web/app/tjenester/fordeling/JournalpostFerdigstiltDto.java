@@ -47,7 +47,7 @@ public class JournalpostFerdigstiltDto implements AbacDto {
         return Optional.ofNullable(this.forsendelseId);
     }
 
-    private JournalpostFerdigstiltDto() { //For Jackson
+    JournalpostFerdigstiltDto() { //For Jackson
     }
 
     public void setSaksnummer(String saksnummer) {

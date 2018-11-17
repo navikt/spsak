@@ -84,7 +84,7 @@ public class AutomatiskGjenopptagelseTjenesteTest {
 
         // Act
 
-        final String faktiskGruppe = tjeneste.gjenopptaBehandlinger();
+        tjeneste.gjenopptaBehandlinger();
 
         // Assert
 

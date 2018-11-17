@@ -122,11 +122,10 @@ public class ForeslåVedtakRevurderingStegForeldrepengerImplTest {
             .medGrunnbeløp(BigDecimal.valueOf(91425))
             .medRedusertGrunnbeløp(BigDecimal.valueOf(91425))
             .build();
-        BeregningsgrunnlagPeriode beregningsgrunnlagPeriode =
-            BeregningsgrunnlagPeriode.builder()
-                .medBeregningsgrunnlagPeriode(LocalDate.now().minusDays(1),LocalDate.now().plusDays(1))
-                .medBruttoPrÅr(BigDecimal.valueOf(bruttoPerÅr))
-                .build(beregningsgrunnlag);
+        BeregningsgrunnlagPeriode.builder()
+            .medBeregningsgrunnlagPeriode(LocalDate.now().minusDays(1),LocalDate.now().plusDays(1))
+            .medBruttoPrÅr(BigDecimal.valueOf(bruttoPerÅr))
+            .build(beregningsgrunnlag);
         return beregningsgrunnlag;
     }
 

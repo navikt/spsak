@@ -258,13 +258,13 @@ public class BehandlingRepositoryImplTest {
     public void skal_slette_vilkår_som_blir_fjernet_til_tross_for_at_Hibernate_har_problemer_med_orphan_removal() {
         // Arrange
         Fagsak fagsak = byggFagsak(new AktørId("199"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE);
-        behandling = byggBehandlingForElektroniskSøknadOmFødsel(fagsak, LocalDate.now(), LocalDate.now());
+        behandling = byggBehandlingForElektroniskSøknadOmFødsel(fagsak, LocalDate.now());
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, lås);
 
         VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.OMSORGSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
             .buildFor(behandling);
 
         // Act
@@ -272,12 +272,12 @@ public class BehandlingRepositoryImplTest {
 
         // Assert
         assertThat(behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().size()).isEqualTo(1);
-        assertThat(behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().iterator().next().getVilkårType()).isEqualTo(VilkårType.OMSORGSVILKÅRET);
+        assertThat(behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().iterator().next().getVilkårType()).isEqualTo(VilkårType.MEDLEMSKAPSVILKÅRET);
 
         // Arrange
         VilkårResultat.builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat())
             .leggTilVilkår(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD, VilkårUtfallType.IKKE_VURDERT)
-            .fjernVilkår(VilkårType.OMSORGSVILKÅRET)
+            .fjernVilkår(VilkårType.MEDLEMSKAPSVILKÅRET)
             .buildFor(behandling);
 
         // Act
@@ -531,7 +531,7 @@ public class BehandlingRepositoryImplTest {
 
     private Behandling opprettBehandlingForAutomatiskGjenopptagelse() {
 
-        LocalDate terminDato = LocalDate.now().plusDays(5);
+        LocalDate.now().plusDays(5);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
 
         Behandling behandling = scenario.lagre(repositoryProvider);
@@ -558,7 +558,7 @@ public class BehandlingRepositoryImplTest {
         return fagsak;
     }
 
-    private Behandling byggBehandlingForElektroniskSøknadOmFødsel(Fagsak fagsak, LocalDate fødselsdato, LocalDate mottattDato) {
+    private Behandling byggBehandlingForElektroniskSøknadOmFødsel(Fagsak fagsak, LocalDate mottattDato) {
         Behandling.Builder behandlingBuilder = Behandling.forFørstegangssøknad(fagsak);
         Behandling behandling = behandlingBuilder.build();
         behandling.setAnsvarligSaksbehandler(ANSVARLIG_SAKSBEHANDLER);
@@ -607,7 +607,7 @@ public class BehandlingRepositoryImplTest {
 
     private Behandling opprettRevurderingsKandidat(int dagerTilbake) {
 
-        LocalDate terminDato = LocalDate.now().minusDays(dagerTilbake);
+        LocalDate.now().minusDays(dagerTilbake);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
 
         behandling = scenario.lagre(repositoryProvider);

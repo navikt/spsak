@@ -21,7 +21,6 @@ public interface BehandlendeEnhetTjeneste {
     Optional<OrganisasjonsEnhet> endretBehandlendeEnhetFraAndrePersoner(Behandling behandling, List<AktørId> aktører);
     Optional<OrganisasjonsEnhet> endretBehandlendeEnhetFraAndrePersoner(Behandling behandling, PersonIdent relatert);
 
-    // Brukes for å utlede enhet ved opprettelse av klage, revurdering, ny førstegangsbehandling, innsyn mv. Vil normalt videreføre enhet fra tidligere behandling
     OrganisasjonsEnhet sjekkEnhetVedNyAvledetBehandling(Behandling behandling, OrganisasjonsEnhet enhetOpprinneligBehandling);
 
     // Brukes for å sjekke om det er behov for å endre til spesialenheter når saken tas av vent.

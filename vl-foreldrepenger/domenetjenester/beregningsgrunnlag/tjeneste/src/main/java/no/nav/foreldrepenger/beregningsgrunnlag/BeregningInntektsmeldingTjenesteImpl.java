@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.beregningsgrunnlag;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -12,16 +11,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoer;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseFordelingAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.typer.Beløp;
 
 @ApplicationScoped
 public class BeregningInntektsmeldingTjenesteImpl implements BeregningInntektsmeldingTjeneste {
 
-    private YtelsesFordelingRepository ytelsesFordelingRepository;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
 
     BeregningInntektsmeldingTjenesteImpl() {
@@ -30,7 +25,6 @@ public class BeregningInntektsmeldingTjenesteImpl implements BeregningInntektsme
 
     @Inject
     public BeregningInntektsmeldingTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste) {
-        this.ytelsesFordelingRepository = repositoryProvider.getYtelsesFordelingRepository();
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
     }
 
@@ -50,11 +44,8 @@ public class BeregningInntektsmeldingTjenesteImpl implements BeregningInntektsme
 
     @Override
     public LocalDate fastsettStartdatoInntektsmelding(Behandling behandling, Inntektsmelding inntektsmelding) {
-        Optional<YtelseFordelingAggregat> ytelsesfordelingAggregat = ytelsesFordelingRepository.hentAggregatHvisEksisterer(behandling);
-        return ytelsesfordelingAggregat
-            .flatMap(YtelseFordelingAggregat::getAvklarteDatoer)
-            .map(AvklarteUttakDatoer::getFørsteUttaksDato)
-            .orElse(inntektsmelding.getStartDatoPermisjon());
+        // FIXME SP: trengs alternativ startdato dersom tidligere sykemelding i samme sak?
+        return inntektsmelding.getStartDatoPermisjon();
     }
 
     private Beløp beregnTotaltRefusjonskravPrÅrPåDato(List<Inntektsmelding> inntektsmeldinger, LocalDate dato, Behandling behandling) {

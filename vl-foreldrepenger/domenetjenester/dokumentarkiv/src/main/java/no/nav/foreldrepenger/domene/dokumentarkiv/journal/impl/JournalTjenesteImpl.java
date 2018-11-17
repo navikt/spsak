@@ -5,9 +5,6 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.domene.dokumentarkiv.ArkivJournalPost;
 import no.nav.foreldrepenger.domene.dokumentarkiv.journal.InngåendeJournalAdapter;
@@ -17,8 +14,6 @@ import no.nav.foreldrepenger.domene.typer.JournalpostId;
 
 @ApplicationScoped
 public class JournalTjenesteImpl implements JournalTjeneste {
-
-    private static final Logger log = LoggerFactory.getLogger(JournalTjenesteImpl.class);
 
     private InngåendeJournalAdapter inngaaendeJournalAdapter;
 

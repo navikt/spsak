@@ -10,7 +10,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnRepository;
@@ -36,7 +35,6 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
     private DatavarehusRepository datavarehusRepository;
     private FagsakRepository fagsakRepository;
     private BehandlingRepository behandlingRepository;
-    private PersonopplysningRepository personopplysningRepository;
     private BehandlingVedtakRepository behandlingVedtakRepository;
     private DvhVedtakTjenesteProvider dvhVedtakTjenesteProvider;
     private TotrinnRepository totrinnRepository;
@@ -53,7 +51,6 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
         this.datavarehusRepository = datavarehusRepository;
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
         this.dvhVedtakTjenesteProvider = dvhVedtakTjenesteProvider;
         this.totrinnRepository = totrinnRepository;

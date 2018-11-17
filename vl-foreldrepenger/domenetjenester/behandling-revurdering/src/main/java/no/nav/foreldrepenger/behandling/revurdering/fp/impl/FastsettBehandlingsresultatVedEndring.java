@@ -3,31 +3,22 @@ package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.KonsekvensForYtelsen;
 import no.nav.foreldrepenger.behandlingslager.behandling.RettenTil;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 
 class FastsettBehandlingsresultatVedEndring {
     private FastsettBehandlingsresultatVedEndring() {}
 
     public static Behandlingsresultat fastsett(Behandling revurdering,
                                                boolean erEndringIBeregning,
-                                               boolean erEndringIUttakFraEndringstidspunkt,
                                                boolean erVarselOmRevurderingSendt,
                                                boolean erKunEndringIFordelingAvYtelsen,
-                                               LocalDate endringsdato,
-                                               Optional<UttakResultatEntitet> uttakResultatEntitetOptional) {
-        List<KonsekvensForYtelsen> konsekvenserForYtelsen = utledKonsekvensForYtelsen(erEndringIBeregning, erEndringIUttakFraEndringstidspunkt);
-
-        if (!HarLøpendeVedtak.vurder(endringsdato, uttakResultatEntitetOptional)) {
-            return HarLøpendeVedtak.fastsett(revurdering, konsekvenserForYtelsen);
-        }
+                                               LocalDate endringsdato) {
+        List<KonsekvensForYtelsen> konsekvenserForYtelsen = utledKonsekvensForYtelsen(erEndringIBeregning);
 
         if (erKunEndringIFordelingAvYtelsen) {
             return ErKunEndringIFordelingAvYtelsen.fastsett(revurdering, erVarselOmRevurderingSendt);
@@ -51,14 +42,11 @@ class FastsettBehandlingsresultatVedEndring {
         return BehandlingResultatType.FORELDREPENGER_ENDRET;
     }
 
-    private static List<KonsekvensForYtelsen> utledKonsekvensForYtelsen(boolean erEndringIBeregning, boolean erEndringIUttakFraEndringstidspunkt) {
+    private static List<KonsekvensForYtelsen> utledKonsekvensForYtelsen(boolean erEndringIBeregning) {
         List<KonsekvensForYtelsen> konsekvensForYtelsen = new ArrayList<>();
 
         if (erEndringIBeregning) {
             konsekvensForYtelsen.add(KonsekvensForYtelsen.ENDRING_I_BEREGNING);
-        }
-        if (erEndringIUttakFraEndringstidspunkt) {
-            konsekvensForYtelsen.add(KonsekvensForYtelsen.ENDRING_I_UTTAK);
         }
         if (konsekvensForYtelsen.isEmpty()) {
             konsekvensForYtelsen.add(KonsekvensForYtelsen.INGEN_ENDRING);

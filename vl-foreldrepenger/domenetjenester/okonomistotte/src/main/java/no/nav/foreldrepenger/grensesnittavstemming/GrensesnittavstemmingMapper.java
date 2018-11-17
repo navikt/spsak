@@ -295,10 +295,6 @@ public class GrensesnittavstemmingMapper {
         return oppdrag.getOppdragKvitteringListe();
     }
 
-    private Avstemming115 getOppdragAvstemming115(Oppdrag110 oppdrag) {
-        return oppdrag.getAvstemming115();
-    }
-
     public String getAvstemmingId() {
         return avstemmingId;
     }

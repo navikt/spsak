@@ -19,8 +19,6 @@ import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.MorsAktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity
@@ -50,14 +48,6 @@ public class UttakResultatPeriodeSøknadEntitet extends BaseEntitet {
     @Column(name = "mottatt_dato")
     private LocalDate mottattDato;
 
-    @ManyToOne
-    @JoinColumnsOrFormulas({
-        @JoinColumnOrFormula(column = @JoinColumn(name = "MORS_AKTIVITET", referencedColumnName = "kode")),
-        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + MorsAktivitet.DISCRIMINATOR + "'"))
-    })
-    private MorsAktivitet morsAktivitet = MorsAktivitet.UDEFINERT;
-
-
     public Long getId() {
         return id;
     }
@@ -82,11 +72,6 @@ public class UttakResultatPeriodeSøknadEntitet extends BaseEntitet {
         return mottattDato;
     }
 
-    public MorsAktivitet getMorsAktivitet() {
-        return morsAktivitet;
-    }
-
-
     @Override
     public String toString() {
         return "UttakResultatPeriodeSøknadEntitet{" +
@@ -96,7 +81,6 @@ public class UttakResultatPeriodeSøknadEntitet extends BaseEntitet {
             ", samtidigUttak=" + samtidigUttak +
             ", samtidigUttaksprosent=" + samtidigUttaksprosent +
             ", mottattDato=" + mottattDato +
-            ", morsAktivitet=" + morsAktivitet +
             '}';
     }
 
@@ -126,11 +110,6 @@ public class UttakResultatPeriodeSøknadEntitet extends BaseEntitet {
 
         public Builder medMottattDato(LocalDate mottattDato) {
             kladd.mottattDato = mottattDato;
-            return this;
-        }
-
-        public Builder medMorsAktivitet(MorsAktivitet morsAktivitet) {
-            kladd.morsAktivitet = morsAktivitet;
             return this;
         }
 

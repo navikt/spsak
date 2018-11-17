@@ -29,7 +29,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRep
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 
 @FagsakYtelseTypeRef("FP")
@@ -42,7 +41,6 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
     private PersonopplysningRepository personopplysningRepository;
     private MedlemskapRepository medlemskapRepository;
     private AksjonspunktRepository aksjonspunktRepository;
-    private YtelsesFordelingRepository ytelsesFordelingRepository;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
     private RevurderingTjenesteFelles revurderingTjenesteFelles;
     private MedlemskapVilkårPeriodeRepository medlemskapVilkårPeriodeRepository;
@@ -57,7 +55,6 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
                                      HistorikkRepository historikkRepository, @FagsakYtelseTypeRef("FP") RevurderingEndring revurderingEndring) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
-        this.ytelsesFordelingRepository = repositoryProvider.getYtelsesFordelingRepository();
         this.revurderingHistorikk = new RevurderingHistorikk(historikkRepository);
         this.personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
@@ -96,7 +93,6 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
         // Kopier grunnlagsdata
         personopplysningRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
         medlemskapRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
-        ytelsesFordelingRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
         inntektArbeidYtelseRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
 
         // Kopier aksjonspunkter

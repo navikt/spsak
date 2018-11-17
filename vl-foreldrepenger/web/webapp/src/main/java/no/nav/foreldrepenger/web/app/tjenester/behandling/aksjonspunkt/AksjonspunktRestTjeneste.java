@@ -75,7 +75,6 @@ public class AksjonspunktRestTjeneste {
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Hent aksjonspunter for en behandling", response = AksjonspunktDto.class, responseContainer = "Set")
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
-    @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
     public Response getAksjonspunkter(@NotNull @QueryParam("behandlingId") @Valid BehandlingIdDto behandlingIdDto) throws URISyntaxException { // NOSONAR
 
         Long behandlingId = behandlingIdDto.getBehandlingId();
@@ -101,7 +100,6 @@ public class AksjonspunktRestTjeneste {
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Lagre endringer gitt av aksjonspunktene og rekjør behandling fra gjeldende steg")
     @BeskyttetRessurs(action = UPDATE, ressurs = FAGSAK)
-    @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
     public Response bekreft(@ApiParam("Liste over aksjonspunkt som skal bekreftes, inklusiv data som trengs for å løse de.") @Valid BekreftedeAksjonspunkterDto apDto) throws URISyntaxException { // NOSONAR
 
         Long behandlingId = apDto.getBehandlingId().getBehandlingId();
@@ -128,7 +126,6 @@ public class AksjonspunktRestTjeneste {
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Overstyrer stegene")
     @BeskyttetRessurs(action = UPDATE, ressurs = FAGSAK)
-    @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
     public Response overstyr(@ApiParam("Liste over overstyring aksjonspunkter.") @Valid OverstyrteAksjonspunkterDto apDto) throws URISyntaxException { // NOSONAR
 
         Long behandlingId = apDto.getBehandlingId().getBehandlingId();

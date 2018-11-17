@@ -65,7 +65,7 @@ public class KompletthetsjekkerFPFelles {
         return LocalDateTime.now().plusWeeks(VENTEFRIST_FOR_MANGLENDE_SØKNAD);
     }
 
-    public void sendBrev(Behandling behandling, String dokumentMalType, String årsakskode) {
+    public void sendBrev(Behandling behandling, String dokumentMalType) {
         sendVarselTjeneste.sendVarsel(behandling.getId(), dokumentMalType);
     }
 }

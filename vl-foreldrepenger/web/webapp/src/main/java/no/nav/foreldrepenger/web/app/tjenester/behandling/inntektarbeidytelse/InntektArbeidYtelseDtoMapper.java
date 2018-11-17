@@ -28,8 +28,6 @@ public class InntektArbeidYtelseDtoMapper {
 
     private ArbeidsforholdAdministrasjonTjeneste inntektArbeidYtelseTjeneste;
     private InntektArbeidYtelseTjeneste iayTjeneste;
-    private PersonopplysningTjeneste personopplysningTjeneste;
-
     public InntektArbeidYtelseDtoMapper() {
         // for CDI proxy
     }
@@ -39,7 +37,6 @@ public class InntektArbeidYtelseDtoMapper {
                                         ArbeidsforholdAdministrasjonTjeneste inntektArbeidYtelseTjeneste,
                                         InntektArbeidYtelseTjeneste iayTjeneste, BehandlingRepository behandlingRepository) {
 
-        this.personopplysningTjeneste = personopplysningTjeneste;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.iayTjeneste = iayTjeneste;
     }

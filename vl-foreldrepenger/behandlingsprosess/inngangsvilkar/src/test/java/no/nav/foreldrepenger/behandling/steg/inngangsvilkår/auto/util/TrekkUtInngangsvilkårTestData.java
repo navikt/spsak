@@ -99,20 +99,21 @@ class TrekkUtInngangsvilkårTestData {
 
     private void hentUtResultatFor(DataSource dataSource, Path rootDirectory, String vilkårType, VilkårUtfallType vilkårUtfall) throws SQLException {
         Map<FileRef, Set<LocalDate>> fileMap = initFiles(rootDirectory, vilkårType);
-        try (Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(
+                    "SELECT v.id, v.VILKAR_TYPE, v.VILKAR_UTFALL, v.AVSLAG_KODE, v.REGEL_INPUT, o.FOM, o.TOM, o.OPPTJENT_PERIODE, v.OPPRETTET_TID " +
+                        "FROM VILKAR v " +
+                        "LEFT OUTER JOIN OPPTJENING o ON o.VILKAR_RESULTAT_ID = v.VILKAR_RESULTAT_ID " +
+                        "WHERE v.VILKAR_UTFALL = '" + vilkårUtfall.getKode() + "' " +
+                        "AND o.AKTIV = 'J'" +
+                        "AND v.VILKAR_TYPE = '" + vilkårType + "' " +
+                        "AND v.REGEL_INPUT IS NOT NULL " +
+                        "ORDER BY v.OPPRETTET_TID DESC")) {
+            
             int antallLagret = 0;
             int antallForsøk = 0;
-            final Statement statement = connection.createStatement();
-            final ResultSet resultSet = statement.executeQuery(
-                "SELECT v.id, v.VILKAR_TYPE, v.VILKAR_UTFALL, v.AVSLAG_KODE, v.REGEL_INPUT, o.FOM, o.TOM, o.OPPTJENT_PERIODE, v.OPPRETTET_TID " +
-                    "FROM VILKAR v " +
-                    "LEFT OUTER JOIN OPPTJENING o ON o.VILKAR_RESULTAT_ID = v.VILKAR_RESULTAT_ID " +
-                    "WHERE v.VILKAR_UTFALL = '" + vilkårUtfall.getKode() + "' " +
-                    "AND o.AKTIV = 'J'" +
-                    "AND v.VILKAR_TYPE = '" + vilkårType + "' " +
-                    "AND v.REGEL_INPUT IS NOT NULL " +
-                    "ORDER BY v.OPPRETTET_TID DESC");
-
+            
             while (resultSet.next()) {
                 try {
                     if (MAX_FORSØK == ++antallForsøk) {
@@ -128,7 +129,8 @@ class TrekkUtInngangsvilkårTestData {
                     final String opptjentTid = resultSet.getString(8);
                     final LocalDate kjøreTidspunkt = convertToLocalDate(resultSet.getDate(9));
 
-                    skrivTilFil(rootDirectory, fileMap, new VilkårResultat(id, kjøreTidspunkt, vilkarType, utfall, avslag, fomOpptjening, tomOpptjening, opptjentTid), regelInput);
+                    skrivTilFil(rootDirectory, fileMap,
+                        new VilkårResultat(id, kjøreTidspunkt, vilkarType, utfall, avslag, fomOpptjening, tomOpptjening, opptjentTid), regelInput);
                     antallLagret++;
                     if (antallLagret == MAX_ANTALL) {
                         break;
@@ -157,7 +159,8 @@ class TrekkUtInngangsvilkårTestData {
         }
         Arrays.stream(listFiles).filter(it -> it.getName().endsWith(INPUT_SUFFIX)).forEach(kandidat -> {
             try {
-                final Optional<File> output = Arrays.stream(listFiles).filter(fil -> fil.getName().equals(kandidat.getName().replace(INPUT_SUFFIX, OUTPUT_SUFFIX))).findAny();
+                final Optional<File> output = Arrays.stream(listFiles)
+                    .filter(fil -> fil.getName().equals(kandidat.getName().replace(INPUT_SUFFIX, OUTPUT_SUFFIX))).findAny();
                 if (output.isPresent()) {
                     final VilkårResultat vilkårResultat = mapper.readValue(output.get(), VilkårResultat.class);
                     final FileRef key = new FileRef(Files.readAllBytes(kandidat.toPath()), vilkårResultat.getUtfall());
@@ -182,8 +185,8 @@ class TrekkUtInngangsvilkårTestData {
         return date.toLocalDate();
     }
 
-    private void skrivTilFil(Path rootDirectory, Map<FileRef, Set<LocalDate>> fileMap, VilkårResultat vilkårResultat, Clob regelInput) throws
-        IOException, SQLException {
+    private void skrivTilFil(Path rootDirectory, Map<FileRef, Set<LocalDate>> fileMap, VilkårResultat vilkårResultat, Clob regelInput)
+            throws IOException, SQLException {
         final ObjectWriter objectWriter = mapper.writerWithDefaultPrettyPrinter();
         final Path vilkårFolder = Paths.get(rootDirectory.toFile().getPath() + "/" + vilkårResultat.getVilkarType());
         final File file = vilkårFolder.toFile();

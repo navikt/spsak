@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.oppd
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.Optional;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -12,7 +10,6 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.domene.medlem.api.AvklarFortsattMedlemskapAksjonspunktDto;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
@@ -60,7 +57,7 @@ public class AvklarFortsattMedlemskapOppdaterer implements AksjonspunktOppdatere
     }
 
     private void håndterEndringHistorikk(AvklarFortsattMedlemskapDto dto, Behandling behandling) {
-        Optional<MedlemskapAggregat> medlemskap = medlemTjeneste.hentMedlemskap(behandling);
+        medlemTjeneste.hentMedlemskap(behandling);
         LocalDate orginalFmoDato = null;
         AksjonspunktDefinisjon aksjonspunktDefinisjon = aksjonspunktRepository.finnAksjonspunktDefinisjon(dto.getKode());
 

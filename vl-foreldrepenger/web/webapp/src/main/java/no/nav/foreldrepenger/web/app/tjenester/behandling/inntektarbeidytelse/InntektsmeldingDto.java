@@ -7,14 +7,12 @@ import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Gradering;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.UtsettelsePeriode;
 
 public class InntektsmeldingDto {
     private String arbeidsgiver;
     private String arbeidsgiverOrgnr;
     private LocalDate arbeidsgiverStartdato;
 
-    private List<UtsettelsePeriodeDto> utsettelsePerioder = new ArrayList<>();
     private List<GraderingPeriodeDto> graderingPerioder = new ArrayList<>();
 
     InntektsmeldingDto() {
@@ -25,14 +23,6 @@ public class InntektsmeldingDto {
         this.arbeidsgiver = inntektsmelding.getVirksomhet().getNavn();
         this.arbeidsgiverOrgnr = inntektsmelding.getVirksomhet().getOrgnr();
         this.arbeidsgiverStartdato = inntektsmelding.getStartDatoPermisjon();
-
-        List<UtsettelsePeriode> utsettelser = inntektsmelding.getUtsettelsePerioder();
-        if(utsettelser != null) {
-            this.utsettelsePerioder.addAll(utsettelser
-                .stream()
-                .map(UtsettelsePeriodeDto::new)
-                .collect(Collectors.toList()));
-        }
 
         List<Gradering> graderinger = inntektsmelding.getGraderinger();
         if(graderinger != null) {
@@ -63,10 +53,6 @@ public class InntektsmeldingDto {
 
     public void setArbeidsgiverStartdato(LocalDate arbeidsgiverStartdato) {
         this.arbeidsgiverStartdato = arbeidsgiverStartdato;
-    }
-
-    public List<UtsettelsePeriodeDto> getUtsettelsePerioder() {
-        return utsettelsePerioder;
     }
 
     public List<GraderingPeriodeDto> getGraderingPerioder() {

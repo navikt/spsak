@@ -69,15 +69,11 @@ public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
             DOKUMENTTYPE_TIL_GRUPPE.getOrDefault(dokumentTypeId, DokumentGruppe.VEDLEGG);
 
         Dokumentmottaker dokumentmottaker = finnMottaker(dokumentGruppe);
-        if (finnesÅpenBehandlingSomErBerørt(fagsak) || finnesÅpenBehandlingPåMedforelder(fagsak)) {
+        if (finnesÅpenBehandlingSomErBerørt(fagsak)) {
             dokumentmottaker.mottaDokumentForKøetBehandling(mottattDokument, fagsak, dokumentTypeId, behandlingÅrsakType);
             return;
         }
         dokumentmottaker.mottaDokument(mottattDokument, fagsak, dokumentTypeId, behandlingÅrsakType);
-    }
-
-    private boolean finnesÅpenBehandlingPåMedforelder(Fagsak fagsak) {
-        return revurderingRepository.finnÅpenBehandlingMedforelder(fagsak).isPresent();
     }
 
     private boolean finnesÅpenBehandlingSomErBerørt(Fagsak fagsak) {

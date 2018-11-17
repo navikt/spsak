@@ -368,7 +368,7 @@ public class InntektArbeidYtelseAggregatBuilder {
         public AktørYtelse build() {
             if (this.kladd.hasValues()) {
                 this.kladd.getYtelser().forEach(ytelse -> {
-                    if ((Fagsystem.UDEFINERT.equals(this.kilde) || ytelse.getKilde().equals(this.kilde)) && !ytelser.contains((YtelseEntitet)ytelse)) {
+                    if ((Fagsystem.UDEFINERT.equals(this.kilde) || ytelse.getKilde().equals(this.kilde)) && !ytelser.contains(ytelse)) {
                         this.kladd.fjernYtelse(ytelse);
                     }
                 });

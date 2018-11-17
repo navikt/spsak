@@ -23,13 +23,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
-import no.nav.fpsak.tidsserie.LocalDateSegment;
 
 class AvklarOmErBosatt {
-    //Setter den til 364 for å unngå skuddårproblemer, (365 og 366 blir da "større" enn et år)
-    private static final int ANTALL_DAGER_I_ÅRET = 364;
-
     private PersonopplysningTjeneste personopplysningTjeneste;
     private MedlemskapRepository medlemskapRepository;
     private MedlemskapPerioderTjeneste medlemskapPerioderTjeneste;
@@ -53,18 +48,6 @@ class AvklarOmErBosatt {
             } else {
                 return Optional.empty();
             }
-        }
-    }
-
-    private boolean periodeLengreEnn12M(LocalDateInterval localDateInterval) {
-        return localDateInterval.days() >= ANTALL_DAGER_I_ÅRET;
-    }
-
-    private LocalDateSegment<Boolean> finnSegment(LocalDate skjæringsdato, LocalDate fom, LocalDate tom) {
-        if (skjæringsdato.isAfter(fom) && skjæringsdato.isBefore(tom)) {
-            return new LocalDateSegment<>(skjæringsdato, tom, true);
-        } else {
-            return new LocalDateSegment<>(fom, tom, true);
         }
     }
 

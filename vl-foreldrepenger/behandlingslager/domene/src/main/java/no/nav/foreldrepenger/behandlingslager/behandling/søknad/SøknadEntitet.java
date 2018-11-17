@@ -30,12 +30,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgrad;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgradEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittRettighet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittRettighetEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordeling;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "Søknad")
@@ -70,18 +64,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     @Column(name = "tilleggsopplysninger")
     private String tilleggsopplysninger;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = {/* NONE! */})
-    @JoinColumn(name = "fordeling_id", unique = true)
-    private OppgittFordelingEntitet oppgittPerioder;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = {/* NONE! */})
-    @JoinColumn(name = "dekningsgrad_id", unique = true)
-    private OppgittDekningsgradEntitet oppgittDekningsgrad;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = {/* NONE! */})
-    @JoinColumn(name = "rettighet_id", unique = true)
-    private OppgittRettighetEntitet oppgittRettighet;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {/* NONE! */})
     @JoinColumn(name = "medlemskap_oppg_tilknyt_id", unique = true)
@@ -133,9 +115,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             this.søknadVedlegg.add(kopi);
         }
 
-        this.oppgittDekningsgrad = (OppgittDekningsgradEntitet) søknadMal.getDekningsgrad();
-        this.oppgittRettighet = (OppgittRettighetEntitet) søknadMal.getRettighet();
-        this.oppgittPerioder = (OppgittFordelingEntitet) søknadMal.getFordeling();
         this.oppgittOpptjening = (OppgittOpptjeningEntitet) søknadMal.getOppgittOpptjening();
         this.brukerRolle = søknadMal.getRelasjonsRolleType();
     }
@@ -199,33 +178,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     }
 
     @Override
-    public OppgittFordeling getFordeling() {
-        return oppgittPerioder;
-    }
-
-    void setFordeling(OppgittFordeling perioder) {
-        this.oppgittPerioder = (OppgittFordelingEntitet) perioder;
-    }
-
-    @Override
-    public OppgittDekningsgrad getDekningsgrad() {
-        return oppgittDekningsgrad;
-    }
-
-    void setDekningsgrad(OppgittDekningsgrad dekningsgrad) {
-        this.oppgittDekningsgrad = (OppgittDekningsgradEntitet) dekningsgrad;
-    }
-
-    @Override
-    public OppgittRettighet getRettighet() {
-        return oppgittRettighet;
-    }
-
-    void setRettighet(OppgittRettighet oppgittRettighet) {
-        this.oppgittRettighet = (OppgittRettighetEntitet) oppgittRettighet;
-    }
-
-    @Override
     public OppgittTilknytningEntitet getOppgittTilknytning() {
         return oppgittTilknytning;
     }
@@ -284,7 +236,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
         }
         SøknadEntitet other = (SøknadEntitet) obj;
         return Objects.equals(this.elektroniskRegistrert, other.elektroniskRegistrert)
-            && Objects.equals(this.getFarSøkerType(), other.getFarSøkerType())
             && Objects.equals(this.kildeReferanse, other.kildeReferanse)
             && Objects.equals(this.mottattDato, other.mottattDato)
             // Dette er ikke en god måte å gjøre ting på, men det er en løsning på at PersistentSet.equals ikke følger spec'en.
@@ -294,23 +245,20 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             && Objects.equals(this.tilleggsopplysninger, other.tilleggsopplysninger)
             && Objects.equals(this.søknadVedlegg, other.søknadVedlegg)
             && Objects.equals(this.oppgittOpptjening, other.oppgittOpptjening)
-            && Objects.equals(this.oppgittPerioder, other.oppgittPerioder)
             && Objects.equals(this.begrunnelseForSenInnsending, other.begrunnelseForSenInnsending)
             && Objects.equals(this.brukerRolle, other.brukerRolle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(elektroniskRegistrert, getFarSøkerType(), kildeReferanse, mottattDato, erEndringssøknad,
-            søknadsdato, oppgittTilknytning, tilleggsopplysninger, søknadVedlegg, begrunnelseForSenInnsending,
-            oppgittPerioder, oppgittOpptjening, brukerRolle);
+        return Objects.hash(elektroniskRegistrert, kildeReferanse, mottattDato, 
+            søknadsdato, oppgittTilknytning, erEndringssøknad, tilleggsopplysninger, søknadVedlegg, oppgittOpptjening, begrunnelseForSenInnsending, brukerRolle);
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() +
-            "<termindato=" + søknadsdato //$NON-NLS-1$
-            + ", farSøkerType=" + getFarSøkerType()
+            "<søknadsdato=" + søknadsdato //$NON-NLS-1$
             + ", kildeReferanse=" + kildeReferanse
             + ", elektroniskRegistrert=" + elektroniskRegistrert
             + ", mottattDato=" + mottattDato
@@ -354,21 +302,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
         public Builder medMottattDato(LocalDate mottattDato) {
             søknadMal.setMottattDato(mottattDato);
-            return this;
-        }
-
-        public Builder medFordeling(OppgittFordeling perioder) {
-            søknadMal.setFordeling(perioder);
-            return this;
-        }
-
-        public Builder medDekningsgrad(OppgittDekningsgrad dekningsgrad) {
-            søknadMal.setDekningsgrad(dekningsgrad);
-            return this;
-        }
-
-        public Builder medRettighet(OppgittRettighet rettighet) {
-            søknadMal.setRettighet(rettighet);
             return this;
         }
 

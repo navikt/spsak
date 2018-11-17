@@ -50,7 +50,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.beregningsgrunnlag.AksjonspunktUtlederForBeregning;
 import no.nav.foreldrepenger.beregningsgrunnlag.BeregningsgrunnlagFraTilstøtendeYtelseTjeneste;
@@ -133,14 +132,13 @@ public class KontrollerFaktaBeregningStegImplTest {
         opplysningsPeriodeTjeneste = new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(1, 0, 0), Period.of(0, 4, 0));
         virksomhetTestUtil = new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository());
         opptjeningTestUtil = new BeregningOpptjeningTestUtil(repositoryProvider, virksomhetTestUtil);
-        iayTestUtil = new BeregningIAYTestUtil(repositoryProvider, virksomhetTestUtil, inntektArbeidYtelseTjeneste);
+        iayTestUtil = new BeregningIAYTestUtil(repositoryProvider, inntektArbeidYtelseTjeneste);
         inntektsmeldingTestUtil = new BeregningInntektsmeldingTestUtil(repositoryProvider, virksomhetTestUtil);
         HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste = lagHentGrunnlagsdataTjeneste();
         OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste = new OpprettBeregningsgrunnlagTjeneste(repositoryProvider, fastsettSkjæringstidspunktOgStatuser, fastsettInntektskategoriFraSøknadTjeneste, beregningsgrunnlagFraTilstøtendeYtelseTjeneste, fastsettBeregningsgrunnlagPerioderTjeneste, hentGrunnlagsdataTjeneste);
         steg = new KontrollerFaktaBeregningStegImpl(repositoryProvider, aksjonspunktUtlederForBeregning, opprettBeregningsgrunnlagTjeneste);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger
-            .forFødselMedGittAktørId(AKTØR_ID)
-            .medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(SKJÆRINGSTIDSPUNKT_OPPTJENING, SKJÆRINGSTIDSPUNKT_OPPTJENING));
+                .forFødselMedGittAktørId(AKTØR_ID);
         behandling = scenario.lagre(repositoryProvider);
         when(kontekst.getBehandlingId()).thenReturn(behandling.getId());
 

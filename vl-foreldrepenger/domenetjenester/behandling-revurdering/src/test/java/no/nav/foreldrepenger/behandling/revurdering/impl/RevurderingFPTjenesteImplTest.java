@@ -151,7 +151,7 @@ public class RevurderingFPTjenesteImplTest {
 
     private void opprettRevurderingsKandidat() {
 
-        LocalDate terminDato = LocalDate.now().minusDays(70);
+        LocalDate.now().minusDays(70);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         behandling = scenario.lagre(repositoryProvider);
     }

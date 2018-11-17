@@ -19,7 +19,6 @@ import java.time.Period;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -34,7 +33,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
-import no.nav.foreldrepenger.behandling.impl.RegisterInnhentingIntervallEndringTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -55,9 +53,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.beregningsgrunnlag.AksjonspunktUtlederForBeregning;
 import no.nav.foreldrepenger.beregningsgrunnlag.BeregningInntektsmeldingTjeneste;
@@ -119,10 +114,7 @@ public class FlereArbeidsforholdTest {
     @Mock
     private ArbeidsforholdTjeneste arbeidsforholdTjeneste;
 
-    private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
-        new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
-        Period.of(0, 3, 0),
-        Period.of(0, 10, 0));
+    private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
     private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
     private InntektArbeidYtelseTjenesteImpl inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, arbeidsforholdTjeneste, null, null, skjæringstidspunktTjeneste, apOpptjening);
     private OpptjeningRepository opptjeningRepository = repositoryProvider.getOpptjeningRepository();
@@ -426,9 +418,9 @@ public class FlereArbeidsforholdTest {
         final Double overstyrt = 700000d;
 
         final double forventetAvkortet = seksG;
-        final double forventetRedusert = forventetAvkortet * 0.8;
+        final double forventetRedusert = forventetAvkortet;
         final double forventetAvkortet1 = ÅRSINNTEKT.get(0);
-        final double forventetRedusert1 = forventetAvkortet1 * 0.8;
+        final double forventetRedusert1 = forventetAvkortet1;
 
         final long forventetDagsats = Math.round(forventetRedusert / 260);
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
@@ -450,14 +442,6 @@ public class FlereArbeidsforholdTest {
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
 
         //Nytt setup for 80% dekningsgrad
-        FagsakRelasjon fagsakRelasjon = mock(FagsakRelasjon.class);
-        when(fagsakRelasjon.getDekningsgrad()).thenReturn(Dekningsgrad._80);
-        FagsakRelasjonRepository fagsakRelasjonRepository = mock(FagsakRelasjonRepository.class);
-        when(repositoryProvider.getFagsakRelasjonRepository()).thenReturn(fagsakRelasjonRepository);
-        when(fagsakRelasjonRepository.finnRelasjonFor(behandling.getFagsak())).thenReturn(fagsakRelasjon);
-        when(fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(behandling.getFagsak())).thenReturn(Optional.of(fagsakRelasjon));
-
-
         MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel = new MapBeregningsgrunnlagFraVLTilRegel(
             repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5);
         fullføreBeregningsgrunnlagTjeneste = new FullføreBeregningsgrunnlag(oversetterTilRegel, new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste));
@@ -501,7 +485,7 @@ public class FlereArbeidsforholdTest {
         verifiserBGATetterOverstyring(periode.getBeregningsgrunnlagPrStatusOgAndelList().get(0),
             bg, beregningVirksomhet1, overstyrt, forventetAvkortet, forventetRedusert, bg,
             forventetAvkortet1, seksG - forventetAvkortet1,
-            forventetRedusert1, seksG * 0.8 - forventetRedusert1);
+            forventetRedusert1, seksG - forventetRedusert1);
     }
 
     @Test

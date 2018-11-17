@@ -43,7 +43,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Oppgaveinfo;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
@@ -285,7 +284,6 @@ public class ForeslåVedtakStegImplTest {
 
         UttakResultatPeriodeAktivitetEntitet periodeAktivitet = UttakResultatPeriodeAktivitetEntitet.builder(uttakResultatPeriode,
             uttakAktivitet)
-            .medTrekkonto(StønadskontoType.FORELDREPENGER)
             .medTrekkdager(10)
             .medArbeidsprosent(BigDecimal.valueOf(100))
             .medUtbetalingsprosent(BigDecimal.valueOf(100))

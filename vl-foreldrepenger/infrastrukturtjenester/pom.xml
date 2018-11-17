@@ -12,10 +12,8 @@
     <name>FPSAK :: Infrastrukturtjenester - Pom</name>
 
     <modules>
-        <module>json-feed</module>
         <module>batch</module>
         <module>pep</module>
-        <module>historikk</module>
         <module>kodeverk</module>
         <module>datavarehus</module>
 

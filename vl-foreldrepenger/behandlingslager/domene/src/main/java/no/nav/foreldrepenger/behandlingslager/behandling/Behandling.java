@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.behandling;
 
-import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
 
 import java.time.LocalDate;
@@ -48,9 +47,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingRes
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
 import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
@@ -813,25 +809,6 @@ public class Behandling extends BaseEntitet {
 
     public OppgaveÅrsak getBehandleOppgaveÅrsak() {
         return erRevurdering() ? OppgaveÅrsak.REVURDER : OppgaveÅrsak.BEHANDLE_SAK;
-    }
-
-    public Optional<VilkårType> getVilkårTypeForRelasjonTilBarnet() {
-        Behandlingsresultat resultat = getBehandlingsresultat();
-        if (resultat == null) {
-            return Optional.empty();
-        }
-        VilkårResultat vilkårResultat = resultat.getVilkårResultat();
-        if (vilkårResultat == null) {
-            return Optional.empty();
-        }
-        List<VilkårType> vilkårTyper = asList(VilkårType.FØDSELSVILKÅRET_MOR, VilkårType.FØDSELSVILKÅRET_FAR_MEDMOR,
-            VilkårType.ADOPSJONSVILKÅRET_ENGANGSSTØNAD, VilkårType.ADOPSJONSVILKARET_FORELDREPENGER,
-            VilkårType.OMSORGSVILKÅRET, VilkårType.FORELDREANSVARSVILKÅRET_2_LEDD, VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD);
-
-        return vilkårResultat.getVilkårene().stream()
-            .filter(v -> vilkårTyper.contains(v.getVilkårType()))
-            .findFirst()
-            .map(Vilkår::getVilkårType);
     }
 
     public StartpunktType getStartpunkt() {

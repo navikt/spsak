@@ -51,7 +51,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.Beregningsgr
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.OrganisasjonsNummerValidator;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
@@ -87,7 +86,6 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
     protected SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private InnhentingSamletTjeneste innhentingSamletTjeneste;
-    private BasisPersonopplysningTjeneste personopplysningTjeneste;
     private OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste;
     private KodeverkRepository kodeverkRepository;
     private BehandlingRepositoryProvider behandlingRepositoryProvider;
@@ -105,7 +103,6 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.innhentingSamletTjeneste = innhentingSamletTjeneste;
         this.behandlingRepositoryProvider = repositoryProvider;
-        this.personopplysningTjeneste = personopplysningTjeneste;
         this.opplysningsPeriodeTjeneste = opplysningsPeriodeTjeneste;
     }
 
@@ -558,9 +555,10 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         }
     }
 
-    private BigDecimal getDekningsgrad(Behandling behandling) {
-        Dekningsgrad dekningsgrad = behandlingRepositoryProvider.getFagsakRelasjonRepository().finnRelasjonFor(behandling.getFagsak()).getDekningsgrad();
-        return new BigDecimal(dekningsgrad.getVerdi());
+    @SuppressWarnings("unused")
+    protected BigDecimal getDekningsgrad(Behandling behandling) {
+        // FIXME SP: Fjern?
+        return BigDecimal.valueOf(100L);
     }
 
     private RelatertYtelseType map(FagsakYtelseType type) {

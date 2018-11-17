@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -19,9 +17,6 @@ import no.finn.unleash.FakeUnleash;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.web.app.rest.ResourceLink;
@@ -42,8 +37,6 @@ public class BehandlingDtoTjenesteImplTest {
     private FakeUnleash unleash = new FakeUnleash();
 
     private BehandlingDtoTjeneste tjeneste;
-
-    private LocalDate now = LocalDate.now();
 
     @Before
     public void setUp() {
@@ -80,10 +73,6 @@ public class BehandlingDtoTjenesteImplTest {
 
     private Behandling lagBehandling() {
         return ScenarioMorSøkerForeldrepenger.forFødsel()
-            .medFordeling(new OppgittFordelingEntitet(Collections.singletonList(OppgittPeriodeBuilder.ny()
-                .medPeriodeType(UttakPeriodeType.FEDREKVOTE)
-                .medPeriode(now.plusWeeks(8), now.plusWeeks(12))
-                .build()), true))
             .lagre(repositoryProvider);
     }
 }

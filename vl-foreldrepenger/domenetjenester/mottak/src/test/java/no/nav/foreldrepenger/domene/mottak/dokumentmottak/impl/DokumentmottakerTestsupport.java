@@ -66,7 +66,7 @@ public abstract class DokumentmottakerTestsupport {
         throw new UnsupportedOperationException("Fiks testoppsett");
     }
 
-    private Behandling opprettBehandling(AbstractTestScenario scenario, BehandlingType behandlingType, BehandlingResultatType behandlingResultatType, Avslagsårsak avslagsårsak, VedtakResultatType vedtakResultatType, LocalDate vedtaksdato) {
+    private Behandling opprettBehandling(AbstractTestScenario<?> scenario, BehandlingType behandlingType, BehandlingResultatType behandlingResultatType, Avslagsårsak avslagsårsak, VedtakResultatType vedtakResultatType, LocalDate vedtaksdato) {
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 

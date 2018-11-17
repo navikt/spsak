@@ -25,7 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseFordelingAggregat;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense;
@@ -67,10 +66,8 @@ public class EndringsresultatSjekkerImplTest {
     private static final LocalDateTime nå = LocalDateTime.now();
 
     private static final Long personGrunnlagID = 1L;
-    private static final Long familieGrunnlagID = 2L;
     private static final Long medlemGrunnlagID = 3L;
     private static final Long iayGrunnlagID = 4L;
-    private static final Long ytelseGrunnlagID = 5L;
 
     private static final Long opptjeningGrunnlagID = 6L;
     private static final Long beregningsGrunnlagID = 7L;
@@ -131,7 +128,6 @@ public class EndringsresultatSjekkerImplTest {
         assertThat(personGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(PersonInformasjon.class).get().getGrunnlagId());
         assertThat(medlemGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(MedlemskapAggregat.class).get().getGrunnlagId());
         assertThat(iayGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(InntektArbeidYtelseGrunnlag.class).get().getGrunnlagId());
-        assertThat(ytelseGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(YtelseFordelingAggregat.class).get().getGrunnlagId());
 
         assertThat(opptjeningGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(Opptjening.class).get().getGrunnlagId());
         assertThat(beregningsGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(Beregningsgrunnlag.class).get().getGrunnlagId());

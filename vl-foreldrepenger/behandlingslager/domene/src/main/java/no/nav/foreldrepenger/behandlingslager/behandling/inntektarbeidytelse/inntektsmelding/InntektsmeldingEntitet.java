@@ -57,10 +57,6 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     @ChangeTracked
     private List<NaturalYtelseEntitet> naturalYtelser = new ArrayList<>();
 
-    @OneToMany(mappedBy = "inntektsmelding")
-    @ChangeTracked
-    private List<UtsettelsePeriodeEntitet> utsettelsePerioder = new ArrayList<>();
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "virksomhet_id", nullable = false, updatable = false)
     @ChangeTracked
@@ -134,11 +130,6 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
             naturalYtelseEntitet.setInntektsmelding(this);
             return naturalYtelseEntitet;
         }).collect(Collectors.toList());
-        this.utsettelsePerioder = inntektsmelding.getUtsettelsePerioder().stream().map(u -> {
-            final UtsettelsePeriodeEntitet utsettelsePeriodeEntitet = new UtsettelsePeriodeEntitet(u);
-            utsettelsePeriodeEntitet.setInntektsmelding(this);
-            return utsettelsePeriodeEntitet;
-        }).collect(Collectors.toList());
         this.endringerRefusjon = inntektsmelding.getEndringerRefusjon().stream().map(r -> {
             final RefusjonEntitet refusjonEntitet = new RefusjonEntitet(r);
             refusjonEntitet.setInntektsmelding(this);
@@ -195,11 +186,6 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     @Override
     public List<NaturalYtelse> getNaturalYtelser() {
         return Collections.unmodifiableList(naturalYtelser);
-    }
-
-    @Override
-    public List<UtsettelsePeriode> getUtsettelsePerioder() {
-        return Collections.unmodifiableList(utsettelsePerioder);
     }
 
     @Override
@@ -283,11 +269,6 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     void leggTil(NaturalYtelse naturalYtelse) {
         this.naturalYtelser.add((NaturalYtelseEntitet) naturalYtelse);
         ((NaturalYtelseEntitet) naturalYtelse).setInntektsmelding(this);
-    }
-
-    void leggTil(UtsettelsePeriode utsettelsePeriode) {
-        this.utsettelsePerioder.add((UtsettelsePeriodeEntitet) utsettelsePeriode);
-        ((UtsettelsePeriodeEntitet) utsettelsePeriode).setInntektsmelding(this);
     }
 
     void leggTil(Refusjon refusjon) {

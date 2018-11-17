@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 
 public interface BehandlingRevurderingRepository extends BehandlingslagerRepository {
     /**
@@ -19,14 +18,6 @@ public interface BehandlingRevurderingRepository extends BehandlingslagerReposit
     Optional<Behandling> finnÅpenYtelsesbehandling(Long fagsakId);
 
     Optional<Behandling> finnKøetYtelsesbehandling(Long fagsakId);
-
-    Optional<Behandling> finnÅpenBehandlingMedforelder(Fagsak fagsak);
-
-    Optional<Behandling> finnKøetBehandlingMedforelder(Fagsak fagsak);
-
-    Optional<Fagsak> finnFagsakPåMedforelder(Fagsak fagsak);
-
-    Optional<Behandling> finnSisteInnvilgedeIkkeHenlagteBehandlingForMedforelder(Fagsak fagsak);
 
     Optional<LocalDate> finnSøknadsdatoFraHenlagtBehandling(Behandling behandling);
 }

@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,8 +18,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.UtsettelseÅrsak;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetssjekkerInntektsmelding;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
@@ -47,48 +44,21 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImpl implements Komple
 
     @Override
     public List<ManglendeVedlegg> utledManglendeInntektsmeldinger(Behandling behandling) {
-        return doUtledManglendeInntektsmeldinger(behandling, true);
+        return doUtledManglendeInntektsmeldinger(behandling);
     }
 
     @Override
     public List<ManglendeVedlegg> utledManglendeInntektsmeldingerFraGrunnlag(Behandling behandling) {
-        return doUtledManglendeInntektsmeldinger(behandling, false);
+        return doUtledManglendeInntektsmeldinger(behandling);
     }
 
-    private List<ManglendeVedlegg> doUtledManglendeInntektsmeldinger(Behandling behandling, boolean brukArkiv) {
+    private List<ManglendeVedlegg> doUtledManglendeInntektsmeldinger(Behandling behandling) {
         Søknad søknad = søknadRepository.hentSøknad(behandling);
-
-        if (erArbeidstakerOgEndringIFerie(søknad)) {
-            // Må finnes IMer for alle arbeidsforhold
-            List<ManglendeVedlegg> manglendeVedlegg = (brukArkiv ? inntektArbeidYtelseTjeneste.utledManglendeInntektsmeldingerFraArkiv(behandling)
-                : inntektArbeidYtelseTjeneste.utledManglendeInntektsmeldingerFraGrunnlag(behandling))
-                    .entrySet()
-                    .stream()
-                    .map(it -> new ManglendeVedlegg(DokumentTypeId.INNTEKTSMELDING, it.getKey()))
-                    .collect(Collectors.toList());
-
-            loggManglendeVedlegg(behandling, manglendeVedlegg, "ferie");
-            return manglendeVedlegg;
-        }
 
         // Må finnes IMer for arbeidsforholdene som berøres av endringene i søknaden
         List<ManglendeVedlegg> manglendeVedlegg = utledManglendeVedleggForArbeidsforholdBerørtAvEndringssøknad(behandling, søknad);
         loggManglendeVedlegg(behandling, manglendeVedlegg, "arbeid/gradering");
         return manglendeVedlegg;
-    }
-
-    private boolean erArbeidstakerOgEndringIFerie(Søknad søknad) {
-        Objects.requireNonNull(søknad, "søknad kan ikke være null"); // NOSONAR //$NON-NLS-1$
-        Objects.requireNonNull(søknad.getFordeling(), "OppgittFordeling kan ikke være null"); // NOSONAR //$NON-NLS-1$
-
-        List<OppgittPeriode> oppgittePerioder = søknad.getFordeling().getOppgittePerioder();
-
-        for (OppgittPeriode oppgittPeriode : oppgittePerioder) {
-            if (oppgittPeriode.getErArbeidstaker() && UtsettelseÅrsak.FERIE.equals(oppgittPeriode.getÅrsak())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private List<ManglendeVedlegg> utledManglendeVedleggForArbeidsforholdBerørtAvEndringssøknad(Behandling behandling, Søknad søknad) {
@@ -103,14 +73,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImpl implements Komple
 
     private Set<String> finnVirksomheterSomTrengerInntektsmelding(Søknad søknad) {
         Set<String> virksomheter = new HashSet<>();
-        List<OppgittPeriode> oppgittePerioder = søknad.getFordeling().getOppgittePerioder();
-
-        for (OppgittPeriode oppgittPeriode : oppgittePerioder) {
-            if (oppgittPeriode.getErArbeidstaker()
-                && (oppgittPeriode.getArbeidsprosent() != null || UtsettelseÅrsak.ARBEID.equals(oppgittPeriode.getÅrsak()))) {
-                virksomheter.add(oppgittPeriode.getVirksomhet().getOrgnr());
-            }
-        }
+        // FIXME SP: trenger å utlede hvilke virksomheter som trengs?
         return virksomheter;
     }
 

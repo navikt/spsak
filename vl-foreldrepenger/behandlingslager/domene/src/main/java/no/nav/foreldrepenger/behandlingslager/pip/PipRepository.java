@@ -74,13 +74,7 @@ public class PipRepository {
                 " UNION ALL " +  // NOSONAR
                 "SELECT br.AKTOER_ID FROM Fagsak fag " +
                 "JOIN Bruker br ON fag.BRUKER_ID = br.ID " +
-                "WHERE fag.id in (:fagsakIder) AND br.AKTOER_ID IS NOT NULL " +
-                " UNION ALL " +  // NOSONAR
-                "SELECT sa.AKTOER_ID From Fagsak fag " +
-                "JOIN BEHANDLING beh ON fag.ID = beh.FAGSAK_ID " +
-                "JOIN GR_PERSONOPPLYSNING grp ON grp.behandling_id = beh.ID " +
-                "JOIN SO_ANNEN_PART sa ON grp.so_annen_part_id = sa.ID " +
-                "WHERE fag.id in (:fagsakIder) AND grp.aktiv = 'J' AND sa.AKTOER_ID IS NOT NULL ";
+                "WHERE fag.id in (:fagsakIder) AND br.AKTOER_ID IS NOT NULL ";
 
         Query query = entityManager.createNativeQuery(sql); //NOSONAR
         query.setParameter("fagsakIder", fagsakIder);

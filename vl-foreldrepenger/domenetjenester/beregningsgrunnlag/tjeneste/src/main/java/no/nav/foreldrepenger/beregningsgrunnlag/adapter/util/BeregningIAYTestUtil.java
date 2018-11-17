@@ -39,11 +39,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
 import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.Periode;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -57,8 +52,6 @@ public class BeregningIAYTestUtil {
 
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
-    private BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil;
-    private YtelsesFordelingRepository ytelsesFordelingRepository;
 
     BeregningIAYTestUtil() {
         // for CDI
@@ -66,11 +59,8 @@ public class BeregningIAYTestUtil {
 
     @Inject
     public BeregningIAYTestUtil(BehandlingRepositoryProvider repositoryProvider,
-                                BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil,
                                 InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste) {
         inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        ytelsesFordelingRepository = repositoryProvider.getYtelsesFordelingRepository();
-        this.beregningArbeidsgiverTestUtil = beregningArbeidsgiverTestUtil;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
     }
 
@@ -238,7 +228,6 @@ public class BeregningIAYTestUtil {
         inntektArbeidYtelseAggregatBuilder.leggTilAktørArbeid(aktørArbeid);
         byggInntektForBehandling(behandling, skjæringstidspunktOpptjening, inntektArbeidYtelseAggregatBuilder, inntektPrMnd, virksomhetPåInntekt, arbeidsgiver);
         inntektArbeidYtelseTjeneste.lagre(behandling, inntektArbeidYtelseAggregatBuilder);
-        opprettYtelsesFordeling(behandling, skjæringstidspunktOpptjening);
         if (medLønnsendring) {
             InntektArbeidYtelseGrunnlag grunnlag = inntektArbeidYtelseTjeneste.hentAggregat(behandling);
             Optional<AktørArbeid> aktørInntektForFørStp = grunnlag.getAktørArbeidFørStp(behandling.getAktørId());
@@ -263,14 +252,6 @@ public class BeregningIAYTestUtil {
             ? aktørArbeidBuilder.getYrkesaktivitetBuilderForNøkkelAvType(new Opptjeningsnøkkel(arbId, arbeidsgiver.getVirksomhet().getOrgnr(), null), arbeidType)
             : aktørArbeidBuilder.getYrkesaktivitetBuilderForNøkkelAvType(new Opptjeningsnøkkel(arbId, null, arbeidsgiver.getAktørId().getId()), arbeidType);
 
-    }
-
-    private void opprettYtelsesFordeling(Behandling behandling, LocalDate skjæringstidspunktOpptjening) {
-        OppgittPeriode uttakPeriode = OppgittPeriodeBuilder.ny()
-            .medPeriode(skjæringstidspunktOpptjening.plusDays(1), skjæringstidspunktOpptjening.plusMonths(6))
-            .medPeriodeType(UttakPeriodeType.FORELDREPENGER)
-            .build();
-        ytelsesFordelingRepository.lagre(behandling, new OppgittFordelingEntitet(Collections.singletonList(uttakPeriode), true));
     }
 
     private void byggInntektForBehandling(Behandling behandling, LocalDate skjæringstidspunktOpptjening,

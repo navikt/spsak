@@ -13,8 +13,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepenger;
@@ -25,39 +23,29 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.vedtak.felles.testutilities.db.Repository;
 
 public class BeregnFeriepengerTjenesteTest {
 
     private static final LocalDate SKJÆRINGSTIDSPUNKT_MOR = LocalDate.of(2018, 12, 1);
     private static final LocalDate SKJÆRINGSTIDSPUNKT_FAR = SKJÆRINGSTIDSPUNKT_MOR.plusWeeks(6);
-    private static final LocalDate SISTE_DAG_FAR = SKJÆRINGSTIDSPUNKT_FAR.plusWeeks(4);
     private static final int DAGSATS = 123;
     public static final BigDecimal GRUNNBELØP = BigDecimal.valueOf(90000);
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final EntityManager entityManager = repoRule.getEntityManager();
-    private final Repository repository = repoRule.getRepository();
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
-    private BeregningsresultatFPRepository beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatFPRepository();
 
     private BeregnFeriepengerTjeneste tjeneste;
 
     @Before
     public void setUp() {
-        tjeneste = new BeregnFeriepengerTjeneste(repositoryProvider);
+        tjeneste = new BeregnFeriepengerTjeneste();
     }
 
     @Test
     public void skalBeregneFeriepenger() {
-        Behandling farsBehandling = lagBehandlingFar();
-
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         Beregningsgrunnlag beregningsgrunnlag = scenario.medBeregningsgrunnlag().medDekningsgrad(100L)
             .medSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT_MOR)
@@ -66,8 +54,6 @@ public class BeregnFeriepengerTjenesteTest {
             .medRedusertGrunnbeløp(GRUNNBELØP)
             .build();
         Behandling morsBehandling = scenario.lagre(repositoryProvider);
-        repositoryProvider.getFagsakRelasjonRepository().opprettRelasjon(morsBehandling.getFagsak(), Dekningsgrad._100);
-        repositoryProvider.getFagsakRelasjonRepository().kobleFagsaker(morsBehandling.getFagsak(), farsBehandling.getFagsak());
         BeregningsresultatFP morsBeregningsresultatFP = lagBeregningsresultatFP(SKJÆRINGSTIDSPUNKT_MOR, SKJÆRINGSTIDSPUNKT_FAR, Inntektskategori.ARBEIDSTAKER);
 
         // Act
@@ -104,7 +90,7 @@ public class BeregnFeriepengerTjenesteTest {
 
     private void assertBeregningsresultatFeriepenger(BeregningsresultatFeriepenger feriepenger) {
         assertThat(feriepenger.getFeriepengerPeriodeFom()).as("FeriepengerPeriodeFom").isEqualTo(SKJÆRINGSTIDSPUNKT_MOR);
-        assertThat(feriepenger.getFeriepengerPeriodeTom()).as("FeriepengerPeriodeTom").isEqualTo(SISTE_DAG_FAR);
+        assertThat(feriepenger.getFeriepengerPeriodeTom()).as("FeriepengerPeriodeTom").isEqualTo(SKJÆRINGSTIDSPUNKT_FAR);
         List<BeregningsresultatFeriepengerPrÅr> beregningsresultatFeriepengerPrÅrListe = feriepenger.getBeregningsresultatFeriepengerPrÅrListe();
         assertThat(beregningsresultatFeriepengerPrÅrListe).as("beregningsresultatFeriepengerPrÅrListe").hasSize(2);
         BeregningsresultatFeriepengerPrÅr prÅr1 = beregningsresultatFeriepengerPrÅrListe.get(0);
@@ -119,22 +105,6 @@ public class BeregnFeriepengerTjenesteTest {
         BeregningsresultatAndel andelÅr2 = prÅr2.getBeregningsresultatAndel();
         assertThat(andelÅr2).isNotNull();
         assertThat(andelÅr2.getBeregningsresultatFeriepengerPrÅrListe()).hasSize(2);
-    }
-
-    private Behandling lagBehandlingFar() {
-        ScenarioFarSøkerForeldrepenger scenarioAnnenPart = ScenarioFarSøkerForeldrepenger.forFødsel()
-            .medVilkårResultatType(VilkårResultatType.INNVILGET);
-        Behandling farsBehandling = scenarioAnnenPart.lagre(repositoryProvider);
-        Behandlingsresultat behandlingsresultat = farsBehandling.getBehandlingsresultat();
-        Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
-        repository.lagre(behandlingsresultat);
-        farsBehandling.avsluttBehandling();
-        repository.lagre(farsBehandling);
-
-        BeregningsresultatFP farsBeregningsresultatFP = lagBeregningsresultatFP(SKJÆRINGSTIDSPUNKT_FAR, SISTE_DAG_FAR, Inntektskategori.ARBEIDSTAKER);
-
-        beregningsresultatFPRepository.lagre(farsBehandling, farsBeregningsresultatFP);
-        return farsBehandling;
     }
 
     private BeregningsresultatFP lagBeregningsresultatFP(LocalDate periodeFom, LocalDate periodeTom, Inntektskategori inntektskategori) {

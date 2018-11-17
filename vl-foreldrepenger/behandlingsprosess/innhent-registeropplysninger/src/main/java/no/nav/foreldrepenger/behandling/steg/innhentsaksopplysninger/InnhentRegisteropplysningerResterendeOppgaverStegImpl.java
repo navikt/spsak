@@ -36,7 +36,6 @@ import no.nav.vedtak.util.FPDateUtil;
 public class InnhentRegisteropplysningerResterendeOppgaverStegImpl implements BehandlingSteg {
 
     private BehandlingRepository behandlingRepository;
-    private FagsakTjeneste fagsakTjeneste;
     private PersonopplysningTjeneste personopplysningTjeneste;
 
     InnhentRegisteropplysningerResterendeOppgaverStegImpl() {
@@ -49,7 +48,6 @@ public class InnhentRegisteropplysningerResterendeOppgaverStegImpl implements Be
                                                                  PersonopplysningTjeneste personopplysningTjeneste) {
 
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.fagsakTjeneste = fagsakTjeneste;
         this.personopplysningTjeneste = personopplysningTjeneste;
     }
 

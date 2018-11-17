@@ -32,9 +32,6 @@ public class Totrinnresultatgrunnlag extends BaseEntitet {
     @Column(name = "inntekt_arbeid_grunnlag_id", updatable = false)
     private Long inntektArbeidYtelseGrunnlagId;
 
-    @Column(name = "ytelses_fordeling_grunnlag_id",updatable = false)
-    private Long ytelseFordelingGrunnlagEntitetId;
-
     @Column(name = "uttak_resultat_id", updatable = false)
     private Long uttakResultatEntitetId;
 
@@ -55,12 +52,10 @@ public class Totrinnresultatgrunnlag extends BaseEntitet {
     }
 
 
-    public Totrinnresultatgrunnlag(Behandling behandling, Long inntektArbeidYtelseGrunnlagId,
-                            Long ytelseFordelingGrunnlagEntitetId, Long uttakResultatEntitetId,
+    public Totrinnresultatgrunnlag(Behandling behandling, Long inntektArbeidYtelseGrunnlagId, Long uttakResultatEntitetId,
                             Long beregningsgrunnlagId) {
         this.behandling = behandling;
         this.inntektArbeidYtelseGrunnlagId = inntektArbeidYtelseGrunnlagId;
-        this.ytelseFordelingGrunnlagEntitetId = ytelseFordelingGrunnlagEntitetId;
         this.uttakResultatEntitetId = uttakResultatEntitetId;
         this.beregningsgrunnlagId = beregningsgrunnlagId;
     }
@@ -83,14 +78,6 @@ public class Totrinnresultatgrunnlag extends BaseEntitet {
 
     public void setInntektArbeidYtelseGrunnlagId(Long inntektArbeidYtelseGrunnlagId) {
         this.inntektArbeidYtelseGrunnlagId = inntektArbeidYtelseGrunnlagId;
-    }
-
-    public Optional<Long> getYtelseFordelingGrunnlagEntitetId() {
-        return Optional.ofNullable(ytelseFordelingGrunnlagEntitetId);
-    }
-
-    public void setYtelseFordelingGrunnlagEntitetId(Long ytelseFordelingGrunnlagEntitetId) {
-        this.ytelseFordelingGrunnlagEntitetId = ytelseFordelingGrunnlagEntitetId;
     }
 
     public Optional<Long> getUttakResultatEntitetId() {

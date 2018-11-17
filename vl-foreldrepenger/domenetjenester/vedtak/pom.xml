@@ -9,7 +9,7 @@
 
 	<artifactId>vedtak</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Domenetjenester - vedtak</name>
+	<name>FPSAK :: Domenetjenester - Ytelsesvedtak</name>
 
 	<!-- Eksterne -->
 

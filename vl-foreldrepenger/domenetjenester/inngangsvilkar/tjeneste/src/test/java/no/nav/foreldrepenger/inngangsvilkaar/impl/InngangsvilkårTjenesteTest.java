@@ -22,9 +22,7 @@ public class InngangsvilkårTjenesteTest {
 
     @Test
     public void skal_slå_opp_inngangsvilkår() throws Exception {
-        sjekkVilkårKonfigurasjon(VilkårType.FØDSELSVILKÅRET_MOR);
         sjekkVilkårKonfigurasjon(VilkårType.MEDLEMSKAPSVILKÅRET);
-        sjekkVilkårKonfigurasjon(VilkårType.SØKNADSFRISTVILKÅRET);
     }
 
     private void sjekkVilkårKonfigurasjon(VilkårType vilkårType) {

@@ -39,7 +39,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingL�
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
@@ -67,8 +66,6 @@ public class DokumentmottakerInntektsmeldingTest {
     private BehandlingRepository behandlingRepository;
     @Inject
     private FagsakRepository fagsakRepository;
-    @Inject
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
     @Inject
     private AksjonspunktRepository aksjonspunktRepository;
 
@@ -185,7 +182,7 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_opprette_førstegangsbehandling() {
 
-        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId(123L), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, new Saksnummer("123"), fagsakRepository, fagsakRelasjonRepository);
+        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId(123L), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, new Saksnummer("123"), fagsakRepository);
         DokumentTypeId dokumentTypeId = DokumentTypeId.INNTEKTSMELDING;
         MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, 123L, "", now(), true, "123");
         Behandling førstegangsbehandling = mock(Behandling.class);
@@ -229,7 +226,7 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_opprette_køet_behandling_og_kjøre_kompletthet_dersom_køet_behandling_ikke_finnes() {
         // Arrange - opprette fagsak uten behandling
-        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId("1"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, new Saksnummer("123"), fagsakRepository, fagsakRelasjonRepository);
+        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId("1"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, new Saksnummer("123"), fagsakRepository);
 
         // Arrange - sett opp opprettelse av køet behandling
         Behandling behandling = mock(Behandling.class);

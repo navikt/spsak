@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,7 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.Familierelasjon;
-import no.nav.foreldrepenger.behandlingslager.aktør.GeografiskTilknytning;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
@@ -25,10 +23,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Relasj
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon.Builder;
@@ -64,11 +60,6 @@ public class BehandlendeEnhetTjenesteImplTest {
     private static Familierelasjon relasjontilFar = new Familierelasjon(FAR_IDENT, RelasjonsRolleType.FARA, LocalDate.of(1991,11,11), "Vei", true);
 
     private static OrganisasjonsEnhet enhetNormal = new OrganisasjonsEnhet("4849", "NAV Tromsø");
-    private static OrganisasjonsEnhet enhetKode6 = new OrganisasjonsEnhet("2103", "NAV Viken");
-
-    @SuppressWarnings("unused")
-    private static GeografiskTilknytning tilknytningNormal = new GeografiskTilknytning("0219", null);
-    private static GeografiskTilknytning tilknytningKode6 = new GeografiskTilknytning("0219", "SPSF");
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
@@ -90,7 +81,7 @@ public class BehandlendeEnhetTjenesteImplTest {
         // Oppsett
         settOppTpsStrukturer(false);
 
-        Behandling behandlingMor = opprettBehandlingMorSøkerFødselTermin(LocalDate.now(), FAR_AKTØR_ID);
+        Behandling behandlingMor = opprettBehandling();
         when(enhetsTjeneste.hentEnhetSjekkRegistrerteRelasjoner(any(), any())).thenReturn(enhetNormal);
 
         OrganisasjonsEnhet morEnhet = behandlendeEnhetTjeneste.finnBehandlendeEnhetFraSøker(behandlingMor);
@@ -98,47 +89,11 @@ public class BehandlendeEnhetTjenesteImplTest {
         assertThat(morEnhet.getEnhetId()).isEqualTo(enhetNormal.getEnhetId());
     }
 
-    @Test
-    public void finn_enhet_etter_kobling_far_relasjon_kode6() {
-        // Oppsett
-        settOppTpsStrukturer(false);
-        when(enhetsTjeneste.hentEnhetSjekkRegistrerteRelasjoner(any(), any())).thenReturn(enhetNormal);
-        when(enhetsTjeneste.oppdaterEnhetSjekkOppgitte(any(), any(), any())).thenReturn(Optional.empty());
-
-        Behandling behandlingMor = opprettBehandlingMorSøkerFødselRegistrertTPS(LocalDate.now(),1,  FAR_AKTØR_ID);
-        Behandling behandlingFar = opprettBehandlingFarSøkerFødselRegistrertITps(LocalDate.now(), 1, MOR_AKTØR_ID);
-        behandlingFar.setBehandlendeEnhet(enhetKode6);
-
-        repositoryProvider.getFagsakRelasjonRepository().opprettRelasjon(behandlingMor.getFagsak(), Dekningsgrad._100);
-        repositoryProvider.getFagsakRelasjonRepository().kobleFagsaker(behandlingMor.getFagsak(), behandlingFar.getFagsak());
-
-        when(tpsTjeneste.hentGeografiskTilknytning(ELDRE_BARN_IDENT)).thenReturn(tilknytningKode6);
-        when(enhetsTjeneste.oppdaterEnhetSjekkRegistrerteRelasjoner(any(), any(), any(), any(), any())).thenReturn(Optional.of(enhetKode6));
-        when(enhetsTjeneste.enhetsPresedens(any(), any(), anyBoolean())).thenReturn(enhetKode6);
-    }
-
-
-
-    private Behandling opprettBehandlingMorSøkerFødselTermin(LocalDate termindato, AktørId annenPart) {
+    private Behandling opprettBehandling() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(MOR_AKTØR_ID);
         leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
         return scenario.lagre(repositoryProvider);
     }
-
-    private Behandling opprettBehandlingMorSøkerFødselRegistrertTPS(LocalDate fødselsdato, int antallBarn, AktørId annenPart) {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(MOR_AKTØR_ID);
-        leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
-        return scenario.lagre(repositoryProvider);
-    }
-
-
-    private Behandling opprettBehandlingFarSøkerFødselRegistrertITps(LocalDate fødseldato, int antallBarnSøknad, AktørId annenPart) {
-        ScenarioFarSøkerForeldrepenger scenario = ScenarioFarSøkerForeldrepenger.forFødselMedGittAktørId(FAR_AKTØR_ID);
-        leggTilSøker(scenario, NavBrukerKjønn.MANN);
-        return scenario.lagre(repositoryProvider);
-    }
-
-
 
     private void settOppTpsStrukturer(boolean medNyligFødt) {
         HashSet<Familierelasjon> tilBarna = new HashSet<>(medNyligFødt ? Arrays.asList(relasjontilEldreBarn, relasjontilBarn) : Arrays.asList(relasjontilEldreBarn));

@@ -18,15 +18,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
+import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
-import no.nav.foreldrepenger.behandlingslager.uttak.Stønadskontoberegning;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.web.app.rest.ResourceLink;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.AsyncPollingStatus;
 import no.nav.vedtak.felles.integrasjon.unleash.FeatureToggle;
@@ -42,10 +39,10 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
     private static final String HENLEGG_ARSAKER_REL = "henlegg-arsaker";
 
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
-    private UttakRepository uttakRepository;
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private Unleash unleash;
+
+    private BeregningsresultatFPRepository beregningsresultatRepository;
 
     BehandlingDtoTjenesteImpl() {
         // for CDI proxy
@@ -57,8 +54,7 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
                                      @FeatureToggle("fpsak") Unleash unleash) {
 
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        this.uttakRepository = repositoryProvider.getUttakRepository();
-        this.fagsakRelasjonRepository = repositoryProvider.getFagsakRelasjonRepository();
+        this.beregningsresultatRepository = repositoryProvider.getBeregningsresultatFPRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.unleash = unleash;
     }
@@ -221,7 +217,6 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/totrinnskontroll/arsaker_read_only", "totrinnskontroll-arsaker-readOnly", idDto));
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/inntekt-arbeid-ytelse", "inntekt-arbeid-ytelse", idDto));
 
-        dto.leggTil(ResourceLink.post("/fpsak/api/behandling/ytelsefordeling", "ytelsefordeling", idDto));
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/opptjening", "opptjening", idDto));
 
         Optional<Beregningsgrunnlag> beregningsgrunnlag = beregningsgrunnlagRepository.hentBeregningsgrunnlag(behandling);
@@ -229,20 +224,10 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
             dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsgrunnlag", "beregningsgrunnlag", idDto));
         }
 
-        dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/periode-grense", "uttak-periode-grense", idDto));
-        dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/kontroller-fakta-perioder", "uttak-kontroller-fakta-perioder", idDto));
-        Optional<Stønadskontoberegning> stønadskontoberegning = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(behandling.getFagsak())
-            .flatMap(FagsakRelasjon::getStønadskontoberegning);
-        if (stønadskontoberegning.isPresent()) {
-            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/stonadskontoer", "uttak-stonadskontoer", idDto));
-        }
-
-        Optional<UttakResultatEntitet> uttakResultatHvisEksisterer = uttakRepository.hentUttakResultatHvisEksisterer(behandling);
-        if (uttakResultatHvisEksisterer.isPresent()) {
-            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/uttak/resultat-perioder", "uttaksresultat-perioder", idDto));
+        Optional<BeregningsresultatFP> beregningsresultat = beregningsresultatRepository.hentBeregningsresultatFP(behandling);
+        if (beregningsresultat.isPresent()) {
             dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsresultat/foreldrepenger", "beregningsresultat-foreldrepenger", idDto));
         }
-
         return dto;
     }
 
@@ -274,9 +259,9 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
 
     private void lagSimuleringResultatLink(UtvidetBehandlingDto dto, BehandlingIdDto idDto) {
         if (simulerOppdragToggle()) {
-            //gjør instansiering selv, siden da er konfig-verdi påkrevet bare når feature er lansert
+            // gjør instansiering selv, siden da er konfig-verdi påkrevet bare når feature er lansert
             SimuleringApplikasjonUrlTjeneste simuleringUrlTjeneste = CDI.current().select(SimuleringApplikasjonUrlTjeneste.class).get();
-            //trenger ikke destroy siden er ApplicationScoped
+            // trenger ikke destroy siden er ApplicationScoped
             String url = simuleringUrlTjeneste.getUrlForSimuleringsresultat();
             ResourceLink simuleringResultatLink = ResourceLink.post(url, "simuleringResultat", idDto);
             dto.leggTil(simuleringResultatLink);

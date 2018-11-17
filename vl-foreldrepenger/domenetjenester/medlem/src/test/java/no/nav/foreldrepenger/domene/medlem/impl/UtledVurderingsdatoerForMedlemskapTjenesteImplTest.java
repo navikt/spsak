@@ -10,7 +10,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +47,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
@@ -57,7 +55,6 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.InntektAr
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivitetEntitet;
@@ -93,7 +90,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         LocalDate ettÅrSiden = LocalDate.now().minusYears(1);
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
         Behandling behandling = scenario.lagre(provider);
@@ -110,39 +106,12 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         assertThat(vurderingsdatoer).containsExactly(datoMedEndring);
     }
 
-    @Test
-    @Ignore("TODO: (OJ) Her er det noe rusk.. Ser ikke helt at logikken her kan være rett?")
-    public void skal_utled_vurderingsdato_ved_endring_i_medlemskapsperioder_tester_med_overlapp() {
-        // Arrange
-        LocalDate datoMedEndring = LocalDate.now().plusDays(10);
-        LocalDate ettÅrSiden = LocalDate.now().minusYears(1);
-        LocalDate iDag = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
-        RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
-        RegistrertMedlemskapPerioder periode2 = opprettPeriode(ettÅrSiden.plusMonths(5L), iDag, MedlemskapDekningType.FTL_2_6);
-        scenario.leggTilMedlemskapPeriode(periode);
-        scenario.leggTilMedlemskapPeriode(periode2);
-        Behandling behandling = scenario.lagre(provider);
-        avslutterBehandlingOgFagsak(behandling);
-
-        Behandling revudering = opprettRevudering(behandling);
-
-        oppdaterMedlem(datoMedEndring, periode, revudering);
-
-        // Act
-        Set<LocalDate> vurderingsdatoer = tjeneste.finnVurderingsdatoer(revudering.getId());
-
-        // Assert
-        assertThat(vurderingsdatoer).containsExactly(datoMedEndring, ettÅrSiden.plusMonths(5L), iDag);
-    }
-
+  
     @Test
     public void skal_utled_vurderingsdato_ved_endring_personopplysninger_statsborgerskap() {
         // Arrange
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
@@ -172,7 +141,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         // Arrange
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
@@ -202,7 +170,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         // Arrange
         LocalDate iDag = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
@@ -233,7 +200,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         LocalDate idag = LocalDate.now();
         LocalDate datoMedBortfall = idag.minusMonths(1);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         Virksomhet virksomhet = opprettVirksomhet();
         opprettInntekt(scenario.getDefaultBrukerAktørId(), scenario, virksomhet, idag, false);
         Behandling behandling = scenario.lagre(provider);
@@ -255,7 +221,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         LocalDate idag = LocalDate.now();
         LocalDate datoMedBortfall = idag.minusMonths(1);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.medAvklarteUttakDatoer(new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         Virksomhet virksomhet = opprettVirksomhet();
 
         //tester overlapp
@@ -343,7 +308,6 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
             .medUtbetalingsprosent(BigDecimal.valueOf(100L))
             .medArbeidsprosent(BigDecimal.valueOf(100L))
             .medErSøktGradering(true)
-            .medTrekkonto(StønadskontoType.MØDREKVOTE)
             .build();
         periode.leggTilAktivitet(periodeAktivitet);
         UttakResultatPerioderEntitet perioder = new UttakResultatPerioderEntitet();

@@ -16,7 +16,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.RevurderingVarslingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -154,24 +153,26 @@ public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
     }
 
     private KompletthetResultat vurderKompletthetForInntektsmeldingUtenSøknad(Behandling revurdering, List<Inntektsmelding> inntektsmeldinger) {
-        Behandling originalBehandling = finnOriginalBehandling(revurdering);
+        finnOriginalBehandling(revurdering);
 
         boolean graderingEndret = false;
         boolean arbeidEndret = false;
         boolean ferieEndret = false;
 
         for (Inntektsmelding inntektsmelding : inntektsmeldinger) {
+            // TODO SP: ??
         }
+        
 
         if (graderingEndret || arbeidEndret || ferieEndret) {
             LOGGER.info("Behandling {} er ikke komplett for IM uten søknad: graderingEndret={}, arbeidEndret={}, ferieEndret={}", revurdering.getId(), graderingEndret, arbeidEndret, ferieEndret); // NOSONAR //$NON-NLS-1$
         }
 
         if (graderingEndret || arbeidEndret) {
-            fellesUtil.sendBrev(revurdering, DokumentMalType.REVURDERING_DOK, RevurderingVarslingÅrsak.ARBEIDS_I_STØNADSPERIODEN.getKode());
+            fellesUtil.sendBrev(revurdering, DokumentMalType.REVURDERING_DOK);
             return KompletthetResultat.ikkeOppfylt(fellesUtil.finnVentefristTilManglendeSøknad(), Venteårsak.AVV_DOK);
         } else if (ferieEndret) {
-            fellesUtil.sendBrev(revurdering, DokumentMalType.INNTEKTSMELDING_FOR_TIDLIG_DOK, null);
+            fellesUtil.sendBrev(revurdering, DokumentMalType.INNTEKTSMELDING_FOR_TIDLIG_DOK);
             return KompletthetResultat.ikkeOppfylt(fellesUtil.finnVentefristTilManglendeSøknad(), Venteårsak.AVV_DOK);
         } else {
             return KompletthetResultat.oppfylt();

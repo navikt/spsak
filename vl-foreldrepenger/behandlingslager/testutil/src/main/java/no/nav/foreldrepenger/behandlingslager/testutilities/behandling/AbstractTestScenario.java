@@ -101,16 +101,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoer;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittRettighet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PerioderAleneOmsorg;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PerioderUtenOmsorg;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseFordelingAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordeling;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType;
 import no.nav.foreldrepenger.behandlingslager.diff.DiffResult;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLås;
@@ -183,9 +173,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     private BehandlingRepository mockBehandlingRepository;
     private BehandlingVedtak behandlingVedtak;
     private BehandlingType behandlingType = BehandlingType.FØRSTEGANGSSØKNAD;
-    private OppgittRettighet oppgittRettighet;
-    private OppgittFordeling oppgittFordeling;
-    private AvklarteUttakDatoer avklarteUttakDatoer;
 
     // Registret og overstyrt personinfo
     private List<PersonInformasjon> personer;
@@ -193,8 +180,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     private Behandling originalBehandling;
     private BehandlingÅrsakType behandlingÅrsakType;
     private BehandlingRepositoryProvider repositoryProvider;
-    private PerioderUtenOmsorg perioderUtenOmsorg;
-    private PerioderAleneOmsorg perioderMedAleneomsorg;
     private no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon.Builder personInformasjonBuilder;
 
     protected AbstractTestScenario(FagsakYtelseType fagsakYtelseType, RelasjonsRolleType brukerRolle,
@@ -259,7 +244,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         SøknadRepository søknadRepository = mockSøknadRepository();
         InntektArbeidYtelseRepository inntektArbeidYtelseRepository = getIayScenario().mockInntektArbeidYtelseRepository();
         VirksomhetRepository virksomhetRepository = InntektArbeidYtelseScenario.mockVirksomhetRepository();
-        YtelsesFordelingRepository ytelsesFordelingRepository = mockYtelsesFordelingRepository();
         MottatteDokumentRepository mottatteDokumentRepository = mockMottatteDokumentRepository();
         BeregningsgrunnlagRepository beregningsgrunnlagRepository = mockBeregningsgrunnlagRepository();
         BeregningRepository beregningRepository = mockBeregningRepository();
@@ -288,7 +272,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         when(repositoryProvider.getBehandlingVedtakRepository()).thenReturn(behandlingVedtakRepository);
         when(repositoryProvider.getInntektArbeidYtelseRepository()).thenReturn(inntektArbeidYtelseRepository);
         when(repositoryProvider.getVirksomhetRepository()).thenReturn(virksomhetRepository);
-        when(repositoryProvider.getYtelsesFordelingRepository()).thenReturn(ytelsesFordelingRepository);
         when(repositoryProvider.getMottatteDokumentRepository()).thenReturn(mottatteDokumentRepository);
         when(repositoryProvider.getInnsynRepository()).thenReturn(mockInnsynRepository);
         when(repositoryProvider.getBeregningsgrunnlagRepository()).thenReturn(beregningsgrunnlagRepository);
@@ -405,35 +388,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
                 this.søknad = søknad1;
             }
 
-        };
-    }
-
-    private YtelsesFordelingRepository mockYtelsesFordelingRepository() {
-        YtelsesFordelingRepository ytelsesRepo = Mockito.mock(YtelsesFordelingRepository.class);
-        YtelseFordelingAggregat mockAggregat = mockYtelseFordelingAggregat();
-        when(ytelsesRepo.hentAggregatHvisEksisterer(Mockito.any())).thenReturn(Optional.of(mockAggregat));
-        return ytelsesRepo;
-    }
-
-    private YtelseFordelingAggregat mockYtelseFordelingAggregat() {
-        YtelseFordelingAggregat ytelseFordelingAggregat = Mockito.mock(YtelseFordelingAggregat.class);
-        when(ytelseFordelingAggregat.getOppgittFordeling()).thenReturn(mockOppgittFordeling());
-        return ytelseFordelingAggregat;
-    }
-
-    public OppgittFordeling mockOppgittFordeling() {
-        return new OppgittFordeling() {
-            @Override
-            public List<OppgittPeriode> getOppgittePerioder() {
-                return Collections.singletonList(OppgittPeriodeBuilder.ny()
-                    .medPeriode(LocalDate.now(FPDateUtil.getOffset()), LocalDate.now(FPDateUtil.getOffset()).plusWeeks(6))
-                    .medPeriodeType(UttakPeriodeType.MØDREKVOTE).build());
-            }
-
-            @Override
-            public boolean getErAnnenForelderInformert() {
-                return false;
-            }
         };
     }
 
@@ -852,7 +806,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
             iayScenario.lagreOppgittOpptjening(repositoryProvider, behandling);
             iayScenario.lagreOpptjening(repositoryProvider, behandling);
         }
-        lagreYtelseFordelingOpplysninger(repositoryProvider, behandling);
         lagreSøknad(repositoryProvider);
         // opprett og lagre resulater på behandling
         lagreBehandlingsresultatOgVilkårResultat(repositoryProvider, lås);
@@ -896,40 +849,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
             if (søknadBuilder != null) {
                 oppgittTilknytningOptional
                     .ifPresent(oppgittTilknytning1 -> medSøknad().medOppgittTilknytning(oppgittTilknytning1));
-            }
-        }
-    }
-
-    private void lagreYtelseFordelingOpplysninger(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
-        lagreOppgittRettighet(repositoryProvider, behandling);
-        if (oppgittFordeling != null) {
-            repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, oppgittFordeling);
-
-            YtelseFordelingAggregat ytelseFordelingAggregat = repositoryProvider.getYtelsesFordelingRepository().hentAggregat(behandling);
-            OppgittFordeling oppgittFordeling = ytelseFordelingAggregat.getOppgittFordeling();
-            if (søknadBuilder != null) {
-                medSøknad().medFordeling(oppgittFordeling);
-            }
-        }
-        if (avklarteUttakDatoer != null) {
-            repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, avklarteUttakDatoer);
-        }
-        if (perioderUtenOmsorg != null) {
-            repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, perioderUtenOmsorg);
-        }
-        if (perioderMedAleneomsorg != null) {
-            repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, perioderMedAleneomsorg);
-        }
-    }
-
-    private void lagreOppgittRettighet(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
-        if (oppgittRettighet != null) {
-            repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, oppgittRettighet);
-
-            YtelseFordelingAggregat ytelseFordelingAggregat = repositoryProvider.getYtelsesFordelingRepository().hentAggregat(behandling);
-            OppgittRettighet oppgittRettighet = ytelseFordelingAggregat.getOppgittRettighet();
-            if (søknadBuilder != null) {
-                medSøknad().medRettighet(oppgittRettighet);
             }
         }
     }
@@ -1181,36 +1100,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     @SuppressWarnings("unchecked")
     public S medTilleggsopplysninger(String tilleggsopplysninger) {
         medSøknad().medTilleggsopplysninger(tilleggsopplysninger);
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medOppgittRettighet(OppgittRettighet oppgittRettighet) {
-        this.oppgittRettighet = oppgittRettighet;
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medFordeling(OppgittFordeling oppgittFordeling) {
-        this.oppgittFordeling = oppgittFordeling;
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medAvklarteUttakDatoer(AvklarteUttakDatoer avklarteUttakDatoer) {
-        this.avklarteUttakDatoer = avklarteUttakDatoer;
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medPerioderUtenOmsorg(PerioderUtenOmsorg perioderUtenOmsorg) {
-        this.perioderUtenOmsorg = perioderUtenOmsorg;
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medPeriodeMedAleneomsorg(PerioderAleneOmsorg perioderAleneOmsorg) {
-        this.perioderMedAleneomsorg = perioderAleneOmsorg;
         return (S) this;
     }
 

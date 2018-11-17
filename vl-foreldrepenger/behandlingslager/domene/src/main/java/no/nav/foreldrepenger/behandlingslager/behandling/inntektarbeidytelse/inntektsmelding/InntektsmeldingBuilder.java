@@ -73,11 +73,6 @@ public class InntektsmeldingBuilder {
         return this;
     }
 
-    public InntektsmeldingBuilder leggTil(UtsettelsePeriode utsettelsePeriode) {
-        kladd.leggTil(utsettelsePeriode);
-        return this;
-    }
-
     public InntektsmeldingBuilder leggTil(Gradering gradering) {
         kladd.leggTil(gradering);
         return this;

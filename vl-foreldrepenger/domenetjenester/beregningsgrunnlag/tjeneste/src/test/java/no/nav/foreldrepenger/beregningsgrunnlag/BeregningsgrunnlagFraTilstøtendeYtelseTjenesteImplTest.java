@@ -49,9 +49,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest;
 import no.nav.foreldrepenger.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
@@ -163,7 +160,6 @@ public class BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImplTest {
         beregningsgrunnlag = beregningsgrunnlagBuilder.build();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         when(repositoryProvider.getVirksomhetRepository()).thenReturn(realRepositoryProvider.getVirksomhetRepository());
-        mockDekningsgrad(100);
         mockOpptjeningRepository(repositoryProvider, SKJÆRINGSTIDSPUNKT);
         behandling = scenario.lagMocked();
         AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
@@ -174,16 +170,6 @@ public class BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImplTest {
         beregningsgrunnlagFraTilstøtendeYtelseTjeneste = new BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImpl(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, mapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel, mapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL, skjæringstidspunktTjeneste);
         hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjenesteImpl(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);
     }
-
-    private void mockDekningsgrad(int dekningsgrad) {
-        FagsakRelasjon fagsakRelasjon = mock(FagsakRelasjon.class);
-        when(fagsakRelasjon.getDekningsgrad()).thenReturn(dekningsgrad == 80 ? Dekningsgrad._80 : Dekningsgrad._100);
-        FagsakRelasjonRepository fagsakRelasjonRepository = mock(FagsakRelasjonRepository.class);
-        when(repositoryProvider.getFagsakRelasjonRepository()).thenReturn(fagsakRelasjonRepository);
-        when(fagsakRelasjonRepository.finnRelasjonFor(any())).thenReturn(fagsakRelasjon);
-        when(fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(any())).thenReturn(Optional.of(fagsakRelasjon));
-    }
-
 
     private void mockTidligereYtelse(ScenarioMorSøkerForeldrepenger scenario, RelatertYtelseType relatertYtelseType, int dekningsgrad, Arbeidskategori arbeidskategori, VirksomhetEntitet virksomhet, boolean medEkstraAndel, Virksomhet virksomhet2) {
         YtelseBuilder ytelseBuilder = YtelseBuilder.oppdatere(Optional.empty())
@@ -671,7 +657,6 @@ public class BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImplTest {
             .build(periode);
 
         // Act 2
-        final BehandlingRepositoryProviderImpl repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
         MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel = new MapBeregningsgrunnlagFraVLTilRegel(realRepositoryProvider, opptjeningInntektArbeidYtelseTjeneste, mock(SkjæringstidspunktTjeneste.class), hentGrunnlagsdataTjeneste, 5);
         MapBeregningsgrunnlagFraRegelTilVL oversetterFraRegel = new MapBeregningsgrunnlagFraRegelTilVL(realRepositoryProvider, inntektArbeidYtelseTjeneste);
         foreslåBeregningsgrunnlagTjeneste = new ForeslåBeregningsgrunnlag(oversetterTilRegel, oversetterFraRegel, realRepositoryProvider, kontrollerFaktaBeregningTjeneste, hentGrunnlagsdataTjeneste);

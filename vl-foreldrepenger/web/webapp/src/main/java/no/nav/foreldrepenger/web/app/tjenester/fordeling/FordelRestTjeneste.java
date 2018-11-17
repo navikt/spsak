@@ -17,7 +17,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
@@ -103,7 +102,7 @@ public class FordelRestTjeneste {
             // throw BehandleDokumentServiceFeil.FACTORY.finnerIkkeFagsak(removeLineBreaks(saksnummer.toString())).toException();
             return null;
         }
-        final Optional<Behandling> behandling = behandlingRepository.hentSisteBehandlingForFagsakId(optFagsak.get().getId());
+        behandlingRepository.hentSisteBehandlingForFagsakId(optFagsak.get().getId());
         BehandlingTema behandlingTemaFraKodeverksRepo = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.fraFagsak(optFagsak.get()));
         String behandlingstemaOffisiellKode = behandlingTemaFraKodeverksRepo.getOffisiellKode();
         AktørId aktørId = optFagsak.get().getAktørId();

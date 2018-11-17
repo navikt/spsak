@@ -9,11 +9,7 @@ import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårU
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType.OPPFYLT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,11 +18,9 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelResultat;
 import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.VilkårData;
@@ -92,42 +86,6 @@ public class RegelOrkestrererImplTest {
     public void skal_kalle_regeltjeneste_for_medlemskapvilkåret_og_oppdatere_vilkårresultat() {
         // Arrange
         VilkårType vilkårType = VilkårType.MEDLEMSKAPSVILKÅRET;
-        VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, emptyList());
-        when(inngangsvilkårTjeneste.finnVilkår(vilkårType)).thenReturn((b) -> vilkårData);
-        Behandling behandling = byggBehandlingMedVilkårresultat(VilkårResultatType.IKKE_FASTSATT, vilkårType);
-
-        // Act
-        RegelResultat regelResultat = orkestrerer.vurderInngangsvilkår(
-                singletonList(vilkårType), behandling);
-
-        // Assert
-        assertThat(regelResultat.getVilkårResultat().getVilkårene()).hasSize(1);
-        assertThat(regelResultat.getVilkårResultat().getVilkårene().iterator().next().getVilkårType())
-                .isEqualTo(vilkårType);
-    }
-
-    @Test
-    public void skal_kalle_regeltjeneste_for_søknadsfristvilkåret_og_oppdatere_vilkårresultat() {
-        // Arrange
-        VilkårType vilkårType = VilkårType.SØKNADSFRISTVILKÅRET;
-        VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, emptyList());
-        when(inngangsvilkårTjeneste.finnVilkår(vilkårType)).thenReturn((b) -> vilkårData);
-        Behandling behandling = byggBehandlingMedVilkårresultat(VilkårResultatType.IKKE_FASTSATT, vilkårType);
-
-        // Act
-        RegelResultat regelResultat = orkestrerer.vurderInngangsvilkår(
-                singletonList(vilkårType), behandling);
-
-        // Assert
-        assertThat(regelResultat.getVilkårResultat().getVilkårene()).hasSize(1);
-        assertThat(regelResultat.getVilkårResultat().getVilkårene().iterator().next().getVilkårType())
-                .isEqualTo(vilkårType);
-    }
-
-    @Test
-    public void skal_kalle_regeltjeneste_for_omsorgsvilkåret_og_oppdatere_vilkårresultat() {
-        // Arrange
-        VilkårType vilkårType = VilkårType.OMSORGSVILKÅRET;
         VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, emptyList());
         when(inngangsvilkårTjeneste.finnVilkår(vilkårType)).thenReturn((b) -> vilkårData);
         Behandling behandling = byggBehandlingMedVilkårresultat(VilkårResultatType.IKKE_FASTSATT, vilkårType);
@@ -220,46 +178,6 @@ public class RegelOrkestrererImplTest {
 
         // Assert
         assertThat(regelResultat.getAksjonspunktDefinisjoner()).containsExactly(MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET);
-    }
-
-    @Test
-    public void skal_bare_vurdere_vilkår_som_er_støttet_og_finnes_på_behandlingen() {
-        // Arrange
-        Behandling behandling = Behandling.forFørstegangssøknad(fagsak).build();
-
-        VilkårType adopsjonsvilkårType = VilkårType.ADOPSJONSVILKÅRET_ENGANGSSTØNAD;
-        VilkårType fødselsvilkårType = VilkårType.FØDSELSVILKÅRET_MOR;
-        VilkårType søknadsfristvilkårType = VilkårType.SØKNADSFRISTVILKÅRET;
-        List<VilkårType> vilkårStøttetAvSteg = asList(adopsjonsvilkårType, fødselsvilkårType);
-
-        // Legg til vilkårne som automatiske, dvs hverken manuelt vurdert eller overstyrt
-        VilkårResultat.builder()
-                .leggTilVilkårResultat(søknadsfristvilkårType, IKKE_VURDERT, null, null, null, false, false, null, null)
-                .leggTilVilkårResultat(adopsjonsvilkårType, IKKE_VURDERT, null, null, null, false, false, null, null)
-                .buildFor(behandling);
-
-        VilkårData vilkårData = new VilkårData(adopsjonsvilkårType, OPPFYLT, emptyList());
-        when(inngangsvilkårTjeneste.finnVilkår(Mockito.eq(adopsjonsvilkårType))).thenReturn((b) -> vilkårData);
-
-        // Act
-        RegelResultat regelResultat = orkestrerer.vurderInngangsvilkår(vilkårStøttetAvSteg, behandling);
-
-        // Assert
-        verify(inngangsvilkårTjeneste).finnVilkår(adopsjonsvilkårType);
-        verify(inngangsvilkårTjeneste, never()).finnVilkår(fødselsvilkårType);
-        verify(inngangsvilkårTjeneste, never()).finnVilkår(søknadsfristvilkårType);
-
-        Vilkår søknadsfristvilkår = regelResultat.getVilkårResultat().getVilkårene().stream()
-                .filter(vilkår -> vilkår.getVilkårType().equals(søknadsfristvilkårType))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Skal ikke kunne komme her"));
-        Vilkår adopsjonsvilkår = regelResultat.getVilkårResultat().getVilkårene().stream()
-                .filter(vilkår -> vilkår.getVilkårType().equals(adopsjonsvilkårType))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Skal ikke kunne komme her"));
-        assertThat(søknadsfristvilkår.getGjeldendeVilkårUtfall()).isEqualTo(VilkårUtfallType.IKKE_VURDERT);
-        assertThat(adopsjonsvilkår.getGjeldendeVilkårUtfall()).isEqualTo(VilkårUtfallType.OPPFYLT);
-        assertThat(regelResultat.getVilkårResultat().getVilkårResultatType()).isEqualTo(VilkårResultatType.IKKE_FASTSATT);
     }
 
     @Test

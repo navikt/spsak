@@ -25,18 +25,12 @@
         <!-- Skilt ut mapping for vedtak (jmf. 'Vedtakslageret') -->
         <mapping-file>META-INF/vedtakslager-orm.xml</mapping-file>
 
-        <!-- Skilt ut mapping for json feed -->
-        <mapping-file>META-INF/feed-orm.xml</mapping-file>
-
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect"/>
             <property name="hibernate.connection.autocommit" value="false"/>
             <property name="hibernate.jdbc.use_get_generated_keys" value="true" />
             <property name="org.hibernate.flushMode" value="COMMIT" />
             
-            <!-- Hibernate bundlet: https://docs.jboss.org/author/display/AS71/JPA+Reference+Guide -->
-            <property name="jboss.as.jpa.managed" value="false" />
-            <property name="jboss.as.jpa.providerModule" value="application" />
         </properties>
     </persistence-unit>
 

@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
@@ -49,7 +48,6 @@ public class FinnSakService implements ForeldrepengesakV1 {
 
     private FagsakRepository fagsakRepository;
     private KodeverkRepository kodeverkRepository;
-    private BehandlingRepository behandlingRepository;
 
     public FinnSakService() {
         // NOSONAR: for CDI
@@ -59,7 +57,6 @@ public class FinnSakService implements ForeldrepengesakV1 {
     public FinnSakService(BehandlingRepositoryProvider repositoryProvider) {
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
-        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
     }
 
     @Override

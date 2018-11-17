@@ -28,7 +28,6 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractT
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.domene.person.PersoninfoAdapter;
-import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataEndringshåndterer;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataInnhenter;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
@@ -40,8 +39,6 @@ public class RegisterdataInnhenterTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
 
-    private BasisPersonopplysningTjeneste personopplysningTjeneste;
-
     private Instance<String> durationInstance;
 
     @SuppressWarnings("unchecked")
@@ -49,8 +46,6 @@ public class RegisterdataInnhenterTest {
     public void before() {
         durationInstance = mock(Instance.class);
         when(durationInstance.get()).thenReturn(DURATION);
-
-        personopplysningTjeneste = mock(BasisPersonopplysningTjeneste.class);
     }
 
     @Test

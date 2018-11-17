@@ -4,7 +4,7 @@ import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.MottattDokumentFei
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.inntektsmelding.v1.MottattDokumentWrapperInntektsmelding;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.InntektsmeldingM;
 
-public abstract class MottattDokumentWrapper<S, V> {
+public abstract class MottattDokumentWrapper<S> {
 
     private S skjema;
     private String namespace;

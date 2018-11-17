@@ -51,7 +51,6 @@ public class VurderTidsbegrensetArbeidsforholdOppdatererTest {
 
     private final BeregningsgrunnlagRepository beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
 
-    private VurderTidsbegrensetArbeidsforholdOppdaterer vurderTidsbegrensetArbeidsforholdOppdaterer;
     private VurderFaktaOmBeregningOppdaterer vurderFaktaOmBeregningOppdaterer;
     private Behandling behandling;
     private List<VurderteArbeidsforholdDto> tidsbestemteArbeidsforhold;
@@ -81,7 +80,6 @@ public class VurderTidsbegrensetArbeidsforholdOppdatererTest {
                 .build());
         virksomheter.forEach(v -> repositoryProvider.getVirksomhetRepository().lagre(v));
         ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjenesteImpl(null);
-        vurderTidsbegrensetArbeidsforholdOppdaterer = new VurderTidsbegrensetArbeidsforholdOppdaterer(repositoryProvider, lagMockHistory(), arbeidsgiverHistorikkinnslagTjeneste);
         vurderFaktaOmBeregningOppdaterer = new VurderFaktaOmBeregningOppdaterer(lagMockHistory(), repositoryProvider, arbeidsgiverHistorikkinnslagTjeneste);
         tidsbestemteArbeidsforhold = lagFastsatteAndelerListe();
     }

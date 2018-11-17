@@ -71,7 +71,7 @@ public class DokumentRestTjenesteTest {
     public void skal_returnere_to_dokument() throws Exception {
         Long fagsakId = 5L;
         Long behandlingId = 150L;
-        PersonIdent fnr = new PersonIdent("12345678901");
+        new PersonIdent("12345678901");
         AktørId aktørId = new AktørId("1");
         Personinfo personinfo = new NavPersoninfoBuilder().medAktørId(aktørId).medDiskresjonskode("6").medPersonstatusType(PersonstatusType.DØD).build();
         NavBruker navBruker = new NavBrukerBuilder().medPersonInfo(personinfo).build();

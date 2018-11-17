@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -57,8 +56,6 @@ public class AksjonspunktOppdatererTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-
-    private LocalDate now = LocalDate.now();
 
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
 
@@ -119,7 +116,7 @@ public class AksjonspunktOppdatererTest {
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 
-        Aksjonspunkt aksjonspunktVurderesPåNytt = leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
 
         AksjonspunktGodkjenningDto aksGodkjDto = new AksjonspunktGodkjenningDto();
         aksGodkjDto.setArsaker(new HashSet<>(Collections.singletonList(VurderÅrsak.FEIL_FAKTA)).stream().map(VurderÅrsak::new)
@@ -151,7 +148,7 @@ public class AksjonspunktOppdatererTest {
                 .medFarSøkerType(FarSøkerType.OVERTATT_OMSORG);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
-        Aksjonspunkt aksjonspunktGodkjent = leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
 
         AksjonspunktGodkjenningDto aksGodkjDto = new AksjonspunktGodkjenningDto();
         aksGodkjDto.setGodkjent(true);

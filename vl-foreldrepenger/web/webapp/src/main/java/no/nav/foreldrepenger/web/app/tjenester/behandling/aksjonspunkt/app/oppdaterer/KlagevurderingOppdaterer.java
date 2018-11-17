@@ -89,14 +89,6 @@ public class KlagevurderingOppdaterer implements AksjonspunktOppdaterer<KlageVur
         }
     }
 
-    private String getKlageAvvistÅrsak(KlageVurderingResultatAksjonspunktDto dto) {
-        return dto.getKlageAvvistArsak() == null ? null : dto.getKlageAvvistArsak().getKode();
-    }
-
-    private String getKlageMedholdÅrsak(KlageVurderingResultatAksjonspunktDto dto) {
-        return dto.getKlageMedholdArsak() == null ? null : dto.getKlageMedholdArsak().getKode();
-    }
-
     private void opprettHistorikkinnslag(Behandling behandling, AksjonspunktDefinisjon aksjonspunktDefinisjon, KlageVurderingResultatAksjonspunktDto dto) {
         KlageVurdering klageVurdering = kodeverkRepository.finn(KlageVurdering.class, dto.getKlageVurdering().getKode());
         boolean erNfpAksjonspunkt = erNfpAksjonspunkt(aksjonspunktDefinisjon);

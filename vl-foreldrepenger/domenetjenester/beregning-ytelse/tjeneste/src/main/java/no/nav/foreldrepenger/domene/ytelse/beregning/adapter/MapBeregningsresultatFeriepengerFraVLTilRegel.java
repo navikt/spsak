@@ -1,8 +1,6 @@
 package no.nav.foreldrepenger.domene.ytelse.beregning.adapter;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,24 +23,17 @@ public class MapBeregningsresultatFeriepengerFraVLTilRegel {
         //Skal ikke instansieres
     }
 
-    public static BeregningsresultatFeriepengerRegelModell mapFra(Beregningsgrunnlag beregningsgrunnlag, Behandling behandling, BeregningsresultatFP beregningsresultatFP, Optional<BeregningsresultatFP> annenPartsBeregningsresultatFP) {
+    public static BeregningsresultatFeriepengerRegelModell mapFra(Beregningsgrunnlag beregningsgrunnlag, Behandling behandling, BeregningsresultatFP beregningsresultatFP) {
 
-        List<BeregningsresultatPeriode> annenPartsBeregningsresultatPerioder = annenPartsBeregningsresultatFP.map(a -> a.getBeregningsresultatPerioder().stream()
-            .map(MapBeregningsresultatFeriepengerFraVLTilRegel::mapBeregningsresultatPerioder)
-            .collect(Collectors.toList()))
-            .orElse(Collections.emptyList());
         List<BeregningsresultatPeriode> beregningsresultatPerioder = beregningsresultatFP.getBeregningsresultatPerioder().stream()
             .map(MapBeregningsresultatFeriepengerFraVLTilRegel::mapBeregningsresultatPerioder).collect(Collectors.toList());
         Set<Inntektskategori> inntektskategorier = mapInntektskategorier(beregningsresultatFP);
-        Set<Inntektskategori> annenPartsInntektskategorier = annenPartsBeregningsresultatFP.map(MapBeregningsresultatFeriepengerFraVLTilRegel::mapInntektskategorier).orElse(Collections.emptySet());
         Dekningsgrad dekningsgrad = beregningsgrunnlag.getDekningsgrad() == 100 ? Dekningsgrad.DEKNINGSGRAD_100 : Dekningsgrad.DEKNINGSGRAD_80;
         boolean erForelder1 = RelasjonsRolleType.erMor(behandling.getFagsak().getRelasjonsRolleType());
 
         return BeregningsresultatFeriepengerRegelModell.builder()
             .medBeregningsresultatPerioder(beregningsresultatPerioder)
             .medInntektskategorier(inntektskategorier)
-            .medAnnenPartsBeregningsresultatPerioder(annenPartsBeregningsresultatPerioder)
-            .medAnnenPartsInntektskategorier(annenPartsInntektskategorier)
             .medDekningsgrad(dekningsgrad)
             .medErForelder1(erForelder1)
             .build();

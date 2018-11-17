@@ -14,10 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.JoinColumnOrFormula;
-import org.hibernate.annotations.JoinColumnsOrFormulas;
-import org.hibernate.annotations.JoinFormula;
-
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
@@ -37,12 +33,6 @@ public class UttakResultatPeriodeAktivitetEntitet extends BaseEntitet {
     @JoinColumn(name = "uttak_aktivitet_id", nullable = false, updatable = false)
     private UttakAktivitetEntitet uttakAktivitet;
 
-    @ManyToOne
-    @JoinColumnsOrFormulas({
-        @JoinColumnOrFormula(column = @JoinColumn(name = "trekkonto", referencedColumnName = "kode")),
-        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + StønadskontoType.DISCRIMINATOR + "'")) })
-    private StønadskontoType trekkonto;
-
     @Column(name = "trekkdager", nullable = false)
     private int trekkdager;
 
@@ -60,7 +50,6 @@ public class UttakResultatPeriodeAktivitetEntitet extends BaseEntitet {
     public String toString() {
         return "UttakResultatPeriodeAktivitetEntitet{" +
             "periode=" + periode.getId() +
-            ", trekkonto=" + trekkonto +
             ", trekkdager='" + trekkdager + '\'' +
             ", arbeidsprosent=" + arbeidsprosent +
             ", utbetalingsprosent=" + utbetalingsprosent +
@@ -75,10 +64,6 @@ public class UttakResultatPeriodeAktivitetEntitet extends BaseEntitet {
 
     public int getTrekkdager() {
         return trekkdager;
-    }
-
-    public StønadskontoType getTrekkonto() {
-        return trekkonto;
     }
 
     public BigDecimal getArbeidsprosent() {
@@ -164,11 +149,6 @@ public class UttakResultatPeriodeAktivitetEntitet extends BaseEntitet {
 
         public UttakResultatPeriodeAktivitetEntitet.Builder medTrekkdager(Integer trekkdager) {
             kladd.trekkdager = trekkdager;
-            return this;
-        }
-
-        public UttakResultatPeriodeAktivitetEntitet.Builder medTrekkonto(StønadskontoType trekkonto) {
-            kladd.trekkonto = trekkonto;
             return this;
         }
 

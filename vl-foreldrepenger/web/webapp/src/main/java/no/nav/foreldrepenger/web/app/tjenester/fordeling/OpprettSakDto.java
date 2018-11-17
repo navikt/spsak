@@ -31,7 +31,7 @@ public class OpprettSakDto implements AbacDto {
         this.aktørId = aktørId;
     }
 
-    private OpprettSakDto() { //For Jackson
+    OpprettSakDto() { //For Jackson
     }
 
     public Optional<String> getJournalpostId() {

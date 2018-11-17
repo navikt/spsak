@@ -12,7 +12,6 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollAsynkTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
@@ -32,7 +31,6 @@ public class FagsakApplikasjonTjenesteImpl implements FagsakApplikasjonTjeneste 
     private FagsakRepository fagsakRespository;
 
     private TpsTjeneste tpsTjeneste;
-    private BehandlingRepository behandlingRepository;
     private BehandlingskontrollAsynkTjeneste behandlingskontrollAsynkTjeneste;
 
     private Predicate<String> predikatErFnr = søkestreng -> søkestreng.matches("\\d{11}");
@@ -48,7 +46,6 @@ public class FagsakApplikasjonTjenesteImpl implements FagsakApplikasjonTjeneste 
 
         this.fagsakRespository = repositoryProvider.getFagsakRepository();
         this.tpsTjeneste = tpsTjeneste;
-        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingskontrollAsynkTjeneste = behandlingskontrollAsynkTjeneste;
     }
 
@@ -85,7 +82,7 @@ public class FagsakApplikasjonTjenesteImpl implements FagsakApplikasjonTjeneste 
             return FagsakSamlingForBruker.emptyView();
         }
         List<Fagsak> fagsaker = fagsakRespository.hentForBruker(funnetNavBruker.get().getAktørId());
-        return tilFagsakView(fagsaker, null, funnetNavBruker.get());
+        return tilFagsakView(fagsaker, funnetNavBruker.get());
     }
 
     /**
@@ -105,12 +102,12 @@ public class FagsakApplikasjonTjenesteImpl implements FagsakApplikasjonTjeneste 
             return FagsakSamlingForBruker.emptyView();
         }
 
-        return tilFagsakView(fagsaker, null, funnetNavBruker.get());
+        return tilFagsakView(fagsaker, funnetNavBruker.get());
     }
 
-    private FagsakSamlingForBruker tilFagsakView(List<Fagsak> fagsaker, Map<Long, Integer> antallBarnPerFagsak, Personinfo personinfo) {
+    private FagsakSamlingForBruker tilFagsakView(List<Fagsak> fagsaker, Personinfo personinfo) {
         FagsakSamlingForBruker view = new FagsakSamlingForBruker(personinfo);
-        fagsaker.forEach(sak -> view.leggTil(sak, antallBarnPerFagsak.get(sak.getId()), LocalDate.now()));
+        fagsaker.forEach(sak -> view.leggTil(sak, LocalDate.now()));
         return view;
     }
 

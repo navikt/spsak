@@ -13,7 +13,6 @@ import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
@@ -28,7 +27,6 @@ public class BehandlendeEnhetTjenesteImpl implements BehandlendeEnhetTjeneste {
     private TpsTjeneste tpsTjeneste;
     private EnhetsTjeneste enhetsTjeneste;
     private KodeverkRepository kodeverkRepository;
-    private SøknadRepository søknadRepository;
 
     public BehandlendeEnhetTjenesteImpl() {
         //For CDI
@@ -39,7 +37,6 @@ public class BehandlendeEnhetTjenesteImpl implements BehandlendeEnhetTjeneste {
         this.tpsTjeneste = tpsTjeneste;
         this.enhetsTjeneste = enhetsTjeneste;
         this.kodeverkRepository = provider.getKodeverkRepository();
-        this.søknadRepository = provider.getSøknadRepository();
     }
 
     private BehandlingTema behandlingTemaFra(Behandling sisteBehandling) {

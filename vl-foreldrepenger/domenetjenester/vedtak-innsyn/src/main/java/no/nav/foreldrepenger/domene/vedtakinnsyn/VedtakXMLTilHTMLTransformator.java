@@ -73,6 +73,7 @@ public class VedtakXMLTilHTMLTransformator {
         return resultat.toString();
     }
 
+    @SuppressWarnings("resource")
     private static Transformer lagTransformer(String xslTransformerFilename) throws TransformerConfigurationException {
         TransformerFactory factory = TransformerFactory.newInstance();
 

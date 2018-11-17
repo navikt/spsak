@@ -44,7 +44,7 @@ public class BeregningsresultatTjenesteImpl implements BeregningsresultatTjenest
         return uttakResultat
             .flatMap(uttakResultatPlan -> beregningsresultatFPRepository.hentBeregningsresultatFP(behandling)
                 .flatMap(beregningsresultatFP -> inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling, skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling))
-                    .map(inntektArbeidYtelseGrunnlag -> BeregningsresultatMedUttaksplanMapper.lagBeregningsresultatMedUttaksplan(behandling, uttakResultatPlan, beregningsresultatFP))));
+                    .map(inntektArbeidYtelseGrunnlag -> BeregningsresultatMedUttaksplanMapper.lagBeregningsresultatMedUttaksplan(behandling, beregningsresultatFP))));
     }
 
     @Override

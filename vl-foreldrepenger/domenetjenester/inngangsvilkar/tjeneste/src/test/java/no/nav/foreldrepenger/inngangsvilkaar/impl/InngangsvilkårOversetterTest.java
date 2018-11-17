@@ -14,7 +14,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
-import no.nav.foreldrepenger.behandling.impl.RegisterInnhentingIntervallEndringTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -43,7 +42,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -72,15 +70,11 @@ public class InngangsvilkårOversetterTest {
 
     @Before
     public void oppsett() {
-        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider,
-            new RegisterInnhentingIntervallEndringTjeneste(Period.of(1, 0, 0), Period.of(0, 4, 0)),
-            Period.of(0, 3, 0),
-            Period.of(0, 10, 0));
+        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
         BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
         oversetter = new InngangsvilkårOversetter(repositoryProvider, new MedlemskapPerioderTjenesteImpl(12, 6, skjæringstidspunktTjeneste), skjæringstidspunktTjeneste, personopplysningTjeneste);
     }
 
-    @Test
     public void skal_mappe_fra_domenemedlemskap_til_regelmedlemskap() {
         // Arrange
 
@@ -91,7 +85,6 @@ public class InngangsvilkårOversetterTest {
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.plusMonths(4), true);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
-        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         VurdertMedlemskap vurdertMedlemskap = new VurdertMedlemskapBuilder()
             .medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.MEDLEM)
@@ -125,7 +118,6 @@ public class InngangsvilkårOversetterTest {
         ScenarioMorSøkerEngangsstønad scenario = oppsett(skjæringstidspunkt);
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.minusDays(1), true);
         Behandling behandling = scenario.lagre(repositoryProvider);
-        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
 
         // Act
         MedlemskapsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellMedlemskap(behandling);
@@ -142,7 +134,6 @@ public class InngangsvilkårOversetterTest {
         ScenarioMorSøkerEngangsstønad scenario = oppsett(skjæringstidspunkt);
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.plusDays(10), false);
         Behandling behandling = scenario.lagre(repositoryProvider);
-        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, new AvklarteUttakDatoerEntitet(LocalDate.now(), null));
         // Act
         MedlemskapsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellMedlemskap(behandling);
 

@@ -109,7 +109,7 @@ public class OppdragskontrollTjenesteOPPHTest extends OppdragskontrollTjenesteIm
         final Long prosessTaskId = 45L;
         BeregningsresultatFP beregningsresultatFP = buildBeregningsresultatMedFlereInntektskategoriFP(true);
         beregningsresultatFPRepository.lagre(behandlingFP, beregningsresultatFP);
-        Long originaltOppdragId = oppdragskontrollTjeneste.opprettOppdrag(behandlingFP.getId(), prosessTaskId);
+        oppdragskontrollTjeneste.opprettOppdrag(behandlingFP.getId(), prosessTaskId);
 
         Behandling revurdering = opprettOgLagreRevurdering(this.behandlingFP, VedtakResultatType.INNVILGET, 1, false, true);
         when(endringsdatoUtleder.utledEndringsdato(revurdering)).thenReturn(endringsdato.plusMonths(18));

@@ -36,7 +36,7 @@ import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.util.FPDateUtil;
 
 /**
- * Oppdaterer registeropplysninger for engangsstønader og skrur behandlingsprosessen tilbake
+ * Oppdaterer registeropplysninger og skrur behandlingsprosessen tilbake
  * til innhent-steget hvis det har skjedd endringer siden forrige innhenting.
  */
 @ApplicationScoped

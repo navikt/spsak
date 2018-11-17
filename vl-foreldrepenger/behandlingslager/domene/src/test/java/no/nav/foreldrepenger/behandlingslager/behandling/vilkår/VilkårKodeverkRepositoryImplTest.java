@@ -30,7 +30,7 @@ public class VilkårKodeverkRepositoryImplTest {
 
     @Test
     public void test_finn_vilkårtype_fra_avslagårsak() {
-        assertThat(repo.finnVilkårTypeListe(Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_O.getKode())).contains(VilkårType.OMSORGSVILKÅRET);
+        assertThat(repo.finnVilkårTypeListe(Avslagsårsak.SØKER_ER_UTVANDRET.getKode())).contains(VilkårType.MEDLEMSKAPSVILKÅRET);
     }
 
     @Test

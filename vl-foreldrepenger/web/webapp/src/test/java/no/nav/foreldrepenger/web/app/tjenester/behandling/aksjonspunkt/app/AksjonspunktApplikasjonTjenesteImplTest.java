@@ -6,7 +6,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import java.time.LocalDate;
 import java.util.Collections;
 
 import javax.inject.Inject;
@@ -18,25 +17,18 @@ import org.junit.runner.RunWith;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FatterVedtakAksjonspunktDto;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
-import no.nav.vedtak.util.FPDateUtil;
 
 @RunWith(CdiRunner.class)
 public class AksjonspunktApplikasjonTjenesteImplTest {
 
     private static final String BEGRUNNELSE = "begrunnelse";
-    private static final LocalDate TERMINDATO = LocalDate.now(FPDateUtil.getOffset()).plusDays(40);
-    private static final LocalDate UTSTEDTDATO = LocalDate.now(FPDateUtil.getOffset()).minusDays(7);
 
     @Rule
     public final RepositoryRule repoRule = new UnittestRepositoryRule();
@@ -45,15 +37,7 @@ public class AksjonspunktApplikasjonTjenesteImplTest {
     private AksjonspunktApplikasjonTjeneste aksjonspunktApplikasjonTjeneste;
 
     @Inject
-    private BehandlingRepository behandlingRepository;
-
-    @Inject
     private BehandlingRepositoryProvider repositoryProvider;
-
-    @Inject
-    private AksjonspunktRepository aksjonspunktRepository;
-
-    private YtelsesFordelingRepository fordelingRepository = new YtelsesFordelingRepositoryImpl(repoRule.getEntityManager());
 
     private AbstractTestScenario<?> lagScenarioMedAksjonspunkt(AksjonspunktDefinisjon aksjonspunktDefinisjon) {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
@@ -78,5 +62,4 @@ public class AksjonspunktApplikasjonTjenesteImplTest {
         // Assert
         verify(behandlingSpy, never()).setAnsvarligSaksbehandler(any());
     }
-
 }

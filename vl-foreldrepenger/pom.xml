@@ -23,11 +23,6 @@
 		<!-- Web klient og server -->
 		<module>web</module>
 
-		<!-- diverse tester på tvers av all kode -->
-		<module>alle</module>
-
-		<!-- Build til slutt -->
-		<!--module>build</module -->
 	</modules>
 
 	<properties>
@@ -115,16 +110,6 @@
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingslager-domene</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>json-feed-domene</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>json-feed-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -415,11 +400,6 @@
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>kodeverk</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>historikk</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -814,11 +794,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
 			</plugin>
 
 			<!--<plugin>-->

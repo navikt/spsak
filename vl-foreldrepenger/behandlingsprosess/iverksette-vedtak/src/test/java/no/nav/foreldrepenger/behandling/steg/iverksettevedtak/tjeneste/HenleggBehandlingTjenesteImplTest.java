@@ -42,7 +42,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -85,9 +84,6 @@ public class HenleggBehandlingTjenesteImplTest {
 
     @Inject
     private KodeverkRepository kodeverkRepository;
-    @Inject
-    private FagsakLåsRepository fagsakLåsRepository;
-
     @Inject
     @KonfigVerdi(value = "bruker.gruppenavn.saksbehandler")
     private String gruppenavnSaksbehandler;

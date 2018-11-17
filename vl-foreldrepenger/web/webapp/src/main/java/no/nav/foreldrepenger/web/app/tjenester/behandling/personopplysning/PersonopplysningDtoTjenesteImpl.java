@@ -19,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeAggregat;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
@@ -115,7 +114,7 @@ public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjene
 
         dto.setBarnSoktFor(Collections.emptyList());
 
-        Søknad søknad = repositoryProvider.getSøknadRepository().hentSøknad(behandlingId);
+        repositoryProvider.getSøknadRepository().hentSøknad(behandlingId);
 
         Optional<Personopplysning> ektefelleOpt = aggregat.getEktefelle();
         if (ektefelleOpt.isPresent() && ektefelleOpt.get().equals(søker)) {

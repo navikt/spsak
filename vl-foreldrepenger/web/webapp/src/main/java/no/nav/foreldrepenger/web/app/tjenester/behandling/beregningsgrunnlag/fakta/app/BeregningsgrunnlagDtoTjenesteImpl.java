@@ -24,8 +24,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Samm
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjon;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.BeregningsgrunnlagDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.BeregningsgrunnlagPeriodeDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.BeregningsgrunnlagPrStatusOgAndelATDto;
@@ -38,7 +36,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fak
 @ApplicationScoped
 public class BeregningsgrunnlagDtoTjenesteImpl implements BeregningsgrunnlagDtoTjeneste {
 
-    private FagsakRelasjonRepository fagsakRelasjonRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private BeregningRepository beregningRepository;
     private FaktaOmBeregningDtoTjeneste faktaOmBeregningDtoTjeneste;
@@ -52,7 +49,6 @@ public class BeregningsgrunnlagDtoTjenesteImpl implements BeregningsgrunnlagDtoT
     public BeregningsgrunnlagDtoTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
                                              FaktaOmBeregningDtoTjeneste faktaOmBeregningDtoTjeneste, BeregningsgrunnlagDtoUtil dtoUtil) {
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        this.fagsakRelasjonRepository = repositoryProvider.getFagsakRelasjonRepository();
         this.beregningRepository = repositoryProvider.getBeregningRepository();
         this.faktaOmBeregningDtoTjeneste = faktaOmBeregningDtoTjeneste;
         this.dtoUtil = dtoUtil;
@@ -64,9 +60,6 @@ public class BeregningsgrunnlagDtoTjenesteImpl implements BeregningsgrunnlagDtoT
         if (!beregningsgrunnlagOpt.isPresent()) {
             return Optional.empty();
         }
-
-        Optional<FagsakRelasjon> fagsakRelasjon = fagsakRelasjonRepository.finnRelasjonForHvisEksisterer(behandling.getFagsak());
-        int dekningsgrad = fagsakRelasjon.map(agg -> agg.getDekningsgrad().getVerdi()).orElse(100);
 
         Beregningsgrunnlag beregningsgrunnlag = beregningsgrunnlagOpt.get();
         BeregningsgrunnlagDto dto = new BeregningsgrunnlagDto();
@@ -85,7 +78,6 @@ public class BeregningsgrunnlagDtoTjenesteImpl implements BeregningsgrunnlagDtoT
         dto.setLedetekstBrutto("Brutto beregningsgrunnlag");
         long seksG = Math.round(beregningsgrunnlag.getGrunnbeløp().getVerdi().multiply(BigDecimal.valueOf(6)).doubleValue());
         dto.setLedetekstAvkortet("Avkortet beregningsgrunnlag (6G=" + seksG + ")");
-        dto.setLedetekstRedusert("Redusert beregningsgrunnlag (" + dekningsgrad + "%)");
         dto.setHalvG((double) Math.round(beregningRepository.finnEksaktSats(SatsType.GRUNNBELØP, beregningsgrunnlag.getSkjæringstidspunkt()).getVerdi() / 2.0));
 
         return Optional.of(dto);

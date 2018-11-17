@@ -10,7 +10,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.MottattDokumentWrapper;
 import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
-import no.nav.vedtak.felles.xml.soeknad.felles.v1.Vedlegg;
 import no.seres.xsd.nav.inntektsmelding_m._201809.InntektsmeldingConstants;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsforhold;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsgiver;
@@ -26,7 +25,7 @@ import no.seres.xsd.nav.inntektsmelding_m._20180924.Refusjon;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepenger;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepengerListe;
 
-public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrapper<InntektsmeldingM, Vedlegg> {
+public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrapper<InntektsmeldingM> {
 
     public MottattDokumentWrapperInntektsmelding(InntektsmeldingM skjema) {
         super(skjema, InntektsmeldingConstants.NAMESPACE);

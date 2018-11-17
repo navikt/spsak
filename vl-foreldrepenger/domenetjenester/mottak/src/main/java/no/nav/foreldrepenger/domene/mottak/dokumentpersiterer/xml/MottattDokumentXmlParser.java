@@ -66,14 +66,14 @@ public final class MottattDokumentXmlParser {
         Class<?> jaxbClass;
         String xsdLocation;
         String[] additionalXsd = new String[0];
-        Class[] additionalClasses = new Class[0];
+        Class<?>[] additionalClasses = new Class[0];
 
         DokumentParserKonfig(Class<?> jaxbClass, String xsdLocation) {
             this.jaxbClass = jaxbClass;
             this.xsdLocation = xsdLocation;
         }
 
-        public DokumentParserKonfig(Class<?> jaxbClass, String xsdLocation, String[] additionalXsd, Class... additionalClasses) {
+        public DokumentParserKonfig(Class<?> jaxbClass, String xsdLocation, String[] additionalXsd, Class<?>... additionalClasses) {
             this.jaxbClass = jaxbClass;
             this.xsdLocation = xsdLocation;
             this.additionalXsd = additionalXsd;

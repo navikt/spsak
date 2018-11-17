@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregning.SatsType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.beregningsgrunnlag.BeregningInntektsmeldingTjeneste;
 import no.nav.foreldrepenger.beregningsgrunnlag.BeregningInntektsmeldingTjenesteImpl;
@@ -102,7 +101,6 @@ public class BeregningsgrunnlagDtoTest {
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);
         behandling = scenario.lagre(repositoryProvider);
         leggTilOpptjening();
-        repositoryProvider.getFagsakRelasjonRepository().opprettRelasjon(behandling.getFagsak(), Dekningsgrad._100);
         EndringBeregningsgrunnlagDtoTjeneste endringBeregningsgrunnlagDtoTjeneste = new EndringBeregningsgrunnlagDtoTjeneste(kontrollerFaktaBeregningTjeneste, repositoryProvider, dtoUtil);
         TilstøtendeYtelseDtoTjeneste tilstøtendeYtelseDtoTjeneste = new TilstøtendeYtelseDtoTjenesteImpl(repositoryProvider, kontrollerFaktaBeregningTjeneste, opptjeningInntektArbeidYtelseTjeneste, dtoUtil);
         FaktaOmBeregningAndelDtoTjeneste faktaOmBeregningAndelDtoTjeneste = new FaktaOmBeregningAndelDtoTjenesteImpl(repositoryProvider, kontrollerFaktaBeregningTjeneste, kontrollerFaktaBeregningFrilanserTjeneste, dtoUtil);
@@ -140,7 +138,7 @@ public class BeregningsgrunnlagDtoTest {
             assertThat(grunnlagDto.getSkjaeringstidspunktBeregning()).isEqualTo(SKJAERINGSTIDSPUNKT);
             assertThat(grunnlagDto.getLedetekstAvkortet()).isNotNull();
             assertThat(grunnlagDto.getLedetekstBrutto()).isNotNull();
-            assertThat(grunnlagDto.getLedetekstRedusert()).isNotNull();
+            assertThat(grunnlagDto.getLedetekstRedusert()).isNull();
             assertThat(grunnlagDto.getHalvG().intValue()).isEqualTo(grunnbeløp.divide(BigDecimal.valueOf(2),  RoundingMode.HALF_UP).intValue());
         });
     }

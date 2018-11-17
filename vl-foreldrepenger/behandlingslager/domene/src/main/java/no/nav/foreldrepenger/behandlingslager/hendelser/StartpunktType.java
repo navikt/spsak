@@ -54,7 +54,6 @@ public class StartpunktType extends KodeverkTabell {
                 , VilkårType.FØDSELSVILKÅRET_FAR_MEDMOR
                 , VilkårType.ADOPSJONSVILKÅRET_ENGANGSSTØNAD
                 , VilkårType.ADOPSJONSVILKARET_FORELDREPENGER
-                , VilkårType.OMSORGSVILKÅRET
                 , VilkårType.FORELDREANSVARSVILKÅRET_2_LEDD
                 , VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD
             )));

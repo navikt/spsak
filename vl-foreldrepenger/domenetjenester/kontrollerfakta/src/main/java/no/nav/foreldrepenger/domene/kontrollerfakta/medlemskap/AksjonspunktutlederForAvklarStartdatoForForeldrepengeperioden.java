@@ -26,15 +26,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørArbeid;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Yrkesaktivitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseFordelingAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
 
 @ApplicationScoped
 public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperioden implements AksjonspunktUtleder {
 
     private static final List<AksjonspunktResultat> INGEN_AKSJONSPUNKTER = emptyList();
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
-    private YtelsesFordelingRepository ytelsesFordelingRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
 
 
@@ -45,7 +42,6 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperioden imple
     AksjonspunktutlederForAvklarStartdatoForForeldrepengeperioden(BehandlingRepositoryProvider repositoryProvider,
                                                                   SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        this.ytelsesFordelingRepository = repositoryProvider.getYtelsesFordelingRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
     }
 
@@ -54,9 +50,7 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperioden imple
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling,
             skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling));
 
-        Optional<YtelseFordelingAggregat> ytelseFordelingAggregatOptional = ytelsesFordelingRepository.hentAggregatHvisEksisterer(behandling);
-
-        if (!ytelseFordelingAggregatOptional.isPresent() || !inntektArbeidYtelseGrunnlagOptional.isPresent()) {
+        if (!inntektArbeidYtelseGrunnlagOptional.isPresent()) {
             return INGEN_AKSJONSPUNKTER;
         }
 
@@ -106,7 +100,11 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperioden imple
 
     Utfall samsvarerStartdatoerFraInntektsmeldingOgBruker(LocalDate startdatoOppgittAvBruker, InntektsmeldingAggregat inntektsmeldingAggregat) {
         return inntektsmeldingAggregat.getInntektsmeldinger().stream()
-            .anyMatch(im -> !endreDatoHvisLørdagEllerSøndag(im.getStartDatoPermisjon()).equals(endreDatoHvisLørdagEllerSøndag(startdatoOppgittAvBruker))) ? NEI : JA;
+            .anyMatch(im -> {
+                LocalDate imDato = endreDatoHvisLørdagEllerSøndag(im.getStartDatoPermisjon());
+                LocalDate startdatoOppgitt = endreDatoHvisLørdagEllerSøndag(startdatoOppgittAvBruker);
+                return !imDato.equals(startdatoOppgitt);
+            }) ? NEI : JA;
 
     }
 

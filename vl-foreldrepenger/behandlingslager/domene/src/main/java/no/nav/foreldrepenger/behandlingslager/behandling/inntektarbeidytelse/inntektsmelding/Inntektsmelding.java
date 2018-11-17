@@ -33,13 +33,6 @@ public interface Inntektsmelding {
     List<NaturalYtelse> getNaturalYtelser();
 
     /**
-     * Liste over utsettelse perioder
-     *
-     * @return {@link UtsettelsePeriode}
-     */
-    List<UtsettelsePeriode> getUtsettelsePerioder();
-
-    /**
      * Arbeidsgivers arbeidsforhold referanse
      *
      * @return {@link ArbeidsforholdRef}

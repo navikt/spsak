@@ -43,7 +43,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
@@ -73,9 +72,6 @@ public class DokumentmottakerKlageTest {
     @Inject
     private HistorikkinnslagTjeneste historikkinnslagTjeneste;
 
-    @Inject
-    private FagsakLåsRepository fagsakLåsRepository;
-
     private DokumentmottakerKlage dokumentmottaker;
     private BehandlingRepository behandlingRepository;
 
@@ -88,7 +84,7 @@ public class DokumentmottakerKlageTest {
         historikkinnslagTjeneste = mock(HistorikkinnslagTjeneste.class);
         when(behandlendeEnhetTjeneste.sjekkEnhetVedNyAvledetBehandling(any(), any())).thenReturn(new OrganisasjonsEnhet("4802", "NAV Bærum"));
 
-        BehandlingskontrollTjeneste behandlingskontrollTjeneste = DokumentmottakTestUtil.lagBehandlingskontrollTjenesteMock(repositoryProvider, behandlingModellRepository, fagsakLåsRepository);
+        BehandlingskontrollTjeneste behandlingskontrollTjeneste = DokumentmottakTestUtil.lagBehandlingskontrollTjenesteMock(repositoryProvider, behandlingModellRepository);
 
         DokumentmottakerFelles dokumentmottakerFelles = new DokumentmottakerFelles(repositoryProvider, prosessTaskRepository,
             behandlendeEnhetTjeneste, historikkinnslagTjeneste);
@@ -149,9 +145,5 @@ public class DokumentmottakerKlageTest {
         behandlingRepository.lagre(behandling, lås);
         repositoryProvider.getBehandlingVedtakRepository().lagre(vedtak, lås);
         return behandling;
-    }
-
-    private Fagsak nyMorFødselFagsak() {
-        return ScenarioMorSøkerEngangsstønad.forFødselUtenSøknad().lagreFagsak(repositoryProvider);
     }
 }

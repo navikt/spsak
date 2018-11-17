@@ -14,7 +14,6 @@ import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
@@ -40,15 +39,12 @@ public class SendVedtaksbrevImplTest {
     @Mock
     private KlageVurderingResultat klageVurderingResultat;
 
-    private BehandlingRepository behandlingRepository;
-
     private BehandlingRepositoryProvider repositoryProvider;
 
     @Before
     public void oppsett() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
         behandling = scenario.lagMocked();
-        behandlingRepository = scenario.mockBehandlingRepository();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         behandlingVedtak = scenario.mockBehandlingVedtak();
         sendVedtaksbrev = new SendVedtaksbrevImpl(repositoryProvider, mock(SendVarselTjeneste.class));

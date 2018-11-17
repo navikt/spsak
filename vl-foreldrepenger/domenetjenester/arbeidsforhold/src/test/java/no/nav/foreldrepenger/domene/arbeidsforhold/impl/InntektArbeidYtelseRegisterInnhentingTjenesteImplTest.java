@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -24,7 +23,6 @@ import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.OpplysningsPeriodeTjenesteImpl;
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
@@ -45,14 +43,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatTy
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgrad;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgradEntitet;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
@@ -117,7 +110,6 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
 
         UttakResultatPeriodeAktivitetEntitet periodeAktivitet = UttakResultatPeriodeAktivitetEntitet.builder(uttakResultatPeriode,
             uttakAktivitet)
-            .medTrekkonto(StønadskontoType.FORELDREPENGER)
             .medTrekkdager(10)
             .medArbeidsprosent(new BigDecimal(100))
             .medUtbetalingsprosent(new BigDecimal(100))
@@ -241,11 +233,6 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         Beregningsgrunnlag beregningsgrunnlag = buildBeregningsgrunnlag(ytelseHjelper);
         repositoryProvider.getBeregningsgrunnlagRepository().lagre(behandling, beregningsgrunnlag, BeregningsgrunnlagTilstand.OPPRETTET);
 
-        OppgittDekningsgrad dekningsgrad = OppgittDekningsgradEntitet.bruk100();
-        repositoryProvider.getYtelsesFordelingRepository().lagre(behandling, dekningsgrad);
-
-        repositoryProvider.getFagsakRelasjonRepository().opprettRelasjon(behandling.getFagsak(), Dekningsgrad.grad(dekningsgrad.getDekningsgrad()));
-
         Virksomhet virksomhet = opprettOgLagreVirksomhet(ytelseHjelper);
 
         UttakResultatEntitet uttakResultatEntitet = opprettUttak(true, behandling, ytelseHjelper.uttakFom, ytelseHjelper.uttakTom, virksomhet);
@@ -290,43 +277,6 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         assertThat(ytelse.getPeriode().getFomDato()).isEqualTo(ytelseHjelper.uttakFom);
         assertThat(ytelse.getPeriode().getTomDato()).isEqualTo(ytelseHjelper.uttakTom);
         assertThat(ytelse.getRelatertYtelseType().getKode()).isEqualTo(ytelseHjelper.fagSakType);
-    }
-
-
-    private Behandling opprettEngansstønadMedVedtak(YtelseHjelperTester ytelseHjelper) {
-        ScenarioMorSøkerEngangsstønad scenarioMorSøkerEngangsstønad = ScenarioMorSøkerEngangsstønad.forFødsel();
-        scenarioMorSøkerEngangsstønad.medBruker(ytelseHjelper.aktørId, NavBrukerKjønn.KVINNE).medSaksnummer(new Saksnummer("3"));
-
-        Behandling behandling = scenarioMorSøkerEngangsstønad.lagre(repositoryProvider);
-
-        opprettVedtakForBehandling(behandling);
-        return behandling;
-    }
-
-    @Ignore // FIXME (diamant): Denne testen har ikke testet annet enn at egen fagsak dukker opp
-    @Test
-    public void hent_invilget_foreldrePenger_for_annen_part() {
-
-        YtelseHjelperTester ytelseHjelper = new YtelseHjelperTester();
-        ytelseHjelper.medAktørId(new AktørId("1")).medAnnenPartAktørId(new AktørId("2")).medArbeidsForhold("55L").medSaksnummer(new Saksnummer("3"))
-            .medUttakFom(LocalDate.now().minusDays(6)).medUttakTom(LocalDate.now().minusDays(3))
-            .medKilde("FPSAK").medFagsakType("FORELDREPENGER");
-
-        when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any(Behandling.class))).thenReturn(LocalDate.now());
-
-        Behandling behandling = opprettForeldrePengerSakMedVedtakOgUttakOgBeregning(ytelseHjelper);
-        behandling.avsluttBehandling();
-
-        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(ytelseHjelper.annenPartAktørId);
-        scenarioMorSøkerForeldrepenger1.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling behandling2 = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider);
-
-        Interval periode = iayRegisterInnhentingTjeneste.beregnOpplysningsPeriode(behandling2);
-        InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = iayRegisterInnhentingTjeneste.innhentYtelserForInvolverteParter(behandling2, periode);
-        InntektArbeidYtelseAggregat build = inntektArbeidYtelseAggregatBuilder.build();
-        Collection<AktørYtelse> aktørYtelse = build.getAktørYtelse();
-
-        sjekkVerdier(aktørYtelse.iterator().next().getYtelser().iterator().next(), ytelseHjelper);
     }
 
     private Beregningsgrunnlag buildBeregningsgrunnlag(YtelseHjelperTester ytelseHjelper) {
@@ -393,8 +343,6 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         private String arbeidsForholdId;
         private String kilde;
         private Saksnummer saksnummer;
-        private AktørId annenPartAktørId;
-
         YtelseHjelperTester medAktørId(AktørId aktørId) {
             this.aktørId = aktørId;
             return this;
@@ -430,10 +378,6 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
             return this;
         }
 
-        YtelseHjelperTester medAnnenPartAktørId(AktørId annenPartAktørId) {
-            this.annenPartAktørId = annenPartAktørId;
-            return this;
-        }
     }
 }
 

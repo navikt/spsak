@@ -18,10 +18,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Relasj
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Dekningsgrad;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRelasjonRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
@@ -31,7 +28,7 @@ import no.nav.foreldrepenger.domene.typer.Saksnummer;
 
 public class DokumentmottakTestUtil {
 
-    public static BehandlingskontrollTjeneste lagBehandlingskontrollTjenesteMock(BehandlingRepositoryProvider repositoryProvider, BehandlingModellRepository behandlingModellRepository, final FagsakLåsRepository fagsakLåsRepository) {
+    public static BehandlingskontrollTjeneste lagBehandlingskontrollTjenesteMock(BehandlingRepositoryProvider repositoryProvider, BehandlingModellRepository behandlingModellRepository) {
         BehandlingskontrollTjeneste behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository,
             null) {
             @Override
@@ -75,7 +72,7 @@ public class DokumentmottakTestUtil {
     }
 
     static Fagsak byggFagsak(AktørId aktørId, RelasjonsRolleType rolle, NavBrukerKjønn kjønn, Saksnummer saksnummer,
-                             FagsakRepository fagsakRepository, FagsakRelasjonRepository fagsakRelasjonRepository) {
+                             FagsakRepository fagsakRepository) {
         NavBruker navBruker = new NavBrukerBuilder()
             .medAktørId(aktørId)
             .medKjønn(kjønn)
@@ -84,7 +81,6 @@ public class DokumentmottakTestUtil {
             .medSaksnummer(saksnummer)
             .medBruker(navBruker).build();
         fagsakRepository.opprettNy(fagsak);
-        fagsakRelasjonRepository.opprettRelasjon(fagsak, Dekningsgrad._100);
         return fagsak;
     }
 

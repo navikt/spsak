@@ -60,8 +60,6 @@ public class OppgaveTjenesteImpl implements OppgaveTjeneste {
 
     // Gosys' kodeverk. Søk på confluence etter ENGANGSST_FOR og se regneark v3.x.y
     private static final String FP_UNDERKATEGORI = "FORELDREPE_STO";
-    private static final String ES_UNDERKATEGORI = "ENGANGSST_FOR";
-
     private Logger logger = LoggerFactory.getLogger(OppgaveTjenesteImpl.class);
     private FagsakRepository fagsakRepository;
 

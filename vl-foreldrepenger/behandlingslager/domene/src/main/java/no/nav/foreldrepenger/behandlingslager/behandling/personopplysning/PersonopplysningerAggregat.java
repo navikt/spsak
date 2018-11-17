@@ -217,22 +217,6 @@ public class PersonopplysningerAggregat {
             .collect(Collectors.toList());
     }
 
-    private boolean harSammeAdresseSom(AktørId aktørId) {
-        if (getPersonopplysninger().stream().noneMatch(it -> it.getAktørId().equals(aktørId))) {
-            return false;
-        }
-
-        for (PersonAdresse opplysningAdresseSøker : getAdresserFor(søkerAktørId)) {
-            for (PersonAdresse opplysningAdresseAnnenpart : getAdresserFor(aktørId)) {
-                if (Objects.equals(opplysningAdresseSøker.getAdresselinje1(), opplysningAdresseAnnenpart.getAdresselinje1())
-                    && Objects.equals(opplysningAdresseSøker.getPostnummer(), opplysningAdresseAnnenpart.getPostnummer())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public DatoIntervallEntitet getForPeriode() {
         return forPeriode;
     }

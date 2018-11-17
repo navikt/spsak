@@ -60,10 +60,10 @@ public class TotrinnRepositoryImplTest {
         behandlingRepository.lagre(behandling, repositoryProvider.getBehandlingRepository().taSkriveLås(behandling));
 
         Totrinnresultatgrunnlag gammeltTotrinnresultatgrunnlag = new Totrinnresultatgrunnlag(behandling,
-            null, null, null, null);
+            null, null, null);
 
         Totrinnresultatgrunnlag nyttTotrinnresultatgrunnlag = new Totrinnresultatgrunnlag(behandling,
-            null, null, null, null);
+            null, null, null);
 
         totrinnRepository.lagreOgFlush(behandling, gammeltTotrinnresultatgrunnlag);
         totrinnRepository.lagreOgFlush(behandling, nyttTotrinnresultatgrunnlag);

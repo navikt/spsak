@@ -12,7 +12,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 
@@ -21,7 +20,6 @@ public class TotrinnTjenesteImpl implements TotrinnTjeneste {
 
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
-    private YtelsesFordelingRepository ytelsesFordelingRepository;
     private UttakRepository uttakRepository;
     private TotrinnRepository totrinnRepository;
 
@@ -33,7 +31,6 @@ public class TotrinnTjenesteImpl implements TotrinnTjeneste {
     public TotrinnTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, TotrinnRepository totrinnRepository) {
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        this.ytelsesFordelingRepository = repositoryProvider.getYtelsesFordelingRepository();
         this.uttakRepository = repositoryProvider.getUttakRepository();
         this.totrinnRepository = totrinnRepository;
     }
@@ -43,17 +40,14 @@ public class TotrinnTjenesteImpl implements TotrinnTjeneste {
     public void settNyttTotrinnsgrunnlag(Behandling behandling) {
         Optional<Beregningsgrunnlag> beregningsgrunnlagOpt = beregningsgrunnlagRepository.hentBeregningsgrunnlag(behandling);
         Optional<Long> inntektArbeidYtelseGrunnlagIdOpt = inntektArbeidYtelseRepository.hentIdPåAktivInntektArbeidYtelse(behandling);
-        Optional<Long> ytelseFordelingIdOpt = ytelsesFordelingRepository.hentIdPåAktivYtelsesFordeling(behandling);
         Optional<UttakResultatEntitet> uttakResultatOpt = uttakRepository.hentUttakResultatHvisEksisterer(behandling);
 
         Long inntektArbeidYtelseGrunnlagId = inntektArbeidYtelseGrunnlagIdOpt.orElse(null);
-        Long ytelsesFordelingId = ytelseFordelingIdOpt.orElse(null);
         Long uttakResultatId = uttakResultatOpt.map(UttakResultatEntitet::getId).orElse(null);
         Long beregningsgrunnlagId = beregningsgrunnlagOpt.map(Beregningsgrunnlag::getId).orElse(null);
 
         Totrinnresultatgrunnlag totrinnsresultatgrunnlag = new Totrinnresultatgrunnlag(behandling,
             inntektArbeidYtelseGrunnlagId,
-            ytelsesFordelingId,
             uttakResultatId,
             beregningsgrunnlagId);
 

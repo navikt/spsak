@@ -10,7 +10,6 @@
     <sequence-generator name="SEQ_BEHANDLING_STEG_TILSTAND" allocation-size="50" sequence-name="SEQ_BEHANDLING_STEG_TILSTAND"/>
     <sequence-generator name="SEQ_BEHANDLING_REL_YTELSER" allocation-size="50" sequence-name="SEQ_BEHANDLING_REL_YTELSER"/>
     <sequence-generator name="SEQ_BEHANDLING_ARSAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_ARSAK"/>
-    <sequence-generator name="SEQ_ETTERKONTROLL_LOGG" allocation-size="50" sequence-name="SEQ_ETTERKONTROLL_LOGG"/>
     <sequence-generator name="SEQ_GR_SOEKNAD" allocation-size="50" sequence-name="SEQ_GR_SOEKNAD"/>
     <sequence-generator name="SEQ_SOEKNAD" allocation-size="50" sequence-name="SEQ_SOEKNAD"/>
     <sequence-generator name="SEQ_KLAGE_VURDERING_RESULTAT" allocation-size="50" sequence-name="SEQ_KLAGE_VURDERING_RESULTAT"/>
@@ -104,8 +103,6 @@
     <sequence-generator name="SEQ_BR_FERIEPENGER" allocation-size="50" sequence-name="SEQ_BR_FERIEPENGER"/>
     <sequence-generator name="SEQ_BR_FERIEPENGER_PR_AAR" allocation-size="50" sequence-name="SEQ_BR_FERIEPENGER_PR_AAR"/>
 
-    <sequence-generator name="SEQ_STOENADSKONTO" allocation-size="50" sequence-name="SEQ_STOENADSKONTO"/>
-    <sequence-generator name="SEQ_STOENADSKONTOBEREGNING" allocation-size="50" sequence-name="SEQ_STOENADSKONTOBEREGNING"/>
     <sequence-generator name="SEQ_UTTAK_RESULTAT" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT"/>
     <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODE"/>
     <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODER" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODER"/>
@@ -114,17 +111,6 @@
     <sequence-generator name="SEQ_UTTAK_AKTIVITET" allocation-size="50" sequence-name="SEQ_UTTAK_AKTIVITET"/>
     <sequence-generator name="SEQ_UTTAK_RESULTAT_DOK_REGEL" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_DOK_REGEL"/>
     <sequence-generator name="SEQ_UTTAK_RES_PER_SOKNAD" allocation-size="50" sequence-name="SEQ_UTTAK_RES_PER_SOKNAD"/>
-
-    <sequence-generator name="SEQ_GR_YTELSES_FORDELING" allocation-size="50" sequence-name="SEQ_GR_YTELSES_FORDELING"/>
-    <sequence-generator name="SEQ_YF_FORDELING" allocation-size="50" sequence-name="SEQ_YF_FORDELING"/>
-    <sequence-generator name="SEQ_YF_FORDELING_PERIODE" allocation-size="50" sequence-name="SEQ_YF_FORDELING_PERIODE"/>
-    <sequence-generator name="SEQ_YF_AVKLART_DATO" allocation-size="50" sequence-name="SEQ_YF_AVKLART_DATO"/>
-    <sequence-generator name="SEQ_SO_RETTIGHET" allocation-size="50" sequence-name="SEQ_SO_RETTIGHET"/>
-    <sequence-generator name="SEQ_SO_DEKNINGSGRAD" allocation-size="50" sequence-name="SEQ_SO_DEKNINGSGRAD"/>
-    <sequence-generator name="SEQ_PERIODE_ALENEOMSORG" allocation-size="50" sequence-name="SEQ_PERIODE_ALENEOMSORG"/>
-    <sequence-generator name="SEQ_PERIODER_ALENEOMSORG" allocation-size="50" sequence-name="SEQ_PERIODER_ALENEOMSORG"/>
-    <sequence-generator name="SEQ_YF_DOKUMENTASJON_PERIODE" allocation-size="50" sequence-name="SEQ_YF_DOKUMENTASJON_PERIODE"/>
-    <sequence-generator name="SEQ_YF_DOKUMENTASJON_PERIODER" allocation-size="50" sequence-name="SEQ_YF_DOKUMENTASJON_PERIODER"/>
 
     <sequence-generator name="SEQ_OPPTJENING" allocation-size="50" sequence-name="SEQ_OPPTJENING"/>
     <sequence-generator name="SEQ_OPPTJENING_AKTIVITET" allocation-size="50" sequence-name="SEQ_OPPTJENING_AKTIVITET"/>
@@ -173,10 +159,6 @@
     
     <!-- Felles kodeverk for eksterne id'er -->
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ReferanseType"/>
-
-
-    <!-- Etterkontroll -->
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.etterkontroll.EtterkontrollLogg"/>
 
     <!-- Hendelser -->
     <entity class="no.nav.foreldrepenger.behandlingslager.hendelser.feilhåndtering.MottattHendelse"/>
@@ -273,7 +255,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.GraderingEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.UtsettelsePeriodeEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.RefusjonEntitet"/>
 
@@ -304,33 +285,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.FrilansoppdragEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType"/>
 
-    <!-- Grunnlag for ytelsesfordeling -->
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseFordelingGrunnlagEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittDekningsgradEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittRettighetEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.AvklarteUttakDatoerEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PerioderUtenOmsorgEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PeriodeUtenOmsorgEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PerioderAleneOmsorgEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PeriodeAleneOmsorgEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PerioderUttakDokumentasjonEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.PeriodeUttakDokumentasjonEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.DokumentasjonPeriodeEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.DokumentasjonPerioderEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.MorsAktivitet"/>
-
-    <!-- Kodeverk for ytelsesfordeling -->
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.UttakDokumentasjonType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.UttakPeriodeVurderingType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.FordelingPeriodeKilde"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.OppholdÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.UtsettelseÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.OverføringÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.AvkortingÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.Årsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.AdresseType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.VariantFormat"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.MottakKanal"/>
@@ -431,9 +385,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Posteringstype"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Stønadskonto"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Stønadskontoberegning"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.ManuellBehandlingÅrsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.GraderingAvslagÅrsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet"/>

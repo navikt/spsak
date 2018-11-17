@@ -108,35 +108,11 @@ public class VilkårResultatTest {
     }
 
     @Test
-    public void skal_lagre_og_hente_vilkår_med_avslagsårsak() {
-        // Arrange
-        lagreBehandling(behandling1);
-        VilkårResultat.Builder vilkårResultatBuilder = VilkårResultat.builder()
-                .medVilkårResultatType(VilkårResultatType.AVSLÅTT)
-                .leggTilVilkårResultat(VilkårType.OMSORGSVILKÅRET, VilkårUtfallType.IKKE_OPPFYLT, null, new Properties(), Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_O, false, false, null, null);
-        Behandlingsresultat.Builder behandlingsresultatBuilder = new Behandlingsresultat.Builder(vilkårResultatBuilder);
-        Behandlingsresultat behandlingsresultat1 = behandlingsresultatBuilder.buildFor(behandling1);
-
-        // Act
-        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling1);
-        behandlingRepository.lagre(behandlingsresultat1.getVilkårResultat(), lås);
-        lagreBehandling(behandling1);
-        Behandling lagretBehandling = repository.hent(Behandling.class, behandling1.getId());
-
-        // Assert
-        assertThat(lagretBehandling).isEqualTo(behandling1);
-        assertThat(lagretBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene()).hasSize(1);
-        Vilkår vilkår = lagretBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().get(0);
-        assertThat(vilkår.getAvslagsårsak()).isNotNull();
-        assertThat(vilkår.getAvslagsårsak()).isEqualTo(Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_O);
-    }
-
-    @Test
     public void skal_legge_til_vilkår() throws Exception {
         // Arrange
         VilkårResultat opprinneligVilkårResultat = VilkårResultat.builder()
             .medVilkårResultatType(VilkårResultatType.AVSLÅTT)
-            .leggTilVilkår(VilkårType.SØKNADSFRISTVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
             .buildFor(behandling1);
 
         // Act
@@ -148,7 +124,7 @@ public class VilkårResultatTest {
         // Assert
         assertThat(oppdatertVilkårResultat.getVilkårene().size()).isEqualTo(2);
 
-        Vilkår vilkår1 = oppdatertVilkårResultat.getVilkårene().stream().filter(v -> VilkårType.SØKNADSFRISTVILKÅRET.equals(v.getVilkårType())).findFirst().orElse(null);
+        Vilkår vilkår1 = oppdatertVilkårResultat.getVilkårene().stream().filter(v -> VilkårType.MEDLEMSKAPSVILKÅRET.equals(v.getVilkårType())).findFirst().orElse(null);
         assertThat(vilkår1).isNotNull();
         assertThat(vilkår1.getGjeldendeVilkårUtfall()).isEqualTo(VilkårUtfallType.IKKE_VURDERT);
 
@@ -225,7 +201,7 @@ public class VilkårResultatTest {
         // Arrange
         VilkårResultat opprinneligVilkårResultat = VilkårResultat.builder()
             .medVilkårResultatType(VilkårResultatType.AVSLÅTT)
-            .leggTilVilkår(VilkårType.SØKNADSFRISTVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
             .leggTilVilkårResultat(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD, VilkårUtfallType.IKKE_OPPFYLT, null, new Properties(), Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_F, true, false, null, null)
             .buildFor(behandling1);
 
@@ -237,7 +213,7 @@ public class VilkårResultatTest {
         // Assert
         assertThat(oppdatertVilkårResultat.getVilkårene().size()).isEqualTo(1);
         Vilkår vilkår = oppdatertVilkårResultat.getVilkårene().get(0);
-        assertThat(vilkår.getVilkårType()).isEqualTo(VilkårType.SØKNADSFRISTVILKÅRET);
+        assertThat(vilkår.getVilkårType()).isEqualTo(VilkårType.MEDLEMSKAPSVILKÅRET);
         assertThat(vilkår.getGjeldendeVilkårUtfall()).isEqualTo(VilkårUtfallType.IKKE_VURDERT);
     }
 

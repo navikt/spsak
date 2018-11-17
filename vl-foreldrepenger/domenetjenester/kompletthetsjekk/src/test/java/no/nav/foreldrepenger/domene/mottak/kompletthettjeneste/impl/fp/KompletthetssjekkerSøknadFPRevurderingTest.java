@@ -22,7 +22,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.UtsettelseÅrsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
@@ -33,14 +32,12 @@ import no.nav.foreldrepenger.domene.typer.Saksnummer;
 public class KompletthetssjekkerSøknadFPRevurderingTest {
 
     private static final String TERMINBEKREFTELSE = "I000041";
-    private static final String LEGEERKLÆRING = "I000023";
-    private static final String DOK_INNLEGGELSE = "I000037";
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
 
-    private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repoRule, repositoryProvider);
+    private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider);
 
     private final DokumentArkivTjeneste dokumentArkivTjeneste = mock(DokumentArkivTjeneste.class);
     private final KompletthetssjekkerSøknadFPRevurdering kompletthetssjekker = new KompletthetssjekkerSøknadFPRevurdering(dokumentArkivTjeneste, repositoryProvider,
@@ -170,32 +167,11 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
     }
 
     @Test
-    public void skal_utlede_at_et_dokument_som_er_påkrevd_som_følger_av_utsettelse_ikke_finnes_i_journal() {
-        // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.byggOppgittFordeling(behandling, UtsettelseÅrsak.INSTITUSJON_SØKER, null, true);
-        testUtil.byggOgLagreSøknadMedEksisterendeOppgittFordeling(behandling, false);
-
-        // Matcher ikke med utsettelse:
-        Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.LEGEERKLÆRING);
-        when(dokumentArkivTjeneste.hentDokumentTypeIdForSak(any(Saksnummer.class), any(), any())).thenReturn(dokumentListe);
-
-        // Act
-        List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeVedleggForSøknad(behandling);
-
-        // Assert
-        assertThat(manglendeVedlegg).hasSize(1);
-        assertThat(manglendeVedlegg.get(0).getDokumentType().getOffisiellKode()).isEqualTo(DOK_INNLEGGELSE);
-    }
-
-    @Test
     public void skal_utlede_at_et_dokument_som_er_påkrevd_som_følger_av_utsettelse_finnes_i_journal() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.byggOppgittFordeling(behandling, UtsettelseÅrsak.INSTITUSJON_SØKER, null, true);
-        testUtil.byggOgLagreSøknadMedEksisterendeOppgittFordeling(behandling, false);
+        testUtil.lagreSøknad(behandling, false);
 
         // Matcher med utsettelse:
         Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.DOK_INNLEGGELSE);

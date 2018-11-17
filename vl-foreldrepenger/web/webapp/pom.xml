@@ -84,10 +84,6 @@
 		</dependency>
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>historikk</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>foreldrepengersak-tjeneste</artifactId>
 		</dependency>
 		<dependency>
@@ -103,11 +99,6 @@
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingsprosess-bom</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>json-feed-tjeneste</artifactId>
 		</dependency>
 
 		<dependency>

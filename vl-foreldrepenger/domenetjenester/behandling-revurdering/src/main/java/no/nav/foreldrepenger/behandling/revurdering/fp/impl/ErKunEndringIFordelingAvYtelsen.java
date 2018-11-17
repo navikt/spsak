@@ -18,9 +18,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev;
 class ErKunEndringIFordelingAvYtelsen {
     private ErKunEndringIFordelingAvYtelsen() {}
 
-    public static boolean vurder(boolean erEndringIBeregning, boolean erEndringIUttakFraEndringsdato, Optional<Beregningsgrunnlag> revurderingsGrunnlagOpt, Optional<Beregningsgrunnlag> originalGrunnlagOpt) {
+    public static boolean vurder(boolean erEndringIBeregning, Optional<Beregningsgrunnlag> revurderingsGrunnlagOpt, Optional<Beregningsgrunnlag> originalGrunnlagOpt) {
         return !erEndringIBeregning
-            && !erEndringIUttakFraEndringsdato
             && kontrollerEndringIFordelingAvYtelsen(revurderingsGrunnlagOpt, originalGrunnlagOpt);
     }
 

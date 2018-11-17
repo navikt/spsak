@@ -8,7 +8,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -26,49 +26,32 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.årsak.UtsettelseÅrsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
 
+@Ignore("FIXME SP: trengs tilsvarende kompletthetssjekk i sykepenger avh. av hva bruker oppgir?")
 public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
 
-    private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repoRule, repositoryProvider);
+    private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider);
 
     private final InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = mockIayTjenesteMedToArbeidsgivere();
 
     private final KompletthetssjekkerInntektsmeldingRevurderingImpl kompletthetssjekker = new KompletthetssjekkerInntektsmeldingRevurderingImpl(
         inntektArbeidYtelseTjeneste, repositoryProvider);
 
-    @Test
-    public void skal_utlede_manglende_inntektsmelding_for_alle_arbeidsforhold_ved_ferie() {
-        // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.byggOppgittFordeling(behandling, UtsettelseÅrsak.FERIE, null, true);
-        testUtil.byggOgLagreSøknadMedEksisterendeOppgittFordeling(behandling, false);
-
-        // Act
-        List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeInntektsmeldinger(behandling);
-
-        // Assert
-        assertThat(manglendeVedlegg).hasSize(2);
-        assertThat(manglendeVedlegg.get(0).getArbeidsgiver()).isEqualTo(ARBGIVER1);
-        assertThat(manglendeVedlegg.get(1).getArbeidsgiver()).isEqualTo(ARBGIVER2);
-    }
 
     @Test
     public void skal_bare_utlede_manglende_inntektsmelding_for_arbeidsforholdet_som_er_berørt_av_gradering() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.byggOppgittFordeling(behandling, null, BigDecimal.valueOf(50.00), true);
-        testUtil.byggOgLagreSøknadMedEksisterendeOppgittFordeling(behandling, false);
+        testUtil.lagreSøknad(behandling, false);
 
         // Act
         List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeInntektsmeldinger(behandling);
@@ -78,29 +61,13 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
         assertThat(manglendeVedlegg.get(0).getArbeidsgiver()).isEqualTo(ARBGIVER1);
     }
 
-    @Test
-    public void skal_bare_utlede_manglende_inntektsmelding_for_arbeidsforholdet_som_er_berørt_av_arbeid() {
-        // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.byggOppgittFordeling(behandling, UtsettelseÅrsak.ARBEID, null, true);
-        testUtil.byggOgLagreSøknadMedEksisterendeOppgittFordeling(behandling, false);
-
-        // Act
-        List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeInntektsmeldinger(behandling);
-
-        // Assert
-        assertThat(manglendeVedlegg).hasSize(1);
-        assertThat(manglendeVedlegg.get(0).getArbeidsgiver()).isEqualTo(ARBGIVER1);
-    }
 
     @Test
     public void skal_bare_utlede_manglende_inntektsmeldinger_for_arbeidstakere() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.byggOppgittFordeling(behandling, UtsettelseÅrsak.ARBEID, null, false);
-        testUtil.byggOgLagreSøknadMedEksisterendeOppgittFordeling(behandling, false);
+        testUtil.lagreSøknad(behandling, false);
 
         // Act
         List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeInntektsmeldinger(behandling);
@@ -114,8 +81,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.byggOppgittFordeling(behandling, null, BigDecimal.valueOf(50.00), true);
-        testUtil.byggOgLagreSøknadMedEksisterendeOppgittFordeling(behandling, false);
+        testUtil.lagreSøknad(behandling, false);
 
         Virksomhet virksomhet = new VirksomhetEntitet.Builder().medOrgnr(ARBGIVER1).build();
         Inntektsmelding inntektsmelding = InntektsmeldingBuilder.builder().medVirksomhet(virksomhet).medInnsendingstidspunkt(LocalDateTime.now()).build();
@@ -134,8 +100,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.byggOppgittFordeling(behandling, UtsettelseÅrsak.FERIE, null, true);
-        testUtil.byggOgLagreSøknadMedEksisterendeOppgittFordeling(behandling, false);
+        testUtil.lagreSøknad(behandling, false);
 
         // Act
         List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeInntektsmeldingerFraGrunnlag(behandling);

@@ -43,7 +43,7 @@ public class PersonInformasjonBuilderTest {
 
         oppdater.tilbakestill(søker);
 
-        assertThat(oppdater.build().getPersonopplysninger().stream().map(HarAktørId::getAktørId)).containsExactly(søker, anpa); // søker og anpa
+        assertThat(oppdater.build().getPersonopplysninger().stream().map(HarAktørId::getAktørId)).containsExactly(søker);
         assertThat(oppdater.build().getRelasjoner()).hasSize(0);
 
     }
@@ -79,7 +79,7 @@ public class PersonInformasjonBuilderTest {
 
         oppdater.tilbakestill(søker);
 
-        assertThat(oppdater.build().getPersonopplysninger().stream().map(HarAktørId::getAktørId)).containsExactly(søker, anpa); // søker og anpa
+        assertThat(oppdater.build().getPersonopplysninger().stream().map(HarAktørId::getAktørId)).containsExactly(søker);
         assertThat(oppdater.build().getRelasjoner()).hasSize(0);
 
     }

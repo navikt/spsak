@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.toList;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -35,13 +34,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadReposito
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.OppgittRettighet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelseFordelingAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.YtelsesFordelingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordeling;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittFordelingEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.ytelsefordeling.periode.OppgittPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
@@ -69,7 +61,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
     private KodeverkRepository kodeverkRepository;
     private AksjonspunktRepository aksjonspunktRepository;
     private BehandlingRevurderingRepository revurderingRepository;
-    private YtelsesFordelingRepository ytelsesFordelingRepository;
     private HistorikkinnslagTjeneste historikkinnslagTjeneste;
 
     public BehandlingsoppretterImpl() {
@@ -96,7 +87,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
         this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
         this.behandlendeEnhetTjeneste = behandlendeEnhetTjeneste;
         this.revurderingRepository = behandlingRepositoryProvider.getBehandlingRevurderingRepository();
-        this.ytelsesFordelingRepository = behandlingRepositoryProvider.getYtelsesFordelingRepository();
         this.behandlingVedtakRepository = behandlingRepositoryProvider.getBehandlingVedtakRepository();
         this.historikkinnslagTjeneste = historikkinnslagTjeneste;
     }
@@ -281,25 +271,10 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
             builder.medElektroniskRegistrert(true);
             builder.medId(mottattDokument.getId());
             mottatteDokumentTjeneste.persisterDokumentinnhold(behandling, builder.build(), Optional.empty());
-
-            Optional<YtelseFordelingAggregat> forrigeBehandlingYtelseFordeling = ytelsesFordelingRepository.hentAggregatHvisEksisterer(avsluttetBehandling);
-            if (forrigeBehandlingYtelseFordeling.isPresent()) {
-                OppgittFordeling oppgittFordeling = kopierOppgittFordelingFraForrigeBehandling(forrigeBehandlingYtelseFordeling.get().getOppgittFordeling());
-                OppgittRettighet oppgittRettighet = forrigeBehandlingYtelseFordeling.get().getOppgittRettighet();
-                ytelsesFordelingRepository.lagre(behandling, oppgittFordeling);
-                ytelsesFordelingRepository.lagre(behandling, oppgittRettighet);
-            }
         }
 
         opprettTaskForÅStarteBehandling(behandling);
         historikkinnslagTjeneste.opprettHistorikkinnslag(behandling, mottattDokument.getJournalpostId());
-    }
-
-    private OppgittFordeling kopierOppgittFordelingFraForrigeBehandling(OppgittFordeling forrigeBehandlingFordeling) {
-        List<OppgittPeriode> kopiertFordeling = forrigeBehandlingFordeling.getOppgittePerioder().stream()
-            .map(periode -> OppgittPeriodeBuilder.fraEksisterende(periode).build())
-            .collect(Collectors.toList());
-        return new OppgittFordelingEntitet(kopiertFordeling, forrigeBehandlingFordeling.getErAnnenForelderInformert());
     }
 
 }

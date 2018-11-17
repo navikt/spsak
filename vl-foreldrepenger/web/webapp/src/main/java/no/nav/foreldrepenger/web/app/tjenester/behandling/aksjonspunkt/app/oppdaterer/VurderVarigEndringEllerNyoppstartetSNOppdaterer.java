@@ -48,7 +48,7 @@ public class VurderVarigEndringEllerNyoppstartetSNOppdaterer implements Aksjonsp
 
     @Override
     public OppdateringResultat oppdater(VurderVarigEndringEllerNyoppstartetSNDto dto, Behandling behandling) {
-        Beregningsgrunnlag bg = beregningsgrunnlagRepository.hentAggregat(behandling);
+        beregningsgrunnlagRepository.hentAggregat(behandling);
 
         boolean erVarigEndrettNæring = dto.getErVarigEndretNaering();
         if (erVarigEndrettNæring) {

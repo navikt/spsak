@@ -16,14 +16,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVi
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.vedtak.feil.FeilFactory;
 
 @Dependent
 public class RevurderingFPBehandlingsresultatutleder {
 
-    private UttakRepository uttakRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private EndringsdatoRevurderingUtleder endringsdatoRevurderingUtleder;
     private MedlemskapVilkårPeriodeRepository medlemskapVilkårPeriodeRepository;
@@ -32,7 +29,6 @@ public class RevurderingFPBehandlingsresultatutleder {
     public RevurderingFPBehandlingsresultatutleder(BehandlingRepositoryProvider repositoryProvider,
                                                    EndringsdatoRevurderingUtleder endringsdatoRevurderingUtleder) {
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        this.uttakRepository = repositoryProvider.getUttakRepository();
         this.endringsdatoRevurderingUtleder = endringsdatoRevurderingUtleder;
         this.medlemskapVilkårPeriodeRepository = repositoryProvider.getMedlemskapVilkårPeriodeRepository();
     }
@@ -48,10 +44,6 @@ public class RevurderingFPBehandlingsresultatutleder {
         Behandling originalBehandling = originalBehandlingOptional.get();
 
         LocalDate endringsdato = endringsdatoRevurderingUtleder.utledEndringsdato(revurdering);
-        Optional<UttakResultatEntitet> uttakresultatRevurderingOpt = uttakRepository.hentUttakResultatHvisEksisterer(revurdering);
-        Optional<UttakResultatEntitet> uttakresultatOriginalOpt = uttakRepository.hentUttakResultatHvisEksisterer(originalBehandling);
-
-        boolean erEndringIUttakFraEndringstidspunkt = ErEndringIUttakFraEndringsdato.vurder(endringsdato, uttakresultatRevurderingOpt, uttakresultatOriginalOpt);
 
         if (OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurdering)) {
             return OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.fastsett(revurdering);
@@ -61,18 +53,14 @@ public class RevurderingFPBehandlingsresultatutleder {
         if (OppfyllerIkkjeInngangsvilkårIPerioden.vurder(medlemskapsvilkårPeriodeGrunnlag, endringsdato)) {
             return OppfyllerIkkjeInngangsvilkårIPerioden.fastsett(revurdering);
         }
-        if (ErSisteUttakAvslåttMedÅrsakOgHarEndringIUttak.vurder(uttakresultatRevurderingOpt, erEndringIUttakFraEndringstidspunkt)) {
-            return ErSisteUttakAvslåttMedÅrsakOgHarEndringIUttak.fastsett(revurdering);
-        }
         Optional<Beregningsgrunnlag> revurderingsGrunnlagOpt = beregningsgrunnlagRepository.hentBeregningsgrunnlag(revurdering);
         Optional<Beregningsgrunnlag> originalGrunnlagOpt = beregningsgrunnlagRepository.hentBeregningsgrunnlag(originalBehandling);
 
         boolean erEndringIBeregning = ErEndringIBeregning.vurder(revurderingsGrunnlagOpt, originalGrunnlagOpt);
-        boolean erKunEndringIFordelingAvYtelsen = ErKunEndringIFordelingAvYtelsen.vurder(erEndringIBeregning, erEndringIUttakFraEndringstidspunkt, revurderingsGrunnlagOpt, originalGrunnlagOpt);
+        boolean erKunEndringIFordelingAvYtelsen = ErKunEndringIFordelingAvYtelsen.vurder(erEndringIBeregning, revurderingsGrunnlagOpt, originalGrunnlagOpt);
         return FastsettBehandlingsresultatVedEndring.fastsett(revurdering,
             erEndringIBeregning,
-            erEndringIUttakFraEndringstidspunkt,
             erVarselOmRevurderingSendt,
-            erKunEndringIFordelingAvYtelsen, endringsdato, uttakresultatOriginalOpt);
+            erKunEndringIFordelingAvYtelsen, endringsdato);
     }
 }

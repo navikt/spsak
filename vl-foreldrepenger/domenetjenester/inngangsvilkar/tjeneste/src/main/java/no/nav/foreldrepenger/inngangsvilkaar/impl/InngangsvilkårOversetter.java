@@ -30,8 +30,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
@@ -40,7 +38,6 @@ import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.OpptjeningsperiodeGrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.SoeknadsfristvilkarGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.VilkårGrunnlag;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.PersonStatusType;
 import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.konstanter.SoekerRolle;
@@ -52,7 +49,6 @@ public class InngangsvilkårOversetter {
     private VilkårKodeverkRepository kodeverkRepository;
     private MedlemskapRepository medlemskapRepository;
     private MedlemskapPerioderTjeneste medlemskapPerioderTjeneste;
-    private SøknadRepository søknadRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private BasisPersonopplysningTjeneste personopplysningTjeneste;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
@@ -69,19 +65,9 @@ public class InngangsvilkårOversetter {
         this.kodeverkRepository = repositoryProvider.getVilkårKodeverkRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.medlemskapPerioderTjeneste = medlemskapPerioderTjeneste;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.personopplysningTjeneste = personopplysningTjeneste;
-    }
-
-    public SoeknadsfristvilkarGrunnlag oversettTilRegelModellSøknad(Behandling behandling) {
-        final Søknad søknad = søknadRepository.hentSøknad(behandling);
-        LocalDate skjæringsdato = skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling);
-        return new SoeknadsfristvilkarGrunnlag(
-            søknad.getElektroniskRegistrert(),
-            skjæringsdato,
-            søknad.getMottattDato());
     }
 
     public MedlemskapsvilkårGrunnlag oversettTilRegelModellMedlemskap(Behandling behandling) {
@@ -258,16 +244,16 @@ public class InngangsvilkårOversetter {
         OpptjeningsperiodeGrunnlag grunnlag = new OpptjeningsperiodeGrunnlag();
 
         grunnlag.setSøkerRolle(finnFagsakSøkerRolle(behandling));
-        if (grunnlag.getFagsakÅrsak() == null || grunnlag.getSøkerRolle() == null) {
-            throw new IllegalArgumentException("Utvikler-feil: Finner ikke årsak/rolle for behandling:" + behandling.getId());
+        if (grunnlag.getSøkerRolle() == null) {
+            throw new IllegalArgumentException("Utvikler-feil: Finner ikke rolle for behandling:" + behandling.getId());
         }
 
         // FIXME SP : Har fjernet FH, må erstattes av noe annet.
-
+        /*
         if (grunnlag.getHendelsesDato() == null) {
             throw new IllegalArgumentException("Utvikler-feil: Finner ikke hendelsesdato for behandling:" + behandling.getId());
         }
-
+        */
         grunnlag.setFørsteUttaksDato(skjæringstidspunktTjeneste.førsteUttaksdag(behandling));
 
         return grunnlag;

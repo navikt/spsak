@@ -11,7 +11,6 @@ public class BeregningsresultatPeriodeAndelDto {
     private final String arbeidsgiverOrgnr;
     private final Integer refusjon;
     private final Integer tilSoker;
-    private final UttakDto uttak;
     private final BigDecimal utbetalingsgrad;
     private final LocalDate sisteUtbetalingsdato;
     private final AktivitetStatus aktivitetStatus;
@@ -23,7 +22,6 @@ public class BeregningsresultatPeriodeAndelDto {
         this.arbeidsgiverOrgnr = builder.arbeidsgiverOrgnr;
         this.refusjon = builder.refusjon;
         this.tilSoker = builder.tilSøker;
-        this.uttak = builder.uttak;
         this.utbetalingsgrad = builder.utbetalingsgrad;
         this.sisteUtbetalingsdato = builder.sisteUtbetalingsdato;
         this.aktivitetStatus = builder.aktivitetStatus;
@@ -45,10 +43,6 @@ public class BeregningsresultatPeriodeAndelDto {
 
     public Integer getTilSoker() {
         return tilSoker;
-    }
-
-    public UttakDto getUttak() {
-        return uttak;
     }
 
     public BigDecimal getUtbetalingsgrad() { return utbetalingsgrad; }
@@ -73,7 +67,6 @@ public class BeregningsresultatPeriodeAndelDto {
         private Integer refusjon;
         private Integer tilSøker;
         private BigDecimal utbetalingsgrad;
-        private UttakDto uttak;
         private LocalDate sisteUtbetalingsdato;
         private AktivitetStatus aktivitetStatus;
         private String arbeidsforholdId;
@@ -124,11 +117,6 @@ public class BeregningsresultatPeriodeAndelDto {
 
         public Builder medArbeidsforholdType(OpptjeningAktivitetType arbeidsforholdType) {
             this.arbeidsforholdType = arbeidsforholdType;
-            return this;
-        }
-
-        public Builder medUttak(UttakDto uttak) {
-            this.uttak = uttak;
             return this;
         }
 

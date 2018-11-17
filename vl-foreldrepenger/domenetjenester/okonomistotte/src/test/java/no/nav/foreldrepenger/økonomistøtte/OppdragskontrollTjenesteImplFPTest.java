@@ -28,7 +28,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arb
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.StønadskontoType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivitetEntitet;
@@ -292,10 +291,8 @@ public class OppdragskontrollTjenesteImplFPTest extends OppdragskontrollTjeneste
         final Long prosessTaskId = 28L;
         BeregningsresultatFP beregningsresultatFP = buildBeregningsresultatBrukerFP();
         beregningsresultatFPRepository.lagre(behandlingFP, beregningsresultatFP);
+        @SuppressWarnings("unused")
         Long originaltOppdragId = oppdragskontrollTjeneste.opprettOppdrag(behandlingFP.getId(), prosessTaskId);
-        Oppdragskontroll originaltOppdrag = oppdragskontrollTjeneste.hentOppdragskontroll(originaltOppdragId);
-        List<Oppdrag110> originaltOppdrag110Liste = originaltOppdrag.getOppdrag110Liste();
-        List<Oppdragslinje150> originaltOppdragslinje150 = oppdragskontrollTestVerktøy.getOppdragslinje150Liste(originaltOppdrag);
 
         // Ny revurdering behandling
         Behandling revurdering = opprettOgLagreRevurdering(this.behandlingFP, VedtakResultatType.INNVILGET, 1, false, true);
@@ -591,7 +588,6 @@ public class OppdragskontrollTjenesteImplFPTest extends OppdragskontrollTjeneste
             .medUttakArbeidType(UttakArbeidType.ORDINÆRT_ARBEID)
             .build();
         UttakResultatPeriodeAktivitetEntitet periodeAktivitet = new UttakResultatPeriodeAktivitetEntitet.Builder(periode, uttakAktivitet)
-            .medTrekkonto(StønadskontoType.FORELDREPENGER)
             .medArbeidsprosent(BigDecimal.ZERO)
             .medTrekkdager(1)
             .medUtbetalingsprosent(BigDecimal.TEN)

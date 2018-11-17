@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.fagsak;
 
-import static no.nav.vedtak.felles.jpa.HibernateVerktøy.hentEksaktResultat;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -54,14 +52,6 @@ public class FagsakRepositoryImpl implements FagsakRepository {
             entityManager.refresh(opt.get());
         }
         return opt;
-    }
-
-    @Override
-    public FagsakRelasjon finnFagsakRelasjonFor(Fagsak fagsak) {
-        TypedQuery<FagsakRelasjon> query = entityManager.createQuery("from FagsakRelasjon where aktiv = true AND (fagsakNrEn=:fagsak or fagsakNrTo=:fagsak)",
-            FagsakRelasjon.class);
-        query.setParameter("fagsak", fagsak);
-        return hentEksaktResultat(query);
     }
 
     @Override
