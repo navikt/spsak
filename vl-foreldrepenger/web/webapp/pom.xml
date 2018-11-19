@@ -98,7 +98,7 @@
 
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>behandlingsprosess-bom</artifactId>
+			<artifactId>behandlingssteg</artifactId>
 		</dependency>
 
 		<dependency>

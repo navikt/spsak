@@ -52,8 +52,6 @@ public class BatchSchedulerTask implements ProsessTaskHandler {
     private final List<BatchConfig> batchOppsettFelles = Arrays.asList(
         new BatchConfig(7, 0, "BVL005", null), // Kodeverk
         new BatchConfig(7, 1, "BVL004", null), // Gjenoppta
-        new BatchConfig(7, 2, "BVL002", null), // Etterkontroll
-        new BatchConfig(7, 3, "BVL006", null), // Fagsakavslutning
         new BatchConfig(7, 4, "BVL003", null)  // Forlengelsesbrev må kjøre noe etter Gjenoppta
     );
 

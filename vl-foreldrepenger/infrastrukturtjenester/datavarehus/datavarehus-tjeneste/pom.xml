@@ -60,13 +60,6 @@
             <artifactId>vedtak-xml</artifactId>
         </dependency>
 
-		<!-- Kontrakter -->
-		<!--<dependency>-->
-			<!--<groupId>no.nav.sykepenger.kontrakter</groupId>-->
-			<!--<artifactId>behandlingsprosess-vedtak-v1</artifactId>-->
-			<!--<classifier>jaxb</classifier>-->
-		<!--</dependency>-->
-
 		<!-- Test avhengigheter -->
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>

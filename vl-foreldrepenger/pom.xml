@@ -18,7 +18,7 @@
 		<module>vedtakslager</module>
 		<module>infrastrukturtjenester</module>
 		<module>domenetjenester</module>
-		<module>behandlingsprosess</module>
+		<module>behandlingssteg</module>
 
 		<!-- Web klient og server -->
 		<module>web</module>
@@ -127,41 +127,7 @@
 				<artifactId>behandle-foreldrepengersak-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-bom</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-innhent-registeropplysninger</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-kompletthetssjekk</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-avklare-fakta</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-beregningsgrunnlag</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-soknadsfrist-foreldrepenger</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-vedtak</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>behandlingsprosess-vedtak-v1</artifactId>
@@ -195,26 +161,6 @@
 
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-iverksette-vedtak</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-foresla-vedtak</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-klage</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-simulering</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingskontroll-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -223,21 +169,7 @@
 				<artifactId>behandlingskontroll</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-beregn-ytelse</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-            <dependency>
-                <groupId>no.nav.sykepenger</groupId>
-                <artifactId>behandlingsprosess-lopende-medlemskap</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-inngangsvilkar</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>inngangsvilkar-regelmodell</artifactId>
@@ -246,11 +178,6 @@
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>inngangsvilkar</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandlingsprosess-vurder-innsyn</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -328,6 +255,11 @@
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>vedtak-xml</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.sykepenger</groupId>
+				<artifactId>behandlingssteg</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>no.nav.sykepenger</groupId>
+        <artifactId>fpsak</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
+	<artifactId>behandlingssteg</artifactId>
+	<packaging>jar</packaging>
+	<name>FPSAK :: Behandlingsprosess - Steg</name>
+
+	<dependencies>
+		<!-- Domenetjenester avhengigheter -->
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>behandlingskontroll-api</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>domenetjenester-bom</artifactId>
+        </dependency>
+        
+		
+		<!-- Prosjekt interne avhengigheter -->
+		<dependency>
+			<groupId>no.nav.spvedtak.felles</groupId>
+			<artifactId>felles-feil</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>no.nav.spvedtak.felles</groupId>
+            <artifactId>felles-util</artifactId>
+        </dependency>
+
+		<!-- Annet -->
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>datavarehus-tjeneste</artifactId>
+		</dependency>
+		
+		<!-- Test avhengigheter -->
+        <dependency>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>behandlingslager-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+</project>
