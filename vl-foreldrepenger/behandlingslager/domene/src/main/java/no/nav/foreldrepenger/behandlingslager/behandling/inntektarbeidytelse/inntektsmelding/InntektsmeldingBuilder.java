@@ -62,6 +62,11 @@ public class InntektsmeldingBuilder {
         return this;
     }
 
+    public InntektsmeldingBuilder medArbeidsgiverperiodeBruttoUtbetalt(BigDecimal verdi) {
+        kladd.setArbeidsgiverperiodeBruttoUtbetalt(new Beløp(verdi));
+        return this;
+    }
+
     public InntektsmeldingBuilder medInnsendingstidspunkt(LocalDateTime innsendingstidspunkt) {
         Objects.requireNonNull(innsendingstidspunkt, "innsendingstidspunkt");
         kladd.setInnsendingstidspunkt(innsendingstidspunkt);

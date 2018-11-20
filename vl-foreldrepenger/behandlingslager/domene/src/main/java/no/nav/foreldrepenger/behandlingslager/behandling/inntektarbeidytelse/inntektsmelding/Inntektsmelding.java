@@ -110,6 +110,13 @@ public interface Inntektsmelding {
      */
     List<Refusjon> getEndringerRefusjon();
 
+    /**
+     * Beløp brutto utbetalt i arbeidsgiverperioden
+     *
+     * @return {@link BigDecimal}
+     */
+    Beløp getArbeidsgiverperiodeBruttoUtbetalt();
+
 
     InntektsmeldingInnsendingsårsak getInntektsmeldingInnsendingsårsak();
 

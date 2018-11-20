@@ -100,6 +100,11 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     @ChangeTracked
     private List<RefusjonEntitet> endringerRefusjon = new ArrayList<>();
 
+    @Embedded
+    @AttributeOverrides(@AttributeOverride(name = "verdi", column = @Column(name = "brutto_utbetalt", updatable = false)))
+    @ChangeTracked
+    private Beløp  arbeidsgiverperiodeBruttoUtbetalt;
+
     @OneToMany(mappedBy = "inntektsmelding")
     @ChangeTracked
     private List<ArbeidsgiverperiodeEntitet> arbeidsgiverperiode = new ArrayList<>();
@@ -128,6 +133,7 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
         this.refusjonOpphører = inntektsmelding.getRefusjonOpphører();
         this.innsendingsårsak = inntektsmelding.getInntektsmeldingInnsendingsårsak();
         this.innsendingstidspunkt = inntektsmelding.getInnsendingstidspunkt();
+        this.arbeidsgiverperiodeBruttoUtbetalt = inntektsmelding.getArbeidsgiverperiodeBruttoUtbetalt();
         this.graderinger = inntektsmelding.getGraderinger().stream().map(g -> {
             final GraderingEntitet graderingEntitet = new GraderingEntitet(g);
             graderingEntitet.setInntektsmelding(this);
@@ -279,6 +285,11 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
         return Collections.unmodifiableList(endringerRefusjon);
     }
 
+    @Override
+    public Beløp getArbeidsgiverperiodeBruttoUtbetalt() { return arbeidsgiverperiodeBruttoUtbetalt; }
+
+    void setArbeidsgiverperiodeBruttoUtbetalt(Beløp arbeidsgiverperiodeBruttoUtbetalt) { this.arbeidsgiverperiodeBruttoUtbetalt = arbeidsgiverperiodeBruttoUtbetalt; }
+
     void setRefusjonOpphører(LocalDate refusjonOpphører) {
         this.refusjonOpphører = refusjonOpphører;
     }
@@ -341,6 +352,7 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
             ", inntektBeløp=" + inntektBeløp +
             ", refusjonBeløpPerMnd=" + refusjonBeløpPerMnd +
             ", refusjonOpphører=" + refusjonOpphører +
+            ", arbeidsgiverperiodeBruttoUtbetalt=" + arbeidsgiverperiodeBruttoUtbetalt +
             ", innsendingsårsak= " + innsendingsårsak +
             ", innsendingstidspunkt= " + innsendingstidspunkt +
             '}';
