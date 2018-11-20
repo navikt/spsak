@@ -19,7 +19,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @Entity(name = "Gradering")
 @Table(name = "IAY_ARBEIDSGIVERPERIODE")
-class ArbeidsgiverperiodeEntitet extends BaseEntitet implements Arbeidsgiverperiode, IndexKey {
+public class ArbeidsgiverperiodeEntitet extends BaseEntitet implements Arbeidsgiverperiode, IndexKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ARBEIDSGIVERPERIODE")

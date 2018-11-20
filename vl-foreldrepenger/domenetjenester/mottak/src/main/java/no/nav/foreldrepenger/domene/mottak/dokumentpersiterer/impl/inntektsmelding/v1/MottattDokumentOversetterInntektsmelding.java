@@ -16,6 +16,7 @@ import javax.xml.bind.JAXBElement;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.ArbeidsgiverperiodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.GraderingEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseEntitet;
@@ -37,7 +38,9 @@ import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsforhold;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.EndringIRefusjonsListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.GraderingIForeldrepenger;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.NaturalytelseDetaljer;
+import no.seres.xsd.nav.inntektsmelding_m._20180924.Periode;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Refusjon;
+import no.seres.xsd.nav.inntektsmelding_m._20180924.SykepengerIArbeidsgiverperioden;
 
 @NamespaceRef(InntektsmeldingConstants.NAMESPACE)
 @ApplicationScoped
@@ -89,14 +92,43 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
             if (arbeidsforholdId != null) {
                 builder.medArbeidsforholdId(arbeidsforholdId.getValue());
             }
-            builder.medBeløp(arbeidsforholdet.getBeregnetInntekt().getValue().getBeloep().getValue())
-                .medStartDatoPermisjon(DateUtil.convertToLocalDate(wrapper.getStartDatoPermisjon()));
+            builder.medBeløp(arbeidsforholdet.getBeregnetInntekt().getValue().getBeloep().getValue());
         } else {
             throw InntektsmeldingFeil.FACTORY.manglendeInformasjon().toException();
         }
 
         mapNaturalYtelser(wrapper, builder);
-        mapGradering(wrapper, builder);
+        //mapGradering(wrapper, builder);
+
+        mapArbeidsgiverperiode(wrapper, builder);
+        if (wrapper.getArbeidsgiverPeriode() != null && !wrapper.getArbeidsgiverPeriode().isEmpty()) {
+            /*
+            Startdato for arbeidsgiverperiode kan ikke være fram i tid
+            For hver periode må fom dato være lik eller lavere enn tom dato
+            Hvis flere perioder med arbeidsgiverperiode. Så skal siste dag i første perioden være før første dag i neste periode
+            Ok om perioden enten er 12 eller 16 dager
+            Hvis flere perioder med arbeidsgiverperiode så skal det ikke være lovlig å oppgi 16 kalenderdager eller mer mellom etterfølgende perioder.
+             */
+            // TODO: HACK ? Fyller ut startdato-permisjon med første dag i arbeidsgiverperioden
+            builder.medStartDatoPermisjon(DateUtil.convertToLocalDate(wrapper.getArbeidsgiverPeriode().get(0).getFom().getValue()));
+        }
+        final Optional<SykepengerIArbeidsgiverperioden> sykepengerIArbeidsgiverperioden = wrapper.getSykepengerIArbeidsgiverperioden();
+        if (sykepengerIArbeidsgiverperioden.isPresent()) {
+            final SykepengerIArbeidsgiverperioden siagp = sykepengerIArbeidsgiverperioden.get();
+            final JAXBElement<BigDecimal> bruttoUtbetalt = siagp.getBruttoUtbetalt();
+            if (bruttoUtbetalt != null) {
+                builder.medArbeidsgiverperiodeBruttoUtbetalt(bruttoUtbetalt.getValue());
+            }
+        } else {
+            throw InntektsmeldingFeil.FACTORY.manglendeInformasjon().toException(); // TODO: Annen feilkode/tekst ?
+        }
+        /*
+        bruttoUtbetalt:
+        Må være utfylt
+        Kan ikke være negativt tall
+        Må være kroner 0 ved begrunnelse 'Ikke sykmeldt'
+        BruttoUtbetalt > 0 og kode 'IkkeSykemeldt' oppgis vil gi feil
+         */
 
         mapRefusjon(wrapper, builder);
 
@@ -125,6 +157,13 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
         }
     }
 
+    private void mapArbeidsgiverperiode(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
+        for (Periode periode : wrapper.getArbeidsgiverPeriode()) {
+            builder.leggTil(new ArbeidsgiverperiodeEntitet(DateUtil.convertToLocalDate(periode.getFom().getValue()),
+                DateUtil.convertToLocalDate(periode.getTom().getValue())));
+        }
+    }
+
     private void mapNaturalYtelser(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
         // Ved gjenopptakelse gjelder samme beløp
         Map<NaturalYtelseType, BigDecimal> beløp = new HashMap<>();
@@ -144,11 +183,11 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
         }
     }
 
-    private void mapGradering(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
+    /*private void mapGradering(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
         for (GraderingIForeldrepenger detaljer : wrapper.getGradering()) {
             builder.leggTil(new GraderingEntitet(DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getFom().getValue()),
                 DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getTom().getValue()),
                 new BigDecimal(detaljer.getArbeidstidprosent().getValue())));
         }
-    }
+    }*/
 }

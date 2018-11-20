@@ -33,6 +33,13 @@ public interface Inntektsmelding {
     List<NaturalYtelse> getNaturalYtelser();
 
     /**
+     * Liste over Arbeidsgiverperiode
+     *
+     * @return {@link Arbeidsgiverperiode}
+     */
+    List<Arbeidsgiverperiode> getArbeidsgiverperiode();
+
+    /**
      * Arbeidsgivers arbeidsforhold referanse
      *
      * @return {@link ArbeidsforholdRef}
@@ -95,6 +102,13 @@ public interface Inntektsmelding {
      * @return {@Link Refusjon}
      */
     List<Refusjon> getEndringerRefusjon();
+
+    /**
+     * Beløp brutto utbetalt i arbeidsgiverperioden
+     *
+     * @return {@link BigDecimal}
+     */
+    Beløp getArbeidsgiverperiodeBruttoUtbetalt();
 
 
     InntektsmeldingInnsendingsårsak getInntektsmeldingInnsendingsårsak();

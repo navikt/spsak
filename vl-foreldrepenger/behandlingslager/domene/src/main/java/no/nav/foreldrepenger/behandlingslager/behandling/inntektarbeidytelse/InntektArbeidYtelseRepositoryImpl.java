@@ -39,6 +39,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.YtelseAnvist;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.YtelseStørrelse;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Arbeidsgiverperiode;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Gradering;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingEntitet;
@@ -455,6 +456,10 @@ public class InntektArbeidYtelseRepositoryImpl implements InntektArbeidYtelseRep
 
             for (Refusjon refusjon : entitet.getEndringerRefusjon()) {
                 entityManager.persist(refusjon);
+            }
+
+            for (Arbeidsgiverperiode arbeidsgiverperiode : entitet.getArbeidsgiverperiode()) {
+                entityManager.persist(arbeidsgiverperiode);
             }
         }
     }

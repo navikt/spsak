@@ -13,6 +13,7 @@ import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
 import no.seres.xsd.nav.inntektsmelding_m._201809.InntektsmeldingConstants;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsforhold;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsgiver;
+import no.seres.xsd.nav.inntektsmelding_m._20180924.ArbeidsgiverperiodeListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.AvtaltFerieListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.GjenopptakelseNaturalytelseListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.GraderingIForeldrepenger;
@@ -22,6 +23,7 @@ import no.seres.xsd.nav.inntektsmelding_m._20180924.NaturalytelseDetaljer;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.OpphoerAvNaturalytelseListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Periode;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Refusjon;
+import no.seres.xsd.nav.inntektsmelding_m._20180924.SykepengerIArbeidsgiverperioden;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepenger;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepengerListe;
 
@@ -57,6 +59,10 @@ public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrappe
         return Optional.ofNullable(getSkjema().getSkjemainnhold().getArbeidsforhold()).map(JAXBElement::getValue);
     }
 
+    public Optional<SykepengerIArbeidsgiverperioden> getSykepengerIArbeidsgiverperioden() {
+        return Optional.ofNullable(getSkjema().getSkjemainnhold().getSykepengerIArbeidsgiverperioden()).map(JAXBElement::getValue);
+    }
+
     public Optional<String> getArbeidsforholdId() {
         return Optional.ofNullable(getSkjema().getSkjemainnhold().getArbeidsforhold())
             .map(JAXBElement::getValue)
@@ -72,20 +78,27 @@ public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrappe
         return getSkjema().getSkjemainnhold().isNaerRelasjon();
     }
 
-    public XMLGregorianCalendar getStartDatoPermisjon() {
+    /*public XMLGregorianCalendar getStartDatoPermisjon() {
         return getSkjema().getSkjemainnhold().getStartdatoForeldrepengeperiode().getValue();
-    }
+    }*/
 
     public Optional<Refusjon> getRefusjon() {
         return Optional.ofNullable(getSkjema().getSkjemainnhold().getRefusjon()).map(JAXBElement::getValue);
     }
 
-    public List<GraderingIForeldrepenger> getGradering() {
+    public List<Periode> getArbeidsgiverPeriode() {
+        return getSykepengerIArbeidsgiverperioden().map(SykepengerIArbeidsgiverperioden::getArbeidsgiverperiodeListe)
+            .map(JAXBElement::getValue)
+            .map(ArbeidsgiverperiodeListe::getArbeidsgiverperiode)
+            .orElse(Collections.emptyList());
+    }
+
+    /*public List<GraderingIForeldrepenger> getGradering() {
         return getArbeidsforhold().map(Arbeidsforhold::getGraderingIForeldrepengerListe)
             .map(JAXBElement::getValue)
             .map(GraderingIForeldrepengerListe::getGraderingIForeldrepenger)
             .orElse(Collections.emptyList());
-    }
+    }*/
 
     public List<Periode> getAvtaltFerie() {
         return getArbeidsforhold().map(Arbeidsforhold::getAvtaltFerieListe)
@@ -94,12 +107,12 @@ public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrappe
             .orElse(Collections.emptyList());
     }
 
-    public List<UtsettelseAvForeldrepenger> getUtsettelser() {
+    /*public List<UtsettelseAvForeldrepenger> getUtsettelser() {
         return getArbeidsforhold().map(Arbeidsforhold::getUtsettelseAvForeldrepengerListe)
             .map(JAXBElement::getValue)
             .map(UtsettelseAvForeldrepengerListe::getUtsettelseAvForeldrepenger)
             .orElse(Collections.emptyList());
-    }
+    }*/
 
     /**
      * Hvis inntektsmeldingen kommer fra Altinn (innsendingstidspunkt ikke oppgitt), bruker vi
