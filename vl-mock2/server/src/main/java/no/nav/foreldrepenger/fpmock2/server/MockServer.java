@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.fpmock2.felles.PropertiesUtils;
 import no.nav.foreldrepenger.fpmock2.ldap.LdapServer;
+import no.nav.sykepenger.spmock.kafka.LocalKafkaServer;
 import no.nav.foreldrepenger.fpmock2.testmodell.repo.JournalRepository;
 import no.nav.foreldrepenger.fpmock2.testmodell.repo.TestscenarioBuilderRepository;
 import no.nav.foreldrepenger.fpmock2.testmodell.repo.TestscenarioTemplateRepository;
@@ -79,6 +80,7 @@ public class MockServer {
 
     public void start() throws Exception {
         startLdapServer();
+        startKafkaServer();
         startWebServer();
     }
 
@@ -101,6 +103,10 @@ public class MockServer {
 
         // kjør soap oppsett etter jetty har startet
         addSoapServices(testScenarioRepository, templateRepository, journalRepository, gsakRepo);
+    }
+
+    private void startKafkaServer() {
+        LocalKafkaServer.startKafka(2181, 9092);
     }
 
     private void startLdapServer() {
