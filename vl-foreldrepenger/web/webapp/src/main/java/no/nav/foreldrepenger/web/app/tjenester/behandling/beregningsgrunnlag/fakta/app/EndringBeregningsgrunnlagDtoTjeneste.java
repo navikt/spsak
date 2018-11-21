@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.app;
 
 import static java.util.stream.Collectors.toList;
-import static no.nav.foreldrepenger.beregningsgrunnlag.FastsettBeregningsgrunnlagPerioderTjenesteImpl.MÅNEDER_I_1_ÅR;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettBeregningsgrunnlagPerioderTjenesteImpl.MÅNEDER_I_1_ÅR;
 import static no.nav.vedtak.konfig.Tid.TIDENES_ENDE;
 
 import java.math.BigDecimal;
@@ -26,8 +26,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.beregningsgrunnlag.KontrollerFaktaBeregningTjeneste;
-import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.Periode;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Periode;
 import no.nav.foreldrepenger.domene.typer.Beløp;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.EndringBeregningsgrunnlagAndelDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.EndringBeregningsgrunnlagArbeidsforholdDto;

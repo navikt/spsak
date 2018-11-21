@@ -19,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.UtledVurderingsdatoerForMedlemskapTjeneste;
-import no.nav.vedtak.felles.integrasjon.unleash.FeatureToggle;
 
 @BehandlingStegRef(kode = "KOFAK_LOP_MEDL")
 @BehandlingTypeRef("BT-004") //Revurdering
@@ -38,7 +37,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImpl implements KontrollerFakt
     }
 
     @Inject
-    public KontrollerFaktaLøpendeMedlemskapStegImpl(@FeatureToggle("fpsak") Unleash unleash,
+    public KontrollerFaktaLøpendeMedlemskapStegImpl(Unleash unleash,
                                                     UtledVurderingsdatoerForMedlemskapTjeneste vurderingsdatoer,
                                                     BehandlingRepositoryProvider provider) {
         this.unleash = unleash;

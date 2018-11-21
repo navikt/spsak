@@ -36,10 +36,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelOrkestrerer;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelResultat;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
 import no.nav.vedtak.felles.testutilities.Whitebox;
 
 @SuppressWarnings("deprecation")

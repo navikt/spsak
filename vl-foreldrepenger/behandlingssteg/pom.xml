@@ -23,6 +23,11 @@
             <artifactId>domenetjenester-bom</artifactId>
         </dependency>
         
+        <dependency>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>vedtak-xml</artifactId>
+        </dependency>
+        
 		
 		<!-- Prosjekt interne avhengigheter -->
 		<dependency>

@@ -24,5 +24,4 @@ public interface DatavarehusTjeneste {
 
     void lagreNedBehandlingOgTilstander(Long behandlingId);
 
-    void opprettOgLagreVedtakXml(Long behandlingId);
 }

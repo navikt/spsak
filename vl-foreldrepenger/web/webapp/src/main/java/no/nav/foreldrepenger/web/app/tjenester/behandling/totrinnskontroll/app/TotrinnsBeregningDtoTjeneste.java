@@ -14,7 +14,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurdering;
-import no.nav.foreldrepenger.beregningsgrunnlag.FaktaOmBeregningTilfelleTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.FaktaOmBeregningTilfelleTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.dto.TotrinnsBeregningDto;
 
 @ApplicationScoped

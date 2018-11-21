@@ -65,10 +65,6 @@
 		</dependency>
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>i18n</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>migreringer</artifactId>
 			<scope>compile</scope>
 		</dependency>
@@ -81,14 +77,6 @@
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>kodeverk</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>foreldrepengersak-tjeneste</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>behandle-foreldrepengersak-tjeneste</artifactId>
 		</dependency>
 
 		<dependency>
@@ -108,9 +96,9 @@
 
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>pep</artifactId>
+			<artifactId>vedtak-xml</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingslager-testutilities</artifactId>
@@ -125,10 +113,6 @@
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>vedtak</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>vedtak-innsyn</artifactId>
 		</dependency>
 
 		<!-- REST + WebService -->

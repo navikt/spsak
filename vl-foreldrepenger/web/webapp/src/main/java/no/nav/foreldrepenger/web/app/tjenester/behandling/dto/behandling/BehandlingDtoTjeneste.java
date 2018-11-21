@@ -11,6 +11,4 @@ public interface BehandlingDtoTjeneste {
 
     UtvidetBehandlingDto lagUtvidetBehandlingDto(Behandling behandling, AsyncPollingStatus asyncPollingStatus);
 
-    AnnenPartBehandlingDto lagAnnenPartBehandlingDto(Behandling behandling);
-
 }

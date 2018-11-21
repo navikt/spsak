@@ -24,7 +24,6 @@
         <module>arbeidsforhold</module>
         <module>medlem</module>
         <module>mottak</module>
-        <module>okonomistotte</module>
         <module>person</module>
         <module>produksjonsstyring</module>
         <module>registerinnhenting</module>
@@ -36,7 +35,6 @@
         <module>bom</module>
 
         <module>behandlingskontroll</module>
-        <module>vedtak-innsyn</module>
         <module>vedtak-xml</module>
     </modules>
 

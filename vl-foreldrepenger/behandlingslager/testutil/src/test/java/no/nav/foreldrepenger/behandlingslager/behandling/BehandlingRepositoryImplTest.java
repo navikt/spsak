@@ -254,6 +254,7 @@ public class BehandlingRepositoryImplTest {
         assertThat(aarsaksListe.get(0).getKode()).isEqualTo("FEIL_FAKTA");
     }
 
+    // FIXME SP: Hvorfor slettes vilkårene? De burde kun vært logisk slettet.
     @Test
     public void skal_slette_vilkår_som_blir_fjernet_til_tross_for_at_Hibernate_har_problemer_med_orphan_removal() {
         // Arrange
@@ -276,7 +277,7 @@ public class BehandlingRepositoryImplTest {
 
         // Arrange
         VilkårResultat.builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat())
-            .leggTilVilkår(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD, VilkårUtfallType.IKKE_VURDERT)
+            .leggTilVilkår(VilkårType.OPPTJENINGSPERIODEVILKÅR, VilkårUtfallType.IKKE_VURDERT)
             .fjernVilkår(VilkårType.MEDLEMSKAPSVILKÅRET)
             .buildFor(behandling);
 
@@ -289,7 +290,7 @@ public class BehandlingRepositoryImplTest {
         Behandling opphentetBehandling = repository.hent(Behandling.class, behandling.getId());
         assertThat(opphentetBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().size()).isEqualTo(1);
         assertThat(opphentetBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().iterator().next().getVilkårType())
-            .isEqualTo(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD);
+            .isEqualTo(VilkårType.OPPTJENINGSPERIODEVILKÅR);
         List<Vilkår> alleVilkår = repository.hentAlle(Vilkår.class);
         assertThat(alleVilkår.size()).isEqualTo(1);
         assertThat(alleVilkår.get(0)).isEqualTo(opphentetBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().iterator().next());

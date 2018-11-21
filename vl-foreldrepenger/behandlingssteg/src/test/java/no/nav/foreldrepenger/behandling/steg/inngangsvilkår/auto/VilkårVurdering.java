@@ -23,19 +23,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
-import no.nav.foreldrepenger.inngangsvilkaar.adopsjon.AdopsjonsvilkårForeldrepenger;
-import no.nav.foreldrepenger.inngangsvilkaar.fødsel.FødselsvilkårFar;
-import no.nav.foreldrepenger.inngangsvilkaar.fødsel.FødselsvilkårMor;
-import no.nav.foreldrepenger.inngangsvilkaar.medlemskap.Medlemskapsvilkår;
-import no.nav.foreldrepenger.inngangsvilkaar.opptjening.Opptjeningsvilkår;
-import no.nav.foreldrepenger.inngangsvilkaar.opptjeningsperiode.RegelFastsettOpptjeningsperiode;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.AdopsjonsvilkårGrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.FødselsvilkårGrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.grunnlag.OpptjeningsperiodeGrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.Opptjeningsgrunnlag;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.OpptjeningsvilkårResultat;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.medlemskap.Medlemskapsvilkår;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.opptjening.Opptjeningsvilkår;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.opptjeningsperiode.RegelFastsettOpptjeningsperiode;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.OpptjeningsperiodeGrunnlag;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Opptjeningsgrunnlag;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsvilkårResultat;
 import no.nav.fpsak.nare.RuleService;
 import no.nav.fpsak.nare.evaluation.Evaluation;
 import no.nav.fpsak.nare.evaluation.Resultat;
@@ -166,15 +161,6 @@ class VilkårVurdering {
         }
         if (VilkårType.OPPTJENINGSVILKÅRET.equals(vilkår)) {
             return new Tuple(new Tuple<>(Opptjeningsgrunnlag.class, new OpptjeningsvilkårResultat()), new Opptjeningsvilkår());
-        }
-        if (VilkårType.FØDSELSVILKÅRET_MOR.equals(vilkår)) {
-            return new Tuple(new Tuple<>(FødselsvilkårGrunnlag.class, new NoneObject()), new FødselsvilkårMor());
-        }
-        if (VilkårType.FØDSELSVILKÅRET_FAR_MEDMOR.equals(vilkår)) {
-            return new Tuple(new Tuple<>(FødselsvilkårGrunnlag.class, new NoneObject()), new FødselsvilkårFar());
-        }
-        if (VilkårType.ADOPSJONSVILKARET_FORELDREPENGER.equals(vilkår)) {
-            return new Tuple(new Tuple<>(AdopsjonsvilkårGrunnlag.class, new NoneObject()), new AdopsjonsvilkårForeldrepenger());
         }
         if (VilkårType.OPPTJENINGSPERIODEVILKÅR.equals(vilkår)) {
             return new Tuple(new Tuple<>(OpptjeningsperiodeGrunnlag.class, new OpptjeningsPeriode()), new RegelFastsettOpptjeningsperiode());

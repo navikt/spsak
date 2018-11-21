@@ -13,10 +13,6 @@ import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.IverksetteVedtakHi
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.IverksetteVedtakSteg;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.AvsluttBehandlingTask;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.SendVedtaksbrevTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.StartBerørtBehandlingTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VedtakTilDatavarehusTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VurderOgSendØkonomiOppdragTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VurderOppgaveArenaTask;
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegRef;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
@@ -135,19 +131,10 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
             //TODO E149421 vurder å flytte til egen implementasjon av steget, gjøre evt. når det sendes ut brev
             taskData = opprettTaskDataForInnsyn(avsluttBehandling, avsluttOppgave);
         } else {
-            ProsessTaskData berørtBehandling = new ProsessTaskData(StartBerørtBehandlingTask.TASKTYPE);
-            ProsessTaskData vurderOgSendØkonomiOppdrag = new ProsessTaskData(VurderOgSendØkonomiOppdragTask.TASKTYPE);
-            ProsessTaskData vedtakTilDatavarehus = new ProsessTaskData(VedtakTilDatavarehusTask.TASKTYPE);
-            ProsessTaskData vurderOppgaveArena = new ProsessTaskData(VurderOppgaveArenaTask.TASKTYPE);
             taskData = new ProsessTaskGruppe();
-            taskData.addNesteSekvensiell(berørtBehandling);
             if (avsluttOppgave.isPresent()) {
-                taskData.addNesteParallell(sendVedtaksbrev, vurderOgSendØkonomiOppdrag, avsluttOppgave.get());
-            } else {
-                taskData.addNesteParallell(sendVedtaksbrev, vurderOgSendØkonomiOppdrag);
+                taskData.addNesteParallell(avsluttOppgave.get());
             }
-            taskData.addNesteSekvensiell(vurderOppgaveArena);
-            taskData.addNesteSekvensiell(vedtakTilDatavarehus);
             taskData.addNesteSekvensiell(avsluttBehandling);
         }
         taskData.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());

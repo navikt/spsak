@@ -23,7 +23,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.Beregningsgr
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.beregningsgrunnlag.FullføreBeregningsgrunnlag;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.FullføreBeregningsgrunnlag;
 
 public class FastsettBeregningsgrunnlagStegImplTest {
 

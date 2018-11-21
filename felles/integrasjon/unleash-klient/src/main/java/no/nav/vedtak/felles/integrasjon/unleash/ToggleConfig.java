@@ -1,5 +1,4 @@
 package no.nav.vedtak.felles.integrasjon.unleash;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,17 +20,12 @@ public class ToggleConfig {
     private String instanceName;
     private static final Logger LOGGER = LoggerFactory.getLogger(ToggleConfig.class);
 
-    ToggleConfig() {
-        // for CDI
-    }
-
     /**
      * Lag en ny ToggleConfig
      *
-     * @param appName Navnet på applikasjonen (f.eks. "fpsak")
      */
-    ToggleConfig(String appName) {
-        this.appName = appName;
+    ToggleConfig() {
+        this.appName = EnvironmentProperty.getApplicationName();
         this.instanceName = EnvironmentProperty.getEnvironmentName().orElse("devimg");
     }
 
@@ -54,7 +48,3 @@ public class ToggleConfig {
     }
 
 }
-
-
-
-

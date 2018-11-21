@@ -24,9 +24,6 @@ import no.nav.foreldrepenger.datavarehus.BehandlingStegDvh;
 import no.nav.foreldrepenger.datavarehus.BehandlingVedtakDvh;
 import no.nav.foreldrepenger.datavarehus.DatavarehusRepository;
 import no.nav.foreldrepenger.datavarehus.FagsakDvh;
-import no.nav.foreldrepenger.datavarehus.VedtakUtbetalingDvh;
-import no.nav.foreldrepenger.datavarehus.xml.DvhVedtakTjeneste;
-import no.nav.foreldrepenger.datavarehus.xml.DvhVedtakTjenesteProvider;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 
 @ApplicationScoped
@@ -36,7 +33,6 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
     private FagsakRepository fagsakRepository;
     private BehandlingRepository behandlingRepository;
     private BehandlingVedtakRepository behandlingVedtakRepository;
-    private DvhVedtakTjenesteProvider dvhVedtakTjenesteProvider;
     private TotrinnRepository totrinnRepository;
 
     public DatavarehusTjenesteImpl() {
@@ -46,13 +42,11 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
     @Inject
     public DatavarehusTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
                                    DatavarehusRepository datavarehusRepository,
-                                   DvhVedtakTjenesteProvider dvhVedtakTjenesteProvider,
                                    TotrinnRepository totrinnRepository) {
         this.datavarehusRepository = datavarehusRepository;
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
-        this.dvhVedtakTjenesteProvider = dvhVedtakTjenesteProvider;
         this.totrinnRepository = totrinnRepository;
     }
 
@@ -118,18 +112,5 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
         lagreNedBehandling(behandling);
         behandling.getBehandlingStegTilstandHistorikk().map(t -> new BehandlingStegDvhMapper().map(t)).forEach(dt -> datavarehusRepository.lagre(dt));
-    }
-
-    @Override
-    public void opprettOgLagreVedtakXml(Long behandlingId) {
-        Optional<BehandlingVedtak> behandlingVedtak = behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(behandlingId);
-        Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-
-        if (behandlingVedtak.isPresent()) {
-            DvhVedtakTjeneste dvhVedtakXmlTjeneste = dvhVedtakTjenesteProvider.getVedtakTjeneste(behandling);
-            String vedtakXml = dvhVedtakXmlTjeneste.opprettDvhVedtakXml(behandlingId);
-            VedtakUtbetalingDvh vedtakUtbetalingDvh = new VedtakUtbetalingDvhMapper().map(vedtakXml, behandling, behandlingVedtak.get());
-            datavarehusRepository.lagre(vedtakUtbetalingDvh);
-        }
     }
 }

@@ -22,9 +22,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
-import no.nav.foreldrepenger.beregningsgrunnlag.MatchBeregningsgrunnlagTjeneste;
-import no.nav.foreldrepenger.beregningsgrunnlag.MatchBeregningsgrunnlagTjenesteImpl;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsgiverHistorikkinnslagTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.MatchBeregningsgrunnlagTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.MatchBeregningsgrunnlagTjenesteImpl;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsettEndretBeregningsgrunnlagAndelDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsettEndretBeregningsgrunnlagDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsettEndretBeregningsgrunnlagPeriodeDto;

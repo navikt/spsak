@@ -26,10 +26,6 @@
             <artifactId>behandlingslager-domene</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>inngangsvilkar-regelmodell</artifactId>
-        </dependency>
-        <dependency>
             <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-util</artifactId>
         </dependency>

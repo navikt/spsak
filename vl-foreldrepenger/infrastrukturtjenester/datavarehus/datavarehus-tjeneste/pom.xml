@@ -42,23 +42,6 @@
 			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>felles-integrasjon-webservice</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>inngangsvilkar-regelmodell</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>kompletthetsjekk</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>okonomistotte</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>vedtak-xml</artifactId>
-        </dependency>
 
 		<!-- Test avhengigheter -->
 		<dependency>

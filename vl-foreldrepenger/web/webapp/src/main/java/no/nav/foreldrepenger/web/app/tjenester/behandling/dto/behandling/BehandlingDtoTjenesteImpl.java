@@ -26,7 +26,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.Beregningsre
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.web.app.rest.ResourceLink;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.AsyncPollingStatus;
-import no.nav.vedtak.felles.integrasjon.unleash.FeatureToggle;
 import no.nav.vedtak.felles.integrasjon.unleash.strategier.ByAnsvarligSaksbehandlerStrategy;
 import no.nav.vedtak.sikkerhet.context.SubjectHandler;
 
@@ -51,7 +50,7 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
     @Inject
     public BehandlingDtoTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
                                      SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
-                                     @FeatureToggle("fpsak") Unleash unleash) {
+                                     Unleash unleash) {
 
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
         this.beregningsresultatRepository = repositoryProvider.getBeregningsresultatFPRepository();
@@ -121,11 +120,6 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
             dto.setAsyncStatus(asyncStatus);
         }
         return dto;
-    }
-
-    @Override
-    public AnnenPartBehandlingDto lagAnnenPartBehandlingDto(Behandling behandling) {
-        return AnnenPartBehandlingDto.mapFra(behandling);
     }
 
     private void settStandardfelterUtvidet(Behandling behandling, UtvidetBehandlingDto dto) {

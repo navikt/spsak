@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelOrkestrerer;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
 
 @BehandlingStegRef(kode = "VURDEROP")
 @BehandlingTypeRef

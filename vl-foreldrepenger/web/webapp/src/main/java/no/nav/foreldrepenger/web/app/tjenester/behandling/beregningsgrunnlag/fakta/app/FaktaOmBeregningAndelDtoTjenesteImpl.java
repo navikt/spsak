@@ -24,8 +24,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
-import no.nav.foreldrepenger.beregningsgrunnlag.KontrollerFaktaBeregningFrilanserTjeneste;
-import no.nav.foreldrepenger.beregningsgrunnlag.KontrollerFaktaBeregningTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningFrilanserTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.ATogFLISammeOrganisasjonDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.FaktaOmBeregningAndelDto;
 

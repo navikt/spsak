@@ -23,7 +23,6 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
-import no.nav.foreldrepenger.inngangsvilkaar.opptjeningsperiode.RegelFastsettOpptjeningsperiode;
 import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.konfig.Tid;
 import no.nav.vedtak.util.FPDateUtil;
@@ -74,7 +73,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @SuppressWarnings("unused")
     private LocalDate utledSkjæringstidspunktForRegisterinnhentingFP(Behandling behandling) {
-        final RegelFastsettOpptjeningsperiode fastsettPeriode = new RegelFastsettOpptjeningsperiode();
         // TODO: Må utbedres for SP
         return LocalDate.now(FPDateUtil.getOffset());
     }

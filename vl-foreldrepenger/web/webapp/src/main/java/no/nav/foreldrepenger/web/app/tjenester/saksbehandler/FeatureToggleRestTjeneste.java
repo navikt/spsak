@@ -25,7 +25,6 @@ import no.finn.unleash.UnleashContext;
 import no.nav.foreldrepenger.web.app.tjenester.saksbehandler.dto.FeatureToggleDto;
 import no.nav.foreldrepenger.web.app.tjenester.saksbehandler.dto.FeatureToggleNavnDto;
 import no.nav.foreldrepenger.web.app.tjenester.saksbehandler.dto.FeatureToggleNavnListeDto;
-import no.nav.vedtak.felles.integrasjon.unleash.FeatureToggle;
 import no.nav.vedtak.felles.integrasjon.unleash.strategier.ByAnsvarligSaksbehandlerStrategy;
 import no.nav.vedtak.felles.jpa.Transaction;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
@@ -43,7 +42,7 @@ public class FeatureToggleRestTjeneste {
     }
 
     @Inject
-    public FeatureToggleRestTjeneste(@FeatureToggle("fpsak") Unleash unleash) {
+    public FeatureToggleRestTjeneste(Unleash unleash) {
         this.unleash = unleash;
     }
 

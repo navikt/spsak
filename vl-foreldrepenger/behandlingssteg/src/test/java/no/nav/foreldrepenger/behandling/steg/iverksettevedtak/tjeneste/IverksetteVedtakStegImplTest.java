@@ -24,10 +24,6 @@ import org.mockito.junit.MockitoRule;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.IverksetteVedtakHistorikkTjeneste;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.AvsluttBehandlingTask;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.SendVedtaksbrevTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.StartBerørtBehandlingTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VedtakTilDatavarehusTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VurderOgSendØkonomiOppdragTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.VurderOppgaveArenaTask;
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEventPubliserer;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
@@ -108,32 +104,6 @@ public class IverksetteVedtakStegImplTest {
         prosessTaskData.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());
         prosessTaskData.setOppgaveId("1001");
         when(oppgaveTjeneste.opprettTaskAvsluttOppgave(any(Behandling.class), any(OppgaveÅrsak.class), anyBoolean())).thenReturn(Optional.of(prosessTaskData));
-    }
-
-    @Test
-    public void testOpprettIverksettingstasker() {
-        // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        behandling = scenario.lagMocked();
-        behandlingRepository = scenario.mockBehandlingRepository();
-        repositoryProvider = scenario.mockBehandlingRepositoryProvider();
-        mockOpprettTaskAvsluttOppgave();
-        iverksetteVedtakSteg = new IverksetteVedtakStegImpl(repositoryProvider, prosessTaskRepository,
-            behandlingVedtakEventPubliserer, oppgaveTjeneste, iverksetteVedtakHistorikkTjeneste, kanVedtaketIverksettesTjeneste);
-
-        List<ProsessTaskData> resultat = prosessTaskRepository.finnAlle(ProsessTaskStatus.KLAR);
-        assertThat(resultat).isEmpty();
-
-        // Act
-        iverksetteVedtakSteg.opprettIverksettingstasker(behandling);
-
-        // Assert
-        resultat = prosessTaskRepository.finnAlle(ProsessTaskStatus.KLAR);
-        assertThat(resultat).hasSize(7);
-        List<String> tasktyper = resultat.stream().map(ProsessTaskData::getTaskType).collect(Collectors.toList());
-        assertThat(tasktyper).contains(AvsluttBehandlingTask.TASKTYPE, SendVedtaksbrevTask.TASKTYPE,
-            AvsluttOppgaveTaskProperties.TASKTYPE,
-            VurderOgSendØkonomiOppdragTask.TASKTYPE, StartBerørtBehandlingTask.TASKTYPE, VurderOppgaveArenaTask.TASKTYPE, VedtakTilDatavarehusTask.TASKTYPE);
     }
 
     @Test

@@ -21,9 +21,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.ForeldrepengerVilkårUtleder;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.UtledeteVilkår;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaTjeneste;
-import no.nav.foreldrepenger.inngangsvilkaar.impl.ForeldrepengerVilkårUtleder;
-import no.nav.foreldrepenger.inngangsvilkaar.impl.UtledeteVilkår;
 
 @BehandlingStegRef(kode = "KOFAK")
 @BehandlingTypeRef

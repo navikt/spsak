@@ -20,7 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioM
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OppdateringResultat;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.overstyring.OverstyringAksjonspunktDto;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.overstyring.OverstyringFødselsvilkåretDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.overstyring.OverstyringOpptjeningsvilkåretDto;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
 
 public class AbstractOverstyringshåndtererTest {
@@ -37,22 +37,22 @@ public class AbstractOverstyringshåndtererTest {
     @Test
     public void skal_reaktivere_inaktivt_aksjonspunkt() throws Exception {
         Behandling behandling = ScenarioMorSøkerEngangsstønad.forFødsel().lagre(repositoryProvider);
-        Aksjonspunkt ap = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.OVERSTYRING_AV_FØDSELSVILKÅRET);
+        Aksjonspunkt ap = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.OVERSTYRING_AV_OPPTJENINGSVILKÅRET);
         aksjonspunktRepository.setTilUtført(ap, "OK");
         aksjonspunktRepository.deaktiver(ap);
 
-        OverstyringAksjonspunktDto dto = new OverstyringFødselsvilkåretDto(false, "ikke født likevel", "asdf");
+        OverstyringAksjonspunktDto dto = new OverstyringOpptjeningsvilkåretDto(false, "ikke opptjeng", "asdf");
 
         new TestOversyringshåndterer().håndterAksjonspunktForOverstyring(dto, behandling);
 
-        assertThat(behandling.getAksjonspunktFor(AksjonspunktDefinisjon.OVERSTYRING_AV_FØDSELSVILKÅRET).erAktivt()).isTrue();
+        assertThat(behandling.getAksjonspunktFor(AksjonspunktDefinisjon.OVERSTYRING_AV_OPPTJENINGSVILKÅRET).erAktivt()).isTrue();
     }
 
     @SuppressWarnings("rawtypes")
     private class TestOversyringshåndterer extends AbstractOverstyringshåndterer {
 
         TestOversyringshåndterer() {
-            super(repositoryProvider, Mockito.mock(HistorikkTjenesteAdapter.class), AksjonspunktDefinisjon.OVERSTYRING_AV_FØDSELSVILKÅRET);
+            super(repositoryProvider, Mockito.mock(HistorikkTjenesteAdapter.class), AksjonspunktDefinisjon.OVERSTYRING_AV_OPPTJENINGSVILKÅRET);
         }
 
         @Override

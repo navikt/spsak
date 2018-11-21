@@ -25,7 +25,7 @@ public class VilkårKodeverkRepositoryImplTest {
         assertThat(repo.finnVilkårUtfallType("OPPFYLT")).isEqualTo(VilkårUtfallType.OPPFYLT);
         assertThat(repo.finnAksjonspunktDefinisjon("5001")).isEqualTo(AksjonspunktDefinisjon.AVKLAR_TERMINBEKREFTELSE);
         assertThat(repo.finnVilkårUtfallMerknad("1001")).isEqualTo(VilkårUtfallMerknad.VM_1001);
-        assertThat(repo.finnAvslagÅrsakListe(VilkårType.FP_VK_5)).contains(Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_O);
+        assertThat(repo.finnAvslagÅrsakListe(VilkårType.FP_VK_23)).contains(Avslagsårsak.IKKE_TILSTREKKELIG_OPPTJENING);
     }
 
     @Test
@@ -37,10 +37,7 @@ public class VilkårKodeverkRepositoryImplTest {
     public void skal_hente_alle_avslagsårsaker_gruppert_på_vilkårstype() {
         Map<VilkårType, List<Avslagsårsak>> map = repo.finnAvslagårsakerGruppertPåVilkårType();
         assertThat(map.get(VilkårType.SØKERSOPPLYSNINGSPLIKT)).containsOnly(Avslagsårsak.MANGLENDE_DOKUMENTASJON);
-        assertThat(map.get(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD))
-                .containsOnly(Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_F, Avslagsårsak.OMSORGSOVERTAKELSE_ETTER_56_UKER,
-                        Avslagsårsak.IKKE_FORELDREANSVAR_ALENE_ETTER_BARNELOVA,
-                        Avslagsårsak.ENGANGSSTØNAD_ER_ALLEREDE_UTBETALT_TIL_FAR_MEDMOR,
-                        Avslagsårsak.FORELDREPENGER_ER_ALLEREDE_UTBETALT_TIL_FAR_MEDMOR);
+        assertThat(map.get(VilkårType.OPPTJENINGSPERIODEVILKÅR))
+                .containsOnly(Avslagsårsak.IKKE_TILSTREKKELIG_OPPTJENING);
     }
 }

@@ -31,7 +31,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.Behandl
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemDtoTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemV2Dto;
-import no.nav.vedtak.felles.integrasjon.unleash.FeatureToggle;
 import no.nav.vedtak.felles.jpa.Transaction;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
 
@@ -58,7 +57,7 @@ public class PersonRestTjeneste {
                               MedlemDtoTjeneste medlemTjeneste,
                               PersonopplysningDtoTjeneste personopplysningTjeneste,
                               PersonopplysningDtoPersonIdentTjeneste personopplysningFnrFinder,
-                              @FeatureToggle("fpsak") Unleash unleash) {
+                              Unleash unleash) {
         this.vergeRepository = repositoryProvider.getVergeGrunnlagRepository();
         this.medlemDtoTjeneste = medlemTjeneste;
         this.vergeDtoTjenesteImpl = vergeTjeneste;

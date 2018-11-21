@@ -20,8 +20,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelOrkestrerer;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelResultat;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
 
 public abstract class InngangsvilkårStegImpl implements InngangsvilkårSteg {
     private BehandlingRepository behandlingRepository;

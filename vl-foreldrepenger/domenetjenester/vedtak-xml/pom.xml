@@ -28,6 +28,12 @@
         </dependency>
 
         <dependency>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <artifactId>behandlingsprosess-vedtak-v1</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+        
+        <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>felles-integrasjon-webservice</artifactId>
         </dependency>
@@ -44,10 +50,6 @@
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>okonomistotte</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
             <artifactId>beregningsgrunnlag</artifactId>
         </dependency>
         <dependency>
@@ -56,7 +58,7 @@
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>inngangsvilkar-regelmodell</artifactId>
+            <artifactId>inngangsvilkar</artifactId>
         </dependency>
 
         <!-- Test avhengigheter -->

@@ -51,8 +51,7 @@ public class BatchSchedulerTask implements ProsessTaskHandler {
     // TODO(diamant): Når stabilt i produksjon - legg til en BRT.B_N_RETRY_TASKS fx kl 06:59. Dekker nedetid i andre system
     private final List<BatchConfig> batchOppsettFelles = Arrays.asList(
         new BatchConfig(7, 0, "BVL005", null), // Kodeverk
-        new BatchConfig(7, 1, "BVL004", null), // Gjenoppta
-        new BatchConfig(7, 4, "BVL003", null)  // Forlengelsesbrev må kjøre noe etter Gjenoppta
+        new BatchConfig(7, 1, "BVL004", null) // Gjenoppta
     );
 
     private LocalDate dagensDato;

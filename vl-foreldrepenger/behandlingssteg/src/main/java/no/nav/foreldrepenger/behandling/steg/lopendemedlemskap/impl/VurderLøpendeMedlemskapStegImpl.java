@@ -23,9 +23,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.VilkårData;
-import no.nav.foreldrepenger.inngangsvilkaar.medlemskap.VurderLøpendeMedlemskap;
-import no.nav.vedtak.felles.integrasjon.unleash.FeatureToggle;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.medlemskap.VurderLøpendeMedlemskap;
 
 @BehandlingStegRef(kode = "VULOMED")
 @BehandlingTypeRef("BT-004")
@@ -40,7 +39,7 @@ public class VurderLøpendeMedlemskapStegImpl implements VurderLøpendeMedlemska
     private BehandlingRepository behandlingRepository;
 
     @Inject
-    public VurderLøpendeMedlemskapStegImpl(@FeatureToggle("fpsak") Unleash unleash, VurderLøpendeMedlemskap vurderLøpendeMedlemskap,
+    public VurderLøpendeMedlemskapStegImpl(Unleash unleash, VurderLøpendeMedlemskap vurderLøpendeMedlemskap,
                                            BehandlingRepositoryProvider provider) {
         this.unleash = unleash;
         this.vurderLøpendeMedlemskap = vurderLøpendeMedlemskap;

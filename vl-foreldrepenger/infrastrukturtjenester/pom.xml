@@ -13,12 +13,9 @@
 
     <modules>
         <module>batch</module>
-        <module>pep</module>
         <module>kodeverk</module>
         <module>datavarehus</module>
 
-        <module>foreldrepengersak-tjeneste</module>
-        <module>behandle-foreldrepengersak-tjeneste</module>
     </modules>
 
 </project>

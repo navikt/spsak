@@ -34,9 +34,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelOrkestrerer;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelResultat;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.OpptjeningsvilkårResultat;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsvilkårResultat;
 import no.nav.vedtak.util.FPDateUtil;
 
 @BehandlingStegRef(kode = "VURDER_OPPTJ")

@@ -49,10 +49,6 @@
             <artifactId>medlem</artifactId>
         </dependency>
 		<dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>okonomistotte</artifactId>
-        </dependency>
-		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>person</artifactId>
 		</dependency>

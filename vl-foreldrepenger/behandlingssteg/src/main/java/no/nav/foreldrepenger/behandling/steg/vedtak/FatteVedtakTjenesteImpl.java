@@ -10,8 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
-import no.nav.foreldrepenger.vedtak.xml.VedtakXmlFeil;
-import no.nav.foreldrepenger.vedtak.xml.VedtakXmlTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -25,6 +23,8 @@ import no.nav.foreldrepenger.behandlingslager.lagretvedtak.LagretVedtak;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveForBehandlingSendtTilbakeTask;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
+import no.nav.foreldrepenger.domene.vedtak.xml.VedtakXmlFeil;
+import no.nav.foreldrepenger.domene.vedtak.xml.VedtakXmlTjeneste;
 import no.nav.foreldrepenger.vedtakslager.LagretVedtakRepository;
 import no.nav.vedtak.feil.FeilFactory;
 

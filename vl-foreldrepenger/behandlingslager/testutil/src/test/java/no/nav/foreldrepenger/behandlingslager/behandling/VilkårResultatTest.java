@@ -118,7 +118,7 @@ public class VilkårResultatTest {
         // Act
         VilkårResultat oppdatertVilkårResultat = VilkårResultat.builderFraEksisterende(opprinneligVilkårResultat)
             .medVilkårResultatType(VilkårResultatType.INNVILGET)
-            .leggTilVilkårResultat(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD, VilkårUtfallType.IKKE_OPPFYLT, null, new Properties(), Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_F, true, false, null, null)
+            .leggTilVilkårResultat(VilkårType.OPPTJENINGSPERIODEVILKÅR, VilkårUtfallType.IKKE_OPPFYLT, null, new Properties(), Avslagsårsak.IKKE_TILSTREKKELIG_OPPTJENING, true, false, null, null)
             .buildFor(behandling1);
 
         // Assert
@@ -128,7 +128,7 @@ public class VilkårResultatTest {
         assertThat(vilkår1).isNotNull();
         assertThat(vilkår1.getGjeldendeVilkårUtfall()).isEqualTo(VilkårUtfallType.IKKE_VURDERT);
 
-        Vilkår vilkår2 = oppdatertVilkårResultat.getVilkårene().stream().filter(v -> VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD.equals(v.getVilkårType())).findFirst().orElse(null);
+        Vilkår vilkår2 = oppdatertVilkårResultat.getVilkårene().stream().filter(v -> VilkårType.OPPTJENINGSPERIODEVILKÅR.equals(v.getVilkårType())).findFirst().orElse(null);
         assertThat(vilkår2).isNotNull();
         assertThat(vilkår2.getGjeldendeVilkårUtfall()).isEqualTo(VilkårUtfallType.IKKE_OPPFYLT);
     }
@@ -138,19 +138,19 @@ public class VilkårResultatTest {
         // Arrange
         VilkårResultat opprinneligVilkårResultat = VilkårResultat.builder()
             .medVilkårResultatType(VilkårResultatType.AVSLÅTT)
-            .leggTilVilkårResultat(VilkårType.FORELDREANSVARSVILKÅRET_2_LEDD, VilkårUtfallType.IKKE_OPPFYLT, null, new Properties(), Avslagsårsak.SØKER_HAR_IKKE_FORELDREANSVAR, true, false, null, null)
+            .leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_OPPFYLT, null, new Properties(), Avslagsårsak.SØKER_HAR_IKKE_FORELDREANSVAR, true, false, null, null)
             .buildFor(behandling1);
 
         // Act
         VilkårResultat oppdatertVilkårResultat = VilkårResultat.builderFraEksisterende(opprinneligVilkårResultat)
             .medVilkårResultatType(VilkårResultatType.INNVILGET)
-            .leggTilVilkårResultat(VilkårType.FORELDREANSVARSVILKÅRET_2_LEDD, VilkårUtfallType.OPPFYLT, null, new Properties(), null, true, false, null, null)
+            .leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT, null, new Properties(), null, true, false, null, null)
             .buildFor(behandling1);
 
         // Assert
         assertThat(oppdatertVilkårResultat.getVilkårene().size()).isEqualTo(1);
         Vilkår vilkår = oppdatertVilkårResultat.getVilkårene().get(0);
-        assertThat(vilkår.getVilkårType()).isEqualTo(VilkårType.FORELDREANSVARSVILKÅRET_2_LEDD);
+        assertThat(vilkår.getVilkårType()).isEqualTo(VilkårType.MEDLEMSKAPSVILKÅRET);
         assertThat(vilkår.getAvslagsårsak()).isNull();
         assertThat(vilkår.getGjeldendeVilkårUtfall()).isEqualTo(VilkårUtfallType.OPPFYLT);
     }
@@ -202,12 +202,12 @@ public class VilkårResultatTest {
         VilkårResultat opprinneligVilkårResultat = VilkårResultat.builder()
             .medVilkårResultatType(VilkårResultatType.AVSLÅTT)
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
-            .leggTilVilkårResultat(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD, VilkårUtfallType.IKKE_OPPFYLT, null, new Properties(), Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_F, true, false, null, null)
+            .leggTilVilkårResultat(VilkårType.OPPTJENINGSPERIODEVILKÅR, VilkårUtfallType.IKKE_OPPFYLT, null, new Properties(), Avslagsårsak.IKKE_TILSTREKKELIG_OPPTJENING, true, false, null, null)
             .buildFor(behandling1);
 
         // Act
         VilkårResultat oppdatertVilkårResultat = VilkårResultat.builderFraEksisterende(opprinneligVilkårResultat)
-            .fjernVilkår(VilkårType.FORELDREANSVARSVILKÅRET_4_LEDD)
+            .fjernVilkår(VilkårType.OPPTJENINGSPERIODEVILKÅR)
             .buildFor(behandling1);
 
         // Assert

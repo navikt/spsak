@@ -30,12 +30,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Peri
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.beregningsgrunnlag.adapter.util.BeregningArbeidsgiverTestUtil;
-import no.nav.foreldrepenger.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
-import no.nav.foreldrepenger.beregningsgrunnlag.adapter.util.BeregningOpptjeningTestUtil;
-import no.nav.foreldrepenger.beregningsgrunnlag.adapter.util.BeregningsgrunnlagTestUtil;
-import no.nav.foreldrepenger.beregningsgrunnlag.regelmodell.Periode;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningArbeidsgiverTestUtil;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningOpptjeningTestUtil;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningsgrunnlagTestUtil;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Periode;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.TilstøtendeYtelseAndelDto;
 import no.nav.fpsak.tidsserie.LocalDateInterval;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;

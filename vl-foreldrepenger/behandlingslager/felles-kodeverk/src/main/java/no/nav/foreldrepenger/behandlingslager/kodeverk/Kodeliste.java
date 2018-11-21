@@ -1,13 +1,15 @@
 package no.nav.foreldrepenger.behandlingslager.kodeverk;
 
-
 import java.io.IOException;
+import java.io.StringReader;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.Objects;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.slf4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -42,6 +46,8 @@ import no.nav.vedtak.util.StringUtils;
 @Table(name = "KODELISTE")
 @DiscriminatorColumn(name = "kodeverk")
 public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparable<Kodeliste>, IndexKey {
+    
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Kodeliste.class);
     private static final String I18N_MELDINGER_KEY = "i18n.Meldinger"; //$NON-NLS-1$
 
     /**
@@ -50,13 +56,39 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
     private static final String I18N_MELDINGER = System.getProperty(I18N_MELDINGER_KEY, I18N_MELDINGER_KEY);
     private static final String I18N_KEYFORMAT = "Kodeverk.%s.%s";//$NON-NLS-1$
 
-    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(I18N_MELDINGER); // $NON-NLS-1$
+    /**
+     * @deprecated flytt alle navn til db konfigurasjon. KodeverkNavnI18N tabell.
+     */
+    @Deprecated
+    private static ResourceBundle BUNDLE;
+
+    /**
+     * @deprecated flytt alle navn til db konfigurasjon. KodeverkNavnI18N tabell.
+     */
+    @Deprecated
+    synchronized static ResourceBundle getBundle() {
+        // lazy init ResourceBundle som ikke trenger å være der.
+        if (BUNDLE == null) {
+            try {
+                BUNDLE = ResourceBundle.getBundle(I18N_MELDINGER); // $NON-NLS-1$
+                log.info("Initialiseret ResourceBundle: " + I18N_MELDINGER);
+            } catch (MissingResourceException e) {
+                log.error("Finner ikke ResourceBundle, initialiserer dummy i stedet", e);
+                try {
+                    BUNDLE = new PropertyResourceBundle(new StringReader("empty=iamadummybundle"));
+                } catch (IOException ioe) {
+                    throw new IllegalStateException("Fant ikke properties, klarer ikke initialisere default dummy bundle" + e.getMessage(), ioe);
+                }
+            }
+        }
+        return BUNDLE;
+    }
 
     public static final Comparator<Kodeliste> NULLSAFE_KODELISTE_COMPARATOR = Comparator.nullsFirst(Kodeliste::compareTo);
 
     @DiffIgnore // gitt av path
     @Id
-    @Column(name = "kodeverk", nullable = false, updatable=false, insertable=false)
+    @Column(name = "kodeverk", nullable = false, updatable = false, insertable = false)
     private String kodeverk;
 
     @DiffIgnore
@@ -66,14 +98,14 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
 
     @ChangeTracked
     @Id
-    @Column(name = "kode", nullable = false, updatable=false, insertable=false)
+    @Column(name = "kode", nullable = false, updatable = false, insertable = false)
     private String kode;
 
     /**
      * Kode bestemt av kodeeier. Kan avvike fra intern kodebruk
      */
     @DiffIgnore
-    @Column(name = "offisiell_kode", updatable=false, insertable=false)
+    @Column(name = "offisiell_kode", updatable = false, insertable = false)
     private String offisiellKode;
 
     @DiffIgnore
@@ -84,19 +116,19 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
      * Når koden gjelder fra og med.
      */
     @DiffIgnore
-    @Column(name = "gyldig_fom", nullable = false, updatable=false, insertable=false)
+    @Column(name = "gyldig_fom", nullable = false, updatable = false, insertable = false)
     private LocalDate gyldigFraOgMed = LocalDate.of(2000, 01, 01); // NOSONAR
 
     /**
      * Når koden gjelder til og med.
      */
     @DiffIgnore
-    @Column(name = "gyldig_tom", nullable = false, updatable=false, insertable=false)
+    @Column(name = "gyldig_tom", nullable = false, updatable = false, insertable = false)
     private LocalDate gyldigTilOgMed = LocalDate.of(9999, 12, 31); // NOSONAR
 
     /** Denne skal kun inneholde JSON data. Struktur på Json er opp til konkret subklasse å tolke (bruk {@link #getJsonField(String)} */
     @DiffIgnore
-    @Column(name = "ekstra_data", updatable=false, insertable=false)
+    @Column(name = "ekstra_data", updatable = false, insertable = false)
     private String ekstraData;
 
     /**
@@ -160,20 +192,20 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
         String navn = null;
         if (displayNavn == null) {
             String key = String.format(I18N_KEYFORMAT, getClass().getSimpleName(), getKode());
-            if(kodelisteNavnI18NList != null) {
+            if (kodelisteNavnI18NList != null) {
                 String brukerSpråk = hentLoggedInBrukerSpråk();
-                for(KodelisteNavnI18N kodelisteNavnI18N : kodelisteNavnI18NList) {
-                    if(brukerSpråk.equals(kodelisteNavnI18N.getSpråk())) {
-                       navn = kodelisteNavnI18N.getNavn();
-                       break;
+                for (KodelisteNavnI18N kodelisteNavnI18N : kodelisteNavnI18NList) {
+                    if (brukerSpråk.equals(kodelisteNavnI18N.getSpråk())) {
+                        navn = kodelisteNavnI18N.getNavn();
+                        break;
                     }
                 }
             }
 
             if (!StringUtils.nullOrEmpty(navn)) {
                 this.displayNavn = navn;
-            } else if (BUNDLE.containsKey(key)) {
-                this.displayNavn = BUNDLE.getString(key);
+            } else if (getBundle().containsKey(key)) {
+                this.displayNavn = getBundle().getString(key);
             } else {
                 // FIXME (FC): må her bytte ut med brukers lang fra HTTP Accept-Language header når får på plass full
                 // i18n
@@ -184,7 +216,7 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
     }
 
     static final String hentLoggedInBrukerSpråk() {
-        return "NB"; //TODO(HUMLE): må utvidere til å finne språk til bruker som er logged inn.
+        return "NB"; // TODO(HUMLE): må utvidere til å finne språk til bruker som er logged inn.
     }
 
     public static String getI18nMeldingerKey() {
@@ -203,7 +235,7 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
         return ekstraData;
     }
 
-    protected String getJsonField(String... keys){
+    protected String getJsonField(String... keys) {
         if (getEkstraData() == null) {
             return null;
         }
@@ -212,12 +244,12 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
             return jsonObjectMapper.readKey(getEkstraData(), keys);
         } catch (IOException e) {
             StringBuilder allkeys = new StringBuilder();
-            try{
-                for (String key: keys){
+            try {
+                for (String key : keys) {
                     allkeys.append(key);
                     allkeys.append(':');
                 }
-            }catch (Exception stringException){ //$NON-NLS-1$ //NOSONAR
+            } catch (Exception stringException) { // $NON-NLS-1$ //NOSONAR
                 allkeys.append("Klarer ikke å hente nøklene som feiler."); //$NON-NLS-1$ //NOSONAR
             }
             throw new IllegalStateException("Ugyldig format (forventet JSON) for kodeverk=" + getKodeverk() + ", kode=" + getKode() //$NON-NLS-1$ //$NON-NLS-2$

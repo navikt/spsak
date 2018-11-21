@@ -4,11 +4,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
-import no.nav.foreldrepenger.vedtak.xml.VedtakXmlTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
+import no.nav.foreldrepenger.domene.vedtak.xml.VedtakXmlTjeneste;
 import no.nav.foreldrepenger.vedtakslager.LagretVedtakRepository;
 
 @FagsakYtelseTypeRef("FP")

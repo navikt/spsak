@@ -21,8 +21,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.beregningsgrunnlag.ForeslåBeregningsgrunnlag;
-import no.nav.foreldrepenger.beregningsgrunnlag.wrapper.BeregningsgrunnlagRegelResultat;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.ForeslåBeregningsgrunnlag;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.wrapper.BeregningsgrunnlagRegelResultat;
 
 @BehandlingStegRef(kode = "FORS_BERGRUNN")
 @BehandlingTypeRef

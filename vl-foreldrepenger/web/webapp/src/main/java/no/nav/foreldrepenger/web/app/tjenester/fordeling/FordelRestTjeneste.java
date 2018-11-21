@@ -30,8 +30,6 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokument
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.foreldrepenger.sak.tjeneste.OpprettSakOrchestrator;
-import no.nav.foreldrepenger.sak.tjeneste.OpprettSakTjeneste;
 import no.nav.vedtak.felles.jpa.Transaction;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessursActionAttributt;
@@ -53,8 +51,6 @@ public class FordelRestTjeneste {
     private SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste;
     private DokumentArkivTjeneste dokumentArkivTjeneste;
     private FagsakTjeneste fagsakTjeneste;
-    private OpprettSakOrchestrator opprettSakOrchestrator;
-    private OpprettSakTjeneste opprettSakTjeneste;
     private KodeverkRepository kodeverkRepository;
     private BehandlingRepository behandlingRepository;
 
@@ -64,13 +60,11 @@ public class FordelRestTjeneste {
     @Inject
     public FordelRestTjeneste(SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste,
                               DokumentArkivTjeneste dokumentArkivTjeneste,
-                              FagsakTjeneste fagsakTjeneste, OpprettSakOrchestrator opprettSakOrchestrator, OpprettSakTjeneste opprettSakTjeneste,
+                              FagsakTjeneste fagsakTjeneste,
                               BehandlingRepositoryProvider repositoryProvider) {
         this.dokumentmottakTjeneste = dokumentmottakTjeneste;
         this.dokumentArkivTjeneste = dokumentArkivTjeneste;
         this.fagsakTjeneste = fagsakTjeneste;
-        this.opprettSakOrchestrator = opprettSakOrchestrator;
-        this.opprettSakTjeneste = opprettSakTjeneste;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
     }
@@ -84,6 +78,7 @@ public class FordelRestTjeneste {
     )
     @BeskyttetRessurs(action = BeskyttetRessursActionAttributt.READ, ressurs = BeskyttetRessursResourceAttributt.FAGSAK)
     public BehandlendeFagsystemDto vurderFagsystem(@ApiParam("Krever behandlingstemaOffisiellKode") @Valid VurderFagsystemDto vurderFagsystemDto) {
+        // FIXME SP: vurderFagsystem. Uklart om trengs?
         return null;
     }
 
@@ -123,12 +118,7 @@ public class FordelRestTjeneste {
 
         AktørId aktørId = new AktørId(opprettSakDto.getAktørId());
 
-        Saksnummer s;
-        if (journalpostId.isPresent()) {
-            s = opprettSakOrchestrator.opprettSak(new JournalpostId(journalpostId.get()), behandlingTema, aktørId);
-        } else {
-            s = opprettSakOrchestrator.opprettSak(behandlingTema, aktørId);
-        }
+        Saksnummer s = new Saksnummer("FIXME SP: Mangler saksnummer");
         return new SaksnummerDto(s.getVerdi());
     }
 
@@ -140,7 +130,8 @@ public class FordelRestTjeneste {
     @ApiOperation(value = "Knytt journalpost til fagsak.", notes = ("Før en journalpost journalføres på en fagsak skal fagsaken oppdateres med journalposten."))
     @BeskyttetRessurs(action = BeskyttetRessursActionAttributt.CREATE, ressurs = BeskyttetRessursResourceAttributt.FAGSAK)
     public void knyttSakOgJournalpost(@ApiParam("Saksnummer og JournalpostId som skal knyttes sammen") @Valid JournalpostKnyttningDto journalpostKnytningDto) {
-        opprettSakTjeneste.knyttSakOgJournalpost(new Saksnummer(journalpostKnytningDto.getSaksnummer()), new JournalpostId(journalpostKnytningDto.getJournalpostId()));
+        
+        // FIXME SP: knyttSakOgJournalpost Uklart om trengs?
     }
 
     @POST

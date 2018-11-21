@@ -13,7 +13,6 @@
 	<modules>
 		<module>migreringer</module>
 
-		<module>i18n</module>
 		<module>behandlingslager</module>
 		<module>vedtakslager</module>
 		<module>infrastrukturtjenester</module>
@@ -88,11 +87,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>i18n</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>batch</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -114,20 +108,10 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>foreldrepengersak-tjeneste</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandle-dokumentforsendelse-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandle-foreldrepengersak-tjeneste</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			
+		
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>behandlingsprosess-vedtak-v1</artifactId>
@@ -172,11 +156,6 @@
 			
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>inngangsvilkar-regelmodell</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>inngangsvilkar</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -209,17 +188,7 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>beregningsgrunnlag-regelmodell</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>beregning-ytelse</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>beregning-ytelse-regelmodell</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -245,11 +214,6 @@
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>vedtak</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>vedtak-innsyn</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -314,12 +278,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>pep</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>no.nav.fpsak.tidsserie</groupId>
 				<artifactId>fpsak-tidsserie</artifactId>
 				<version>2.0_20180831125757_006dad2</version>
@@ -357,11 +315,6 @@
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>web-webapp</artifactId>
 				<type>jar</type>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>okonomistotte</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

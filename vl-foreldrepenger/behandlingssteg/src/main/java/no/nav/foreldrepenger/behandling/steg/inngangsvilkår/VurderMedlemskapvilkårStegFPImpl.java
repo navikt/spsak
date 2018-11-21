@@ -23,8 +23,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelOrkestrerer;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelResultat;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
 
 @BehandlingStegRef(kode = "VURDERMV")
 @BehandlingTypeRef

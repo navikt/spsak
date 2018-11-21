@@ -19,9 +19,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelOrkestrerer;
-import no.nav.foreldrepenger.behandlingslager.inngangsvilkår.RegelResultat;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
 
 
 @BehandlingStegRef(kode = "VURDER_OPPTJ_PERIODE")

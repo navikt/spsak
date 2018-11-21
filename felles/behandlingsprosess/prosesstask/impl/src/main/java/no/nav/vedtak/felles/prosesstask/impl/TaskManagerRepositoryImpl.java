@@ -103,11 +103,15 @@ public class TaskManagerRepositoryImpl {
             + ", blokkert_av=NULL"
             + ", siste_kjoering_feil_kode=NULL"
             + ", siste_kjoering_feil_tekst=NULL"
+            + ", neste_kjoering_etter=:neste"
             + " WHERE status='VETO' and blokkert_av=:id";
 
+        LocalDateTime nesteKjøringEtter = LocalDateTime.now();
+        
         int tasks = entityManager
             .createNativeQuery(updateSql)
             .setParameter("id", blokkerendeTask.getId())
+            .setParameter("neste", nesteKjøringEtter == null ? null : Timestamp.valueOf(nesteKjøringEtter), TemporalType.TIME) // NOSONAR
             .executeUpdate();
         if (tasks > 0) {
             log.info("ProssessTask [{}] FERDIG. Frigitt {} tidligere blokkerte tasks", blokkerendeTask.getId(), tasks);

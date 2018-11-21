@@ -20,10 +20,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
@@ -79,34 +77,6 @@ public class FagsakRevurderingTest {
     @Test
     public void kanIkkeOppretteRevurderingNårBehandlingErHenlagt() {
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET).buildFor(behandling);
-
-        FagsakRevurdering tjeneste = new FagsakRevurdering(behandlingRepository);
-        Boolean kanRevurderingOpprettes = tjeneste.kanRevurderingOpprettes(fagsak);
-
-        assertThat(kanRevurderingOpprettes).isFalse();
-    }
-
-    @Test
-    public void kanOppretteRevurderingDersomBehandlingErVedtatt() {
-        behandling.avsluttBehandling();
-        Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.AVSLÅTT).buildFor(behandling);
-        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.FØDSELSVILKÅRET_MOR,
-            VilkårUtfallType.IKKE_OPPFYLT, VilkårUtfallMerknad.VM_1005, null,
-            Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_O, false, false, null, null).buildFor(behandling);
-
-        FagsakRevurdering tjeneste = new FagsakRevurdering(behandlingRepository);
-        Boolean kanRevurderingOpprettes = tjeneste.kanRevurderingOpprettes(fagsak);
-
-        assertThat(kanRevurderingOpprettes).isTrue();
-    }
-
-    @Test
-    public void kanIkkeOppretteRevurderingDersomAvlagPåSøkersOpplysningsplikt() {
-        behandling.avsluttBehandling();
-        Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.AVSLÅTT).buildFor(behandling);
-        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.SØKERSOPPLYSNINGSPLIKT,
-            VilkårUtfallType.IKKE_OPPFYLT, VilkårUtfallMerknad.VM_1005, null,
-            Avslagsårsak.SØKER_ER_IKKE_BARNETS_FAR_O, false, false, null, null).buildFor(behandling);
 
         FagsakRevurdering tjeneste = new FagsakRevurdering(behandlingRepository);
         Boolean kanRevurderingOpprettes = tjeneste.kanRevurderingOpprettes(fagsak);

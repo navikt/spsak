@@ -18,8 +18,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.beregningsgrunnlag.AksjonspunktUtlederForBeregning;
-import no.nav.foreldrepenger.beregningsgrunnlag.OpprettBeregningsgrunnlagTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.AksjonspunktUtlederForBeregning;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.OpprettBeregningsgrunnlagTjeneste;
 
 @BehandlingStegRef(kode = "KOFAKBER")
 @BehandlingTypeRef

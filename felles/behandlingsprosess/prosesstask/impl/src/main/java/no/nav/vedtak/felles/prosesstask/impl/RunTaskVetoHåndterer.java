@@ -1,6 +1,7 @@
 package no.nav.vedtak.felles.prosesstask.impl;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.AbstractMap.SimpleEntry;
 
@@ -45,7 +46,7 @@ public class RunTaskVetoHåndterer {
 
                 pte.setSisteFeil(taskFeil.getFeilkode(), taskFeil.writeValueAsString());
                 pte.setStatus(ProsessTaskStatus.VETO); // setter også status slik at den ikke forsøker på nytt. Blokkerende task må resette denne.
-
+                pte.setNesteKjøringEtter(LocalDateTime.now()); // kjør umiddelbart når veto opphører
                 EntityManager em = entityManager;
                 em.persist(pte);
                 em.flush();

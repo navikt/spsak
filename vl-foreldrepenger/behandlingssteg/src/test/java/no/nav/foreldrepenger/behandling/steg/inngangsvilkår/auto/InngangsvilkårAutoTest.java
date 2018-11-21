@@ -7,15 +7,14 @@ import java.time.Period;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
-import no.nav.foreldrepenger.inngangsvilkaar.regelmodell.opptjening.OpptjeningsvilkårResultat;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsvilkårResultat;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
@@ -52,14 +51,5 @@ public class InngangsvilkårAutoTest {
                     && Objects.equals(((OpptjeningsPeriode) extra).getOpptjeningsperiodeTom(), resultat.getOpptjeningTom());
         };
         new VilkårVurdering().vurderVilkår(collector, VilkårType.OPPTJENINGSPERIODEVILKÅR, extraDataSjekk);
-    }
-
-    @Test
-    @Ignore("Kan brukes for å debugge et enkelt case")
-    public void run_one_test() {
-        new VilkårVurdering().vurderVilkår("1007351-5c69e8b1-b19e-4ad7-8a60-7d4bb8885944",
-            collector,
-            VilkårType.FØDSELSVILKÅRET_MOR,
-            VilkårVurdering.DO_NOTHING);
     }
 }

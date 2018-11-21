@@ -16,7 +16,7 @@ import com.codahale.metrics.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import no.nav.foreldrepenger.domene.vedtakinnsyn.VedtakInnsynTjeneste;
+import no.nav.foreldrepenger.domene.vedtak.innsyn.VedtakInnsynTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingIdDto;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
 

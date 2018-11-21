@@ -24,7 +24,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.Aksjo
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.AksjonspunktGodkjenningDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.BekreftetAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FatterVedtakAksjonspunktDto;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.SjekkManglendeFodselDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsutredningApplikasjonTjeneste;
 import no.nav.vedtak.exception.FunksjonellException;
 
@@ -55,24 +54,6 @@ public class AksjonspunktRestTjenesteTest {
 
 
     @Test
-    public void skal_bekrefte_antall_barn() throws URISyntaxException {
-        Collection<BekreftetAksjonspunktDto> aksjonspunkt = new ArrayList<>();
-        aksjonspunkt.add(
-            new SjekkManglendeFodselDto(
-                begrunnelse,
-                false,
-                false,
-                null,
-                0));
-
-        aksjonspunktRestTjeneste.bekreft(BekreftedeAksjonspunkterDto.lagDto(behandlingId, behandlingVersjon, aksjonspunkt));
-
-        verify(aksjonspunktApplikasjonTjenesteMock).bekreftAksjonspunkter(ArgumentMatchers.anyCollection(),
-            anyLong());
-
-    }
-
-    @Test
     public void skal_bekrefte_fatte_vedtak_med_aksjonspunkt_godkjent() throws URISyntaxException {
         when(behandling.getStatus()).thenReturn(BehandlingStatus.FATTER_VEDTAK);
         Collection<BekreftetAksjonspunktDto> aksjonspunkt = new ArrayList<>();
@@ -87,21 +68,6 @@ public class AksjonspunktRestTjenesteTest {
         aksjonspunktRestTjeneste.bekreft(BekreftedeAksjonspunkterDto.lagDto(behandlingId, behandlingVersjon, aksjonspunkt));
 
         verify(aksjonspunktApplikasjonTjenesteMock).bekreftAksjonspunkter(ArgumentMatchers.anyCollection(), anyLong());
-    }
-
-    @Test(expected = FunksjonellException.class)
-    public void skal_ikke_kunne_bekrefte_andre_aksjonspunkt_ved_status_fatter_vedtak() throws URISyntaxException {
-        when(behandling.getStatus()).thenReturn(BehandlingStatus.FATTER_VEDTAK);
-        Collection<BekreftetAksjonspunktDto> aksjonspunkt = new ArrayList<>();
-        aksjonspunkt.add(
-            new SjekkManglendeFodselDto(
-                begrunnelse,
-                false,
-                false,
-                null,
-                        0)
-        );
-        aksjonspunktRestTjeneste.bekreft(BekreftedeAksjonspunkterDto.lagDto(behandlingId, behandlingVersjon, aksjonspunkt));
     }
 
     private AksjonspunktGodkjenningDto opprettetGodkjentAksjonspunkt(boolean godkjent) {

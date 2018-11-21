@@ -23,9 +23,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.Beregningsgr
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
-import no.nav.foreldrepenger.domene.ytelse.beregning.BeregnFeriepengerTjeneste;
-import no.nav.foreldrepenger.domene.ytelse.beregning.FastsettBeregningsresultatTjeneste;
-import no.nav.foreldrepenger.domene.ytelse.beregning.FinnEndringsdatoBeregningsresultatFPTjeneste;
+import no.nav.foreldrepenger.domene.beregning.ytelse.BeregnFeriepengerTjeneste;
+import no.nav.foreldrepenger.domene.beregning.ytelse.FastsettBeregningsresultatTjeneste;
+import no.nav.foreldrepenger.domene.beregning.ytelse.FinnEndringsdatoBeregningsresultatFPTjeneste;
 
 /**
  * Steg for å beregne tilkjent ytelse (for Foreldrepenger).

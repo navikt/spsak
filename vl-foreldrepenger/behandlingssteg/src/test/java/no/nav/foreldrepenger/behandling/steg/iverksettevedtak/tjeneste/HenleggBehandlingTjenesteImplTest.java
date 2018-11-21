@@ -45,7 +45,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRep
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 import no.nav.vedtak.konfig.KonfigVerdi;
@@ -128,7 +127,6 @@ public class HenleggBehandlingTjenesteImplTest {
         // Assert
         verify(historikkRepositoryMock).lagre(any(Historikkinnslag.class));
         verify(repositoryProviderMock.getBehandlingRepository(), atLeast(2)).lagre(eq(behandling), any(BehandlingLås.class));
-        verify(prosessTaskRepositoryMock).lagre(any(ProsessTaskData.class));
     }
 
     @Test
@@ -148,7 +146,7 @@ public class HenleggBehandlingTjenesteImplTest {
     public void skal_henlegge_behandling_med_aksjonspunkt() throws Exception {
         // Arrange
         BehandlingResultatType behandlingsresultat = BehandlingResultatType.HENLAGT_FEILOPPRETTET;
-        Aksjonspunkt aksjonspunkt = repositoryProviderMock.getAksjonspunktRepository().leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        Aksjonspunkt aksjonspunkt = repositoryProviderMock.getAksjonspunktRepository().leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_FORTSATT_MEDLEMSKAP);
         assertThat(aksjonspunkt.getStatus()).isEqualTo(AksjonspunktStatus.OPPRETTET);
 
         // Act

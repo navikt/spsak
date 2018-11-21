@@ -5,7 +5,6 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingTjeneste;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.StartBerørtBehandlingTask;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -64,7 +63,6 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
             opprettOppgaveTilInfotrygd(behandling);
         }
         behandlingskontrollTjeneste.lagHistorikkinnslagForHenleggelse(behandlingId, HistorikkinnslagType.AVBRUTT_BEH, årsakKode, begrunnelse, HistorikkAktør.SAKSBEHANDLER);
-        startTaskForDekøingAvBerørtBehandling(behandling);
     }
 
     private void sendHenleggelsesbrev(Long behandlingId, HistorikkAktør vedtaksløsningen) {
@@ -83,13 +81,6 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
             // Må ta behandling av vent for å tillate henleggelse (krav i Behandlingskontroll)
             behandlingskontrollTjeneste.taBehandlingAvVent(behandling, kontekst);
         }
-    }
-
-    private void startTaskForDekøingAvBerørtBehandling(Behandling behandling) {
-        ProsessTaskData taskData = new ProsessTaskData(StartBerørtBehandlingTask.TASKTYPE);
-        taskData.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());
-        taskData.setCallIdFraEksisterende();
-        prosessTaskRepository.lagre(taskData);
     }
 
 }

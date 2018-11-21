@@ -21,12 +21,6 @@
 			<artifactId>felles-behandlingsprosess-prosesstask</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>i18n</artifactId>
-		</dependency>
-
-
 		<!-- TODO: Midlertidig til vi får håndtert datavarehus bedre (trenger å inkludere datavarehus-orm i persistence.xml)-->
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>

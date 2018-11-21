@@ -11,7 +11,7 @@
 	<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 	<artifactId>felles-integrasjon-pom</artifactId>
 	<packaging>pom</packaging>
-	<name>Felles Integrasjon</name>
+	<name>Felles :: Integrasjon</name>
 
 	<modules>
 		<module>webservice</module>
