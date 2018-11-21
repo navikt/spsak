@@ -1,6 +1,5 @@
 package no.nav.sykepenger.spmock.kafka;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import kafka.server.KafkaConfig;
