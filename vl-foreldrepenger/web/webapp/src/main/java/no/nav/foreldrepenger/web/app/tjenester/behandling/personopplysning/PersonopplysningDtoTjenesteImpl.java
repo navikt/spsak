@@ -106,12 +106,6 @@ public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjene
 
         PersonopplysningDto dto = enkelMapping(søker, aggregat);
 
-        dto.setBarn(aggregat.getBarna()
-            .stream()
-            //.filter(p -> OpplysningsKilde.TPS.equals(p.getOpplysningsKilde()))
-            .map(e -> enkelMapping(e, aggregat))
-            .collect(Collectors.toList()));
-
         dto.setBarnSoktFor(Collections.emptyList());
 
         repositoryProvider.getSøknadRepository().hentSøknad(behandlingId);

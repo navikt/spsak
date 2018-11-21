@@ -6,13 +6,17 @@
                  version="2.1">
 
     <sequence-generator name="SEQ_BEHANDLING" allocation-size="50" sequence-name="SEQ_BEHANDLING"/>
-    <sequence-generator name="SEQ_BEHANDLING_STEG_TYPE_SEKV" allocation-size="50" sequence-name="SEQ_BEHANDLING_STEG_TYPE_SEKV"/>
-    <sequence-generator name="SEQ_BEHANDLING_STEG_TILSTAND" allocation-size="50" sequence-name="SEQ_BEHANDLING_STEG_TILSTAND"/>
-    <sequence-generator name="SEQ_BEHANDLING_REL_YTELSER" allocation-size="50" sequence-name="SEQ_BEHANDLING_REL_YTELSER"/>
+    <sequence-generator name="SEQ_BEHANDLING_STEG_TYPE_SEKV" allocation-size="50"
+                        sequence-name="SEQ_BEHANDLING_STEG_TYPE_SEKV"/>
+    <sequence-generator name="SEQ_BEHANDLING_STEG_TILSTAND" allocation-size="50"
+                        sequence-name="SEQ_BEHANDLING_STEG_TILSTAND"/>
+    <sequence-generator name="SEQ_BEHANDLING_REL_YTELSER" allocation-size="50"
+                        sequence-name="SEQ_BEHANDLING_REL_YTELSER"/>
     <sequence-generator name="SEQ_BEHANDLING_ARSAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_ARSAK"/>
     <sequence-generator name="SEQ_GR_SOEKNAD" allocation-size="50" sequence-name="SEQ_GR_SOEKNAD"/>
     <sequence-generator name="SEQ_SOEKNAD" allocation-size="50" sequence-name="SEQ_SOEKNAD"/>
-    <sequence-generator name="SEQ_KLAGE_VURDERING_RESULTAT" allocation-size="50" sequence-name="SEQ_KLAGE_VURDERING_RESULTAT"/>
+    <sequence-generator name="SEQ_KLAGE_VURDERING_RESULTAT" allocation-size="50"
+                        sequence-name="SEQ_KLAGE_VURDERING_RESULTAT"/>
 
     <sequence-generator name="SEQ_BEHANDLING_RESULTAT" allocation-size="50" sequence-name="SEQ_BEHANDLING_RESULTAT"/>
     <sequence-generator name="SEQ_BR_KONSEKVENS_YTELSE" allocation-size="50" sequence-name="SEQ_BR_KONSEKVENS_YTELSE"/>
@@ -27,18 +31,25 @@
     <sequence-generator name="SEQ_SATS" allocation-size="50" sequence-name="SEQ_SATS"/>
     <sequence-generator name="SEQ_DOKUMENT_ADRESSE" allocation-size="50" sequence-name="SEQ_DOKUMENT_ADRESSE"/>
     <sequence-generator name="SEQ_BEHANDLING_VEDTAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_VEDTAK"/>
-    <sequence-generator name="SEQ_OPPGAVE_BEHANDLING_KOBLING" allocation-size="50" sequence-name="SEQ_OPPGAVE_BEHANDLING_KOBLING"/>
+    <sequence-generator name="SEQ_OPPGAVE_BEHANDLING_KOBLING" allocation-size="50"
+                        sequence-name="SEQ_OPPGAVE_BEHANDLING_KOBLING"/>
     <sequence-generator name="SEQ_HISTORIKKINNSLAG" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG"/>
-    <sequence-generator name="SEQ_HISTORIKKINNSLAG_DOK_LINK" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG_DOK_LINK"/>
+    <sequence-generator name="SEQ_HISTORIKKINNSLAG_DOK_LINK" allocation-size="50"
+                        sequence-name="SEQ_HISTORIKKINNSLAG_DOK_LINK"/>
     <sequence-generator name="SEQ_HISTORIKKINNSLAG_DEL" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG_DEL"/>
-    <sequence-generator name="SEQ_HISTORIKKINNSLAG_FELT" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG_FELT"/>
-    <sequence-generator name="SEQ_VURDER_PAA_NYTT_AARSAK" allocation-size="50" sequence-name="SEQ_VURDER_PAA_NYTT_AARSAK"/>
-    <sequence-generator name="SEQ_TOTRINNRESULTATGRUNNLAG" allocation-size="50" sequence-name="SEQ_TOTRINNRESULTATGRUNNLAG"/>
+    <sequence-generator name="SEQ_HISTORIKKINNSLAG_FELT" allocation-size="50"
+                        sequence-name="SEQ_HISTORIKKINNSLAG_FELT"/>
+    <sequence-generator name="SEQ_VURDER_PAA_NYTT_AARSAK" allocation-size="50"
+                        sequence-name="SEQ_VURDER_PAA_NYTT_AARSAK"/>
+    <sequence-generator name="SEQ_TOTRINNRESULTATGRUNNLAG" allocation-size="50"
+                        sequence-name="SEQ_TOTRINNRESULTATGRUNNLAG"/>
     <sequence-generator name="SEQ_TOTRINNSVURDERING" allocation-size="50" sequence-name="SEQ_TOTRINNSVURDERING"/>
-    <sequence-generator name="SEQ_VURDER_AARSAK_TTVURDERING" allocation-size="50" sequence-name="SEQ_VURDER_AARSAK_TTVURDERING"/>
+    <sequence-generator name="SEQ_VURDER_AARSAK_TTVURDERING" allocation-size="50"
+                        sequence-name="SEQ_VURDER_AARSAK_TTVURDERING"/>
 
     <sequence-generator name="SEQ_GR_ARBEID_INNTEKT" allocation-size="50" sequence-name="SEQ_GR_ARBEID_INNTEKT"/>
-    <sequence-generator name="SEQ_INNTEKT_ARBEID_YTELSER" allocation-size="50" sequence-name="SEQ_INNTEKT_ARBEID_YTELSER"/>
+    <sequence-generator name="SEQ_INNTEKT_ARBEID_YTELSER" allocation-size="50"
+                        sequence-name="SEQ_INNTEKT_ARBEID_YTELSER"/>
     <sequence-generator name="SEQ_AKTOER_INNTEKT" allocation-size="50" sequence-name="SEQ_AKTOER_INNTEKT"/>
     <sequence-generator name="SEQ_RELATERTE_YTELSER" allocation-size="50" sequence-name="SEQ_RELATERTE_YTELSER"/>
     <sequence-generator name="SEQ_INNTEKTSPOST" allocation-size="50" sequence-name="SEQ_INNTEKTSPOST"/>
@@ -60,29 +71,35 @@
     <sequence-generator name="SEQ_MEDLEMSKAP_VL" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_VL"/>
     <sequence-generator name="SEQ_MEDLEMSKAP_VP" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_VP"/>
     <sequence-generator name="SEQ_MEDLEMSKAP" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP"/>
-    <sequence-generator name="SEQ_MEDLEMSKAP_REGISTRERT" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_REGISTRERT"/>
-    <sequence-generator name="SEQ_MEDLEMSKAP_OPPG_TILKNYT" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_OPPG_TILKNYT"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_REGISTRERT" allocation-size="50"
+                        sequence-name="SEQ_MEDLEMSKAP_REGISTRERT"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_OPPG_TILKNYT" allocation-size="50"
+                        sequence-name="SEQ_MEDLEMSKAP_OPPG_TILKNYT"/>
     <sequence-generator name="SEQ_MEDLEMSKAP_OPPG_LAND" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_OPPG_LAND"/>
 
-    <sequence-generator name="SEQ_GR_MEDLEMSKAP_VILKAR_PER" allocation-size="50" sequence-name="SEQ_GR_MEDLEMSKAP_VILKAR_PER"/>
-    <sequence-generator name="SEQ_MEDLEMSKAP_VILKAR_PERIODE" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_VILKAR_PERIODE"/>
-    <sequence-generator name="SEQ_MEDLEMSKAP_VILKAR_PERIODER" allocation-size="50" sequence-name="SEQ_MEDLEMSKAP_VILKAR_PERIODER"/>
+    <sequence-generator name="SEQ_GR_MEDLEMSKAP_VILKAR_PER" allocation-size="50"
+                        sequence-name="SEQ_GR_MEDLEMSKAP_VILKAR_PER"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_VILKAR_PERIODE" allocation-size="50"
+                        sequence-name="SEQ_MEDLEMSKAP_VILKAR_PERIODE"/>
+    <sequence-generator name="SEQ_MEDLEMSKAP_VILKAR_PERIODER" allocation-size="50"
+                        sequence-name="SEQ_MEDLEMSKAP_VILKAR_PERIODER"/>
 
     <sequence-generator name="SEQ_GR_PERSONOPPLYSNING" allocation-size="50" sequence-name="SEQ_GR_PERSONOPPLYSNING"/>
     <sequence-generator name="SEQ_GR_MEDLEMSKAP" allocation-size="50" sequence-name="SEQ_GR_MEDLEMSKAP"/>
-    <sequence-generator name="SEQ_GR_BEREGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_GR_BEREGNINGSGRUNNLAG"/>
+    <sequence-generator name="SEQ_GR_BEREGNINGSGRUNNLAG" allocation-size="50"
+                        sequence-name="SEQ_GR_BEREGNINGSGRUNNLAG"/>
 
     <sequence-generator name="SEQ_FAMILIERELASJON" allocation-size="50" sequence-name="SEQ_FAMILIERELASJON"/>
     <sequence-generator name="SEQ_OPPLYSNING_ADRESSE" allocation-size="50" sequence-name="SEQ_OPPLYSNING_ADRESSE"/>
     <sequence-generator name="SEQ_PERSONOPPLYSNING" allocation-size="50" sequence-name="SEQ_PERSONOPPLYSNING"/>
     <sequence-generator name="SEQ_VALGT_OPPLYSNING" allocation-size="50" sequence-name="SEQ_VALGT_OPPLYSNING"/>
 
-    <sequence-generator name="SEQ_PO_INFORMASJON" allocation-size="50" sequence-name="SEQ_PO_INFORMASJON" />
-    <sequence-generator name="SEQ_PO_PERSONOPPLYSNING" allocation-size="50" sequence-name="SEQ_PO_PERSONOPPLYSNING" />
-    <sequence-generator name="SEQ_PO_PERSONSTATUS" allocation-size="50" sequence-name="SEQ_PO_PERSONSTATUS" />
-    <sequence-generator name="SEQ_PO_STATSBORGERSKAP" allocation-size="50" sequence-name="SEQ_PO_STATSBORGERSKAP" />
-    <sequence-generator name="SEQ_PO_RELASJON" allocation-size="50" sequence-name="SEQ_PO_RELASJON" />
-    <sequence-generator name="SEQ_PO_ADRESSE" allocation-size="50" sequence-name="SEQ_PO_ADRESSE" />
+    <sequence-generator name="SEQ_PO_INFORMASJON" allocation-size="50" sequence-name="SEQ_PO_INFORMASJON"/>
+    <sequence-generator name="SEQ_PO_PERSONOPPLYSNING" allocation-size="50" sequence-name="SEQ_PO_PERSONOPPLYSNING"/>
+    <sequence-generator name="SEQ_PO_PERSONSTATUS" allocation-size="50" sequence-name="SEQ_PO_PERSONSTATUS"/>
+    <sequence-generator name="SEQ_PO_STATSBORGERSKAP" allocation-size="50" sequence-name="SEQ_PO_STATSBORGERSKAP"/>
+    <sequence-generator name="SEQ_PO_RELASJON" allocation-size="50" sequence-name="SEQ_PO_RELASJON"/>
+    <sequence-generator name="SEQ_PO_ADRESSE" allocation-size="50" sequence-name="SEQ_PO_ADRESSE"/>
 
     <sequence-generator name="SEQ_VERGE" allocation-size="50" sequence-name="SEQ_VERGE"/>
     <sequence-generator name="SEQ_GR_VERGE" allocation-size="50" sequence-name="SEQ_GR_VERGE"/>
@@ -91,25 +108,37 @@
     <sequence-generator name="SEQ_BG_AKTIVITET_STATUS" allocation-size="50" sequence-name="SEQ_BG_AKTIVITET_STATUS"/>
     <sequence-generator name="SEQ_BG_PERIODE" allocation-size="50" sequence-name="SEQ_BG_PERIODE"/>
     <sequence-generator name="SEQ_BG_PERIODE_AARSAK" allocation-size="50" sequence-name="SEQ_BG_PERIODE_AARSAK"/>
-    <sequence-generator name="SEQ_BG_ANDEL_ARBEIDSFORHOLD" allocation-size="50" sequence-name="SEQ_BG_ANDEL_ARBEIDSFORHOLD"/>
-    <sequence-generator name="SEQ_BG_PR_STATUS_OG_ANDEL" allocation-size="50" sequence-name="SEQ_BG_PR_STATUS_OG_ANDEL"/>
-    <sequence-generator name="SEQ_SAMMENLIGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_SAMMENLIGNINGSGRUNNLAG"/>
-    <sequence-generator name="SEQ_BG_FAKTA_BER_TILFELLE" allocation-size="50" sequence-name="SEQ_BG_FAKTA_BER_TILFELLE"/>
+    <sequence-generator name="SEQ_BG_ANDEL_ARBEIDSFORHOLD" allocation-size="50"
+                        sequence-name="SEQ_BG_ANDEL_ARBEIDSFORHOLD"/>
+    <sequence-generator name="SEQ_BG_PR_STATUS_OG_ANDEL" allocation-size="50"
+                        sequence-name="SEQ_BG_PR_STATUS_OG_ANDEL"/>
+    <sequence-generator name="SEQ_SAMMENLIGNINGSGRUNNLAG" allocation-size="50"
+                        sequence-name="SEQ_SAMMENLIGNINGSGRUNNLAG"/>
+    <sequence-generator name="SEQ_BG_FAKTA_BER_TILFELLE" allocation-size="50"
+                        sequence-name="SEQ_BG_FAKTA_BER_TILFELLE"/>
 
-    <sequence-generator name="SEQ_BEREGNINGSRESULTAT_FP" allocation-size="50" sequence-name="SEQ_BEREGNINGSRESULTAT_FP"/>
+    <sequence-generator name="SEQ_BEREGNINGSRESULTAT_FP" allocation-size="50"
+                        sequence-name="SEQ_BEREGNINGSRESULTAT_FP"/>
     <sequence-generator name="SEQ_BR_PERIODE" allocation-size="50" sequence-name="SEQ_BR_PERIODE"/>
-    <sequence-generator name="SEQ_BEREGNINGSRESULTAT_ANDEL" allocation-size="50" sequence-name="SEQ_BEREGNINGSRESULTAT_ANDEL"/>
-    <sequence-generator name="SEQ_RES_BEREGNINGSRESULTAT_FP" allocation-size="50" sequence-name="SEQ_RES_BEREGNINGSRESULTAT_FP"/>
+    <sequence-generator name="SEQ_BEREGNINGSRESULTAT_ANDEL" allocation-size="50"
+                        sequence-name="SEQ_BEREGNINGSRESULTAT_ANDEL"/>
+    <sequence-generator name="SEQ_RES_BEREGNINGSRESULTAT_FP" allocation-size="50"
+                        sequence-name="SEQ_RES_BEREGNINGSRESULTAT_FP"/>
     <sequence-generator name="SEQ_BR_FERIEPENGER" allocation-size="50" sequence-name="SEQ_BR_FERIEPENGER"/>
-    <sequence-generator name="SEQ_BR_FERIEPENGER_PR_AAR" allocation-size="50" sequence-name="SEQ_BR_FERIEPENGER_PR_AAR"/>
+    <sequence-generator name="SEQ_BR_FERIEPENGER_PR_AAR" allocation-size="50"
+                        sequence-name="SEQ_BR_FERIEPENGER_PR_AAR"/>
 
     <sequence-generator name="SEQ_UTTAK_RESULTAT" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT"/>
-    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODE"/>
-    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODER" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODER"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE" allocation-size="50"
+                        sequence-name="SEQ_UTTAK_RESULTAT_PERIODE"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODER" allocation-size="50"
+                        sequence-name="SEQ_UTTAK_RESULTAT_PERIODER"/>
     <sequence-generator name="SEQ_UTTAKSPERIODEGRENSE" allocation-size="50" sequence-name="SEQ_UTTAKSPERIODEGRENSE"/>
-    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE_AKT" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODE_AKT"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE_AKT" allocation-size="50"
+                        sequence-name="SEQ_UTTAK_RESULTAT_PERIODE_AKT"/>
     <sequence-generator name="SEQ_UTTAK_AKTIVITET" allocation-size="50" sequence-name="SEQ_UTTAK_AKTIVITET"/>
-    <sequence-generator name="SEQ_UTTAK_RESULTAT_DOK_REGEL" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_DOK_REGEL"/>
+    <sequence-generator name="SEQ_UTTAK_RESULTAT_DOK_REGEL" allocation-size="50"
+                        sequence-name="SEQ_UTTAK_RESULTAT_DOK_REGEL"/>
     <sequence-generator name="SEQ_UTTAK_RES_PER_SOKNAD" allocation-size="50" sequence-name="SEQ_UTTAK_RES_PER_SOKNAD"/>
 
     <sequence-generator name="SEQ_OPPTJENING" allocation-size="50" sequence-name="SEQ_OPPTJENING"/>
@@ -122,8 +151,10 @@
     <sequence-generator name="SEQ_INNTEKTSMELDINGER" allocation-size="50" sequence-name="SEQ_INNTEKTSMELDINGER"/>
     <sequence-generator name="SEQ_REFUSJON" allocation-size="50" sequence-name="SEQ_REFUSJON"/>
 
-    <sequence-generator name="SEQ_SO_OPPGITT_OPPTJENING" allocation-size="50" sequence-name="SEQ_SO_OPPGITT_OPPTJENING"/>
-    <sequence-generator name="SEQ_OPPGITT_ARBEIDSFORHOLD" allocation-size="50" sequence-name="SEQ_OPPGITT_ARBEIDSFORHOLD"/>
+    <sequence-generator name="SEQ_SO_OPPGITT_OPPTJENING" allocation-size="50"
+                        sequence-name="SEQ_SO_OPPGITT_OPPTJENING"/>
+    <sequence-generator name="SEQ_OPPGITT_ARBEIDSFORHOLD" allocation-size="50"
+                        sequence-name="SEQ_OPPGITT_ARBEIDSFORHOLD"/>
     <sequence-generator name="SEQ_EGEN_NAERING" allocation-size="50" sequence-name="SEQ_EGEN_NAERING"/>
     <sequence-generator name="SEQ_ANNEN_AKTIVITET" allocation-size="50" sequence-name="SEQ_ANNEN_AKTIVITET"/>
 
@@ -132,15 +163,24 @@
     <sequence-generator name="SEQ_YTELSE_ANVIST" allocation-size="50" sequence-name="SEQ_YTELSE_ANVIST"/>
     <sequence-generator name="SEQ_YTELSE_GRUNNLAG" allocation-size="50" sequence-name="SEQ_YTELSE_GRUNNLAG"/>
     <sequence-generator name="SEQ_YTELSE_STOERRELSE" allocation-size="50" sequence-name="SEQ_YTELSE_STOERRELSE"/>
-    
-    <sequence-generator name="SEQ_IAY_ARBEIDSFORHOLD_REFER" allocation-size="50" sequence-name="SEQ_IAY_ARBEIDSFORHOLD_REFER"/>
+
+    <sequence-generator name="SEQ_IAY_ARBEIDSFORHOLD_REFER" allocation-size="50"
+                        sequence-name="SEQ_IAY_ARBEIDSFORHOLD_REFER"/>
     <sequence-generator name="SEQ_IAY_INFORMASJON" allocation-size="50" sequence-name="SEQ_IAY_INFORMASJON"/>
     <sequence-generator name="SEQ_IAY_ARBEIDSFORHOLD" allocation-size="50" sequence-name="SEQ_IAY_ARBEIDSFORHOLD"/>
-    <sequence-generator name="SEQ_ORG_MANUELL_BEHANDLING" allocation-size="50" sequence-name="SEQ_ORG_MANUELL_BEHANDLING"/>
+    <sequence-generator name="SEQ_ORG_MANUELL_BEHANDLING" allocation-size="50"
+                        sequence-name="SEQ_ORG_MANUELL_BEHANDLING"/>
     <sequence-generator name="SEQ_KODELISTE_NAVN_I18N" allocation-size="50" sequence-name="SEQ_KODELISTE_NAVN_I18N"/>
 
     <sequence-generator name="SEQ_SO_OPPGITT_FRILANS" allocation-size="50" sequence-name="SEQ_SO_OPPGITT_FRILANS"/>
     <sequence-generator name="SEQ_SO_OPPGITT_FRILANSOPPDRAG" allocation-size="50" sequence-name="SEQ_SO_OPPGITT_FRILANSOPPDRAG"/>
+
+    <sequence-generator name="SEQ_GR_SYKEFRAVAER" allocation-size="50" sequence-name="SEQ_GR_SYKEFRAVAER"/>
+    <sequence-generator name="SEQ_SF_SYKEFRAVAER" allocation-size="50" sequence-name="SEQ_SF_SYKEFRAVAER"/>
+    <sequence-generator name="SEQ_SF_SYKEFRAVAER_PERIODE" allocation-size="50"
+                        sequence-name="SEQ_SF_SYKEFRAVAER_PERIODE"/>
+    <sequence-generator name="SEQ_SF_SYKEMELDINGER" allocation-size="50" sequence-name="SEQ_SF_SYKEMELDINGER"/>
+    <sequence-generator name="SEQ_SF_SYKEMELDING" allocation-size="50" sequence-name="SEQ_SF_SYKEMELDING"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Behandling"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType"/>
@@ -155,8 +195,8 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Tema"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingsresultatKonsekvensForYtelsen" />
-    
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingsresultatKonsekvensForYtelsen"/>
+
     <!-- Felles kodeverk for eksterne id'er -->
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.ReferanseType"/>
 
@@ -182,11 +222,11 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadAnnenPartType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.ForeldreType"/>
-    
+
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeGrunnlagEntitet"/>
 
-    
+
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentGruppe"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId"/>
@@ -197,7 +237,7 @@
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.RevurderingVarslingÅrsak"/>
-    
+
     <!-- Medlemskap aggregat og grunnlag -->
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapPeriodeEntitet"/>
@@ -285,6 +325,14 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.FrilansoppdragEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType"/>
 
+    <!-- Sykefravær -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeType"/>
+
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.AdresseType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.VariantFormat"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.MottakKanal"/>
@@ -294,7 +342,7 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Landgrupper"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Geopolitisk"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.LandkodeISO2"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Poststed" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Poststed"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Region"/>
@@ -340,7 +388,7 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFeltType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkOpplysningType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAvklartSoeknadsperiodeType" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAvklartSoeknadsperiodeType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkResultatType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType"/>
 

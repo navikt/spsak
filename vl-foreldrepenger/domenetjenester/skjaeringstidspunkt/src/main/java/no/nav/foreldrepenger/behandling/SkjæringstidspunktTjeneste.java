@@ -22,14 +22,6 @@ public interface SkjæringstidspunktTjeneste {
     LocalDate utledSkjæringstidspunktForRegisterInnhenting(Behandling behandling);
 
     /**
-     * TODO:
-     * @param behandling behanlingen
-     * @return dato
-     */
-    LocalDate førsteUttaksdag(Behandling behandling);
-
-    /**
-     * ES: Skjæringstidspunkt for Engangsstønad(hendelses skjæringstidspunkt)
      * FP: Skjæringstidspunkt for Foreldrepenger
      *      1. Opptjeningsperiode tom-dato (Bekreftet)
      *      2. Avklart startdato for permisjon (Delevis avklart)

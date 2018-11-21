@@ -28,6 +28,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
@@ -39,6 +41,7 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioM
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.foreldrepenger.domene.typer.Prosentsats;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
@@ -98,7 +101,13 @@ public class VurderOpptjeningsvilkårStegImplTest {
         // Virksomhet B
         lagAktørArbeid(inntektArbeidYtelseBuilder, aktørId, virksomhetB, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD);
         lagInntekt(inntektArbeidYtelseBuilder, aktørId, virksomhetB, fraOgMed, idag);
-
+        SykemeldingerBuilder builder = scenario.getSykemeldingerBuilder();
+        SykemeldingBuilder sykemeldingBuilder = builder.sykemeldingBuilder("ASDF-ASDF-ASDF");
+        sykemeldingBuilder.medPeriode(idag, idag.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)))
+            .medGrad(new Prosentsats(100));
+        builder.medSykemelding(sykemeldingBuilder);
+        scenario.medSykemeldinger(builder);
         Behandling behandling = scenario.lagre(repositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(),behandlingRepository.taSkriveLås(behandling));

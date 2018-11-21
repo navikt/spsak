@@ -18,6 +18,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRe
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepositoryImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
@@ -38,10 +40,13 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepositoryImpl;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 
-/** Provider for å enklere å kunne hente ut ulike repository uten for mange injection points. */
+/**
+ * Provider for å enklere å kunne hente ut ulike repository uten for mange injection points.
+ */
 @ApplicationScoped
 public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryProvider {
 
+    private SykefraværRepositoryImpl sykefraværRepository;
     private EntityManager entityManager;
     private BehandlingLåsRepositoryImpl behandlingLåsRepository;
     private FagsakRepository fagsakRepository;
@@ -94,7 +99,7 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         this.fagsakRepository = new FagsakRepositoryImpl(entityManager);
         this.aksjonspunktRepository = new AksjonspunktRepositoryImpl(entityManager, this.kodeverkRepository);
         this.fagsakLåsRepository = new FagsakLåsRepositoryImpl(entityManager);
-        
+
         // andre type behandlinger (ikke ytelse behandling)
         this.innsynRepository = new InnsynRepositoryImpl(entityManager);
 
@@ -121,6 +126,9 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         this.historikkRepository = new HistorikkRepositoryImpl(entityManager);
         this.behandlingVedtakRepository = new BehandlingVedtakRepositoryImpl(entityManager, behandlingRepository);
         this.behandlingRevurderingRepository = new BehandlingRevurderingRepositoryImpl(entityManager, this);
+
+        // Sykefravær repository
+        this.sykefraværRepository = new SykefraværRepositoryImpl(entityManager);
 
     }
 
@@ -252,5 +260,10 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     @Override
     public FagsakLåsRepository getFagsakLåsRepository() {
         return fagsakLåsRepository;
+    }
+
+    @Override
+    public SykefraværRepository getSykefraværRepository() {
+        return sykefraværRepository;
     }
 }

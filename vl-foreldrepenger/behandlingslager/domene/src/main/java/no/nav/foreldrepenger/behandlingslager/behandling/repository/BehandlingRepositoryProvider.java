@@ -6,6 +6,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeRepository;
@@ -67,4 +68,6 @@ public interface BehandlingRepositoryProvider {
     BehandlingRevurderingRepository getBehandlingRevurderingRepository();
 
     FagsakLåsRepository getFagsakLåsRepository();
+
+    SykefraværRepository getSykefraværRepository();
 }

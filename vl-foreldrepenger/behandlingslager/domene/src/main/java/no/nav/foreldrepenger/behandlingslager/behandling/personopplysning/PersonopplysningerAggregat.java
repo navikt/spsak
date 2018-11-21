@@ -169,14 +169,6 @@ public class PersonopplysningerAggregat {
             .collect(Collectors.toList());
     }
 
-    public List<Personopplysning> getBarna() {
-        return getBarnaTil(søkerAktørId);
-    }
-
-    public List<Personopplysning> getBarnaTil(AktørId aktørId) {
-        return getTilPersonerFor(aktørId, RelasjonsRolleType.BARN);
-    }
-
     public Optional<Personopplysning> getEktefelle() {
         List<Personopplysning> personer = getTilPersonerFor(søkerAktørId, RelasjonsRolleType.EKTE);
         return personer.isEmpty() ? Optional.empty() : Optional.of(personer.get(0));
@@ -205,20 +197,10 @@ public class PersonopplysningerAggregat {
         return Collections.unmodifiableList(tilPersoner);
     }
 
-    public Optional<PersonRelasjon> finnRelasjon(AktørId fraAktørId, AktørId tilAktørId) {
-        return getRelasjoner().stream()
-            .filter(e -> e.getAktørId().equals(fraAktørId) && e.getTilAktørId().equals(tilAktørId))
-            .findFirst();
-    }
-
-    public List<PersonRelasjon> finnRelasjon(AktørId fraAktørId) {
+    private List<PersonRelasjon> finnRelasjon(AktørId fraAktørId) {
         return getRelasjoner().stream()
             .filter(e -> e.getAktørId().equals(fraAktørId))
             .collect(Collectors.toList());
-    }
-
-    public DatoIntervallEntitet getForPeriode() {
-        return forPeriode;
     }
 
     @Override

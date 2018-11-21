@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,10 +17,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktivitetsAvtale;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørArbeid;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørInntekt;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Yrkesaktivitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Arbeidsgiverperiode;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapManuellVurderingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
@@ -29,6 +33,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sykefravær;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeType;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.Sykemelding;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.Sykemeldinger;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
@@ -40,6 +51,7 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.Vilkår
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.fpsak.nare.evaluation.Evaluation;
+import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @ApplicationScoped
 public class InngangsvilkårOversetter {
@@ -50,6 +62,7 @@ public class InngangsvilkårOversetter {
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private BasisPersonopplysningTjeneste personopplysningTjeneste;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
+    private SykefraværRepository sykefraværRepository;
 
     InngangsvilkårOversetter() {
         // for CDI proxy
@@ -63,6 +76,7 @@ public class InngangsvilkårOversetter {
         this.kodeverkRepository = repositoryProvider.getVilkårKodeverkRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
+        this.sykefraværRepository = repositoryProvider.getSykefraværRepository();
         this.medlemskapPerioderTjeneste = medlemskapPerioderTjeneste;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.personopplysningTjeneste = personopplysningTjeneste;
@@ -238,18 +252,56 @@ public class InngangsvilkårOversetter {
     }
 
     public OpptjeningsperiodeGrunnlag oversettTilRegelModellOpptjeningsperiode(Behandling behandling) {
+        Optional<SykefraværGrunnlag> sykefraværGrunnlag = sykefraværRepository.hentHvisEksistererFor(behandling.getId());
+        List<SykefraværPeriode> søknadsPerioder = sykefraværGrunnlag.map(SykefraværGrunnlag::getSykefravær)
+            .map(Sykefravær::getPerioder)
+            .orElse(Collections.emptyList());
 
-        OpptjeningsperiodeGrunnlag grunnlag = new OpptjeningsperiodeGrunnlag();
+        Optional<LocalDate> førsteDagSøknaden = søknadsPerioder.stream()
+            .filter(ikkeEgenmeldingPeriode())
+            .map(SykefraværPeriode::getPeriode)
+            .map(DatoIntervallEntitet::getFomDato)
+            .min(LocalDate::compareTo);
 
-        // FIXME SP : Har fjernet FH, må erstattes av noe annet.
-        /*
-        if (grunnlag.getHendelsesDato() == null) {
-            throw new IllegalArgumentException("Utvikler-feil: Finner ikke hendelsesdato for behandling:" + behandling.getId());
-        }
-        */
-        grunnlag.setFørsteUttaksDato(skjæringstidspunktTjeneste.førsteUttaksdag(behandling));
+        Optional<LocalDate> førsteEgenmeldingsDag = søknadsPerioder.stream()
+            .filter(egenmeldingPeriode())
+            .map(SykefraværPeriode::getPeriode)
+            .map(DatoIntervallEntitet::getFomDato)
+            .min(LocalDate::compareTo);
 
-        return grunnlag;
+        Set<Sykemelding> sykemeldinger = sykefraværGrunnlag.map(SykefraværGrunnlag::getSykemeldinger)
+            .map(Sykemeldinger::getSykemeldinger)
+            .orElse(Collections.emptySet());
+
+        Optional<LocalDate> førsteSykemeldingsdag = sykemeldinger.stream()
+            .map(Sykemelding::getPeriode)
+            .map(DatoIntervallEntitet::getFomDato)
+            .min(LocalDate::compareTo);
+
+        Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlag = inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling.getId(), null);
+        List<Inntektsmelding> inntektsmeldinger = inntektArbeidYtelseGrunnlag.flatMap(InntektArbeidYtelseGrunnlag::getInntektsmeldinger)
+            .map(InntektsmeldingAggregat::getInntektsmeldinger)
+            .orElse(Collections.emptyList());
+
+        Optional<LocalDate> førstedagIArbeidsgiverPerioden = inntektsmeldinger.stream()
+            .map(Inntektsmelding::getArbeidsgiverperiode)
+            .flatMap(List::stream)
+            .map(Arbeidsgiverperiode::getPeriode)
+            .map(DatoIntervallEntitet::getFomDato)
+            .min(LocalDate::compareTo);
+
+        return new OpptjeningsperiodeGrunnlag(førsteEgenmeldingsDag.orElse(null),
+            førstedagIArbeidsgiverPerioden.orElse(null),
+            førsteDagSøknaden.orElse(null),
+            førsteSykemeldingsdag.orElse(null));
+    }
+
+    private Predicate<SykefraværPeriode> egenmeldingPeriode() {
+        return sfp -> SykefraværPeriodeType.EGENMELDING.equals(sfp.getType());
+    }
+
+    private Predicate<SykefraværPeriode> ikkeEgenmeldingPeriode() {
+        return sfp -> !SykefraværPeriodeType.EGENMELDING.equals(sfp.getType());
     }
 
     public VilkårData tilVilkårData(VilkårType vilkårType, Evaluation evaluation, VilkårGrunnlag grunnlag) {

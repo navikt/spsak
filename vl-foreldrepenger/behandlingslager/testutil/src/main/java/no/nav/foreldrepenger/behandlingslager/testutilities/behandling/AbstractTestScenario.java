@@ -81,6 +81,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.Beregningsre
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepositoryStub;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.InnsynRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlagBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlagEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
@@ -136,12 +144,10 @@ import no.nav.vedtak.util.FPDateUtil;
  */
 public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
-    public static final String ADOPSJON = "adopsjon";
-    public static final String FØDSEL = "fødsel";
-    public static final String TERMINBEKREFTELSE = "terminbekreftelse";
     private static final AtomicLong FAKE_ID = new AtomicLong(100999L);
     private final FagsakBuilder fagsakBuilder;
     private final Map<Behandling, PersonopplysningGrunnlag> personopplysningMap = new IdentityHashMap<>();
+    private final Map<Long, SykefraværGrunnlagEntitet> sykefraværGrunnlagMap = new IdentityHashMap<>();
     private final Map<Behandling, Verge> vergeMap = new IdentityHashMap<>();
     private final Map<Long, MedlemskapBehandlingsgrunnlagEntitet> medlemskapgrunnlag = new HashMap<>();
     private List<TestScenarioTillegg> testScenarioTilleggListe = new ArrayList<>();
@@ -176,6 +182,11 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
     // Registret og overstyrt personinfo
     private List<PersonInformasjon> personer;
+
+    // Sykefravær start
+    private SykefraværEntitet sykefravær;
+    private SykemeldingerEntitet sykemeldinger;
+    // Sykefravær slutt
 
     private Behandling originalBehandling;
     private BehandlingÅrsakType behandlingÅrsakType;
@@ -279,9 +290,52 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         when(repositoryProvider.getFagsakLåsRepository()).thenReturn(fagsakLåsRepository);
         when(repositoryProvider.getBehandlingLåsRepository()).thenReturn(behandlingLåsReposiory);
         when(repositoryProvider.getBeregningsresultatFPRepository()).thenReturn(beregningsresultatFPRepository);
+        when(repositoryProvider.getSykefraværRepository()).thenReturn(mockSykefraværRepository());
         lagreTilleggsScenarier(repositoryProvider);
 
         return behandlingRepository;
+    }
+
+    private SykefraværRepository mockSykefraværRepository() {
+        return new SykefraværRepository() {
+            @Override
+            public SykemeldingerBuilder oppretBuilderForSykemeldinger(Long behandlingId) {
+                Optional<SykefraværGrunnlagEntitet> grunnlag = Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(behandlingId, null));
+                return SykemeldingerBuilder.oppdater(grunnlag.map(SykefraværGrunnlagEntitet::getSykemeldinger));
+            }
+
+            @Override
+            public SykefraværBuilder oppretBuilderForSykefravær(Long behandlingId) {
+                Optional<SykefraværGrunnlagEntitet> grunnlag = Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(behandlingId, null));
+                return SykefraværBuilder.oppdater(grunnlag.map(SykefraværGrunnlagEntitet::getSykefravær));
+            }
+
+            @Override
+            public void lagre(Behandling behandling, SykemeldingerBuilder builder) {
+                Long id = behandling.getId();
+                SykefraværGrunnlagBuilder oppdater = SykefraværGrunnlagBuilder.oppdater(Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(id, null)));
+                oppdater.medSykemeldinger(builder);
+                sykefraværGrunnlagMap.put(id, (SykefraværGrunnlagEntitet) oppdater.build());
+            }
+
+            @Override
+            public void lagre(Behandling behandling, SykefraværBuilder builder) {
+                Long id = behandling.getId();
+                SykefraværGrunnlagBuilder oppdater = SykefraværGrunnlagBuilder.oppdater(Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(id, null)));
+                oppdater.medSykefravær(builder);
+                sykefraværGrunnlagMap.put(id, (SykefraværGrunnlagEntitet) oppdater.build());
+            }
+
+            @Override
+            public Optional<SykefraværGrunnlag> hentHvisEksistererFor(Long behandlingId) {
+                return Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(behandlingId, null));
+            }
+
+            @Override
+            public SykefraværGrunnlag hentFor(Long behandlingId) {
+                return Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(behandlingId, null)).orElseThrow(IllegalStateException::new);
+            }
+        };
     }
 
     private BehandlingLåsRepository mockBehandlingLåsRepository() {
@@ -798,6 +852,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         BehandlingLås lås = behandlingRepo.taSkriveLås(behandling);
         behandlingRepo.lagre(behandling, lås);
 
+        lagreSykefravær(repositoryProvider, behandling);
         lagrePersonopplysning(repositoryProvider, behandling);
         lagreMedlemskapOpplysninger(repositoryProvider, behandling);
         lagreVerge(repositoryProvider, behandling);
@@ -815,6 +870,36 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         if (this.opplysningerOppdatertTidspunkt != null) {
             behandlingRepo.oppdaterSistOppdatertTidspunkt(this.behandling, this.opplysningerOppdatertTidspunkt);
         }
+    }
+
+    private void lagreSykefravær(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+        if (sykefravær != null || sykemeldinger != null) {
+            SykefraværRepository repository = repositoryProvider.getSykefraværRepository();
+            if (sykefravær != null) {
+                repository.lagre(behandling, SykefraværBuilder.oppdater(Optional.of(sykefravær)));
+            }
+            if (sykemeldinger != null) {
+                repository.lagre(behandling, SykemeldingerBuilder.oppdater(Optional.of(sykemeldinger)));
+            }
+        }
+    }
+
+    public SykefraværBuilder getSykefraværBuilder() {
+        return SykefraværBuilder.oppdater(Optional.ofNullable(sykefravær));
+    }
+
+    public SykemeldingerBuilder getSykemeldingerBuilder() {
+        return SykemeldingerBuilder.oppdater(Optional.ofNullable(sykemeldinger));
+    }
+
+    public S medSykefravær(SykefraværBuilder sykefraværBuilder) {
+        sykefravær = (SykefraværEntitet) sykefraværBuilder.build();
+        return (S) this;
+    }
+
+    public S medSykemeldinger(SykemeldingerBuilder sykemeldingerBuilder) {
+        sykemeldinger = (SykemeldingerEntitet) sykemeldingerBuilder.build();
+        return (S) this;
     }
 
     private void leggTilAksjonspunkter(Behandling behandling, BehandlingRepositoryProvider repositoryProvider) {

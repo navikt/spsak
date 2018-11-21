@@ -77,12 +77,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
         return LocalDate.now(FPDateUtil.getOffset());
     }
 
-    @Override
-    public LocalDate førsteUttaksdag(Behandling behandling) {
-
-        return førsteØnskedeUttaksdag(behandling);
-    }
-
     private LocalDate førsteØnskedeUttaksdag(Behandling behandling) {
         final Optional<LocalDate> førsteØnskedeUttaksdagIBehandling = finnFørsteØnskedeUttaksdagFor(behandling);
         if (behandling.erRevurdering()) {

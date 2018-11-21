@@ -98,7 +98,7 @@ class VilkårVurdering {
 
                         collector.checkThat("Vurdering av " + inputFile.getName() + " ga ikke forventet resultat.",
                             getVilkårUtfallType(evaluationSummary), equalTo(vilkårResultat.getUtfall()));
-                        
+
                         if(!extraDataValidering.apply(vilkårResultat, resultatObject)) {
                             log.info("Feil i output for inputFile=" + inputFile);
                             // Kommenter inn hvis sikker på at inputfilene ikke er korrekte lenger
@@ -109,6 +109,7 @@ class VilkårVurdering {
                         log.warn("Fant ikke output for evaluering av " + inputFile.getName());
                         collector.addError(new FileNotFoundException("Fant ikke output for evaluering av " + inputFile.getName()));
                     }
+                    System.setProperty("funksjonelt.tidsoffset.offset", "P0D");
                 } catch (IOException e) {
                     log.error("Noe uventet gikk galt under parsing av '" + inputFile.getName() + "' : " + e.getMessage(), e);
                     collector.addError(e);

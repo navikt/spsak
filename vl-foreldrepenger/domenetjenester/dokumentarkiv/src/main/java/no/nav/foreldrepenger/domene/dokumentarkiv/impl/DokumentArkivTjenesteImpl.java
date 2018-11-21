@@ -92,7 +92,7 @@ public class DokumentArkivTjenesteImpl implements DokumentArkivTjeneste {
         } catch (HentDokumentJournalpostIkkeFunnet e) {
             throw DokumentArkivTjenesteFeil.FACTORY.hentJournalpostIkkeFunnet(e).toException();
         } catch (HentDokumentSikkerhetsbegrensning e) {
-            throw DokumentArkivTjenesteFeil.FACTORY.journalUtilgjengeligSikkerhetsbegrensning("hent dokument", e).toException();
+            throw DokumentArkivTjenesteFeil.FACTORY.journalUtilgjengeligSikkerhetsbegrensning("hentFor dokument", e).toException();
         }
         return pdfFile;
     }
@@ -217,7 +217,7 @@ public class DokumentArkivTjenesteImpl implements DokumentArkivTjeneste {
             HentKjerneJournalpostListeResponse hentKjerneJournalpostListeResponse = journalConsumer.hentKjerneJournalpostListe(hentKjerneJournalpostListeRequest);
             return Optional.of(hentKjerneJournalpostListeResponse);
         } catch (HentKjerneJournalpostListeSikkerhetsbegrensning e) {
-            throw DokumentArkivTjenesteFeil.FACTORY.journalUtilgjengeligSikkerhetsbegrensning("hent journalpostliste", e).toException();
+            throw DokumentArkivTjenesteFeil.FACTORY.journalUtilgjengeligSikkerhetsbegrensning("hentFor journalpostliste", e).toException();
         } catch (HentKjerneJournalpostListeUgyldigInput e) {
             throw DokumentArkivTjenesteFeil.FACTORY.journalpostUgyldigInput(e).toException();
         }
