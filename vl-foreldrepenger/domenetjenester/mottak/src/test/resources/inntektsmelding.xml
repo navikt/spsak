@@ -46,6 +46,15 @@
                 </endringIRefusjon>
             </endringIRefusjonListe>
         </refusjon>
+        <sykepengerIArbeidsgiverperioden>
+            <arbeidsgiverperiodeListe>
+                <arbeidsgiverperiode>
+                    <fom>2018-11-21</fom>
+                    <tom>2018-12-07</tom>
+                </arbeidsgiverperiode>
+            </arbeidsgiverperiodeListe>
+            <bruttoUtbetalt>25792</bruttoUtbetalt>
+        </sykepengerIArbeidsgiverperioden>
         <startdatoForeldrepengeperiode>2018-02-02</startdatoForeldrepengeperiode>
         <opphoerAvNaturalytelseListe>
             <opphoerAvNaturalytelse>

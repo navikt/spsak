@@ -56,7 +56,6 @@ import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.UstrukturertNavn;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.HentOrganisasjonResponse;
 import no.nav.vedtak.felles.integrasjon.organisasjon.OrganisasjonConsumer;
 
-@Ignore("FIXME SP : Roy")
 public class MottattDokumentOversetterInntektsmeldingTest {
 
     @Rule
