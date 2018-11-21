@@ -218,11 +218,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>vedtak-xml</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>behandlingssteg</artifactId>
 				<version>${project.version}</version>
 			</dependency>

@@ -96,11 +96,6 @@
 
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>vedtak-xml</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>behandlingslager-testutilities</artifactId>
 			<scope>test</scope>
 		</dependency>

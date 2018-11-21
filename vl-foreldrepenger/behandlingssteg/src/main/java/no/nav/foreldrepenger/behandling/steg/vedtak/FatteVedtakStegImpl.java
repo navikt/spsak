@@ -16,17 +16,17 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 @BehandlingTypeRef
 @FagsakYtelseTypeRef("FP")
 @ApplicationScoped
-public class FatteVedtakStegForeldrepengerImpl implements FatteVedtakSteg {
+public class FatteVedtakStegImpl implements FatteVedtakSteg {
 
     private BehandlingRepository behandlingRepository;
     private FatteVedtakTjeneste fatteVedtakTjeneste;
 
-    FatteVedtakStegForeldrepengerImpl() {
+    FatteVedtakStegImpl() {
         // for CDI proxy
     }
 
     @Inject
-    FatteVedtakStegForeldrepengerImpl(BehandlingRepositoryProvider repositoryProvider, @FagsakYtelseTypeRef("FP") FatteVedtakTjeneste fatteVedtakTjeneste) {
+    FatteVedtakStegImpl(BehandlingRepositoryProvider repositoryProvider, @FagsakYtelseTypeRef("FP") FatteVedtakTjeneste fatteVedtakTjeneste) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.fatteVedtakTjeneste = fatteVedtakTjeneste;
     }

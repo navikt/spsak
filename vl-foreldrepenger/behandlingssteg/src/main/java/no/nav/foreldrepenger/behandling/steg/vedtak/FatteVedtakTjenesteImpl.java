@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
+import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
@@ -19,16 +22,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurdering;
-import no.nav.foreldrepenger.behandlingslager.lagretvedtak.LagretVedtak;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveForBehandlingSendtTilbakeTask;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
-import no.nav.foreldrepenger.domene.vedtak.xml.VedtakXmlFeil;
-import no.nav.foreldrepenger.domene.vedtak.xml.VedtakXmlTjeneste;
-import no.nav.foreldrepenger.vedtakslager.LagretVedtakRepository;
-import no.nav.vedtak.feil.FeilFactory;
 
-abstract class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
+@FagsakYtelseTypeRef("FP")
+@ApplicationScoped
+public class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
 
     public static final String UTVIKLER_FEIL_VEDTAK = "Utvikler-feil: Vedtak kan ikke fattes, behandlingsresultat er ";
     private static final Set<BehandlingResultatType> VEDTAKSTILSTANDER_REVURDERING = new HashSet<>(
@@ -42,8 +42,6 @@ abstract class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
             , BehandlingResultatType.KLAGE_YTELSESVEDTAK_OPPHEVET, BehandlingResultatType.KLAGE_YTELSESVEDTAK_STADFESTET));
     private static final Set<BehandlingResultatType> VEDTAKSTILSTANDER_INNSYN = new HashSet<>(
         Arrays.asList(BehandlingResultatType.INNSYN_AVVIST, BehandlingResultatType.INNSYN_DELVIS_INNVILGET, BehandlingResultatType.INNSYN_INNVILGET));
-    private LagretVedtakRepository lagretVedtakRepository;
-    private VedtakXmlTjeneste vedtakXmlTjeneste;
     private VedtakTjeneste vedtakTjeneste;
     private OppgaveTjeneste oppgaveTjeneste;
     private TotrinnTjeneste totrinnTjeneste;
@@ -53,14 +51,10 @@ abstract class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
         // for CDI proxy
     }
 
-    FatteVedtakTjenesteImpl(LagretVedtakRepository vedtakRepository,
-                            VedtakXmlTjeneste vedtakXmlTjeneste,
-                            VedtakTjeneste vedtakTjeneste,
+    FatteVedtakTjenesteImpl(VedtakTjeneste vedtakTjeneste,
                             OppgaveTjeneste oppgaveTjeneste,
                             TotrinnTjeneste totrinnTjeneste,
                             BehandlingVedtakTjeneste behandlingVedtakTjeneste) {
-        this.lagretVedtakRepository = vedtakRepository;
-        this.vedtakXmlTjeneste = vedtakXmlTjeneste;
         this.vedtakTjeneste = vedtakTjeneste;
         this.oppgaveTjeneste = oppgaveTjeneste;
         this.totrinnTjeneste = totrinnTjeneste;
@@ -128,20 +122,7 @@ abstract class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
     }
 
     private void opprettLagretVedtak(Behandling behandling) {
-        if (behandling.erInnsyn()) {
-            return;
-        }
-        if (!erKlarForVedtak(behandling)) {
-            throw FeilFactory.create(VedtakXmlFeil.class).behandlingErIFeilTilstand(behandling.getId(), behandling.getStatus().getBeskrivelse())
-                .toException();
-        }
-        LagretVedtak lagretVedtak = LagretVedtak.builder()
-            .medVedtakType(vedtakTjeneste.finnLagretVedtakType(behandling))
-            .medBehandlingId(behandling.getId())
-            .medFagsakId(behandling.getFagsakId())
-            .medXmlClob(vedtakXmlTjeneste.opprettVedtakXml(behandling.getId()))
-            .build();
-        lagretVedtakRepository.lagre(lagretVedtak);
+        // FIXME SP: oppretter vedtak på noe vis
     }
 
     private boolean erKlarForVedtak(Behandling behandling) {

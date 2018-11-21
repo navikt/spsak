@@ -38,7 +38,6 @@ import no.nav.foreldrepenger.web.app.tjenester.kodeverk.KodeverkRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.konfig.KonfigRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.saksbehandler.FeatureToggleRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.vedtak.VedtakRestTjeneste;
 import no.nav.vedtak.felles.prosesstask.rest.ProsessTaskRestTjeneste;
 
 
@@ -90,7 +89,6 @@ public class ApplicationConfig extends Application {
         classes.add(FordelRestTjeneste.class);
         classes.add(HendelserRestTjeneste.class);
         classes.add(BeregningsresultatRestTjeneste.class);
-        classes.add(VedtakRestTjeneste.class);
         classes.add(TotrinnskontrollRestTjeneste.class);
         classes.add(ForsendelseStatusRestTjeneste.class);
         classes.add(PersonRestTjeneste.class);

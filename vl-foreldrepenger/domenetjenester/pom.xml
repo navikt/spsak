@@ -35,7 +35,6 @@
         <module>bom</module>
 
         <module>behandlingskontroll</module>
-        <module>vedtak-xml</module>
     </modules>
 
 </project>
