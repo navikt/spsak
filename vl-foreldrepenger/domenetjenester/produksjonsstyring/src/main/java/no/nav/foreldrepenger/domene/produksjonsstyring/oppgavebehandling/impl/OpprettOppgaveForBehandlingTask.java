@@ -8,8 +8,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codahale.metrics.annotation.Timed;
-
 import no.nav.foreldrepenger.behandlingskontroll.task.BehandlingProsessTask;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
@@ -35,7 +33,6 @@ public class OpprettOppgaveForBehandlingTask extends BehandlingProsessTask {
         this.oppgaveTjeneste = oppgaveTjeneste;
     }
 
-    @Timed
     @Override
     protected void prosesser(ProsessTaskData prosessTaskData) {
         String oppgaveId = oppgaveTjeneste.opprettBehandleOppgaveForBehandling(prosessTaskData.getBehandlingId());

@@ -11,8 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -51,7 +49,6 @@ public class BehandlingskontrollRestTjeneste {
     }
 
     @POST
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "KUN FOR TEST!!!: Kjører behandlingskontroll på en behandling.", notes = ("Kjører behandlingskontroll fra gjeldende steg frem til så langt behandlingen lar seg kjøre automatisk. /n" +

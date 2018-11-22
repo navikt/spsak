@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>no.nav.spvedtak.felles</groupId>
-            <artifactId>felles-bom</artifactId>
+            <artifactId>felles-db</artifactId>
         </dependency>
 
 		<dependency>

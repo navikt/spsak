@@ -21,8 +21,6 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -76,7 +74,6 @@ public class BatchRestTjeneste {
     }
 
     @POST
-    @Timed
     @Path("/launch")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
@@ -105,7 +102,6 @@ public class BatchRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/poll")
     @Produces(MediaType.TEXT_PLAIN)
     @ApiOperation(value = "Poll status of batchjob")
@@ -127,7 +123,6 @@ public class BatchRestTjeneste {
 
 
     @POST
-    @Timed
     @Path("/autorun")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)

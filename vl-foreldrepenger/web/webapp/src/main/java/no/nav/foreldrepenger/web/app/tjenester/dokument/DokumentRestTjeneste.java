@@ -25,8 +25,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -74,7 +72,6 @@ public class DokumentRestTjeneste {
     }
 
     @GET
-    @Timed
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/hent-dokumentliste")
     @ApiOperation(value = "Henter dokumentlisten knyttet til en sak",
@@ -149,7 +146,6 @@ public class DokumentRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/hent-dokument")
     @ApiOperation(value = "Søk etter dokument på JOARK-identifikatorene journalpostId og dokumentId",
         notes = ("Retunerer dokument som er tilknyttet saksnummer, journalpostId og dokumentId."))

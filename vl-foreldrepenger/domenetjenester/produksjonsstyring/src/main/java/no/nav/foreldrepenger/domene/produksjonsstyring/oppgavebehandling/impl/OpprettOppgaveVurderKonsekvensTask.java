@@ -9,8 +9,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codahale.metrics.annotation.Timed;
-
 import no.nav.foreldrepenger.behandlingskontroll.task.FagsakProsessTask;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
@@ -50,7 +48,6 @@ public class OpprettOppgaveVurderKonsekvensTask extends FagsakProsessTask {
         this.oppgaveTjeneste = oppgaveTjeneste;
     }
 
-    @Timed
     @Override
     protected void prosesser(ProsessTaskData prosessTaskData){
         String behandlendeEnhet = prosessTaskData.getPropertyValue(KEY_BEHANDLENDE_ENHET);

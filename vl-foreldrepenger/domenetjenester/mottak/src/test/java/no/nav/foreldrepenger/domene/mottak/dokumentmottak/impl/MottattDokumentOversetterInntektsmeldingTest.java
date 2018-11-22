@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 import javax.xml.datatype.DatatypeFactory;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;

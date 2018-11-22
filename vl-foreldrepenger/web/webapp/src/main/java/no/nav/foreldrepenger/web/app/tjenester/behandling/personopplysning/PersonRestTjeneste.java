@@ -16,8 +16,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -67,7 +65,6 @@ public class PersonRestTjeneste {
     }
 
     @POST
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/verge")
@@ -84,7 +81,6 @@ public class PersonRestTjeneste {
     }
 
     @POST
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/medlemskap")
@@ -99,7 +95,6 @@ public class PersonRestTjeneste {
     }
 
     @POST
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/medlemskap-v2")
@@ -117,7 +112,6 @@ public class PersonRestTjeneste {
     }
 
     @POST
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/personopplysninger")

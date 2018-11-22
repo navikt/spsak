@@ -5,8 +5,6 @@ import static no.nav.foreldrepenger.behandlingskontroll.task.StartBehandlingTask
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.CDI;
 
-import com.codahale.metrics.annotation.Timed;
-
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
@@ -26,7 +24,6 @@ public class StartBehandlingTask implements ProsessTaskHandler {
     public StartBehandlingTask() {
     }
 
-    @Timed
     @Override
     public void doTask(ProsessTaskData data) {
 

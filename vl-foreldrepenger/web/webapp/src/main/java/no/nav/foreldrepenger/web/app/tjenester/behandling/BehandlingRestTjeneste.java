@@ -26,8 +26,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -112,7 +110,6 @@ public class BehandlingRestTjeneste {
     }
 
     @POST
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Init hent behandling")
@@ -136,7 +133,6 @@ public class BehandlingRestTjeneste {
 
     @GET
     @Path("/status")
-    @Timed
     @ApiOperation(value = "Url for å polle på behandling mens behandlingprosessen pågår i bakgrunnen(asynkront)", notes = ("Returnerer link til enten samme (hvis ikke ferdig) eller redirecter til /behandlinger dersom asynkrone operasjoner er ferdig."))
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returnerer Status", response = AsyncPollingStatus.class),
@@ -157,7 +153,6 @@ public class BehandlingRestTjeneste {
     }
 
     @GET
-    @Timed
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Hent behandling gitt id", notes = ("Returnerer behandlingen som er tilknyttet id. Dette er resultat etter at asynkrone operasjoner er utført."))
     @ApiResponses(value = {
@@ -180,7 +175,6 @@ public class BehandlingRestTjeneste {
     }
 
     @POST
-    @Timed
     @Path("/sett-pa-vent")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Setter behandling på vent")
@@ -192,7 +186,6 @@ public class BehandlingRestTjeneste {
     }
 
     @POST
-    @Timed
     @Path("/endre-pa-vent")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Endrer ventefrist for behandling på vent")
@@ -205,7 +198,6 @@ public class BehandlingRestTjeneste {
     }
 
     @POST
-    @Timed
     @Path("/henlegg")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Henlegger behandling")
@@ -219,7 +211,6 @@ public class BehandlingRestTjeneste {
     }
 
     @POST
-    @Timed
     @Path("/gjenoppta")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Gjenopptar behandling som er satt på vent")
@@ -244,7 +235,6 @@ public class BehandlingRestTjeneste {
     }
 
     @POST
-    @Timed
     @Path("/bytt-enhet")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Bytte behandlende enhet")
@@ -262,7 +252,6 @@ public class BehandlingRestTjeneste {
     }
 
     @PUT
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Opprette ny behandling")
     @ApiResponses(value = {
@@ -313,7 +302,6 @@ public class BehandlingRestTjeneste {
 
     @GET
     @Path("/alle")
-    @Timed
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Søk etter behandlinger på saksnummer", notes = ("Returnerer alle behandlinger som er tilknyttet saksnummer."))
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
@@ -326,7 +314,6 @@ public class BehandlingRestTjeneste {
     }
 
     @POST
-    @Timed
     @Path("/opne-for-endringer")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Åpner behandling for endringer")

@@ -22,8 +22,6 @@ import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -71,7 +69,6 @@ public class AksjonspunktRestTjeneste {
     }
 
     @GET
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Hent aksjonspunter for en behandling", response = AksjonspunktDto.class, responseContainer = "Set")
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
@@ -96,7 +93,6 @@ public class AksjonspunktRestTjeneste {
      * @throws URISyntaxException
      */
     @POST
-    @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Lagre endringer gitt av aksjonspunktene og rekjør behandling fra gjeldende steg")
     @BeskyttetRessurs(action = UPDATE, ressurs = FAGSAK)
@@ -121,7 +117,6 @@ public class AksjonspunktRestTjeneste {
      * spesifikke aksjonspunkter idenne tjenesten.
      */
     @POST
-    @Timed
     @Path("/overstyr")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Overstyrer stegene")

@@ -23,8 +23,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -71,7 +69,6 @@ public class FagsakRestTjeneste {
 
     @GET
     @Path("/status")
-    @Timed
     @ApiOperation(value = "Url for å polle på fagsak mens behandlingprosessen pågår i bakgrunnen(asynkront)", notes = ("Returnerer link til enten samme (hvis ikke ferdig) eller redirecter til /fagsak dersom asynkrone operasjoner er ferdig."))
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returnerer Status", response = AsyncPollingStatus.class),
@@ -91,7 +88,6 @@ public class FagsakRestTjeneste {
     }
 
     @GET
-    @Timed
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Hent fagsak for saksnummer", notes = ("Returnerer fagsak for gitt saksnummer."))
     @ApiResponses(value = {
@@ -116,7 +112,6 @@ public class FagsakRestTjeneste {
     }
 
     @POST
-    @Timed
     @Path("/sok")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Søk etter saker på saksnummer eller fødselsnummer", notes = ("Spesifikke saker kan søkes via saksnummer. " +

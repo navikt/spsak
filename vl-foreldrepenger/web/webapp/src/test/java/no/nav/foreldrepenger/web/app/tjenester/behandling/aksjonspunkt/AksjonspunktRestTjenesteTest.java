@@ -25,7 +25,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.Aksjo
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.BekreftetAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FatterVedtakAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsutredningApplikasjonTjeneste;
-import no.nav.vedtak.exception.FunksjonellException;
 
 public class AksjonspunktRestTjenesteTest {
 

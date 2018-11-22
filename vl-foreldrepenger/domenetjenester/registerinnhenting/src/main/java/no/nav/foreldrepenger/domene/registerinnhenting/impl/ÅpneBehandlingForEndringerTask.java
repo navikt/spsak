@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.codahale.metrics.annotation.Timed;
-
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollProsessTask;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste;
@@ -45,7 +43,6 @@ public class ÅpneBehandlingForEndringerTask extends BehandlingskontrollProsessT
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
     }
 
-    @Timed
     @Override
     protected void prosesser(Behandling behandling) {
         StartpunktType startpunkt = kodeverkTabellRepository.finnStartpunktType(StartpunktType.INNGANGSVILKÅR_OPPLYSNINGSPLIKT.getKode());

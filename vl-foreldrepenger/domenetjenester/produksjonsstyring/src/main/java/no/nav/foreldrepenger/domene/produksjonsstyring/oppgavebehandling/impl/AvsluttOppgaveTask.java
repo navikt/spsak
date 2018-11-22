@@ -5,8 +5,6 @@ import static no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.codahale.metrics.annotation.Timed;
-
 import no.nav.foreldrepenger.behandlingskontroll.task.BehandlingProsessTask;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
@@ -30,7 +28,6 @@ public class AvsluttOppgaveTask extends BehandlingProsessTask {
         this.oppgaveTjeneste = oppgaveTjeneste;
     }
 
-    @Timed
     @Override
     protected void prosesser(ProsessTaskData prosessTaskData) {
         String oppgaveId = prosessTaskData.getOppgaveId()

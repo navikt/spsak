@@ -17,8 +17,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
@@ -50,7 +48,6 @@ public class KodeverkRestTjeneste {
     }
 
     @GET
-    @Timed
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Henter kodeliste", notes = ("Returnerer gruppert kodeliste."))
     @BeskyttetRessurs(action = READ, ressurs = APPLIKASJON, sporingslogg = false)
@@ -69,7 +66,6 @@ public class KodeverkRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/behandlende-enheter")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Henter liste over behandlende enheter", notes = ("Returnerer alle enheter"))
@@ -80,7 +76,6 @@ public class KodeverkRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/henlegg/arsaker/klage")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Henter liste over årsaker for henleggelse av klage", notes = ("Returnerer alle årsaker for henleggelse av klagebehandling"))
@@ -91,7 +86,6 @@ public class KodeverkRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/henlegg/arsaker/innsyn")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Henter liste over årsaker for henleggelse av innsyn", notes = ("Returnerer alle årsaker for henleggelse av innsynsbehandling"))
@@ -102,7 +96,6 @@ public class KodeverkRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/henlegg/arsaker")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Henter liste over årsaker for henleggelse", notes = ("Returnerer alle årsaker for henleggelse av behandling"))

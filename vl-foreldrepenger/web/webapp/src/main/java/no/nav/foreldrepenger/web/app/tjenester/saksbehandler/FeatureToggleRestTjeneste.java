@@ -16,8 +16,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import no.finn.unleash.Unleash;
@@ -47,7 +45,6 @@ public class FeatureToggleRestTjeneste {
     }
 
     @POST
-    @Timed
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Svarer på om feature-toggles er skrudd på")
     @BeskyttetRessurs(action = READ, ressurs = APPLIKASJON, sporingslogg = false)

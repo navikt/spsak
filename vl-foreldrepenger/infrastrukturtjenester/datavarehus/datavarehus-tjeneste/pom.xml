@@ -26,12 +26,6 @@
 			<artifactId>behandlingslager-domene</artifactId>
 		</dependency>
 
-		<!-- Prosjekt interne avhengigheter -->
-		<dependency>
-			<groupId>no.nav.spvedtak.felles</groupId>
-			<artifactId>felles-bom</artifactId>
-		</dependency>
-
 		<!-- Domenetjenester avhengigheter -->
 		<dependency>
 			<groupId>no.nav.sykepenger</groupId>

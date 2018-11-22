@@ -19,8 +19,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -49,7 +47,6 @@ public class HistorikkRestTjeneste {
     }
 
     @GET
-    @Timed
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @ApiOperation(value = "Henter alle historikkinnslag for gitt behandling.")
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)

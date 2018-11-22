@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.xml.bind.JAXBElement;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.MottattDokumentWrapper;
 import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
 import no.seres.xsd.nav.inntektsmelding_m._201809.InntektsmeldingConstants;
@@ -16,16 +14,12 @@ import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsgiver;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.ArbeidsgiverperiodeListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.AvtaltFerieListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.GjenopptakelseNaturalytelseListe;
-import no.seres.xsd.nav.inntektsmelding_m._20180924.GraderingIForeldrepenger;
-import no.seres.xsd.nav.inntektsmelding_m._20180924.GraderingIForeldrepengerListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.InntektsmeldingM;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.NaturalytelseDetaljer;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.OpphoerAvNaturalytelseListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Periode;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Refusjon;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.SykepengerIArbeidsgiverperioden;
-import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepenger;
-import no.seres.xsd.nav.inntektsmelding_m._20180924.UtsettelseAvForeldrepengerListe;
 
 public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrapper<InntektsmeldingM> {
 

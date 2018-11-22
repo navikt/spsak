@@ -11,8 +11,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.BooleanUtils;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import no.nav.vedtak.felles.jpa.Transaction;
@@ -42,7 +40,6 @@ public class IntegrasjonstatusRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/status")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Gir en oversikt over systemer som er nede",
@@ -54,7 +51,6 @@ public class IntegrasjonstatusRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/status/vises")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Returnerer en boolean som angir om detaljerte feilmeldinger skal vises av GUI")

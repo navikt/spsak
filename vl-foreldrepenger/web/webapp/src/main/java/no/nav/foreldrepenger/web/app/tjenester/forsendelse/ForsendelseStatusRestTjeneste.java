@@ -13,8 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -44,7 +42,6 @@ public class ForsendelseStatusRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/status")
     @Produces(MediaType.APPLICATION_JSON)
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)

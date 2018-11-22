@@ -11,8 +11,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import com.codahale.metrics.annotation.Timed;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import no.nav.vedtak.felles.jpa.Transaction;
@@ -39,7 +37,6 @@ public class KonfigRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/rettskilde")
     @Produces("application/json")
     @ApiOperation(value = "Henter lenke til rettskilde.")
@@ -50,7 +47,6 @@ public class KonfigRestTjeneste {
     }
 
     @GET
-    @Timed
     @Path("/systemrutine")
     @Produces("application/json")
     @ApiOperation(value = "Henter lenge til systemrutine")

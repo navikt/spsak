@@ -6,8 +6,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codahale.metrics.annotation.Timed;
-
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.SendVedtaksbrev;
 import no.nav.foreldrepenger.behandlingskontroll.task.BehandlingProsessTask;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -36,7 +34,6 @@ public class SendVedtaksbrevTask extends BehandlingProsessTask {
         this.tjeneste = tjeneste;
     }
 
-    @Timed
     @Override
     protected void prosesser(ProsessTaskData prosessTaskData) {
         Long behandlingId = prosessTaskData.getBehandlingId();
