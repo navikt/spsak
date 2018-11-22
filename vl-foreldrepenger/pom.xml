@@ -166,11 +166,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>virksomhet</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>mottak</artifactId>
 				<version>${project.version}</version>
 			</dependency>

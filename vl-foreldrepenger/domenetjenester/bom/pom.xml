@@ -97,10 +97,6 @@
 
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>virksomhet</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
             <artifactId>mottak</artifactId>
         </dependency>
     </dependencies>

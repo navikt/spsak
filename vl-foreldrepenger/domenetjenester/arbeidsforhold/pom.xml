@@ -17,10 +17,6 @@
 			<groupId>no.nav.sykepenger</groupId>
 			<artifactId>person</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>virksomhet</artifactId>
-		</dependency>
 
 		<!-- Interne avhengigheter -->
 		<dependency>
@@ -37,6 +33,11 @@
 			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>arbeidsforhold-klient</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>organisasjon-klient</artifactId>
+        </dependency>
+		
 		<dependency>
 			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>infotrygdsak-klient</artifactId>
