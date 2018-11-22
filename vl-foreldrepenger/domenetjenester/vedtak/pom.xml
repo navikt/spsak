@@ -33,11 +33,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.spvedtak.felles</groupId>
-			<artifactId>felles-bom</artifactId>
-		</dependency>
-
-		<dependency>
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>vedtakslager-domene</artifactId>
         </dependency>
