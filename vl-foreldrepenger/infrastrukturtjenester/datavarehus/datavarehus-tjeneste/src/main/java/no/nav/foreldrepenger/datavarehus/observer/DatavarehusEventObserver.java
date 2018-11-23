@@ -1,24 +1,11 @@
 package no.nav.foreldrepenger.datavarehus.observer;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktTilbakeførtEvent;
-import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktUtførtEvent;
-import no.nav.foreldrepenger.behandlingskontroll.AksjonspunkterFunnetEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStatusEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegTilstandEndringEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEvent;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatusEvent;
 import no.nav.foreldrepenger.datavarehus.tjeneste.DatavarehusTjeneste;
 
 @ApplicationScoped

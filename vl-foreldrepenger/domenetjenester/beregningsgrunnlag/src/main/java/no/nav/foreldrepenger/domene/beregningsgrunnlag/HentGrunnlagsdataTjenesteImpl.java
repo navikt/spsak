@@ -191,17 +191,6 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
         return !sisteYtelse.equals(sisteYtelseForrigeIAY);
     }
 
-    private boolean erEndringerIYtelseSisteTiMåneder(Behandling behandling, InntektArbeidYtelseGrunnlag nyIAY, Optional<InntektArbeidYtelseGrunnlag> forrigeIAY, LocalDate skjæringstidspunkt) {
-        Function<InntektArbeidYtelseGrunnlag, List<Ytelse>> siste10MånederMedYtelser = iay -> getAktørYtelseFørSkjæringstidspunktetStream(iay, behandling, skjæringstidspunkt)
-            .filter(ytelse -> ytelse.getPeriode().getFomDato().isAfter(skjæringstidspunkt.minusMonths(10)))
-            .sorted(Comparator.comparing(ytelse -> ytelse.getPeriode().getFomDato()))
-            .collect(Collectors.toList());
-
-        List<Ytelse> ytelser = siste10MånederMedYtelser.apply(nyIAY);
-        List<Ytelse> forrigeYtelser = forrigeIAY.map(siste10MånederMedYtelser).orElse(Collections.emptyList());
-        return !ytelser.equals(forrigeYtelser) || erEndringerIDagpengerSiste10Mnd(ytelser, forrigeYtelser);
-    }
-
     private Stream<Ytelse> getAktørYtelseFørSkjæringstidspunktetStream(InntektArbeidYtelseGrunnlag iay, Behandling behandling, LocalDate skjæringstidspunkt) {
         return iay.getAktørYtelseFørStp(behandling.getAktørId())
             .map(AktørYtelse::getYtelser)

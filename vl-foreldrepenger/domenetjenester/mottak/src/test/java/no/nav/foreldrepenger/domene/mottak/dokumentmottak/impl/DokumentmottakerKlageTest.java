@@ -97,7 +97,7 @@ public class DokumentmottakerKlageTest {
     @Test
     public void skal_starte_behandling_av_klage() {
         //Arrange
-        Behandling behandling = byggAvsluttetSøknadsbehandlingForFødsel(1);
+        Behandling behandling = byggAvsluttetSøknadsbehandling();
         Fagsak fagsak = behandling.getFagsak();
         Long fagsakId = fagsak.getId();
         DokumentTypeId dokumentTypeId = DokumentTypeId.KLAGE_DOKUMENT;
@@ -111,7 +111,7 @@ public class DokumentmottakerKlageTest {
         verify(dokumentmottaker).startBehandlingAvKlage(mottattDokument, fagsak);
     }
 
-    private Behandling byggAvsluttetSøknadsbehandlingForFødsel(int antallBarn) {
+    private Behandling byggAvsluttetSøknadsbehandling() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
 
         Behandling behandling = scenario

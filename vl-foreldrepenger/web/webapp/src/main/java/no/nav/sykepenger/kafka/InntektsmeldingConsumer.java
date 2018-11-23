@@ -1,7 +1,5 @@
 package no.nav.sykepenger.kafka;
 
-import java.util.function.Consumer;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -12,7 +10,6 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
 import no.nav.vedtak.felles.AktiverContextOgTransaksjon;
-import no.nav.vedtak.felles.jpa.Transaction;
 
 @ApplicationScoped
 @AktiverContextOgTransaksjon

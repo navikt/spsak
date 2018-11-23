@@ -1,41 +1,7 @@
 package no.nav.foreldrepenger.datavarehus.observer;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-
-import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktTilbakeførtEvent;
-import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktUtførtEvent;
-import no.nav.foreldrepenger.behandlingskontroll.AksjonspunkterFunnetEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStatusEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegTilstandEndringEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
-import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatusEvent;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.datavarehus.tjeneste.DatavarehusTjeneste;
 
 public class DatavarehusEventObserverTest {

@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
-import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
@@ -27,7 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.arkiv.ArkivFilType;
 import no.nav.foreldrepenger.domene.dokumentarkiv.journal.JournalMetadata;
 import no.nav.foreldrepenger.domene.dokumentarkiv.journal.JournalTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
-import no.nav.foreldrepenger.domene.person.PersoninfoAdapter;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 
 @ApplicationScoped
@@ -41,17 +38,15 @@ public class HistorikkinnslagTjenesteImpl implements HistorikkinnslagTjeneste {
     private static final String ETTERSENDELSE = "Ettersendelse";
     private HistorikkRepository historikkRepository;
     private JournalTjeneste journalTjeneste;
-    private PersoninfoAdapter personinfoAdapter;
 
     HistorikkinnslagTjenesteImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public HistorikkinnslagTjenesteImpl(HistorikkRepository historikkRepository, JournalTjeneste journalTjeneste, PersoninfoAdapter personinfoAdapter) {
+    public HistorikkinnslagTjenesteImpl(HistorikkRepository historikkRepository, JournalTjeneste journalTjeneste) {
         this.historikkRepository = historikkRepository;
         this.journalTjeneste = journalTjeneste;
-        this.personinfoAdapter = personinfoAdapter;
     }
 
     @Override
@@ -62,7 +57,6 @@ public class HistorikkinnslagTjenesteImpl implements HistorikkinnslagTjeneste {
 
         Historikkinnslag historikkinnslag = new Historikkinnslag();
         historikkinnslag.setAktør(HistorikkAktør.SØKER);
-        historikkinnslag.setKjoenn(getKjønn(behandling));
         historikkinnslag.setType(HistorikkinnslagType.BEH_STARTET);
         historikkinnslag.setBehandlingId(behandling.getId());
         historikkinnslag.setFagsakId(behandling.getFagsakId());
@@ -74,14 +68,6 @@ public class HistorikkinnslagTjenesteImpl implements HistorikkinnslagTjeneste {
         builder.build(historikkinnslag);
 
         historikkRepository.lagre(historikkinnslag);
-    }
-
-    private NavBrukerKjønn getKjønn(Behandling behandling) {
-        Personinfo personinfo = personinfoAdapter.innhentSaksopplysningerForSøker(behandling.getAktørId());
-        if (personinfo != null) {
-            return personinfo.getKjønn();
-        }
-        return NavBrukerKjønn.UDEFINERT;
     }
 
     private boolean historikkinnslagForBehandlingStartetErLoggetTidligere(Long behandlingId, HistorikkinnslagType historikkinnslagType) {

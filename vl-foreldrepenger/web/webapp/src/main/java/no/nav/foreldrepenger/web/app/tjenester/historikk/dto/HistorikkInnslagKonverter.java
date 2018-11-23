@@ -35,7 +35,6 @@ public class HistorikkInnslagKonverter {
         dto.setOpprettetTidspunkt(hi.getOpprettetTidspunkt());
         dto.setType(hi.getType());
         dto.setAktoer(hi.getAktør());
-        dto.setKjoenn(hi.getKjoenn());
         return dto;
     }
 

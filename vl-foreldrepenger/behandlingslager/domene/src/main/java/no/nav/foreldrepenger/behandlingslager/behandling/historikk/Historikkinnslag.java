@@ -19,7 +19,6 @@ import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 
@@ -57,12 +56,6 @@ public class Historikkinnslag extends BaseEntitet {
 
     @OneToMany(mappedBy = "historikkinnslag")
     private List<HistorikkinnslagDel> historikkinnslagDeler = new ArrayList<>();
-
-    @ManyToOne(optional = false)
-    @JoinColumnsOrFormulas({
-        @JoinColumnOrFormula(column = @JoinColumn(name = "bruker_kjoenn", referencedColumnName = "kode", nullable = false)),
-        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + NavBrukerKjønn.DISCRIMINATOR + "'"))})
-    private NavBrukerKjønn kjoenn = NavBrukerKjønn.UDEFINERT;
 
     public Long getId() {
         return id;
@@ -125,14 +118,6 @@ public class Historikkinnslag extends BaseEntitet {
         this.dokumentLinker = dokumentLinker;
     }
 
-    public NavBrukerKjønn getKjoenn() {
-        return kjoenn;
-    }
-
-    public void setKjoenn(NavBrukerKjønn kjoenn) {
-        this.kjoenn = kjoenn;
-    }
-
     public Long getFagsakId() {
         return fagsakId;
     }
@@ -177,11 +162,6 @@ public class Historikkinnslag extends BaseEntitet {
             return this;
         }
 
-        public Builder medKjoenn(NavBrukerKjønn kjoenn) {
-            historikkinnslag.kjoenn = kjoenn;
-            return this;
-        }
-
         public Builder medDokumentLinker(List<HistorikkinnslagDokumentLink> dokumentLinker) {
             if (historikkinnslag.dokumentLinker == null) {
                 historikkinnslag.dokumentLinker = dokumentLinker;
@@ -210,12 +190,11 @@ public class Historikkinnslag extends BaseEntitet {
             Objects.equals(getFagsakId(), that.getFagsakId()) &&
             Objects.equals(getAktør(), that.getAktør()) &&
             Objects.equals(getType(), that.getType()) &&
-            Objects.equals(getDokumentLinker(), that.getDokumentLinker()) &&
-            Objects.equals(getKjoenn(), that.getKjoenn());
+            Objects.equals(getDokumentLinker(), that.getDokumentLinker());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getBehandlingId(), getFagsakId(), getAktør(), getType(), getDokumentLinker(), getKjoenn());
+        return Objects.hash(getId(), getBehandlingId(), getFagsakId(), getAktør(), getType(), getDokumentLinker());
     }
 }

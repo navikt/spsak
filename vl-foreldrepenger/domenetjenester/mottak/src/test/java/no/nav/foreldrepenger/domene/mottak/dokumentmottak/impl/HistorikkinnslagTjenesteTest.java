@@ -31,7 +31,6 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioM
 import no.nav.foreldrepenger.domene.dokumentarkiv.journal.JournalMetadata;
 import no.nav.foreldrepenger.domene.dokumentarkiv.journal.JournalTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
-import no.nav.foreldrepenger.domene.person.PersoninfoAdapter;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 
 public class HistorikkinnslagTjenesteTest {
@@ -43,14 +42,12 @@ public class HistorikkinnslagTjenesteTest {
     private HistorikkRepository historikkRepository;
     private JournalTjeneste journalTjeneste;
     private HistorikkinnslagTjeneste historikkinnslagTjeneste;
-    private PersoninfoAdapter personinfoAdapter;
 
     @Before
     public void before() {
         historikkRepository = mock(HistorikkRepository.class);
         journalTjeneste = mock(JournalTjeneste.class);
-        personinfoAdapter = mock(PersoninfoAdapter.class);
-        historikkinnslagTjeneste = new HistorikkinnslagTjenesteImpl(historikkRepository, journalTjeneste, personinfoAdapter);
+        historikkinnslagTjeneste = new HistorikkinnslagTjenesteImpl(historikkRepository, journalTjeneste);
     }
 
     @Test
