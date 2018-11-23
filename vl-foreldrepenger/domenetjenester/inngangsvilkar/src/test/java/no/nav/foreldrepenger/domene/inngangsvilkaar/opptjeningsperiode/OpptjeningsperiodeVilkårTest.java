@@ -20,7 +20,6 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioM
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.InngangsvilkårOversetter;
-import no.nav.foreldrepenger.domene.inngangsvilkaar.opptjeningsperiode.InngangsvilkårOpptjeningsperiode;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
 import no.nav.foreldrepenger.domene.medlem.impl.MedlemskapPerioderTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
@@ -65,7 +64,7 @@ public class OpptjeningsperiodeVilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
         SykemeldingerBuilder builder = scenario.getSykemeldingerBuilder();
         SykemeldingBuilder sykemeldingBuilder = builder.sykemeldingBuilder("ASDF-ASDF-ASDF");
-        sykemeldingBuilder.medPeriode(LocalDate.now(), LocalDate.now().plusDays(36))
+        sykemeldingBuilder.medPeriode(skjæringstidspunkt, skjæringstidspunkt.plusDays(36))
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)))
             .medGrad(new Prosentsats(100));
         builder.medSykemelding(sykemeldingBuilder);
@@ -75,7 +74,7 @@ public class OpptjeningsperiodeVilkårTest {
         VilkårData data = new InngangsvilkårOpptjeningsperiode(oversetter, Period.parse("P10M")).vurderVilkår(behandling);
 
         OpptjeningsPeriode op = (OpptjeningsPeriode) data.getEkstraVilkårresultat();
-        Assertions.assertThat(op.getOpptjeningsperiodeTom()).isEqualTo(skjæringstidspunkt);
+        Assertions.assertThat(op.getOpptjeningsperiodeTom()).isEqualTo(skjæringstidspunkt.minusDays(1L));
         Assertions.assertThat(op.getOpptjeningsperiodeFom()).isEqualTo(op.getOpptjeningsperiodeTom().plusDays(1).minusMonths(10L));
     }
 
@@ -94,7 +93,7 @@ public class OpptjeningsperiodeVilkårTest {
         VilkårData data = new InngangsvilkårOpptjeningsperiode(oversetter, Period.parse("P10M")).vurderVilkår(behandling);
 
         OpptjeningsPeriode op = (OpptjeningsPeriode) data.getEkstraVilkårresultat();
-        Assertions.assertThat(op.getOpptjeningsperiodeTom()).isEqualTo(LocalDate.of(2018, 1, 1).minusDays(1L));
+        Assertions.assertThat(op.getOpptjeningsperiodeTom()).isEqualTo(LocalDate.now().minusDays(1L));
     }
 
 }

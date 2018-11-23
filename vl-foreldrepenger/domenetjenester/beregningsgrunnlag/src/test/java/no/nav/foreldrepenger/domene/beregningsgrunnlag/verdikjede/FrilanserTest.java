@@ -23,15 +23,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
@@ -75,14 +70,14 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.ForeslåBeregningsgrunnla
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.FullføreBeregningsgrunnlag;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjenesteImpl;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningFrilanserTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningFrilanserTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraVLTilRegel;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.wrapper.BeregningsgrunnlagRegelResultat;
 import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
-@RunWith(CdiRunner.class)
 public class FrilanserTest {
 
     private static final String DUMMY_ORGNR = "999";
@@ -96,8 +91,6 @@ public class FrilanserTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
     private BehandlingRepositoryProvider repositoryProvider = Mockito.spy(new BehandlingRepositoryProviderImpl(repoRule.getEntityManager()));
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
     private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
@@ -108,14 +101,12 @@ public class FrilanserTest {
     private FullføreBeregningsgrunnlag fullføreBeregningsgrunnlagTjeneste;
     private FastsettSkjæringstidspunktOgStatuser fastsettSkjæringstidspunktOgStatuser;
 
-    @Inject
     private FaktaOmBeregningTilfelleTjeneste faktaOmBeregningTilfelleTjeneste;
 
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
     private FastsettBeregningsgrunnlagPeriodeTjeneste fastsettBeregningsgrunnlagPeriodeTjeneste;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
     private OpptjeningRepository opptjeningRepository = repositoryProvider.getOpptjeningRepository();
-
 
 
     private OpptjeningInntektArbeidYtelseTjenesteImpl opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, repositoryProvider, periodeTjeneste);
@@ -128,26 +119,66 @@ public class FrilanserTest {
     private VirksomhetEntitet beregningVirksomhet3;
     private BeregningsperiodeTjeneste beregningsperiodeTjeneste;
 
+    private static Behandling lagBehandlingATogFL(BehandlingRepositoryProvider repositoryProvider,
+                                                  ScenarioMorSøkerForeldrepenger scenario,
+                                                  BigDecimal inntektSammenligningsgrunnlag,
+                                                  List<BigDecimal> inntektBeregningsgrunnlag,
+                                                  BigDecimal inntektFrilans,
+                                                  List<VirksomhetEntitet> beregningVirksomhet) {
+        LocalDate fraOgMed = MINUS_YEARS_1.withDayOfMonth(1);
+        LocalDate tilOgMed = fraOgMed.plusYears(1);
+
+        InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseBuilder = scenario.getInntektArbeidYtelseScenarioTestBuilder().getKladd();
+
+        VirksomhetEntitet dummyVirksomhet = new VirksomhetEntitet.Builder()
+            .medOrgnr(DUMMY_ORGNR)
+            .medNavn("Dummyvirksomhet")
+            .oppdatertOpplysningerNå()
+            .build();
+        repositoryProvider.getVirksomhetRepository().lagre(dummyVirksomhet);
+
+        YrkesaktivitetBuilder forFrilans = VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, dummyVirksomhet, fraOgMed, tilOgMed, ArbeidType.FRILANSER_OPPDRAGSTAKER_MED_MER);
+        List<YrkesaktivitetBuilder> forArbeidsforhold =
+            beregningVirksomhet.stream()
+                .map(v -> VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, v, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD))
+                .collect(Collectors.toList());
+
+        for (LocalDate dt = fraOgMed; dt.isBefore(tilOgMed); dt = dt.plusMonths(1)) {
+            for (int i = 0; i < forArbeidsforhold.size(); i++) {
+                VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder,
+                    forArbeidsforhold.get(i),
+                    AKTØR_ID, dt, dt.plusMonths(1),
+                    inntektBeregningsgrunnlag.get(i),
+                    beregningVirksomhet.get(i));
+            }
+            VerdikjedeTestHjelper.lagInntektForSammenligning(inntektArbeidYtelseBuilder, forFrilans, AKTØR_ID, dt, dt.plusMonths(1),
+                inntektSammenligningsgrunnlag, dummyVirksomhet);
+            VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder, forFrilans, AKTØR_ID, dt, dt.plusMonths(1),
+                inntektFrilans, dummyVirksomhet);
+        }
+
+        return scenario.lagre(repositoryProvider);
+    }
 
     @Before
     public void setup() {
         beregningVirksomhet1 = new VirksomhetEntitet.Builder()
-                .medOrgnr(ARBEIDSFORHOLD_ORGNR1)
-                .medNavn("BeregningVirksomhet nr 1")
-                .oppdatertOpplysningerNå()
-                .build();
+            .medOrgnr(ARBEIDSFORHOLD_ORGNR1)
+            .medNavn("BeregningVirksomhet nr 1")
+            .oppdatertOpplysningerNå()
+            .build();
         repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet1);
         beregningVirksomhet2 = new VirksomhetEntitet.Builder()
-                .medOrgnr(ARBEIDSFORHOLD_ORGNR2)
-                .medNavn("BeregningVirksomhet nr 2")
-                .oppdatertOpplysningerNå()
-                .build();
+            .medOrgnr(ARBEIDSFORHOLD_ORGNR2)
+            .medNavn("BeregningVirksomhet nr 2")
+            .oppdatertOpplysningerNå()
+            .build();
         repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet2);
         beregningVirksomhet3 = new VirksomhetEntitet.Builder()
-                .medOrgnr(ARBEIDSFORHOLD_ORGNR3)
-                .medNavn("BeregningVirksomhet nr 3")
-                .oppdatertOpplysningerNå()
-                .build();
+            .medOrgnr(ARBEIDSFORHOLD_ORGNR3)
+            .medNavn("BeregningVirksomhet nr 3")
+            .oppdatertOpplysningerNå()
+            .build();
         repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet3);
         InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingFPTjenesteImpl.class);
@@ -159,6 +190,8 @@ public class FrilanserTest {
         fastsettSkjæringstidspunktOgStatuser = new FastsettSkjæringstidspunktOgStatuser(oversetterTilRegel, oversetterFraRegel);
         BeregningInntektsmeldingTjeneste beregningInntektsmeldingTjeneste = new BeregningInntektsmeldingTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
         KontrollerFaktaBeregningTjenesteImpl kontrollerFaktaBeregningTjeneste = new KontrollerFaktaBeregningTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste, hentGrunnlagsdataTjeneste, beregningInntektsmeldingTjeneste);
+        KontrollerFaktaBeregningFrilanserTjeneste faktaBeregningFrilanserTjeneste = new KontrollerFaktaBeregningFrilanserTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
+        faktaOmBeregningTilfelleTjeneste = new FaktaOmBeregningTilfelleTjeneste(repositoryProvider, kontrollerFaktaBeregningTjeneste, faktaBeregningFrilanserTjeneste);
         beregningsperiodeTjeneste = new BeregningsperiodeTjeneste(inntektArbeidYtelseTjeneste, beregningsgrunnlagRepository, 5);
         aksjonspunktUtlederForBeregning = new AksjonspunktUtlederForBeregning(repositoryProvider.getAksjonspunktRepository(), faktaOmBeregningTilfelleTjeneste, beregningsperiodeTjeneste);
         foreslåBeregningsgrunnlagTjeneste = new ForeslåBeregningsgrunnlag(oversetterTilRegel, oversetterFraRegel, repositoryProvider, kontrollerFaktaBeregningTjeneste, hentGrunnlagsdataTjeneste);
@@ -166,47 +199,6 @@ public class FrilanserTest {
         this.fastsettBeregningsgrunnlagPeriodeTjeneste = new FastsettBeregningsgrunnlagPerioderTjenesteImpl(inntektArbeidYtelseTjeneste, beregningInntektsmeldingTjeneste);
         scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
         seksG = beregningRepository.finnEksaktSats(SatsType.GRUNNBELØP, SKJÆRINGSTIDSPUNKT_OPPTJENING).getVerdi() * 6;
-    }
-
-    private static Behandling lagBehandlingATogFL(BehandlingRepositoryProvider repositoryProvider,
-            ScenarioMorSøkerForeldrepenger scenario,
-            BigDecimal inntektSammenligningsgrunnlag,
-            List<BigDecimal> inntektBeregningsgrunnlag,
-            BigDecimal inntektFrilans,
-            List<VirksomhetEntitet> beregningVirksomhet) {
-        LocalDate fraOgMed = MINUS_YEARS_1.withDayOfMonth(1);
-        LocalDate tilOgMed = fraOgMed.plusYears(1);
-
-        InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseBuilder = scenario.getInntektArbeidYtelseScenarioTestBuilder().getKladd();
-
-        VirksomhetEntitet dummyVirksomhet = new VirksomhetEntitet.Builder()
-                .medOrgnr(DUMMY_ORGNR)
-                .medNavn("Dummyvirksomhet")
-                .oppdatertOpplysningerNå()
-                .build();
-        repositoryProvider.getVirksomhetRepository().lagre(dummyVirksomhet);
-
-        YrkesaktivitetBuilder forFrilans = VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, dummyVirksomhet, fraOgMed, tilOgMed, ArbeidType.FRILANSER_OPPDRAGSTAKER_MED_MER);
-        List<YrkesaktivitetBuilder> forArbeidsforhold =
-                beregningVirksomhet.stream()
-                    .map(v -> VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, v, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD))
-                    .collect(Collectors.toList());
-
-        for (LocalDate dt = fraOgMed; dt.isBefore(tilOgMed); dt = dt.plusMonths(1)) {
-            for (int i = 0; i < forArbeidsforhold.size(); i++) {
-                VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder,
-                        forArbeidsforhold.get(i),
-                        AKTØR_ID, dt, dt.plusMonths(1),
-                        inntektBeregningsgrunnlag.get(i),
-                        beregningVirksomhet.get(i));
-            }
-            VerdikjedeTestHjelper.lagInntektForSammenligning(inntektArbeidYtelseBuilder, forFrilans, AKTØR_ID, dt, dt.plusMonths(1),
-                    inntektSammenligningsgrunnlag, dummyVirksomhet);
-            VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder, forFrilans, AKTØR_ID, dt, dt.plusMonths(1),
-                    inntektFrilans, dummyVirksomhet);
-        }
-
-        return scenario.lagre(repositoryProvider);
     }
 
     private Behandling lagBehandlingFL(ScenarioMorSøkerForeldrepenger scenario,
@@ -240,20 +232,20 @@ public class FrilanserTest {
 
         // Arrange
         Behandling behandling = lagBehandlingATogFL(repositoryProvider, scenario,
-                BigDecimal.valueOf(sammenligning/12),
-                månedsinntekter,
-                BigDecimal.valueOf(frilansÅrsinntekt/12),
-                virksomhetene);
+            BigDecimal.valueOf(sammenligning / 12),
+            månedsinntekter,
+            BigDecimal.valueOf(frilansÅrsinntekt / 12),
+            virksomhetene);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
-                månedsinntekter.get(0),BigDecimal.valueOf(refusjonsKrav.get(0)/12));
+            månedsinntekter.get(0), BigDecimal.valueOf(refusjonsKrav.get(0) / 12));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet2,
-                månedsinntekter.get(1),BigDecimal.valueOf(refusjonsKrav.get(1)/12));
+            månedsinntekter.get(1), BigDecimal.valueOf(refusjonsKrav.get(1) / 12));
 
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-                VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID)
+            VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
+            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -320,23 +312,23 @@ public class FrilanserTest {
 
         // Arrange
         Behandling behandling = lagBehandlingATogFL(repositoryProvider, scenario,
-                BigDecimal.valueOf(sammenligning/12),
-                månedsinntekter,
-                BigDecimal.valueOf(frilansÅrsinntekt/12),
-                virksomhetene);
+            BigDecimal.valueOf(sammenligning / 12),
+            månedsinntekter,
+            BigDecimal.valueOf(frilansÅrsinntekt / 12),
+            virksomhetene);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
-                månedsinntekter.get(0),BigDecimal.valueOf(refusjonsKrav.get(0)/12));
+            månedsinntekter.get(0), BigDecimal.valueOf(refusjonsKrav.get(0) / 12));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet2,
-                månedsinntekter.get(1),BigDecimal.valueOf(refusjonsKrav.get(1)/12));
+            månedsinntekter.get(1), BigDecimal.valueOf(refusjonsKrav.get(1) / 12));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet3,
-                månedsinntekter.get(2),BigDecimal.valueOf(refusjonsKrav.get(2)/12));
+            månedsinntekter.get(2), BigDecimal.valueOf(refusjonsKrav.get(2) / 12));
 
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-                VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR3, OpptjeningAktivitetType.ARBEID)
+            VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
+            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR3, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -406,23 +398,23 @@ public class FrilanserTest {
 
         // Arrange
         Behandling behandling = lagBehandlingATogFL(repositoryProvider, scenario,
-                BigDecimal.valueOf(sammenligning/12),
-                månedsinntekter,
-                BigDecimal.valueOf(frilansÅrsinntekt/12),
-                virksomhetene);
+            BigDecimal.valueOf(sammenligning / 12),
+            månedsinntekter,
+            BigDecimal.valueOf(frilansÅrsinntekt / 12),
+            virksomhetene);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
-                månedsinntekter.get(0),BigDecimal.valueOf(refusjonsKrav.get(0)/12));
+            månedsinntekter.get(0), BigDecimal.valueOf(refusjonsKrav.get(0) / 12));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet2,
-                månedsinntekter.get(1),BigDecimal.valueOf(refusjonsKrav.get(1)/12));
+            månedsinntekter.get(1), BigDecimal.valueOf(refusjonsKrav.get(1) / 12));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet3,
-                månedsinntekter.get(2),BigDecimal.valueOf(refusjonsKrav.get(2)/12));
+            månedsinntekter.get(2), BigDecimal.valueOf(refusjonsKrav.get(2) / 12));
 
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-                VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR3, OpptjeningAktivitetType.ARBEID)
+            VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
+            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR3, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -471,9 +463,9 @@ public class FrilanserTest {
         double forventetBrukersAndelFL = frilansÅrsinntekt;
 
         Behandling behandling = lagBehandlingFL(scenario,
-                BigDecimal.valueOf(sammenligning/12),
-                BigDecimal.valueOf(frilansÅrsinntekt/12),
-                beregningVirksomhet1);
+            BigDecimal.valueOf(sammenligning / 12),
+            BigDecimal.valueOf(frilansÅrsinntekt / 12),
+            beregningVirksomhet1);
 
         // Arrange
         List<OpptjeningAktivitet> aktiviteter = new ArrayList<>();
@@ -522,9 +514,9 @@ public class FrilanserTest {
         double forventetBrukersAndelFL = Math.min(seksG, frilansÅrsinntekt);
 
         Behandling behandling = lagBehandlingFL(scenario,
-                BigDecimal.valueOf(sammenligning/12),
-                BigDecimal.valueOf(frilansÅrsinntekt/12),
-                beregningVirksomhet1);
+            BigDecimal.valueOf(sammenligning / 12),
+            BigDecimal.valueOf(frilansÅrsinntekt / 12),
+            beregningVirksomhet1);
         // Arrange
         List<OpptjeningAktivitet> aktiviteter = new ArrayList<>();
         VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, aktiviteter, OpptjeningAktivitetType.FRILANS);

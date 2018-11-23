@@ -41,6 +41,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Relasj
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -57,7 +59,6 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopp
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.InngangsvilkårOversetter;
-import no.nav.foreldrepenger.domene.inngangsvilkaar.medlemskap.InngangsvilkårMedlemskap;
 import no.nav.foreldrepenger.domene.medlem.impl.MedlemskapPerioderTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.impl.BasisPersonopplysningTjenesteImpl;
@@ -93,6 +94,12 @@ public class MedlemskapsvilkårTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.FTL_2_7_a, Landkoder.NOR, PersonstatusType.BOSA, true);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.SAKSBEHANDLER_SETTER_OPPHØR_AV_MEDL_PGA_ENDRINGER_I_TPS);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -114,6 +121,12 @@ public class MedlemskapsvilkårTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.FTL_2_7_a, Landkoder.NOR, PersonstatusType.BOSA, true);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.UNNTAK);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -135,6 +148,12 @@ public class MedlemskapsvilkårTest {
     public void skal_vurdere_maskinelt_avklart_ikke_medlem_som_vilkår_ikke_oppfylt() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.FTL_2_6, Landkoder.NOR, PersonstatusType.BOSA, true);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -160,6 +179,12 @@ public class MedlemskapsvilkårTest {
     public void skal_vurdere_avklart_pliktig_medlem_som_vilkår_oppfylt() throws JsonProcessingException, IOException {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.FTL_2_7_a, Landkoder.NOR, PersonstatusType.BOSA, true);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.MEDLEM);
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.UDEFINERT, Landkoder.SWE);
         Behandling behandling = scenario.lagre(repositoryProvider);
@@ -193,6 +218,12 @@ public class MedlemskapsvilkårTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.UNNTATT, Landkoder.NOR, PersonstatusType.UTVA, false);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -218,6 +249,12 @@ public class MedlemskapsvilkårTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.UNNTATT, Landkoder.NOR, PersonstatusType.UTVA, true);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -244,7 +281,12 @@ public class MedlemskapsvilkårTest {
         Landkoder landkode = kodeverkRepository.finn(Landkoder.class, "POL");
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.UNNTATT, landkode, PersonstatusType.BOSA, true);
         scenario.medMedlemskap().medBosattVurdering(false).medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
-        ;
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -271,7 +313,12 @@ public class MedlemskapsvilkårTest {
         Landkoder landkode = kodeverkRepository.finn(Landkoder.class, "POL");
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.UNNTATT, landkode, PersonstatusType.BOSA, false);
         scenario.medMedlemskap().medBosattVurdering(false).medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
-        ;
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -301,6 +348,12 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.UDEFINERT, Landkoder.NOR, PersonstatusType.BOSA, true);
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.UDEFINERT, Landkoder.NOR);
         scenario.medMedlemskap().medBosattVurdering(true);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -331,6 +384,12 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(Landkoder.NOR, PersonstatusType.BOSA);
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.EOS, Landkoder.SWE);
         scenario.medMedlemskap().medBosattVurdering(true).medOppholdsrettVurdering(true);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -361,6 +420,12 @@ public class MedlemskapsvilkårTest {
         Landkoder landkodeEOS = kodeverkRepository.finn(Landkoder.class, "POL");
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(landkodeEOS, PersonstatusType.BOSA);
         scenario.medMedlemskap().medBosattVurdering(true).medOppholdsrettVurdering(false);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -393,6 +458,12 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(MedlemskapDekningType.UNNTATT, land, PersonstatusType.BOSA, true);
         scenario.medMedlemskap().medBosattVurdering(true).medLovligOppholdVurdering(false)
             .medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -424,6 +495,12 @@ public class MedlemskapsvilkårTest {
         ScenarioMorSøkerEngangsstønad scenario = lagTestScenario(Landkoder.NOR, PersonstatusType.BOSA);
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.UDEFINERT, Landkoder.USA);
         scenario.medMedlemskap().medBosattVurdering(true).medLovligOppholdVurdering(true);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -445,7 +522,12 @@ public class MedlemskapsvilkårTest {
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
 
         leggTilSøker(scenario, PersonstatusType.UREG, Region.NORDEN, Landkoder.SWE);
-
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         final PersonInformasjonBuilder personInformasjonBuilder = repositoryProvider.getPersonopplysningRepository().opprettBuilderForOverstyring(behandling);
@@ -474,7 +556,12 @@ public class MedlemskapsvilkårTest {
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.IKKE_RELEVANT);
 
         leggTilSøker(scenario, PersonstatusType.UREG, Region.NORDEN, Landkoder.SWE);
-
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         final PersonInformasjonBuilder personInformasjonBuilder = repositoryProvider.getPersonopplysningRepository().opprettBuilderForOverstyring(behandling);

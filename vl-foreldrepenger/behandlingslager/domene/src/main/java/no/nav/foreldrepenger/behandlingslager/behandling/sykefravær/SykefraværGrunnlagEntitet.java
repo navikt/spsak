@@ -51,8 +51,8 @@ public class SykefraværGrunnlagEntitet extends BaseEntitet implements Sykefrav�
     }
 
     SykefraværGrunnlagEntitet(SykefraværGrunnlagEntitet grunnlag) {
-        this.sykefravær = new SykefraværEntitet(grunnlag.getSykefravær());
-        this.sykemeldinger = new SykemeldingerEntitet(grunnlag.getSykemeldinger());
+        this.sykefravær = (SykefraværEntitet) grunnlag.getSykefravær();
+        this.sykemeldinger = (SykemeldingerEntitet) grunnlag.getSykemeldinger();
     }
 
     void setAktiv(boolean aktiv) {

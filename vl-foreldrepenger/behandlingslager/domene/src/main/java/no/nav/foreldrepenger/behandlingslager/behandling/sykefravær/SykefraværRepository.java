@@ -35,4 +35,5 @@ public interface SykefraværRepository extends BehandlingslagerRepository {
      */
     SykefraværGrunnlag hentFor(Long behandlingId);
 
+    void kopierGrunnlagFraEksisterendeBehandling(Behandling behandling, Behandling revudering);
 }

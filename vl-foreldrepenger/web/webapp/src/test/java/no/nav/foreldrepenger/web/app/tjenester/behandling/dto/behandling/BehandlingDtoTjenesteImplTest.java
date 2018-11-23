@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -16,9 +17,14 @@ import org.junit.runner.RunWith;
 import no.finn.unleash.FakeUnleash;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.foreldrepenger.domene.typer.Prosentsats;
 import no.nav.foreldrepenger.web.app.rest.ResourceLink;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
@@ -72,7 +78,16 @@ public class BehandlingDtoTjenesteImplTest {
     }
 
     private Behandling lagBehandling() {
-        return ScenarioMorSøkerForeldrepenger.forFødsel()
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+
+        SykemeldingerBuilder smBuilder = scenario.getSykemeldingerBuilder();
+        SykemeldingBuilder sykemeldingBuilder = smBuilder.sykemeldingBuilder("ASDF-ASDF-ASDF");
+        sykemeldingBuilder.medPeriode(LocalDate.now(), LocalDate.now().plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)))
+            .medGrad(new Prosentsats(100));
+        smBuilder.medSykemelding(sykemeldingBuilder);
+        scenario.medSykemeldinger(smBuilder);
+        return scenario
             .lagre(repositoryProvider);
     }
 }

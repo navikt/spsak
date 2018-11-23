@@ -9,10 +9,14 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 
 public class MedlemskapPerioderTjenesteImplTest {
 
@@ -24,6 +28,12 @@ public class MedlemskapPerioderTjenesteImplTest {
         // Arrange
         LocalDate oppgittFødselsdato = LocalDate.now();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(oppgittFødselsdato, oppgittFødselsdato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
 
         // Skulle helst ha bygd med ScenarioMorSøkerEngangsstønad, men det introduserer sirkulær maven-dependency
         Behandling b = scenario.lagMocked();

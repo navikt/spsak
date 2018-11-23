@@ -17,11 +17,10 @@ public class RegelFastsettOpptjeningsperiodeTest {
     @Test
     public void skalFastsetteDatoLikUttaksDato() {
         // Arrange
-        LocalDate førsteEgenmeldingsdag = LocalDate.of(2018, Month.JANUARY, 20);
         LocalDate førsteDagSøknad = LocalDate.of(2018, Month.JANUARY, 15);
         LocalDate førsteArbeidsgiverPeriodeDag = LocalDate.of(2018, Month.JANUARY, 19);
         LocalDate førsteSykemeldingDag = LocalDate.of(2018, Month.JANUARY, 17);
-        OpptjeningsperiodeGrunnlag regelmodell = new OpptjeningsperiodeGrunnlag(førsteEgenmeldingsdag, førsteArbeidsgiverPeriodeDag, førsteDagSøknad, førsteSykemeldingDag);
+        OpptjeningsperiodeGrunnlag regelmodell = new OpptjeningsperiodeGrunnlag(førsteArbeidsgiverPeriodeDag, førsteDagSøknad, førsteSykemeldingDag);
         regelmodell.setPeriodeLengde(Period.parse("P10M"));
 
         // Act

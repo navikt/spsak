@@ -263,12 +263,6 @@ public class InngangsvilkårOversetter {
             .map(DatoIntervallEntitet::getFomDato)
             .min(LocalDate::compareTo);
 
-        Optional<LocalDate> førsteEgenmeldingsDag = søknadsPerioder.stream()
-            .filter(egenmeldingPeriode())
-            .map(SykefraværPeriode::getPeriode)
-            .map(DatoIntervallEntitet::getFomDato)
-            .min(LocalDate::compareTo);
-
         Set<Sykemelding> sykemeldinger = sykefraværGrunnlag.map(SykefraværGrunnlag::getSykemeldinger)
             .map(Sykemeldinger::getSykemeldinger)
             .orElse(Collections.emptySet());
@@ -290,14 +284,9 @@ public class InngangsvilkårOversetter {
             .map(DatoIntervallEntitet::getFomDato)
             .min(LocalDate::compareTo);
 
-        return new OpptjeningsperiodeGrunnlag(førsteEgenmeldingsDag.orElse(null),
-            førstedagIArbeidsgiverPerioden.orElse(null),
+        return new OpptjeningsperiodeGrunnlag(førstedagIArbeidsgiverPerioden.orElse(null),
             førsteDagSøknaden.orElse(null),
             førsteSykemeldingsdag.orElse(null));
-    }
-
-    private Predicate<SykefraværPeriode> egenmeldingPeriode() {
-        return sfp -> SykefraværPeriodeType.EGENMELDING.equals(sfp.getType());
     }
 
     private Predicate<SykefraværPeriode> ikkeEgenmeldingPeriode() {

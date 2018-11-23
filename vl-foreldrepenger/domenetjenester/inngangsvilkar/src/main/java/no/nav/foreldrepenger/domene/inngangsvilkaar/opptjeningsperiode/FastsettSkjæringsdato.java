@@ -37,7 +37,6 @@ public class FastsettSkjæringsdato extends LeafSpecification<Opptjeningsperiode
         datoer.add(regelmodell.getFørsteDagIArbeidsgiverPerioden());
         datoer.add(regelmodell.getFørsteDagISykemelding());
         datoer.add(regelmodell.getFørsteDagISøknad());
-        datoer.add(regelmodell.getFørsteEgenmeldingsDag());
 
         return datoer.stream().filter(Objects::nonNull).min(LocalDate::compareTo).orElseThrow(IllegalStateException::new);
     }

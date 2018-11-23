@@ -40,6 +40,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedle
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
@@ -50,7 +52,6 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractT
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.InngangsvilkårOversetter;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
 import no.nav.foreldrepenger.domene.medlem.impl.MedlemskapPerioderTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
@@ -76,6 +77,7 @@ public class InngangsvilkårOversetterTest {
         oversetter = new InngangsvilkårOversetter(repositoryProvider, new MedlemskapPerioderTjenesteImpl(12, 6, skjæringstidspunktTjeneste), skjæringstidspunktTjeneste, personopplysningTjeneste);
     }
 
+    @Test
     public void skal_mappe_fra_domenemedlemskap_til_regelmedlemskap() {
         // Arrange
 
@@ -170,6 +172,12 @@ public class InngangsvilkårOversetterTest {
             .leggTilOpphold(utlandsopphold1)
             .leggTilOpphold(utlandsopphold2)
             .build();
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(skjæringstidspunkt, skjæringstidspunkt.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         scenario.medSøknad()
             .medMottattDato(LocalDate.of(2017, 3, 15))
             .medOppgittTilknytning(oppgittTilknytning);

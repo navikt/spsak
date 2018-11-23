@@ -44,6 +44,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingL�
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -79,6 +82,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
     private PersonopplysningRepository personopplysningRepository = provider.getPersonopplysningRepository();
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = provider.getInntektArbeidYtelseRepository();
     private FagsakRepository fagsakRepository = provider.getFagsakRepository();
+    private SykefraværRepository sykefraværRepository = provider.getSykefraværRepository();
 
     @Inject
     private UtledVurderingsdatoerForMedlemskapTjenesteImpl tjeneste;
@@ -92,6 +96,12 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(iDag, iDag.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(provider);
         avslutterBehandlingOgFagsak(behandling);
 
@@ -117,6 +127,12 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
         DatoIntervallEntitet andreÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag.plusYears(1), iDag.plusYears(2));
         DatoIntervallEntitet tredjeÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag.plusYears(2), iDag.plusYears(3));
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(iDag, iDag.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(søkerAktørId));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(provider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
 
@@ -146,6 +162,12 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
         DatoIntervallEntitet andreÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag.plusYears(1), iDag.plusYears(2));
         DatoIntervallEntitet tredjeÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag.plusYears(2), iDag.plusYears(3));
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(iDag, iDag.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(søkerAktørId));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Behandling behandling = scenario.lagre(provider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
 
@@ -174,6 +196,12 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
 
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
         DatoIntervallEntitet andreÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag.plusYears(1), iDag.plusYears(2));
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(iDag, iDag.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(søkerAktørId));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         DatoIntervallEntitet tredjeÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag.plusYears(2), iDag.plusYears(3));
         Behandling behandling = scenario.lagre(provider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
@@ -261,6 +289,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         medlemskapRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revudering);
         inntektArbeidYtelseRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revudering);
         personopplysningRepository.kopierGrunnlagFraEksisterendeBehandlingForRevurdering(behandling, revudering);
+        sykefraværRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revudering);
 
         return revudering;
     }

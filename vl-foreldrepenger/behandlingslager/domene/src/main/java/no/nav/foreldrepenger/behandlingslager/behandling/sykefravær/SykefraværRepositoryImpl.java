@@ -134,4 +134,11 @@ public class SykefraværRepositoryImpl implements SykefraværRepository {
     public SykefraværGrunnlag hentFor(Long behandlingId) {
         return getAktivtGrunnlag(behandlingId).orElseThrow(IllegalStateException::new);
     }
+
+    @Override
+    public void kopierGrunnlagFraEksisterendeBehandling(Behandling behandling, Behandling revudering) {
+        SykefraværGrunnlagBuilder grunnlagBuilder = getSykefraværGrunnlagBuilder(behandling);
+
+        lagreOgFlush(revudering, grunnlagBuilder);
+    }
 }

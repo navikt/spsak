@@ -17,11 +17,14 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
@@ -57,6 +60,12 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         // Arrange
         LocalDate fødselsdato = LocalDate.now();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(fødselsdato, fødselsdato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.FIN);
         Behandling behandling = scenario.lagre(provider);
 
@@ -76,6 +85,12 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medSøknad()
             .medMottattDato(LocalDate.now());
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.FIN);
         Behandling behandling = scenario.lagre(provider);
 
@@ -95,6 +110,12 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medSøknad()
             .medMottattDato(LocalDate.now());
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.CAN);
         Behandling behandling = scenario.lagre(provider);
 
@@ -111,7 +132,12 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         LocalDate termindato = LocalDate.now();
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
         AktørId annenPartAktørId = new AktørId("999");
 
@@ -148,7 +174,12 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         LocalDate termindato = LocalDate.now();
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
         AktørId annenPartAktørId = new AktørId("999");
 
@@ -185,10 +216,16 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         AktørId aktørId1 = new AktørId("1");
         LocalDate fom = LocalDate.now().minusWeeks(3L);
         LocalDate tom = LocalDate.now().minusWeeks(1L);
+        LocalDate termindato = LocalDate.now().plusDays(40);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
-        LocalDate termindato = LocalDate.now().plusDays(40);
-        scenario.medSøknad().medMottattDato(LocalDate.now());
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
+        scenario.medSøknad().medMottattDato(fom);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.ESP);
 
         InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder();
@@ -214,6 +251,12 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medSøknad().medMottattDato(termindato.minusMonths(2).plusDays(3));
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.ESP);
 
         InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder();
@@ -241,6 +284,12 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medSøknad()
             .medMottattDato(LocalDate.now());
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.ESP);
         Behandling behandling = scenario.lagre(provider);
         // Act

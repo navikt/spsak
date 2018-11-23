@@ -38,10 +38,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.RefusjonEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettBeregningsgrunnlagPerioderTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningArbeidsgiverTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningInntektsmeldingTestUtil;
@@ -84,6 +85,12 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Before
     public void setUp() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(AKTØR_ID));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         behandling = scenario.lagre(repositoryProvider);
         opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT);
     }
@@ -434,6 +441,12 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         // Arrange
         String arbId = "123";
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(AKTØR_ID));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
         Behandling behandling = scenario.lagre(repositoryProvider);
         BigDecimal inntekt = BigDecimal.valueOf(40000);

@@ -13,7 +13,6 @@ public class SykefraværPeriodeType extends Kodeliste {
 
     public static final SykefraværPeriodeType SYKEMELDT = new SykefraværPeriodeType("SYKEMELDT"); //$NON-NLS-1$
     public static final SykefraværPeriodeType EGENMELDING = new SykefraværPeriodeType("EGENMELDING"); //$NON-NLS-1$
-    public static final SykefraværPeriodeType FERIE = new SykefraværPeriodeType("FERIE"); //$NON-NLS-1$
     public static final SykefraværPeriodeType UDEFINERT = new SykefraværPeriodeType("-"); //$NON-NLS-1$
 
     SykefraværPeriodeType() {

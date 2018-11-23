@@ -7,9 +7,7 @@ import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktUtlederHolder;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaUtledereTjeneste;
-import no.nav.foreldrepenger.domene.kontrollerfakta.medlemskap.AksjonspunktutlederForAvklarStartdatoForForeldrepengeperioden;
 import no.nav.foreldrepenger.domene.kontrollerfakta.medlemskap.AksjonspunktutlederForMedlemskapSkjæringstidspunkt;
-import no.nav.foreldrepenger.domene.kontrollerfakta.søknad.AksjonspunktUtlederForTidligereMottattForeldrepenger;
 import no.nav.foreldrepenger.domene.kontrollerfakta.søknad.AksjonspunktUtlederForTilleggsopplysninger;
 
 
@@ -28,8 +26,6 @@ public abstract class KontrollerFaktaUtledereTjenesteFP implements KontrollerFak
 
     private void leggTilStandardUtledere(AksjonspunktUtlederHolder utlederHolder) {
         utlederHolder.leggTil(AksjonspunktutlederForMedlemskapSkjæringstidspunkt.class)
-            .leggTil(AksjonspunktUtlederForTilleggsopplysninger.class)
-            .leggTil(AksjonspunktutlederForAvklarStartdatoForForeldrepengeperioden.class)
-            .leggTil(AksjonspunktUtlederForTidligereMottattForeldrepenger.class);
+            .leggTil(AksjonspunktUtlederForTilleggsopplysninger.class);
     }
 }

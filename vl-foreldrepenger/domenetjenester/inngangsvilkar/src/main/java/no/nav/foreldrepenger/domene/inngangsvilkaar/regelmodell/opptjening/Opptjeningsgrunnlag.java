@@ -64,20 +64,20 @@ public class Opptjeningsgrunnlag implements VilkårGrunnlag {
      * Minste antall dager som kreves godkjent dersom det er færre enn ({@link #minsteAntallMånederGodkjent}+1 måneder .
      */
     @JsonIgnore
-    private int minsteAntallDagerGodkjent = 26;
+    private int minsteAntallDagerGodkjent = 28;
 
     /**
      * Minste antall måneder med bekreftet opptjening for å kunne legge på vent (sees i sammenheng med
      * {@link #minsteAntallDagerForVent}.
      */
     @JsonIgnore
-    private int minsteAntallMånederForVent = 4;
+    private int minsteAntallMånederForVent = 0;
 
     /**
      * Minste antall måneder som kreves godkjent. Hvis eksakt samme, så sjekkes også {@link #minsteAntallDagerGodkjent}.
      */
     @JsonIgnore
-    private int minsteAntallMånederGodkjent = 5;
+    private int minsteAntallMånederGodkjent = 0;
 
     /** Minste godkjente inntekt i en periode. */
     @JsonIgnore

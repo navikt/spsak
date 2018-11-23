@@ -55,12 +55,12 @@ public class SykefraværPeriodeEntitet extends BaseEntitet implements Sykefravæ
     @ChangeTracked
     @Embedded
     @AttributeOverrides(@AttributeOverride(name = "verdi", column = @Column(name = "arbeidsgrad")))
-    private Prosentsats arbeidsgrad;
+    private Prosentsats arbeidsgrad = new Prosentsats(100);
 
     @ChangeTracked
     @Embedded
     @AttributeOverrides(@AttributeOverride(name = "verdi", column = @Column(name = "gradering")))
-    private Prosentsats gradering;
+    private Prosentsats gradering = new Prosentsats(0);
 
     SykefraværPeriodeEntitet() {
     }

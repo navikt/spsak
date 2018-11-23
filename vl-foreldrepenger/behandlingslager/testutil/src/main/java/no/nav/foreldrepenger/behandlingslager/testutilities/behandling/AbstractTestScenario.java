@@ -325,6 +325,12 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
             public SykefraværGrunnlag hentFor(Long behandlingId) {
                 return Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(behandlingId, null)).orElseThrow(IllegalStateException::new);
             }
+
+            @Override
+            public void kopierGrunnlagFraEksisterendeBehandling(Behandling behandling, Behandling revudering) {
+                SykefraværGrunnlagBuilder oppdater = SykefraværGrunnlagBuilder.oppdater(Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(behandling.getId(), null)));
+                sykefraværGrunnlagMap.put(revudering.getId(), (SykefraværGrunnlagEntitet) oppdater.build());
+            }
         };
     }
 

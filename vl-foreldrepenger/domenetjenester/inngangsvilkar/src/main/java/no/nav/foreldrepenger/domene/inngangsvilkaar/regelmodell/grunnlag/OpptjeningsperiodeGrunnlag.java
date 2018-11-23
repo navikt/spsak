@@ -6,7 +6,6 @@ import java.time.Period;
 public class OpptjeningsperiodeGrunnlag implements VilkårGrunnlag {
 
     // Input til regel
-    private LocalDate førsteEgenmeldingsDag;
     private LocalDate førsteDagIArbeidsgiverPerioden;
     private LocalDate førsteDagISøknad;
     private LocalDate førsteDagISykemelding;
@@ -22,18 +21,12 @@ public class OpptjeningsperiodeGrunnlag implements VilkårGrunnlag {
     public OpptjeningsperiodeGrunnlag() {
     }
 
-    public OpptjeningsperiodeGrunnlag(LocalDate førsteEgenmeldingsDag,
-                                      LocalDate førsteDagIArbeidsgiverPerioden,
+    public OpptjeningsperiodeGrunnlag(LocalDate førsteDagIArbeidsgiverPerioden,
                                       LocalDate førsteDagISøknad,
                                       LocalDate førsteDagISykemelding) {
-        this.førsteEgenmeldingsDag = førsteEgenmeldingsDag;
         this.førsteDagIArbeidsgiverPerioden = førsteDagIArbeidsgiverPerioden;
         this.førsteDagISøknad = førsteDagISøknad;
         this.førsteDagISykemelding = førsteDagISykemelding;
-    }
-
-    public LocalDate getFørsteEgenmeldingsDag() {
-        return førsteEgenmeldingsDag;
     }
 
     public LocalDate getFørsteDagIArbeidsgiverPerioden() {
@@ -83,7 +76,6 @@ public class OpptjeningsperiodeGrunnlag implements VilkårGrunnlag {
     @Override
     public String toString() {
         return "OpptjeningsperiodeGrunnlag{" +
-            "førsteEgenmeldingsDag=" + førsteEgenmeldingsDag +
             ", førsteDagIArbeidsgiverPerioden=" + førsteDagIArbeidsgiverPerioden +
             ", førsteDagISøknad=" + førsteDagISøknad +
             ", førsteDagISykemelding=" + førsteDagISykemelding +

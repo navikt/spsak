@@ -25,11 +25,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
@@ -45,6 +48,7 @@ import no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.foreldrepenger.domene.typer.Prosentsats;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
@@ -82,7 +86,13 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImplTest {
             .medBehandlingStegStart(BehandlingStegType.KONTROLLER_FAKTA);
 
         førstegangScenario.removeDodgyDefaultInntektArbeidYTelse();
-
+        SykemeldingerBuilder builder = førstegangScenario.getSykemeldingerBuilder();
+        SykemeldingBuilder sykemeldingBuilder = builder.sykemeldingBuilder("ASDF-ASDF-ASDF");
+        sykemeldingBuilder.medPeriode(LocalDate.now(), LocalDate.now().plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)))
+            .medGrad(new Prosentsats(100));
+        builder.medSykemelding(sykemeldingBuilder);
+        førstegangScenario.medSykemeldinger(builder);
         AktørId søkerAktørId = førstegangScenario.getDefaultBrukerAktørId();
 
         PersonInformasjon personInformasjon = førstegangScenario
@@ -133,6 +143,13 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImplTest {
             .medRegisterOpplysninger(personopplysningBuilder.build())
             .medOriginalBehandling(originalBehandling, BehandlingÅrsakType.RE_MANGLER_FØDSEL);
         revurderingScenario.removeDodgyDefaultInntektArbeidYTelse();
+        builder = revurderingScenario.getSykemeldingerBuilder();
+        sykemeldingBuilder = builder.sykemeldingBuilder("ASDF-ASDF-ASDF");
+        sykemeldingBuilder.medPeriode(LocalDate.now(), LocalDate.now().plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)))
+            .medGrad(new Prosentsats(100));
+        builder.medSykemelding(sykemeldingBuilder);
+        revurderingScenario.medSykemeldinger(builder);
 
         behandling = revurderingScenario.lagre(repositoryProvider);
         //kopierer ytelsefordeling grunnlag

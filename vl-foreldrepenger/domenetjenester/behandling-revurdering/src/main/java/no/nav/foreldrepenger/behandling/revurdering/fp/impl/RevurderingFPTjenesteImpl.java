@@ -26,6 +26,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -45,6 +46,7 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
     private RevurderingTjenesteFelles revurderingTjenesteFelles;
     private MedlemskapVilkårPeriodeRepository medlemskapVilkårPeriodeRepository;
     private RevurderingEndring revurderingEndring;
+    private SykefraværRepository sykefraværRepository;
 
     public RevurderingFPTjenesteImpl() {
         // for CDI proxy
@@ -63,10 +65,11 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
         this.revurderingEndring = revurderingEndring;
         this.revurderingTjenesteFelles = new RevurderingTjenesteFelles(repositoryProvider);
         this.medlemskapVilkårPeriodeRepository = repositoryProvider.getMedlemskapVilkårPeriodeRepository();
+        this.sykefraværRepository = repositoryProvider.getSykefraværRepository();
     }
 
     @Override
-    public Behandling opprettManuellRevurdering(Fagsak fagsak, BehandlingÅrsakType revurderingsÅrsak){
+    public Behandling opprettManuellRevurdering(Fagsak fagsak, BehandlingÅrsakType revurderingsÅrsak) {
         Behandling behandling = opprettRevurdering(fagsak, revurderingsÅrsak, true);
         aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.KONTROLL_AV_MANUELT_OPPRETTET_REVURDERINGSBEHANDLING);
         return behandling;
@@ -81,10 +84,10 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
         Behandling origBehandling = behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(fagsak.getId())
             .orElseThrow(() -> RevurderingFeil.FACTORY.tjenesteFinnerIkkeBehandlingForRevurdering(fagsak.getId()).toException());
 
-         // lås original behandling først
-         behandlingskontrollTjeneste.initBehandlingskontroll(origBehandling);
+        // lås original behandling først
+        behandlingskontrollTjeneste.initBehandlingskontroll(origBehandling);
 
-         // deretter opprett revurdering
+        // deretter opprett revurdering
         Behandling revurdering = revurderingTjenesteFelles.opprettRevurderingsbehandling(revurderingsÅrsak, origBehandling, manueltOpprettet);
         revurderingHistorikk.opprettHistorikkinnslagOmRevurdering(revurdering, revurderingsÅrsak, manueltOpprettet);
         BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(revurdering);
@@ -94,6 +97,7 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
         personopplysningRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
         medlemskapRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
         inntektArbeidYtelseRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
+        sykefraværRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
 
         // Kopier aksjonspunkter
         aksjonspunktRepository.kopierAlleAksjonspunkterOgSettDemInaktive(origBehandling, revurdering);
@@ -109,10 +113,10 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
         VilkårResultat.Builder vilkårBuilder = VilkårResultat.builder();
         origVilkårResultat.getVilkårene().stream()
             .forEach(vilkår -> vilkårBuilder
-                    .medUtfallManuelt(vilkår.getVilkårUtfallManuelt())
-                    .medUtfallOverstyrt(vilkår.getVilkårUtfallOverstyrt())
-                    .leggTilVilkårResultat(vilkår.getVilkårType(), VilkårUtfallType.IKKE_VURDERT, vilkår.getVilkårUtfallMerknad(),
-                vilkår.getMerknadParametere(), vilkår.getAvslagsårsak(), vilkår.erManueltVurdert(), vilkår.erOverstyrt(), vilkår.getRegelEvaluering(), vilkår.getRegelInput())
+                .medUtfallManuelt(vilkår.getVilkårUtfallManuelt())
+                .medUtfallOverstyrt(vilkår.getVilkårUtfallOverstyrt())
+                .leggTilVilkårResultat(vilkår.getVilkårType(), VilkårUtfallType.IKKE_VURDERT, vilkår.getVilkårUtfallMerknad(),
+                    vilkår.getMerknadParametere(), vilkår.getAvslagsårsak(), vilkår.erManueltVurdert(), vilkår.erOverstyrt(), vilkår.getRegelEvaluering(), vilkår.getRegelInput())
             );
         vilkårBuilder.medVilkårResultatType(VilkårResultatType.IKKE_FASTSATT);
         VilkårResultat vilkårResultat = vilkårBuilder.buildFor(revurdering);

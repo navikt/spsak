@@ -31,6 +31,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapMa
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -43,6 +45,7 @@ import no.nav.foreldrepenger.domene.person.impl.TpsTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
+import no.nav.foreldrepenger.domene.typer.Prosentsats;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.InntektDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemDtoTjenesteImpl;
@@ -72,6 +75,14 @@ public class MedlemDtoTest {
             .medOppholdsrettVurdering(true)
             .medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.MEDLEM)
             .medLovligOppholdVurdering(true);
+
+        SykemeldingerBuilder smBuilder = scenario.getSykemeldingerBuilder();
+        SykemeldingBuilder sykemeldingBuilder = smBuilder.sykemeldingBuilder("ASDF-ASDF-ASDF");
+        sykemeldingBuilder.medPeriode(LocalDate.now(), LocalDate.now().plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)))
+            .medGrad(new Prosentsats(100));
+        smBuilder.medSykemelding(sykemeldingBuilder);
+        scenario.medSykemeldinger(smBuilder);
 
         final BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
 
@@ -149,6 +160,14 @@ public class MedlemDtoTest {
             .medOppholdsrettVurdering(true)
             .medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.MEDLEM)
             .medLovligOppholdVurdering(true);
+
+        SykemeldingerBuilder smBuilder = scenario.getSykemeldingerBuilder();
+        SykemeldingBuilder sykemeldingBuilder = smBuilder.sykemeldingBuilder("ASDF-ASDF-ASDF");
+        sykemeldingBuilder.medPeriode(LocalDate.now(), LocalDate.now().plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)))
+            .medGrad(new Prosentsats(100));
+        smBuilder.medSykemelding(sykemeldingBuilder);
+        scenario.medSykemeldinger(smBuilder);
 
         final BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
 

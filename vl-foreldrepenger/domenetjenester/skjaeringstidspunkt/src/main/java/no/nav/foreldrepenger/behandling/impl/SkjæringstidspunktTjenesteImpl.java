@@ -17,12 +17,19 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sykefravær;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.Sykemelding;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.Sykemeldinger;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
+import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.konfig.Tid;
 import no.nav.vedtak.util.FPDateUtil;
@@ -35,6 +42,7 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
     private SøknadRepository søknadRepository;
     @SuppressWarnings("unused")
     private Period antallMånederOpptjeningsperiode;
+    private SykefraværRepository sykefraværRepository;
 
     SkjæringstidspunktTjenesteImpl() {
         // CDI
@@ -45,6 +53,7 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
                                           @KonfigVerdi(value = "opptjeningsperiode.lengde") Period antallMånederOpptjeningsperiode) {
         this.uttakRepository = repositoryProvider.getUttakRepository();
         this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+        this.sykefraværRepository = repositoryProvider.getSykefraværRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.antallMånederOpptjeningsperiode = antallMånederOpptjeningsperiode;
     }
@@ -60,32 +69,31 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
             return opptjening.get().getTom().plusDays(1);
         }
 
-        return førsteØnskedeUttaksdag(behandling);
+        return førsteSykefraværsDag(behandling);
     }
 
     @Override
     public LocalDate utledSkjæringstidspunktForRegisterInnhenting(Behandling behandling) {
         if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
-            return utledSkjæringstidspunktForRegisterinnhentingFP(behandling);
+            return utledSkjæringstidspunktForRegisterinnhentingSP(behandling);
         }
         throw new IllegalStateException("Ukjent ytelse type.");
     }
 
     @SuppressWarnings("unused")
-    private LocalDate utledSkjæringstidspunktForRegisterinnhentingFP(Behandling behandling) {
-        // TODO: Må utbedres for SP
-        return LocalDate.now(FPDateUtil.getOffset());
+    private LocalDate utledSkjæringstidspunktForRegisterinnhentingSP(Behandling behandling) {
+        return finnFørsteSykefraværsdag(behandling).orElse(LocalDate.now(FPDateUtil.getOffset()));
     }
 
-    private LocalDate førsteØnskedeUttaksdag(Behandling behandling) {
-        final Optional<LocalDate> førsteØnskedeUttaksdagIBehandling = finnFørsteØnskedeUttaksdagFor(behandling);
+    private LocalDate førsteSykefraværsDag(Behandling behandling) {
+        final Optional<LocalDate> førsteSykefraværsdagIBehandlingen = finnFørsteSykefraværsdag(behandling);
         if (behandling.erRevurdering()) {
-            final Optional<LocalDate> førsteUttaksdagIForrigeVedtak = finnFørsteDatoIUttakResultat(behandling);
-            if (!førsteUttaksdagIForrigeVedtak.isPresent() && !førsteØnskedeUttaksdagIBehandling.isPresent()) {
+            final Optional<LocalDate> førsteSykedagIForrigeVedtak = finnFørsteInnvilgedeSykedag(behandling);
+            if (!førsteSykedagIForrigeVedtak.isPresent() && !førsteSykefraværsdagIBehandlingen.isPresent()) {
                 // FIXME SP: Trengs noe annet enn feilhåndtering her? foreldrepenger utleder fra fordeling
                 throw SkjæringstidspunktFeil.FACTORY.finnerIkkeSkjæringstidspunktForForeldrepenger(behandling).toException();
             } else {
-                final LocalDate skjæringstidspunkt = utledTidligste(førsteØnskedeUttaksdagIBehandling.orElse(Tid.TIDENES_ENDE), førsteUttaksdagIForrigeVedtak.orElse(Tid.TIDENES_ENDE));
+                final LocalDate skjæringstidspunkt = utledTidligste(førsteSykefraværsdagIBehandlingen.orElse(Tid.TIDENES_ENDE), førsteSykedagIForrigeVedtak.orElse(Tid.TIDENES_ENDE));
                 if (skjæringstidspunkt.equals(Tid.TIDENES_ENDE)) {
                     // Fant da ikke noe skjæringstidspunkt i tidligere vedtak heller.
                     throw SkjæringstidspunktFeil.FACTORY.finnerIkkeSkjæringstidspunktForForeldrepenger(behandling).toException();
@@ -95,9 +103,9 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
         } else {
             if (manglerSøknadIFørstegangsbehandling(behandling)) {
                 // Har ikke grunnlag for å avgjøre skjæringstidspunkt enda så gir midlertidig dagens dato. for at DTOer skal fungere.
-                return førsteØnskedeUttaksdagIBehandling.orElse(LocalDate.now(FPDateUtil.getOffset()));
+                return førsteSykefraværsdagIBehandlingen.orElse(LocalDate.now(FPDateUtil.getOffset()));
             }
-            return førsteØnskedeUttaksdagIBehandling.orElseThrow(() -> SkjæringstidspunktFeil.FACTORY.finnerIkkeSkjæringstidspunktForForeldrepenger(behandling).toException());
+            return førsteSykefraværsdagIBehandlingen.orElseThrow(() -> SkjæringstidspunktFeil.FACTORY.finnerIkkeSkjæringstidspunktForForeldrepenger(behandling).toException());
         }
     }
 
@@ -105,9 +113,29 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
         return BehandlingType.FØRSTEGANGSSØKNAD.equals(behandling.getType()) && !søknadRepository.hentSøknadHvisEksisterer(behandling).isPresent();
     }
 
-    private Optional<LocalDate> finnFørsteØnskedeUttaksdagFor(Behandling behandling) {
-        // FIXME SP: trenger ny startdato?
-        return Optional.ofNullable(behandling.getOpprettetDato().toLocalDate());
+    private Optional<LocalDate> finnFørsteSykefraværsdag(Behandling behandling) {
+        // FIXME SP - Skrive om til å hente dato fra SkjæringstidspunktGrunnlag hvis ikke eksisterer benytt dette.
+        Optional<SykefraværGrunnlag> grunnlag = sykefraværRepository.hentHvisEksistererFor(behandling.getId());
+
+        Optional<LocalDate> sykemeldingPeriode = grunnlag.map(SykefraværGrunnlag::getSykemeldinger)
+            .map(Sykemeldinger::getSykemeldinger)
+            .orElse(Collections.emptySet())
+            .stream()
+            .map(Sykemelding::getPeriode)
+            .map(DatoIntervallEntitet::getFomDato)
+            .min(LocalDate::compareTo);
+
+        if (sykemeldingPeriode.isPresent()) {
+            return sykemeldingPeriode;
+        }
+
+        return grunnlag.map(SykefraværGrunnlag::getSykefravær)
+            .map(Sykefravær::getPerioder)
+            .orElse(Collections.emptyList())
+            .stream()
+            .map(SykefraværPeriode::getPeriode)
+            .map(DatoIntervallEntitet::getFomDato)
+            .min(LocalDate::compareTo);
     }
 
     private LocalDate utledTidligste(LocalDate første, LocalDate andre) {
@@ -133,7 +161,7 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
         return originalBehandling.get();
     }
 
-    private Optional<LocalDate> finnFørsteDatoIUttakResultat(Behandling behandling) {
+    private Optional<LocalDate> finnFørsteInnvilgedeSykedag(Behandling behandling) {
         final Optional<UttakResultatEntitet> uttakResultat = uttakRepository.hentUttakResultatHvisEksisterer(originalBehandling(behandling));
         return uttakResultat.map(UttakResultatEntitet::getGjeldendePerioder)
             .map(UttakResultatPerioderEntitet::getPerioder)

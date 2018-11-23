@@ -13,6 +13,7 @@ import static no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.RegelMappe
 import static no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.RegelMapperTestDataHelper.buildVLBGPStatus;
 import static no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.RegelMapperTestDataHelper.buildVLBGPStatusForSN;
 import static no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.RegelMapperTestDataHelper.buildVLBGPeriode;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil.AKTØR_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 
@@ -39,6 +40,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arb
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -46,7 +49,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.RegelMapperTestDataHelper;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.jackson.JacksonJsonConfig;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.AktivitetStatus;
@@ -82,7 +84,14 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
 
     @Before
     public void setup() {
-        behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
+        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
+        sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
+            .medArbeidsgiver(Arbeidsgiver.person(AKTØR_ID));
+        builderb.leggTil(sykemeldingBuilder);
+        scenario.medSykefravær(builderb);
+        behandling = scenario.lagre(repositoryProvider);
         virksomhet = new VirksomhetEntitet.Builder()
                 .medOrgnr("42L")
                 .medNavn("VirksomhetNavn")
