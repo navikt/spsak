@@ -116,7 +116,7 @@ public class AksjonspunktOppdatererTest {
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 
-        leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
 
         AksjonspunktGodkjenningDto aksGodkjDto = new AksjonspunktGodkjenningDto();
         aksGodkjDto.setArsaker(new HashSet<>(Collections.singletonList(VurderÅrsak.FEIL_FAKTA)).stream().map(VurderÅrsak::new)
@@ -124,7 +124,7 @@ public class AksjonspunktOppdatererTest {
         aksGodkjDto.setGodkjent(false);
         String besluttersBegrunnelse = "Må ha bedre dokumentasjon.";
         aksGodkjDto.setBegrunnelse(besluttersBegrunnelse);
-        aksGodkjDto.setAksjonspunktKode(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        aksGodkjDto.setAksjonspunktKode(AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
 
         FatterVedtakAksjonspunktDto aksjonspunktDto = new FatterVedtakAksjonspunktDto("", Collections.singletonList(aksGodkjDto));
         new FatterVedtakAksjonspunktOppdaterer(repositoryProvider, fatterVedtakAksjonspunkt).oppdater(aksjonspunktDto, behandling,
@@ -148,11 +148,11 @@ public class AksjonspunktOppdatererTest {
                 .medFarSøkerType(FarSøkerType.OVERTATT_OMSORG);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
-        leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
 
         AksjonspunktGodkjenningDto aksGodkjDto = new AksjonspunktGodkjenningDto();
         aksGodkjDto.setGodkjent(true);
-        aksGodkjDto.setAksjonspunktKode(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        aksGodkjDto.setAksjonspunktKode(AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
 
         FatterVedtakAksjonspunktDto aksjonspunktDto = new FatterVedtakAksjonspunktDto("", Collections.singletonList(aksGodkjDto));
         new FatterVedtakAksjonspunktOppdaterer(repositoryProvider, fatterVedtakAksjonspunkt).oppdater(aksjonspunktDto, behandling, VilkårResultat.builder());

@@ -18,7 +18,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveBehandli
 import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.foreldrepenger.web.app.tjenester.fagsak.dto.SaksnummerDto;
 import no.nav.vedtak.felles.testutilities.Whitebox;
@@ -64,7 +63,7 @@ public class OppgaveRedirectTjenesteTest {
 
     @Test
     public void skal_lage_url_med_saksnummer_og_behandlingId_når_oppgave_finnes_og_sakId_ikke_finnes_i_url() throws ServletException, IOException {
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, null, null, saksnummer);
+        Fagsak fagsak = Fagsak.opprettNy(null, saksnummer);
         fagsak.setId(2L);
 
         Behandling behandling = Behandling.forFørstegangssøknad(fagsak).build();
@@ -79,7 +78,7 @@ public class OppgaveRedirectTjenesteTest {
 
     @Test
     public void skal_lage_url_med_saksnummer_når_oppgave_ikke_finnes() throws ServletException, IOException {
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, null, null, saksnummer);
+        Fagsak fagsak = Fagsak.opprettNy(null, saksnummer);
         fagsak.setId(12L);
         Mockito.when(fagsakRepo.hentSakGittSaksnummer(saksnummer)).thenReturn(Optional.of(fagsak));
         Mockito.when(fagsakRepo.finnUnikFagsak(12L)).thenReturn(Optional.of(fagsak));
@@ -91,7 +90,7 @@ public class OppgaveRedirectTjenesteTest {
 
     @Test
     public void skal_lage_feil_vedinkonsistens_oppgave_fagsakfinnes() throws ServletException, IOException {
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, null);
+        Fagsak fagsak = Fagsak.opprettNy(null);
         Whitebox.setInternalState(fagsak, "id", 3l);
         Whitebox.setInternalState(fagsak, "saksnummer", new Saksnummer("123"));
         Behandling behandling = Behandling.forFørstegangssøknad(fagsak).build();
@@ -109,7 +108,7 @@ public class OppgaveRedirectTjenesteTest {
 
     @Test
     public void skal_lage_url_med_behandlingsid_og_saksnummer_når_oppgave_finnes() throws ServletException, IOException {
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, null);
+        Fagsak fagsak = Fagsak.opprettNy(null);
         Whitebox.setInternalState(fagsak, "id", 5l);
         Whitebox.setInternalState(fagsak, "saksnummer", saksnummer);
         Behandling behandling = Behandling.forFørstegangssøknad(fagsak).build();
@@ -128,7 +127,7 @@ public class OppgaveRedirectTjenesteTest {
     @Test
     public void skal_lage_url_med_saksnummer_når_oppgave_ikke_oppgitt() throws ServletException, IOException {
         Saksnummer saksnummer = new Saksnummer("22");
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, null, null, saksnummer);
+        Fagsak fagsak = Fagsak.opprettNy(null, saksnummer);
         Mockito.when(fagsakRepo.hentSakGittSaksnummer(saksnummer)).thenReturn(Optional.of(fagsak));
 
         Response responseSnr = tjeneste.doRedirect(null, new SaksnummerDto(saksnummer));

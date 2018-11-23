@@ -22,7 +22,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -34,7 +33,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -139,7 +137,7 @@ public class DokumentmottakerInntektsmeldingTest {
     public void skal_lagre_dokument_og_vurdere_kompletthet_dersom_inntektsmelding_på_åpen_behandling() {
         // Arrange - opprette åpen behandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel()
-            .medBehandlingStegStart(BehandlingStegType.INNHENT_SØKNADOPP);
+            .medBehandlingStegStart(BehandlingStegType.VURDER_KOMPLETTHET);
         Behandling behandling = scenario.lagre(repositoryProvider);
         opprettAksjonspunkt(behandling, AksjonspunktDefinisjon.AUTO_VENTER_PÅ_KOMPLETT_SØKNAD, LocalDateTime.now());
 
@@ -182,7 +180,7 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_opprette_førstegangsbehandling() {
 
-        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId(123L), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, new Saksnummer("123"), fagsakRepository);
+        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId(123L), new Saksnummer("123"), fagsakRepository);
         DokumentTypeId dokumentTypeId = DokumentTypeId.INNTEKTSMELDING;
         MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, 123L, "", now(), true, "123");
         Behandling førstegangsbehandling = mock(Behandling.class);
@@ -226,7 +224,7 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_opprette_køet_behandling_og_kjøre_kompletthet_dersom_køet_behandling_ikke_finnes() {
         // Arrange - opprette fagsak uten behandling
-        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId("1"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, new Saksnummer("123"), fagsakRepository);
+        Fagsak fagsak = DokumentmottakTestUtil.byggFagsak(new AktørId("1"), new Saksnummer("123"), fagsakRepository);
 
         // Arrange - sett opp opprettelse av køet behandling
         Behandling behandling = mock(Behandling.class);

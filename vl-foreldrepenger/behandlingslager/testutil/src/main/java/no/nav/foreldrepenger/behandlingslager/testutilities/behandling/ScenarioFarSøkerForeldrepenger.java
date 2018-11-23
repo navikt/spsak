@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -24,13 +23,13 @@ import no.nav.vedtak.util.FPDateUtil;
 public class ScenarioFarSøkerForeldrepenger extends AbstractTestScenario<ScenarioFarSøkerForeldrepenger> {
 
     private ScenarioFarSøkerForeldrepenger(boolean medDefaultSøknad) {
-        super(FagsakYtelseType.FORELDREPENGER, RelasjonsRolleType.FARA, NavBrukerKjønn.MANN);
+        super(NavBrukerKjønn.MANN, new AktørId(999L));
         settDefaltSøknad(medDefaultSøknad);
 
     }
 
     private ScenarioFarSøkerForeldrepenger(boolean medDefaultSøknad, AktørId aktørId) {
-        super(FagsakYtelseType.FORELDREPENGER, RelasjonsRolleType.FARA, NavBrukerKjønn.MANN, aktørId);
+        super(NavBrukerKjønn.MANN, aktørId);
         settDefaltSøknad(medDefaultSøknad);
     }
 

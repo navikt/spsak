@@ -16,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -29,7 +28,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageAvvistÅrsak
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingKandidaterRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingKandidaterRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
@@ -52,7 +50,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallTy
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioKlageEngangsstønad;
@@ -78,7 +75,7 @@ public class BehandlingRepositoryImplTest {
     private final FagsakRepository fagsakRepository = new FagsakRepositoryImpl(entityManager);
     private final AksjonspunktRepository aksjonspunktRepository = new AksjonspunktRepositoryImpl(entityManager);
     private final Saksnummer saksnummer = new Saksnummer("2");
-    private final Fagsak fagsak = FagsakBuilder.nyEngangstønadForMor().medSaksnummer(saksnummer).build();
+    private final Fagsak fagsak = FagsakBuilder.nyFagsak().medBruker(NavBruker.opprettNy(new AktørId("909"))).medSaksnummer(saksnummer).build();
     private BeregningRepository beregningRepository = new BeregningRepositoryImpl(entityManager);
     private Behandling behandling;
 
@@ -258,7 +255,7 @@ public class BehandlingRepositoryImplTest {
     @Test
     public void skal_slette_vilkår_som_blir_fjernet_til_tross_for_at_Hibernate_har_problemer_med_orphan_removal() {
         // Arrange
-        Fagsak fagsak = byggFagsak(new AktørId("199"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE);
+        Fagsak fagsak = byggFagsak(new AktørId("199"));
         behandling = byggBehandlingForElektroniskSøknadOmFødsel(fagsak, LocalDate.now());
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
@@ -548,12 +545,9 @@ public class BehandlingRepositoryImplTest {
         return aksjonspunkt;
     }
 
-    private Fagsak byggFagsak(AktørId aktørId, RelasjonsRolleType rolle, NavBrukerKjønn kjønn) {
-        NavBruker navBruker = new NavBrukerBuilder()
-            .medAktørId(aktørId)
-            .medKjønn(kjønn)
-            .build();
-        Fagsak fagsak = FagsakBuilder.nyEngangstønad(rolle)
+    private Fagsak byggFagsak(AktørId aktørId) {
+        NavBruker navBruker = NavBruker.opprettNy(aktørId);
+        Fagsak fagsak = FagsakBuilder.nyFagsak()
             .medBruker(navBruker).build();
         fagsakRepository.opprettNy(fagsak);
         return fagsak;
@@ -625,7 +619,7 @@ public class BehandlingRepositoryImplTest {
 
     private Behandlingsresultat oppdaterMedBehandlingsresultatOgLagre(Behandling behandling, boolean innvilget, boolean henlegg) {
         VilkårResultat.builder()
-            .leggTilVilkårResultat(VilkårType.FØDSELSVILKÅRET_MOR, innvilget ? VilkårUtfallType.OPPFYLT : VilkårUtfallType.IKKE_OPPFYLT,
+            .leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET, innvilget ? VilkårUtfallType.OPPFYLT : VilkårUtfallType.IKKE_OPPFYLT,
                 null, new Properties(), null, false, false, null, null)
             .medVilkårResultatType(innvilget ? VilkårResultatType.INNVILGET : VilkårResultatType.AVSLÅTT)
             .buildFor(behandling);

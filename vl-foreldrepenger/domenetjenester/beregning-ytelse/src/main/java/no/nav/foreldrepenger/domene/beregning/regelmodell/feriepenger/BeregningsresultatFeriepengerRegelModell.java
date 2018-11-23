@@ -15,7 +15,6 @@ public class BeregningsresultatFeriepengerRegelModell {
     private Set<Inntektskategori> inntektskategorier;
     private List<BeregningsresultatPeriode> beregningsresultatPerioder;
     private Dekningsgrad dekningsgrad;
-    private boolean erForelder1;
     private LocalDateInterval feriepengerPeriode;
 
     private BeregningsresultatFeriepengerRegelModell() {
@@ -32,10 +31,6 @@ public class BeregningsresultatFeriepengerRegelModell {
 
     public Dekningsgrad getDekningsgrad() {
         return dekningsgrad;
-    }
-
-    public boolean erForelder1() {
-        return erForelder1;
     }
 
     public LocalDateInterval getFeriepengerPeriode() {
@@ -73,11 +68,6 @@ public class BeregningsresultatFeriepengerRegelModell {
 
         public Builder medDekningsgrad(Dekningsgrad dekningsgrad) {
             kladd.dekningsgrad = dekningsgrad;
-            return this;
-        }
-
-        public Builder medErForelder1(boolean erForelder1) {
-            kladd.erForelder1 = erForelder1;
             return this;
         }
 

@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType.IKKE_OPPFYLT;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType.IKKE_VURDERT;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType.OPPFYLT;
@@ -18,6 +17,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -25,7 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.InngangsvilkårTjeneste;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
-import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.RegelOrkestrererImpl;
 import no.nav.vedtak.exception.TekniskException;
 
 public class RegelOrkestrererImplTest {
@@ -76,7 +75,7 @@ public class RegelOrkestrererImplTest {
                 .leggTilVilkårResultat(vilkårType, OPPFYLT, null, null, null, false, erOverstyrt, null, null)
                 .buildFor(behandling);
 
-        VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, singletonList(MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET));
+        VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, singletonList(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD));
         when(inngangsvilkårTjeneste.finnVilkår(vilkårType)).thenReturn((b) -> vilkårData);
 
         // Act
@@ -98,7 +97,7 @@ public class RegelOrkestrererImplTest {
             .leggTilVilkårResultat(vilkårType, OPPFYLT, null, null, null, manueltVurdert, false, null, null)
             .buildFor(behandling);
 
-        VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, singletonList(MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET));
+        VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, singletonList(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD));
         when(inngangsvilkårTjeneste.finnVilkår(vilkårType)).thenReturn((b) -> vilkårData);
 
         // Act
@@ -106,7 +105,7 @@ public class RegelOrkestrererImplTest {
             singletonList(vilkårType), behandling);
 
         // Assert
-        assertThat(regelResultat.getAksjonspunktDefinisjoner()).containsExactly(MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET);
+        assertThat(regelResultat.getAksjonspunktDefinisjoner()).containsExactly(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
     }
 
     @Test

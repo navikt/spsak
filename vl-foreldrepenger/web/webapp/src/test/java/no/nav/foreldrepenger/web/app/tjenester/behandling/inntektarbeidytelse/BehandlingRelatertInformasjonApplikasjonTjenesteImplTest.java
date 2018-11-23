@@ -30,8 +30,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStat
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
-import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
@@ -64,7 +62,7 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
 
     @Test
     public void skal_returnere_tom_liste_når_ingen_tidligere_sak_for_søker() throws Exception {
-        NavBruker navBruker = new NavBrukerBuilder().medAktørId(AKTØR_ID_99).build();
+        NavBruker navBruker = NavBruker.opprettNy(AKTØR_ID_99);
         Fagsak fagsakFødsel = lagFagsak(42L, navBruker);
         when(fagsakRepositoryMock.hentForBruker(Mockito.any(AktørId.class))).thenReturn(asList(fagsakFødsel));
 
@@ -75,7 +73,7 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
 
     @Test
     public void skal_returnere_relatert_ytelser_når_behandling_inn_siste_3_yr() throws Exception {
-        NavBruker navBruker = new NavBrukerBuilder().medAktørId(AKTØR_ID_99).build();
+        NavBruker navBruker = NavBruker.opprettNy(AKTØR_ID_99);
         Fagsak fagsakFødsel = lagFagsak(42L, navBruker);
         Fagsak fagsak66 = lagFagsak(66L);
         when(fagsakRepositoryMock.hentForBruker(Mockito.any(AktørId.class))).thenReturn(asList(fagsakFødsel, fagsak66));
@@ -105,7 +103,7 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
 
     @Test
     public void skal_returnere_tom_liste_når_ingen_behandling_inn_siste_3_yr() throws Exception {
-        NavBruker navBruker = new NavBrukerBuilder().medAktørId(AKTØR_ID_99).build();
+        NavBruker navBruker = NavBruker.opprettNy(AKTØR_ID_99);
         Fagsak fagsakFødsel = lagFagsak(42L, navBruker);
 
         when(fagsakRepositoryMock.hentForBruker(Mockito.any(AktørId.class))).thenReturn(asList(fagsakFødsel, lagFagsak(66L)));
@@ -172,13 +170,13 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
     }
 
     private Fagsak lagFagsak(Long fagsakId) {
-        Fagsak fagsak = FagsakBuilder.nyEngangstønadForMor().medSaksnummer(new Saksnummer(Long.toString(fagsakId*100))).build();
+        Fagsak fagsak = FagsakBuilder.nyFagsak().medSaksnummer(new Saksnummer(Long.toString(fagsakId*100))).build();
         fagsak.setId(fagsakId);
         return fagsak;
     }
 
     private Fagsak lagFagsak(Long fagsakId, NavBruker navBruker) {
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, navBruker);
+        Fagsak fagsak = Fagsak.opprettNy(navBruker);
         fagsak.setId(fagsakId);
         return fagsak;
     }

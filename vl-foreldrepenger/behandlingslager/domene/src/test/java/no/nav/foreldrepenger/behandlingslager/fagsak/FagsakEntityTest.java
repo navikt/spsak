@@ -46,7 +46,7 @@ public class FagsakEntityTest {
         repository.lagre(navBruker);
 
         // Opprett fagsak
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.UDEFINERT, navBruker);
+        Fagsak fagsak = Fagsak.opprettNy(navBruker);
 
         // Sjekk at det ikke er saker i basen fra før
         Collection<Fagsak> fagsaker = repository.hentAlle(Fagsak.class);

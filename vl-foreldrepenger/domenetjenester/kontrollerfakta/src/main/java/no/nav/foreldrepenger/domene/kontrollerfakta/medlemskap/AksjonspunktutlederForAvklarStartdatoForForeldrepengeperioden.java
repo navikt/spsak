@@ -69,7 +69,7 @@ public class AksjonspunktutlederForAvklarStartdatoForForeldrepengeperioden imple
         if (samsvarerStartdatoerFraInntektsmeldingOgBruker(startdatoOppgittAvBruker, inntektsmeldingerOptional.get()) == NEI) {
             if (erMinstEttArbeidsforholdLøpende(aktørArbeidOptional.get()) == JA) {
                 if (samsvarerAlleLøpendeArbeidsforholdMedStartdatoFraBruker(aktørArbeidOptional.get(), inntektsmeldingerOptional.get(), startdatoOppgittAvBruker) == NEI) {
-                    return opprettListeForAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_STARTDATO_FOR_FORELDREPENGEPERIODEN);
+                    return opprettListeForAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
                 }
             }
         }

@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -53,7 +52,7 @@ public class TotrinnRepositoryImplTest {
     @Test
     public void skal_finne_ett_inaktivt_totrinnsgrunnlag_og_ett_aktivt_totrinnsgrunnlag() {
 
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, NavBruker.opprettNy(lagPerson()));
+        Fagsak fagsak = Fagsak.opprettNy(NavBruker.opprettNy(lagPerson()));
         fagsakRepository.opprettNy(fagsak);
 
         Behandling behandling = Behandling.forFørstegangssøknad(fagsak).build();
@@ -89,7 +88,7 @@ public class TotrinnRepositoryImplTest {
     @Test
     public void skal_finne_flere_inaktive_totrinnsvurderinger_og_flere_aktive_totrinnsvurdering() {
 
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, NavBruker.opprettNy(lagPerson()));
+        Fagsak fagsak = Fagsak.opprettNy(NavBruker.opprettNy(lagPerson()));
         fagsakRepository.opprettNy(fagsak);
 
         Behandling behandling = Behandling.forFørstegangssøknad(fagsak).build();
@@ -97,11 +96,11 @@ public class TotrinnRepositoryImplTest {
 
         // Opprett vurderinger som skal være inaktive
         Totrinnsvurdering inaktivTotrinnsvurdering1 = lagTotrinnsvurdering(behandling,
-            AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL, true, "", VurderÅrsak.FEIL_FAKTA);
+            AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, true, "", VurderÅrsak.FEIL_FAKTA);
         Totrinnsvurdering inaktivTotrinnsvurdering2 = lagTotrinnsvurdering(behandling,
-            AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL, true, "", VurderÅrsak.FEIL_FAKTA);
+            AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, true, "", VurderÅrsak.FEIL_FAKTA);
         Totrinnsvurdering inaktivTotrinnsvurdering3 = lagTotrinnsvurdering(behandling,
-            AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL, true, "", VurderÅrsak.FEIL_FAKTA);
+            AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, true, "", VurderÅrsak.FEIL_FAKTA);
 
         List<Totrinnsvurdering> inaktivTotrinnsvurderingList = new ArrayList<>();
         inaktivTotrinnsvurderingList.add(inaktivTotrinnsvurdering1);
@@ -111,11 +110,11 @@ public class TotrinnRepositoryImplTest {
 
         // Opprett vurderinger som skal være aktive
         Totrinnsvurdering aktivTotrinnsvurdering1 = lagTotrinnsvurdering(behandling,
-            AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL, false, "", VurderÅrsak.FEIL_FAKTA);
+            AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, false, "", VurderÅrsak.FEIL_FAKTA);
         Totrinnsvurdering aktivTotrinnsvurdering2 = lagTotrinnsvurdering(behandling,
-            AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL, false, "", VurderÅrsak.FEIL_FAKTA);
+            AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, false, "", VurderÅrsak.FEIL_FAKTA);
         Totrinnsvurdering aktivTotrinnsvurdering3 = lagTotrinnsvurdering(behandling,
-            AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL, false, "", VurderÅrsak.FEIL_FAKTA);
+            AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, false, "", VurderÅrsak.FEIL_FAKTA);
 
         List<Totrinnsvurdering> aktivTotrinnsvurderingList = new ArrayList<>();
         aktivTotrinnsvurderingList.add(aktivTotrinnsvurdering1);

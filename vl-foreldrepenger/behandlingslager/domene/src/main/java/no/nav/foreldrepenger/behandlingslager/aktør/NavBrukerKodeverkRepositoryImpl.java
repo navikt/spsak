@@ -1,12 +1,10 @@
 package no.nav.foreldrepenger.behandlingslager.aktør;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 
 /** TODO (FC): fjern denne, unødvendig adapter. */
@@ -23,11 +21,6 @@ public class NavBrukerKodeverkRepositoryImpl implements NavBrukerKodeverkReposit
     public NavBrukerKodeverkRepositoryImpl(KodeverkRepository kodeverkRepository){
        Objects.requireNonNull(kodeverkRepository, "kodeverkRepository");
        this.kodeverkRepository = kodeverkRepository;
-    }
-
-    @Override
-    public Optional<RelasjonsRolleType> finnBrukerRolle(String kode) {
-        return kodeverkRepository.finnOptional(RelasjonsRolleType.class, kode);
     }
 
     @Override

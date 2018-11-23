@@ -71,7 +71,7 @@ public class AksjonspunktRestTjenesteTest {
 
     private AksjonspunktGodkjenningDto opprettetGodkjentAksjonspunkt(boolean godkjent) {
         AksjonspunktGodkjenningDto endretDto = new AksjonspunktGodkjenningDto();
-        endretDto.setAksjonspunktKode(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        endretDto.setAksjonspunktKode(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
         endretDto.setGodkjent(godkjent);
         return endretDto;
     }

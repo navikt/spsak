@@ -10,7 +10,6 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 public class FagsakYtelseType extends Kodeliste {
 
     public static final String DISCRIMINATOR = "FAGSAK_YTELSE"; //$NON-NLS-1$
-    public static final FagsakYtelseType ENGANGSTØNAD = new FagsakYtelseType("ES"); //$NON-NLS-1$
     public static final FagsakYtelseType FORELDREPENGER = new FagsakYtelseType("FP"); //$NON-NLS-1$
 
     public static final FagsakYtelseType UDEFINERT = new FagsakYtelseType("-"); //$NON-NLS-1$

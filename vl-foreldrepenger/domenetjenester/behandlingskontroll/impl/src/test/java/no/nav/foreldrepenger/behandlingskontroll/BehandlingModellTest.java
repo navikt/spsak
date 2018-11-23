@@ -62,9 +62,9 @@ public class BehandlingModellTest {
     private AksjonspunktRepository aksjonspunktRepository;
 
     private final DummySteg nullSteg = new DummySteg();
-    private final DummySteg aksjonspunktSteg = new DummySteg(opprettForAksjonspunkt(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL));
+    private final DummySteg aksjonspunktSteg = new DummySteg(opprettForAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS));
     private final DummySteg aksjonspunktModifisererSteg = new DummySteg(opprettForAksjonspunktMedCallback(
-        AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL, (ap) -> {
+        AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, (ap) -> {
             aksjonspunktRepository.setFrist(ap, FRIST_TID, Venteårsak.AVV_DOK);
         }));
 
@@ -72,9 +72,9 @@ public class BehandlingModellTest {
     public void skal_finne_aksjonspunkter_som_ligger_etter_et_gitt_steg() {
         // Arrange - noen utvalge, tilfeldige aksjonspunkter
         AksjonspunktDefinisjon a0_0 = AksjonspunktDefinisjon.AVKLAR_OPPHOLDSRETT;
-        AksjonspunktDefinisjon a0_1 = AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL;
-        AksjonspunktDefinisjon a1_0 = AksjonspunktDefinisjon.AVKLAR_ADOPSJONSDOKUMENTAJON;
-        AksjonspunktDefinisjon a1_1 = AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS;
+        AksjonspunktDefinisjon a0_1 = AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS;
+        AksjonspunktDefinisjon a1_0 = AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD;
+        AksjonspunktDefinisjon a1_1 = AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT;
         AksjonspunktDefinisjon a2_0 = AksjonspunktDefinisjon.AVKLAR_GYLDIG_MEDLEMSKAPSPERIODE;
         AksjonspunktDefinisjon a2_1 = AksjonspunktDefinisjon.AVKLAR_TILLEGGSOPPLYSNINGER;
 
@@ -141,9 +141,9 @@ public class BehandlingModellTest {
     public void skal_finne_aksjonspunkter_ved_inngang_eller_utgang_av_steg() {
         // Arrange - noen utvalge, tilfeldige aksjonspunkter
         AksjonspunktDefinisjon a0_0 = AksjonspunktDefinisjon.AVKLAR_OPPHOLDSRETT;
-        AksjonspunktDefinisjon a0_1 = AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL;
-        AksjonspunktDefinisjon a1_0 = AksjonspunktDefinisjon.AVKLAR_ADOPSJONSDOKUMENTAJON;
-        AksjonspunktDefinisjon a1_1 = AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS;
+        AksjonspunktDefinisjon a0_1 = AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS;
+        AksjonspunktDefinisjon a1_0 = AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD;
+        AksjonspunktDefinisjon a1_1 = AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT;
 
         DummySteg steg = new DummySteg();
         DummySteg steg0 = new DummySteg();
@@ -175,7 +175,7 @@ public class BehandlingModellTest {
         // Arrange
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()),
-            new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, aksjonspunktSteg, ap(), ap(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL)),
+            new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, aksjonspunktSteg, ap(), ap(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS)),
             new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
         );
         BehandlingModellImpl modell = setupModell(modellData);
@@ -214,7 +214,7 @@ public class BehandlingModellTest {
 
     @Test
     public void tilbakefører_til_tidligste_steg_med_åpent_aksjonspunkt() {
-        AksjonspunktDefinisjon avklarFødsel = AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL;
+        AksjonspunktDefinisjon avklarFødsel = AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS;
         DummySteg tilbakeføringssteg = new DummySteg(true, opprettForAksjonspunkt(avklarFødsel));
         // Arrange
         List<TestStegKonfig> modellData = Arrays.asList(
@@ -230,7 +230,7 @@ public class BehandlingModellTest {
 
         Behandling behandling = visitor.getBehandling();
 
-        Aksjonspunkt aksjonspunkt = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL,
+        Aksjonspunkt aksjonspunkt = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS,
             STEG_1);
         aksjonspunktRepository.setReåpnet(aksjonspunkt);
 
@@ -242,13 +242,13 @@ public class BehandlingModellTest {
     @Test
     public void finner_tidligste_steg_for_aksjonspunkter() {
         List<TestStegKonfig> modellData = Arrays.asList(
-            new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, nullSteg, ap(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL), ap()),
+            new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, nullSteg, ap(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS), ap()),
             new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
         );
 
         BehandlingModellImpl modell = setupModell(modellData);
         Set<AksjonspunktDefinisjon> aksjonspunktDefinisjoner = new HashSet<>();
-        aksjonspunktDefinisjoner.add(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL);
+        aksjonspunktDefinisjoner.add(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS);
         BehandlingStegModell behandlingStegModell = modell.finnTidligsteStegFor(aksjonspunktDefinisjoner);
         assertThat(behandlingStegModell.getBehandlingStegType()).isEqualTo(STEG_1);
     }
@@ -258,7 +258,7 @@ public class BehandlingModellTest {
         // Arrange
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, aksjonspunktModifisererSteg, ap(), ap()),
-            new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, nullSteg, ap(), ap(AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL)),
+            new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, nullSteg, ap(), ap(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS)),
             new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
         );
         BehandlingModellImpl modell = setupModell(modellData);
@@ -275,7 +275,7 @@ public class BehandlingModellTest {
 
     @Test
     public void skal_reaktiveree_aksjonspunkt_som_steget_har_som_resultat() throws Exception {
-        AksjonspunktDefinisjon apd = AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL;
+        AksjonspunktDefinisjon apd = AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS;
         DummySteg stegSomOpretterAksjonspunkt = new DummySteg(true, opprettForAksjonspunkt(apd));
         // Arrange
         List<TestStegKonfig> modellData = Arrays.asList(
@@ -304,8 +304,8 @@ public class BehandlingModellTest {
 
     @Test
     public void skal_ikke_reaktivere_aksjonpunkt_som_ikke_er_fra_stegets_resultat() throws Exception {
-        AksjonspunktDefinisjon apd = AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL;
-        AksjonspunktDefinisjon apd2 = AksjonspunktDefinisjon.AVKLAR_ADOPSJONSDOKUMENTAJON;
+        AksjonspunktDefinisjon apd = AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS;
+        AksjonspunktDefinisjon apd2 = AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD;
         DummySteg stegSomOpretterAksjonspunkt = new DummySteg(true, opprettForAksjonspunkt(apd));
         // Arrange
         List<TestStegKonfig> modellData = Arrays.asList(

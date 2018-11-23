@@ -68,7 +68,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlagEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningVersjonType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLåsRepository;
@@ -121,6 +120,7 @@ import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
+import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavPersoninfoBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.repositorystub.BeregningsgrunnlagRepositoryStub;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
@@ -193,26 +193,16 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     private BehandlingRepositoryProvider repositoryProvider;
     private no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon.Builder personInformasjonBuilder;
 
-    protected AbstractTestScenario(FagsakYtelseType fagsakYtelseType, RelasjonsRolleType brukerRolle,
-                                   NavBrukerKjønn kjønn) {
+    protected AbstractTestScenario(NavBrukerKjønn kjønn, AktørId aktørId) {
         this.fagsakBuilder = FagsakBuilder
-            .nyFagsak(fagsakYtelseType, brukerRolle)
+            .nyFagsak()
             .medSaksnummer(new Saksnummer(nyId() + ""))
-            .medBrukerKjønn(kjønn);
+            .medBruker(NavBruker.opprettNy(new NavPersoninfoBuilder().medAktørId(aktørId).medKjønn(kjønn).build()));
     }
 
-    protected AbstractTestScenario(FagsakYtelseType fagsakYtelseType, RelasjonsRolleType brukerRolle,
-                                   NavBrukerKjønn kjønn, AktørId aktørId) {
+    protected AbstractTestScenario(NavBruker navBruker) {
         this.fagsakBuilder = FagsakBuilder
-            .nyFagsak(fagsakYtelseType, brukerRolle)
-            .medSaksnummer(new Saksnummer(nyId() + ""))
-            .medBruker(new NavBrukerBuilder().medAktørId(aktørId).medKjønn(kjønn).build());
-    }
-
-    protected AbstractTestScenario(FagsakYtelseType fagsakYtelseType, RelasjonsRolleType brukerRolle,
-                                   NavBruker navBruker) {
-        this.fagsakBuilder = FagsakBuilder
-            .nyFagsak(fagsakYtelseType, brukerRolle)
+            .nyFagsak()
             .medSaksnummer(new Saksnummer(nyId() + ""))
             .medBruker(navBruker);
     }
@@ -699,7 +689,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         lagreBehandlingsresultatOgVilkårResultat(repositoryProvider, lås);
         lagreBeregningsresultat(repositoryProvider.getBeregningRepository(), lås);
         builder.medBehandlingResultatType(BehandlingResultatType.AVSLÅTT).medAvslagarsakFritekst("Testavslag")
-            .medAvslagsårsak(Avslagsårsak.ENGANGSSTØNAD_ER_ALLEREDE_UTBETALT_TIL_FAR_MEDMOR).buildFor(behandling);
+            .medAvslagsårsak(Avslagsårsak.SØKER_ER_IKKE_MEDLEM).buildFor(behandling);
 
         behandlingRepo.lagre(behandling, lås);
         lagreTilleggsScenarier(repositoryProvider);
@@ -727,7 +717,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
                     no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.Personopplysning.builder()
                         .aktørId(behandling.getAktørId())
                         .navn("Forelder")
-                        .brukerKjønn(getKjønnFraFagsak())
+                        .brukerKjønn(NavBrukerKjønn.MANN) // FIXME SP : ta som input eller dropp helt
                         .fødselsdato(LocalDate.now().minusYears(25))
                         .sivilstand(SivilstandType.UOPPGITT)
                         .region(Region.NORDEN))
@@ -892,11 +882,13 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return SykemeldingerBuilder.oppdater(Optional.ofNullable(sykemeldinger));
     }
 
+    @SuppressWarnings("unchecked")
     public S medSykefravær(SykefraværBuilder sykefraværBuilder) {
         sykefravær = (SykefraværEntitet) sykefraværBuilder.build();
         return (S) this;
     }
 
+    @SuppressWarnings("unchecked")
     public S medSykemeldinger(SykemeldingerBuilder sykemeldingerBuilder) {
         sykemeldinger = (SykemeldingerEntitet) sykemeldingerBuilder.build();
         return (S) this;
@@ -976,7 +968,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
                     .medPersonIdent(PersonIdent.fra("123451234123"))
                     .medNavn("asdf")
                     .medAktørId(fagsakBuilder.getBrukerBuilder().getAktørId())
-                    .medNavBrukerKjønn(getKjønnFraFagsak())
+                    .medNavBrukerKjønn(NavBrukerKjønn.MANN) // FIXME SP : Ta som input eller dropp helt
                     .medForetrukketSpråk(
                         fagsakBuilder.getBrukerBuilder().getSpråkkode() != null ? fagsakBuilder.getBrukerBuilder().getSpråkkode() : Språkkode.nb)
                     .build();
@@ -987,12 +979,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         fagsak = fagsakBuilder.build();
         Long fagsakId = fagsakRepo.opprettNy(fagsak); // NOSONAR //$NON-NLS-1$
         fagsak.setId(fagsakId);
-    }
-
-    private NavBrukerKjønn getKjønnFraFagsak() {
-        return fagsakBuilder.getBrukerBuilder().getKjønn() != null ? fagsakBuilder.getBrukerBuilder().getKjønn()
-            : (RelasjonsRolleType.erMor(fagsakBuilder.getRolle()) || RelasjonsRolleType.erMedmor(fagsakBuilder.getRolle()) ? NavBrukerKjønn.KVINNE
-            : NavBrukerKjønn.MANN);
     }
 
     private void lagreBehandlingsresultatOgVilkårResultat(BehandlingRepositoryProvider repoProvider, BehandlingLås lås) {
@@ -1162,16 +1148,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     @SuppressWarnings("unchecked")
     public S medBruker(AktørId aktørId, NavBrukerKjønn kjønn) {
         fagsakBuilder
-            .medBrukerAktørId(aktørId)
-            .medBrukerKjønn(kjønn);
-
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medBrukerKjønn(NavBrukerKjønn kjønn) {
-        fagsakBuilder
-            .medBrukerKjønn(kjønn);
+            .medBruker(NavBruker.opprettNy(new NavPersoninfoBuilder().medAktørId(aktørId).medKjønn(kjønn).build()));
 
         return (S) this;
     }

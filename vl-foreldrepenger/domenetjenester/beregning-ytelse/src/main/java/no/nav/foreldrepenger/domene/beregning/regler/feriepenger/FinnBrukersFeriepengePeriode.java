@@ -27,9 +27,8 @@ class FinnBrukersFeriepengePeriode extends LeafSpecification<BeregningsresultatF
     @Override
     public Evaluation evaluate(BeregningsresultatFeriepengerRegelModell regelModell) {
         List<BeregningsresultatPeriode> beregningsresultatPerioder = regelModell.getBeregningsresultatPerioder();
-        boolean erForelder1 = regelModell.erForelder1();
         LocalDate feriepengePeriodeFom = finnFørsteUttaksdagTotalt(beregningsresultatPerioder);
-        LocalDate feriepengePeriodeTom = finnFeriepengerPeriodeTom(regelModell, feriepengePeriodeFom, erForelder1);
+        LocalDate feriepengePeriodeTom = finnFeriepengerPeriodeTom(regelModell, feriepengePeriodeFom);
 
         BeregningsresultatFeriepengerRegelModell.builder(regelModell)
             .medFeriepengerPeriode(feriepengePeriodeFom, feriepengePeriodeTom);
@@ -41,7 +40,7 @@ class FinnBrukersFeriepengePeriode extends LeafSpecification<BeregningsresultatF
         return beregnet(resultater);
     }
 
-    private LocalDate finnFeriepengerPeriodeTom(BeregningsresultatFeriepengerRegelModell regelModell, LocalDate feriepengePeriodeFom, boolean erForelder1) {
+    private LocalDate finnFeriepengerPeriodeTom(BeregningsresultatFeriepengerRegelModell regelModell, LocalDate feriepengePeriodeFom) {
         List<BeregningsresultatPeriode> beregningsresultatPerioder = regelModell.getBeregningsresultatPerioder();
         Dekningsgrad dekningsgrad = regelModell.getDekningsgrad();
         int maksAntallDager = dekningsgrad == Dekningsgrad.DEKNINGSGRAD_100 ? 60 : 75;
@@ -55,7 +54,7 @@ class FinnBrukersFeriepengePeriode extends LeafSpecification<BeregningsresultatF
                 return dato;
             }
             if (antallDager > maksAntallDager) {
-                return erForelder1 ? dato : dato.minusDays(1);
+                return dato;
             }
         }
         return sisteUttaksdag;

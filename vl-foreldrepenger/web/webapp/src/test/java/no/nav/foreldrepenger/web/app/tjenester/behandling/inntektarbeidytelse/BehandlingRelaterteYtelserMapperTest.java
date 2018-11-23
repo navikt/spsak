@@ -25,8 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.TemaUnderkategori;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
-import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
@@ -34,8 +32,8 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class BehandlingRelaterteYtelserMapperTest {
     private static final LocalDate I_DAG = LocalDate.now();
     private static final Saksnummer SAKSNUMMER_42 = new Saksnummer("42");
-    private NavBruker navBruker = new NavBrukerBuilder().medAktørId(new AktørId("99")).build();
-    private Fagsak fagsakFødsel = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, navBruker, null, new Saksnummer("66"));
+    private NavBruker navBruker = NavBruker.opprettNy(new AktørId("99"));
+    private Fagsak fagsakFødsel = Fagsak.opprettNy(navBruker, new Saksnummer("66"));
 
     @Test
     public void skal_returnerer_tilgrensende_ytelser_for_soker() {

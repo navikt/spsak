@@ -16,17 +16,16 @@ public class VilkårType extends Kodeliste {
     /**
      * statisk koder, kun for konfigurasjon. Bruk VilkårType konstanter for API'er og skriving.
      */
-    public static final String FP_VK_1 = "FP_VK_1"; //$NON-NLS-1$
-
     public static final String FP_VK_2 = "FP_VK_2"; //$NON-NLS-1$
+    public static final String FP_VK_3 = "FP_VK_3";
     public static final String FP_VK_21 = "FP_VK_21"; //$NON-NLS-1$
     public static final String FP_VK_23 = "FP_VK_23"; //$NON-NLS-1$
     public static final String FP_VK_34 = "FP_VK_34"; //$NON-NLS-1$
     public static final String FP_VK_41 = "FP_VK_41"; //$NON-NLS-1$
 
-    public static final VilkårType FØDSELSVILKÅRET_MOR = new VilkårType(FP_VK_1);
-    
     public static final VilkårType MEDLEMSKAPSVILKÅRET = new VilkårType(FP_VK_2);
+
+    public static final VilkårType SØKNADSFRISTVILKÅRET = new VilkårType(FP_VK_3);
     public static final VilkårType SØKERSOPPLYSNINGSPLIKT = new VilkårType(FP_VK_34);
     public static final VilkårType OPPTJENINGSPERIODEVILKÅR = new VilkårType(FP_VK_21);
     public static final VilkårType OPPTJENINGSVILKÅRET = new VilkårType(FP_VK_23);

@@ -56,5 +56,4 @@ public interface KontrollerFaktaBeregningTjeneste {
 
     Map<Virksomhet, List<Inntektsmelding>> hentInntektsmeldingerForVirksomheter(Behandling behandling, Set<Virksomhet> virksomheter);
 
-    boolean skalHaBesteberegningForFødendeKvinne(Behandling behandling);
 }

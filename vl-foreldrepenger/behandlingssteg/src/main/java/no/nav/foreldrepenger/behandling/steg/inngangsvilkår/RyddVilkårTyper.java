@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandling.steg.inngangsvilkår;
 
 import static java.util.stream.Collectors.toList;
-import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType.IKKE_FASTSATT;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.MEDLEMSKAPSVILKÅRET;
 
@@ -18,6 +17,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
@@ -126,7 +126,7 @@ class RyddVilkårTyper {
             // Ved tilbakehopp til steg hvor man kan endre skjæringstidspunkt må
             // MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET nullstilles, ettersom det ikke alltid fanges av generelle regl.
             behandling.getÅpneAksjonspunkter().stream()
-                .filter(a -> Objects.equals(a.getAksjonspunktDefinisjon(), MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET))
+                .filter(a -> Objects.equals(a.getAksjonspunktDefinisjon(), AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD))
                 .forEach(a -> aksjonspunktRepository.fjernAksjonspunkt(behandling, a.getAksjonspunktDefinisjon()));
         }
     }

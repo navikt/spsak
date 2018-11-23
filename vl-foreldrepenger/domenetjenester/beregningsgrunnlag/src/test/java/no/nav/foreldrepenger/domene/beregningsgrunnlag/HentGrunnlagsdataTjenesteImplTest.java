@@ -70,7 +70,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningsperioderTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.OpptjeningInntektArbeidYtelseTjenesteImpl;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.verdikjede.VerdikjedeTestHjelper;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
@@ -221,29 +220,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
         //Assert
         assertThat(skalHenteNyesteGrunnlag).isFalse();
     }
-
-    @Test
-    public void skalHenteInnNyeDataNårEndringerIYtelseOgBesteBeregningOgEndringerGjelderSiste10Måneder() {
-        //Arrange
-        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_HENDELSE_FØDSEL);
-        Beregningsgrunnlag bg = opprettBeregninggrunnlag(false, SKJÆRINGSTIDSPUNKT, true, null, arbeidsforholdId, false);
-        Beregningsgrunnlag bg2 = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, true, null, arbeidsforholdId, false);
-        beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);
-        beregningsgrunnlagRepository.lagre(forrigeBehandling, bg2, BeregningsgrunnlagTilstand.FASTSATT);
-        opprettOpptjening(behandling, false);
-        opprettOpptjening(forrigeBehandling, false);
-        InntektArbeidYtelseAggregatBuilder iay1 = lagIAY(false, false, false);
-        InntektArbeidYtelseAggregatBuilder iay2 = lagIAY(true, false, false);
-        inntektArbeidYtelseTjeneste.lagre(forrigeBehandling, iay1);
-        inntektArbeidYtelseTjeneste.lagre(behandling, iay2);
-
-        //Act
-        boolean skalHenteNyesteGrunnlag = hentGrunnlagsdataTjeneste.vurderOmNyesteGrunnlagsdataSkalHentes(behandling);
-
-        //Assert
-        assertThat(skalHenteNyesteGrunnlag).isTrue();
-    }
-
+    
     @Test
     public void skalReturnereFalse() {
         //Arrange
@@ -489,59 +466,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
 
         // Assert
         assertThat(endring).isTrue();
-    }
-
-    @Test
-    public void skalGiBesteberegningNårOvergangFraSykepengerMedKat06eller23() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        behandling = scenario.lagre(repositoryProvider);
-        opprettOpptjening(behandling, false);
-        Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, true, null, arbeidsforholdId, true);
-        beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);
-
-        boolean resultat = hentGrunnlagsdataTjeneste.brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(behandling);
-
-        assertThat(resultat).isTrue();
-    }
-
-    @Test
-    public void skalIkkeGiBesteberegningNårOvergangFraSykepengerMenIkkeDagpenger() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        behandling = scenario.lagre(repositoryProvider);
-        opprettOpptjening(behandling, false);
-        Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, true);
-        beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);
-
-        boolean resultat = hentGrunnlagsdataTjeneste.brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(behandling);
-
-        assertThat(resultat).isFalse();
-    }
-
-    @Test
-    public void skalIkkeGiBesteberegningNårOvergangFraSykepengerMenIkkeEkstraOpptjeningsaktivitet() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        behandling = scenario.lagre(repositoryProvider);
-        opprettOpptjening(behandling, OpptjeningAktivitetType.DAGPENGER, OpptjeningAktivitetType.SYKEPENGER);
-        Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, true, null, arbeidsforholdId, true);
-        beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);
-
-        boolean resultat = hentGrunnlagsdataTjeneste.brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(behandling);
-
-        assertThat(resultat).isFalse();
-    }
-
-    @Test
-    public void skalIkkeGiBesteberegningNårDagpengerMenIkkeEkstraOpptjeningsaktivitet() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        behandling = scenario.lagre(repositoryProvider);
-        opprettOpptjening(behandling, OpptjeningAktivitetType.DAGPENGER);
-        Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, true, null, arbeidsforholdId, false);
-        beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);
-
-        boolean resultat = hentGrunnlagsdataTjeneste.brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(behandling);
-
-        assertThat(resultat).isFalse();
-    }
+     }
 
 
     private void opprettOpptjening(Behandling behandling, boolean ekstraAktivitet) {

@@ -17,6 +17,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
@@ -34,6 +35,7 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.tjeneste.virksomhet.behandleoppgave.v1.meldinger.WSOpprettOppgaveResponse;
@@ -165,8 +167,9 @@ public class OpprettOppgaveForBehandlingTaskTest {
     }
 
     private Fagsak opprettOgLagreFagsak() {
-        Fagsak fagsak = FagsakBuilder.nyEngangstønadForMor()
+        Fagsak fagsak = FagsakBuilder.nyFagsak()
             .medSaksnummer(new Saksnummer("124"))
+            .medBruker(NavBruker.opprettNy(new AktørId("99")))
             .build();
         repositoryProvider.getFagsakRepository().opprettNy(fagsak);
         return fagsak;

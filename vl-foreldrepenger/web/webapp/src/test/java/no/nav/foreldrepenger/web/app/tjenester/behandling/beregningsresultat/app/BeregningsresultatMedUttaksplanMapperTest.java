@@ -47,7 +47,6 @@ public class BeregningsresultatMedUttaksplanMapperTest {
 
         BeregningsresultatMedUttaksplanDto dto = BeregningsresultatMedUttaksplanMapper.lagBeregningsresultatMedUttaksplan(behandling, beregningsresultatFP);
 
-        assertThat(dto.getSokerErMor()).isTrue();
         assertThat(dto.getPerioder()).isEmpty();
     }
 
@@ -244,7 +243,7 @@ public class BeregningsresultatMedUttaksplanMapperTest {
             .medFødselsdato(LocalDate.of(42, 42 % 12 + 1, 42 % 31 + 1))
             .medNavBrukerKjønn(NavBrukerKjønn.UDEFINERT)
             .build());
-        Fagsak fagsak = FagsakBuilder.nyForeldrepengerForMor().medBruker(søker).build();
+        Fagsak fagsak = FagsakBuilder.nyFagsak().medBruker(søker).build();
         return Behandling.forFørstegangssøknad(fagsak)
             .build();
     }

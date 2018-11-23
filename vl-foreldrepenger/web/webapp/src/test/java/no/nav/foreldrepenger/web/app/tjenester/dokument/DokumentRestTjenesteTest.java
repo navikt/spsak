@@ -16,8 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
-import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
@@ -26,8 +24,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDoku
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
-import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavPersoninfoBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.dokumentarkiv.ArkivDokument;
@@ -73,9 +69,8 @@ public class DokumentRestTjenesteTest {
         Long behandlingId = 150L;
         new PersonIdent("12345678901");
         AktørId aktørId = new AktørId("1");
-        Personinfo personinfo = new NavPersoninfoBuilder().medAktørId(aktørId).medDiskresjonskode("6").medPersonstatusType(PersonstatusType.DØD).build();
-        NavBruker navBruker = new NavBrukerBuilder().medPersonInfo(personinfo).build();
-        Fagsak fagsak = FagsakBuilder.nyForeldrepengerForMor()
+        NavBruker navBruker = NavBruker.opprettNy(aktørId);
+        Fagsak fagsak = FagsakBuilder.nyFagsak()
             .medBruker(navBruker)
             .medSaksnummer(new Saksnummer("123456"))
             .build();

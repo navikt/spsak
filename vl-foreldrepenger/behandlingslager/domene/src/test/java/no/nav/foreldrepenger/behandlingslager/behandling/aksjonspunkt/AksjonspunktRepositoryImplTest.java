@@ -2,9 +2,6 @@ package no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt;
 
 import static java.util.Arrays.asList;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.AUTO_MANUELT_SATT_PÅ_VENT;
-import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.AVKLAR_TERMINBEKREFTELSE;
-import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.OVERSTYRING_AV_ADOPSJONSVILKÅRET;
-import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
@@ -51,7 +48,7 @@ public class AksjonspunktRepositoryImplTest {
         Behandling opprinneligBehandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(fagsak);
         Behandling nyBehandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(fagsak);
 
-        Aksjonspunkt ap = aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AVKLAR_TERMINBEKREFTELSE, BehandlingStegType.KONTROLLER_FAKTA);
+        Aksjonspunkt ap = aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT, BehandlingStegType.KONTROLLER_FAKTA);
         aksjonspunktRepository.setFrist(ap, FRIST_TID, Venteårsak.AVV_FODSEL);
         aksjonspunktRepository.setToTrinnsBehandlingKreves(ap);
         aksjonspunktRepository.setTilUtført(ap, BEGRUNNELSE);
@@ -62,7 +59,7 @@ public class AksjonspunktRepositoryImplTest {
         // Assert
         assertThat(nyBehandling.getAlleAksjonspunkterInklInaktive()).hasSize(1);
         Aksjonspunkt kopiertAp = nyBehandling.getAlleAksjonspunkterInklInaktive().iterator().next();
-        assertThat(kopiertAp.getAksjonspunktDefinisjon()).isEqualTo(AVKLAR_TERMINBEKREFTELSE);
+        assertThat(kopiertAp.getAksjonspunktDefinisjon()).isEqualTo(AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
         assertThat(kopiertAp.getBegrunnelse()).isEqualTo(BEGRUNNELSE);
         assertThat(kopiertAp.getVenteårsak()).isEqualTo(Venteårsak.AVV_FODSEL);
         assertThat(kopiertAp.getFristTid()).isEqualTo(FRIST_TID);
@@ -82,9 +79,9 @@ public class AksjonspunktRepositoryImplTest {
         Behandling opprinneligBehandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(fagsak);
         Behandling nyBehandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(fagsak);
 
-        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AVKLAR_TERMINBEKREFTELSE);
-        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, SJEKK_MANGLENDE_FØDSEL);
-        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, OVERSTYRING_AV_ADOPSJONSVILKÅRET);
+        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
+        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
+        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AksjonspunktDefinisjon.OVERSTYRING_AV_MEDLEMSKAPSVILKÅRET);
 
         // Act
         aksjonspunktRepository.kopierAlleAksjonspunkterOgSettDemInaktive(opprinneligBehandling, nyBehandling);
@@ -93,7 +90,7 @@ public class AksjonspunktRepositoryImplTest {
         assertThat(nyBehandling.getAlleAksjonspunkterInklInaktive()).hasSize(3);
         List<AksjonspunktDefinisjon> apDefinisjoner = nyBehandling.getAlleAksjonspunkterInklInaktive().stream()
             .map(Aksjonspunkt::getAksjonspunktDefinisjon).collect(Collectors.toList());
-        assertThat(apDefinisjoner).containsAll(asList(AVKLAR_TERMINBEKREFTELSE, SJEKK_MANGLENDE_FØDSEL, OVERSTYRING_AV_ADOPSJONSVILKÅRET));
+        assertThat(apDefinisjoner).containsAll(asList(AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT, AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD, AksjonspunktDefinisjon.OVERSTYRING_AV_MEDLEMSKAPSVILKÅRET));
     }
 
     @Test
@@ -104,7 +101,7 @@ public class AksjonspunktRepositoryImplTest {
         Behandling nyBehandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(fagsak);
 
         aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AUTO_MANUELT_SATT_PÅ_VENT);
-        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, SJEKK_MANGLENDE_FØDSEL);
+        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
 
         // Act
         aksjonspunktRepository.kopierAlleAksjonspunkterOgSettDemInaktive(opprinneligBehandling, nyBehandling);
@@ -113,7 +110,7 @@ public class AksjonspunktRepositoryImplTest {
         assertThat(nyBehandling.getAlleAksjonspunkterInklInaktive()).hasSize(1);
         List<AksjonspunktDefinisjon> apDefinisjoner = nyBehandling.getAlleAksjonspunkterInklInaktive().stream()
             .map(Aksjonspunkt::getAksjonspunktDefinisjon).collect(Collectors.toList());
-        assertThat(apDefinisjoner).containsOnly(SJEKK_MANGLENDE_FØDSEL);
+        assertThat(apDefinisjoner).containsOnly(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
     }
 
     @Test
@@ -123,9 +120,9 @@ public class AksjonspunktRepositoryImplTest {
         Behandling opprinneligBehandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(fagsak);
         Behandling nyBehandling = basicBehandlingBuilder.opprettOgLagreFørstegangssøknad(fagsak);
 
-        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AVKLAR_TERMINBEKREFTELSE);
-        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, SJEKK_MANGLENDE_FØDSEL);
-        aksjonspunktRepository.setTilAvbrutt(opprinneligBehandling.getAksjonspunktFor(SJEKK_MANGLENDE_FØDSEL));
+        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
+        aksjonspunktRepository.leggTilAksjonspunkt(opprinneligBehandling, AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
+        aksjonspunktRepository.setTilAvbrutt(opprinneligBehandling.getAksjonspunktFor(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD));
 
         // Act
         aksjonspunktRepository.kopierAlleAksjonspunkterOgSettDemInaktive(opprinneligBehandling, nyBehandling);
@@ -134,6 +131,6 @@ public class AksjonspunktRepositoryImplTest {
         assertThat(nyBehandling.getAlleAksjonspunkterInklInaktive()).hasSize(1);
         List<AksjonspunktDefinisjon> apDefinisjoner = nyBehandling.getAlleAksjonspunkterInklInaktive().stream()
             .map(Aksjonspunkt::getAksjonspunktDefinisjon).collect(Collectors.toList());
-        assertThat(apDefinisjoner).containsOnly(AVKLAR_TERMINBEKREFTELSE);
+        assertThat(apDefinisjoner).containsOnly(AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
     }
 }

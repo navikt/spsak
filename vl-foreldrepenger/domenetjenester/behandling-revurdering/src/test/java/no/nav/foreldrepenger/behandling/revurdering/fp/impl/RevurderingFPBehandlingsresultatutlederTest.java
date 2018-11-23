@@ -105,7 +105,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatFPRepository();
         historikkRepository = repositoryProvider.getHistorikkRepository();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_TERMINBEKREFTELSE, BehandlingStegType.KONTROLLER_FAKTA);
+        scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, BehandlingStegType.KONTROLLER_FAKTA);
         behandlingSomSkalRevurderes = scenario.lagre(repositoryProvider);
         revurderingTestUtil.avsluttBehandling(behandlingSomSkalRevurderes);
         revurderingFPBehandlingsresultatutleder = new RevurderingFPBehandlingsresultatutleder(repositoryProvider, endringsdatoRevurderingUtleder);
@@ -136,7 +136,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
 
         // Oppfylt inngangsvilkår på skjæringstidspunkt
         VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);
@@ -173,7 +173,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
 
         // Oppfylt inngangsvilkår på skjæringstidspunkt
         VilkårResultat vilkårResultat = VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);
@@ -218,7 +218,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
 
         // Oppfylt inngangsvilkår på skjæringstidspunkt
         VilkårResultat vilkårResultat = VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);
@@ -255,7 +255,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
 
         // Oppfylt inngangsvilkår på skjæringstidspunkt
         VilkårResultat vilkårResultat = VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);
@@ -293,7 +293,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
 
         // Oppfylt inngangsvilkår på skjæringstidspunkt
         VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);
@@ -410,7 +410,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
     public void skal_teste_at_alle_inngangsvilkår_oppfylt_gir_positivt_utfall() {
         // Arrange
         VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);
@@ -426,7 +426,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
     public void skal_teste_at_inngangsvilkår_ikke_oppfylt_gir_negativt_utfall() {
         // Arrange
         VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.IKKE_OPPFYLT)
             .buildFor(revurdering);
@@ -442,7 +442,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
     public void skal_teste_at_inngangsvilkår_ikke_vurdert_gir_negativt_utfall() {
         // Arrange
         VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);
@@ -458,7 +458,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
     public void skal_teste_negativ_medlemsskapsvilkår_gir_negativt_resultat() {
         // Arrange
         VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_OPPFYLT)
@@ -523,7 +523,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
     public void skal_teste_at_andre_vilkår_ikke_påviker_medlemsskapsvilkårsjekk() {
         // Arrange
         VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT)
+            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);

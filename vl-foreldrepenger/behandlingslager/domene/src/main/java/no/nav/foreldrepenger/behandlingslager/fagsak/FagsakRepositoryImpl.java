@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.TypedQuery;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
@@ -100,14 +99,6 @@ public class FagsakRepositoryImpl implements FagsakRepository {
         entityManager.persist(fagsak);
         entityManager.flush();
         return fagsak.getId();
-    }
-
-    @Override
-    public void oppdaterRelasjonsRolle(Long fagsakId, RelasjonsRolleType relasjonsRolleType) {
-        Fagsak fagsak = finnEksaktFagsak(fagsakId);
-        fagsak.setRelasjonsRolleType(relasjonsRolleType);
-        entityManager.persist(fagsak);
-        entityManager.flush();
     }
 
     @Override

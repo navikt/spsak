@@ -127,7 +127,7 @@ public class RevurderingFPTjenesteImplTest {
     public void skal_opprette_revurdering_for_foreldrepenger() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
-        scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_TERMINBEKREFTELSE, BehandlingStegType.KONTROLLER_FAKTA);
+        scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, BehandlingStegType.KONTROLLER_FAKTA);
         Behandling behandlingSomSkalRevurderes = scenario.lagre(repositoryProvider);
         revurderingTestUtil.avsluttBehandling(behandlingSomSkalRevurderes);
 
@@ -145,7 +145,7 @@ public class RevurderingFPTjenesteImplTest {
         assertThat(revurdering.getType()).isEqualTo(BehandlingType.REVURDERING);
         assertThat(revurdering.getAlleAksjonspunkterInklInaktive()).hasSize(1);
         Aksjonspunkt aksjonspunkt = revurdering.getAlleAksjonspunkterInklInaktive().iterator().next();
-        assertThat(aksjonspunkt.getAksjonspunktDefinisjon()).isEqualTo(AksjonspunktDefinisjon.AVKLAR_TERMINBEKREFTELSE);
+        assertThat(aksjonspunkt.getAksjonspunktDefinisjon()).isEqualTo(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS);
         assertThat(aksjonspunkt.erAktivt()).isFalse();
     }
 

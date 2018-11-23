@@ -75,7 +75,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.infotrygd.beregningsgr
 import no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.infotrygd.beregningsgrunnlag.YtelseBeregningsgrunnlagGrunnlag;
 import no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.infotrygd.beregningsgrunnlag.YtelseBeregningsgrunnlagVedtak;
 import no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.infotrygd.sak.InfotrygdSakOgGrunnlag;
-import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
@@ -95,7 +94,6 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
                                                    VirksomhetTjeneste virksomhetTjeneste,
                                                    SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                                    InnhentingSamletTjeneste innhentingSamletTjeneste,
-                                                   BasisPersonopplysningTjeneste personopplysningTjeneste,
                                                    OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
@@ -136,6 +134,7 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         inntektArbeidYtelseTjeneste.lagre(behandling, builder);
     }
 
+    @Override
     public InntektArbeidYtelseAggregatBuilder innhentInntekterFor(Behandling behandling, AktørId aktørId, Interval opplysningsPeriode,
                                                                   InntektsKilde... kilder) {
         final InntektArbeidYtelseAggregatBuilder builder = inntektArbeidYtelseTjeneste.opprettBuilderForRegister(behandling);
@@ -562,9 +561,7 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
     }
 
     private RelatertYtelseType map(FagsakYtelseType type) {
-        if (FagsakYtelseType.ENGANGSTØNAD.equals(type)) {
-            return RelatertYtelseType.ENGANGSSTØNAD;
-        } else if (FagsakYtelseType.FORELDREPENGER.equals(type)) {
+        if (FagsakYtelseType.FORELDREPENGER.equals(type)) {
             return RelatertYtelseType.FORELDREPENGER;
         }
         throw new IllegalStateException("Ukjent ytelsestype " + type);

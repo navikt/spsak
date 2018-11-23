@@ -20,7 +20,6 @@ public class FaktaOmBeregningTilfelle extends Kodeliste {
     public static final FaktaOmBeregningTilfelle VURDER_LØNNSENDRING = new FaktaOmBeregningTilfelle("VURDER_LØNNSENDRING"); //$NON-NLS-1$
     public static final FaktaOmBeregningTilfelle FASTSETT_MÅNEDSLØNN_ARBEIDSTAKER_UTEN_INNTEKTSMELDING = new FaktaOmBeregningTilfelle("FASTSETT_MÅNEDSLØNN_ARBEIDSTAKER_UTEN_INNTEKTSMELDING"); //$NON-NLS-1$
     public static final FaktaOmBeregningTilfelle VURDER_AT_OG_FL_I_SAMME_ORGANISASJON = new FaktaOmBeregningTilfelle("VURDER_AT_OG_FL_I_SAMME_ORGANISASJON"); //$NON-NLS-1$
-    public static final FaktaOmBeregningTilfelle FASTSETT_BESTEBEREGNING_FØDENDE_KVINNE = new FaktaOmBeregningTilfelle("FASTSETT_BESTEBEREGNING_FØDENDE_KVINNE"); //$NON-NLS-1$
     public static final FaktaOmBeregningTilfelle TILSTØTENDE_YTELSE = new FaktaOmBeregningTilfelle("TILSTØTENDE_YTELSE"); //$NON-NLS-1$
 
     public static final FaktaOmBeregningTilfelle UDEFINERT = new FaktaOmBeregningTilfelle("-"); //$NON-NLS-1$

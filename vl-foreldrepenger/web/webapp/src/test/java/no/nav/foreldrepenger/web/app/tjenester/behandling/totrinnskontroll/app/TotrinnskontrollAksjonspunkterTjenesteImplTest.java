@@ -202,7 +202,7 @@ public class TotrinnskontrollAksjonspunkterTjenesteImplTest {
     public void skal_hente_en_skjermlenketype_og_ett_ikke_godkjent_totrinnskontrollaksjonspunkt_for_behandling_med_en_godkjent_totrinnsvurdering_og_ett_aksjonspunkt_som_ikke_har_samme_aksjonspunktdefinisjon() {
 
         AksjonspunktDefinisjon adFraAksjonspunkt = AksjonspunktDefinisjon.AVKLAR_OPPHOLDSRETT;
-        AksjonspunktDefinisjon adFraTotrinnvurdering = AksjonspunktDefinisjon.VENT_PÅ_FØDSEL;
+        AksjonspunktDefinisjon adFraTotrinnvurdering = AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD;
         boolean ttvGodkjent = true;
         boolean apAvbrutt = false;
 

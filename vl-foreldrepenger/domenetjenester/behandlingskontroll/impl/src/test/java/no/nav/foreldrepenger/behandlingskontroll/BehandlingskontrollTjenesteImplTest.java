@@ -57,8 +57,8 @@ public class BehandlingskontrollTjenesteImplTest {
 
         // random liste av aksjonspunkt og steg i en definert rekkefølge for å kunne sette opp modellen
         AksjonspunktDefinisjon a2_0 = AksjonspunktDefinisjon.AVKLAR_OPPHOLDSRETT;
-        AksjonspunktDefinisjon a2_1 = AksjonspunktDefinisjon.SJEKK_MANGLENDE_FØDSEL;
-        AksjonspunktDefinisjon a3_0 = AksjonspunktDefinisjon.AVKLAR_ADOPSJONSDOKUMENTAJON;
+        AksjonspunktDefinisjon a2_1 = AksjonspunktDefinisjon.AVKLAR_FORTSATT_MEDLEMSKAP;
+        AksjonspunktDefinisjon a3_0 = AksjonspunktDefinisjon.VURDER_ARBEIDSFORHOLD;
         AksjonspunktDefinisjon a3_1 = AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS;
         AksjonspunktDefinisjon a4_0 = AksjonspunktDefinisjon.AVKLAR_GYLDIG_MEDLEMSKAPSPERIODE;
         AksjonspunktDefinisjon a4_1 = AksjonspunktDefinisjon.AVKLAR_TILLEGGSOPPLYSNINGER;

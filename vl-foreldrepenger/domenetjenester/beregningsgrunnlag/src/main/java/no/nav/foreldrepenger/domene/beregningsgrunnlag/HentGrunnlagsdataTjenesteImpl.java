@@ -20,7 +20,6 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
@@ -35,9 +34,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
@@ -98,14 +95,8 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
         Optional<InntektArbeidYtelseGrunnlag> forrigeIAY = forrigeBehandlingOpt.flatMap(inntektArbeidYtelseTjeneste::hentAggregatHvisEksisterer);
 
         if (erEndringerIOpplysningerOmYtelse(nyIAY, forrigeIAY)) {
-            if (brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(behandling, gjeldendeBG, nyOpptjening)) {
-                if (erEndringerIYtelseSisteTiMåneder(behandling, nyIAY, forrigeIAY, gjeldendeBG.getSkjæringstidspunkt())) {
-                    return true;
-                }
-            } else {
-                if (endringerForSisteYtelsesPeriodeFørSjæringstidspunkt(behandling, nyIAY, forrigeIAY, gjeldendeBG.getSkjæringstidspunkt())) {
-                    return true;
-                }
+            if (endringerForSisteYtelsesPeriodeFørSjæringstidspunkt(behandling, nyIAY, forrigeIAY, gjeldendeBG.getSkjæringstidspunkt())) {
+                return true;
             }
         }
         if (erEndretInntektsmelding(nyIAY, forrigeIAY)) {
@@ -233,30 +224,6 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
         return !hentRelevanteMeldekort.apply(ytelser).equals(hentRelevanteMeldekort.apply(forrigeYtelser));
     }
 
-    private boolean brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(Behandling behandling, Beregningsgrunnlag beregningsgrunnlag, Opptjening opptjening) {
-        boolean erMoren = RelasjonsRolleType.MORA.equals(behandling.getRelasjonsRolleType());
-        if (!erMoren) {
-            return false;
-        }
-        boolean harDagpengerStatus = beregningsgrunnlag.getBeregningsgrunnlagPerioder().stream()
-            .flatMap(bgp -> bgp.getBeregningsgrunnlagPrStatusOgAndelList().stream())
-            .anyMatch(andel -> AktivitetStatus.DAGPENGER.equals(andel.getAktivitetStatus()));
-        if (!harDagpengerStatus) {
-            return false;
-        }
-        boolean harStatusTY = beregningsgrunnlag.getAktivitetStatuser().stream().anyMatch(status -> AktivitetStatus.TILSTØTENDE_YTELSE.equals(status.getAktivitetStatus()));
-        if (harStatusTY) {
-            boolean ytelseErSykepenger = beregningsgrunnlag.getBeregningsgrunnlagPerioder().stream()
-                .flatMap(bgp -> bgp.getBeregningsgrunnlagPrStatusOgAndelList().stream())
-                .filter(andel -> Objects.equals(andel.getAktivitetStatus(), AktivitetStatus.DAGPENGER))
-                .anyMatch(andel -> Objects.equals(andel.getYtelse(), RelatertYtelseType.SYKEPENGER));
-            return ytelseErSykepenger && opptjening.getOpptjeningAktivitet().stream()
-                .filter(aktivitet -> !OpptjeningAktivitetType.SYKEPENGER.equals(aktivitet.getAktivitetType()))
-                .anyMatch(aktivitet -> !OpptjeningAktivitetType.DAGPENGER.equals(aktivitet.getAktivitetType()));
-        }
-        return opptjening.getOpptjeningAktivitet().stream().anyMatch(aktivitet -> !OpptjeningAktivitetType.DAGPENGER.equals(aktivitet.getAktivitetType()));
-    }
-
     private boolean erEndringISkjæringstidspunktForBeregning(Beregningsgrunnlag nyttBG, Optional<Beregningsgrunnlag> forrigeBGOpt) {
         return forrigeBGOpt.filter(forrigeBG -> !Objects.equals(nyttBG.getSkjæringstidspunkt(), forrigeBG.getSkjæringstidspunkt())).isPresent();
     }
@@ -291,16 +258,6 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
         Optional<Beregningsgrunnlag> forrigeBGOpt = forrigeBehandlingOpt.flatMap(beregningsgrunnlagRepository::hentBeregningsgrunnlag);
 
         return hentGjeldendeBeregningsgrunnlag(fastsattBG, forrigeBGOpt);
-    }
-
-    @Override
-    public boolean brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(Behandling behandling) {
-        Optional<Beregningsgrunnlag> beregningsgrunnlagOpt = beregningsgrunnlagRepository.hentBeregningsgrunnlag(behandling);
-        Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling);
-        if (!beregningsgrunnlagOpt.isPresent() || !opptjening.isPresent()) {
-            return false;
-        }
-        return brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(behandling, beregningsgrunnlagOpt.get(), opptjening.get());
     }
 
     private Optional<Beregningsgrunnlag> hentGjeldendeBeregningsgrunnlag(Optional<Beregningsgrunnlag> nyttBG, Optional<Beregningsgrunnlag> forrigeBGOpt) {

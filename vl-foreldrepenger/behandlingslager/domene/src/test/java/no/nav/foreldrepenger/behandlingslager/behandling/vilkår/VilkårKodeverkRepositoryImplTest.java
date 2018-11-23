@@ -8,7 +8,6 @@ import java.util.Map;
 import org.junit.Rule;
 import org.junit.Test;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 
 public class VilkårKodeverkRepositoryImplTest {
@@ -20,10 +19,8 @@ public class VilkårKodeverkRepositoryImplTest {
 
     @Test
     public void skal_verifisere_kodeverk_som_mottas_fra_regelmotor() {
-        assertThat(repo.finnVilkårType(VilkårType.FP_VK_1)).isEqualTo(VilkårType.FØDSELSVILKÅRET_MOR);
         assertThat(repo.finnVilkårResultatType("INNVILGET")).isEqualTo(VilkårResultatType.INNVILGET);
         assertThat(repo.finnVilkårUtfallType("OPPFYLT")).isEqualTo(VilkårUtfallType.OPPFYLT);
-        assertThat(repo.finnAksjonspunktDefinisjon("5001")).isEqualTo(AksjonspunktDefinisjon.AVKLAR_TERMINBEKREFTELSE);
         assertThat(repo.finnVilkårUtfallMerknad("1001")).isEqualTo(VilkårUtfallMerknad.VM_1001);
         assertThat(repo.finnAvslagÅrsakListe(VilkårType.FP_VK_23)).contains(Avslagsårsak.IKKE_TILSTREKKELIG_OPPTJENING);
     }

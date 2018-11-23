@@ -46,7 +46,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsa
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
 import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
@@ -496,10 +495,6 @@ public class Behandling extends BaseEntitet {
 
     public NavBruker getNavBruker() {
         return getFagsak().getNavBruker();
-    }
-
-    public RelasjonsRolleType getRelasjonsRolleType() {
-        return getFagsak().getRelasjonsRolleType();
     }
 
     public String getBehandlendeEnhetÅrsak() {

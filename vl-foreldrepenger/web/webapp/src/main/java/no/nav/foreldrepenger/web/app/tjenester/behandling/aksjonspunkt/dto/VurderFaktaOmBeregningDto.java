@@ -19,7 +19,6 @@ public class VurderFaktaOmBeregningDto extends BekreftetAksjonspunktDto {
     private VurderLønnsendringDto vurdertLonnsendring;
     private FastsettMånedsinntektUtenInntektsmeldingDto fastsatteLonnsendringer;
     private VurderATogFLiSammeOrganisasjonDto vurderATogFLiSammeOrganisasjon;
-    private BesteberegningFødendeKvinneDto besteberegningAndeler;
     private FastsettBGTilstøtendeYtelseDto tilstøtendeYtelse;
     private List<FaktaOmBeregningTilfelle> faktaOmBeregningTilfeller;
     private TilstotendeYtelseOgEndretBeregningsgrunnlagDto tilstotendeYtelseOgEndretBG;
@@ -134,14 +133,6 @@ public class VurderFaktaOmBeregningDto extends BekreftetAksjonspunktDto {
 
     public void setVurderATogFLiSammeOrganisasjon(VurderATogFLiSammeOrganisasjonDto vurderATogFLiSammeOrganisasjon) {
         this.vurderATogFLiSammeOrganisasjon = vurderATogFLiSammeOrganisasjon;
-    }
-
-    public BesteberegningFødendeKvinneDto getBesteberegningAndeler() {
-        return besteberegningAndeler;
-    }
-
-    public void setBesteberegningAndeler(BesteberegningFødendeKvinneDto besteberegningAndeler) {
-        this.besteberegningAndeler = besteberegningAndeler;
     }
 
     public FastsettBGTilstøtendeYtelseDto getTilstøtendeYtelse() {

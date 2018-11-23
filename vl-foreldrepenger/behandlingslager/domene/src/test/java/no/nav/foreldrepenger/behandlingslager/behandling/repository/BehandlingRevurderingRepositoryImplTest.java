@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -76,7 +75,7 @@ public class BehandlingRevurderingRepositoryImplTest {
 
     private Behandling opprettRevurderingsKandidat() {
 
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, NavBruker.opprettNy(lagPerson()));
+        Fagsak fagsak = Fagsak.opprettNy(NavBruker.opprettNy(lagPerson()));
         fagsakRepository.opprettNy(fagsak);
         behandling = Behandling.forFørstegangssøknad(fagsak).build();
         behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
@@ -93,7 +92,7 @@ public class BehandlingRevurderingRepositoryImplTest {
 
     private void oppdaterMedBehandlingsresultatAvslagOgLagre(Behandling behandling) {
         VilkårResultat.builder()
-            .leggTilVilkårResultat(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.IKKE_OPPFYLT,
+            .leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_OPPFYLT,
                 null, new Properties(), null, false, false, null, null)
             .medVilkårResultatType(VilkårResultatType.AVSLÅTT)
             .buildFor(behandling);

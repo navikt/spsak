@@ -69,12 +69,7 @@ public class FaktaOmBeregningTilfelleTjeneste {
         if (kontrollerFaktaBeregningFrilanserTjeneste.harOverstyrtFrilans(behandling)) {
             tilfeller.add(FaktaOmBeregningTilfelle.FASTSETT_MAANEDSINNTEKT_FL);
         }
-        boolean skalhaBesteberegningForFødendeKvinne = kontrollerFaktaBeregningTjeneste.skalHaBesteberegningForFødendeKvinne(behandling);
-        if (!skalhaBesteberegningForFødendeKvinne) { //Kan ikke ha disse tilfellene samtidig. Besteberegning trumfer.
-            settTilfellerForIkkjeBestebergning(behandling, tilfeller);
-        } else {
-            tilfeller.add(FaktaOmBeregningTilfelle.FASTSETT_BESTEBEREGNING_FØDENDE_KVINNE);
-        }
+        settTilfellerForIkkjeBestebergning(behandling, tilfeller);
         return tilfeller;
     }
 

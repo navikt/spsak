@@ -1,50 +1,31 @@
 package no.nav.foreldrepenger.domene.person.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.GeografiskTilknytning;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKodeverkRepository;
-import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
-import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.geografisk.SpråkKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
-import no.nav.foreldrepenger.domene.person.impl.TpsAdapterImpl;
-import no.nav.foreldrepenger.domene.person.impl.TpsAdresseOversetter;
-import no.nav.foreldrepenger.domene.person.impl.TpsOversetter;
-import no.nav.foreldrepenger.domene.person.impl.TpsTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentGeografiskTilknytningPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentGeografiskTilknytningSikkerhetsbegrensing;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.person.v3.binding.HentPersonSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Bruker;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Diskresjonskoder;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Kommune;
-import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentGeografiskTilknytningResponse;
 import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonRequest;
-import no.nav.tjeneste.virksomhet.person.v3.meldinger.HentPersonResponse;
 import no.nav.vedtak.exception.ManglerTilgangException;
 import no.nav.vedtak.exception.TekniskException;
 import no.nav.vedtak.feil.Feil;
@@ -73,8 +54,6 @@ public class TpsAdapterImplTest {
 
     private NavBrukerKodeverkRepository lagMockNavBrukerKodeverkRepository() {
         NavBrukerKodeverkRepository mockNavBrukerKodeverkRepository = mock(NavBrukerKodeverkRepository.class);
-        Optional<RelasjonsRolleType> optionalBrukerRolle = Optional.empty();
-        when(mockNavBrukerKodeverkRepository.finnBrukerRolle(any(String.class))).thenReturn(optionalBrukerRolle);
         when(mockNavBrukerKodeverkRepository.finnBrukerKjønn(any(String.class))).thenReturn(NavBrukerKjønn.KVINNE);
         return mockNavBrukerKodeverkRepository;
     }
@@ -132,67 +111,6 @@ public class TpsAdapterImplTest {
         assertThat(optIdent).isNotPresent();
     }
 
-    @Test
-    public void test_hentKjerneinformasjon_normal() throws Exception {
-        AktørId aktørId = new AktørId("1337");
-        PersonIdent fnr = new PersonIdent("31018143212");
-        String navn = "John Doe";
-        LocalDate fødselsdato = LocalDate.of(1343, 12, 12);
-        NavBrukerKjønn kjønn = NavBrukerKjønn.KVINNE;
-
-        HentPersonResponse response = new HentPersonResponse();
-        Bruker person = new Bruker();
-        response.setPerson(person);
-        Mockito.when(personProxyServiceMock.hentPersonResponse(Mockito.any())).thenReturn(response);
-
-        TpsOversetter tpsOversetterMock = Mockito.mock(TpsOversetter.class);
-        Personinfo personinfo0 = new Personinfo.Builder()
-            .medPersonIdent(fnr)
-            .medNavn(navn)
-            .medFødselsdato(fødselsdato)
-            .medNavBrukerKjønn(kjønn)
-            .medAktørId(aktørId)
-            .build();
-
-        Mockito.when(tpsOversetterMock.tilBrukerInfo(Mockito.any(AktørId.class), eq(person))).thenReturn(personinfo0);
-        tpsAdapterImpl = new TpsAdapterImpl(aktørConsumerMock, personProxyServiceMock, tpsOversetterMock);
-
-        Personinfo personinfo = tpsAdapterImpl.hentKjerneinformasjon(fnr, aktørId);
-        assertNotNull(personinfo);
-        assertThat(personinfo.getAktørId()).isEqualTo(aktørId);
-        assertThat(personinfo.getPersonIdent()).isEqualTo(fnr);
-        assertThat(personinfo.getNavn()).isEqualTo(navn);
-        assertThat(personinfo.getFødselsdato()).isEqualTo(fødselsdato);
-    }
-
-    @Test
-    public void test_hentGegrafiskTilknytning_vha_fnr() throws Exception {
-        final String fnr = "31018143212";
-        final String diskresjonskode = "KLIE";
-        final String kommune = "0219";
-
-        HentGeografiskTilknytningResponse response = mockHentGeografiskTilknytningResponse(kommune, diskresjonskode);
-        Mockito.when(personProxyServiceMock.hentGeografiskTilknytning(Mockito.any())).thenReturn(response);
-
-        GeografiskTilknytning tilknytning = tpsAdapterImpl.hentGeografiskTilknytning(new PersonIdent(fnr));
-        assertNotNull(tilknytning);
-        assertThat(tilknytning.getDiskresjonskode()).isEqualTo(diskresjonskode);
-        assertThat(tilknytning.getTilknytning()).isEqualTo(kommune);
-    }
-
-    private HentGeografiskTilknytningResponse mockHentGeografiskTilknytningResponse(String kommune, String diskresjonskode) {
-        HentGeografiskTilknytningResponse response = new HentGeografiskTilknytningResponse();
-        Kommune k = new Kommune();
-        k.setGeografiskTilknytning(kommune);
-        response.setGeografiskTilknytning(k);
-
-        Diskresjonskoder dk = new Diskresjonskoder();
-        dk.setValue(diskresjonskode);
-        response.setDiskresjonskode(dk);
-
-        return response;
-    }
-
     @Test(expected = TekniskException.class)
     public void skal_få_exception_når_tjenesten_ikke_kan_finne_personen() throws Exception {
         Mockito.when(personProxyServiceMock.hentPersonResponse(Mockito.any()))
@@ -223,34 +141,6 @@ public class TpsAdapterImplTest {
             .thenThrow(new HentGeografiskTilknytningSikkerhetsbegrensing(null, null));
 
         tpsAdapterImpl.hentGeografiskTilknytning(fnr);
-    }
-
-    @Test
-    public void test_hentAdresseinformasjon_normal() throws HentPersonSikkerhetsbegrensning, HentPersonPersonIkkeFunnet {
-        HentPersonResponse response = new HentPersonResponse();
-        Bruker person = new Bruker();
-        response.setPerson(person);
-
-        ArgumentCaptor<HentPersonRequest> captor = ArgumentCaptor.forClass(HentPersonRequest.class);
-        when(personProxyServiceMock.hentPersonResponse(captor.capture())).thenReturn(response);
-
-        final String addresse = "Veien 17";
-
-        TpsOversetter tpsOversetterMock = Mockito.mock(TpsOversetter.class);
-        Adresseinfo.Builder builder = new Adresseinfo.Builder(AdresseType.BOSTEDSADRESSE,
-            new PersonIdent("31018143212"),
-            "Tjoms",
-            PersonstatusType.BOSA);
-        Adresseinfo adresseinfoExpected = builder.medAdresselinje1(addresse).build();
-
-        when(tpsOversetterMock.tilAdresseInfo(eq(person))).thenReturn(adresseinfoExpected);
-        tpsAdapterImpl = new TpsAdapterImpl(aktørConsumerMock, personProxyServiceMock, tpsOversetterMock);
-
-        Adresseinfo adresseinfoActual = tpsAdapterImpl.hentAdresseinformasjon(fnr);
-
-        assertThat(adresseinfoActual).isNotNull();
-        assertThat(adresseinfoActual).isEqualTo(adresseinfoExpected);
-        assertThat(adresseinfoActual.getAdresselinje1()).isEqualTo(adresseinfoExpected.getAdresselinje1());
     }
 
     @Test(expected = TekniskException.class)

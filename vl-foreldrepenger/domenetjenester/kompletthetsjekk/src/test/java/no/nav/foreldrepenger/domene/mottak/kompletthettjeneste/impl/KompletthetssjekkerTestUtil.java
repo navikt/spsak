@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
@@ -36,7 +35,6 @@ public class KompletthetssjekkerTestUtil {
     public ScenarioMorSøkerForeldrepenger opprettRevurderingsscenarioForMor() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
         Behandling førstegangsbehandling = opprettOgAvsluttFørstegangsbehandling(scenario);
-        settRelasjonPåFagsak(førstegangsbehandling.getFagsakId(), RelasjonsRolleType.MORA);
 
         return ScenarioMorSøkerForeldrepenger.forFødsel(false, AKTØR_ID)
             .medOriginalBehandling(førstegangsbehandling, BehandlingÅrsakType.RE_HENDELSE_FØDSEL)
@@ -58,10 +56,6 @@ public class KompletthetssjekkerTestUtil {
         behandling.avsluttBehandling();
         behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
         fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.LØPENDE);
-    }
-
-    private void settRelasjonPåFagsak(Long fagsakId, RelasjonsRolleType relasjonsRolleType) {
-        fagsakRepository.oppdaterRelasjonsRolle(fagsakId, relasjonsRolleType);
     }
 
     public void lagreSøknad(Behandling behandling, boolean erEndringssøknad) {

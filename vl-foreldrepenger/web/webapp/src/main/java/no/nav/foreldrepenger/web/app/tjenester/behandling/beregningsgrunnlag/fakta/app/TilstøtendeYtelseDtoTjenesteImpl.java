@@ -29,7 +29,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektPeriodeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningTjeneste;
 import no.nav.foreldrepenger.domene.typer.Stillingsprosent;
@@ -59,8 +58,7 @@ public class TilstøtendeYtelseDtoTjenesteImpl implements TilstøtendeYtelseDtoT
 
 
     @Inject
-    public TilstøtendeYtelseDtoTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
-                                            KontrollerFaktaBeregningTjeneste kontrollerFaktaBeregningTjeneste,
+    public TilstøtendeYtelseDtoTjenesteImpl(KontrollerFaktaBeregningTjeneste kontrollerFaktaBeregningTjeneste,
                                             OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste,
                                             BeregningsgrunnlagDtoUtil dtoUtil) {
         this.opptjeningInntektArbeidYtelseTjeneste = opptjeningInntektArbeidYtelseTjeneste;
@@ -102,7 +100,6 @@ public class TilstøtendeYtelseDtoTjenesteImpl implements TilstøtendeYtelseDtoT
         tilstøtendeYtelse.setArbeidskategori(arbeidskategoriOpt.orElse(null));
         tilstøtendeYtelse.setYtelseType(ytelse.getRelatertYtelseType());
         tilstøtendeYtelse.setTilstøtendeYtelseAndeler(lagTilstøtendeYtelseAndeler(behandling, beregningsgrunnlag.getBeregningsgrunnlagPerioder().get(0)));
-        tilstøtendeYtelse.setErBesteberegning(kontrollerFaktaBeregningTjeneste.skalHaBesteberegningForFødendeKvinne(behandling));
         if (RelatertYtelseType.FORELDREPENGER.equals(ytelse.getRelatertYtelseType())) {
             tilstøtendeYtelse.setSkalReduseres(true);
         } else if (RelatertYtelseType.SYKEPENGER.equals(ytelse.getRelatertYtelseType())) {

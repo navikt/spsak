@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.app;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,7 +23,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fak
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.FaktaOmBeregningAndelDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.FaktaOmBeregningDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.KortvarigeArbeidsforholdDto;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.TilstøtendeYtelseAndelDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.TilstøtendeYtelseDto;
 
 @ApplicationScoped
@@ -102,12 +100,6 @@ public class FaktaOmBeregningDtoTjenesteImpl implements FaktaOmBeregningDtoTjene
             Optional<List<FaktaOmBeregningAndelDto>> arbeidsforholdUtenInntektsmeldingDtoList = faktaOmBeregningAndelDtoTjeneste.lagArbeidsforholdUtenInntektsmeldingDtoList(behandling);
             arbeidsforholdUtenInntektsmeldingDtoList.ifPresent(faktaOmBeregningDto::setArbeidsforholdMedLønnsendringUtenIM);
         }
-        if (tilfeller.contains(FaktaOmBeregningTilfelle.FASTSETT_BESTEBEREGNING_FØDENDE_KVINNE)) {
-            List<TilstøtendeYtelseAndelDto> besteberegningAndeler = lagBesteberegningAndeler(beregningsgrunnlag);
-            if (!besteberegningAndeler.isEmpty()) {
-                faktaOmBeregningDto.setBesteberegningAndeler(besteberegningAndeler);
-            }
-        }
         if (tilfeller.contains(FaktaOmBeregningTilfelle.FASTSETT_ENDRET_BEREGNINGSGRUNNLAG)) {
             EndringBeregningsgrunnlagDto endringAvBeregningsgrunnlagDto = endringBeregningsgrunnlagDtoTjeneste
                 .lagEndringAvBeregningsgrunnlagDto(behandling, beregningsgrunnlag)
@@ -115,26 +107,6 @@ public class FaktaOmBeregningDtoTjenesteImpl implements FaktaOmBeregningDtoTjene
             faktaOmBeregningDto.setEndringBeregningsgrunnlag(endringAvBeregningsgrunnlagDto);
         }
     }
-
-    private List<TilstøtendeYtelseAndelDto> lagBesteberegningAndeler(Beregningsgrunnlag beregningsgrunnlag) {
-        ArrayList<TilstøtendeYtelseAndelDto> dtoList = new ArrayList<>();
-        // Lager kun andeler ut fra den første perioden
-        beregningsgrunnlag.getBeregningsgrunnlagPerioder().stream().flatMap(p -> p.getBeregningsgrunnlagPrStatusOgAndelList().stream()).distinct()
-            .forEach(andel -> {
-                TilstøtendeYtelseAndelDto andelDto = new TilstøtendeYtelseAndelDto();
-                andel.getBgAndelArbeidsforhold().flatMap(BGAndelArbeidsforhold::getArbeidsgiver)
-                    .ifPresent(arbeidsgiver -> dtoUtil.lagArbeidsforholdDto(andel)
-                    .ifPresent(andelDto::setArbeidsforhold));
-                andelDto.setRefusjonskrav(andel.getBgAndelArbeidsforhold().map(BGAndelArbeidsforhold::getRefusjonskravPrÅr).orElse(null));
-                andelDto.setInntektskategori(andel.getInntektskategori());
-                andelDto.setAndelsnr(andel.getAndelsnr());
-                andelDto.setAktivitetStatus(andel.getAktivitetStatus());
-                dtoList.add(andelDto);
-            }
-        );
-        return dtoList;
-    }
-
 
     private Optional<List<KortvarigeArbeidsforholdDto>> lagKortvarigeArbeidsforholdDto(Behandling behandling) {
         Map<BeregningsgrunnlagPrStatusOgAndel, Yrkesaktivitet> kortvarige = kontrollerFaktaBeregningTjeneste.hentAndelerForKortvarigeArbeidsforhold(behandling);

@@ -8,12 +8,14 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 
 public class BehandlingLåsTest {
@@ -31,7 +33,7 @@ public class BehandlingLåsTest {
 
     @Before
     public void setup() {
-        fagsak = FagsakBuilder.nyEngangstønadForMor().medSaksnummer(saksnummer).build();
+        fagsak = FagsakBuilder.nyFagsak().medBruker(NavBruker.opprettNy(new AktørId("909"))).medSaksnummer(saksnummer).build();
         em.persist(fagsak.getNavBruker());
         em.persist(fagsak);
         em.flush();

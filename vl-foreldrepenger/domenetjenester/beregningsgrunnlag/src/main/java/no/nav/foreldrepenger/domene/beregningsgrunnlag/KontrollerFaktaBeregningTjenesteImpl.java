@@ -52,6 +52,7 @@ public class KontrollerFaktaBeregningTjenesteImpl implements KontrollerFaktaBere
 
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
+    @SuppressWarnings("unused")
     private HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste;
     private BeregningInntektsmeldingTjeneste beregningInntektsmeldingTjeneste;
 
@@ -451,11 +452,6 @@ public class KontrollerFaktaBeregningTjenesteImpl implements KontrollerFaktaBere
         Collection<Yrkesaktivitet> matchendeAktiviteter = finnAktiviteterMedLønnsendringSomManglerIM(aktiviteterMedLønnsendring, manglendeInntektsmeldinger);
         aktiviteterMedLønnsendringUtenIM.addAll(matchendeAktiviteter);
         return aktiviteterMedLønnsendringUtenIM;
-    }
-
-    @Override
-    public boolean skalHaBesteberegningForFødendeKvinne(Behandling behandling) {
-        return hentGrunnlagsdataTjeneste.brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(behandling);
     }
 
     private Collection<Yrkesaktivitet> finnAktiviteterMedLønnsendringSomManglerIM(Collection<Yrkesaktivitet> aktiviteterMedLønnsendring, List<InntektsmeldingSomIkkeKommer> manglendeInntektsmeldinger) {

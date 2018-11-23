@@ -50,7 +50,7 @@ public class AksjonspunktApplikasjonTjenesteImplTest {
         // Arrange
         // Bruker BekreftTerminbekreftelseAksjonspunktDto som konkret case
         AksjonspunktApplikasjonTjenesteImpl aksjonspunktApplikasjonTjenesteImpl = (AksjonspunktApplikasjonTjenesteImpl) aksjonspunktApplikasjonTjeneste;
-        AbstractTestScenario<?> scenario = lagScenarioMedAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_TERMINBEKREFTELSE);
+        AbstractTestScenario<?> scenario = lagScenarioMedAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
         Behandling behandling = scenario.lagre(repositoryProvider);
         Behandling behandlingSpy = spy(behandling);
 

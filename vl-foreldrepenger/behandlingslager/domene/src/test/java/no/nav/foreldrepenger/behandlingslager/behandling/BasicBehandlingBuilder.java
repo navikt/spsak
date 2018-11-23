@@ -69,7 +69,7 @@ public class BasicBehandlingBuilder {
         em.persist(bruker);
         
         // Opprett fagsak
-        Fagsak fagsak = Fagsak.opprettNy(ytelse, bruker, null, new Saksnummer("1000"));
+        Fagsak fagsak = Fagsak.opprettNy(bruker, new Saksnummer("1000"));
         em.persist(fagsak);
         em.flush();
         return fagsak;

@@ -6,7 +6,6 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -24,18 +23,18 @@ import no.nav.vedtak.util.FPDateUtil;
 public class ScenarioMorSøkerForeldrepenger extends AbstractTestScenario<ScenarioMorSøkerForeldrepenger> {
 
     private ScenarioMorSøkerForeldrepenger(boolean medDefaultSøknad) {
-        super(FagsakYtelseType.FORELDREPENGER, RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE);
+        super(NavBrukerKjønn.KVINNE, new AktørId(1999L));
         settDefaltSøknad(medDefaultSøknad);
 
     }
 
     private ScenarioMorSøkerForeldrepenger(boolean medDefaultSøknad, AktørId aktørId) {
-        super(FagsakYtelseType.FORELDREPENGER, RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, aktørId);
+        super(NavBrukerKjønn.KVINNE, aktørId);
         settDefaltSøknad(medDefaultSøknad);
     }
 
     public ScenarioMorSøkerForeldrepenger(boolean medDefaultSøknad, NavBruker navBruker) {
-        super(FagsakYtelseType.FORELDREPENGER, RelasjonsRolleType.MORA, navBruker);
+        super(navBruker);
         settDefaltSøknad(medDefaultSøknad);
     }
 

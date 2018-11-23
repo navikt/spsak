@@ -46,6 +46,14 @@ public class NavBruker extends Person {
     public static NavBruker opprettNy(Personinfo personinfo) {
         return new NavBruker(personinfo.getAktørId(), personinfo.getForetrukketSpråk());
     }
+    
+    public static NavBruker opprettNy(AktørId aktørId) {
+        return opprettNy(aktørId, Språkkode.nb);
+    }
+    
+    public static NavBruker opprettNy(AktørId aktørId, Språkkode språkkode) {
+        return new NavBruker(aktørId, språkkode);
+    }
 
     public Long getId() {
         return id;

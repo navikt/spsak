@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -20,6 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 
 public class MottatteDokumentRepositoryImplTest {
@@ -32,7 +34,7 @@ public class MottatteDokumentRepositoryImplTest {
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     private final FagsakRepository fagsakRepository = new FagsakRepositoryImpl(repoRule.getEntityManager());
 
-    private final Fagsak fagsak = FagsakBuilder.nyEngangstønadForMor().build();
+    private final Fagsak fagsak = FagsakBuilder.nyFagsak().medBruker(NavBruker.opprettNy(new AktørId("909"))).build();
     private Behandling beh1, beh2;
     private MottattDokument dokument1, dokument2;
 

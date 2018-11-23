@@ -77,23 +77,8 @@ public class FaktaOmBeregningTilfelleTjenesteTest {
         faktaOmBeregningTilfelleTjeneste = new FaktaOmBeregningTilfelleTjeneste(repositoryProvider,
             kontrollerFaktaBeregningTjeneste, kontrollerFaktaBeregningFrilanserTjeneste);
         when(kontrollerFaktaBeregningFrilanserTjeneste.erBrukerArbeidstakerOgFrilanserISammeOrganisasjon(behandling)).thenReturn(false);
-        when(kontrollerFaktaBeregningTjeneste.skalHaBesteberegningForFødendeKvinne(behandling)).thenReturn(false);
         when(kontrollerFaktaBeregningTjeneste.brukerMedAktivitetStatusTY(behandling)).thenReturn(false);
         when(kontrollerFaktaBeregningTjeneste.vurderManuellBehandlingForEndretBeregningsgrunnlag(behandling)).thenReturn(false);
-    }
-
-
-    @Test
-    public void skal_gi_kun_tilstøtende_ytelse_tilfelle_når_besteberegning() {
-        when(kontrollerFaktaBeregningTjeneste.skalHaBesteberegningForFødendeKvinne(behandling)).thenReturn(true);
-        when(kontrollerFaktaBeregningTjeneste.brukerMedAktivitetStatusTY(behandling)).thenReturn(true);
-        faktaOmBeregningTilfelleTjeneste.utledOgLagreFaktaOmBeregningTilfeller(behandling);
-
-        Optional<BeregningsgrunnlagGrunnlagEntitet> bgEntitet = beregningsgrunnlagRepository.hentBeregningsgrunnlagGrunnlagEntitet(behandling);
-        assertThat(bgEntitet.isPresent()).isTrue();
-        assertThat(bgEntitet.get().getBeregningsgrunnlagTilstand()).isEqualTo(BeregningsgrunnlagTilstand.OPPRETTET);
-        Beregningsgrunnlag bg = bgEntitet.get().getBeregningsgrunnlag();
-        assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE);
     }
 
     @Test
@@ -106,45 +91,6 @@ public class FaktaOmBeregningTilfelleTjenesteTest {
         assertThat(bgEntitet.get().getBeregningsgrunnlagTilstand()).isEqualTo(BeregningsgrunnlagTilstand.OPPRETTET);
         Beregningsgrunnlag bg = bgEntitet.get().getBeregningsgrunnlag();
         assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE);
-    }
-
-    @Test
-    public void skal_gi_kun_besteberegning_når_kun_besteberegning() {
-        when(kontrollerFaktaBeregningTjeneste.skalHaBesteberegningForFødendeKvinne(behandling)).thenReturn(true);
-        faktaOmBeregningTilfelleTjeneste.utledOgLagreFaktaOmBeregningTilfeller(behandling);
-
-        Optional<BeregningsgrunnlagGrunnlagEntitet> bgEntitet = beregningsgrunnlagRepository.hentBeregningsgrunnlagGrunnlagEntitet(behandling);
-        assertThat(bgEntitet.isPresent()).isTrue();
-        assertThat(bgEntitet.get().getBeregningsgrunnlagTilstand()).isEqualTo(BeregningsgrunnlagTilstand.OPPRETTET);
-        Beregningsgrunnlag bg = bgEntitet.get().getBeregningsgrunnlag();
-        assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(FaktaOmBeregningTilfelle.FASTSETT_BESTEBEREGNING_FØDENDE_KVINNE);
-    }
-
-    @Test
-    public void skal_gi_kun_besteberegning_når_besteberegning_og_endret_bg() {
-        when(kontrollerFaktaBeregningTjeneste.skalHaBesteberegningForFødendeKvinne(behandling)).thenReturn(true);
-        when(kontrollerFaktaBeregningTjeneste.vurderManuellBehandlingForEndretBeregningsgrunnlag(behandling)).thenReturn(true);
-        faktaOmBeregningTilfelleTjeneste.utledOgLagreFaktaOmBeregningTilfeller(behandling);
-
-        Optional<BeregningsgrunnlagGrunnlagEntitet> bgEntitet = beregningsgrunnlagRepository.hentBeregningsgrunnlagGrunnlagEntitet(behandling);
-        assertThat(bgEntitet.isPresent()).isTrue();
-        assertThat(bgEntitet.get().getBeregningsgrunnlagTilstand()).isEqualTo(BeregningsgrunnlagTilstand.OPPRETTET);
-        Beregningsgrunnlag bg = bgEntitet.get().getBeregningsgrunnlag();
-        assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(FaktaOmBeregningTilfelle.FASTSETT_BESTEBEREGNING_FØDENDE_KVINNE);
-    }
-
-    @Test
-    public void skal_gi_kun_besteberegning_når_besteberegning_og_atfl_i_samme_org_og_endret_bg() {
-        when(kontrollerFaktaBeregningTjeneste.skalHaBesteberegningForFødendeKvinne(behandling)).thenReturn(true);
-        when(kontrollerFaktaBeregningTjeneste.vurderManuellBehandlingForEndretBeregningsgrunnlag(behandling)).thenReturn(true);
-        when(kontrollerFaktaBeregningFrilanserTjeneste.erBrukerArbeidstakerOgFrilanserISammeOrganisasjon(behandling)).thenReturn(true);
-        faktaOmBeregningTilfelleTjeneste.utledOgLagreFaktaOmBeregningTilfeller(behandling);
-
-        Optional<BeregningsgrunnlagGrunnlagEntitet> bgEntitet = beregningsgrunnlagRepository.hentBeregningsgrunnlagGrunnlagEntitet(behandling);
-        assertThat(bgEntitet.isPresent()).isTrue();
-        assertThat(bgEntitet.get().getBeregningsgrunnlagTilstand()).isEqualTo(BeregningsgrunnlagTilstand.OPPRETTET);
-        Beregningsgrunnlag bg = bgEntitet.get().getBeregningsgrunnlag();
-        assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(FaktaOmBeregningTilfelle.FASTSETT_BESTEBEREGNING_FØDENDE_KVINNE);
     }
 
     @Test

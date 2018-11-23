@@ -17,7 +17,6 @@ import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Arb
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Dekningsgrad;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.feriepenger.BeregningsresultatFeriepengerRegelModell;
-import no.nav.foreldrepenger.domene.beregning.regler.feriepenger.RegelBeregnFeriepenger;
 import no.nav.fpsak.nare.evaluation.Evaluation;
 import no.nav.fpsak.nare.evaluation.summary.EvaluationSerializer;
 import no.nav.fpsak.tidsserie.LocalDateInterval;
@@ -48,7 +47,6 @@ public class RegelBeregnFeriepengerTest {
             .medBeregningsresultatPerioder(Arrays.asList(periode1, periode2))
             .medInntektskategorier(Collections.singleton(Inntektskategori.ARBEIDSTAKER))
             .medDekningsgrad(Dekningsgrad.DEKNINGSGRAD_100)
-            .medErForelder1(true)
             .build();
 
         RegelBeregnFeriepenger regel = new RegelBeregnFeriepenger();
@@ -96,7 +94,6 @@ public class RegelBeregnFeriepengerTest {
             .medBeregningsresultatPerioder(Arrays.asList(periode0, periode1, periode2))
             .medInntektskategorier(Collections.singleton(Inntektskategori.ARBEIDSTAKER))
             .medDekningsgrad(Dekningsgrad.DEKNINGSGRAD_100)
-            .medErForelder1(true)
             .build();
 
         RegelBeregnFeriepenger regel = new RegelBeregnFeriepenger();
@@ -148,7 +145,6 @@ public class RegelBeregnFeriepengerTest {
             .medBeregningsresultatPerioder(Arrays.asList(periode1, periode2, periode3))
             .medInntektskategorier(Collections.singleton(Inntektskategori.ARBEIDSTAKER))
             .medDekningsgrad(Dekningsgrad.DEKNINGSGRAD_100)
-            .medErForelder1(true)
             .build();
 
         RegelBeregnFeriepenger regel = new RegelBeregnFeriepenger();
@@ -198,7 +194,6 @@ public class RegelBeregnFeriepengerTest {
             .medBeregningsresultatPerioder(Arrays.asList(periode1, periode2, periode3))
             .medInntektskategorier(Collections.singleton(Inntektskategori.ARBEIDSTAKER))
             .medDekningsgrad(Dekningsgrad.DEKNINGSGRAD_80)
-            .medErForelder1(true)
             .build();
 
         RegelBeregnFeriepenger regel = new RegelBeregnFeriepenger();

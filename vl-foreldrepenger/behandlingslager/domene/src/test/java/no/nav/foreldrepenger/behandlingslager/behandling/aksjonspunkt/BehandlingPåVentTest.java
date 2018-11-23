@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 
 public class BehandlingPåVentTest {
@@ -24,7 +23,7 @@ public class BehandlingPåVentTest {
 
     @Before
     public void setup() {
-        fagsak = Fagsak.opprettNy(FagsakYtelseType.FORELDREPENGER, null);
+        fagsak = Fagsak.opprettNy(null);
     }
 
     @Test

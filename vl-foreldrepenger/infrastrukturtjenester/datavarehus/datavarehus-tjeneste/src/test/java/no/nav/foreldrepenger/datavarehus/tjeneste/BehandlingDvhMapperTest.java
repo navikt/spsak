@@ -42,7 +42,7 @@ public class BehandlingDvhMapperTest {
     private BehandlingDvhMapper mapper = new BehandlingDvhMapper();
 
     @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+    public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
 
     @Test
     public void skal_mappe_til_behandling_dvh_uten_vedtak() {

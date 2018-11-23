@@ -16,7 +16,6 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -28,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Journalpost;
 import no.nav.foreldrepenger.behandlingslager.pip.PipBehandlingsData;
 import no.nav.foreldrepenger.behandlingslager.pip.PipRepository;
-import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -57,7 +55,7 @@ public class PipRepositoryTest {
 
     @Test
     public void skal_finne_behandligstatus_og_sakstatus_for_behandling() throws Exception {
-        Fagsak fagsak = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER);
+        Fagsak fagsak = byggFagsak(new AktørId("200"), NavBrukerKjønn.KVINNE, SAKSNUMMER);
         behandling = byggForElektroniskSøknadOmFødsel(fagsak, LocalDate.now(), ANSVARLIG_SAKSBEHANDLER, repositoryProvider);
         lagreBehandling(behandling);
 
@@ -76,8 +74,8 @@ public class PipRepositoryTest {
 
     @Test
     public void skal_finne_alle_fagsaker_for_en_søker() throws Exception {
-        Fagsak fagsak1 = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER);
-        Fagsak fagsak2 = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER2);
+        Fagsak fagsak1 = byggFagsak(new AktørId("200"), NavBrukerKjønn.KVINNE, SAKSNUMMER);
+        Fagsak fagsak2 = byggFagsak(new AktørId("200"), NavBrukerKjønn.KVINNE, SAKSNUMMER2);
         behandling = byggForElektroniskSøknadOmFødsel(fagsak1, LocalDate.now(), ANSVARLIG_SAKSBEHANDLER, repositoryProvider);
         lagreBehandling(behandling);
 
@@ -88,7 +86,7 @@ public class PipRepositoryTest {
 
     @Test
     public void skal_finne_aktoerId_for_fagsak() throws Exception {
-        Fagsak fagsak = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER);
+        Fagsak fagsak = byggFagsak(new AktørId("200"), NavBrukerKjønn.KVINNE, SAKSNUMMER);
         behandling = byggForElektroniskSøknadOmFødsel(fagsak, LocalDate.now(), ANSVARLIG_SAKSBEHANDLER, repositoryProvider);
         lagreBehandling(behandling);
 
@@ -98,9 +96,9 @@ public class PipRepositoryTest {
 
     @Test
     public void skal_finne_fagsakId_knyttet_til_journalpostId() throws Exception {
-        Fagsak fagsak1 = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER);
+        Fagsak fagsak1 = byggFagsak(new AktørId("200"), NavBrukerKjønn.KVINNE, SAKSNUMMER);
         @SuppressWarnings("unused")
-        Fagsak fagsak2 = byggFagsak(new AktørId("200"), RelasjonsRolleType.MORA, NavBrukerKjønn.KVINNE, SAKSNUMMER2);
+        Fagsak fagsak2 = byggFagsak(new AktørId("200"), NavBrukerKjønn.KVINNE, SAKSNUMMER2);
         Journalpost journalpost1 = new Journalpost(JOURNALPOST_ID, fagsak1);
         fagsakRepository.lagre(journalpost1);
         Journalpost journalpost2 = new Journalpost(new JournalpostId("4444"), fagsak1);
@@ -120,23 +118,20 @@ public class PipRepositoryTest {
         assertThat(resultat2).containsOnly("Overstyring", "Manuell");
     }
 
-    private Fagsak byggFagsak(AktørId aktørId, RelasjonsRolleType rolle, NavBrukerKjønn kjønn, Saksnummer saksnummer) {
-        NavBruker navBruker = getNavBruker(aktørId, kjønn);
-        Fagsak fagsak = FagsakBuilder.nyEngangstønad(rolle)
+    private Fagsak byggFagsak(AktørId aktørId, NavBrukerKjønn kjønn, Saksnummer saksnummer) {
+        NavBruker navBruker = getNavBruker(aktørId);
+        Fagsak fagsak = FagsakBuilder.nyFagsak()
             .medBruker(navBruker)
             .medSaksnummer(saksnummer).build();
         fagsakRepository.opprettNy(fagsak);
         return fagsak;
     }
 
-    private NavBruker getNavBruker(AktørId aktørId, NavBrukerKjønn kjønn) {
+    private NavBruker getNavBruker(AktørId aktørId) {
         if (aktørMap.containsKey(aktørId)) {
             return aktørMap.get(aktørId);
         }
-        final NavBruker bruker = new NavBrukerBuilder()
-            .medAktørId(aktørId)
-            .medKjønn(kjønn)
-            .build();
+        final NavBruker bruker = NavBruker.opprettNy(aktørId);
         aktørMap.put(aktørId, bruker);
         return bruker;
     }

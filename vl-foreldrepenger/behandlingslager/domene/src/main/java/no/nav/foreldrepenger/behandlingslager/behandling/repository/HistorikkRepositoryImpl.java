@@ -7,12 +7,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
-import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 
@@ -32,22 +29,6 @@ public class HistorikkRepositoryImpl implements HistorikkRepository {
 
     @Override
     public void lagre(Historikkinnslag historikkinnslag) {
-
-        if (HistorikkAktør.SØKER.equals(historikkinnslag.getAktør()) && NavBrukerKjønn.UDEFINERT.equals(historikkinnslag.getKjoenn())) {
-            RelasjonsRolleType kjoenn = entityManager
-                    .createQuery("select f.brukerRolle from Fagsak f where f.id = :fagsakId", RelasjonsRolleType.class) //$NON-NLS-1$
-                    .setParameter("fagsakId", historikkinnslag.getFagsakId()) // NOSONAR //$NON-NLS-1$
-                    .getSingleResult();
-            if(RelasjonsRolleType.erRegistrertForeldre(kjoenn)) {
-                if(kjoenn.equals(RelasjonsRolleType.MORA) || kjoenn.equals(RelasjonsRolleType.MEDMOR)) {
-                    historikkinnslag.setKjoenn(NavBrukerKjønn.KVINNE);
-                } else if(kjoenn.equals(RelasjonsRolleType.FARA)) {
-                    historikkinnslag.setKjoenn(NavBrukerKjønn.MANN);
-                }
-            } else {
-                historikkinnslag.setKjoenn(NavBrukerKjønn.UDEFINERT);
-            }
-        }
 
         if (historikkinnslag.getFagsakId() == null) {
             historikkinnslag.setFagsakId(getFagsakId(historikkinnslag.getBehandlingId()));

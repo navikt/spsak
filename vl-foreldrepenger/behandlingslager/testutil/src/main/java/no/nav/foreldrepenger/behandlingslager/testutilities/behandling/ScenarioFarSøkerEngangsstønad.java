@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.util.FPDateUtil;
 
 /**
@@ -21,7 +21,7 @@ import no.nav.vedtak.util.FPDateUtil;
 public class ScenarioFarSøkerEngangsstønad extends AbstractTestScenario<ScenarioFarSøkerEngangsstønad> {
 
     private ScenarioFarSøkerEngangsstønad(boolean medDefaultSøknad) {
-        super(FagsakYtelseType.FORELDREPENGER, RelasjonsRolleType.FARA, NavBrukerKjønn.MANN);
+        super(NavBrukerKjønn.MANN, new AktørId(999L));
         if (medDefaultSøknad) {
             // Defaults - antar default alltid minimum med en søknad
             medDefaultOppgittTilknytning();

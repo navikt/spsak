@@ -46,11 +46,11 @@ public class FagsakRevurderingTest {
 
     @Before
     public void opprettBehandlinger() {
-        fagsak = FagsakBuilder.nyEngangstønadForMor().medSaksnummer(fagsakSaksnummer).build();
+        fagsak = FagsakBuilder.nyFagsak().medSaksnummer(fagsakSaksnummer).build();
         behandling = Behandling.forFørstegangssøknad(fagsak).build();
         behandling = Behandling.forFørstegangssøknad(fagsak).build();
 
-        fagsakMedFlereBehandlinger = FagsakBuilder.nyEngangstønadForMor().medSaksnummer(fagsakMedFlereBehSaksnr).build();
+        fagsakMedFlereBehandlinger = FagsakBuilder.nyFagsak().medSaksnummer(fagsakMedFlereBehSaksnr).build();
         nyesteBehandling = Behandling.forFørstegangssøknad(fagsakMedFlereBehandlinger)
             .medAvsluttetDato(LocalDateTime.now())
             .build();
@@ -140,7 +140,7 @@ public class FagsakRevurderingTest {
 
     @Test
     public void behandlingerSkalSorteresSynkendePåAvsluttetDato(){
-        Fagsak fagsak = FagsakBuilder.nyEngangstønadForMor().build();
+        Fagsak fagsak = FagsakBuilder.nyFagsak().build();
         LocalDateTime now = LocalDateTime.now();
         Behandling nyBehandling = Behandling.forFørstegangssøknad(fagsak).medAvsluttetDato(now).build();
         Behandling gammelBehandling = Behandling.forFørstegangssøknad(fagsak).medAvsluttetDato(now.minusDays(1)).build();
@@ -155,7 +155,7 @@ public class FagsakRevurderingTest {
 
     @Test
     public void behandlingerSkalSorteresSynkendePåOpprettetDatoNårAvsluttetDatoErNull(){
-        Fagsak fagsak = FagsakBuilder.nyEngangstønadForMor().build();
+        Fagsak fagsak = FagsakBuilder.nyFagsak().build();
         LocalDateTime now = LocalDateTime.now();
         Behandling nyBehandling = Behandling.forFørstegangssøknad(fagsak).medAvsluttetDato(null).medOpprettetDato(now).build();
         Behandling gammelBehandling = Behandling.forFørstegangssøknad(fagsak).medAvsluttetDato(now).medOpprettetDato(now.minusDays(1)).build();

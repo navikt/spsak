@@ -99,7 +99,7 @@ public class HenleggBehandlingTjenesteImplTest {
         behandling = scenario.lagMocked();
         repositoryProviderMock = scenario.mockBehandlingRepositoryProvider();
 
-        manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, BehandlingStegType.INNHENT_SØKNADOPP);
+        manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, BehandlingStegType.BEREGN_YTELSE);
 
         when(repositoryProviderMock.getAksjonspunktRepository()).thenReturn(aksjonspunktRepository);
         when(repositoryProviderMock.getKodeverkRepository()).thenReturn(kodeverkRepository);
@@ -178,7 +178,7 @@ public class HenleggBehandlingTjenesteImplTest {
         Aksjonspunkt aksjonspunkt = repositoryProviderMock.getAksjonspunktRepository().leggTilAksjonspunkt(behandling, def);
         repositoryProviderMock.getAksjonspunktRepository().setFrist(aksjonspunkt, LocalDateTime.now(), null);
 
-        manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, BehandlingStegType.INNHENT_SØKNADOPP);
+        manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, BehandlingStegType.BEREGN_YTELSE);
 
         BehandlingResultatType behandlingsresultat = BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET;
 

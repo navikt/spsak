@@ -15,7 +15,6 @@ public class TilstøtendeYtelseDto {
     private RelatertYtelseType ytelseType;
     private BigDecimal bruttoBG;
     private boolean skalReduseres;
-    private boolean erBesteberegning;
 
     public TilstøtendeYtelseDto () {
         // Hibernate
@@ -69,11 +68,4 @@ public class TilstøtendeYtelseDto {
         this.arbeidskategori = arbeidskategori;
     }
 
-    public boolean getErBesteberegning() {
-        return erBesteberegning;
-    }
-
-    public void setErBesteberegning(boolean erBesteberegning) {
-        this.erBesteberegning = erBesteberegning;
-    }
 }

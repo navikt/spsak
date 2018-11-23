@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
@@ -26,6 +27,7 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.felles.testutilities.db.Repository;
 
 /* BeregningResultat regnes som et selvstendig aggregat, men har to overliggende nivåer for aggregat:
@@ -45,7 +47,7 @@ public class BeregningResultatTest {
     private final FagsakRepository fagsakReposiory = new FagsakRepositoryImpl(repoRule.getEntityManager());
     private BeregningRepository beregningRepository = new BeregningRepositoryImpl(repoRule.getEntityManager());
 
-    private Fagsak fagsak = FagsakBuilder.nyEngangstønadForMor().build();
+    private Fagsak fagsak = FagsakBuilder.nyFagsak().medBruker(NavBruker.opprettNy(new AktørId("909"))).build();
     private Behandling.Builder behandlingBuilder = Behandling.forFørstegangssøknad(fagsak);
     private Behandling behandling1;
     private final long sats = 1L;
@@ -238,7 +240,7 @@ public class BeregningResultatTest {
         // TX_2: Oppdatere Behandlingsresultat med VilkårResultat
         behandling1 = repository.hent(Behandling.class, behandling1.getId());
         VilkårResultat vilkårResultat = VilkårResultat.builder()
-                .leggTilVilkårResultat(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT, VilkårUtfallMerknad.VM_1001, new Properties(), null, false, false, null, null)
+                .leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT, VilkårUtfallMerknad.VM_1001, new Properties(), null, false, false, null, null)
                 .buildFor(behandling1);
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling1);

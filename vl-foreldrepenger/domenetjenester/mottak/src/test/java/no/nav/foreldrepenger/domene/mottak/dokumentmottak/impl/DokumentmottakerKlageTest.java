@@ -124,7 +124,7 @@ public class DokumentmottakerKlageTest {
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET)
             .buildFor(behandling);
         VilkårResultat.builder()
-            .leggTilVilkårResultat(VilkårType.FØDSELSVILKÅRET_MOR, VilkårUtfallType.OPPFYLT,
+            .leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT,
                 null, new Properties(), null, false, false, "", "")
             .medVilkårResultatType(VilkårResultatType.INNVILGET)
             .buildFor(behandling);

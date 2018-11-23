@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatAndel;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatPeriode;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Arbeidsforhold;
@@ -29,13 +28,11 @@ public class MapBeregningsresultatFeriepengerFraVLTilRegel {
             .map(MapBeregningsresultatFeriepengerFraVLTilRegel::mapBeregningsresultatPerioder).collect(Collectors.toList());
         Set<Inntektskategori> inntektskategorier = mapInntektskategorier(beregningsresultatFP);
         Dekningsgrad dekningsgrad = beregningsgrunnlag.getDekningsgrad() == 100 ? Dekningsgrad.DEKNINGSGRAD_100 : Dekningsgrad.DEKNINGSGRAD_80;
-        boolean erForelder1 = RelasjonsRolleType.erMor(behandling.getFagsak().getRelasjonsRolleType());
 
         return BeregningsresultatFeriepengerRegelModell.builder()
             .medBeregningsresultatPerioder(beregningsresultatPerioder)
             .medInntektskategorier(inntektskategorier)
             .medDekningsgrad(dekningsgrad)
-            .medErForelder1(erForelder1)
             .build();
     }
 

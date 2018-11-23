@@ -98,7 +98,7 @@ public class FagsakRepositoryImplTest {
                 .build());
 
         // Opprett fagsak
-        Fagsak fagsak = Fagsak.opprettNy(FagsakYtelseType.UDEFINERT, bruker, null, saksnummer);
+        Fagsak fagsak = Fagsak.opprettNy(bruker, saksnummer);
         repository.lagre(bruker);
         repository.lagre(fagsak);
         repository.flushAndClear();

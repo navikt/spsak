@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
@@ -42,8 +41,6 @@ public interface FagsakRepository extends BehandlingslagerRepository {
     FagsakLås taSkriveLås(Long fagsakId);
 
     void verifiserLås(FagsakLås lås);
-
-    void oppdaterRelasjonsRolle(Long fagsakId, RelasjonsRolleType relasjonsRolleType);
 
     void oppdaterSaksnummer(Long fagsakId, Saksnummer saksnummer);
 

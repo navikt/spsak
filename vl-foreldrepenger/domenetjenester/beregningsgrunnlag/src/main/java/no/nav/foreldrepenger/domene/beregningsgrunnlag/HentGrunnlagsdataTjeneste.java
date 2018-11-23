@@ -18,5 +18,4 @@ public interface HentGrunnlagsdataTjeneste {
      */
     Optional<Beregningsgrunnlag> hentGjeldendeBeregningsgrunnlag(Behandling behandling);
 
-    boolean brukerOmfattesAvBesteBeregningsRegelForFødendeKvinne(Behandling behandling);
 }

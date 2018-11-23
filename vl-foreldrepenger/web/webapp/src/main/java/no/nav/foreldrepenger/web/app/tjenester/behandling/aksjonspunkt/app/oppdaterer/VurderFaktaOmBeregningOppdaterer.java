@@ -34,7 +34,6 @@ public class VurderFaktaOmBeregningOppdaterer implements AksjonspunktOppdaterer<
     private FastsettEndretBeregningsgrunnlagOppdaterer fastsettEndretBeregningsgrunnlagOppdaterer;
     private FastsettBGTilstøtendeYtelseOppdaterer fastsettBGTilstøtendeYtelseOppdaterer;
     private VurderLønnsendringOppdaterer vurderLønnsendringOppdaterer;
-    private FastsettBesteberegningFødendeKvinneOppdaterer fastsettBesteberegningFødendeKvinneOppdaterer;
     private HistorikkTjenesteAdapter historikkAdapter;
     private AksjonspunktRepository aksjonspunktRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
@@ -53,7 +52,6 @@ public class VurderFaktaOmBeregningOppdaterer implements AksjonspunktOppdaterer<
         this.fastsettMånedsinntektUtenInntektsmeldingOppdaterer = new FastsettMånedsinntektUtenInntektsmeldingOppdaterer(historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
         this.vurderLønnsendringOppdaterer = new VurderLønnsendringOppdaterer(repositoryProvider, historikkAdapter);
         this.fastsettMånedsinntektATogFLiSammeOrganisasjonOppdaterer = new FastsettMånedsinntektATogFLiSammeOrganisasjonOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
-        this.fastsettBesteberegningFødendeKvinneOppdaterer = new FastsettBesteberegningFødendeKvinneOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
         this.fastsettBGTilstøtendeYtelseOppdaterer = new FastsettBGTilstøtendeYtelseOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
         this.historikkAdapter = historikkAdapter;
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
@@ -83,8 +81,6 @@ public class VurderFaktaOmBeregningOppdaterer implements AksjonspunktOppdaterer<
                 fastsettMånedsinntektUtenInntektsmeldingOppdaterer.oppdater(dto.getFastsatteLonnsendringer(), nyttBeregningsgrunnlag);
             } else if (FaktaOmBeregningTilfelle.VURDER_AT_OG_FL_I_SAMME_ORGANISASJON.equals(tilfelle)){
                 fastsettMånedsinntektATogFLiSammeOrganisasjonOppdaterer.oppdater(dto.getVurderATogFLiSammeOrganisasjon(), behandling, nyttBeregningsgrunnlag);
-            } else if (FaktaOmBeregningTilfelle.FASTSETT_BESTEBEREGNING_FØDENDE_KVINNE.equals(tilfelle)){
-                fastsettBesteberegningFødendeKvinneOppdaterer.oppdater(dto.getBesteberegningAndeler(), behandling, nyttBeregningsgrunnlag);
             }
         });
 

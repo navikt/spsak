@@ -38,7 +38,6 @@ public class IAYRegisterInnhentingFPTjenesteImpl extends IAYRegisterInnhentingFe
             virksomhetTjeneste,
             skjæringstidspunktTjeneste,
             innhentingSamletTjeneste,
-            personopplysningTjeneste,
             opplysningsPeriodeTjeneste);
     }
 

@@ -54,6 +54,7 @@ public class RefusjonEntitet extends BaseEntitet implements Refusjon {
     }
 
 
+    @Override
     public Beløp getRefusjonsbeløp() {
         return refusjonsbeløpMnd;
     }

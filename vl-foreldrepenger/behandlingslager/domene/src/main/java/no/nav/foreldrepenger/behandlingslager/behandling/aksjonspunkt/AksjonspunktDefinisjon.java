@@ -40,28 +40,20 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     public static final AksjonspunktDefinisjon AUTO_MANUELT_SATT_PÅ_VENT = new AksjonspunktDefinisjon("7001"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AUTO_VENTER_PÅ_KOMPLETT_SØKNAD = new AksjonspunktDefinisjon("7003"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AUTO_SATT_PÅ_VENT_REVURDERING = new AksjonspunktDefinisjon("7005"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AUTO_VENT_PÅ_FØDSELREGISTRERING = new AksjonspunktDefinisjon("7002"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AUTO_VENT_PÅ_OPPTJENINGSOPPLYSNINGER = new AksjonspunktDefinisjon("7006"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AUTO_VENT_KOMPLETT_OPPDATERING = new AksjonspunktDefinisjon("7009"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AUTO_VENT_PÅ_REGISTEROPPLYSNINGER = new AksjonspunktDefinisjon("7010"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AUTO_KØET_BEHANDLING = new AksjonspunktDefinisjon("7011"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AUTO_VENT_PÅ_INNTEKT_RAPPORTERINGSFRIST  = new AksjonspunktDefinisjon("7014"); //$NON-NLS-1$
 
-    public static final AksjonspunktDefinisjon AVKLAR_ADOPSJONSDOKUMENTAJON = new AksjonspunktDefinisjon("5004"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_FAKTA_FOR_PERSONSTATUS = new AksjonspunktDefinisjon("5022"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_GYLDIG_MEDLEMSKAPSPERIODE = new AksjonspunktDefinisjon("5021"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_LOVLIG_OPPHOLD = new AksjonspunktDefinisjon("5019"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AVKLAR_OM_ADOPSJON_GJELDER_EKTEFELLES_BARN = new AksjonspunktDefinisjon("5005"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_OM_ER_BOSATT = new AksjonspunktDefinisjon("5020"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AVKLAR_OM_SØKER_ER_MANN_SOM_ADOPTERER_ALENE = new AksjonspunktDefinisjon("5006"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_OPPHOLDSRETT = new AksjonspunktDefinisjon("5023"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AVKLAR_TERMINBEKREFTELSE = new AksjonspunktDefinisjon("5001"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_TILLEGGSOPPLYSNINGER = new AksjonspunktDefinisjon("5009"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AVKLAR_VILKÅR_FOR_OMSORGSOVERTAKELSE = new AksjonspunktDefinisjon("5008"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AVKLAR_VILKÅR_FOR_FORELDREANSVAR = new AksjonspunktDefinisjon("5054"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_VERGE = new AksjonspunktDefinisjon("5030"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_OM_SØKER_HAR_MOTTATT_STØTTE = new AksjonspunktDefinisjon("5031"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon AVKLAR_OM_ANNEN_FORELDRE_HAR_MOTTATT_STØTTE = new AksjonspunktDefinisjon("5032"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon AVKLAR_FORTSATT_MEDLEMSKAP = new AksjonspunktDefinisjon("5053"); //$NON-NLS-1$
 
     public static final AksjonspunktDefinisjon FATTER_VEDTAK = new AksjonspunktDefinisjon("5016"); //$NON-NLS-1$
@@ -70,20 +62,10 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     public static final AksjonspunktDefinisjon FORESLÅ_VEDTAK_MANUELT = new AksjonspunktDefinisjon("5028");
 
 
-    public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_FORELDREANSVARSVILKÅRET_2_LEDD = new AksjonspunktDefinisjon("5013"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_FORELDREANSVARSVILKÅRET_4_LEDD = new AksjonspunktDefinisjon("5014"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_MEDLEMSKAP = new AksjonspunktDefinisjon("5010"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_OMSORGSVILKÅRET = new AksjonspunktDefinisjon("5011"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET = new AksjonspunktDefinisjon("5007"); //$NON-NLS-1$
 
-
-    public static final AksjonspunktDefinisjon OVERSTYRING_AV_ADOPSJONSVILKÅRET = new AksjonspunktDefinisjon("6004"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon OVERSTYRING_AV_ADOPSJONSVILKÅRET_FP = new AksjonspunktDefinisjon("6010"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon OVERSTYRING_AV_BEREGNING = new AksjonspunktDefinisjon("6007"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon OVERSTYRING_AV_FØDSELSVILKÅRET = new AksjonspunktDefinisjon("6003"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon OVERSTYRING_AV_FØDSELSVILKÅRET_FAR_MEDMOR = new AksjonspunktDefinisjon("6009"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon OVERSTYRING_AV_MEDLEMSKAPSVILKÅRET = new AksjonspunktDefinisjon("6005"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon OVERSTYRING_AV_SØKNADSFRISTVILKÅRET = new AksjonspunktDefinisjon("6006"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon OVERSTYRING_AV_OPPTJENINGSVILKÅRET = new AksjonspunktDefinisjon("6011"); //$NON-NLS-1$
 
     public static final AksjonspunktDefinisjon SØKERS_OPPLYSNINGSPLIKT_MANU = new AksjonspunktDefinisjon("5017"); //$NON-NLS-1$
@@ -94,11 +76,8 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     public static final AksjonspunktDefinisjon KONTROLLER_REVURDERINGSBEHANDLING = new AksjonspunktDefinisjon("5055"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon KONTROLL_AV_MANUELT_OPPRETTET_REVURDERINGSBEHANDLING = new AksjonspunktDefinisjon("5056"); //$NON-NLS-1$
 
-    public static final AksjonspunktDefinisjon SJEKK_MANGLENDE_FØDSEL = new AksjonspunktDefinisjon("5027");
-
     public static final AksjonspunktDefinisjon VEDTAK_UTEN_TOTRINNSKONTROLL = new AksjonspunktDefinisjon("5018"); //$NON-NLS-1$
 
-    public static final AksjonspunktDefinisjon VENT_PÅ_FØDSEL = new AksjonspunktDefinisjon("7004"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VENT_PÅ_SCANNING = new AksjonspunktDefinisjon("7007"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VENT_PGA_FOR_TIDLIG_SØKNAD = new AksjonspunktDefinisjon("7008"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VENT_PÅ_SØKNAD = new AksjonspunktDefinisjon("7013"); //$NON-NLS-1$
@@ -119,8 +98,6 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     public static final AksjonspunktDefinisjon VURDER_FAKTA_FOR_ATFL_SN = new AksjonspunktDefinisjon("5058");
 
     public static final AksjonspunktDefinisjon FASTSETT_BEREGNINGSGRUNNLAG_SELVSTENDIG_NÆRINGSDRIVENDE = new AksjonspunktDefinisjon("5042"); //$NON-NLS-1$
-
-    public static final AksjonspunktDefinisjon AVKLAR_STARTDATO_FOR_FORELDREPENGEPERIODEN = new AksjonspunktDefinisjon("5045"); //$NON-NLS-1$
 
     public static final AksjonspunktDefinisjon VURDER_PERIODER_MED_OPPTJENING = new AksjonspunktDefinisjon("5051"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VURDER_ARBEIDSFORHOLD = new AksjonspunktDefinisjon("5080"); //$NON-NLS-1$

@@ -16,7 +16,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregningsres
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.dto.BeregningsresultatMedUttaksplanDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.dto.BeregningsresultatPeriodeAndelDto;
@@ -32,14 +31,9 @@ class BeregningsresultatMedUttaksplanMapper {
                                                                                  BeregningsresultatFP beregningsresultatFP) {
         LocalDate opphørsdato = null; // FIXME SP: trenger opphørsdato og uttak modell
         return BeregningsresultatMedUttaksplanDto.build()
-            .medSokerErMor(getSøkerErMor(behandling))
             .medOpphoersdato(opphørsdato)
             .medPerioder(lagPerioder(beregningsresultatFP))
             .create();
-    }
-
-    private static boolean getSøkerErMor(Behandling behandling) {
-        return RelasjonsRolleType.MORA.equals(behandling.getFagsak().getRelasjonsRolleType());
     }
 
     static List<BeregningsresultatPeriodeDto> lagPerioder(BeregningsresultatFP beregningsresultatFP) {

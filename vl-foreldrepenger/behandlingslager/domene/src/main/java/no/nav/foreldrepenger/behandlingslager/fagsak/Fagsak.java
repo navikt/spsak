@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
@@ -43,16 +42,11 @@ public class Fagsak extends BaseEntitet {
     @ManyToOne(optional = false)
     @JoinColumnOrFormula(column = @JoinColumn(name = "ytelse_type", referencedColumnName = "kode", nullable = false))
     @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + FagsakYtelseType.DISCRIMINATOR + "'"))
-    private FagsakYtelseType ytelseType = FagsakYtelseType.UDEFINERT;
+    private FagsakYtelseType ytelseType = FagsakYtelseType.FORELDREPENGER;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "bruker_id", nullable = false)
     private NavBruker navBruker;
-
-    @ManyToOne(optional = false)
-    @JoinColumnOrFormula(column = @JoinColumn(name = "bruker_rolle", referencedColumnName = "kode", nullable = false))
-    @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + RelasjonsRolleType.DISCRIMINATOR + "'"))
-    private RelasjonsRolleType brukerRolle = RelasjonsRolleType.UDEFINERT;
 
     @ManyToOne(optional = false)
     @JoinColumnOrFormula(column = @JoinColumn(name = "fagsak_status", referencedColumnName = "kode", nullable = false))
@@ -78,32 +72,24 @@ public class Fagsak extends BaseEntitet {
         // Hibernate
     }
 
-    private Fagsak(FagsakYtelseType ytelseType, NavBruker søker) {
-        this(ytelseType, søker, null, null);
+    private Fagsak(NavBruker søker) {
+        this(søker, null);
     }
 
-    public Fagsak(FagsakYtelseType ytelseType, NavBruker søker, RelasjonsRolleType rolle, Saksnummer saksnummer) {
+    public Fagsak(NavBruker søker, Saksnummer saksnummer) {
         Objects.requireNonNull(ytelseType, "ytelseType");
-        this.ytelseType = ytelseType;
         this.navBruker = søker;
-        if (rolle != null) {
-            this.brukerRolle = rolle;
-        }
         if (saksnummer != null) {
             setSaksnummer(saksnummer);
         }
     }
 
-    public static Fagsak opprettNy(FagsakYtelseType ytelseType, NavBruker bruker) {
-        return new Fagsak(ytelseType, bruker);
+    public static Fagsak opprettNy(NavBruker bruker) {
+        return new Fagsak(bruker);
     }
 
-    public static Fagsak opprettNy(FagsakYtelseType ytelseType, NavBruker bruker, RelasjonsRolleType rolle) {
-        return new Fagsak(ytelseType, bruker, rolle, null);
-    }
-
-    public static Fagsak opprettNy(FagsakYtelseType ytelseType, NavBruker bruker, RelasjonsRolleType rolle, Saksnummer saksnummer) {
-        return new Fagsak(ytelseType, bruker, rolle, saksnummer);
+    public static Fagsak opprettNy(NavBruker bruker, Saksnummer saksnummer) {
+        return new Fagsak(bruker, saksnummer);
     }
 
     public Long getId() {
@@ -132,21 +118,6 @@ public class Fagsak extends BaseEntitet {
 
     public boolean erÅpen() {
         return !getFagsakStatus().equals(FagsakStatus.AVSLUTTET);
-    }
-
-    public RelasjonsRolleType getRelasjonsRolleType() {
-        return brukerRolle;
-    }
-
-    void setRelasjonsRolleType(RelasjonsRolleType rolle) {
-        if (brukerRolle == null) {
-            this.brukerRolle = rolle;
-        } else if (!rolle.equals(RelasjonsRolleType.UDEFINERT) && !brukerRolle.equals(rolle)) {
-            if (!brukerRolle.equals(RelasjonsRolleType.UDEFINERT)) {
-                FagsakFeil.FACTORY.brukerHarSkiftetRolle(brukerRolle.getKode(), rolle.getKode()).log(LOGGER);
-            }
-            this.brukerRolle = rolle;
-        }
     }
 
     public FagsakStatus getStatus() {

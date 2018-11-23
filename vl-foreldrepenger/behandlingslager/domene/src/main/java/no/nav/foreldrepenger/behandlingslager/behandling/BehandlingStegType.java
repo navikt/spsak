@@ -29,7 +29,6 @@ public class BehandlingStegType extends KodeverkTabell {
 
     // Steg koder som deles av Foreldrepenger og Engangsstønad
     public static final BehandlingStegType VARSEL_REVURDERING = new BehandlingStegType("VRSLREV"); //$NON-NLS-1$
-    public static final BehandlingStegType INNHENT_SØKNADOPP = new BehandlingStegType("INSØK"); //$NON-NLS-1$
     public static final BehandlingStegType INNHENT_REGISTEROPP = new BehandlingStegType("INREG"); //$NON-NLS-1$
     public static final BehandlingStegType KONTROLLER_FAKTA = new BehandlingStegType("KOFAK"); //$NON-NLS-1$
     public static final BehandlingStegType SØKERS_RELASJON_TIL_BARN = new BehandlingStegType("VURDERSRB"); //$NON-NLS-1$

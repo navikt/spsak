@@ -20,7 +20,7 @@ public class BehandlingslagerTestUtil {
 
     public static final Fagsak buildFagsak(final Long fagsakid, final boolean erAvsluttet, FagsakYtelseType ytelseType) {
         NavBruker bruker = lagNavBruker();
-        Fagsak fagsak = Fagsak.opprettNy(ytelseType, bruker, null, new Saksnummer(fagsakid * 2 + ""));
+        Fagsak fagsak = Fagsak.opprettNy(bruker, new Saksnummer(fagsakid * 2 + ""));
         fagsak.setId(fagsakid);
         if (erAvsluttet) {
             fagsak.setAvsluttet();
