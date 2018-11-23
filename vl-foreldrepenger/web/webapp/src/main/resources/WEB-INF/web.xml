@@ -41,6 +41,9 @@
     <listener>
         <listener-class>no.nav.foreldrepenger.web.app.startupinfo.AppStartupServletContextListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>no.nav.foreldrepenger.web.app.tjenester.KafkaConsumerStarter</listener-class>
+    </listener>
 
     <security-constraint>
         <web-resource-collection>

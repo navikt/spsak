@@ -14,6 +14,7 @@ import no.nav.foreldrepenger.autotest.aktoerer.Aktoer.Rolle;
 import no.nav.foreldrepenger.autotest.sykepenger.SpsakTestBase;
 import no.nav.foreldrepenger.fpmock2.dokumentgenerator.inntektsmelding.erketyper.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.fpmock2.server.api.scenario.TestscenarioDto;
+import no.nav.sykepenger.spmock.kafka.LocalKafkaProducer;
 
 @Tag("eksempel")
 public class Inntektsmelding extends SpsakTestBase {
@@ -40,12 +41,15 @@ public class Inntektsmelding extends SpsakTestBase {
                 );
 
 
-        System.out.println(inntektsmelding.createInntektesmeldingXML());
+        final String xml = inntektsmelding.createInntektesmeldingXML();
+        System.out.println(xml);
 
-        fordel.erLoggetInnMedRolle(Rolle.SAKSBEHANDLER);
-        long saksnummer = fordel.sendInnInntektsmelding(inntektsmelding, testscenario, null);
+        new LocalKafkaProducer().sendSynkront("inntektsmelding", "111", xml);
 
-        System.out.println(saksnummer);
+        //fordel.erLoggetInnMedRolle(Rolle.SAKSBEHANDLER);
+        //long saksnummer = fordel.sendInnInntektsmelding(inntektsmelding, testscenario, null);
+
+        //System.out.println(saksnummer);
     }
 
 }

@@ -10,7 +10,20 @@ public class LocalKafkaServer {
         startKafka(2181, 9092);
     }
 
-    public static void startKafka(int zookeeperPort, int kafkaBrokerPort){
+    private static int zookeeperPort;
+    private static int kafkaBrokerPort;
+
+    public static int getZookeperPort() {
+        return zookeeperPort;
+    }
+
+    public static int getKafkaBrokerPort() {
+        return kafkaBrokerPort;
+    }
+
+    public static void startKafka(final int zookeeperPort, final int kafkaBrokerPort){
+        LocalKafkaServer.kafkaBrokerPort = kafkaBrokerPort;
+        LocalKafkaServer.zookeeperPort = zookeeperPort;
         Properties kafkaProperties = new Properties();
         Properties zkProperties = new Properties();
 
