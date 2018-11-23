@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 
@@ -24,13 +25,11 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.FødtBarnInfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.aktør.historikk.Personhistorikkinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.geografisk.PoststedKodeverkRepository;
@@ -41,15 +40,10 @@ import no.nav.foreldrepenger.behandlingslager.geografisk.SpråkKodeverkRepositor
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.person.impl.TpsAdresseOversetter;
-import no.nav.foreldrepenger.domene.person.impl.TpsOversetter;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.AktoerId;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Bostedsadresse;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Bruker;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Doedsdato;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Familierelasjon;
-import no.nav.tjeneste.virksomhet.person.v3.informasjon.Familierelasjoner;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Foedselsdato;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Gateadresse;
 import no.nav.tjeneste.virksomhet.person.v3.informasjon.Gyldighetsperiode;
@@ -437,57 +431,6 @@ public class TpsOversetterTest {
         assertThat(personstatushistorikk.get(1).getGyldighetsperiode().getFom()).isEqualTo(tomPeriode1);
         assertThat(personstatushistorikk.get(1).getGyldighetsperiode().getTom()).isEqualTo(Tid.TIDENES_ENDE);
         assertThat(personstatushistorikk.get(1).getPersonstatus().getKode()).isEqualTo(PersonstatusType.UTVA.getKode());
-    }
-
-    @Test
-    public void skal_returnere_fødte_barn_liste() throws DatatypeConfigurationException {
-        LocalDate førsteJanuarNitten = LocalDate.of(2019, 01, 01);
-        LocalDate andreFebruarNitten = LocalDate.of(2019, 02, 02);
-
-        BehandlingsgrunnlagKodeverkRepository grunnlagRepo = Mockito.mock(BehandlingsgrunnlagKodeverkRepository.class);
-        tpsOversetter = new TpsOversetter(brukerKodeverkRepository, grunnlagRepo, språkKodeverkRepository, tpsAdresseOversetter);
-
-        no.nav.tjeneste.virksomhet.person.v3.informasjon.Bruker bruker = new no.nav.tjeneste.virksomhet.person.v3.informasjon.Bruker();
-
-        no.nav.tjeneste.virksomhet.person.v3.informasjon.Person barnFnr = fødBarn("01011999928", false);
-        barnFnr.setFoedselsdato(new Foedselsdato().withFoedselsdato(DateUtil.convertToXMLGregorianCalendar(førsteJanuarNitten)));
-
-        no.nav.tjeneste.virksomhet.person.v3.informasjon.Person barnDnr = fødBarn("41011999847", true);
-        barnDnr.setFoedselsdato(new Foedselsdato().withFoedselsdato(DateUtil.convertToXMLGregorianCalendar(førsteJanuarNitten)));
-        barnDnr.setDoedsdato(new Doedsdato().withDoedsdato(DateUtil.convertToXMLGregorianCalendar(andreFebruarNitten)));
-
-        no.nav.tjeneste.virksomhet.person.v3.informasjon.Person barnFdat = fødBarn("01011900001", true);
-
-        Familierelasjoner familierelasjoner = new Familierelasjoner().withValue(RelasjonsRolleType.BARN.getKode());
-        Familierelasjon familierelasjonBarnFnr = new Familierelasjon().withTilRolle(familierelasjoner).withTilPerson(barnFnr);
-        Familierelasjon familierelasjonBarnDnr = new Familierelasjon().withTilRolle(familierelasjoner).withTilPerson(barnDnr);
-        Familierelasjon familierelasjonBarnFdat = new Familierelasjon().withTilRolle(familierelasjoner).withTilPerson(barnFdat);
-
-        List<FødtBarnInfo> fødteBarn = tpsOversetter.tilFødteBarn(bruker
-            .withHarFraRolleI(familierelasjonBarnFnr).withHarFraRolleI(familierelasjonBarnDnr).withHarFraRolleI(familierelasjonBarnFdat));
-
-        assertThat(fødteBarn).hasSize(3);
-        assertThat(fødteBarn.get(0).getFødselsdato()).isEqualTo(førsteJanuarNitten);
-        assertThat(fødteBarn.get(1).getFødselsdato()).isEqualTo(førsteJanuarNitten);
-        assertThat(fødteBarn.get(1).getDødsdato().get()).isEqualTo(andreFebruarNitten);
-        assertThat(fødteBarn.get(1).getIdent().erDnr()).isTrue();
-        assertThat(fødteBarn.get(2).getFødselsdato()).isEqualTo(førsteJanuarNitten);
-        assertThat(fødteBarn.get(2).getDødsdato().get()).isEqualTo(førsteJanuarNitten);
-        assertThat(fødteBarn.get(2).getIdent().erFdatNummer()).isTrue();
-    }
-
-    private no.nav.tjeneste.virksomhet.person.v3.informasjon.Person fødBarn(String ident, boolean erJente) {
-        Kjoenn kjønn = new Kjoenn();
-        Kjoennstyper kjønnstype = new Kjoennstyper();
-        kjønnstype.setValue(erJente ? "K" : "M");
-        kjønn.setKjoenn(kjønnstype);
-
-        no.nav.tjeneste.virksomhet.person.v3.informasjon.Person barn = new no.nav.tjeneste.virksomhet.person.v3.informasjon.Person();
-        barn.setKjoenn(kjønn);
-        barn.setAktoer(new PersonIdent().withIdent(new NorskIdent().withIdent(ident)));
-        barn.setPersonnavn(new Personnavn().withSammensattNavn("Navi Navesen"));
-
-        return barn;
     }
 
     private void initMockBrukerPersonstatus(PersonstatusType personstatusType) {

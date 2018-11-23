@@ -6,20 +6,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.Familierelasjon;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -53,11 +49,6 @@ public class BehandlendeEnhetTjenesteImplTest {
     private static Personinfo ELDRE_BARN_PINFO;
     private static LocalDate ELDRE_BARN_FØDT = LocalDate.of(2006,6,6);
     private static LocalDate BARN_FØDT = LocalDate.of(2018,3,3);
-
-    private static Familierelasjon relasjontilEldreBarn = new Familierelasjon(ELDRE_BARN_IDENT, RelasjonsRolleType.BARN, ELDRE_BARN_FØDT, "Vei", true);
-    private static Familierelasjon relasjontilBarn = new Familierelasjon(BARN_IDENT, RelasjonsRolleType.BARN, BARN_FØDT, "Vei", true);
-    private static Familierelasjon relasjontilMor = new Familierelasjon(MOR_IDENT, RelasjonsRolleType.MORA, LocalDate.of(1989,12,12), "Vei", true);
-    private static Familierelasjon relasjontilFar = new Familierelasjon(FAR_IDENT, RelasjonsRolleType.FARA, LocalDate.of(1991,11,11), "Vei", true);
 
     private static OrganisasjonsEnhet enhetNormal = new OrganisasjonsEnhet("4849", "NAV Tromsø");
 
@@ -96,19 +87,17 @@ public class BehandlendeEnhetTjenesteImplTest {
     }
 
     private void settOppTpsStrukturer(boolean medNyligFødt) {
-        HashSet<Familierelasjon> tilBarna = new HashSet<>(medNyligFødt ? Arrays.asList(relasjontilEldreBarn, relasjontilBarn) : Arrays.asList(relasjontilEldreBarn));
-        HashSet<Familierelasjon> tilForeldre = new HashSet<>(Arrays.asList(relasjontilMor, relasjontilFar));
         MOR_PINFO = new Personinfo.Builder().medAktørId(MOR_AKTØR_ID).medPersonIdent(MOR_IDENT).medNavn("Kari Dunk")
             .medNavBrukerKjønn(NavBrukerKjønn.KVINNE).medFødselsdato(LocalDate.of(1989, 12, 12)).medAdresse("Vei")
-            .medFamilierelasjon(tilBarna).build();
+            .build();
         FAR_PINFO = new Personinfo.Builder().medAktørId(FAR_AKTØR_ID).medPersonIdent(FAR_IDENT).medNavn("Ola Dunk")
             .medNavBrukerKjønn(NavBrukerKjønn.MANN).medFødselsdato(LocalDate.of(1991, 11, 11)).medAdresse("Vei")
-            .medFamilierelasjon(tilBarna).build();
+            .build();
         ELDRE_BARN_PINFO = new Personinfo.Builder().medAktørId(ELDRE_BARN_AKTØR_ID).medPersonIdent(ELDRE_BARN_IDENT).medFødselsdato(ELDRE_BARN_FØDT)
-            .medNavBrukerKjønn(NavBrukerKjønn.MANN).medNavn("Dunk junior d.e.").medAdresse("Vei").medFamilierelasjon(tilForeldre).build();
+            .medNavBrukerKjønn(NavBrukerKjønn.MANN).medNavn("Dunk junior d.e.").medAdresse("Vei").build();
         if (medNyligFødt) {
             BARN_PINFO = new Personinfo.Builder().medAktørId(BARN_AKTØR_ID).medPersonIdent(BARN_IDENT).medFødselsdato(BARN_FØDT)
-                .medNavBrukerKjønn(NavBrukerKjønn.KVINNE).medNavn("Dunk junior d.y.").medAdresse("Vei").medFamilierelasjon(tilForeldre).build();
+                .medNavBrukerKjønn(NavBrukerKjønn.KVINNE).medNavn("Dunk junior d.y.").medAdresse("Vei").build();
         } else {
             BARN_PINFO = new Personinfo.Builder().medAktørId(BARN_AKTØR_ID).medPersonIdent(BARN_IDENT).medFødselsdato(BARN_FØDT)
                 .medNavBrukerKjønn(NavBrukerKjønn.KVINNE).medNavn("Dunk junior d.y.").medAdresse("Vei").build();

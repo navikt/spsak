@@ -13,7 +13,6 @@ import no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Inntektspost;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personopplysning;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -50,9 +49,6 @@ class AvklarOmSøkerOppholderSegINorge {
         if ((harNordiskStatsborgerskap(region) == JA) || (harAnnetStatsborgerskap(region) == JA)) {
             return Optional.empty();
         }
-        if ((erGiftMedNordiskBorger(behandling) == JA) || (erGiftMedBorgerMedANNETStatsborgerskap(behandling) == JA)) {
-            return Optional.empty();
-        }
         if (harSøkerHattInntektINorgeDeSiste3Mnd(behandling, vurderingstidspunkt) == JA) {
             return Optional.empty();
         }
@@ -65,28 +61,6 @@ class AvklarOmSøkerOppholderSegINorge {
 
     private Utfall harAnnetStatsborgerskap(Region region) {
         return (region == null || Region.TREDJELANDS_BORGER.equals(region)) || Region.UDEFINERT.equals(region) ? JA : NEI;
-    }
-
-    private Utfall erGiftMedNordiskBorger(Behandling behandling) {
-        return erGiftMed(behandling, Region.NORDEN);
-    }
-
-    private Utfall erGiftMedBorgerMedANNETStatsborgerskap(Behandling behandling) {
-        Utfall utfall = erGiftMed(behandling, Region.TREDJELANDS_BORGER);
-        if (utfall == NEI) {
-            utfall = erGiftMed(behandling, Region.UDEFINERT);
-        }
-        return utfall;
-    }
-
-    private Utfall erGiftMed(Behandling behandling, Region region) {
-        Optional<Personopplysning> ektefelle = personopplysningTjeneste.hentPersonopplysninger(behandling).getEktefelle();
-        if (ektefelle.isPresent()) {
-            if (ektefelle.get().getRegion().equals(region)) {
-                return JA;
-            }
-        }
-        return NEI;
     }
 
     private Utfall harSøkerHattInntektINorgeDeSiste3Mnd(Behandling behandling, LocalDate vurderingstidspunkt) {

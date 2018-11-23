@@ -1,0 +1,1 @@
+alter table fagsak_dvh drop column eps_aktoer_id;

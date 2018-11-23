@@ -1,9 +1,5 @@
 package no.nav.foreldrepenger.domene.person.impl;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,7 +8,6 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.GeografiskTilknytning;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.domene.person.RelasjonKriteria;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -90,27 +85,11 @@ public class TpsTjenesteImpl implements TpsTjeneste {
         return Optional.ofNullable(hentGeografiskTilknytning(fnr).getDiskresjonskode());
     }
 
-    @Override
-    public List<Personinfo> hentRelatertePersoner(Personinfo personinfo, RelasjonKriteria relasjonKriteria) {
-        List<Optional<Personinfo>> listeMedOptionalRelatertePersoninfo = personinfo.getFamilierelasjoner().stream()
-            .filter(relasjonKriteria::erOppfyltAv)
-            .filter(relasjon -> relasjon.getPersonIdent() != null)
-            .map(relasjon -> this.hentBrukerForFnr(relasjon.getPersonIdent())).collect(toList());
-        List<Personinfo> relatertePersoner = new ArrayList<>();
-        for (Optional<Personinfo> optPers : listeMedOptionalRelatertePersoninfo) {
-            optPers.ifPresent(relatertePersoner::add);
-        }
-        return relatertePersoner;
-    }
 
     @Override
     public GeografiskTilknytning hentGeografiskTilknytning(PersonIdent fnr) {
         return tpsAdapter.hentGeografiskTilknytning(fnr);
     }
 
-    @Override
-    public List<GeografiskTilknytning> hentDiskresjonskoderForFamilierelasjoner(PersonIdent fnr) {
-        return tpsAdapter.hentDiskresjonskoderForFamilierelasjoner(fnr);
-    }
 
 }

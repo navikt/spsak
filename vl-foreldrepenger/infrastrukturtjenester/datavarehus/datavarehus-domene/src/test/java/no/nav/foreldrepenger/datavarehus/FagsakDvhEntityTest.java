@@ -13,7 +13,6 @@ public class FagsakDvhEntityTest {
         assertThat(fagsakDvh.getBrukerId()).isEqualTo(DatavarehusTestUtils.BRUKER_ID);
         assertThat(fagsakDvh.getBrukerAktørId()).isEqualTo(DatavarehusTestUtils.BRUKER_AKTØR_ID);
         assertThat(fagsakDvh.getEndretAv()).isEqualTo(DatavarehusTestUtils.ENDRET_AV);
-        assertThat(fagsakDvh.getEpsAktørId()).isEqualTo(DatavarehusTestUtils.EPS_AKTØR_ID);
         assertThat(fagsakDvh.getFagsakAarsak()).isEqualTo(DatavarehusTestUtils.FAGSAK_AARSAK);
         assertThat(fagsakDvh.getFagsakId()).isEqualTo(DatavarehusTestUtils.FAGSAK_ID);
         assertThat(fagsakDvh.getFagsakStatus()).isEqualTo(DatavarehusTestUtils.FAGSAK_STATUS);

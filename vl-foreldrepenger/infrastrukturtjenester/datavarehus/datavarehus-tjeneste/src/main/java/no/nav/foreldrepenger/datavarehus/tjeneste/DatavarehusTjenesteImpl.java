@@ -54,7 +54,7 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
     public void lagreNedFagsak(Long fagsakId) {
         Fagsak fagsak = fagsakRepository.finnEksaktFagsak(fagsakId);
         Optional<AktørId> annenPartAktørId = Optional.empty();
-        FagsakDvh fagsakDvh = new FagsakDvhMapper().map(fagsak, annenPartAktørId);
+        FagsakDvh fagsakDvh = new FagsakDvhMapper().map(fagsak);
         datavarehusRepository.lagre(fagsakDvh);
     }
 

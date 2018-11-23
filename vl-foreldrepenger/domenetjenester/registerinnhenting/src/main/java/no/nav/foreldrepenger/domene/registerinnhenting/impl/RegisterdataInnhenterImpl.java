@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.CDI;
@@ -22,7 +20,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.InstantUtil;
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.Familierelasjon;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.aktør.historikk.AdressePeriode;
@@ -37,7 +34,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
@@ -182,7 +178,6 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
                                                                       Behandling behandling) {
 
         final PersonInformasjonBuilder informasjonBuilder = personopplysningRepository.opprettBuilderForRegisterdata(behandling);
-        informasjonBuilder.tilbakestill(behandling.getAktørId());
 
         // Historikk for søker
         final Interval opplysningsperiooden = opplysningsPeriodeTjeneste.beregn(behandling);
@@ -194,8 +189,6 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
         }
 
         mapTilPersonopplysning(søkerPersonInfo, informasjonBuilder, false);
-        // Ektefelle
-        leggTilEktefelle(søkerPersonInfo, informasjonBuilder, behandling);
 
         return informasjonBuilder;
     }
@@ -257,25 +250,6 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
         mapInfoTilEntitet(personinfo, informasjonBuilder, erIkkeSøker);
     }
 
-    private void mapRelasjon(Personinfo fra, Personinfo til, List<RelasjonsRolleType> roller, PersonInformasjonBuilder informasjonBuilder) {
-        if (til == null) {
-            return;
-        }
-        for (RelasjonsRolleType rolle : roller) {
-            final PersonInformasjonBuilder.RelasjonBuilder builder = informasjonBuilder.getRelasjonBuilder(fra.getAktørId(), til.getAktørId(), rolle);
-            builder.harSammeBosted(utledSammeBosted(fra, til, rolle));
-            informasjonBuilder.leggTil(builder);
-        }
-    }
-
-    private boolean utledSammeBosted(Personinfo personinfo, Personinfo barn, RelasjonsRolleType rolle) {
-        final Optional<Boolean> sammeBosted = personinfo.getFamilierelasjoner().stream()
-            .filter(fr -> fr.getRelasjonsrolle().equals(rolle) && fr.getPersonIdent().equals(barn.getPersonIdent()))
-            .findAny()
-            .map(Familierelasjon::getHarSammeBosted);
-        return sammeBosted.orElse(false);
-    }
-
     private void mapInfoTilEntitet(Personinfo personinfo, PersonInformasjonBuilder informasjonBuilder, boolean lagreIHistoriskeTabeller) {
         final DatoIntervallEntitet periode = getPeriode(personinfo.getFødselsdato(), Tid.TIDENES_ENDE);
         final PersonInformasjonBuilder.PersonopplysningBuilder builder = informasjonBuilder.getPersonopplysningBuilder(personinfo.getAktørId());
@@ -318,25 +292,6 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
 
     private DatoIntervallEntitet getPeriode(LocalDate fom, LocalDate tom) {
         return DatoIntervallEntitet.fraOgMedTilOgMed(fom, tom != null ? tom : Tid.TIDENES_ENDE);
-    }
-
-    private void leggTilEktefelle(Personinfo søkerPersonInfo, PersonInformasjonBuilder informasjonBuilder, Behandling behandling) {
-        // Ektefelle
-        final List<Familierelasjon> familierelasjoner = søkerPersonInfo.getFamilierelasjoner()
-            .stream()
-            .filter(f -> f.getRelasjonsrolle().equals(RelasjonsRolleType.EKTE) ||
-                f.getRelasjonsrolle().equals(RelasjonsRolleType.REGISTRERT_PARTNER) ||
-                f.getRelasjonsrolle().equals(RelasjonsRolleType.SAMBOER))
-            .collect(Collectors.toList());
-        for (Familierelasjon familierelasjon : familierelasjoner) {
-            Optional<Personinfo> ektefelleInfo = personinfoAdapter.innhentSaksopplysninger(familierelasjon.getPersonIdent());
-            if (ektefelleInfo.isPresent()) {
-                final Personinfo personinfo = ektefelleInfo.get();
-                mapTilPersonopplysning(personinfo, informasjonBuilder, true);
-                mapRelasjon(søkerPersonInfo, personinfo, Collections.singletonList(familierelasjon.getRelasjonsrolle()), informasjonBuilder);
-                mapRelasjon(personinfo, søkerPersonInfo, Collections.singletonList(familierelasjon.getRelasjonsrolle()), informasjonBuilder);
-            }
-        }
     }
 
     @Override

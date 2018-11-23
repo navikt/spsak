@@ -48,10 +48,6 @@ public class PersonInformasjonEntitet extends BaseEntitet implements PersonInfor
     @OneToMany(mappedBy = REF_NAME)
     private List<PersonopplysningEntitet> personopplysninger = new ArrayList<>();
 
-    @ChangeTracked
-    @OneToMany(mappedBy = REF_NAME)
-    private List<PersonRelasjonEntitet> relasjoner = new ArrayList<>();
-
     PersonInformasjonEntitet() {
     }
 
@@ -77,14 +73,6 @@ public class PersonInformasjonEntitet extends BaseEntitet implements PersonInfor
                 .forEach(e -> {
                     StatsborgerskapEntitet entitet = new StatsborgerskapEntitet(e);
                     statsborgerskap.add(entitet);
-                    entitet.setPersonopplysningInformasjon(this);
-                });
-        }
-        if (Optional.ofNullable(aggregat.getRelasjoner()).isPresent()) {
-            aggregat.getRelasjoner()
-                .forEach(e -> {
-                    PersonRelasjonEntitet entitet = new PersonRelasjonEntitet(e);
-                    relasjoner.add(entitet);
                     entitet.setPersonopplysningInformasjon(this);
                 });
         }
@@ -116,12 +104,6 @@ public class PersonInformasjonEntitet extends BaseEntitet implements PersonInfor
         this.personstatuser.add(personstatus1);
     }
 
-    void leggTilPersonrelasjon(PersonRelasjon relasjon) {
-        final PersonRelasjonEntitet relasjon1 = (PersonRelasjonEntitet) relasjon;
-        relasjon1.setPersonopplysningInformasjon(this);
-        this.relasjoner.add(relasjon1);
-    }
-
     void leggTilPersonopplysning(Personopplysning personopplysning) {
         final PersonopplysningEntitet personopplysning1 = (PersonopplysningEntitet) personopplysning;
         personopplysning1.setPersonopplysningInformasjon(this);
@@ -132,17 +114,12 @@ public class PersonInformasjonEntitet extends BaseEntitet implements PersonInfor
         this.personopplysninger.removeIf(e -> e.getAktørId().equals(aktørId));
     }
 
-    void fjernPersonrelasjon(PersonRelasjon relasjon) {
-        relasjoner.removeIf(e -> e.equals(relasjon));
-    }
-
     /**
      * Rydder bort alt unntatt personopplysninger
      */
     void tilbakestill() {
         this.adresser.clear();
         this.personstatuser.clear();
-        this.relasjoner.clear();
         this.statsborgerskap.clear();
     }
 
@@ -150,11 +127,6 @@ public class PersonInformasjonEntitet extends BaseEntitet implements PersonInfor
         Objects.requireNonNull(aktørId, "aktørId");
         final Optional<PersonopplysningEntitet> eksisterendeAktør = personopplysninger.stream().filter(it -> it.getAktørId().equals(aktørId)).findFirst();
         return PersonInformasjonBuilder.PersonopplysningBuilder.oppdater(eksisterendeAktør).medAktørId(aktørId);
-    }
-
-    @Override
-    public List<PersonRelasjon> getRelasjoner() {
-        return Collections.unmodifiableList(relasjoner);
     }
 
     @Override
@@ -185,13 +157,12 @@ public class PersonInformasjonEntitet extends BaseEntitet implements PersonInfor
         return Objects.equals(personstatuser, that.personstatuser) &&
             Objects.equals(statsborgerskap, that.statsborgerskap) &&
             Objects.equals(adresser, that.adresser) &&
-            Objects.equals(personopplysninger, that.personopplysninger) &&
-            Objects.equals(relasjoner, that.relasjoner);
+            Objects.equals(personopplysninger, that.personopplysninger);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(personstatuser, statsborgerskap, adresser, personopplysninger, relasjoner);
+        return Objects.hash(personstatuser, statsborgerskap, adresser, personopplysninger);
     }
 
     @Override
@@ -202,16 +173,8 @@ public class PersonInformasjonEntitet extends BaseEntitet implements PersonInfor
         sb.append(", statsborgerskap=").append(statsborgerskap);
         sb.append(", adresser=").append(adresser);
         sb.append(", personopplysninger=").append(personopplysninger);
-        sb.append(", relasjoner=").append(relasjoner);
         sb.append('}');
         return sb.toString();
-    }
-
-    PersonInformasjonBuilder.RelasjonBuilder getRelasjonBuilderForAktørId(AktørId fraAktør, AktørId tilAktør, RelasjonsRolleType rolle) {
-        final Optional<PersonRelasjonEntitet> eksisterende = relasjoner.stream()
-            .filter(it -> it.getAktørId().equals(fraAktør) && it.getTilAktørId().equals(tilAktør) && it.getRelasjonsrolle().equals(rolle))
-            .findAny();
-        return PersonInformasjonBuilder.RelasjonBuilder.oppdater(eksisterende).fraAktør(fraAktør).tilAktør(tilAktør).medRolle(rolle);
     }
 
     PersonInformasjonBuilder.AdresseBuilder getAdresseBuilderForAktørId(AktørId aktørId, AdresseType type, DatoIntervallEntitet periode) {

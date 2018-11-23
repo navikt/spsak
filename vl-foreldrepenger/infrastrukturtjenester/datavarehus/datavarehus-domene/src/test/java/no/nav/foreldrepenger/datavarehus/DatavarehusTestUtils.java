@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.datavarehus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class DatavarehusTestUtils {
     protected static final String AKSJONSPUNKT_DEF = "aksjonspunktDef";
@@ -25,7 +24,6 @@ public class DatavarehusTestUtils {
     protected static final String BRUKER_AKTØR_ID = "55";
     protected static final long BRUKER_ID = 142L;
     protected static final String ENDRET_AV = "endret_av";
-    protected static final String EPS_AKTØR_ID = "242";
     protected static final long FAGSAK_ID = 342L;
     protected static final String FAGSAK_STATUS = "fagsakStatus";
     protected static final long FAGSAK_TRANS_ID_MAX = 5L;
@@ -111,7 +109,6 @@ public class DatavarehusTestUtils {
                 .brukerId(BRUKER_ID)
                 .brukerAktørId(BRUKER_AKTØR_ID)
                 .endretAv(ENDRET_AV)
-                .epsAktørId(Optional.of(EPS_AKTØR_ID))
                 .fagsakAarsak(FAGSAK_AARSAK)
                 .fagsakId(FAGSAK_ID)
                 .fagsakStatus(FAGSAK_STATUS)

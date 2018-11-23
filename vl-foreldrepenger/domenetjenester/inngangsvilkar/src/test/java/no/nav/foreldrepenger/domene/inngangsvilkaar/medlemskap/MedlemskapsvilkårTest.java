@@ -37,7 +37,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapMa
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -620,24 +619,15 @@ public class MedlemskapsvilkårTest {
 
     private void leggTilSøker(ScenarioMorSøkerEngangsstønad scenario, PersonstatusType personstatus, Region region, Landkoder statsborgerskapLand) {
         Builder builderForRegisteropplysninger = scenario.opprettBuilderForRegisteropplysninger();
-        AktørId barnAktørId = new AktørId("123");
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
-
-        PersonInformasjon fødtBarn = builderForRegisteropplysninger
-            .medPersonas()
-            .fødtBarn(barnAktørId, LocalDate.now().plusDays(7))
-            .relasjonTil(søkerAktørId, RelasjonsRolleType.MORA, null)
-            .build();
 
         PersonInformasjon søker = builderForRegisteropplysninger
             .medPersonas()
             .kvinne(søkerAktørId, SivilstandType.GIFT, region)
             .statsborgerskap(statsborgerskapLand)
             .personstatus(personstatus)
-            .relasjonTil(barnAktørId, RelasjonsRolleType.BARN, null)
             .build();
         scenario.medRegisterOpplysninger(søker);
-        scenario.medRegisterOpplysninger(fødtBarn);
     }
 
 

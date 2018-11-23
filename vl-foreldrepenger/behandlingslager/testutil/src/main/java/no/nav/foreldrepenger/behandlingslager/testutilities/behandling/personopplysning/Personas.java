@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
@@ -140,14 +139,4 @@ public class Personas {
         return builder.build();
     }
 
-    public Personas relasjonTil(AktørId tilAktørId, RelasjonsRolleType rolle) {
-        Boolean sammeBosted = true;
-        return relasjonTil(tilAktørId, rolle, sammeBosted);
-    }
-
-    public Personas relasjonTil(AktørId tilAktørId, RelasjonsRolleType rolle, Boolean sammeBosted) {
-        builder.leggTilRelasjon(PersonRelasjon.builder().fraAktørId(aktørId).tilAktørId(tilAktørId).relasjonsrolle(rolle).harSammeBosted(sammeBosted));
-        return this;
-    }
-    
 }

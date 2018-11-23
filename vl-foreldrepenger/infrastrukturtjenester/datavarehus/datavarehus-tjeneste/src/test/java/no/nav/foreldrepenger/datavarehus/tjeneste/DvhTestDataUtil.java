@@ -26,7 +26,6 @@ class DvhTestDataUtil {
     static final long BEHANDLING_STEG_ID = 42L;
     static final Saksnummer SAKSNUMMER  = new Saksnummer("12345");
     static final long VEDTAK_ID = 234L;
-    static final AktørId ANNEN_PART_AKTØR_ID = new AktørId("432");
     static LocalDateTime OPPRETTET_TID = LocalDateTime.parse("2017-10-11T08:00");
     static LocalDate VEDTAK_DATO = LocalDate.parse("2017-10-11");
 }

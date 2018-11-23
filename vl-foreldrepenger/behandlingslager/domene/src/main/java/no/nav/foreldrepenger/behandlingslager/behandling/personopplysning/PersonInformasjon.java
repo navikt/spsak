@@ -5,13 +5,6 @@ import java.util.List;
 public interface PersonInformasjon {
 
     /**
-     * Relasjoner mellom to aktører
-     *
-     * @return entitet
-     */
-    List<PersonRelasjon> getRelasjoner();
-
-    /**
      * Alle relevante aktørers personopplysninger
      *
      * @return entitet

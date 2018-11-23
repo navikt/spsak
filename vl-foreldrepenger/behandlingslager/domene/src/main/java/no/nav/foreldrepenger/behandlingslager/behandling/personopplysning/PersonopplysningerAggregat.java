@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.personopplysning;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -20,7 +20,6 @@ public class PersonopplysningerAggregat {
 
     private final AktørId søkerAktørId;
     private final List<Personopplysning> allePersonopplysninger;
-    private final List<PersonRelasjon> alleRelasjoner;
     private final List<PersonAdresse> aktuelleAdresser;
     private final List<Personstatus> aktuellePersonstatus;
     private final List<Personstatus> overstyrtPersonstatus;
@@ -32,7 +31,6 @@ public class PersonopplysningerAggregat {
         this.søkerAktørId = aktørId;
         this.forPeriode = forPeriode;
         if (grunnlag.getRegisterVersjon() != null) {
-            this.alleRelasjoner = grunnlag.getRegisterVersjon().getRelasjoner();
             this.allePersonopplysninger = grunnlag.getRegisterVersjon().getPersonopplysninger();
             this.aktuelleAdresser = grunnlag.getRegisterVersjon().getAdresser()
                 .stream()
@@ -62,7 +60,6 @@ public class PersonopplysningerAggregat {
                 .peek(sb -> ((StatsborgerskapEntitet) sb).setRegion(landkoderRegionMap.get(sb.getStatsborgerskap())))
                 .collect(Collectors.toList());
         } else {
-            this.alleRelasjoner = Collections.emptyList();
             this.allePersonopplysninger = Collections.emptyList();
             this.aktuelleAdresser = Collections.emptyList();
             this.aktuellePersonstatus = Collections.emptyList();
@@ -86,10 +83,6 @@ public class PersonopplysningerAggregat {
 
     public List<Personopplysning> getPersonopplysninger() {
         return Collections.unmodifiableList(allePersonopplysninger);
-    }
-
-    public List<PersonRelasjon> getRelasjoner() {
-        return Collections.unmodifiableList(alleRelasjoner);
     }
 
     public List<Personstatus> getPersonstatuserFor(AktørId aktørId) {
@@ -169,38 +162,8 @@ public class PersonopplysningerAggregat {
             .collect(Collectors.toList());
     }
 
-    public Optional<Personopplysning> getEktefelle() {
-        List<Personopplysning> personer = getTilPersonerFor(søkerAktørId, RelasjonsRolleType.EKTE);
-        return personer.isEmpty() ? Optional.empty() : Optional.of(personer.get(0));
-    }
-
-    public List<PersonRelasjon> getSøkersRelasjoner() {
-        return finnRelasjon(søkerAktørId);
-    }
-
     public Map<AktørId, Personopplysning> getAktørPersonopplysningMap() {
         return getPersonopplysninger().stream().collect(Collectors.toMap(Personopplysning::getAktørId, Function.identity()));
-    }
-
-    public List<Personopplysning> getTilPersonerFor(AktørId fraAktørId, RelasjonsRolleType relasjonsRolleType) {
-        List<AktørId> tilAktører = alleRelasjoner.stream()
-            .filter(e -> e.getRelasjonsrolle().equals(relasjonsRolleType) && e.getAktørId().equals(fraAktørId))
-            .map(PersonRelasjon::getTilAktørId)
-            .collect(Collectors.toList());
-
-        List<Personopplysning> tilPersoner = new ArrayList<>();
-        tilAktører.forEach(e -> {
-            allePersonopplysninger.stream()
-                .filter(po -> po.getAktørId().equals(e))
-                .forEach(p -> tilPersoner.add(p));
-        });
-        return Collections.unmodifiableList(tilPersoner);
-    }
-
-    private List<PersonRelasjon> finnRelasjon(AktørId fraAktørId) {
-        return getRelasjoner().stream()
-            .filter(e -> e.getAktørId().equals(fraAktørId))
-            .collect(Collectors.toList());
     }
 
     @Override
@@ -212,7 +175,6 @@ public class PersonopplysningerAggregat {
         PersonopplysningerAggregat that = (PersonopplysningerAggregat) o;
         return Objects.equals(søkerAktørId, that.søkerAktørId) &&
             Objects.equals(allePersonopplysninger, that.allePersonopplysninger) &&
-            Objects.equals(alleRelasjoner, that.alleRelasjoner) &&
             Objects.equals(aktuelleAdresser, that.aktuelleAdresser) &&
             Objects.equals(aktuellePersonstatus, that.aktuellePersonstatus) &&
             Objects.equals(aktuelleStatsborgerskap, that.aktuelleStatsborgerskap);
@@ -220,7 +182,7 @@ public class PersonopplysningerAggregat {
 
     @Override
     public int hashCode() {
-        return Objects.hash(søkerAktørId, allePersonopplysninger, alleRelasjoner, aktuelleAdresser, aktuellePersonstatus, aktuelleStatsborgerskap);
+        return Objects.hash(søkerAktørId, allePersonopplysninger, aktuelleAdresser, aktuellePersonstatus, aktuelleStatsborgerskap);
     }
 
     @Override

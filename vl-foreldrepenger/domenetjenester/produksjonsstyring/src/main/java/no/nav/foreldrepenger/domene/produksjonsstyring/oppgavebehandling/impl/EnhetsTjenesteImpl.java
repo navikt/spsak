@@ -54,13 +54,6 @@ public class EnhetsTjenesteImpl implements EnhetsTjeneste {
 
         GeografiskTilknytning geografiskTilknytning = tpsTjeneste.hentGeografiskTilknytning(fnr);
         String aktivDiskresjonskode = geografiskTilknytning.getDiskresjonskode();
-        if (!Diskresjonskode.KODE6.getKode().equals(aktivDiskresjonskode)) {
-            boolean relasjonMedK6 = tpsTjeneste.hentDiskresjonskoderForFamilierelasjoner(fnr).stream()
-                .anyMatch(geo -> Diskresjonskode.KODE6.getKode().equals(geo.getDiskresjonskode()));
-            if (relasjonMedK6) {
-                aktivDiskresjonskode = Diskresjonskode.KODE6.getKode();
-            }
-        }
 
         return arbeidsfordelingTjeneste.finnBehandlendeEnhet(geografiskTilknytning.getTilknytning(), aktivDiskresjonskode, behandlingTema);
     }

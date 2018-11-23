@@ -5,9 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
@@ -27,7 +25,6 @@ public class Personinfo {
     private LocalDate dødsdato;
     private PersonstatusType personstatus;
     private NavBrukerKjønn kjønn;
-    private Set<Familierelasjon> familierelasjoner = Collections.emptySet();
     private Statsborgerskap statsborgerskap;
     private Region region;
     private String utlandsadresse;
@@ -69,10 +66,6 @@ public class Personinfo {
 
     public int getAlder() {
         return (int) ChronoUnit.YEARS.between(fødselsdato, LocalDate.now(FPDateUtil.getOffset()));
-    }
-
-    public Set<Familierelasjon> getFamilierelasjoner() {
-        return Collections.unmodifiableSet(familierelasjoner);
     }
 
     public boolean erKvinne() {
@@ -183,11 +176,6 @@ public class Personinfo {
 
         public Builder medNavBrukerKjønn(NavBrukerKjønn kjønn) {
             personinfoMal.kjønn = kjønn;
-            return this;
-        }
-
-        public Builder medFamilierelasjon(Set<Familierelasjon> familierelasjon) {
-            personinfoMal.familierelasjoner = familierelasjon;
             return this;
         }
 

@@ -52,30 +52,6 @@ public class PersonopplysningDtoPersonIdentTjeneste {
         dto.setFnr(findFnr(dto.getAktoerId(), tpsFnrFinder)); // forelder / soeker
         dto.setDiskresjonskode(findKode(dto.getFnr(), tpsKodeFinder));
 
-        // Medsoker
-        if (dto.getAnnenPart() != null) {
-            dto.getAnnenPart().setFnr(findFnr(dto.getAnnenPart().getAktoerId(), tpsFnrFinder));
-            dto.getAnnenPart().setDiskresjonskode(findKode(dto.getAnnenPart().getFnr(), tpsKodeFinder));
-            // Medsøkers barn
-            if (!dto.getAnnenPart().getBarn().isEmpty()) {
-                for (PersonopplysningDto dtoBarn : dto.getAnnenPart().getBarn()) {
-                    dtoBarn.setFnr(findFnr(dtoBarn.getAktoerId(), tpsFnrFinder));
-                    dtoBarn.setDiskresjonskode(findKode(dtoBarn.getFnr(), tpsKodeFinder));
-                }
-            }
-        }
-
-        // ektefelle
-        if (dto.getEktefelle() != null) {
-            dto.getEktefelle().setFnr(findFnr(dto.getEktefelle().getAktoerId(), tpsFnrFinder));
-            dto.getEktefelle().setDiskresjonskode(findKode(dto.getEktefelle().getFnr(), tpsKodeFinder));
-        }
-
-        // Barn
-        for (PersonopplysningDto dtoBarn : dto.getBarn()) {
-            dtoBarn.setFnr(findFnr(dtoBarn.getAktoerId(), tpsFnrFinder));
-            dtoBarn.setDiskresjonskode(findKode(dtoBarn.getFnr(), tpsKodeFinder));
-        }
     }
 
     private Diskresjonskode findKode(String fnr, Function<String, Optional<String>> tpsKodeFinder) {

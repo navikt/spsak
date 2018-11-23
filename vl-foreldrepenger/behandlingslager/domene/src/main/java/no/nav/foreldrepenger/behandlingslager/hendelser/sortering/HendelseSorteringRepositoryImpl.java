@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 
@@ -61,20 +60,7 @@ public class HendelseSorteringRepositoryImpl implements HendelseSorteringReposit
                 "INNER JOIN FAGSAK ON BRUKER.ID = FAGSAK.BRUKER_ID " +
                 "WHERE BRUKER.AKTOER_ID IN (:aktørIder) " +
                 "AND FAGSAK.FAGSAK_STATUS <> 'AVSLU'" +
-                "AND FAGSAK.YTELSE_TYPE <> 'ES'" +
-                "UNION ALL " +
-                "(SELECT SO_ANNEN_PART.AKTOER_ID FROM SO_ANNEN_PART " +
-                "INNER JOIN SO_SOEKNAD ON SO_ANNEN_PART.ID = SO_SOEKNAD.ANNEN_PART_ID " +
-                "WHERE SO_ANNEN_PART.AKTOER_ID IN (:aktørIder)) " +
-                "UNION ALL " +
-                "(SELECT por.TIL_AKTOER_ID From GR_PERSONOPPLYSNING grp " +
-                "JOIN PO_INFORMASJON poi ON grp.registrert_informasjon_id = poi.ID " +
-                "JOIN PO_RELASJON por ON poi.ID = por.po_informasjon_id " +
-                "WHERE grp.aktiv = 'J' " +
-                "AND por.relasjonsrolle = :relasjonsRolle " +
-                "AND por.TIL_AKTOER_ID IN (:aktørIder))" +
-                ")")
-            .setParameter("relasjonsRolle", RelasjonsRolleType.BARN.getKode())
+                "AND FAGSAK.YTELSE_TYPE <> 'ES'")
             .setParameter("aktørIder", aktørIdListe.stream().map(AktørId::getId).collect(Collectors.toCollection(LinkedHashSet::new)));
         return query;
     }

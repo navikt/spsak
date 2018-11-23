@@ -98,7 +98,6 @@
     <sequence-generator name="SEQ_PO_PERSONOPPLYSNING" allocation-size="50" sequence-name="SEQ_PO_PERSONOPPLYSNING"/>
     <sequence-generator name="SEQ_PO_PERSONSTATUS" allocation-size="50" sequence-name="SEQ_PO_PERSONSTATUS"/>
     <sequence-generator name="SEQ_PO_STATSBORGERSKAP" allocation-size="50" sequence-name="SEQ_PO_STATSBORGERSKAP"/>
-    <sequence-generator name="SEQ_PO_RELASJON" allocation-size="50" sequence-name="SEQ_PO_RELASJON"/>
     <sequence-generator name="SEQ_PO_ADRESSE" allocation-size="50" sequence-name="SEQ_PO_ADRESSE"/>
 
     <sequence-generator name="SEQ_VERGE" allocation-size="50" sequence-name="SEQ_VERGE"/>
@@ -259,13 +258,11 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Diskresjonskode"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.OpplysningsKilde"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlagEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonAdresseEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonstatusEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonRelasjonEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.StatsborgerskapEntitet"/>
 
     <!-- InntektArbeidYtelser aggregat og grunnlag-->

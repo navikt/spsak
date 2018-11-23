@@ -5,7 +5,6 @@ import java.util.Set;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 
 public interface Søknad {
 
@@ -30,6 +29,4 @@ public interface Søknad {
     OppgittOpptjening getOppgittOpptjening();
 
     boolean erEndringssøknad();
-
-    RelasjonsRolleType getRelasjonsRolleType();
 }

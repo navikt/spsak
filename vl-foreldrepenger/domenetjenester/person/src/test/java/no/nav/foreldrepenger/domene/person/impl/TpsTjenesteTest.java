@@ -1,18 +1,11 @@
 package no.nav.foreldrepenger.domene.person.impl;
 
-import static java.util.Collections.singletonList;
 import static no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn.KVINNE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,15 +16,12 @@ import org.junit.rules.ExpectedException;
 import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;
-import no.nav.foreldrepenger.behandlingslager.aktør.Familierelasjon;
 import no.nav.foreldrepenger.behandlingslager.aktør.GeografiskTilknytning;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.aktør.historikk.Personhistorikkinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.person.RelasjonKriteria;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -60,8 +50,6 @@ public class TpsTjenesteTest {
     private static final AktørId AKTØR_ID_RELASJON = new AktørId("3");
     private static final PersonIdent FNR_RELASJON = new PersonIdent("01345678901");
     private static final LocalDate FØDSELSDATO_RELASJON = LocalDate.of(2017, Month.JANUARY, 1);
-    private static final Familierelasjon FAMILIERELASJON = new Familierelasjon(FNR_RELASJON, RelasjonsRolleType.BARN, FØDSELSDATO_RELASJON,
-        "Adresse", true);
 
     private TpsTjeneste tpsTjeneste;
 
@@ -120,19 +108,6 @@ public class TpsTjenesteTest {
         tpsTjeneste.hentBrukerForAktør(AKTØR_ID_SOM_TRIGGER_EXCEPTION);
     }
 
-    @Test
-    public void skal_hente_relaterte_personer() {
-        TpsAdapterMock tpsAdapterMock = new TpsAdapterMock();
-        Personinfo personinfo = tpsAdapterMock.hentKjerneinformasjon(FNR, AKTØR_ID);
-        RelasjonKriteria relasjonKriteriaMock = mock(RelasjonKriteria.class);
-        when(relasjonKriteriaMock.erOppfyltAv(any(Familierelasjon.class))).thenReturn(true);
-
-        List<Personinfo> relaterte = tpsTjeneste.hentRelatertePersoner(personinfo, relasjonKriteriaMock);
-
-        assertThat(relaterte).isNotNull();
-        assertThat(relaterte).hasSize(1);
-    }
-
     private class TpsAdapterMock implements TpsAdapter {
         private static final String ADR1 = "Adresselinje1";
         private static final String ADR2 = "Adresselinje2";
@@ -166,7 +141,6 @@ public class TpsTjenesteTest {
                 .medNavn(NAVN)
                 .medFødselsdato(FØDSELSDATO)
                 .medNavBrukerKjønn(KVINNE)
-                .medFamilierelasjon(new HashSet<>(singletonList(FAMILIERELASJON)))
                 .build();
         }
 
@@ -195,11 +169,6 @@ public class TpsTjenesteTest {
             }
             throw TpsFeilmeldinger.FACTORY.geografiskTilknytningIkkeFunnet(
                 new HentGeografiskTilknytningPersonIkkeFunnet("finner ikke person", new PersonIkkeFunnet())).toException();
-        }
-
-        @Override
-        public List<GeografiskTilknytning> hentDiskresjonskoderForFamilierelasjoner(PersonIdent fnr) {
-            return Collections.emptyList();
         }
     }
 }

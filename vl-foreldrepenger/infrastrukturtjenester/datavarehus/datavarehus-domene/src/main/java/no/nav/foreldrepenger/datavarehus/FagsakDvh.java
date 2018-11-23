@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.datavarehus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,9 +28,6 @@ public class FagsakDvh extends DvhBaseEntitet {
 
     @Column(name = "BRUKER_AKTOER_ID", nullable = false)
     private String brukerAktørId;
-
-    @Column(name = "EPS_AKTOER_ID")
-    private String epsAktørId;
 
     @Column(name = "OPPRETTET_DATO", nullable = false)
     private LocalDate opprettetDato;
@@ -66,10 +62,6 @@ public class FagsakDvh extends DvhBaseEntitet {
 
     public String getBrukerAktørId() {
         return brukerAktørId;
-    }
-
-    public String getEpsAktørId() {
-        return epsAktørId;
     }
 
     public LocalDate getOpprettetDato() {
@@ -107,7 +99,6 @@ public class FagsakDvh extends DvhBaseEntitet {
         return Objects.equals(fagsakId, castOther.fagsakId)
                 && Objects.equals(brukerId, castOther.brukerId)
                 && Objects.equals(brukerAktørId, castOther.brukerAktørId)
-                && Objects.equals(epsAktørId, castOther.epsAktørId)
                 && Objects.equals(opprettetDato, castOther.opprettetDato)
                 && Objects.equals(saksnummer, castOther.saksnummer)
                 && Objects.equals(fagsakStatus, castOther.fagsakStatus)
@@ -117,7 +108,7 @@ public class FagsakDvh extends DvhBaseEntitet {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), fagsakId, brukerId, brukerAktørId, epsAktørId, opprettetDato, saksnummer, fagsakStatus,
+        return Objects.hash(super.hashCode(), fagsakId, brukerId, brukerAktørId, opprettetDato, saksnummer, fagsakStatus,
                 fagsakYtelse, fagsakAarsak);
     }
 
@@ -129,7 +120,6 @@ public class FagsakDvh extends DvhBaseEntitet {
         private Long fagsakId;
         private Long brukerId;
         private String brukerAktørId;
-        private String epsAktørId;
         private LocalDate opprettetDato;
         private Long saksnummer;
         private String fagsakStatus;
@@ -150,11 +140,6 @@ public class FagsakDvh extends DvhBaseEntitet {
 
         public Builder brukerAktørId(String brukerAktørId) {
             this.brukerAktørId = brukerAktørId;
-            return this;
-        }
-
-        public Builder epsAktørId(Optional<String> epsAktørId) {
-            epsAktørId.ifPresent(aLong -> this.epsAktørId = aLong);
             return this;
         }
 
@@ -207,7 +192,6 @@ public class FagsakDvh extends DvhBaseEntitet {
             fagsakDvh.fagsakId = fagsakId;
             fagsakDvh.brukerId = brukerId;
             fagsakDvh.brukerAktørId = brukerAktørId;
-            fagsakDvh.epsAktørId = epsAktørId;
             fagsakDvh.opprettetDato = opprettetDato;
             fagsakDvh.saksnummer = saksnummer;
             fagsakDvh.fagsakStatus = fagsakStatus;

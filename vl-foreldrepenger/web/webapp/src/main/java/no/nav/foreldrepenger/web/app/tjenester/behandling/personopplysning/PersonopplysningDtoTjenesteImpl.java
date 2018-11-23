@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.personopplysning;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -22,7 +21,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeAggregat;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.søknad.SøknadDtoFeil;
 
 @ApplicationScoped
 public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjeneste {
@@ -106,19 +104,7 @@ public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjene
 
         PersonopplysningDto dto = enkelMapping(søker, aggregat);
 
-        dto.setBarnSoktFor(Collections.emptyList());
-
         repositoryProvider.getSøknadRepository().hentSøknad(behandlingId);
-
-        Optional<Personopplysning> ektefelleOpt = aggregat.getEktefelle();
-        if (ektefelleOpt.isPresent() && ektefelleOpt.get().equals(søker)) {
-            throw SøknadDtoFeil.FACTORY.kanIkkeVæreSammePersonSomSøker().toException();
-        }
-
-        if (ektefelleOpt.isPresent()) {
-            PersonopplysningDto ektefelle = enkelMapping(ektefelleOpt.get(), aggregat);
-            dto.setEktefelle(ektefelle);
-        }
 
         if (harVerge(behandlingId, repositoryProvider)) {
             dto.setHarVerge(true);

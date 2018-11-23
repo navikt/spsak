@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.domene.person;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.threeten.extra.Interval;
@@ -29,5 +28,4 @@ public interface TpsAdapter {
      */
     GeografiskTilknytning hentGeografiskTilknytning(PersonIdent personIdent);
 
-    List<GeografiskTilknytning> hentDiskresjonskoderForFamilierelasjoner(PersonIdent personIdent);
 }

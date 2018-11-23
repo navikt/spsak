@@ -24,11 +24,6 @@ public class PersonopplysningDto extends PersonIdentDto {
     private List<PersonadresseDto> adresser = new ArrayList<>();
 
     private Region region;
-    private PersonopplysningDto annenPart;
-    private PersonopplysningDto ektefelle;
-    private List<PersonopplysningDto> barn = new ArrayList<>();
-    private List<PersonopplysningDto> barnSoktFor = new ArrayList<>();
-    private List<PersonopplysningDto> barnFraTpsRelatertTilSoknad = new ArrayList<>();
     private OpplysningsKilde opplysningsKilde = OpplysningsKilde.UDEFINERT;
     private boolean harVerge;
 
@@ -94,46 +89,6 @@ public class PersonopplysningDto extends PersonIdentDto {
 
     void setAdresser(List<PersonadresseDto> adresser) {
         this.adresser = adresser;
-    }
-
-    public PersonopplysningDto getAnnenPart() {
-        return annenPart;
-    }
-
-    void setAnnenPart(PersonopplysningDto annenPart) {
-        this.annenPart = annenPart;
-    }
-
-    public PersonopplysningDto getEktefelle() {
-        return ektefelle;
-    }
-
-    void setEktefelle(PersonopplysningDto ektefelle) {
-        this.ektefelle = ektefelle;
-    }
-
-    public List<PersonopplysningDto> getBarn() {
-        return barn;
-    }
-
-    void setBarn(List<PersonopplysningDto> barn) {
-        this.barn = barn;
-    }
-
-    public List<PersonopplysningDto> getBarnSoktFor() {
-        return barnSoktFor;
-    }
-
-    void setBarnSoktFor(List<PersonopplysningDto> barnSoktFor) {
-        this.barnSoktFor = barnSoktFor;
-    }
-
-    public List<PersonopplysningDto> getBarnFraTpsRelatertTilSoknad() {
-        return barnFraTpsRelatertTilSoknad;
-    }
-
-    void setBarnFraTpsRelatertTilSoknad(List<PersonopplysningDto> barnFraTpsRelatertTilSoknad) {
-        this.barnFraTpsRelatertTilSoknad = barnFraTpsRelatertTilSoknad;
     }
 
     public Region getRegion() {

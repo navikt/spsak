@@ -136,9 +136,6 @@ public class PersonopplysningRepositoryImpl implements PersonopplysningRepositor
         for (PersonAdresse entitet : registerVersjon.getAdresser()) {
             entityManager.persist(entitet);
         }
-        for (PersonRelasjon entitet : registerVersjon.getRelasjoner()) {
-            entityManager.persist(entitet);
-        }
         for (Personstatus entitet : registerVersjon.getPersonstatus()) {
             entityManager.persist(entitet);
         }

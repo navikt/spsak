@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.domene.person.impl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -161,19 +160,4 @@ public class TpsAdapterImpl implements TpsAdapter {
         }
     }
 
-    @Override
-    public List<GeografiskTilknytning> hentDiskresjonskoderForFamilierelasjoner(PersonIdent personIdent) {
-        HentPersonRequest request = new HentPersonRequest();
-        request.setAktoer(TpsUtil.lagPersonIdent(personIdent.getIdent()));
-        request.getInformasjonsbehov().add(Informasjonsbehov.FAMILIERELASJONER);
-        try {
-            HentPersonResponse response = personConsumer.hentPersonResponse(request);
-            Person person = response.getPerson();
-            return tpsOversetter.tilDiskresjonsKoder(person);
-        } catch (HentPersonPersonIkkeFunnet e) {
-            throw TpsFeilmeldinger.FACTORY.fantIkkePerson(e).toException();
-        } catch (HentPersonSikkerhetsbegrensning e) {
-            throw TpsFeilmeldinger.FACTORY.tpsUtilgjengeligSikkerhetsbegrensning(e).toException();
-        }
-    }
 }

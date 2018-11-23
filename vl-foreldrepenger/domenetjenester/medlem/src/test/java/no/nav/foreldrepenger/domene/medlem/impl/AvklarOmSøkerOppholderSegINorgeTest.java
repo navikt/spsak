@@ -19,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -127,90 +126,6 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
     }
 
     @Test
-    public void skal_ikke_opprette_aksjonspunkt_om_soker_er_gift_med_nordisk() {
-        // Arrange
-        LocalDate termindato = LocalDate.now();
-
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
-        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
-        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
-            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
-        builderb.leggTil(sykemeldingBuilder);
-        scenario.medSykefravær(builderb);
-        AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
-        AktørId annenPartAktørId = new AktørId("999");
-
-        PersonInformasjon.Builder builderForRegisteropplysninger = scenario.opprettBuilderForRegisteropplysninger();
-
-        PersonInformasjon gift = builderForRegisteropplysninger
-            .medPersonas()
-            .mann(annenPartAktørId, SivilstandType.GIFT, Region.NORDEN)
-            .statsborgerskap(Landkoder.FIN)
-            .relasjonTil(søkerAktørId, RelasjonsRolleType.EKTE)
-            .build();
-        scenario.medRegisterOpplysninger(gift);
-
-        PersonInformasjon søker = builderForRegisteropplysninger
-            .medPersonas()
-            .kvinne(søkerAktørId, SivilstandType.GIFT, Region.EOS)
-            .statsborgerskap(Landkoder.ESP)
-            .relasjonTil(annenPartAktørId, RelasjonsRolleType.EKTE)
-            .build();
-
-        scenario.medRegisterOpplysninger(søker);
-
-        Behandling behandling = scenario.lagre(provider);
-        // Act
-        Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
-
-        //Assert
-        assertThat(medlemResultat).isEmpty();
-    }
-
-    @Test
-    public void skal_ikke_opprette_aksjonspunkt_om_soker_er_gift_med_ANNET_statsborgerskap() {
-        // Arrange
-        LocalDate termindato = LocalDate.now();
-
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
-        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
-        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
-        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
-            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
-        builderb.leggTil(sykemeldingBuilder);
-        scenario.medSykefravær(builderb);
-        AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
-        AktørId annenPartAktørId = new AktørId("999");
-
-        PersonInformasjon.Builder builderForRegisteropplysninger = scenario.opprettBuilderForRegisteropplysninger();
-
-        PersonInformasjon søker = builderForRegisteropplysninger
-            .medPersonas()
-            .kvinne(søkerAktørId, SivilstandType.GIFT, Region.EOS)
-            .statsborgerskap(Landkoder.ESP)
-            .relasjonTil(annenPartAktørId, RelasjonsRolleType.EKTE)
-            .build();
-
-        PersonInformasjon gift = builderForRegisteropplysninger
-            .medPersonas()
-            .mann(annenPartAktørId, SivilstandType.GIFT, Region.UDEFINERT)
-            .statsborgerskap(Landkoder.CAN)
-            .relasjonTil(søkerAktørId, RelasjonsRolleType.EKTE)
-            .build();
-
-        scenario.medRegisterOpplysninger(gift);
-        scenario.medRegisterOpplysninger(søker);
-
-        Behandling behandling = scenario.lagre(provider);
-        // Act
-        Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
-
-        //Assert
-        assertThat(medlemResultat).isEmpty();
-    }
-
-    @Test
     public void skal_ikke_opprette_aksjonspunkt_om_soker_har_hatt_inntekt_i_Norge_de_siste_tre_mnd() {
         // Arrange
         AktørId aktørId1 = new AktørId("1");
@@ -241,38 +156,6 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
 
         //Assert
         assertThat(medlemResultat).isEmpty();
-    }
-
-    @Test
-    public void skal_ikke_opprette_vent_om_termindato_har_passert_28_dager() {
-        // Arrange
-        LocalDate termindato = LocalDate.now().minusMonths(2);
-        AktørId aktørId1 = new AktørId(1L);
-
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
-        scenario.medSøknad().medMottattDato(termindato.minusMonths(2).plusDays(3));
-        SykefraværBuilder builderb = scenario.getSykefraværBuilder();
-        SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
-        sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
-            .medArbeidsgiver(Arbeidsgiver.person(new AktørId(1234L)));
-        builderb.leggTil(sykemeldingBuilder);
-        scenario.medSykefravær(builderb);
-        leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.ESP);
-
-        InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder();
-        builder.medAktørId(aktørId1);
-        builder.medInntektsKilde(InntektsKilde.INNTEKT_OPPTJENING);
-        builder.medInntektspostBeløp(BigDecimal.TEN);
-        builder.medInntektspostFom(LocalDate.now().minusWeeks(60L));
-        builder.medInntektspostTom(LocalDate.now().minusWeeks(58L));
-        builder.build();
-        Behandling behandling = scenario.lagre(provider);
-
-        // Act
-        Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
-
-        //Assert
-        assertThat(medlemResultat).contains(MedlemResultat.AVKLAR_OPPHOLDSRETT);
     }
 
     @Test

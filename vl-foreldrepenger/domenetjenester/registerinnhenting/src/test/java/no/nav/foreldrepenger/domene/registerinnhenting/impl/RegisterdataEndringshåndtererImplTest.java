@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.domene.registerinnhenting.impl;
 
-import static java.util.Collections.singleton;
 import static no.nav.vedtak.konfig.Tid.TIDENES_ENDE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,18 +10,15 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.List;
 import java.util.Optional;
 
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
@@ -39,7 +35,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjenesteImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
-import no.nav.foreldrepenger.behandlingslager.aktør.Familierelasjon;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
@@ -50,11 +45,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
-import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
-import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -94,9 +85,7 @@ public class RegisterdataEndringshåndtererImplTest {
     private static final Landkoder LANDKODE = Landkoder.NOR;
     private static final NavBrukerKjønn KJØNN = NavBrukerKjønn.KVINNE;
     private static final String FNR_FORELDER = "01234567890";
-    private static final String FNR_BARN = "12345678910";
     private static final LocalDate FORELDER_FØDSELSDATO = LocalDate.now().minusYears(30);
-    private static final LocalDate BARN_FØDSELSDATO = LocalDate.now().minusDays(2);
     private static final String DURATION = "PT10H";
 
     @Rule
@@ -186,40 +175,6 @@ public class RegisterdataEndringshåndtererImplTest {
         verify(inntektTjeneste, times(0)).finnInntekt(any(FinnInntektRequest.class), any());
     }
 
-    @Ignore("FIXME SP: Endret oppførsel? Finner ikke referanser lenger som kan medføre spolTilSteg(KONTROLLER_FAKTA). ")
-    @Test
-    public void skal_skru_behandlingen_tilbake_når_det_er_diff_i_personinformasjon() {
-        // Arrange
-        Personinfo søker = opprettSøkerinfo();
-        when(personinfoAdapter.innhentSaksopplysningerForSøker(Mockito.any(AktørId.class))).thenReturn(søker);
-
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
-            .medSøker(søker)
-            .medOpplysningerOppdatertTidspunkt(LocalDateTime.now().minusDays(1))
-            .medBehandlingStegStart(BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR);
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        EndringsresultatDiff idDiff = EndringsresultatDiff.medDiff(PersonInformasjon.class, 1L, 2L);
-        EndringsresultatDiff sporingDiff = EndringsresultatDiff.medDiffPåSporedeFelt(idDiff, true, null);
-        when(endringsresultatSjekker.finnSporedeEndringerPåBehandlingsgrunnlag(any(Behandling.class), any(EndringsresultatSnapshot.class)))
-            .thenReturn(sporingDiff);
-
-        ArgumentCaptor<BehandlingStegType> behandlingStegCaptor = ArgumentCaptor.forClass(BehandlingStegType.class);
-
-        // Act
-        lagRegisterdataEndringshåndterer()
-            .oppdaterRegisteropplysningerOgRestartBehandlingVedEndringer(behandling);
-
-        // Assert
-        List<Historikkinnslag> historikkinnslag = historikkRepository.hentHistorikk(behandling.getId());
-        assertThat(historikkinnslag.size()).isEqualTo(1);
-        assertThat(historikkinnslag.get(0).getType()).isEqualTo(HistorikkinnslagType.NYE_REGOPPLYSNINGER);
-
-        // TODO SP: endret oppførsel etter at ytelsesfordeling og søknadhendelse fjernet? spoler ikke lenger (kun en referanse til spolTilSteg også i koden nå)
-        verify(endringskontroller, times(1)).spolTilSteg(any(Behandling.class), behandlingStegCaptor.capture());
-        assertThat(behandlingStegCaptor.getValue()).isEqualTo(BehandlingStegType.KONTROLLER_FAKTA);
-    }
-
     @Test
     public void skal_starte_behandlingen_på_nytt_25_dager_etter_termin_og_ingen_fødselsdato() {
         // Arrange
@@ -294,10 +249,7 @@ public class RegisterdataEndringshåndtererImplTest {
     }
 
     private Personinfo opprettSøkerinfo() {
-        Familierelasjon familierelasjon = new Familierelasjon(FNR_BARN, RelasjonsRolleType.BARN,
-            BARN_FØDSELSDATO, "Veien", true);
-
-        return new Personinfo.Builder()
+                return new Personinfo.Builder()
             .medAktørId(SØKER_AKTØR_ID)
             .medPersonIdent(new PersonIdent(FNR_FORELDER))
             .medNavn("Navn Navnesen")
@@ -306,7 +258,6 @@ public class RegisterdataEndringshåndtererImplTest {
             .medLandkode(LANDKODE)
             .medPersonstatusType(PERSONSTATUS)
             .medSivilstandType(SivilstandType.UGIFT)
-            .medFamilierelasjon(singleton(familierelasjon))
             .medRegion(Region.EOS)
             .build();
     }

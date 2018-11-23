@@ -792,13 +792,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
             personInformasjonBuilder.leggTil(builder);
         });
 
-        personInformasjon.getRelasjoner().forEach(e -> {
-            PersonInformasjonBuilder.RelasjonBuilder builder = personInformasjonBuilder.getRelasjonBuilder(e.getAktørId(), e.getTilAktørId(),
-                e.getRelasjonsrolle());
-            builder.harSammeBosted(e.getHarSammeBosted());
-            personInformasjonBuilder.leggTil(builder);
-        });
-
         repository.lagre(behandling, personInformasjonBuilder);
     }
 

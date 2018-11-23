@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -39,7 +38,6 @@ public class ScenarioFarSøkerForeldrepenger extends AbstractTestScenario<Scenar
             medDefaultOppgittTilknytning();
             medDefaultInntektArbeidYtelse();
             medSøknad()
-                .medRelasjonsRolleType(RelasjonsRolleType.FARA)
                 .medSøknadsdato(LocalDate.now(FPDateUtil.getOffset()));
         }
     }

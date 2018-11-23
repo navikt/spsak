@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.behandlingslager.testutilities.behandling;
 import java.time.LocalDate;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.util.FPDateUtil;
@@ -27,7 +26,6 @@ public class ScenarioMorSøkerEngangsstønad extends AbstractTestScenario<Scenar
             // Defaults - antar default alltid minimum med en søknad
             medDefaultOppgittTilknytning();
             medSøknad()
-                .medRelasjonsRolleType(RelasjonsRolleType.MORA)
                 .medSøknadsdato(LocalDate.now(FPDateUtil.getOffset()));
         }
 

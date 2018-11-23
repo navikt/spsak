@@ -29,7 +29,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.RelasjonsRolleType;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "Søknad")
@@ -83,11 +82,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     @Column(name = "er_endringssoeknad", nullable = false)
     private boolean erEndringssøknad;
 
-    @ManyToOne(optional = false)
-    @JoinColumnOrFormula(column = @JoinColumn(name = "bruker_rolle", referencedColumnName = "kode", nullable = false))
-    @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + RelasjonsRolleType.DISCRIMINATOR + "'"))
-    private RelasjonsRolleType brukerRolle = RelasjonsRolleType.UDEFINERT;
-
     SøknadEntitet() {
         // hibernate
         this.farSøkerType = FarSøkerType.UDEFINERT;
@@ -116,7 +110,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
         }
 
         this.oppgittOpptjening = (OppgittOpptjeningEntitet) søknadMal.getOppgittOpptjening();
-        this.brukerRolle = søknadMal.getRelasjonsRolleType();
     }
 
     public Long getId() {
@@ -219,15 +212,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     }
 
     @Override
-    public RelasjonsRolleType getRelasjonsRolleType() {
-        return brukerRolle;
-    }
-
-    void setRelasjonsRolleType(RelasjonsRolleType brukerRolle) {
-        this.brukerRolle = brukerRolle;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -245,14 +229,13 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             && Objects.equals(this.tilleggsopplysninger, other.tilleggsopplysninger)
             && Objects.equals(this.søknadVedlegg, other.søknadVedlegg)
             && Objects.equals(this.oppgittOpptjening, other.oppgittOpptjening)
-            && Objects.equals(this.begrunnelseForSenInnsending, other.begrunnelseForSenInnsending)
-            && Objects.equals(this.brukerRolle, other.brukerRolle);
+            && Objects.equals(this.begrunnelseForSenInnsending, other.begrunnelseForSenInnsending);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(elektroniskRegistrert, kildeReferanse, mottattDato, 
-            søknadsdato, oppgittTilknytning, erEndringssøknad, tilleggsopplysninger, søknadVedlegg, oppgittOpptjening, begrunnelseForSenInnsending, brukerRolle);
+            søknadsdato, oppgittTilknytning, erEndringssøknad, tilleggsopplysninger, søknadVedlegg, oppgittOpptjening, begrunnelseForSenInnsending);
     }
 
     @Override
@@ -265,7 +248,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             + ", erEndringssøknad=" + erEndringssøknad
             + ", tilleggsopplysninger=" + tilleggsopplysninger
             + ", begrunnelseForSenInnsending=" + begrunnelseForSenInnsending
-            + ", relasjonsRolleType=" + brukerRolle
             + ">"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
@@ -334,11 +316,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
         public Builder medBegrunnelseForSenInnsending(String begrunnelseForSenInnsending) {
             søknadMal.setBegrunnelseForSenInnsending(begrunnelseForSenInnsending);
-            return this;
-        }
-
-        public Builder medRelasjonsRolleType(RelasjonsRolleType relasjonsRolleType) {
-            søknadMal.setRelasjonsRolleType(relasjonsRolleType);
             return this;
         }
 

@@ -1,12 +1,9 @@
 package no.nav.foreldrepenger.datavarehus.tjeneste;
 
-import static no.nav.foreldrepenger.datavarehus.tjeneste.DvhTestDataUtil.ANNEN_PART_AKTØR_ID;
 import static no.nav.foreldrepenger.datavarehus.tjeneste.DvhTestDataUtil.BRUKER_AKTØR_ID;
 import static no.nav.foreldrepenger.datavarehus.tjeneste.DvhTestDataUtil.OPPRETTET_TID;
 import static no.nav.foreldrepenger.datavarehus.tjeneste.DvhTestDataUtil.SAKSNUMMER;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Optional;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,7 +37,7 @@ public class FagsakDvhMapperTest {
         Whitebox.setInternalState(behandling.getFagsak(), "opprettetTidspunkt", OPPRETTET_TID);
         Fagsak fagsak = behandling.getFagsak();
 
-        FagsakDvh dvh = mapper.map(fagsak, Optional.of(ANNEN_PART_AKTØR_ID));
+        FagsakDvh dvh = mapper.map(fagsak);
         assertThat(dvh).isNotNull();
         assertThat(dvh.getFagsakId()).isEqualTo(fagsak.getId());
         assertThat(dvh.getBrukerAktørId()).isEqualTo(BRUKER_AKTØR_ID.getId());
@@ -48,6 +45,5 @@ public class FagsakDvhMapperTest {
         assertThat(dvh.getFagsakYtelse()).isEqualTo(FagsakYtelseType.FORELDREPENGER.getKode());
         assertThat(new Saksnummer(Long.toString(dvh.getSaksnummer()))).isEqualTo(SAKSNUMMER);
         assertThat(dvh.getOpprettetDato()).isEqualTo(OPPRETTET_TID.toLocalDate());
-        assertThat(dvh.getEpsAktørId()).isEqualTo(ANNEN_PART_AKTØR_ID.getId());
     }
 }

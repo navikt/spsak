@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.behandlingslager.behandling.personopplysning;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
@@ -19,8 +17,6 @@ public class PersonInformasjonBuilder {
     private final PersonInformasjonEntitet kladd;
     private final PersonopplysningVersjonType type;
     private final boolean gjelderOppdatering;
-
-    private AktørId søkerAktørId;
 
     private PersonInformasjonBuilder(PersonInformasjonEntitet personInfoAggregatEntitet, PersonopplysningVersjonType type, boolean gjelderOppdatering) {
         this.kladd = personInfoAggregatEntitet;
@@ -68,38 +64,12 @@ public class PersonInformasjonBuilder {
         return this;
     }
 
-    public PersonInformasjonBuilder leggTil(RelasjonBuilder builder) {
-        if (!builder.getErOppdatering()) {
-            kladd.leggTilPersonrelasjon(builder.build());
-        }
-        return this;
-    }
-
     public PersonInformasjon build() {
-        ryddBortGamlePersonopplysninger();
         return kladd;
-    }
-
-    private void ryddBortGamlePersonopplysninger() {
-        if (gjelderOppdatering() && søkerAktørId != null) {
-            Set<AktørId> aktørerIRelasjoner = kladd.getRelasjoner().stream().map(e -> e.getAktørId()).collect(Collectors.toSet());
-            aktørerIRelasjoner.addAll(kladd.getRelasjoner().stream().map(e -> e.getTilAktørId()).collect(Collectors.toSet()));
-
-            Set<AktørId> personer = kladd.getPersonopplysninger()
-                .stream()
-                .filter(e -> !søkerAktørId.equals(e.getAktørId()))
-                .map(e -> e.getAktørId()).collect(Collectors.toSet());
-            personer.forEach(e -> {
-                if (!aktørerIRelasjoner.contains(e)) {
-                    kladd.fjernPersonopplysning(e);
-                }
-            });
-        }
     }
 
     public void tilbakestill(AktørId søkerAktørId) {
         if (gjelderOppdatering()) {
-            this.søkerAktørId = søkerAktørId;
             kladd.tilbakestill();
         }
     }
@@ -135,13 +105,6 @@ public class PersonInformasjonBuilder {
 
     public PersonstatusBuilder getPersonstatusBuilder(AktørId aktørId, DatoIntervallEntitet periode) {
         return kladd.getPersonstatusBuilderForAktørId(aktørId, periode);
-    }
-
-    public RelasjonBuilder getRelasjonBuilder(AktørId fraAktør, AktørId tilAktør, RelasjonsRolleType rolle) {
-        Objects.requireNonNull(fraAktør, "fraAktør");
-        Objects.requireNonNull(tilAktør, "tilAktør");
-        Objects.requireNonNull(rolle, "rolle");
-        return kladd.getRelasjonBuilderForAktørId(fraAktør, tilAktør, rolle);
     }
 
     public StatsborgerskapBuilder getStatsborgerskapBuilder(AktørId aktørId, DatoIntervallEntitet periode, Landkoder landkode, Region region) {
@@ -332,57 +295,6 @@ public class PersonInformasjonBuilder {
         }
 
         public Personstatus build() {
-            return kladd;
-        }
-
-        boolean getErOppdatering() {
-            return oppdatering;
-        }
-    }
-
-    public static final class RelasjonBuilder {
-
-        private final PersonRelasjonEntitet kladd;
-        private final boolean oppdatering;
-
-        private RelasjonBuilder(PersonRelasjonEntitet kladd, boolean oppdatering) {
-            this.kladd = kladd;
-            this.oppdatering = oppdatering;
-        }
-
-        private static RelasjonBuilder ny() {
-            return new RelasjonBuilder(new PersonRelasjonEntitet(), false);
-        }
-
-        private static RelasjonBuilder oppdatere(PersonRelasjonEntitet entitet) {
-            return new RelasjonBuilder(entitet, true);
-        }
-
-        static RelasjonBuilder oppdater(Optional<PersonRelasjonEntitet> aggregat) {
-            return aggregat.map(RelasjonBuilder::oppdatere).orElseGet(RelasjonBuilder::ny);
-        }
-
-        public RelasjonBuilder fraAktør(AktørId fraAktørId) {
-            kladd.setFraAktørId(fraAktørId);
-            return this;
-        }
-
-        public RelasjonBuilder tilAktør(AktørId tilAktørId) {
-            kladd.setTilAktørId(tilAktørId);
-            return this;
-        }
-
-        public RelasjonBuilder medRolle(RelasjonsRolleType relasjonsrolle) {
-            kladd.setRelasjonsrolle(relasjonsrolle);
-            return this;
-        }
-
-        public RelasjonBuilder harSammeBosted(Boolean harSammeBosted) {
-            kladd.setHarSammeBosted(harSammeBosted);
-            return this;
-        }
-
-        public PersonRelasjon build() {
             return kladd;
         }
 
