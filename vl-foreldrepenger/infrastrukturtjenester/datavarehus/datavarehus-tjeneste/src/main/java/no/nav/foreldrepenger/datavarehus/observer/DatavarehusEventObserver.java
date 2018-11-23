@@ -36,6 +36,8 @@ public class DatavarehusEventObserver {
         this.tjeneste = datavarehusTjeneste;
     }
 
+    /*
+
     public void observerAksjonspunktUtførtEvent(@Observes AksjonspunktUtførtEvent event) {
         List<Aksjonspunkt> aksjonspunkter = event.getAksjonspunkter();
         log.debug("Lagrer {} aksjonspunkter i DVH datavarehus, for behandling {} og steg {}", aksjonspunkter.size(), event.getBehandlingId(), event.getBehandlingStegType());//NOSONAR
@@ -91,6 +93,8 @@ public class DatavarehusEventObserver {
         log.debug("Lagrer vedtak {} for behandling {} i DVH datavarehus", event.getVedtak().getId(), event.getBehandlingId());//NOSONAR
         tjeneste.lagreNedVedtak(event.getVedtak(), event.getBehandlingId());
     }
+
+    */
 
 
 }
