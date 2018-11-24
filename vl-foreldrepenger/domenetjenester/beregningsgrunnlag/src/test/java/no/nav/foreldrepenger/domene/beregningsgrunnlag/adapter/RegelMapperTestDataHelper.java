@@ -1,14 +1,14 @@
 package no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter;
 
 import static java.util.Collections.singletonList;
-import static no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest.GRUNNBELØP_2017;
-import static no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest.GRUNNBELØP_2018;
-import static no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest.GSNITT_2013;
-import static no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest.GSNITT_2014;
-import static no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest.GSNITT_2015;
-import static no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest.GSNITT_2016;
-import static no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest.GSNITT_2017;
-import static no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp.GrunnbeløpForTest.GSNITT_2018;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.GrunnbeløpForTest.GRUNNBELØP_2017;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.GrunnbeløpForTest.GRUNNBELØP_2018;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.GrunnbeløpForTest.GSNITT_2013;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.GrunnbeløpForTest.GSNITT_2014;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.GrunnbeløpForTest.GSNITT_2015;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.GrunnbeløpForTest.GSNITT_2016;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.GrunnbeløpForTest.GSNITT_2017;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.GrunnbeløpForTest.GSNITT_2018;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

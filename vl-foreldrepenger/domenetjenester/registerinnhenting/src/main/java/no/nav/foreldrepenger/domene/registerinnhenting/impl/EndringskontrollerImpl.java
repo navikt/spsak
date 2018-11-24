@@ -151,7 +151,6 @@ public class EndringskontrollerImpl implements Endringskontroller {
     List<Aksjonspunkt> opprettAksjonspunkter(List<AksjonspunktResultat> apResultater, BehandlingStegType behandlingStegType, Behandling behandling) {
         if (!apResultater.isEmpty()) {
             List<Aksjonspunkt> funnetAksjonspunkter = new ArrayList<>();
-            fjernGjensidigEkskluderendeAksjonspunkter(apResultater, behandling);
             funnetAksjonspunkter.addAll(leggTilNyeAksjonspunkterPåBehandling(behandlingStegType, apResultater, behandling));
             funnetAksjonspunkter.addAll(reåpneAvbrutteOgUtførteAksjonspunkter(apResultater, behandling));
             return funnetAksjonspunkter;
@@ -234,13 +233,4 @@ public class EndringskontrollerImpl implements Endringskontroller {
         return behandlingskontrollTjeneste.finnAksjonspunktDefinisjonerFraOgMed(behandling, målsteg, true);
     }
 
-    private void fjernGjensidigEkskluderendeAksjonspunkter(List<AksjonspunktResultat> nyeApResultater, Behandling behandling) {
-        Set<AksjonspunktDefinisjon> nyeApDef = nyeApResultater.stream().map(AksjonspunktResultat::getAksjonspunktDefinisjon).collect(toSet());
-        List<AksjonspunktDefinisjon> utelukkedeAksjonspunkter = behandling.getAksjonspunkter().stream()
-            .flatMap(ap -> ap.getAksjonspunktDefinisjon().getUtelukkendeApdef().stream())
-            .filter(utelukkendeApDef -> nyeApDef.contains(utelukkendeApDef))
-            .collect(toList());
-        // Dersom eksisterende aksjonspunkter på behandling er utelukket av de nye, så må de fjernes
-        utelukkedeAksjonspunkter.forEach(utelukketApDef -> aksjonspunktRepository.fjernAksjonspunkt(behandling, utelukketApDef));
-    }
 }

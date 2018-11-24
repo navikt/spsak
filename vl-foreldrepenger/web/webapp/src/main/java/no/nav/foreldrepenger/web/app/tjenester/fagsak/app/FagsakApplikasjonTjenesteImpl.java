@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.web.app.tjenester.fagsak.app;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +106,7 @@ public class FagsakApplikasjonTjenesteImpl implements FagsakApplikasjonTjeneste 
 
     private FagsakSamlingForBruker tilFagsakView(List<Fagsak> fagsaker, Personinfo personinfo) {
         FagsakSamlingForBruker view = new FagsakSamlingForBruker(personinfo);
-        fagsaker.forEach(sak -> view.leggTil(sak, LocalDate.now()));
+        fagsaker.forEach(sak -> view.leggTil(sak));
         return view;
     }
 

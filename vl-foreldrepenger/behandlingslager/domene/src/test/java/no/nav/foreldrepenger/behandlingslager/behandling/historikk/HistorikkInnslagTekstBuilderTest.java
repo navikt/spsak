@@ -42,20 +42,21 @@ public class HistorikkInnslagTekstBuilderTest {
         vurderPåNytt.setBegrunnelse("Må vurderes igjen. Se på dokumentasjon.");
 
         vurderPåNytt.setAksjonspunktDefinisjon(aksjonspunktRepository.finnAksjonspunktDefinisjon(AksjonspunktDefinisjon.MANUELL_VURDERING_AV_MEDLEMSKAP.getKode()));
-        vurderPåNytt.setAksjonspunktSistEndret(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        vurderPåNytt.setAksjonspunktSistEndret(now);
         vurdering.put(SkjermlenkeType.PUNKT_FOR_MEDLEMSKAP, Collections.singletonList(vurderPåNytt));
 
         HistorikkinnslagTotrinnsvurdering godkjent = new HistorikkinnslagTotrinnsvurdering();
         godkjent.setGodkjent(true);
         godkjent.setAksjonspunktDefinisjon(aksjonspunktRepository.finnAksjonspunktDefinisjon(AksjonspunktDefinisjon.KONTROLLER_REVURDERINGSBEHANDLING.getKode()));
-        godkjent.setAksjonspunktSistEndret(LocalDateTime.now());
+        godkjent.setAksjonspunktSistEndret(now.plusSeconds(1));
 
 
         HistorikkinnslagTotrinnsvurdering vurderPåNytt2 = new HistorikkinnslagTotrinnsvurdering();
         vurderPåNytt2.setGodkjent(false);
         vurderPåNytt2.setAksjonspunktDefinisjon(aksjonspunktRepository.finnAksjonspunktDefinisjon(AksjonspunktDefinisjon.KONTROLLER_REVURDERINGSBEHANDLING.getKode()));
         vurderPåNytt2.setBegrunnelse("Ikke enig.");
-        vurderPåNytt2.setAksjonspunktSistEndret(LocalDateTime.now());
+        vurderPåNytt2.setAksjonspunktSistEndret(now.plusSeconds(2));
         vurdering.put(SkjermlenkeType.FAKTA_OM_MEDLEMSKAP, Arrays.asList(godkjent, vurderPåNytt2));
 
         List<HistorikkinnslagDel> deler = tekstBuilder

@@ -8,7 +8,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +15,6 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
-import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -30,9 +28,7 @@ import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.HentOrganisasjonResp
 import no.nav.vedtak.exception.VLException;
 import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
 import no.nav.vedtak.felles.integrasjon.organisasjon.OrganisasjonConsumer;
-import no.nav.vedtak.felles.testutilities.Whitebox;
 
-@SuppressWarnings("deprecation")
 public class VirksomhetTjenesteImplTest {
     private static final String ORGNR = "973093681";
     private static final String NAVN = "EPLEHUSET AS";
@@ -45,7 +41,7 @@ public class VirksomhetTjenesteImplTest {
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
 
     @Test
-    public void skal_kalle_consumer_og_oversette_response() throws Exception {
+    public void skal_hente_og_lagre_virksomhet_på_behandlingen() throws Exception {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
         scenario.lagre(repositoryProvider);
@@ -69,23 +65,11 @@ public class VirksomhetTjenesteImplTest {
         assertThat(organisasjon.getOrgnr()).isEqualTo(ORGNR);
         assertThat(organisasjon.getNavn()).isEqualTo(NAVN);
         assertThat(organisasjon.getRegistrert()).isEqualTo(REGISTRERTDATO);
-        final LocalDateTime opplysningerOppdatertTidspunkt = ((VirksomhetEntitet) organisasjon).getOpplysningerOppdatertTidspunkt();
 
-        oppdaterHentetTidspunkt(organisasjon);
-
-        organisasjon = organisasjonTjeneste.hentOgLagreOrganisasjon(ORGNR);
-        assertThat(((VirksomhetEntitet) organisasjon).getOpplysningerOppdatertTidspunkt()).isNotEqualTo(opplysningerOppdatertTidspunkt);
-
-    }
-
-    private void oppdaterHentetTidspunkt(Virksomhet organisasjon) {
-        // FIXME (TERMITT) Unngå bruk av whitebox ...
-        Whitebox.setInternalState(organisasjon, "opplysningerOppdatertTidspunkt", LocalDateTime.now().minusDays(3));
-        virksomhetRepository.lagre(organisasjon);
     }
 
     @Test
-    public void skal_håndtere_exceptions_fra_consumer() throws Exception {
+    public void skal_håndtere_exceptions_fra_tjenesten() throws Exception {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
         scenario.lagre(repositoryProvider);

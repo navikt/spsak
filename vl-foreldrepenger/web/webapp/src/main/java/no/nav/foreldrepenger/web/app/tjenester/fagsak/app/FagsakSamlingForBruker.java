@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.web.app.tjenester.fagsak.app;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,25 +35,19 @@ public class FagsakSamlingForBruker {
         return brukerInfo == null;
     }
 
-    void leggTil(Fagsak fagsak, LocalDate dato) {
-        fagsakInfoer.add(new FagsakRad(fagsak, dato));
+    void leggTil(Fagsak fagsak) {
+        fagsakInfoer.add(new FagsakRad(fagsak));
     }
 
     public static class FagsakRad {
         private final Fagsak fagsak;
-        private final LocalDate fødselsdato;
 
-        private FagsakRad(Fagsak fagsak, LocalDate dato) {
+        private FagsakRad(Fagsak fagsak) {
             this.fagsak = fagsak;
-            this.fødselsdato = dato;
         }
 
         public Fagsak getFagsak() {
             return fagsak;
-        }
-
-        public LocalDate getFødselsdato() {
-            return fødselsdato;
         }
     }
 }

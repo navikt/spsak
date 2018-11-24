@@ -16,9 +16,6 @@
         <mapping-file>META-INF/fagsak-orm.xml</mapping-file>
         <mapping-file>META-INF/behandlingslager-orm.xml</mapping-file>
 
-        <mapping-file>META-INF/dokumentbestiller-orm.xml</mapping-file>
-        <mapping-file>META-INF/okonomioppdrag-orm.xml</mapping-file>
-
         <!-- Datavarehus er del av same persistencecontext, men tabellene lever fysisk i eget skjema FPSAK_HIST -->
         <mapping-file>META-INF/datavarehus-orm.xml</mapping-file>
         

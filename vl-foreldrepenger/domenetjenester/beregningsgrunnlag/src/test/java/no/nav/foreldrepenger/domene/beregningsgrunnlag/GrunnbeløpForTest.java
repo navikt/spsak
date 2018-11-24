@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingslager.testutilities.grunnbeløp;
+package no.nav.foreldrepenger.domene.beregningsgrunnlag;
 
 public class GrunnbeløpForTest {
 

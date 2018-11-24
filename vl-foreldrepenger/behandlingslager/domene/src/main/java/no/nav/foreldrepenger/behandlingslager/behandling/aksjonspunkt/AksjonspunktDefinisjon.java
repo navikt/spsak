@@ -1,17 +1,12 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt;
 
 import java.time.Period;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -154,18 +149,6 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     @Column(name = "TILBAKEHOPP_VED_GJENOPPTAKELSE", nullable = false)
     private boolean tilbakehoppVedGjenopptakelse;
 
-    @ManyToMany
-    @JoinTable(name = "AKSJONSPUNKT_UTELUKKENDE",
-        joinColumns = {@JoinColumn(name = "ap1")},
-        inverseJoinColumns = {@JoinColumn(name = "ap2")})
-    Set<AksjonspunktDefinisjon> utelukkendeUt = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "AKSJONSPUNKT_UTELUKKENDE",
-        joinColumns = {@JoinColumn(name = "ap2")},
-        inverseJoinColumns = {@JoinColumn(name = "ap1")})
-    Set<AksjonspunktDefinisjon> utelukkendeInn = new HashSet<>();
-
     AksjonspunktDefinisjon() {
         // for hibernate
     }
@@ -211,10 +194,4 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
         return tilbakehoppVedGjenopptakelse;
     }
 
-    public Set<AksjonspunktDefinisjon> getUtelukkendeApdef() {
-        Set<AksjonspunktDefinisjon> utelukkendeApdef = new HashSet<>();
-        utelukkendeApdef.addAll(utelukkendeInn);
-        utelukkendeApdef.addAll(utelukkendeUt);
-        return Collections.unmodifiableSet(utelukkendeApdef);
-    }
 }

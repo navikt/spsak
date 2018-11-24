@@ -1,8 +1,5 @@
 package no.nav.foreldrepenger.behandlingskontroll;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -329,23 +326,12 @@ class BehandlingStegVisitor {
 
         if (!nyeApResultater.isEmpty()) {
             List<Aksjonspunkt> funnetAksjonspunkter = new ArrayList<>();
-            fjernGjensidigEkskluderendeAksjonspunkter(nyeApResultater);
             funnetAksjonspunkter.addAll(leggTilNyeAksjonspunkterPåBehandling(behandlingStegType, nyeApResultater, behandling));
             funnetAksjonspunkter.addAll(reåpneAvbrutteOgUtførteAksjonspunkter(nyeApResultater, behandling));
             return funnetAksjonspunkter;
         } else {
             return new ArrayList<>();
         }
-    }
-
-    private void fjernGjensidigEkskluderendeAksjonspunkter(List<AksjonspunktResultat> nyeApResultater) {
-        Set<AksjonspunktDefinisjon> nyeApDef = nyeApResultater.stream().map(AksjonspunktResultat::getAksjonspunktDefinisjon).collect(toSet());
-        List<AksjonspunktDefinisjon> utelukkedeAksjonspunkter = behandling.getAksjonspunkter().stream()
-            .flatMap(ap -> ap.getAksjonspunktDefinisjon().getUtelukkendeApdef().stream())
-            .filter(utelukkendeApDef -> nyeApDef.contains(utelukkendeApDef))
-            .collect(toList());
-        // Dersom eksisterende aksjonspunkter på behandling er utelukket av de nye, så må de fjernes
-        utelukkedeAksjonspunkter.forEach(utelukketApDef -> aksjonspunktRepository.fjernAksjonspunkt(behandling, utelukketApDef));
     }
 
     private List<Aksjonspunkt> reåpneAvbrutteOgUtførteAksjonspunkter(List<AksjonspunktResultat> nyeDefinisjoner,

@@ -207,6 +207,10 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.InnsynResultatType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.InnsynDokumentEntitet"/>
 
+	<!-- Dokumentbestilling (brev etc)-->
+	<entity class="no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType" />
+    <entity class="no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalRestriksjon" />
+    
     <!-- Opptjening -->
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet"/>

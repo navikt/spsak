@@ -810,12 +810,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     }
 
     @SuppressWarnings("unchecked")
-    public S medSøknadDato(LocalDate søknadsdato) {
-        medSøknad().medSøknadsdato(søknadsdato);
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
     public S medDefaultVerge() {
         vergeBuilder = new VergeBuilder();
         vergeBuilder.medBruker(new NavBrukerBuilder().build());
@@ -1246,22 +1240,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
     private void lagreTilleggsScenarier(BehandlingRepositoryProvider repositoryProvider) {
         testScenarioTilleggListe.forEach(tillegg -> tillegg.lagre(behandling, repositoryProvider));
-    }
-
-    /**
-     * temporær metode til vi får fjernet gammel entitet helt.
-     * Gjør en begrenset mapping av Søker data (uten adresse, relasjoner)
-     *
-     * @deprecated bruk {@link #medRegisterOpplysninger(PersonInformasjon)}
-     */
-    @SuppressWarnings("unchecked")
-    @Deprecated
-    public S medSøker(Personinfo søker) {
-        final PersonInformasjon.Builder builder = opprettBuilderForRegisteropplysninger();
-        PersonopplysningPersoninfoAdapter.mapPersonopplysningTilPerson(builder, søker);
-        medRegisterOpplysninger(builder.build());
-        medBruker(søker.getAktørId(), søker.getKjønn());
-        return (S) this;
     }
 
     public InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder getInntektArbeidYtelseScenarioTestBuilder() {

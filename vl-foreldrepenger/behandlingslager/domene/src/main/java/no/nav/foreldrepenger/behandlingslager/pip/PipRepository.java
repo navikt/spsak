@@ -89,11 +89,7 @@ public class PipRepository {
         if (journalpostId.isEmpty()) {
             return Collections.emptySet();
         }
-        String sql = "SELECT fagsak_id FROM JOURNALPOST WHERE journalpost_id in (:journalpostId) " +
-            " UNION ALL " +  // NOSONAR
-            "SELECT f.id from FAGSAK f " +
-            "JOIN DOKUMENT_FELLES df on f.saksnummer = df.saksnummer " +
-            "WHERE df.journalpost_id in (:journalpostId)";
+        String sql = "SELECT fagsak_id FROM JOURNALPOST WHERE journalpost_id in (:journalpostId)";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("journalpostId", journalpostId.stream().map(j -> j.getVerdi()).collect(Collectors.toList()));
 
