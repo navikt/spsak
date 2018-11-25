@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -53,7 +52,6 @@ class FagsakRevurdering {
 
     private Optional<Behandling> hentBehandlingMedVedtak(List<Behandling> behandlinger) {
         List<Behandling> behandlingerMedVedtak = behandlinger.stream()
-            .filter(behandling -> !behandling.erKlage() && !behandling.erInnsyn())
             .filter(behandling -> asList(BehandlingStatus.AVSLUTTET, BehandlingStatus.IVERKSETTER_VEDTAK).contains(behandling.getStatus()))
             .filter(behandling -> !behandling.isBehandlingHenlagt())
             .collect(Collectors.toList());
@@ -62,8 +60,8 @@ class FagsakRevurdering {
     }
 
     private boolean harÅpenBehandling(Fagsak fagsak) {
-        return behandlingRepository.hentÅpneBehandlingerForFagsakId(fagsak.getId()).stream()
-            .anyMatch(b -> !b.getType().equals(BehandlingType.INNSYN));
+        List<Behandling> åpneBehandlingerForFagsakId = behandlingRepository.hentÅpneBehandlingerForFagsakId(fagsak.getId());
+        return !åpneBehandlingerForFagsakId.isEmpty();
     }
 
     static class BehandlingAvsluttetDatoComparator implements Comparator<Behandling>, Serializable {

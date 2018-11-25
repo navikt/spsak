@@ -45,8 +45,6 @@ public interface BehandlingRepositoryProvider {
 
     VergeRepository getVergeGrunnlagRepository();
 
-    InnsynRepository getInnsynRepository();
-
     BeregningsgrunnlagRepository getBeregningsgrunnlagRepository();
 
     UttakRepository getUttakRepository();

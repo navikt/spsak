@@ -14,8 +14,6 @@ public class VedtakResultatType extends Kodeliste {
     public static final VedtakResultatType DELVIS_INNVILGET = new VedtakResultatType("DELVIS_INNVILGET"); //$NON-NLS-1$
     public static final VedtakResultatType AVSLAG = new VedtakResultatType("AVSLAG"); //$NON-NLS-1$
     public static final VedtakResultatType OPPHØR = new VedtakResultatType("OPPHØR"); //$NON-NLS-1$;
-    public static final VedtakResultatType VEDTAK_I_KLAGEBEHANDLING = new VedtakResultatType("VEDTAK_I_KLAGEBEHANDLING"); //$NON-NLS-1$
-    public static final VedtakResultatType VEDTAK_I_INNSYNBEHANDLING = new VedtakResultatType("VEDTAK_I_INNSYNBEHANDLING"); //$NON-NLS-1$
     public static final VedtakResultatType UDEFINERT = new VedtakResultatType("-"); //$NON-NLS-1$
 
     private VedtakResultatType() {

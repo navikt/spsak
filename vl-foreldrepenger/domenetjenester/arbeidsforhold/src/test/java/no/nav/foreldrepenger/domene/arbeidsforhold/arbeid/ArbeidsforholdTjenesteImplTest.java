@@ -40,7 +40,7 @@ public class ArbeidsforholdTjenesteImplTest {
     @Test
     public void skal_kalle_consumer_og_oversette_response() throws Exception {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.lagMocked();
 
         FinnArbeidsforholdPrArbeidstakerResponse response = opprettResponse();

@@ -43,7 +43,7 @@ public class VirksomhetTjenesteImplTest {
     @Test
     public void skal_hente_og_lagre_virksomhet_på_behandlingen() throws Exception {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.lagre(repositoryProvider);
 
         HentOrganisasjonResponse response = opprettResponse();
@@ -71,7 +71,7 @@ public class VirksomhetTjenesteImplTest {
     @Test
     public void skal_håndtere_exceptions_fra_tjenesten() throws Exception {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.lagre(repositoryProvider);
 
         HentOrganisasjonResponse response = opprettResponse();

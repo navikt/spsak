@@ -81,7 +81,7 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImplTest {
         LocalDate fødselsdato = LocalDate.now().minusYears(20);
         AktørId aktørId = new AktørId("1");
 
-        ScenarioMorSøkerForeldrepenger førstegangScenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+        ScenarioMorSøkerForeldrepenger førstegangScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD)
             .medBehandlingStegStart(BehandlingStegType.KONTROLLER_FAKTA);
 
@@ -138,7 +138,7 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImplTest {
         repositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(originalBehandling, LocalDate.now().minusYears(1), LocalDate.now());
         //Legg til fordelingsperiode
 
-        ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+        ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.REVURDERING)
             .medRegisterOpplysninger(personopplysningBuilder.build())
             .medOriginalBehandling(originalBehandling, BehandlingÅrsakType.RE_MANGLER_FØDSEL);

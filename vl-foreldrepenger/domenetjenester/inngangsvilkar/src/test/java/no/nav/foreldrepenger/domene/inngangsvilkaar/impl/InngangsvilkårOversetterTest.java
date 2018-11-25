@@ -156,7 +156,7 @@ public class InngangsvilkårOversetterTest {
             .medPeriode(skjæringstidspunkt, skjæringstidspunkt.plusYears(1))
             .build();
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         OppgittLandOpphold utlandsopphold1 = new OppgittLandOppholdEntitet.Builder()
             .medLand(kodeverkRepository.finn(Landkoder.class, "PNG"))
             .medPeriode(LocalDate.of(2017, 1, 1), LocalDate.of(2017, 2, 1))

@@ -53,9 +53,6 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
 
     @Override
     protected void foreslåAutomatisertVedtak(Behandling behandling) {
-        if (behandling.erKlage()) {
-            return;
-        }
         Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
         boolean erVarselOmRevurderingSendt = false; // TODO: Hente ut om varsel er sendt
         if (sjekkVilkårAvslått(behandlingsresultat)) {

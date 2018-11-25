@@ -29,11 +29,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingL�
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerEngangsstønad;
+import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon.Builder;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -63,14 +62,10 @@ public class KontrollerFaktaStegImplForeldrepengerTest {
     @StartpunktRef
     private KontrollerFaktaSteg steg;
 
-    private ScenarioFarSøkerEngangsstønad byggBehandlingMedFarSøkerType(FarSøkerType farSøkerType) {
+    private ScenarioMorSøkerForeldrepenger byggBehandlingMedFarSøkerType() {
         AktørId aktørId = new AktørId("1");
-        ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad
-            .forAdopsjon();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medBruker(aktørId, NavBrukerKjønn.MANN);
-        scenario.medSøknad()
-            .medFarSøkerType(farSøkerType);
-
         leggTilSøker(scenario, NavBrukerKjønn.MANN);
 
         return scenario;
@@ -78,7 +73,7 @@ public class KontrollerFaktaStegImplForeldrepengerTest {
 
     @Before
     public void oppsett() {
-        ScenarioFarSøkerEngangsstønad scenario = byggBehandlingMedFarSøkerType(FarSøkerType.ADOPTERER_ALENE);
+        ScenarioMorSøkerForeldrepenger scenario = byggBehandlingMedFarSøkerType();
         scenario.medBruker(new AktørId("123"), NavBrukerKjønn.MANN);
         behandling = scenario.lagre(repositoryProvider);
     }

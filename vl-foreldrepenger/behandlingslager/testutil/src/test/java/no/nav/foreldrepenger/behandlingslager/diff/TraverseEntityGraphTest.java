@@ -204,7 +204,7 @@ public class TraverseEntityGraphTest {
 
     private ScenarioMorSøkerEngangsstønad lagTestScenario() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medTilleggsopplysninger("hello");
 // scenario.medBekreftetSøker().medAktørId(new AktørId("1")).medNavn("Gry");
         return scenario;

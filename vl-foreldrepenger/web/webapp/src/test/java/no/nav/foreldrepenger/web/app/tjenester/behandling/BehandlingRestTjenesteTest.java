@@ -69,7 +69,7 @@ public class BehandlingRestTjenesteTest {
 
     @Test
     public void skal_hente_behandlinger_for_saksnummer() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         Personinfo person = new Personinfo.Builder()
             .medNavn("Helga")

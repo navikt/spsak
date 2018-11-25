@@ -188,7 +188,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
     @Test
     public void skal_hente_ytelse_før_stp() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         PersonInformasjon personInformasjon = scenario
@@ -226,7 +226,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
     @Test
     public void skal_lage_sammehengende_liste() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         PersonInformasjon personInformasjon = scenario
@@ -269,7 +269,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
     @Test
     public void skal_lage_sammehengende_liste_med_overlappende_ytelser() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         PersonInformasjon personInformasjon = scenario
@@ -312,7 +312,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
     @Test
     public void skal_lage_sammehengende_liste_med_delvis_overlappende_ytelser() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         PersonInformasjon personInformasjon = scenario
@@ -349,7 +349,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
     @Test
     public void skal_ikke_lage_sammehengende_liste_med_1_dag_mellom_ytelser() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         PersonInformasjon personInformasjon = scenario
@@ -386,7 +386,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
     @Test
     public void skal_lage_tom_sammehengende_liste_uten_ytelser() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         PersonInformasjon personInformasjon = scenario

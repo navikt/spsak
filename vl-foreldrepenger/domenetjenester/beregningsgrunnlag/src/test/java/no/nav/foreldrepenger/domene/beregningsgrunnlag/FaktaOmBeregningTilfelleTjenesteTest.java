@@ -56,7 +56,7 @@ public class FaktaOmBeregningTilfelleTjenesteTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         behandling = scenario.lagre(repositoryProvider);
         Beregningsgrunnlag bg = Beregningsgrunnlag.builder()
             .medDekningsgrad(100L)

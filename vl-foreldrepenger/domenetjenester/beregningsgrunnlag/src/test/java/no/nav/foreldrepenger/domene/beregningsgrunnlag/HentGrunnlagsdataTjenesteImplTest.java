@@ -107,7 +107,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
 
     @Before
     public void setUp() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         forrigeBehandling = scenario.lagre(repositoryProvider);
         avsluttBehandlingOgFagsak(forrigeBehandling);
         virksomhet = hentVirksomhet();
@@ -117,7 +117,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Test
     public void skalHenteInnNyeDataNårIkkeGjeldendeBGFinnes() {
         //Arrange
-        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_HENDELSE_FØDSEL);
+        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(false, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);
         //Act
@@ -130,7 +130,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Test
     public void skalHenteInnNyeDataNårEndringIOpptjeningsAktiviteter() {
         //Arrange
-        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_HENDELSE_FØDSEL);
+        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         beregningsgrunnlagRepository.lagre(forrigeBehandling, bg, BeregningsgrunnlagTilstand.FASTSATT);
         opprettOpptjening(behandling, false);
@@ -145,7 +145,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Test
     public void skalHenteInnNyeDataNårSkjæringstidspunktetErEndret() {
         //Arrange
-        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_HENDELSE_FØDSEL);
+        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT.plusDays(5), false, null, arbeidsforholdId, false);
         Beregningsgrunnlag bg2 = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.FASTSATT);
@@ -178,9 +178,9 @@ public class HentGrunnlagsdataTjenesteImplTest {
     }
 
     @Test
-    public void skalHenteInnNyeDataNårEndringerIYtelseIkkeBesteBeregningOgEndringerGjelderSisteYtelsePeriode() {
+    public void skalHenteInnNyeDataNårEndringerIYtelseOgEndringerGjelderSisteYtelsePeriode() {
         //Arrange
-        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_HENDELSE_FØDSEL);
+        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(false, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         Beregningsgrunnlag bg2 = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);
@@ -200,9 +200,9 @@ public class HentGrunnlagsdataTjenesteImplTest {
     }
 
     @Test
-    public void skalIkkeHenteInnNyeDataNårEndringerIYtelseIkkeBesteBeregningOgSisteYtelsePeriodeHarFPfraFørstegangsbehandlingen() { //Fikset bug
+    public void skalIkkeHenteInnNyeDataNårEndringerIYtelseOgSisteYtelsePeriodeHarFPfraFørstegangsbehandlingen() { //Fikset bug
         //Arrange
-        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_HENDELSE_FØDSEL);
+        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(false, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         Beregningsgrunnlag bg2 = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);
@@ -224,7 +224,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
     @Test
     public void skalReturnereFalse() {
         //Arrange
-        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_HENDELSE_FØDSEL);
+        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         Beregningsgrunnlag bg = opprettBeregninggrunnlag(false, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         Beregningsgrunnlag bg2 = opprettBeregninggrunnlag(true, SKJÆRINGSTIDSPUNKT, false, null, arbeidsforholdId, false);
         beregningsgrunnlagRepository.lagre(behandling, bg, BeregningsgrunnlagTilstand.OPPRETTET);

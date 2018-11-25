@@ -15,7 +15,6 @@ import no.finn.unleash.Unleash;
 import no.finn.unleash.UnleashContext;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
@@ -153,36 +152,7 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
     }
 
     private UtvidetBehandlingDto mapFra(Behandling behandling) {
-        if (BehandlingType.INNSYN.equals(behandling.getType())) {
-            return lagInnsynsbehandlingDto(behandling);
-        } else if (BehandlingType.KLAGE.equals(behandling.getType())) {
-            return lagKlagebehandlingDto(behandling);
-        }
         return lagDto(behandling);
-    }
-
-    private UtvidetBehandlingDto lagKlagebehandlingDto(Behandling behandling) {
-        UtvidetBehandlingDto dto = new UtvidetBehandlingDto();
-        settStandardfelterUtvidet(behandling, dto);
-
-        dto.leggTil(ResourceLink.get("/fpsak/api/behandling/klage?behandlingId=" + behandling.getId(), "klage-vurdering", null));
-
-        String henleggÅrsakerUrl = "/fpsak/api/kodeverk/henlegg/arsaker/klage";
-        dto.leggTil(ResourceLink.get(henleggÅrsakerUrl, HENLEGG_ARSAKER_REL, null));
-        return dto;
-    }
-
-    private UtvidetBehandlingDto lagInnsynsbehandlingDto(Behandling behandling) {
-        UtvidetBehandlingDto dto = new UtvidetBehandlingDto();
-
-        settStandardfelterUtvidet(behandling, dto);
-
-        dto.leggTil(ResourceLink.get("/fpsak/api/behandling/innsyn?behandlingId=" + behandling.getId(), "innsyn", null));
-
-        String henleggÅrsakerUrl = "/fpsak/api/kodeverk/henlegg/arsaker/innsyn";
-        dto.leggTil(ResourceLink.get(henleggÅrsakerUrl, HENLEGG_ARSAKER_REL, null));
-
-        return dto;
     }
 
     private UtvidetBehandlingDto lagDto(Behandling behandling) {
@@ -245,9 +215,6 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
     }
 
     private LocalDate finnSkjæringstidspunktForSøknad(Behandling behandling) {
-        if (!behandling.erYtelseBehandling()) {
-            return null;
-        }
         return skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling);
     }
 

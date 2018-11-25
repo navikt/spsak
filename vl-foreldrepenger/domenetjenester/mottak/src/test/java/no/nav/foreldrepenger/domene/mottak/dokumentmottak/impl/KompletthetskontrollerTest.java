@@ -88,7 +88,7 @@ public class KompletthetskontrollerTest {
     public void oppsett() {
         MockitoAnnotations.initMocks(this);
 
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         behandling = scenario.lagMocked();
 
         // Simuler at provider alltid gir kompletthetssjekker
@@ -107,7 +107,7 @@ public class KompletthetskontrollerTest {
     @Test
     public void skal_sette_behandling_på_vent_dersom_kompletthet_ikke_er_oppfylt() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AUTO_VENTER_PÅ_KOMPLETT_SØKNAD, BehandlingStegType.VURDER_KOMPLETTHET);
         Behandling behandling = scenario.lagre(repositoryProvider); // Skulle gjerne mocket, men da funker ikke AP_DEF
         LocalDateTime ventefrist = LocalDateTime.now().plusDays(1);

@@ -32,7 +32,7 @@ public class BehandlingsprosessApplikasjonTjenesteTest {
 
     public BehandlingsprosessApplikasjonTjenesteTest() {
         this.taskData.setGruppe(GRUPPE_1);
-        this.behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagMocked();
+        this.behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagMocked();
     }
 
     @Test

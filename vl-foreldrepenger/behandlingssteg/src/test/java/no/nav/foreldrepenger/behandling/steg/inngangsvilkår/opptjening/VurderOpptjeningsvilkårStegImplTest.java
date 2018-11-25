@@ -83,7 +83,7 @@ public class VurderOpptjeningsvilkårStegImplTest {
     public void skal_lagre_resultat_av_opptjeningsvilkår() throws Exception {
 
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId aktørId = AKTØR_ID;
         scenario.medBruker(aktørId, NavBrukerKjønn.KVINNE);
 

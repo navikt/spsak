@@ -45,7 +45,7 @@ public class OppgaveBehandlingKoblingTest {
         String oppgaveIdFraGSAK = "IDFRAGSAK";
         OppgaveÅrsak behandleSøknad = OppgaveÅrsak.BEHANDLE_SAK;
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -67,7 +67,7 @@ public class OppgaveBehandlingKoblingTest {
         String oppgaveIdFraGSAK = "IDFRAGSAK";
         OppgaveÅrsak behandleSøknad = OppgaveÅrsak.BEHANDLE_SAK;
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -88,7 +88,7 @@ public class OppgaveBehandlingKoblingTest {
         OppgaveÅrsak behandleSøknad = OppgaveÅrsak.BEHANDLE_SAK;
         String saksbehandler = "R160223";
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         OppgaveBehandlingKobling oppgave = new OppgaveBehandlingKobling(behandleSøknad, oppgaveIdFraGSAK, SAKSNUMMER, behandling);

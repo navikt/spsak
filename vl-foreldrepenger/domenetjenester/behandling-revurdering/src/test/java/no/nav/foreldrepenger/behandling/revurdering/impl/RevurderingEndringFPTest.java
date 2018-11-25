@@ -113,7 +113,7 @@ public class RevurderingEndringFPTest {
 
     private Behandling opprettOriginalBehandling() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger
-            .forFødsel();
+            .forDefaultAktør();
         Behandling originalBehandling = scenario.lagre(repositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(originalBehandling);
         behandlingRepository.lagre(originalBehandling, behandlingLås);

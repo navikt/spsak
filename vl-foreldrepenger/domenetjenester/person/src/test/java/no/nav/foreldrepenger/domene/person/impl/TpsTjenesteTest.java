@@ -49,7 +49,6 @@ public class TpsTjenesteTest {
     // Familierelasjon
     private static final AktørId AKTØR_ID_RELASJON = new AktørId("3");
     private static final PersonIdent FNR_RELASJON = new PersonIdent("01345678901");
-    private static final LocalDate FØDSELSDATO_RELASJON = LocalDate.of(2017, Month.JANUARY, 1);
 
     private TpsTjeneste tpsTjeneste;
 

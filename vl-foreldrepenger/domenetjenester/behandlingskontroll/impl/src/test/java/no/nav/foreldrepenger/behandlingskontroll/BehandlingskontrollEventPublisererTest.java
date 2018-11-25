@@ -85,7 +85,7 @@ public class BehandlingskontrollEventPublisererTest {
 
     @Test
     public void skal_fyre_event_for_aksjonspunkt_funnet_ved_prosessering() throws Exception {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         BehandlingskontrollKontekst kontekst = kontrollTjeneste.initBehandlingskontroll(behandling.getId());
@@ -196,7 +196,7 @@ public class BehandlingskontrollEventPublisererTest {
     }
 
     protected ScenarioMorSøkerEngangsstønad nyttScenario(BehandlingStegType startSteg) {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medBehandlingStegStart(startSteg);
         return scenario;
     }

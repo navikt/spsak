@@ -53,7 +53,6 @@ public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {
     @Override
     public void lagreNedFagsak(Long fagsakId) {
         Fagsak fagsak = fagsakRepository.finnEksaktFagsak(fagsakId);
-        Optional<AktørId> annenPartAktørId = Optional.empty();
         FagsakDvh fagsakDvh = new FagsakDvhMapper().map(fagsak);
         datavarehusRepository.lagre(fagsakDvh);
     }

@@ -81,10 +81,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>beregning-ytelse</artifactId>
         </dependency>
-		<dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandling-innsyn</artifactId>
-        </dependency>
         
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

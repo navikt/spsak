@@ -53,7 +53,7 @@ public class MatchBeregningsgrunnlagTjenesteImplTest {
     @Before
     public void setUp() {
 
-        this.scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        this.scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         this.behandling = scenario.lagre(repositoryProvider);
         virksomhetTestUtil = new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository());
         arbeidsgiverEn = virksomhetTestUtil.forArbeidsgiverVirksomhet("412412421");

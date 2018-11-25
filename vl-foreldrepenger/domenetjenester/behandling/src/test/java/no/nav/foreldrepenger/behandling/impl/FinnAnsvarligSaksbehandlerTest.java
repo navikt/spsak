@@ -17,7 +17,7 @@ public class FinnAnsvarligSaksbehandlerTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagMocked();
     }
 

@@ -47,7 +47,7 @@ public class StartpunktTjenesteImplTest {
     @Before
     public void before() {
 
-        behandling = ScenarioMorSøkerForeldrepenger.forFødsel().medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
+        behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
 
         endringsresultatSjekker = mock(EndringsresultatSjekker.class);
 

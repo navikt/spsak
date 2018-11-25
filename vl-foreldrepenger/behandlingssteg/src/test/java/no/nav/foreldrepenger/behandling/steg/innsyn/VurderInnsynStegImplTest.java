@@ -35,7 +35,7 @@ public class VurderInnsynStegImplTest {
 
     @Test
     public void skal_liste_ut_aksjonspunktet_for_vurder_innsyn(){
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør()
             .medBruker(AKTØR_ID_MOR, NavBrukerKjønn.KVINNE);
 
         scenario.medSøknad();

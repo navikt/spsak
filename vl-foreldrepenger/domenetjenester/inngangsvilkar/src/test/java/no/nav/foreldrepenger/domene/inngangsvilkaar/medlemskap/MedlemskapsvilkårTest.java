@@ -587,7 +587,7 @@ public class MedlemskapsvilkårTest {
 
     private ScenarioMorSøkerEngangsstønad lagTestScenario(MedlemskapDekningType dekningType, Landkoder statsborgerskap,
                                                           PersonstatusType personstatusType, Region region, boolean harArbeidOgInntektSomDekkerSkjæringstidspunkt) {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         if (dekningType != null) {
             scenario.leggTilMedlemskapPeriode(new MedlemskapPerioderBuilder()
                 .medDekningType(dekningType)

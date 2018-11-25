@@ -67,7 +67,7 @@ public class AvklarOmErBosattTest {
     public void skal_gi_medlem_resultat_AVKLAR_OM_ER_BOSATT() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.SWE);
         Behandling behandling = scenario.lagre(provider);
 
@@ -82,7 +82,7 @@ public class AvklarOmErBosattTest {
     public void skal_ikke_gi_medlem_resultat_AVKLAR_OM_ER_BOSATT() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
         Behandling behandling = scenario.lagre(provider);
@@ -97,7 +97,7 @@ public class AvklarOmErBosattTest {
     @Test
     public void skal_ikke_få_aksjonspunkt_når_bruker_har_utenlandsk_postadresse_og_dekningsgraden_er_frivillig_medlem() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         leggTilSøker(scenario, AdresseType.MIDLERTIDIG_POSTADRESSE_UTLAND, Landkoder.USA);
         LocalDate fødselsDato = LocalDate.now();
         RegistrertMedlemskapPerioder gyldigPeriodeUnderFødsel = new MedlemskapPerioderBuilder()
@@ -119,7 +119,7 @@ public class AvklarOmErBosattTest {
     @Test
     public void skal_ikke_få_aksjonspunkt_når_bruker_har_utenlandsk_postadresse_og_dekningsgraden_er_ikke_medlem() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         leggTilSøker(scenario, AdresseType.MIDLERTIDIG_POSTADRESSE_UTLAND, Landkoder.USA);
         LocalDate fødselsDato = LocalDate.now();
         RegistrertMedlemskapPerioder gyldigPeriodeUnderFødsel = new MedlemskapPerioderBuilder()
@@ -147,7 +147,7 @@ public class AvklarOmErBosattTest {
             .medLand(Landkoder.NOR)
             .medPeriode(LocalDate.now(), LocalDate.now().plusYears(1))
             .build();
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
         scenario.medOppgittTilknytning().medOpphold(singletonList(oppholdNorgeNestePeriode)).medOppholdNå(false);
         Behandling behandling = scenario.lagre(provider);
@@ -163,7 +163,7 @@ public class AvklarOmErBosattTest {
     public void skal_opprette_aksjonspunkt_dersom_søker_har_vært_i_norge_til_nå_men_ikke_skal_bo_i_norge_de_neste_12_månedene() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medSøknad().medMottattDato(LocalDate.now());
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
@@ -196,7 +196,7 @@ public class AvklarOmErBosattTest {
     public void skal_ikke_opprette_aksjonspunkt_dersom_søker_har_søkt_termin_og_skal_bo_i_mange_land_i_fremtiden_men_til_sammen_under_12_måneder() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medSøknad().medMottattDato(LocalDate.now());
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
@@ -246,7 +246,7 @@ public class AvklarOmErBosattTest {
     public void skal_opprette_aksjonspunkt_dersom_søker_har_søkt_og_har_bodd_i_norge_til_nå_men__skal_bo_i_mange_land_i_fremtiden_men_til_sammen_mer_12_måneder() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medSøknad().medMottattDato(LocalDate.now());
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
@@ -296,7 +296,7 @@ public class AvklarOmErBosattTest {
     public void skal_ikke_opprette_aksjonspunkt_dersom_søker_har_søkt_fødsel_og_ikke_skal_bo_i_norge_de_neste_12_månedene() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
             .erTidligereOpphold(true)
@@ -327,7 +327,7 @@ public class AvklarOmErBosattTest {
     public void skal_ikke_opprette_aksjonspunkt_dersom_søker_har_søkt_termin_og_oppholder_seg_i_utland_i_under_12_fremtidige_måneder() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medSøknad().medMottattDato(LocalDate.now());
 
         OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
@@ -364,7 +364,7 @@ public class AvklarOmErBosattTest {
             .medLand(Landkoder.NOR)
             .medPeriode(LocalDate.now(), LocalDate.now().plusYears(1))
             .build();
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
         OppgittTilknytning oppgittTilknytning = new OppgittTilknytningEntitet.Builder().leggTilOpphold(oppholdNorgeNestePeriode).medOppholdNå(true).build();
         scenario.medSøknad().medOppgittTilknytning(oppgittTilknytning);

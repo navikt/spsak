@@ -6,13 +6,10 @@ import java.util.Map;
 import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 
 public interface BehandlingsgrunnlagKodeverkRepository extends BehandlingslagerRepository {
-
-    FarSøkerType finnFarSøkerType(String kode);
 
     SivilstandType finnSivilstandType(String kode);
 

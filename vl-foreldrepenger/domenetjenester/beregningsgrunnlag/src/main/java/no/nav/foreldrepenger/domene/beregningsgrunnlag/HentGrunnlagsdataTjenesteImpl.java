@@ -118,8 +118,7 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
     }
 
     private boolean erManuellRevurderingMedÅrsakEndringIOpplysningerOmInntekt(Behandling behandling) {
-        return behandling.erRevurdering() && (behandling.erManueltOpprettetOgHarÅrsak(BehandlingÅrsakType.RE_OPPLYSNINGER_OM_INNTEKT)
-            || behandling.erManueltOpprettetOgHarÅrsak(BehandlingÅrsakType.RE_KLAGE_MED_END_INNTEKT));
+        return behandling.erRevurdering() && (behandling.erManueltOpprettetOgHarÅrsak(BehandlingÅrsakType.RE_OPPLYSNINGER_OM_INNTEKT));
     }
 
     private boolean erEndringerIOpplysningerOmYtelse(InntektArbeidYtelseGrunnlag nyIAY, Optional<InntektArbeidYtelseGrunnlag> forrigeIAYOpt) {

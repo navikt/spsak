@@ -77,7 +77,7 @@ public class VurderTilstøtendeYtelseOgEndretBeregninsgrunnlagOppdatererTest {
         beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
         BeregningArbeidsgiverTestUtil virksomhetTestUtil = new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository());
         this.virksomheten = virksomhetTestUtil.forArbeidsgiverVirksomhet(ORGNR);
-        this.scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        this.scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         this.behandling = scenario.lagre(repositoryProvider);
         this.arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjenesteImpl(null);
         this.oppdaterer = new VurderTilstøtendeYtelseOgEndretBeregninsgrunnlagOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);

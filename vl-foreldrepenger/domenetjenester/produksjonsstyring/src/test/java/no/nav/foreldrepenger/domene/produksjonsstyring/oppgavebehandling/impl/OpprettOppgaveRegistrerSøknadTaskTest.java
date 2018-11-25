@@ -23,7 +23,7 @@ public class OpprettOppgaveRegistrerSøknadTaskTest {
     @Before
     public void before() {
         oppgaveTjeneste = mock(OppgaveTjeneste.class);
-        opprettOppgaveRegistrerSøknadTask = new OpprettOppgaveRegistrerSøknadTask(oppgaveTjeneste, ScenarioMorSøkerForeldrepenger.forFødsel().mockBehandlingRepositoryProvider());
+        opprettOppgaveRegistrerSøknadTask = new OpprettOppgaveRegistrerSøknadTask(oppgaveTjeneste, ScenarioMorSøkerForeldrepenger.forDefaultAktør().mockBehandlingRepositoryProvider());
     }
 
     @Test

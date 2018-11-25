@@ -30,8 +30,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
@@ -162,7 +160,6 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
         Query query = getEntityManager().createQuery(
             " FROM Behandling b WHERE b.fagsak.id=:fagsakId " +
                 " AND b.status IN :avsluttetOgIverkKode" +
-                " AND b.behandlingType NOT IN (:ekskluderteTyper)" +
                 " AND NOT EXISTS (SELECT r FROM Behandlingsresultat r" +
                 "    WHERE r.behandling=b " +
                 "    AND r.behandlingResultatType IN :henlagtKoder)" +
@@ -170,7 +167,6 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
         );
         query.setParameter("fagsakId", fagsakId); //$NON-NLS-1$
         query.setParameter("avsluttetOgIverkKode", asList(BehandlingStatus.AVSLUTTET, BehandlingStatus.IVERKSETTER_VEDTAK));
-        query.setParameter("ekskluderteTyper", asList(BehandlingType.INNSYN, BehandlingType.KLAGE));
         query.setParameter("henlagtKoder", BehandlingResultatType.getAlleHenleggelseskoder());
 
         return optionalFirst(query.getResultList());
@@ -185,14 +181,6 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
     }
 
     @Override
-    public Long lagre(KlageVurderingResultat klageVurderingResultat, BehandlingLås lås) {
-        getEntityManager().persist(klageVurderingResultat);
-        verifiserBehandlingLås(lås);
-        getEntityManager().flush();
-        return klageVurderingResultat.getId();
-    }
-
-    @Override
     public BehandlingLås taSkriveLås(Behandling behandling) {
         Objects.requireNonNull(behandling, "behandling"); //$NON-NLS-1$
         BehandlingLåsRepositoryImpl låsRepo = new BehandlingLåsRepositoryImpl(getEntityManager());
@@ -203,20 +191,6 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
     @Override
     public BehandlingStegType finnBehandlingStegType(String kode) {
         return getEntityManager().find(BehandlingStegType.class, kode);
-    }
-
-    @Override
-    public void slettKlageVurderingResultat(Behandling behandling, BehandlingLås behandlingLås, KlageVurdertAv klagetype) {
-        Optional<KlageVurderingResultat> klageVurderingResultatOptional = Optional.ofNullable(behandling)
-            .flatMap(b -> b.hentKlageVurderingResultat(klagetype));
-
-        if (!klageVurderingResultatOptional.isPresent()) {
-            return;
-        }
-
-        getEntityManager().remove(klageVurderingResultatOptional.get());
-        verifiserBehandlingLås(behandlingLås);
-        getEntityManager().flush();
     }
 
     @Override

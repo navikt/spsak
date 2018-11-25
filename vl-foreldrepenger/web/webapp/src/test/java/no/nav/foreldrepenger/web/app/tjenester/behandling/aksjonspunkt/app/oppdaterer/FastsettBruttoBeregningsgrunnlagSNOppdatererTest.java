@@ -180,7 +180,7 @@ public class FastsettBruttoBeregningsgrunnlagSNOppdatererTest {
     }
 
     private void lagBehandlingMedBeregningsgrunnlag(int antallPerioder) {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.FASTSETT_BEREGNINGSGRUNNLAG_SELVSTENDIG_NÆRINGSDRIVENDE,
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);

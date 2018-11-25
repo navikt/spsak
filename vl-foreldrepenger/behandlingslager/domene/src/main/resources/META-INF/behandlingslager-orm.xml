@@ -15,8 +15,6 @@
     <sequence-generator name="SEQ_BEHANDLING_ARSAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_ARSAK"/>
     <sequence-generator name="SEQ_GR_SOEKNAD" allocation-size="50" sequence-name="SEQ_GR_SOEKNAD"/>
     <sequence-generator name="SEQ_SOEKNAD" allocation-size="50" sequence-name="SEQ_SOEKNAD"/>
-    <sequence-generator name="SEQ_KLAGE_VURDERING_RESULTAT" allocation-size="50"
-                        sequence-name="SEQ_KLAGE_VURDERING_RESULTAT"/>
 
     <sequence-generator name="SEQ_BEHANDLING_RESULTAT" allocation-size="50" sequence-name="SEQ_BEHANDLING_RESULTAT"/>
     <sequence-generator name="SEQ_BR_KONSEKVENS_YTELSE" allocation-size="50" sequence-name="SEQ_BR_KONSEKVENS_YTELSE"/>
@@ -25,8 +23,6 @@
     <sequence-generator name="SEQ_VILKAR" allocation-size="50" sequence-name="SEQ_VILKAR"/>
     <sequence-generator name="SEQ_REGEL_MERKNAD" allocation-size="50" sequence-name="SEQ_REGEL_MERKNAD"/>
     <sequence-generator name="SEQ_BEREGNING_RESULTAT" allocation-size="50" sequence-name="SEQ_BEREGNING_RESULTAT"/>
-    <sequence-generator name="SEQ_INNSYN" allocation-size="50" sequence-name="SEQ_INNSYN"/>
-    <sequence-generator name="SEQ_INNSYN_DOKUMENT" allocation-size="50" sequence-name="SEQ_INNSYN_DOKUMENT"/>
     <sequence-generator name="SEQ_BEREGNING" allocation-size="50" sequence-name="SEQ_BEREGNING"/>
     <sequence-generator name="SEQ_SATS" allocation-size="50" sequence-name="SEQ_SATS"/>
     <sequence-generator name="SEQ_DOKUMENT_ADRESSE" allocation-size="50" sequence-name="SEQ_DOKUMENT_ADRESSE"/>
@@ -202,11 +198,6 @@
     <!-- Hendelser -->
     <entity class="no.nav.foreldrepenger.behandlingslager.hendelser.feilhåndtering.MottattHendelse"/>
 
-    <!-- Innsyn -->
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.InnsynEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.InnsynResultatType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.InnsynDokumentEntitet"/>
-
 	<!-- Dokumentbestilling (brev etc)-->
 	<entity class="no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType" />
     <entity class="no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalRestriksjon" />
@@ -222,9 +213,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadtypeTillegg"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadAnnenPartType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.ForeldreType"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeGrunnlagEntitet"/>
@@ -395,12 +383,6 @@
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.BrevMottaker"/>
-
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageAvvistÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageMedholdÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.kodeverk.arkiv.ArkivFilType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.kodeverk.KodelisteNavnI18N"/>

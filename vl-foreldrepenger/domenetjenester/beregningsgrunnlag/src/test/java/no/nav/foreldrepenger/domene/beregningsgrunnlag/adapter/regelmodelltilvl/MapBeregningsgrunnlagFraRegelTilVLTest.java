@@ -84,7 +84,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
         SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
         sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))

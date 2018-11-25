@@ -20,7 +20,7 @@ public class AksjonspunktUtlederForTilleggsopplysningerTest {
     public void skal_returnere_aksjonspunkt_for_tilleggsopplysninger_dersom_det_er_oppgitt_i_søknad() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenarioMedTillegsopplysningerPåSøknad = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medTilleggsopplysninger("Tillegsopplysninger");
         // Trenger bare behandling. Andre fakta settes til null
         Behandling behandling = scenarioMedTillegsopplysningerPåSøknad.lagMocked();
@@ -38,7 +38,7 @@ public class AksjonspunktUtlederForTilleggsopplysningerTest {
     public void skal_returnere_ingen_aksjonspunkt_for_tilleggsopplysninger_dersom_det_ikke_er_oppgitt_i_søknad() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenarioUtenTillegsopplysningerPåSøknad = ScenarioMorSøkerEngangsstønad
-            .forFødsel();
+            .forDefaultAktør();
         // Trenger bare behandling. Andre fakta settes til null
         Behandling behandling = scenarioUtenTillegsopplysningerPåSøknad.lagMocked();
 

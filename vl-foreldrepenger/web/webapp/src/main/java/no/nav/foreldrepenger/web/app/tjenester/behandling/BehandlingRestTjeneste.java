@@ -259,7 +259,7 @@ public class BehandlingRestTjeneste {
     })
     @BeskyttetRessurs(action = CREATE, ressurs = FAGSAK)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
-    public Response opprettNyBehandling(@ApiParam("Saksnummer og flagg om det er ny behandling etter klage") @Valid NyBehandlingDto dto)
+    public Response opprettNyBehandling(@ApiParam("Saksnummer og parametre for ny behandling") @Valid NyBehandlingDto dto)
             throws URISyntaxException {
         Saksnummer saksnummer = new Saksnummer(Long.toString(dto.getSaksnummer()));
         Optional<Fagsak> funnetFagsak = fagsakTjeneste.finnFagsakGittSaksnummer(saksnummer, true);
@@ -271,19 +271,14 @@ public class BehandlingRestTjeneste {
 
         Fagsak fagsak = funnetFagsak.get();
 
-        if (BehandlingType.INNSYN.getKode().equals(kode)) {
-            Behandling behandling = behandlingutredningTjeneste.opprettInnsyn(saksnummer);
-            String gruppe = behandlingsprosessTjeneste.asynkFortsettBehandlingsprosess(behandling);
-            return Redirect.tilBehandlingPollStatus(behandling.getId(), Optional.of(gruppe));
-
-        } else if (BehandlingType.REVURDERING.getKode().equals(kode)) {
+        if (BehandlingType.REVURDERING.getKode().equals(kode)) {
             BehandlingÅrsakType behandlingÅrsakType = kodeverkRepository.finn(BehandlingÅrsakType.class, dto.getBehandlingArsakType().getKode());
             Behandling behandling = behandlingutredningTjeneste.opprettRevurdering(fagsak, behandlingÅrsakType);
             String gruppe = behandlingsprosessTjeneste.asynkFortsettBehandlingsprosess(behandling);
             return Redirect.tilBehandlingPollStatus(behandling.getId(), Optional.of(gruppe));
 
         } else if (BehandlingType.FØRSTEGANGSSØKNAD.getKode().equals(kode)) {
-            behandlingutredningTjeneste.opprettNyFørstegangsbehandling(fagsak.getId(), saksnummer, dto.getNyBehandlingEtterKlage());
+            behandlingutredningTjeneste.opprettNyFørstegangsbehandling(fagsak.getId(), saksnummer);
             // ved førstegangssønad opprettes egen task for vurdere denne,
             // sender derfor ikke viderer til prosesser behandling (i motsetning til de andre).
             // må også oppfriske hele sakskomplekset, så sender til fagsak poll url

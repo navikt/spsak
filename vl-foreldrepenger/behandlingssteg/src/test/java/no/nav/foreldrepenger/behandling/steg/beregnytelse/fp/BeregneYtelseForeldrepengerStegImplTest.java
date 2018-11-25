@@ -158,7 +158,7 @@ public class BeregneYtelseForeldrepengerStegImplTest {
     }
 
     private Tuple<Behandling, BehandlingskontrollKontekst> byggGrunnlag(boolean medBeregningsgrunnlag, boolean medUttaksPlanResultat) {
-        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenarioMorSøkerForeldrepenger.medBruker(AKTØR_ID, NavBrukerKjønn.KVINNE);
         scenarioMorSøkerForeldrepenger.medDefaultInntektArbeidYtelse();
         if (medBeregningsgrunnlag) {

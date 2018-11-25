@@ -27,7 +27,7 @@ public class MedlemskapPerioderTjenesteImplTest {
     public void skal_beregne_skjæringsdato_for_fødselsdato_oppgitt_av_søker() {
         // Arrange
         LocalDate oppgittFødselsdato = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
         SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
         sykemeldingBuilder.medPeriode(oppgittFødselsdato, oppgittFødselsdato.plusDays(36))

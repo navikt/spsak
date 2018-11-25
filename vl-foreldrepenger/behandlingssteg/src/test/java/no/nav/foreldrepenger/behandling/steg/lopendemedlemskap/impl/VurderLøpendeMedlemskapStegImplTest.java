@@ -73,7 +73,7 @@ public class VurderLøpendeMedlemskapStegImplTest {
         LocalDate datoMedEndring = LocalDate.now().plusDays(10);
         LocalDate ettÅrSiden = LocalDate.now().minusYears(1);
         LocalDate iDag = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
         Behandling behandling = scenario.lagre(provider);
@@ -101,7 +101,7 @@ public class VurderLøpendeMedlemskapStegImplTest {
     public void skal_ikke_kjøre_steg_når_feature_er_av() {
         // Arrange
         unleash.disableAll();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(provider);
 
         Behandling revudering = opprettRevudering(behandling);

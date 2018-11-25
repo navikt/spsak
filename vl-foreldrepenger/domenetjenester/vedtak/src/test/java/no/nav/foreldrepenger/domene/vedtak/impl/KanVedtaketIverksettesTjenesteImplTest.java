@@ -72,7 +72,7 @@ public class KanVedtaketIverksettesTjenesteImplTest {
 
     @Before
     public void oppsett(){
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         behandling = scenario.lagMocked();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();

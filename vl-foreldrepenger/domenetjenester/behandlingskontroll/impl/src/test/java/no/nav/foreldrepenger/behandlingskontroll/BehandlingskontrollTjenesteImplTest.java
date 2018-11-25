@@ -112,7 +112,7 @@ public class BehandlingskontrollTjenesteImplTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagre(repositoryProvider);
 
         manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, STEG_3);

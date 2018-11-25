@@ -69,7 +69,7 @@ public class FastsettBGTilstøtendeYtelseOppdatererTest {
 
     @Before
     public void setup() {
-        this.scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        this.scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         this.behandling = scenario.lagre(repositoryProvider);
         BeregningArbeidsgiverTestUtil virksomhetTestUtil = new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository());
         this.virksomheten = virksomhetTestUtil.forArbeidsgiverVirksomhet(ORGNR);

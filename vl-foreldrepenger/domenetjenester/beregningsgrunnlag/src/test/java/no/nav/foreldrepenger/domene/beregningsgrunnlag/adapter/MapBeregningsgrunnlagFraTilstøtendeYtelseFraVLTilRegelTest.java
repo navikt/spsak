@@ -106,7 +106,7 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegelTest {
             .build();
         realRepositoryProvider.getVirksomhetRepository().lagre(virksomhetEntitet1);
         realRepositoryProvider.getVirksomhetRepository().lagre(virksomhetEntitet2);
-        scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
     }
 
     @Test

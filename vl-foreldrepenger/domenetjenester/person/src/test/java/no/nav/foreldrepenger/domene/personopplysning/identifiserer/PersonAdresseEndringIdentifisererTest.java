@@ -45,7 +45,7 @@ public class PersonAdresseEndringIdentifisererTest {
     @Before
     public void setup() {
         personAdresseEndringIdentifiserer = new PersonAdresseEndringIdentifiserer();
-        behandling = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
+        behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
     }
 
     @Test

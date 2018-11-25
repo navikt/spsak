@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 
 @Entity(name = "BehandlingResultatType")
@@ -29,24 +28,9 @@ public class BehandlingResultatType extends Kodeliste {
     public static final BehandlingResultatType FORELDREPENGER_ENDRET = new BehandlingResultatType("FORELDREPENGER_ENDRET"); //$NON-NLS-1$
     public static final BehandlingResultatType INGEN_ENDRING = new BehandlingResultatType("INGEN_ENDRING"); //$NON-NLS-1$
     public static final BehandlingResultatType MANGLER_BEREGNINGSREGLER = new BehandlingResultatType("MANGLER_BEREGNINGSREGLER"); //$NON-NLS-1$
-    // Klage
-    public static final BehandlingResultatType KLAGE_AVVIST = new BehandlingResultatType("KLAGE_AVVIST"); //$NON-NLS-1$
-    public static final BehandlingResultatType KLAGE_MEDHOLD = new BehandlingResultatType("KLAGE_MEDHOLD"); //$NON-NLS-1$
-    public static final BehandlingResultatType KLAGE_YTELSESVEDTAK_OPPHEVET = new BehandlingResultatType("KLAGE_YTELSESVEDTAK_OPPHEVET"); //$NON-NLS-1$
-    public static final BehandlingResultatType KLAGE_YTELSESVEDTAK_STADFESTET = new BehandlingResultatType("KLAGE_YTELSESVEDTAK_STADFESTET"); //$NON-NLS-1$
-    public static final BehandlingResultatType HENLAGT_KLAGE_TRUKKET = new BehandlingResultatType("HENLAGT_KLAGE_TRUKKET"); //$NON-NLS-1$
 
-    public static final BehandlingResultatType INNSYN_INNVILGET = new BehandlingResultatType("INNSYN_INNVILGET"); //$NON-NLS-1$
-    public static final BehandlingResultatType INNSYN_DELVIS_INNVILGET = new BehandlingResultatType("INNSYN_DELVIS_INNVILGET"); //$NON-NLS-1$
-    public static final BehandlingResultatType INNSYN_AVVIST = new BehandlingResultatType("INNSYN_AVVIST"); //$NON-NLS-1$
-    public static final BehandlingResultatType HENLAGT_INNSYN_TRUKKET = new BehandlingResultatType("HENLAGT_INNSYN_TRUKKET"); //$NON-NLS-1$
-
-    private static final Set<BehandlingResultatType> HENLEGGELSESKODER_FOR_KLAGE = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(HENLAGT_KLAGE_TRUKKET, HENLAGT_FEILOPPRETTET)));
-    private static final Set<BehandlingResultatType> HENLEGGELSESKODER_FOR_INNSYN = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(HENLAGT_INNSYN_TRUKKET, HENLAGT_FEILOPPRETTET)));
     private static final Set<BehandlingResultatType> HENLEGGELSESKODER_FOR_SØKNAD = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(HENLAGT_SØKNAD_TRUKKET, HENLAGT_FEILOPPRETTET, HENLAGT_BRUKER_DØD, MANGLER_BEREGNINGSREGLER)));
-    private static final Set<BehandlingResultatType> ALLE_HENLEGGELSESKODER = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(HENLAGT_SØKNAD_TRUKKET, HENLAGT_FEILOPPRETTET, HENLAGT_BRUKER_DØD, HENLAGT_KLAGE_TRUKKET, MERGET_OG_HENLAGT, HENLAGT_SØKNAD_MANGLER, HENLAGT_INNSYN_TRUKKET, MANGLER_BEREGNINGSREGLER)));
-    private static final Set<BehandlingResultatType> KLAGE_KODER = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(KLAGE_MEDHOLD, KLAGE_YTELSESVEDTAK_STADFESTET, KLAGE_YTELSESVEDTAK_STADFESTET, KLAGE_AVVIST)));
-    private static final Set<BehandlingResultatType> INNSYN_KODER = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(INNSYN_INNVILGET, INNSYN_DELVIS_INNVILGET, INNSYN_AVVIST)));
+    private static final Set<BehandlingResultatType> ALLE_HENLEGGELSESKODER = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(HENLAGT_SØKNAD_TRUKKET, HENLAGT_FEILOPPRETTET, HENLAGT_BRUKER_DØD, MERGET_OG_HENLAGT, HENLAGT_SØKNAD_MANGLER, MANGLER_BEREGNINGSREGLER)));
     private static final Set<BehandlingResultatType> INNVILGET_KODER = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(INNVILGET, FORELDREPENGER_ENDRET)));
 
     protected BehandlingResultatType() {
@@ -61,24 +45,8 @@ public class BehandlingResultatType extends Kodeliste {
         return ALLE_HENLEGGELSESKODER;
     }
 
-    public static Set<BehandlingResultatType> getHenleggelseskoderForKlage() {
-        return HENLEGGELSESKODER_FOR_KLAGE;
-    }
-
-    public static Set<BehandlingResultatType> getHenleggelseskoderForInnsyn() {
-        return HENLEGGELSESKODER_FOR_INNSYN;
-    }
-
     public static Set<BehandlingResultatType> getHenleggelseskoderForSøknad() {
         return HENLEGGELSESKODER_FOR_SØKNAD;
-    }
-
-    public static Set<BehandlingResultatType> getKlageKoder() {
-        return KLAGE_KODER;
-    }
-
-    public static Set<BehandlingResultatType> getInnsynKoder() {
-        return INNSYN_KODER;
     }
 
     public static Set<BehandlingResultatType> getInnvilgetKoder() {
@@ -89,18 +57,4 @@ public class BehandlingResultatType extends Kodeliste {
         return ALLE_HENLEGGELSESKODER.contains(this);
     }
 
-    public static BehandlingResultatType tolkBehandlingResultatType(KlageVurdering vurdering) {
-        switch (vurdering.getKode()) {
-            case "AVVIS_KLAGE":
-                return BehandlingResultatType.KLAGE_AVVIST;
-            case "MEDHOLD_I_KLAGE":
-                return BehandlingResultatType.KLAGE_MEDHOLD;
-            case "OPPHEVE_YTELSESVEDTAK":
-                return BehandlingResultatType.KLAGE_YTELSESVEDTAK_OPPHEVET;
-            case "STADFESTE_YTELSESVEDTAK":
-                return BehandlingResultatType.KLAGE_YTELSESVEDTAK_STADFESTET;
-            default:
-                return null;
-        }
-    }
 }

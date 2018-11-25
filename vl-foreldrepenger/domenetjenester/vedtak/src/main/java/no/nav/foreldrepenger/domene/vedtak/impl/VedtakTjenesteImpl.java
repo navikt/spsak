@@ -17,7 +17,6 @@ import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.InnsynResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInnslagTekstBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
@@ -152,13 +151,6 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
     @Override
     public VedtakResultatType utledVedtakResultatType(Behandling behandling) {
         BehandlingResultatType resultatType = behandling.getBehandlingsresultat().getBehandlingResultatType();
-        if (BehandlingResultatType.getKlageKoder().contains(resultatType)) {
-            return VedtakResultatType.VEDTAK_I_KLAGEBEHANDLING;
-        }
-        if (BehandlingResultatType.getInnsynKoder().contains(resultatType)) {
-            InnsynResultatType innsynResultatType = behandling.getInnsyn().getInnsynResultatType();
-            return utledVedtakResultatTypeFraInnsyn(innsynResultatType);
-        }
         return utledVedtakResultatType(behandling, resultatType);
     }
 
@@ -178,12 +170,4 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
         return VedtakResultatType.AVSLAG;
     }
 
-    private VedtakResultatType utledVedtakResultatTypeFraInnsyn(InnsynResultatType innsynResultatType) {
-        if (InnsynResultatType.INNVILGET.equals(innsynResultatType)) {
-            return VedtakResultatType.INNVILGET;
-        } else if (InnsynResultatType.DELVIS_INNVILGET.equals(innsynResultatType)) {
-            return VedtakResultatType.DELVIS_INNVILGET;
-        }
-        return VedtakResultatType.AVSLAG;
-    }
 }

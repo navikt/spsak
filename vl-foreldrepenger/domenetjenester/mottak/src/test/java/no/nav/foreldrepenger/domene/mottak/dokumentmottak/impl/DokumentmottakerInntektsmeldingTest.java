@@ -88,8 +88,7 @@ public class DokumentmottakerInntektsmeldingTest {
     public void oppsett() {
         MockitoAnnotations.initMocks(this);
 
-        dokumentmottakerFelles = new DokumentmottakerFelles(repositoryProvider, prosessTaskRepository, behandlendeEnhetTjeneste,
-            historikkinnslagTjeneste);
+        dokumentmottakerFelles = new DokumentmottakerFelles(prosessTaskRepository, behandlendeEnhetTjeneste, historikkinnslagTjeneste);
 
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
@@ -107,14 +106,14 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_oppdatere_behandling_vurdere_kompletthet_og_spole_til_nytt_startpunkt_dersom_fagsak_har_avsluttet_behandling_har_åpen_behandling_og_kompletthet_passert() {
         // Arrange - opprette avsluttet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         behandling.avsluttBehandling();
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
 
         // Arrange - opprette revurdering som har passert kompletthet
-        ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+        ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medFagsakId(behandling.getFagsakId())
                 .medBehandlingStegStart(BehandlingStegType.FORESLÅ_VEDTAK)
             .medOriginalBehandling(behandling, BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER);
@@ -136,7 +135,7 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_lagre_dokument_og_vurdere_kompletthet_dersom_inntektsmelding_på_åpen_behandling() {
         // Arrange - opprette åpen behandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingStegStart(BehandlingStegType.VURDER_KOMPLETTHET);
         Behandling behandling = scenario.lagre(repositoryProvider);
         opprettAksjonspunkt(behandling, AksjonspunktDefinisjon.AUTO_VENTER_PÅ_KOMPLETT_SØKNAD, LocalDateTime.now());
@@ -156,7 +155,7 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_opprette_revurdering_dersom_inntektsmelding_på_avsluttet_behandling() {
         // Arrange - opprette avsluttet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         behandling.avsluttBehandling();
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
@@ -198,7 +197,7 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_opprette_køet_revurdering_og_kjøre_kompletthet_dersom_køet_behandling_ikke_finnes() {
         // Arrange - opprette avsluttet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         behandling.avsluttBehandling();
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
@@ -246,7 +245,7 @@ public class DokumentmottakerInntektsmeldingTest {
     @Test
     public void skal_oppdatere_køet_behandling_og_kjøre_kompletthet_dersom_køet_behandling_finnes() {
         // Arrange - opprette køet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);

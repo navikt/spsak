@@ -157,7 +157,7 @@ public class VurderTidsbegrensetArbeidsforholdOppdatererTest {
     }
 
     private void lagBehandlingMedBeregningsgrunnlag() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.VURDER_FAKTA_FOR_ATFL_SN,
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);

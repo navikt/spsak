@@ -59,7 +59,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     public void skal_ikke_opprette_aksjonspunktet_5051() {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -96,7 +96,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     @Test
     public void skal_opprette_aksjonspunkt_dersom_bekreftet_frilansoppdrag() {
         AktørId aktørId1 = new AktørId("1");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
 
         LocalDate fraOgMed = LocalDate.now().minusMonths(1);
         LocalDate tilOgMed = LocalDate.now().plusMonths(1);
@@ -200,7 +200,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     @Test
     public void skal_ikke_opprette_aksjonspunkt_om_bruker_er_selvstendig_næringsdrivende_og_ikke_hatt_næringsinntekt_og_registrert_næringen_senere() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         LocalDate fraOgMed = LocalDate.now().minusMonths(1);
         LocalDate tilOgMed = LocalDate.now().plusMonths(1);
@@ -259,7 +259,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     public void skal_ikke_opprette_aksjonspunkt_når_ingen_arbeidsavtaler_har_0_stillingsprosent() {
         // Arrange
         AktørId aktørId1 = new AktørId("1");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Act
@@ -273,7 +273,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     public void skal_opprette_aksjonspunkt_når_en_arbeidsavtale_har_0_stillingsprosent() {
         // Arrange
         AktørId aktørId1 = new AktørId("1");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder();
         builder.medAktivitetsAvtaleProsentsats(BigDecimal.ZERO);
         builder.build();
@@ -292,7 +292,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     }
 
     private Behandling opprettUtenlandskArbeidsforhold(AktørId aktørId){
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId, NavBrukerKjønn.KVINNE);
 
         LocalDate fraOgMed = LocalDate.now().minusMonths(1);
         LocalDate tilOgMed = LocalDate.now().plusMonths(1);
@@ -309,7 +309,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     }
 
     private Behandling opprettOppgittOpptjening(AktørId aktørId, boolean medNæring) {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId, NavBrukerKjønn.KVINNE);
 
         LocalDate fraOgMed = LocalDate.now().minusMonths(1);
         LocalDate tilOgMed = LocalDate.now().plusMonths(1);
@@ -347,7 +347,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     }
 
     private Behandling opprettBehandling(ArbeidType annenOpptjeningType) {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         LocalDate fraOgMed = LocalDate.now().minusMonths(1);
         LocalDate tilOgMed = LocalDate.now().plusMonths(1);

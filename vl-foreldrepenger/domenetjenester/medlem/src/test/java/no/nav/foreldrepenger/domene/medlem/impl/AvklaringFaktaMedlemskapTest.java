@@ -61,7 +61,7 @@ public class AvklaringFaktaMedlemskapTest {
     @Test
     public void skal_ikke_opprette_aksjonspunkt_ved_gyldig_medlems_periode() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
 
         RegistrertMedlemskapPerioder gyldigPeriode = new MedlemskapPerioderBuilder()
@@ -92,7 +92,7 @@ public class AvklaringFaktaMedlemskapTest {
             .medPeriode(SKJÆRINGSDATO_FØDSEL, SKJÆRINGSDATO_FØDSEL)
             .build();
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.leggTilMedlemskapPeriode(gyldigPeriode);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario);
@@ -115,7 +115,7 @@ public class AvklaringFaktaMedlemskapTest {
             .medPeriode(SKJÆRINGSDATO_FØDSEL, SKJÆRINGSDATO_FØDSEL)
             .build();
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.leggTilMedlemskapPeriode(gyldigPeriode);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
 
@@ -139,7 +139,7 @@ public class AvklaringFaktaMedlemskapTest {
             .medPeriode(SKJÆRINGSDATO_FØDSEL, SKJÆRINGSDATO_FØDSEL)
             .build();
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.leggTilMedlemskapPeriode(medlemskapPeriodeForUnntak);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario);
@@ -162,7 +162,7 @@ public class AvklaringFaktaMedlemskapTest {
             .medPeriode(SKJÆRINGSDATO_FØDSEL, SKJÆRINGSDATO_FØDSEL)
             .build();
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.leggTilMedlemskapPeriode(medlemskapPeriodeForUnntak);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.USA, Region.UDEFINERT, PersonstatusType.UTVA);
@@ -185,7 +185,7 @@ public class AvklaringFaktaMedlemskapTest {
             .medPeriode(SKJÆRINGSDATO_FØDSEL, SKJÆRINGSDATO_FØDSEL)
             .build();
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.leggTilMedlemskapPeriode(medlemskapPeriodeForUnntak);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.USA, Region.UDEFINERT, PersonstatusType.BOSA);
@@ -201,7 +201,7 @@ public class AvklaringFaktaMedlemskapTest {
     @Test
     public void skal_ikke_opprette_aksjonspunkt_ved_ikke_gyldig_periode_og_status_utvandret() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.NOR, Region.NORDEN, PersonstatusType.UTVA);
         Behandling behandling = scenario.lagre(provider);
@@ -216,7 +216,7 @@ public class AvklaringFaktaMedlemskapTest {
     @Test
     public void skal_ikke_opprette_aksjonspunkt_ved_ikke_gyldig_periode_og_ikke_utvandret_og_region_nordisk() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.SWE, Region.UDEFINERT, PersonstatusType.BOSA);
         Behandling behandling = scenario.lagre(provider);
@@ -231,7 +231,7 @@ public class AvklaringFaktaMedlemskapTest {
     @Test
     public void skal_ikke_opprette_aksjonspunkt_ved_ikke_gyldig_periode_og_ikke_utvandret_og_region_eøs_og_inntekt_siste_3mnd() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         final SøknadRepository søknadRepository = scenario.mockBehandlingRepositoryProvider().getSøknadRepository();
         leggTilSøker(scenario, Landkoder.BEL, Region.UDEFINERT, PersonstatusType.BOSA);
@@ -252,7 +252,7 @@ public class AvklaringFaktaMedlemskapTest {
     @Test
     public void skal_opprette_aksjonspunkt_ved_ikke_gyldig_periode_og_ikke_utvandret_og_region_eøs_og_ikke_inntekt_siste_3mnd() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.BEL, Region.UDEFINERT, PersonstatusType.BOSA);
         Behandling behandling = scenario.lagre(provider);
@@ -267,7 +267,7 @@ public class AvklaringFaktaMedlemskapTest {
     @Test
     public void skal_opprette_aksjonspunkt_ved_ikke_gyldig_periode_og_ikke_utvandret_og_region_annen() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.UDEFINERT, Region.UDEFINERT, PersonstatusType.BOSA);
         Behandling behandling = scenario.lagre(provider);

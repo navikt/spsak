@@ -10,12 +10,6 @@ class UtledVedtakResultatType {
     }
 
     static VedtakResultatType utled(Behandling behandling) {
-        if (behandling.erKlage()) {
-            return VedtakResultatType.VEDTAK_I_KLAGEBEHANDLING;
-        }
-        if (behandling.erInnsyn()) {
-            return VedtakResultatType.VEDTAK_I_INNSYNBEHANDLING;
-        }
         BehandlingResultatType behandlingResultatType = behandling.getBehandlingsresultat().getBehandlingResultatType();
         if (BehandlingResultatType.INNVILGET.equals(behandlingResultatType)) {
             return VedtakResultatType.INNVILGET;

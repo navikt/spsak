@@ -77,7 +77,7 @@ public class VurderFaktaOmBeregningOppdatererTest {
     public void setup() {
         ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjenesteImpl(null);
         this.vurderFaktaOmBeregningOppdaterer = new VurderFaktaOmBeregningOppdaterer(historikkTjenesteAdapter, repositoryProvider, arbeidsgiverHistorikkinnslagTjeneste);
-        this.scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        this.scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         this.behandling = scenario.lagre(repositoryProvider);
         BeregningArbeidsgiverTestUtil arbeidsgiverTestUtil = new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository());
         this.virksomheten = arbeidsgiverTestUtil.forArbeidsgiverVirksomhet(ORGNR);

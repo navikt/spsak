@@ -229,7 +229,7 @@ public class MottattDokumentOversetterInntektsmeldingTest {
     }
 
     private Behandling opprettBehandling() {
-        final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         return scenario.lagre(repositoryProvider);
     }
 

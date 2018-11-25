@@ -42,7 +42,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
 
     @Before
     public void oppsett() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD);
         originalBehandling = scenario.lagMocked();
         revurdering = opprettRevurdering(originalBehandling);
@@ -483,7 +483,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
     public void skal_feile_hvis_behandling_ikke_er_en_revurdering(){
 
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD);
         originalBehandling = scenario.lagMocked();
         BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
@@ -508,7 +508,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
 
         // Arrange
 
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medBehandlingType(BehandlingType.REVURDERING);
         Behandling revurdering = scenario.lagMocked();
         BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();

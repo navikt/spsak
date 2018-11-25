@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.IverksetteVedtakHistorikkTjeneste;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.IverksetteVedtakSteg;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.AvsluttBehandlingTask;
-import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.task.SendVedtaksbrevTask;
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegRef;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
@@ -20,9 +19,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEventPubliserer
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
@@ -32,7 +28,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatTy
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveVurderKonsekvensTask;
 import no.nav.foreldrepenger.domene.vedtak.KanVedtaketIverksettesTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskGruppe;
@@ -45,8 +40,6 @@ import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
 
     private static final Logger log = LoggerFactory.getLogger(IverksetteVedtakStegImpl.class);
-
-    private static final String BESKRIVELSESTEKST = "Vedtaket er opphevet eller omgjort. Opprett en ny behandling.";
 
     private ProsessTaskRepository prosessTaskRepository;
     private BehandlingRepository behandlingRepository;
@@ -122,21 +115,12 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
         ProsessTaskGruppe taskData;
         ProsessTaskData avsluttBehandling = new ProsessTaskData(AvsluttBehandlingTask.TASKTYPE);
         Optional<ProsessTaskData> avsluttOppgave = oppgaveTjeneste.opprettTaskAvsluttOppgave(behandling, behandling.getBehandleOppgaveÅrsak(), false);
-        ProsessTaskData sendVedtaksbrev = new ProsessTaskData(SendVedtaksbrevTask.TASKTYPE);
 
-        if (behandling.erKlage()) {
-            //TODO E149421 vurder å flytte ut til egen implementasjon av steget
-            taskData = opprettTaskDataForKlage(behandling, avsluttBehandling, sendVedtaksbrev, avsluttOppgave);
-        } else if (behandling.erInnsyn()) {
-            //TODO E149421 vurder å flytte til egen implementasjon av steget, gjøre evt. når det sendes ut brev
-            taskData = opprettTaskDataForInnsyn(avsluttBehandling, avsluttOppgave);
-        } else {
-            taskData = new ProsessTaskGruppe();
-            if (avsluttOppgave.isPresent()) {
-                taskData.addNesteParallell(avsluttOppgave.get());
-            }
-            taskData.addNesteSekvensiell(avsluttBehandling);
+        taskData = new ProsessTaskGruppe();
+        if (avsluttOppgave.isPresent()) {
+            taskData.addNesteParallell(avsluttOppgave.get());
         }
+        taskData.addNesteSekvensiell(avsluttBehandling);
         taskData.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());
 
         taskData.setCallIdFraEksisterende();
@@ -144,46 +128,11 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
         prosessTaskRepository.lagre(taskData);
     }
 
-    private ProsessTaskGruppe opprettTaskDataForInnsyn(ProsessTaskData avsluttBehandling, Optional<ProsessTaskData> avsluttOppgave) {
-        ProsessTaskGruppe taskData = new ProsessTaskGruppe();
-        avsluttOppgave.ifPresent(taskData::addNesteParallell);
-        taskData.addNesteSekvensiell(avsluttBehandling);
-        return taskData;
-    }
-
-    private ProsessTaskGruppe opprettTaskDataForKlage(Behandling behandling, ProsessTaskData avsluttBehandling,
-                                                      ProsessTaskData sendVedtaksbrev, Optional<ProsessTaskData> avsluttOppgave) {
-        ProsessTaskGruppe taskData = new ProsessTaskGruppe();
-        if (avsluttOppgave.isPresent()) {
-            taskData.addNesteParallell(sendVedtaksbrev, avsluttOppgave.get());
-        } else {
-            taskData.addNesteSekvensiell(sendVedtaksbrev);
-        }
-        taskData.addNesteSekvensiell(avsluttBehandling);
-        Optional<KlageVurderingResultat> vurderingsresultat = behandling.hentGjeldendeKlageVurderingResultat();
-        if (vurderingsresultat.isPresent()) {
-            KlageVurdering vurdering = vurderingsresultat.get().getKlageVurdering();
-            if (KlageVurdering.MEDHOLD_I_KLAGE.equals(vurdering) || KlageVurdering.OPPHEVE_YTELSESVEDTAK.equals(vurdering)) {
-                Behandling sisteFørstegangsbehandling = behandlingRepository.hentSisteBehandlingForFagsakId(behandling.getFagsakId(),
-                    BehandlingType.FØRSTEGANGSSØKNAD).orElse(behandling);
-                ProsessTaskData opprettOppgave = new ProsessTaskData(OpprettOppgaveVurderKonsekvensTask.TASKTYPE);
-                opprettOppgave.setProperty(OpprettOppgaveVurderKonsekvensTask.KEY_BEHANDLENDE_ENHET, sisteFørstegangsbehandling.getBehandlendeEnhet());
-                opprettOppgave.setProperty(OpprettOppgaveVurderKonsekvensTask.KEY_BESKRIVELSE, BESKRIVELSESTEKST);
-                opprettOppgave.setProperty(OpprettOppgaveVurderKonsekvensTask.KEY_PRIORITET, OpprettOppgaveVurderKonsekvensTask.PRIORITET_HØY);
-                taskData.addNesteSekvensiell(opprettOppgave);
-            }
-        }
-        return taskData;
-    }
-
     private BehandleStegResultat venter() {
         return BehandleStegResultat.settPåVent();
     }
 
     boolean iverksettingHindresAvAnnenBehandling(Behandling behandling) {
-        if (behandling.erInnsyn()) {
-            return false; //trenger ikke å vente på andre behandlinger
-        }
         // Iverksetting er hindret hvis det finnes annet vedtak i samme sak, og med status UNDER_IVERKSETTING
         Fagsak fagsak = fagsakRepository.finnEksaktFagsak(behandling.getFagsakId());
         List<Behandling> behandlinger = behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(fagsak.getSaksnummer());

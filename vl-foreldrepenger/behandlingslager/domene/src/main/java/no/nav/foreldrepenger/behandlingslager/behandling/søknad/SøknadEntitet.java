@@ -15,14 +15,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
-
-import org.hibernate.annotations.JoinColumnOrFormula;
-import org.hibernate.annotations.JoinFormula;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningEntitet;
@@ -49,11 +45,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     @Column(name = "versjon", nullable = false)
     private long versjon;
 
-    @ManyToOne(optional = false)
-    @JoinColumnOrFormula(column = @JoinColumn(name = "far_soeker_type", referencedColumnName = "kode", nullable = false))
-    @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + FarSøkerType.DISCRIMINATOR + "'"))
-    private FarSøkerType farSøkerType = FarSøkerType.UDEFINERT;
-
     @Convert(converter = BooleanToStringConverter.class)
     @Column(name = "elektronisk_registrert", nullable = false)
     private boolean elektroniskRegistrert;
@@ -64,11 +55,11 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     @Column(name = "tilleggsopplysninger")
     private String tilleggsopplysninger;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {/* NONE! */})
+    @OneToOne(fetch = FetchType.LAZY, cascade = { /* NONE! */ })
     @JoinColumn(name = "medlemskap_oppg_tilknyt_id", unique = true)
     private OppgittTilknytningEntitet oppgittTilknytning;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "søknad")
+    @OneToMany(cascade = { CascadeType.ALL }, mappedBy = "søknad")
     private Set<SøknadVedleggEntitet> søknadVedlegg = new HashSet<>(2);
 
     @Column(name = "begrunnelse_for_sen_innsending")
@@ -84,7 +75,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     SøknadEntitet() {
         // hibernate
-        this.farSøkerType = FarSøkerType.UDEFINERT;
     }
 
     /**
@@ -93,7 +83,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     SøknadEntitet(Søknad søknadMal) {
         this.begrunnelseForSenInnsending = søknadMal.getBegrunnelseForSenInnsending();
         this.elektroniskRegistrert = søknadMal.getElektroniskRegistrert();
-        this.setFarSøkerType(søknadMal.getFarSøkerType());
         this.kildeReferanse = søknadMal.getKildeReferanse();
         this.mottattDato = søknadMal.getMottattDato();
         this.søknadsdato = søknadMal.getSøknadsdato();
@@ -132,15 +121,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     void setKildeReferanse(String kildeReferanse) {
         this.kildeReferanse = kildeReferanse;
-    }
-
-    @Override
-    public FarSøkerType getFarSøkerType() {
-        return farSøkerType == null || Objects.equals(farSøkerType, FarSøkerType.UDEFINERT) ? null : farSøkerType;
-    }
-
-    void setFarSøkerType(FarSøkerType farSøkerType) {
-        this.farSøkerType = farSøkerType == null ? FarSøkerType.UDEFINERT : farSøkerType;
     }
 
     @Override
@@ -234,7 +214,7 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     @Override
     public int hashCode() {
-        return Objects.hash(elektroniskRegistrert, kildeReferanse, mottattDato, 
+        return Objects.hash(elektroniskRegistrert, kildeReferanse, mottattDato,
             søknadsdato, oppgittTilknytning, erEndringssøknad, tilleggsopplysninger, søknadVedlegg, oppgittOpptjening, begrunnelseForSenInnsending);
     }
 
@@ -266,14 +246,8 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             }
         }
 
-
         public Builder medElektroniskRegistrert(boolean elektroniskRegistrert) {
             søknadMal.setElektroniskRegistrert(elektroniskRegistrert);
-            return this;
-        }
-
-        public Builder medFarSøkerType(FarSøkerType farSøkerType) {
-            søknadMal.setFarSøkerType(farSøkerType);
             return this;
         }
 
@@ -323,7 +297,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             søknadMal.setErEndringssøknad(erEndringssøknad);
             return this;
         }
-
 
         public Søknad build() {
             return søknadMal;

@@ -30,7 +30,6 @@ import no.nav.foreldrepenger.domene.typer.JournalpostId;
 @ApplicationScoped
 public class HistorikkinnslagTjenesteImpl implements HistorikkinnslagTjeneste {
 
-    private static final String KLAGE = "Klage";
     private static final String VEDLEGG = "Vedlegg";
     private static final String PAPIRSØKNAD = "Papirsøknad";
     private static final String SØKNAD = "Søknad";
@@ -64,7 +63,7 @@ public class HistorikkinnslagTjenesteImpl implements HistorikkinnslagTjeneste {
         leggTilHistorikkinnslagDokumentlinker(behandling.getType(), journalpostId, historikkinnslag);
 
         HistorikkInnslagTekstBuilder builder = new HistorikkInnslagTekstBuilder()
-            .medHendelse(behandling.erKlage() ? HistorikkinnslagType.KLAGEBEH_STARTET : HistorikkinnslagType.BEH_STARTET);
+            .medHendelse(HistorikkinnslagType.BEH_STARTET);
         builder.build(historikkinnslag);
 
         historikkRepository.lagre(historikkinnslag);
@@ -110,12 +109,10 @@ public class HistorikkinnslagTjenesteImpl implements HistorikkinnslagTjeneste {
                                             Optional<JournalMetadata<DokumentTypeId>> elektroniskSøknad) {
         if (elektroniskSøknad.isPresent()) {
             final JournalMetadata<DokumentTypeId> journalMetadata = elektroniskSøknad.get();
-            String linkTekst = BehandlingType.KLAGE.equals(behandlingType) ? KLAGE
-                : journalMetadata.getDokumentType().equals(DokumentTypeId.INNTEKTSMELDING) ? INNTEKTSMELDING : SØKNAD; // NOSONAR
+            String linkTekst = journalMetadata.getDokumentType().equals(DokumentTypeId.INNTEKTSMELDING) ? INNTEKTSMELDING : SØKNAD; // NOSONAR
             dokumentLinker.add(lagHistorikkInnslagDokumentLink(journalMetadata, journalpostId, historikkinnslag, linkTekst));
         } else {
-            String linkTekst = BehandlingType.KLAGE.equals(behandlingType) ? KLAGE
-                : BehandlingType.UDEFINERT.equals(behandlingType) ? ETTERSENDELSE : PAPIRSØKNAD;
+            String linkTekst = BehandlingType.UDEFINERT.equals(behandlingType) ? ETTERSENDELSE : PAPIRSØKNAD;
             Optional<JournalMetadata<DokumentTypeId>> papirSøknad = hoveddokumentJournalMetadata.stream()
                 .filter(j -> !ArkivFilType.XML.equals(j.getArkivFilType())).findFirst();
             papirSøknad

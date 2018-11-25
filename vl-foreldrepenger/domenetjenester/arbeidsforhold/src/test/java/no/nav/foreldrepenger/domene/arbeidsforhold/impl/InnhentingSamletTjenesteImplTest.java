@@ -128,7 +128,7 @@ public class InnhentingSamletTjenesteImplTest {
             infotrygdTjeneste,infotrygdBeregningsgrunnlagTjeneste,meldekortTjeneste);
 
         ScenarioMorSøkerForeldrepenger førstegangsscenario;
-        førstegangsscenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+        førstegangsscenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBruker(KVINNE_MEDL_EØSBORGER_BOSATT_NOR_AKTØRID, NavBrukerKjønn.KVINNE);
 
         behandling = førstegangsscenario.lagre(repositoryProvider);

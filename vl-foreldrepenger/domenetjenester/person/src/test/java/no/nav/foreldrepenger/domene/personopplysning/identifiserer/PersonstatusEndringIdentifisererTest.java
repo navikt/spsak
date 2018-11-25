@@ -45,7 +45,7 @@ public class PersonstatusEndringIdentifisererTest {
     @Before
     public void setup() {
         personstatusEndringIdentifiserer = new PersonstatusEndringIdentifiserer();
-        ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
+        ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
     }
 
     @Test

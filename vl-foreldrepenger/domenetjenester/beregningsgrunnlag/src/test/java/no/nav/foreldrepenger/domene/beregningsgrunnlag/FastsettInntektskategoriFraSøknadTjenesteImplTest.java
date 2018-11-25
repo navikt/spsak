@@ -72,7 +72,7 @@ public class FastsettInntektskategoriFraSøknadTjenesteImplTest {
                 .medNavn("BeregningVirksomheten")
                 .oppdatertOpplysningerNå()
                 .build();
-        scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(any())).thenReturn(SKJÆRINGSTIDSPUNKT_OPPTJENING);
     }
 

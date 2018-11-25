@@ -45,7 +45,7 @@ public class FaktaOmBeregningDtoTjenesteImplTest {
     @Before
     public void setUp() {
         aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(BeregningIAYTestUtil.AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(BeregningIAYTestUtil.AKTØR_ID);
         Beregningsgrunnlag bg = lagBeregningsgrunnlag(scenario);
         behandling = scenario.lagre(repositoryProvider);
         List<FaktaOmBeregningTilfelle> tilfeller = Collections.singletonList(FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE);

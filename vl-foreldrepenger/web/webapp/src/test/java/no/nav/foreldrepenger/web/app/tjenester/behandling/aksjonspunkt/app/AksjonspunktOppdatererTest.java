@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste;
@@ -35,7 +34,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.VurderÅrsakTotrinnsvurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerEngangsstønad;
+import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
@@ -72,7 +71,6 @@ public class AksjonspunktOppdatererTest {
     @Inject
     private VedtakTjeneste vedtakTjeneste;
 
-
     @Before
     public void setup() {
         RevurderingTjenesteProvider revurderingTjenesteProvider = new RevurderingTjenesteProvider();
@@ -86,16 +84,14 @@ public class AksjonspunktOppdatererTest {
 
     @Test
     public void bekreft_foreslå_vedtak_aksjonspkt_setter_ansvarlig_saksbehandler() {
-        ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forFødsel();
-        scenario.medSøknad()
-                .medFarSøkerType(FarSøkerType.OVERTATT_OMSORG);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         ForeslaVedtakAksjonspunktDto dto = new ForeslaVedtakAksjonspunktDto("begrunnelse", null, null, false) {
         };
         ForeslåVedtakAksjonspunktOppdaterer foreslaVedtakAksjonspunktOppdaterer = new ForeslåVedtakAksjonspunktOppdaterer(
-                repositoryProvider, mock(HistorikkTjenesteAdapter.class), new TotrinnTjenesteImpl(repositoryProvider, totrinnRepository), vedtakTjeneste) {
+            repositoryProvider, mock(HistorikkTjenesteAdapter.class), new TotrinnTjenesteImpl(repositoryProvider, totrinnRepository), vedtakTjeneste) {
             @Override
             protected String getCurrentUserId() {
                 // return test verdi
@@ -103,16 +99,14 @@ public class AksjonspunktOppdatererTest {
             }
         };
         foreslaVedtakAksjonspunktOppdaterer
-                .oppdater(dto, behandling, VilkårResultat.builder());
+            .oppdater(dto, behandling, VilkårResultat.builder());
         assertThat(behandling.getAnsvarligSaksbehandler()).isEqualTo("hello");
     }
 
     @Test
     public void oppdaterer_aksjonspunkt_med_beslutters_vurdering_ved_totrinnskontroll() {
 
-        ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forFødsel();
-        scenario.medSøknad()
-                .medFarSøkerType(FarSøkerType.OVERTATT_OMSORG);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -120,7 +114,7 @@ public class AksjonspunktOppdatererTest {
 
         AksjonspunktGodkjenningDto aksGodkjDto = new AksjonspunktGodkjenningDto();
         aksGodkjDto.setArsaker(new HashSet<>(Collections.singletonList(VurderÅrsak.FEIL_FAKTA)).stream().map(VurderÅrsak::new)
-                .collect(Collectors.toSet()));
+            .collect(Collectors.toSet()));
         aksGodkjDto.setGodkjent(false);
         String besluttersBegrunnelse = "Må ha bedre dokumentasjon.";
         aksGodkjDto.setBegrunnelse(besluttersBegrunnelse);
@@ -128,7 +122,7 @@ public class AksjonspunktOppdatererTest {
 
         FatterVedtakAksjonspunktDto aksjonspunktDto = new FatterVedtakAksjonspunktDto("", Collections.singletonList(aksGodkjDto));
         new FatterVedtakAksjonspunktOppdaterer(repositoryProvider, fatterVedtakAksjonspunkt).oppdater(aksjonspunktDto, behandling,
-                VilkårResultat.builder());
+            VilkårResultat.builder());
 
         Collection<Totrinnsvurdering> totrinnsvurderinger = totrinnRepository.hentTotrinnaksjonspunktvurderinger(behandling);
         assertThat(totrinnsvurderinger.size()).isEqualTo(1);
@@ -143,9 +137,7 @@ public class AksjonspunktOppdatererTest {
 
     @Test
     public void oppdaterer_aksjonspunkt_med_godkjent_totrinnskontroll() {
-        ScenarioFarSøkerEngangsstønad scenario = ScenarioFarSøkerEngangsstønad.forFødsel();
-        scenario.medSøknad()
-                .medFarSøkerType(FarSøkerType.OVERTATT_OMSORG);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
@@ -168,8 +160,7 @@ public class AksjonspunktOppdatererTest {
 
     protected Aksjonspunkt leggTilAksjonspunkt(Behandling behandling, AksjonspunktDefinisjon aksjonspunktDefinisjon) {
         return aksjonspunktRepository.leggTilAksjonspunkt(behandling, aksjonspunktDefinisjon,
-                BehandlingStegType.KONTROLLER_FAKTA);
+            BehandlingStegType.KONTROLLER_FAKTA);
     }
-
 
 }

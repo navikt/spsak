@@ -76,26 +76,6 @@ public class KodeverkRestTjeneste {
     }
 
     @GET
-    @Path("/henlegg/arsaker/klage")
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Henter liste over årsaker for henleggelse av klage", notes = ("Returnerer alle årsaker for henleggelse av klagebehandling"))
-    @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
-    @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
-    public List<BehandlingResultatType> hentHenleggÅrsakerForKlage() {
-        return new ArrayList<>(BehandlingResultatType.getHenleggelseskoderForKlage());
-    }
-
-    @GET
-    @Path("/henlegg/arsaker/innsyn")
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Henter liste over årsaker for henleggelse av innsyn", notes = ("Returnerer alle årsaker for henleggelse av innsynsbehandling"))
-    @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
-    @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
-    public List<BehandlingResultatType> hentHenleggÅrsakerForInnsyn() {
-        return new ArrayList<>(BehandlingResultatType.getHenleggelseskoderForInnsyn());
-    }
-
-    @GET
     @Path("/henlegg/arsaker")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Henter liste over årsaker for henleggelse", notes = ("Returnerer alle årsaker for henleggelse av behandling"))

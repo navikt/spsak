@@ -113,7 +113,7 @@ public class FastsettSkjæringstidspunktOgStatuserTest {
             skjæringstidspunktTjeneste, null, 5);
         MapBeregningsgrunnlagFraRegelTilVL oversetterFraRegel = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste);
         tjeneste = new FastsettSkjæringstidspunktOgStatuser(oversetterTilRegel, oversetterFraRegel);
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         behandling = scenario.lagre(repositoryProvider);
 
         when(opptjeningInntektArbeidYtelseTjeneste.hentGodkjentAktivitetTyper(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING))

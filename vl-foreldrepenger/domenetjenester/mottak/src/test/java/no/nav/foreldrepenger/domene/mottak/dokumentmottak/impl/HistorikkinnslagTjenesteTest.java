@@ -52,7 +52,7 @@ public class HistorikkinnslagTjenesteTest {
 
     @Test
     public void skal_lagre_historikkinnslag_for_elektronisk_søknad() throws Exception {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         Behandling behandling = scenario.lagMocked();
         // Arrange
@@ -86,7 +86,7 @@ public class HistorikkinnslagTjenesteTest {
 
     @Test
     public void skal_lagre_historikkinnslag_for_papir_søknad() throws Exception {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         Behandling behandling = scenario.lagMocked();
         // Arrange
@@ -111,7 +111,7 @@ public class HistorikkinnslagTjenesteTest {
 
     @Test
     public void skal_lagre_historikkinnslag_for_papir_søknad_med_skanning_meta_xml() throws Exception {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         Behandling behandling = scenario.lagMocked();
         // Arrange
@@ -139,7 +139,7 @@ public class HistorikkinnslagTjenesteTest {
     @Test
     public void skal_ikke_lagre_historikkinnslag_når_det_allerede_finnes() throws Exception {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
 
         Historikkinnslag eksisterendeHistorikkinnslag = new Historikkinnslag();
@@ -156,7 +156,7 @@ public class HistorikkinnslagTjenesteTest {
     @Test
     public void skal_støtte_at_journalpostId_er_null_og_ikke_kalle_journalTjeneste() throws Exception {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
 
         // Act

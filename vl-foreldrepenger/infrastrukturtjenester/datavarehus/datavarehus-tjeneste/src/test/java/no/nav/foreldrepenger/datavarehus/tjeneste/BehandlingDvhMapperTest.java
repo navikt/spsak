@@ -133,7 +133,7 @@ public class BehandlingDvhMapperTest {
     }
 
     private Behandling byggBehandling(BehandlingResultatType behandlingResultatType, boolean avsluttetFagsak) {
-        ScenarioMorSøkerEngangsstønad morSøkerEngangsstønad = ScenarioMorSøkerEngangsstønad.forFødsel()
+        ScenarioMorSøkerEngangsstønad morSøkerEngangsstønad = ScenarioMorSøkerEngangsstønad.forDefaultAktør()
                 .medBruker(BRUKER_AKTØR_ID, NavBrukerKjønn.KVINNE)
                 .medSaksnummer(SAKSNUMMER);
         Behandling behandling = morSøkerEngangsstønad.lagMocked();

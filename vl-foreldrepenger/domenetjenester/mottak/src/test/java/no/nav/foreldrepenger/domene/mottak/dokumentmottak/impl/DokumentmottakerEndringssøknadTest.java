@@ -39,9 +39,8 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerForeldrepenger;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
@@ -95,8 +94,8 @@ public class DokumentmottakerEndringssøknadTest {
         when(enhetsTjeneste.finnBehandlendeEnhetFraSøker(any(Fagsak.class))).thenReturn(enhet);
         when(enhetsTjeneste.finnBehandlendeEnhetFraSøker(any(Behandling.class))).thenReturn(enhet);
 
-        dokumentmottakerFelles = new DokumentmottakerFelles(repositoryProvider,
-            prosessTaskRepository, enhetsTjeneste, historikkinnslagTjeneste);
+        dokumentmottakerFelles = new DokumentmottakerFelles(prosessTaskRepository,
+            enhetsTjeneste, historikkinnslagTjeneste);
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
         dokumentmottaker = new DokumentmottakerEndringssøknad(repositoryProvider, dokumentmottakerFelles,
@@ -123,14 +122,12 @@ public class DokumentmottakerEndringssøknadTest {
     @Test
     public void skal_opprette_revurdering_for_endringssøknad_dersom_siste_behandling_er_avsluttet() {
         //Arrange
-        Behandling behandling = ScenarioMorSøkerEngangsstønad
-            .forFødselUtenSøknad()
+        Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
             .lagre(repositoryProvider);
         BehandlingVedtak vedtak = DokumentmottakTestUtil.oppdaterVedtaksresultat(behandling, VedtakResultatType.INNVILGET);
         repoRule.getRepository().lagre(vedtak.getBehandlingsresultat());
 
-        Behandling revurdering = ScenarioMorSøkerEngangsstønad
-            .forFødselUtenSøknad()
+        Behandling revurdering = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
             .lagre(repositoryProvider);
         when(behandlingsoppretter.opprettRevurdering(behandling.getFagsak(), BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER)).thenReturn(revurdering);
 
@@ -152,8 +149,7 @@ public class DokumentmottakerEndringssøknadTest {
     @Test
     public void skal_oppdatere_behandling_med_endringssøknad_dersom_siste_behandling_er_åpen() {
         //Arrange
-        Behandling behandling = ScenarioMorSøkerEngangsstønad
-            .forFødselUtenSøknad()
+        Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
             .lagre(repositoryProvider);
 
         Long fagsakId = behandling.getFagsakId();
@@ -173,7 +169,7 @@ public class DokumentmottakerEndringssøknadTest {
     @Test
     public void skal_dekøe_første_behandling_i_sakskompleks_dersom_endringssøknad_på_endringssøknad() {
         // Arrange - opprette køet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
@@ -229,7 +225,7 @@ public class DokumentmottakerEndringssøknadTest {
     @Test
     public void skal_oppdatere_køet_behandling_og_kjøre_kompletthet_dersom_køet_behandling_finnes() {
         // Arrange - opprette køet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
@@ -253,7 +249,7 @@ public class DokumentmottakerEndringssøknadTest {
     @Test
     public void skal_henlegge_køet_behandling_dersom_endringssøknad_mottatt_tidligere() {
         // Arrange - opprette køet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
@@ -284,8 +280,8 @@ public class DokumentmottakerEndringssøknadTest {
     @Test
     public void skal_oppdatere_mottatt_dokument_med_behandling_hvis_behandlig_er_på_vent() {
         //Arrange
-        Behandling behandling = ScenarioFarSøkerForeldrepenger
-            .forFødsel()
+        Behandling behandling = ScenarioMorSøkerForeldrepenger
+            .forDefaultAktør()
             .lagre(repositoryProvider);
 
         Long fagsakId = behandling.getFagsakId();
@@ -308,6 +304,6 @@ public class DokumentmottakerEndringssøknadTest {
     }
 
     private Fagsak nyMorFødselFagsak() {
-        return ScenarioMorSøkerEngangsstønad.forFødselUtenSøknad().lagreFagsak(repositoryProvider);
+        return ScenarioMorSøkerEngangsstønad.forDefaultAktør(false).lagreFagsak(repositoryProvider);
     }
 }

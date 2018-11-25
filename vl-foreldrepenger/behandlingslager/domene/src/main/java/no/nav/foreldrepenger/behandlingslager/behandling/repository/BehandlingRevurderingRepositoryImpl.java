@@ -1,8 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.repository;
 
-import static java.util.Arrays.asList;
-import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType.INNSYN;
-import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType.KLAGE;
 import static no.nav.vedtak.util.Objects.check;
 
 import java.time.LocalDate;
@@ -73,8 +70,7 @@ public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderin
 
     @Override
     public Optional<Behandling> hentSisteYtelsesbehandling(Long fagsakId) {
-        return behandlingRepository
-            .hentSisteBehandlingForFagsakIdEkskluderBehandlingerAvType(fagsakId, asList(KLAGE, INNSYN));
+        return behandlingRepository.hentSisteBehandlingForFagsakId(fagsakId);
     }
 
     private List<Long> finnHenlagteBehandlingerEtter(Long fagsakId, Behandling sisteInnvilgede) {
@@ -120,13 +116,10 @@ public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderin
                 "from Behandling b " +
                 "where fagsak.id=:fagsakId " +
                 "and status not in (:avsluttet) " +
-                "and behandlingType not in :behandlingType " +
                 "order by opprettetTidspunkt desc", //$NON-NLS-1$
             Long.class);
         query.setParameter("fagsakId", fagsakId); //$NON-NLS-1$
         query.setParameter("avsluttet", Arrays.asList(BehandlingStatus.AVSLUTTET, BehandlingStatus.IVERKSETTER_VEDTAK)); //$NON-NLS-1$
-        query.setParameter("behandlingType", Arrays.asList(BehandlingType.KLAGE, BehandlingType.INNSYN)); //$NON-NLS-1$
-        // TODO (mykla): Finn en måte å sentralisere Arrays.asList(BehandlingType.KLAGE, BehandlingType.INNSYN)
 
         List<Long> behandlingIder = query.getResultList();
         for (Long behandlingId : behandlingIder) {

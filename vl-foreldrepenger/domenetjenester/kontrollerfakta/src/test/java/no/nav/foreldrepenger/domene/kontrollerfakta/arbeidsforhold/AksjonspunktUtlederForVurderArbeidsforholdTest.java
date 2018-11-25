@@ -75,7 +75,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     public void skal_få_aksjonspunkt_når_det_finnes_inntekt() {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         opprettInntekt(aktørId1, behandling, opprettVirksomhet(), "99999");
@@ -92,7 +92,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     public void skal_ikke_få_aksjonspunkt_når_det_ikke_finnes_inntekt_eller_arbeidsforhold() {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         Behandling behandling = scenario.lagre(repositoryProvider);
         // Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -105,7 +105,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     public void skal_få_aksjonspunkt_når_mottatt_inntektsmelding_men_ikke_arbeidsforhold() {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
 
         Behandling behandling = scenario.lagre(repositoryProvider);
         Virksomhet virksomhet = opprettVirksomhet();
@@ -122,7 +122,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     public void skal_ikke_få_aksjonspunkt_ved_komplett_søknad_med_inntektsmeldinger() {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medBehandlingStegStart(BehandlingStegType.KONTROLLER_FAKTA);
         Behandling behandling = scenario.lagre(repositoryProvider);
         Virksomhet virksomhet = opprettVirksomhet();
@@ -145,7 +145,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     public void skal_få_aksjonspunkt_ved_inntektsmelding_som_er_ukjent() {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medBehandlingStegStart(BehandlingStegType.KONTROLLER_FAKTA);
         Behandling behandling = scenario.lagre(repositoryProvider);
         Virksomhet virksomhet = opprettVirksomhet();

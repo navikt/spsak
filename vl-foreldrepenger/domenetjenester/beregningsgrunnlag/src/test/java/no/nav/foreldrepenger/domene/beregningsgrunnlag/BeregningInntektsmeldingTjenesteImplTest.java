@@ -61,7 +61,7 @@ public class BeregningInntektsmeldingTjenesteImplTest {
     @Before
     public void setup() {
         grunnbeløp = beregningsgrunnlagTestUtil.getGrunnbeløp(SKJÆRINGSTIDSPUNKT_OPPTJENING);
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         behandling = scenario.lagre(repositoryProvider);
     }
 

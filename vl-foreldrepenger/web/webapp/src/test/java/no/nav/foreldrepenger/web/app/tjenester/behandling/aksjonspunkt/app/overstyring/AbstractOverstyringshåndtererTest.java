@@ -36,7 +36,7 @@ public class AbstractOverstyringshåndtererTest {
     @SuppressWarnings("unchecked")
     @Test
     public void skal_reaktivere_inaktivt_aksjonspunkt() throws Exception {
-        Behandling behandling = ScenarioMorSøkerEngangsstønad.forFødsel().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider);
         Aksjonspunkt ap = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.OVERSTYRING_AV_OPPTJENINGSVILKÅRET);
         aksjonspunktRepository.setTilUtført(ap, "OK");
         aksjonspunktRepository.deaktiver(ap);

@@ -65,7 +65,7 @@ public class OppdaterSakOgBehandlingEventObserverTest {
     @Test
     public void skalOppretteOppdaterSakOgBehandlingTaskMedAlleParametereNårBehandlingErOpprettet() {
         
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         final Behandling behandling = scenario.lagre(repositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
@@ -86,7 +86,7 @@ public class OppdaterSakOgBehandlingEventObserverTest {
 
     @Test
     public void skalOppretteOppdaterSakOgBehandlingTaskMedAlleParametereNårBehandlingErAvsluttet() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         Behandling behandling = scenario.lagre(repositoryProvider);
         refreshBehandlingType(scenario);

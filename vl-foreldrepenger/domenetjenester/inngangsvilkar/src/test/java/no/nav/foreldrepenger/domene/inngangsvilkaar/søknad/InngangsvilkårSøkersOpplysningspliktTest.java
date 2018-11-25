@@ -36,7 +36,7 @@ public class InngangsvilkårSøkersOpplysningspliktTest {
         when(kompletthetssjekkerProvider.finnKompletthetsjekkerFor(any(Behandling.class))).thenReturn(kompletthetssjekker);
         when(kompletthetssjekker.erForsendelsesgrunnlagKomplett(any(Behandling.class)))
             .thenReturn(true);
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagMocked();
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagMocked();
 
         VilkårData vilkårData = testObjekt.vurderVilkår(behandling);
 
@@ -51,7 +51,7 @@ public class InngangsvilkårSøkersOpplysningspliktTest {
         when(kompletthetssjekkerProvider.finnKompletthetsjekkerFor(any(Behandling.class))).thenReturn(kompletthetssjekker);
         when(kompletthetssjekker.erForsendelsesgrunnlagKomplett(any(Behandling.class)))
             .thenReturn(false);
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagMocked();
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagMocked();
 
         VilkårData vilkårData = testObjekt.vurderVilkår(behandling);
 
@@ -67,7 +67,7 @@ public class InngangsvilkårSøkersOpplysningspliktTest {
         when(kompletthetssjekkerProvider.finnKompletthetsjekkerFor(any(Behandling.class))).thenReturn(kompletthetssjekker);
         when(kompletthetssjekker.erForsendelsesgrunnlagKomplett(any(Behandling.class)))
             .thenReturn(false);
-        Behandling revurdering = ScenarioMorSøkerForeldrepenger.forFødsel()
+        Behandling revurdering = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.REVURDERING)
             .lagMocked();
 

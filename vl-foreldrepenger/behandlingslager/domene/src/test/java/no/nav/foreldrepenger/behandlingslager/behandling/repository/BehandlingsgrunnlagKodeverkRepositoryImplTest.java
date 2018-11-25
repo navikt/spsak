@@ -11,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 
@@ -23,7 +22,6 @@ public class BehandlingsgrunnlagKodeverkRepositoryImplTest {
 
     @Test
     public void skal_verifisere_kodeverk_som_mottas_fra_regelmotor() {
-        assertThat(repo.finnFarSøkerType("ADOPTERER_ALENE")).isEqualTo(FarSøkerType.ADOPTERER_ALENE);
         assertThat(repo.personstatusTyperFortsattBehandling()).contains(PersonstatusType.DØD);
         assertThat(repo.finnHøyestRangertRegion(Collections.singletonList("SWE"))).isEqualTo(Region.NORDEN);
         assertThat(repo.finnRegioner("SWE")).contains(Region.NORDEN);

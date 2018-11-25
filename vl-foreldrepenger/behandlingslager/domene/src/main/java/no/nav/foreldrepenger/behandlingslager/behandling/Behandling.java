@@ -43,8 +43,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
 import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
@@ -122,17 +120,6 @@ public class Behandling extends BaseEntitet {
     private StartpunktType startpunkt = StartpunktType.UDEFINERT;
 
     /**
-     * Er egentlig OneToOne, men må mappes slik da JPA/Hibernate ikke støtter OneToOne på annet enn shared PK.
-     */
-    // FIXME: FLytt denne ut av Behandling
-    @OneToMany(mappedBy = "behandling")
-    private Set<InnsynEntitet> innsynEntitet = new HashSet<>(1);
-
-    // FIXME: FLytt denne ut av Behandling
-    @OneToMany(mappedBy = "behandling")
-    private Set<KlageVurderingResultat> klageVurderingResultat = new HashSet<>(1);
-
-    /**
      * --------------------------------------------------------------
      * FIXME: Produksjonstyringsinformasjon bør flyttes ut av Behandling klassen.
      * Gjelder feltene under
@@ -197,14 +184,6 @@ public class Behandling extends BaseEntitet {
      */
     public static Behandling.Builder forFørstegangssøknad(Fagsak fagsak) {
         return nyBehandlingFor(fagsak, BehandlingType.FØRSTEGANGSSØKNAD);
-    }
-
-    /**
-     * @deprecated Ikke bruk, man klager kun på behandling - ikke direkte på fagsak.
-     */
-    @Deprecated
-    public static Behandling.Builder forKlage(Fagsak fagsak) {
-        return nyBehandlingFor(fagsak, BehandlingType.KLAGE);
     }
 
     /**
@@ -306,37 +285,6 @@ public class Behandling extends BaseEntitet {
 
     public boolean erManueltOpprettetOgHarÅrsak(BehandlingÅrsakType behandlingÅrsak) {
         return erManueltOpprettet() && harBehandlingÅrsak(behandlingÅrsak);
-    }
-
-    public Optional<KlageVurderingResultat> hentGjeldendeKlageVurderingResultat() {
-        /**
-         *  FIXME: Bør aksesseres gjennom et repository, ikke ligge på Behandling
-         *  @deprecated Fjern denne
-         */
-        @Deprecated
-        Optional<KlageVurderingResultat> klageVurderingResultatNK = klageVurderingResultat.stream()
-            .filter(kvr -> KlageVurdertAv.NK.equals(kvr.getKlageVurdertAv()))
-            .findFirst();
-
-        Optional<KlageVurderingResultat> klageVurderingResultatNFP = klageVurderingResultat.stream()
-            .filter(krv -> KlageVurdertAv.NFP.equals(krv.getKlageVurdertAv()))
-            .findFirst();
-
-        if (klageVurderingResultatNK.isPresent()) {
-            return klageVurderingResultatNK;
-        }
-        return klageVurderingResultatNFP;
-    }
-
-    /**
-     *  FIXME: Bør aksesseres gjennom et repository, ikke ligge på Behandling
-     *  @deprecated Fjern denne
-     */
-    @Deprecated
-    public Optional<KlageVurderingResultat> hentKlageVurderingResultat(KlageVurdertAv klageVurdertAv) {
-        return klageVurderingResultat.stream()
-            .filter(krv -> klageVurdertAv.equals(krv.getKlageVurdertAv()))
-            .findFirst();
     }
 
     public Long getId() {
@@ -724,35 +672,6 @@ public class Behandling extends BaseEntitet {
         return null;
     }
 
-    /**
-     *  FIXME: Bør aksesseres gjennom et repository, ikke ligge på Behandling
-     *  @deprecated Fjern denne
-     */
-    @Deprecated
-    public InnsynEntitet getInnsyn() {
-        if (this.innsynEntitet.size() > 1) {
-            throw new IllegalStateException("Utviklerfeil: Kun ett innsyn per behandling tillatt");
-        }
-        return this.innsynEntitet.isEmpty() ? null : this.innsynEntitet.iterator().next();
-    }
-
-    /**
-     *  (essv) støtter bare ett Innsyn for en Behandling - JPA har ikke støtte for OneToOne på non-PK kolonne
-     *  FIXME: Bør aksesseres gjennom et repository, ikke ligge på Behandling
-     *
-     *  @deprecated Fjern denne
-     */
-    @Deprecated
-    void setInnsyn(InnsynEntitet innsynEntitet) {
-        // (essv) støtter bare ett Innsyn for en Behandling - JPA har ikke støtte for OneToOne på non-PK
-        // kolonne, så emuleres her ved å tømme listen.
-
-        this.innsynEntitet.clear();
-        innsynEntitet.setBehandling(this);
-        // kun ett om gangen, mappet på annet enn pk
-        this.innsynEntitet.add(innsynEntitet);
-    }
-
     public boolean erSaksbehandlingAvsluttet() {
         if (behandlingsresultat == null || behandlingsresultat.isEmpty()) {
             return false;
@@ -772,10 +691,6 @@ public class Behandling extends BaseEntitet {
         return Objects.equals(BehandlingStatus.AVSLUTTET, getStatus());
     }
 
-    public boolean erKlage() {
-        return BehandlingType.KLAGE.equals(getType());
-    }
-
     public boolean erRevurdering() {
         return BehandlingType.REVURDERING.equals(getType());
     }
@@ -784,22 +699,10 @@ public class Behandling extends BaseEntitet {
         return erRevurdering() && getFagsakYtelseType().gjelderForeldrepenger();
     }
 
-    public boolean erInnsyn() {
-        return BehandlingType.INNSYN.equals(getType());
-    }
-
-    public boolean erYtelseBehandling() {
-        return (!BehandlingType.INNSYN.equals(getType()) && !BehandlingType.KLAGE.equals(getType()));
-    }
-
-    /**
-     *  FIXME: Bør aksesseres gjennom et repository, ikke ligge på Behandling
-     *  @deprecated Fjern denne
-     */
+    /** @deprecated har kun ytelsesbehandling nå. */
     @Deprecated
-    public void leggTilKlageVurderingResultat(KlageVurderingResultat klageVurderingResultat) {
-        guardTilstandPåBehandling();
-        this.klageVurderingResultat.add(klageVurderingResultat);
+    public boolean erYtelseBehandling() {
+        return true;
     }
 
     public OppgaveÅrsak getBehandleOppgaveÅrsak() {

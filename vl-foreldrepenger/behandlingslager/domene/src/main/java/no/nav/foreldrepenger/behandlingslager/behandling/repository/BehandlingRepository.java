@@ -11,8 +11,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
@@ -68,15 +66,6 @@ public interface BehandlingRepository extends BehandlingslagerRepository {
     Long lagre(VilkårResultat vilkårResultat, BehandlingLås lås);
 
     /**
-     * Lagrer kobling til klageVurderingResultat på en behandling. Sørger for at samtidige oppdateringer på samme Behandling, eller
-     * andre Behandlinger
-     * på samme Fagsak ikke kan gjøres samtidig.
-     *
-     * @see BehandlingLås
-     */
-    Long lagre(KlageVurderingResultat klageVurderingResultat, BehandlingLås lås);
-
-    /**
      * Ta lås for oppdatering av behandling/fagsak. Påkrevd før lagring.
      * Convenience metode som tar hele entiteten.
      *
@@ -109,15 +98,6 @@ public interface BehandlingRepository extends BehandlingslagerRepository {
      * @see BehandlingLås
      */
     void slettTidligereBeregninger(Behandling behandling, BehandlingLås lås);
-
-    /**
-     * Slette tidligere klagevurdering.ørger for at samtidige oppdateringer på samme
-     * Behandling, eller andre Behandlinger
-     * på samme Fagsak ikke kan gjøres samtidig.
-     *
-     * @see BehandlingLås
-     */
-    void slettKlageVurderingResultat(Behandling behandling, BehandlingLås behandlingLås, KlageVurdertAv klagetype);
 
     BehandlingStegType finnBehandlingStegType(String kode);
 

@@ -144,7 +144,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelTest {
         virksomhetRepository.lagre(virksomhetB);
         VirksomhetEntitet virksomhet = new VirksomhetEntitet.Builder().medNavn("OrgC").medOrgnr("123").oppdatertOpplysningerNå().build();
         virksomhetRepository.lagre(virksomhet);
-        scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
     }
 
     private InntektArbeidYtelseAggregatBuilder opprettForBehandling(ScenarioMorSøkerForeldrepenger scenario) {
@@ -513,7 +513,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelTest {
         behandlingRepository.lagre(forrigeBehandling, behandlingRepository.taSkriveLås(forrigeBehandling));
         FagsakRepository fagsakRepository = repositoryProvider.getFagsakRepository();
         fagsakRepository.oppdaterFagsakStatus(forrigeBehandling.getFagsakId(), FagsakStatus.LØPENDE);
-        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_HENDELSE_FØDSEL);
+        behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         Beregningsgrunnlag nyttBG = buildVLBeregningsgrunnlag();
         Beregningsgrunnlag forrigeBG = buildVLBeregningsgrunnlag();
         Arrays.asList(nyttBG, forrigeBG).forEach(bg -> {

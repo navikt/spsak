@@ -48,7 +48,7 @@ public class PersonopplysningTjenesteImplTest {
     @Test
     public void skal_hente_gjeldende_personinformasjon_på_tidspunkt() {
         LocalDate tidspunkt = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 

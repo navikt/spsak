@@ -43,7 +43,7 @@ public class ForeslåVedtakAksjonspunktOppdaterer extends AbstractVedtaksbrevOve
     }
 
     private void oppdaterBegrunnelse(Behandling behandling, String begrunnelse) {
-        if (behandling.erKlage() || behandling.getBehandlingsresultat().isBehandlingsresultatAvslåttOrOpphørt() || begrunnelse != null) {
+        if (behandling.getBehandlingsresultat().isBehandlingsresultatAvslåttOrOpphørt() || begrunnelse != null) {
             behandling.getBehandlingsresultat().setAvslagarsakFritekst(begrunnelse);
         }
         behandling.setAnsvarligSaksbehandler(getCurrentUserId());

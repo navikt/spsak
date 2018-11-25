@@ -84,7 +84,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
 
     @Before
     public void setUp() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
         SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
         sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
@@ -98,7 +98,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Test
     public void ikkeLagPeriodeForRefusjonHvisKunEnInntektsmeldingIngenEndringIRefusjon() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -117,7 +117,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Test
     public void lagPeriodeForNaturalytelseTilkommer() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -138,7 +138,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Test
     public void lagPeriodeForNaturalytelseBortfalt() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -159,7 +159,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Test
     public void lagPerioderForNaturalytelseBortfaltOgTilkommer() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -182,7 +182,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Test
     public void lagPeriodeForRefusjonOpphører() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -202,7 +202,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Test
     public void lagPeriodeForGraderingOver6G() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
         Behandling behandling = scenario.lagre(repositoryProvider);
         opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT);
@@ -295,7 +295,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Test
     public void lagPeriodeForGraderingOver6GOgOpphørRefusjonSammeDag() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
         Behandling behandling = scenario.lagre(repositoryProvider);
         opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT);
@@ -440,7 +440,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     public void skalTesteEndringIRefusjon() {
         // Arrange
         String arbId = "123";
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
         SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
         sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT.plusDays(36))
@@ -489,7 +489,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     @Test
     public void skalKasteFeilHvisAntallPerioderErMerEnn1() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         BeregningsgrunnlagPeriode.Builder periode1 = lagBeregningsgrunnlagPerioderBuilder(SKJÆRINGSTIDSPUNKT, SKJÆRINGSTIDSPUNKT);
         BeregningsgrunnlagPeriode.Builder periode2 = lagBeregningsgrunnlagPerioderBuilder(SKJÆRINGSTIDSPUNKT.plusDays(1), null);
         Beregningsgrunnlag beregningsgrunnlag = scenario.medBeregningsgrunnlag()

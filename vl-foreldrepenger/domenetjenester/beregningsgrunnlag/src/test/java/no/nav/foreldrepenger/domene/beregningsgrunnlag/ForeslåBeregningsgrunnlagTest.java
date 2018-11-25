@@ -131,7 +131,7 @@ public class ForeslåBeregningsgrunnlagTest {
         MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5);
         MapBeregningsgrunnlagFraRegelTilVL oversetterFraRegel = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste);
         tjeneste = new ForeslåBeregningsgrunnlag(oversetterTilRegel, oversetterFraRegel, repositoryProvider, kontrollerFaktaBeregningTjeneste, hentGrunnlagsdataTjeneste);
-        scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         lagBeregningsgrunnlagAT(scenario);
         when(kontrollerFaktaBeregningTjeneste.hentAndelerForKortvarigeArbeidsforhold(any())).thenAnswer((b) -> yrkesaktivitetMap);
         beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();

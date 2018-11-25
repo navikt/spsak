@@ -65,7 +65,7 @@ public class TilstøtendeYtelseDtoTjenesteImplTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(BeregningIAYTestUtil.AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(BeregningIAYTestUtil.AKTØR_ID);
         behandling = scenario.lagre(repositoryProvider);
     }
 

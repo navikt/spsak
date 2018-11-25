@@ -41,7 +41,7 @@ public class FastsettBeregningsgrunnlagStegImplTest {
 
     @Before
     public void setUp() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagMocked();
         behandlingRepositoryProvider = scenario.mockBehandlingRepositoryProvider();
         beregningsgrunnlagRepository = behandlingRepositoryProvider.getBeregningsgrunnlagRepository();

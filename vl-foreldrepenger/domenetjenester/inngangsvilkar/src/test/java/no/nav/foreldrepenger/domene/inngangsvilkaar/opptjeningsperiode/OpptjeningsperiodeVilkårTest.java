@@ -42,7 +42,7 @@ public class OpptjeningsperiodeVilkårTest {
 
     @Test
     public void skal_fastsette_periode_ved_fødsel_mor() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         SykemeldingerBuilder builder = scenario.getSykemeldingerBuilder();
         SykemeldingBuilder sykemeldingBuilder = builder.sykemeldingBuilder("ASDF-ASDF-ASDF");
         sykemeldingBuilder.medPeriode(LocalDate.now(), LocalDate.now().plusDays(36))
@@ -61,7 +61,7 @@ public class OpptjeningsperiodeVilkårTest {
     @Test
     public void skal_fastsette_periode_ved_tidlig_uttak_termin_fødsel_mor() {
         final LocalDate skjæringstidspunkt = LocalDate.now().plusWeeks(1L).minusDays(1);
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         SykemeldingerBuilder builder = scenario.getSykemeldingerBuilder();
         SykemeldingBuilder sykemeldingBuilder = builder.sykemeldingBuilder("ASDF-ASDF-ASDF");
         sykemeldingBuilder.medPeriode(skjæringstidspunkt, skjæringstidspunkt.plusDays(36))
@@ -80,7 +80,7 @@ public class OpptjeningsperiodeVilkårTest {
 
     @Test
     public void skal_fastsette_periode_ved_adopsjon_mor_søker() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forAdopsjon();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         SykemeldingerBuilder builder = scenario.getSykemeldingerBuilder();
         SykemeldingBuilder sykemeldingBuilder = builder.sykemeldingBuilder("ASDF-ASDF-ASDF");
         sykemeldingBuilder.medPeriode(LocalDate.now(), LocalDate.now().plusDays(36))

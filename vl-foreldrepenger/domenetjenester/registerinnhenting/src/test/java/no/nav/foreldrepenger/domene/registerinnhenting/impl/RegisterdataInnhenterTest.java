@@ -52,7 +52,7 @@ public class RegisterdataInnhenterTest {
     public void skal_innhente_registeropplysninger_på_nytt_når_det_ble_hentet_inn_i_går() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medOpplysningerOppdatertTidspunkt(LocalDateTime.now().minusDays(1));
         Behandling behandling = scenario.lagMocked();
 
@@ -68,7 +68,7 @@ public class RegisterdataInnhenterTest {
     public void skal_ikke_innhente_registeropplysninger_på_nytt_når_det_nettopp_har_blitt_hentet_inn() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medOpplysningerOppdatertTidspunkt(LocalDateTime.now());
         Behandling behandling = scenario.lagMocked();
 
@@ -84,7 +84,7 @@ public class RegisterdataInnhenterTest {
     public void skal_ikke_innhente_registeropplysninger_på_nytt_når_det_ikke_har_blitt_hentet_inn_tidligere() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medOpplysningerOppdatertTidspunkt(null);
         Behandling behandling = scenario.lagMocked();
 
@@ -102,7 +102,7 @@ public class RegisterdataInnhenterTest {
         LocalDateTime midnatt = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medOpplysningerOppdatertTidspunkt(midnatt.minusMinutes(1));
         Behandling behandling = scenario.lagMocked();
         RegisterdataEndringshåndterer registerdataEndringshåndterer = lagRegisterdataInnhenter(scenario, null);
@@ -121,7 +121,7 @@ public class RegisterdataInnhenterTest {
         LocalDateTime opplysningerOppdatertTidspunkt = midnatt.minusHours(1); // en time før midnatt
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medOpplysningerOppdatertTidspunkt(opplysningerOppdatertTidspunkt);
 
         String redigertDURATION = "PT3H";
@@ -141,7 +141,7 @@ public class RegisterdataInnhenterTest {
     public void skal_ikke_innhente_opplysninger_på_nytt_selvom_det_ble_hentet_inn_i_går_fordi_konfigverdien_er_mer_enn_midnatt() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medOpplysningerOppdatertTidspunkt(LocalDateTime.now().minusHours(20));
         Behandling behandling = scenario.lagMocked();
 

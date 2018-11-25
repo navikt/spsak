@@ -32,12 +32,12 @@ public class KompletthetssjekkerTestUtil {
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
     }
 
-    public ScenarioMorSøkerForeldrepenger opprettRevurderingsscenarioForMor() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+    public ScenarioMorSøkerForeldrepenger opprettRevurderingsscenario() {
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         Behandling førstegangsbehandling = opprettOgAvsluttFørstegangsbehandling(scenario);
 
-        return ScenarioMorSøkerForeldrepenger.forFødsel(false, AKTØR_ID)
-            .medOriginalBehandling(førstegangsbehandling, BehandlingÅrsakType.RE_HENDELSE_FØDSEL)
+        return ScenarioMorSøkerForeldrepenger.forAktør(false, AKTØR_ID)
+            .medOriginalBehandling(førstegangsbehandling, BehandlingÅrsakType.RE_ANNET)
             .medBehandlingType(BehandlingType.REVURDERING);
     }
 

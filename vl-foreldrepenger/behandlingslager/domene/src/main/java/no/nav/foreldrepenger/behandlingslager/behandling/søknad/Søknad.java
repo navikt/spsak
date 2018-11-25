@@ -18,8 +18,6 @@ public interface Søknad {
 
     String getKildeReferanse();
 
-    FarSøkerType getFarSøkerType();
-
     OppgittTilknytning getOppgittTilknytning();
 
     String getTilleggsopplysninger();

@@ -264,14 +264,14 @@ public class StartpunktUtlederInntektsmeldingTest {
     }
 
     private Behandling opprettRevurdering(Behandling førstegangsbehandling) {
-        ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+        ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.REVURDERING)
             .medOriginalBehandling(førstegangsbehandling, BehandlingÅrsakType.UDEFINERT);
         return revurderingScenario.lagre(repositoryProvider);
     }
 
     private Behandling opprettFørstegangsbehandling() {
-        ScenarioMorSøkerForeldrepenger førstegangScenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger førstegangScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling førstegangsbehandling = førstegangScenario.lagre(repositoryProvider);
         førstegangsbehandling.avsluttBehandling();
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(førstegangsbehandling);

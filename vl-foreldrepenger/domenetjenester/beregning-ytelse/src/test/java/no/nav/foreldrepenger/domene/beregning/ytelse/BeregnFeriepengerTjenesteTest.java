@@ -47,7 +47,7 @@ public class BeregnFeriepengerTjenesteTest {
 
     @Test
     public void skalBeregneFeriepenger() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = scenario.medBeregningsgrunnlag().medDekningsgrad(100L)
             .medSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT_MOR)
             .medOpprinneligSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT_MOR)
@@ -66,7 +66,7 @@ public class BeregnFeriepengerTjenesteTest {
 
     @Test
     public void skalIkkeBeregneFeriepenger() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = scenario.medBeregningsgrunnlag().medDekningsgrad(100L)
             .medSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT_MOR)
             .medOpprinneligSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT_MOR)

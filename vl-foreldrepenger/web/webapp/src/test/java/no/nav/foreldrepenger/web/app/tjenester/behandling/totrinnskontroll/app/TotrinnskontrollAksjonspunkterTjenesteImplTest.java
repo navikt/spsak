@@ -296,7 +296,7 @@ public class TotrinnskontrollAksjonspunkterTjenesteImplTest {
     }
 
     private void opprettBehandlingForFP(Optional<VilkårType> vilkårTypeOpt) {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         vilkårTypeOpt.ifPresent(vt -> scenario.leggTilVilkår(vt, VilkårUtfallType.UDEFINERT));
         behandling = scenario.lagMocked();
     }

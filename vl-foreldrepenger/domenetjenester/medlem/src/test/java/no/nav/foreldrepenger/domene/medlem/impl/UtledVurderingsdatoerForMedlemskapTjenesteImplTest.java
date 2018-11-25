@@ -93,7 +93,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         LocalDate datoMedEndring = LocalDate.now().plusDays(10);
         LocalDate ettÅrSiden = LocalDate.now().minusYears(1);
         LocalDate iDag = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
@@ -121,7 +121,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
     public void skal_utled_vurderingsdato_ved_endring_personopplysninger_statsborgerskap() {
         // Arrange
         LocalDate iDag = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
@@ -156,7 +156,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
     public void skal_utled_vurderingsdato_ved_endring_personopplysninger_personstatus() {
         // Arrange
         LocalDate iDag = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
@@ -191,7 +191,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
     public void skal_utled_vurderingsdato_ved_endring_personopplysninger_adressetype() {
         // Arrange
         LocalDate iDag = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         AktørId søkerAktørId = scenario.getDefaultBrukerAktørId();
 
         DatoIntervallEntitet førsteÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag, iDag.plusYears(1));
@@ -227,7 +227,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         // Arrange
         LocalDate idag = LocalDate.now();
         LocalDate datoMedBortfall = idag.minusMonths(1);
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Virksomhet virksomhet = opprettVirksomhet();
         opprettInntekt(scenario.getDefaultBrukerAktørId(), scenario, virksomhet, idag, false);
         Behandling behandling = scenario.lagre(provider);
@@ -248,7 +248,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         // Arrange
         LocalDate idag = LocalDate.now();
         LocalDate datoMedBortfall = idag.minusMonths(1);
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Virksomhet virksomhet = opprettVirksomhet();
 
         //tester overlapp

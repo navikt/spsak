@@ -78,7 +78,7 @@ public class BeregningsperiodeTjenesteTest {
         System.setProperty(FUNKSJONELT_TIDSOFFSET_AKTIVERT, "true");
         settSimulertNåtidTil(LocalDate.now());
         opprettArbeidsforhold();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         behandling = scenario.lagre(repositoryProvider);
         opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT);
     }

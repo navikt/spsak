@@ -27,7 +27,7 @@ public class BehandlingStegDvhMapperTest {
     @Test
     public void skal_mappe_til_behandling_steg_dvh() {
 
-        BehandlingStegTilstand behandlingStegTilstand = new BehandlingStegTilstand(ScenarioMorSøkerEngangsstønad.forFødsel().lagMocked(),
+        BehandlingStegTilstand behandlingStegTilstand = new BehandlingStegTilstand(ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagMocked(),
             BEHANDLING_STEG_TYPE, BEHANDLING_STEG_STATUS);
         Whitebox.setInternalState(behandlingStegTilstand, "id", BEHANDLING_STEG_ID);
         Whitebox.setInternalState(behandlingStegTilstand, OPPRETTET_AV, OPPRETTET_AV);

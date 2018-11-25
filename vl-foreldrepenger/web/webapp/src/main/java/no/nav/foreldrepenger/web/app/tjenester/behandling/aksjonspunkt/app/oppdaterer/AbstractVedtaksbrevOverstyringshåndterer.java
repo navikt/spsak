@@ -43,10 +43,6 @@ public abstract class AbstractVedtaksbrevOverstyringshåndterer {
     }
 
     void opprettAksjonspunktForFatterVedtak(Behandling behandling) {
-        if (behandling.erInnsyn()) {
-            return; //vedtak for innsynsbehanding fattes automatisk
-        }
-
         Optional<Aksjonspunkt> apOptional = behandling.getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.FATTER_VEDTAK);
         if (apOptional.isPresent()) {
             aksjonspunktRepository.setReåpnet(apOptional.get());
@@ -84,10 +80,10 @@ public abstract class AbstractVedtaksbrevOverstyringshåndterer {
         HistorikkInnslagTekstBuilder tekstBuilder = new HistorikkInnslagTekstBuilder()
             .medResultat(vedtakResultatType)
             .medSkjermlenke(SkjermlenkeType.VEDTAK)
-            .medHendelse(behandling.erInnsyn() ? HistorikkinnslagType.FORSLAG_VEDTAK_UTEN_TOTRINN : HistorikkinnslagType.FORSLAG_VEDTAK);
+            .medHendelse(HistorikkinnslagType.FORSLAG_VEDTAK);
 
         Historikkinnslag innslag = new Historikkinnslag();
-        innslag.setType(behandling.erInnsyn() ? HistorikkinnslagType.FORSLAG_VEDTAK_UTEN_TOTRINN : HistorikkinnslagType.FORSLAG_VEDTAK);
+        innslag.setType(HistorikkinnslagType.FORSLAG_VEDTAK);
         innslag.setAktør(HistorikkAktør.SAKSBEHANDLER);
         innslag.setBehandlingId(behandling.getId());
         tekstBuilder.build(innslag);

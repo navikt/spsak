@@ -262,12 +262,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>behandling-innsyn</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>no.nav.fpsak.tidsserie</groupId>
 				<artifactId>fpsak-tidsserie</artifactId>
 				<version>2.0_20180831125757_006dad2</version>

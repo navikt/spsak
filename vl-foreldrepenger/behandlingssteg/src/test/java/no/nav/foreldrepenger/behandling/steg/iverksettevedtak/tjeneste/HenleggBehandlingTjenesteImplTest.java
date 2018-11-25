@@ -95,7 +95,7 @@ public class HenleggBehandlingTjenesteImplTest {
     public void setUp() {
         System.setProperty("systembruker.username", "brukerident");
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagMocked();
         repositoryProviderMock = scenario.mockBehandlingRepositoryProvider();
 

@@ -39,9 +39,8 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerForeldrepenger;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
@@ -94,8 +93,7 @@ public class DokumentmottakerSøknadTest {
         when(enhetsTjeneste.finnBehandlendeEnhetFraSøker(any(Fagsak.class))).thenReturn(enhet);
         when(enhetsTjeneste.finnBehandlendeEnhetFraSøker(any(Behandling.class))).thenReturn(enhet);
 
-        dokumentmottakerFelles = new DokumentmottakerFelles(repositoryProvider, prosessTaskRepository, enhetsTjeneste,
-            historikkinnslagTjeneste);
+        dokumentmottakerFelles = new DokumentmottakerFelles(prosessTaskRepository, enhetsTjeneste, historikkinnslagTjeneste);
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
         dokumentmottaker = new DokumentmottakerSøknad(repositoryProvider, dokumentmottakerFelles, mottatteDokumentTjeneste, behandlingsoppretter, kompletthetskontroller);
@@ -105,8 +103,7 @@ public class DokumentmottakerSøknadTest {
     @Test
     public void skal_tilbake_til_steg_registrer_søknad_dersom_åpen_behandling() {
         //Arrange
-        Behandling behandling = ScenarioMorSøkerEngangsstønad
-            .forFødselUtenSøknad()
+        Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
             .medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD)
             .lagre(repositoryProvider);
 
@@ -130,7 +127,7 @@ public class DokumentmottakerSøknadTest {
     public void skal_opprette_task_dersom_papirsøknad_ved_åpen_behandling_og_behandlingstype_ikke_støtter_søknadssteg() {
         //Arrange
         Behandling behandling = ScenarioMorSøkerEngangsstønad
-            .forFødselUtenSøknad()
+            .forDefaultAktør(false)
             .medBehandlingType(BehandlingType.REVURDERING)
             .lagre(repositoryProvider);
 
@@ -182,7 +179,7 @@ public class DokumentmottakerSøknadTest {
     @Test
     public void skal_oppdatere_køet_behandling_og_kjøre_kompletthet_dersom_køet_behandling_finnes() {
         // Arrange - opprette køet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
@@ -203,7 +200,7 @@ public class DokumentmottakerSøknadTest {
     @Test
     public void skal_henlegge_køet_behandling_dersom_søknad_mottatt_tidligere() {
         // Arrange - opprette køet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
@@ -213,7 +210,7 @@ public class DokumentmottakerSøknadTest {
         when(mottatteDokumentTjeneste.harMottattDokumentSet(any(), anySet())).thenReturn(true);
 
         // Arrange - mock tjenestekall
-        Behandling nyKøetBehandling = ScenarioFarSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
+        Behandling nyKøetBehandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
         when(behandlingsoppretter.henleggOgOpprettNyFørstegangsbehandling(behandling.getFagsak(), behandling, null))
             .thenReturn(nyKøetBehandling);
 

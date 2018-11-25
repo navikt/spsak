@@ -78,7 +78,7 @@ public class BehandlingDtoTjenesteImplTest {
     }
 
     private Behandling lagBehandling() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         SykemeldingerBuilder smBuilder = scenario.getSykemeldingerBuilder();
         SykemeldingBuilder sykemeldingBuilder = smBuilder.sykemeldingBuilder("ASDF-ASDF-ASDF");

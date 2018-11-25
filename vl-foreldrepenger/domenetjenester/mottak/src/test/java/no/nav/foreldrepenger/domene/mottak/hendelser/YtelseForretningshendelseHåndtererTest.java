@@ -87,7 +87,7 @@ public class YtelseForretningshendelseHåndtererTest {
     @Test
     public void skal_oppdatere_fagsak_med_registeropplysninger_når_sak_er_under_behandling() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         behandling = scenario.lagre(repositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         YtelseForretningshendelse ytelseForretningshendelse = new YtelseForretningshendelse(ForretningshendelseType.YTELSE_ENDRET, fagsak.getAktørId().getId(), FPDateUtil.iDag());
@@ -103,7 +103,7 @@ public class YtelseForretningshendelseHåndtererTest {
     @Test
     public void skal_opprette_revurdering_når_hendelse_er_endring_og_behandling_er_iverksett_vedtak() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medBehandlingStegStart(BehandlingStegType.IVERKSETT_VEDTAK);
         scenario.medBehandlingVedtak()
             .medVedtaksdato(LocalDate.now())
@@ -136,7 +136,7 @@ public class YtelseForretningshendelseHåndtererTest {
     @Test
     public void skal_opprette_revurdering_når_hendelse_er_innvilget_og_behandling_er_avsluttet() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         behandling = scenario.lagre(repositoryProvider);
         behandling.avsluttBehandling();
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);

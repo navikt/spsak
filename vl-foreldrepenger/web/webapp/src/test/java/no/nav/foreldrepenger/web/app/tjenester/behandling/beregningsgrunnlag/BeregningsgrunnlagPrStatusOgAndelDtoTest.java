@@ -222,7 +222,7 @@ public class BeregningsgrunnlagPrStatusOgAndelDtoTest {
     }
 
     private void lagBehandlingMedBG(Arbeidsgiver arbeidsgiver) {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.FASTSETT_BEREGNINGSGRUNNLAG_ARBEIDSTAKER_FRILANS,
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);

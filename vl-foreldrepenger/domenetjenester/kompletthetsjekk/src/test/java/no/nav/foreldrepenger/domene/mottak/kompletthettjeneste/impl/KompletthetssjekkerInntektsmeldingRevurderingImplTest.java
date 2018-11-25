@@ -49,7 +49,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
     @Test
     public void skal_bare_utlede_manglende_inntektsmelding_for_arbeidsforholdet_som_er_berørt_av_gradering() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
         testUtil.lagreSøknad(behandling, false);
 
@@ -65,7 +65,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
     @Test
     public void skal_bare_utlede_manglende_inntektsmeldinger_for_arbeidstakere() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
         testUtil.lagreSøknad(behandling, false);
 
@@ -79,7 +79,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
     @Test
     public void skal_ikke_utlede_manglende_inntektsmelding_for_arbeidsforhold_berørt_av_gradering_når_den_er_mottatt() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
         testUtil.lagreSøknad(behandling, false);
 
@@ -98,7 +98,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
     @Test
     public void skal_benytte_grunnlagstjenesten_til_å_utlede_manglende_inntektsmelding_ved_ferie() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
         testUtil.lagreSøknad(behandling, false);
 

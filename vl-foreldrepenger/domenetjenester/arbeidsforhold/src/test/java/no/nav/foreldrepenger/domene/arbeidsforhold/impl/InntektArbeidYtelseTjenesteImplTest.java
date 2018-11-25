@@ -257,7 +257,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
 
     @Test
     public void test_hentArbeidsforholdFerdigUtledet_med_aksjonspunkt() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         LocalDate skjæringstidspunkt = LocalDate.now();
 
@@ -416,7 +416,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
 
     private Behandling opprettRevurderingsbehandling(Behandling opprinneligBehandling) {
         BehandlingType behandlingType = repositoryProvider.getKodeverkRepository().finn(BehandlingType.class, BehandlingType.REVURDERING);
-        BehandlingÅrsak.Builder revurderingÅrsak = BehandlingÅrsak.builder(BehandlingÅrsakType.RE_HENDELSE_FØDSEL)
+        BehandlingÅrsak.Builder revurderingÅrsak = BehandlingÅrsak.builder(BehandlingÅrsakType.RE_ANNET)
             .medOriginalBehandling(opprinneligBehandling);
         Behandling revurdering = Behandling.fraTidligereBehandling(opprinneligBehandling, behandlingType)
             .medBehandlingÅrsak(revurderingÅrsak).build();

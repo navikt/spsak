@@ -124,7 +124,7 @@ public class AutomatiskGjenopptagelseTjenesteTest {
     }
 
     private Behandling lagMockBehandling() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
         return behandling;
     }

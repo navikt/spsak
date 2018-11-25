@@ -74,8 +74,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
     public void oppsett() {
         MockitoAnnotations.initMocks(this);
 
-        dokumentmottakerFelles = new DokumentmottakerFelles(repositoryProvider, prosessTaskRepository, behandlendeEnhetTjeneste,
-            historikkinnslagTjeneste);
+        dokumentmottakerFelles = new DokumentmottakerFelles(prosessTaskRepository, behandlendeEnhetTjeneste, historikkinnslagTjeneste);
 
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
@@ -92,7 +91,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
     @Test
     public void skal_opprette_vurder_dokument_oppgave_dersom_avvist_behandling() {
         // Arrange - opprette avsluttet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medVilkårResultatType(VilkårResultatType.AVSLÅTT);
         Behandling behandling = scenario.lagre(repositoryProvider);
         behandling.avsluttBehandling();
@@ -118,7 +117,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
     @Test
     public void skal_opprette_førstegangsbehandling_dersom_avvist_behandling_har_entydig_avslag() {
         // Arrange - opprette avsluttet førstegangsbehandling
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medVilkårResultatType(VilkårResultatType.AVSLÅTT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.IKKE_OPPFYLT);
         Behandling behandling = scenario.lagre(repositoryProvider);
@@ -134,7 +133,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
         MottattDokument mottattDokument = DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, behandling.getFagsakId(), "", now(), true, "123");
         doReturn(true).when(behandlingsoppretter).erAvslåttFørstegangsbehandling(behandling);
 
-        ScenarioMorSøkerForeldrepenger morSøkerForeldrepenger = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(behandling.getAktørId());
+        ScenarioMorSøkerForeldrepenger morSøkerForeldrepenger = ScenarioMorSøkerForeldrepenger.forAktør(behandling.getAktørId());
         morSøkerForeldrepenger.medFagsakId(behandling.getFagsakId());
         Behandling nyBehandling = morSøkerForeldrepenger.lagre(repositoryProvider);
         doReturn(nyBehandling).when(behandlingsoppretter).finnEllerOpprettFørstegangsbehandling(behandling.getFagsak());

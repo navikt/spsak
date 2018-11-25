@@ -81,7 +81,7 @@ public class KompletthetsjekkerFPTest {
     @Test
     public void skal_finne_at_kompletthet_er_oppfylt() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
 
         // Act
         KompletthetResultat kompletthetResultat = kompletthetsjekkerFP.vurderForsendelseKomplett(behandling);
@@ -94,7 +94,7 @@ public class KompletthetsjekkerFPTest {
     @Test
     public void skal_finne_at_kompletthet_ikke_er_oppfylt_når_inntektsmelding_mangler() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
         mockManglendeInntektsmelding();
         testUtil.lagreSøknad(behandling, false);
 
@@ -109,7 +109,7 @@ public class KompletthetsjekkerFPTest {
     @Test
     public void skal_finne_at_kompletthet_ikke_er_oppfylt_når_vedlegg_til_søknad_mangler() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
         opprettSøknadMedPåkrevdVedlegg(behandling);
 
         // Act
@@ -123,7 +123,7 @@ public class KompletthetsjekkerFPTest {
     @Test
     public void skal_finne_at_kompletthet_er_oppfylt_når_vedlegg_til_søknad_finnes_i_joark() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
 
         DokumentTypeId dokumentType = repositoryProvider.getKodeverkRepository().finnForKodeverkEiersKode(DokumentTypeId.class, KODE_INNLEGGELSE);
         Set<DokumentTypeId> dokumentTypeIds = singleton(dokumentType);
@@ -142,7 +142,7 @@ public class KompletthetsjekkerFPTest {
     @Test
     public void skal_returnere_hvilke_vedlegg_som_mangler() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
         mockManglendeInntektsmeldingGrunnlag();
         opprettSøknadMedPåkrevdVedlegg(behandling);
 

@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -78,7 +77,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRep
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepositoryStub;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.InnsynRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlagBuilder;
@@ -236,7 +234,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         }).when(aksjonspunktRepository).finnAksjonspunktDefinisjon(Mockito.any());
 
         FagsakRepository mockFagsakRepository = mockFagsakRepository();
-        InnsynRepository mockInnsynRepository = mockInnsynRepository();
         PersonopplysningRepository mockPersonopplysningRepository = lagMockPersonopplysningRepository();
         MedlemskapRepository mockMedlemskapRepository = lagMockMedlemskapRepository();
         BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository = mockBehandlingsgrunnlagKodeverkRepository();
@@ -274,7 +271,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         when(repositoryProvider.getInntektArbeidYtelseRepository()).thenReturn(inntektArbeidYtelseRepository);
         when(repositoryProvider.getVirksomhetRepository()).thenReturn(virksomhetRepository);
         when(repositoryProvider.getMottatteDokumentRepository()).thenReturn(mottatteDokumentRepository);
-        when(repositoryProvider.getInnsynRepository()).thenReturn(mockInnsynRepository);
         when(repositoryProvider.getBeregningsgrunnlagRepository()).thenReturn(beregningsgrunnlagRepository);
         when(repositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
         when(repositoryProvider.getFagsakLåsRepository()).thenReturn(fagsakLåsRepository);
@@ -328,7 +324,8 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
             @Override
             public void kopierGrunnlagFraEksisterendeBehandling(Behandling behandling, Behandling revudering) {
-                SykefraværGrunnlagBuilder oppdater = SykefraværGrunnlagBuilder.oppdater(Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(behandling.getId(), null)));
+                SykefraværGrunnlagBuilder oppdater = SykefraværGrunnlagBuilder
+                    .oppdater(Optional.ofNullable(sykefraværGrunnlagMap.getOrDefault(behandling.getId(), null)));
                 sykefraværGrunnlagMap.put(revudering.getId(), (SykefraværGrunnlagEntitet) oppdater.build());
             }
         };
@@ -445,7 +442,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         MottatteDokumentRepository dokumentRepository = Mockito.mock(MottatteDokumentRepository.class);
         return dokumentRepository;
     }
-
 
     /**
      * Hjelpe metode for å håndtere mock repository.
@@ -617,13 +613,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return vRepo;
     }
 
-    private InnsynRepository mockInnsynRepository() {
-        InnsynRepository innsynRepository = mock(InnsynRepository.class);
-        when(innsynRepository.hentForBehandling(Mockito.anyLong())).thenAnswer(a -> Collections.emptyList());
-        when(innsynRepository.hentDokumenterForInnsyn(Mockito.anyLong())).thenAnswer(a -> Collections.emptyList());
-        return innsynRepository;
-    }
-
     public FagsakRepository mockFagsakRepository() {
         FagsakRepository fagsakRepository = mock(FagsakRepository.class);
         when(fagsakRepository.finnEksaktFagsak(Mockito.anyLong())).thenAnswer(a -> fagsak);
@@ -710,12 +699,12 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
             personer.stream().filter(a -> a.getType().equals(PersonopplysningVersjonType.OVERSTYRT))
                 .findFirst().ifPresent(b -> {
-                if (personer.stream().noneMatch(c -> c.getType().equals(PersonopplysningVersjonType.REGISTRERT))) {
-                    // Sjekker om overstyring er ok, mao om registeropplysninger finnes
-                    personopplysningRepository.opprettBuilderForOverstyring(behandling);
-                }
-                lagrePersoninfo(behandling, b, personopplysningRepository);
-            });
+                    if (personer.stream().noneMatch(c -> c.getType().equals(PersonopplysningVersjonType.REGISTRERT))) {
+                        // Sjekker om overstyring er ok, mao om registeropplysninger finnes
+                        personopplysningRepository.opprettBuilderForOverstyring(behandling);
+                    }
+                    lagrePersoninfo(behandling, b, personopplysningRepository);
+                });
 
         } else {
             PersonInformasjon registerInformasjon = PersonInformasjon.builder(PersonopplysningVersjonType.REGISTRERT)

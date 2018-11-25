@@ -77,7 +77,7 @@ public class KontrollerFaktaBeregningTjenesteImplTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
         SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
         sykemeldingBuilder.medPeriode(SKJÆRINGSTIDSPUNKT_OPPTJENING, SKJÆRINGSTIDSPUNKT_OPPTJENING.plusDays(36))

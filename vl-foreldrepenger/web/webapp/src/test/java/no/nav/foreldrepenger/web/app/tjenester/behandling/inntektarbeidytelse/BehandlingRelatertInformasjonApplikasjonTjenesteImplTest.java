@@ -119,7 +119,7 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
     public void skal_returnere_tom_liste_når_ingen_tidligere_sak_for_medsøker() throws Exception {
 
         // bygg behandlinged annen part
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medBruker(AKTØR_ID_99, NavBrukerKjønn.KVINNE);
         PersonopplysningRepository personopplysningRepository = mock(PersonopplysningRepository.class);
         when(repositoryProvider.getPersonopplysningRepository()).thenReturn(personopplysningRepository);

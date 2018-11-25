@@ -92,7 +92,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         behandling = scenario.lagre(realRepositoryProvider);
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         when(repositoryProvider.getPersonopplysningRepository()).thenReturn(personopplysningRepository);

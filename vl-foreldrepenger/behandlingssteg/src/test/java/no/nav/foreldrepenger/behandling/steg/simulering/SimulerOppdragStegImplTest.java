@@ -20,7 +20,7 @@ public class SimulerOppdragStegImplTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.lagMocked();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
     }

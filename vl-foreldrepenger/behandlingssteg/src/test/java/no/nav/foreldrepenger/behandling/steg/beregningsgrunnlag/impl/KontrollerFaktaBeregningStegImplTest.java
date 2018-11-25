@@ -138,7 +138,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste = new OpprettBeregningsgrunnlagTjeneste(repositoryProvider, fastsettSkjæringstidspunktOgStatuser, fastsettInntektskategoriFraSøknadTjeneste, beregningsgrunnlagFraTilstøtendeYtelseTjeneste, fastsettBeregningsgrunnlagPerioderTjeneste, hentGrunnlagsdataTjeneste);
         steg = new KontrollerFaktaBeregningStegImpl(repositoryProvider, aksjonspunktUtlederForBeregning, opprettBeregningsgrunnlagTjeneste);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger
-                .forFødselMedGittAktørId(AKTØR_ID);
+                .forAktør(AKTØR_ID);
         behandling = scenario.lagre(repositoryProvider);
         when(kontekst.getBehandlingId()).thenReturn(behandling.getId());
 

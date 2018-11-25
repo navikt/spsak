@@ -18,7 +18,6 @@ import javax.persistence.TypedQuery;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.FarSøkerType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodelisteRelasjon;
@@ -50,11 +49,6 @@ public class BehandlingsgrunnlagKodeverkRepositoryImpl implements Behandlingsgru
         if (entityManager != null) {
             this.kodeverkRepository = new KodeverkRepositoryImpl(entityManager);
         }
-    }
-
-    @Override
-    public FarSøkerType finnFarSøkerType(String kode) {
-        return kodeverkRepository.finn(FarSøkerType.class, kode);
     }
 
     @Override
@@ -104,7 +98,8 @@ public class BehandlingsgrunnlagKodeverkRepositoryImpl implements Behandlingsgru
 
     @Override
     public List<Region> finnRegioner(String kode) {
-        TypedQuery<KodelisteRelasjon> query = entityManager.createQuery("from KodelisteRelasjon where kodeverk1 = 'REGION' AND kodeverk2 = 'LANDKODER' AND kode2=:kode", KodelisteRelasjon.class);
+        TypedQuery<KodelisteRelasjon> query = entityManager
+            .createQuery("from KodelisteRelasjon where kodeverk1 = 'REGION' AND kodeverk2 = 'LANDKODER' AND kode2=:kode", KodelisteRelasjon.class);
         query.setParameter("kode", kode);
         List<String> regionKoder = query.getResultList().stream()
             .map(KodelisteRelasjon::getKode1)

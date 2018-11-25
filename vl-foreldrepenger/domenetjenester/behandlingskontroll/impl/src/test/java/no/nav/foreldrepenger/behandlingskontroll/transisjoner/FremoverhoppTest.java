@@ -207,7 +207,7 @@ public class FremoverhoppTest {
         AksjonspunktDefinisjon ad = aksjonspunktRepository.finnAksjonspunktDefinisjon(apKode);
         BehandlingStegType idSteg = behandlingRepository.finnBehandlingStegType(identifisertI.getKode());
 
-        Behandling ytelseBehandling = ScenarioMorSøkerEngangsstønad.forFødsel().lagre(repositoryProvider);
+        Behandling ytelseBehandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider);
         behandling = Behandling.nyBehandlingFor(ytelseBehandling.getFagsak(), TestBehandlingType.TEST).build();
         behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);

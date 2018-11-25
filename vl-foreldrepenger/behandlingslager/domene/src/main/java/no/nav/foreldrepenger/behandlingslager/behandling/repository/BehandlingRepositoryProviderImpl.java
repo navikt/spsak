@@ -60,7 +60,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     private HistorikkRepository historikkRepository;
     private SøknadRepository søknadRepository;
     private VergeRepository vergeRepository;
-    private InnsynRepository innsynRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private BeregningRepository beregningRepository;
     private UttakRepository uttakRepository;
@@ -99,9 +98,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         this.fagsakRepository = new FagsakRepositoryImpl(entityManager);
         this.aksjonspunktRepository = new AksjonspunktRepositoryImpl(entityManager, this.kodeverkRepository);
         this.fagsakLåsRepository = new FagsakLåsRepositoryImpl(entityManager);
-
-        // andre type behandlinger (ikke ytelse behandling)
-        this.innsynRepository = new InnsynRepositoryImpl(entityManager);
 
         // behandling aggregater
         this.medlemskapRepository = new MedlemskapRepositoryImpl(entityManager);
@@ -200,11 +196,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     @Override
     public SøknadRepository getSøknadRepository() {
         return søknadRepository;
-    }
-
-    @Override
-    public InnsynRepository getInnsynRepository() {
-        return innsynRepository;
     }
 
     @Override

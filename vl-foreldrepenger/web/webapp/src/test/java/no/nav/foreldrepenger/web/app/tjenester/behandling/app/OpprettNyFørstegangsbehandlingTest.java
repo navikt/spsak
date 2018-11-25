@@ -13,22 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageMedholdÅrsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
@@ -69,7 +62,7 @@ public class OpprettNyFørstegangsbehandlingTest {
     private KodeverkRepository kodeverkRepository;
 
     private Behandling opprettOgLagreBehandling() {
-        return ScenarioMorSøkerEngangsstønad.forFødsel().lagre(repositoryProvider);
+        return ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider);
     }
 
     @Before
@@ -96,8 +89,7 @@ public class OpprettNyFørstegangsbehandlingTest {
             null,
             null,
             saksbehandlingDokumentmottakTjeneste,
-            datavarehusTjeneste,
-            null);
+            datavarehusTjeneste);
     }
 
     private void mockMottatteDokumentRepository(BehandlingRepositoryProvider repositoryProvider, MottatteDokumentTjeneste mottatteDokumentTjeneste) {
@@ -160,8 +152,7 @@ public class OpprettNyFørstegangsbehandlingTest {
             null,
             null,
             saksbehandlingDokumentmottakTjeneste,
-            datavarehusTjeneste,
-            null);
+            datavarehusTjeneste);
 
     }
 
@@ -171,7 +162,7 @@ public class OpprettNyFørstegangsbehandlingTest {
         behandling.avsluttBehandling();
 
         //Act
-        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(behandling.getFagsakId(), behandling.getFagsak().getSaksnummer(), false);
+        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(behandling.getFagsakId(), behandling.getFagsak().getSaksnummer());
 
         //Assert
         ArgumentCaptor<ProsessTaskData> captor = ArgumentCaptor.forClass(ProsessTaskData.class);
@@ -184,60 +175,13 @@ public class OpprettNyFørstegangsbehandlingTest {
     @Test(expected = FunksjonellException.class)
     public void skal_kaste_exception_når_behandling_fortsatt_er_åpen() {
         //Act and expect Exception
-        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(behandling.getFagsakId(), behandling.getFagsak().getSaksnummer(), false);
+        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(behandling.getFagsakId(), behandling.getFagsak().getSaksnummer());
     }
 
     @Test(expected = FunksjonellException.class)
     public void skal_kaste_exception_når_behandling_ikke_eksisterer() {
         //Act and expect Exception
-        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(-1L, new Saksnummer("50"), false);
-    }
-
-    @Test
-    public void skal_opprette_etter_klagebehandling() {
-        //Arrange
-        behandling.avsluttBehandling();
-
-        Behandling klage = Behandling.forKlage(behandling.getFagsak()).build();
-        klage.leggTilKlageVurderingResultat(KlageVurderingResultat.builder()
-            .medKlageVurdertAv(KlageVurdertAv.NFP).medKlageMedholdÅrsak(KlageMedholdÅrsak.NYE_OPPLYSNINGER).medKlageVurdering(KlageVurdering.MEDHOLD_I_KLAGE)
-            .medBegrunnelse("bla bla").medVedtaksdatoPåklagdBehandling(LocalDate.now()).medBehandling(klage).build());
-        klage.avsluttBehandling();
-        repositoryProvider.getBehandlingRepository().lagre(klage, repositoryProvider.getBehandlingRepository().taSkriveLås(klage));
-
-        //Act
-        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(behandling.getFagsakId(), behandling.getFagsak().getSaksnummer(),true);
-
-        // Assert
-        ArgumentCaptor<ProsessTaskData> captor = ArgumentCaptor.forClass(ProsessTaskData.class);
-        verify(prosessTaskRepository, times(1)).lagre(captor.capture());
-        ProsessTaskData prosessTaskData = captor.getValue();
-        verifiserProsessTaskData(behandling, prosessTaskData);
-    }
-
-    @Test(expected = FunksjonellException.class)
-    public void skal_feile_uten_tidligere_klagebehandling() {
-        //Arrange
-        behandling.avsluttBehandling();
-
-        //Act
-        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(behandling.getFagsakId(), behandling.getFagsak().getSaksnummer(),true);
-    }
-
-    // Gjennomgå om man skal forby oppretting av NyFB basert på henlagt klage
-    @Ignore
-    @Test(expected = FunksjonellException.class)
-    public void skal_feile_henlagt_tidligere_klagebehandling() {
-        //Arrange
-        behandling.avsluttBehandling();
-
-        Behandling klage = Behandling.forKlage(behandling.getFagsak()).build();
-        Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.HENLAGT_KLAGE_TRUKKET).buildFor(klage);
-        klage.avsluttBehandling();
-        repositoryProvider.getBehandlingRepository().lagre(klage, repositoryProvider.getBehandlingRepository().taSkriveLås(klage));
-
-        //Act
-        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(behandling.getFagsakId(), behandling.getFagsak().getSaksnummer(),true);
+        behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(-1L, new Saksnummer("50"));
     }
 
     //Verifiserer at den opprettede prosesstasken stemmer overens med MottattDokument-mock

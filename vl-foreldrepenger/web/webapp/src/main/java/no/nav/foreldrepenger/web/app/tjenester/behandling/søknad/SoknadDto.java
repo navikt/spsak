@@ -10,8 +10,7 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.SøknadType;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = SoknadAdopsjonDto.class),
-        @JsonSubTypes.Type(value = SoknadFodselDto.class)
+        @JsonSubTypes.Type(value = SoknadSykepengerDto.class)
 })
 public abstract class SoknadDto {
 
@@ -19,9 +18,6 @@ public abstract class SoknadDto {
     private LocalDate mottattDato;
     private String tilleggsopplysninger;
     private String begrunnelseForSenInnsending;
-    private String annenPartNavn;
-    private Integer antallBarn;
-    private Integer dekningsgrad;
     private OppgittTilknytningDto oppgittTilknytning;
     private List<ManglendeVedleggDto> manglendeVedlegg;
 
@@ -48,18 +44,6 @@ public abstract class SoknadDto {
         return begrunnelseForSenInnsending;
     }
 
-    public String getAnnenPartNavn() {
-        return annenPartNavn;
-    }
-
-    public Integer getAntallBarn() {
-        return antallBarn;
-    }
-
-    public Integer getDekningsgrad() {
-        return dekningsgrad;
-    }
-
     public OppgittTilknytningDto getOppgittTilknytning() {
         return oppgittTilknytning;
     }
@@ -78,18 +62,6 @@ public abstract class SoknadDto {
 
     public void setBegrunnelseForSenInnsending(String begrunnelseForSenInnsending) {
         this.begrunnelseForSenInnsending = begrunnelseForSenInnsending;
-    }
-
-    public void setAnnenPartNavn(String annenPartNavn) {
-        this.annenPartNavn = annenPartNavn;
-    }
-
-    public void setAntallBarn(Integer antallBarn) {
-        this.antallBarn = antallBarn;
-    }
-
-    public void setDekningsgrad(Integer dekningsgrad) {
-        this.dekningsgrad = dekningsgrad;
     }
 
     public void setOppgittTilknytning(OppgittTilknytningDto oppgittTilknytning) {

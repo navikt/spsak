@@ -61,7 +61,7 @@ public class BeregningsresultatFPRepositoryImplTest {
             .build();
         repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet);
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagre(repositoryProvider);
         dagensDato = LocalDate.now();
 
@@ -208,7 +208,7 @@ public class BeregningsresultatFPRepositoryImplTest {
     @Test
     public void toBehandlingerKanHaSammeBeregningsresultatFP() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling2 = scenario.lagre(repositoryProvider);
         BeregningsresultatFP BeregningsresultatFP = buildBeregningsresultatFP(Optional.of(dagensDato));
 

@@ -80,7 +80,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
         throw new IllegalStateException("Ukjent ytelse type.");
     }
 
-    @SuppressWarnings("unused")
     private LocalDate utledSkjæringstidspunktForRegisterinnhentingSP(Behandling behandling) {
         return finnFørsteSykefraværsdag(behandling).orElse(LocalDate.now(FPDateUtil.getOffset()));
     }

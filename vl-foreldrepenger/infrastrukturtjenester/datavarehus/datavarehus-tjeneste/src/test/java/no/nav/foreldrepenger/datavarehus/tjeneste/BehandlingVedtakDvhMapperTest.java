@@ -43,7 +43,7 @@ public class BehandlingVedtakDvhMapperTest {
     }
 
     private Behandling byggBehandling() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
         behandling.setAnsvarligBeslutter(ANSVARLIG_BESLUTTER);
         behandling.setBehandlendeEnhet(new OrganisasjonsEnhet(BEHANDLENDE_ENHET, null));

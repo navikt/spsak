@@ -45,7 +45,7 @@ public class StatsborgerskapEndringIdentifisererTest {
     @Before
     public void setup() {
         statsborgerskapEndringIdentifiserer = new StatsborgerskapEndringIdentifiserer();
-        ScenarioMorSøkerForeldrepenger.forFødsel().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
+        ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
     }
 
     @Test

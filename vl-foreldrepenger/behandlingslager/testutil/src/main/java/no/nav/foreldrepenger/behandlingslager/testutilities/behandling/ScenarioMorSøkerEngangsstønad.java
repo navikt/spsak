@@ -20,7 +20,7 @@ import no.nav.vedtak.util.FPDateUtil;
  */
 public class ScenarioMorSøkerEngangsstønad extends AbstractTestScenario<ScenarioMorSøkerEngangsstønad> {
 
-    private ScenarioMorSøkerEngangsstønad( boolean medDefaultSøknad) {
+    private ScenarioMorSøkerEngangsstønad(boolean medDefaultSøknad) {
         super(NavBrukerKjønn.KVINNE, new AktørId(1999L));
         if (medDefaultSøknad) {
             // Defaults - antar default alltid minimum med en søknad
@@ -31,19 +31,11 @@ public class ScenarioMorSøkerEngangsstønad extends AbstractTestScenario<Scenar
 
     }
 
-    public static ScenarioMorSøkerEngangsstønad forFødselUtenSøknad() {
-        return new ScenarioMorSøkerEngangsstønad(false);
+    public static ScenarioMorSøkerEngangsstønad forDefaultAktør(boolean medDefaultSøknad) {
+        return new ScenarioMorSøkerEngangsstønad(medDefaultSøknad);
     }
-
-    public static ScenarioMorSøkerEngangsstønad forAdopsjonUtenSøknad() {
-        return new ScenarioMorSøkerEngangsstønad(false);
-    }
-
-    public static ScenarioMorSøkerEngangsstønad forFødsel() {
-        return new ScenarioMorSøkerEngangsstønad(true);
-    }
-
-    public static ScenarioMorSøkerEngangsstønad forAdopsjon() {
+    
+    public static ScenarioMorSøkerEngangsstønad forDefaultAktør() {
         return new ScenarioMorSøkerEngangsstønad(true);
     }
 

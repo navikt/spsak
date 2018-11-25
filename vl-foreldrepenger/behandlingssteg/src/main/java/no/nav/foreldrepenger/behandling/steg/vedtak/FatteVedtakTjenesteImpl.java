@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
@@ -37,11 +36,6 @@ public class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
             BehandlingResultatType.INGEN_ENDRING));
     private static final Set<BehandlingResultatType> VEDTAKSTILSTANDER = new HashSet<>(
         Arrays.asList(BehandlingResultatType.AVSLÅTT, BehandlingResultatType.INNVILGET));
-    private static final Set<BehandlingResultatType> VEDTAKSTILSTANDER_KLAGE = new HashSet<>(
-        Arrays.asList(BehandlingResultatType.KLAGE_AVVIST, BehandlingResultatType.KLAGE_MEDHOLD
-            , BehandlingResultatType.KLAGE_YTELSESVEDTAK_OPPHEVET, BehandlingResultatType.KLAGE_YTELSESVEDTAK_STADFESTET));
-    private static final Set<BehandlingResultatType> VEDTAKSTILSTANDER_INNSYN = new HashSet<>(
-        Arrays.asList(BehandlingResultatType.INNSYN_AVVIST, BehandlingResultatType.INNSYN_DELVIS_INNVILGET, BehandlingResultatType.INNSYN_INNVILGET));
     private VedtakTjeneste vedtakTjeneste;
     private OppgaveTjeneste oppgaveTjeneste;
     private TotrinnTjeneste totrinnTjeneste;
@@ -96,27 +90,15 @@ public class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
 
     private void verifiserBehandlingsresultat(Behandling behandling) {
         Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
-        if (behandling.erKlage()) {
-            if (!VEDTAKSTILSTANDER_KLAGE.contains(behandlingsresultat.getBehandlingResultatType())) {
-                throw new IllegalStateException(
-                    UTVIKLER_FEIL_VEDTAK //$NON-NLS-1$
-                        + (behandlingsresultat.getBehandlingResultatType().getNavn()));
-            }
-        } else if (behandling.erInnsyn()) {
-            if (!VEDTAKSTILSTANDER_INNSYN.contains(behandlingsresultat.getBehandlingResultatType())) {
-                throw new IllegalStateException(
-                    UTVIKLER_FEIL_VEDTAK //$NON-NLS-1$
-                        + (behandlingsresultat.getBehandlingResultatType().getNavn()));
-            }
-        } else if (behandling.erRevurdering()) {
+        if (behandling.erRevurdering()) {
             if (!VEDTAKSTILSTANDER_REVURDERING.contains(behandlingsresultat.getBehandlingResultatType())) {
                 throw new IllegalStateException(
-                    UTVIKLER_FEIL_VEDTAK //$NON-NLS-1$
+                    UTVIKLER_FEIL_VEDTAK // $NON-NLS-1$
                         + (behandlingsresultat.getBehandlingResultatType().getNavn()));
             }
         } else if (behandlingsresultat == null || !VEDTAKSTILSTANDER.contains(behandlingsresultat.getBehandlingResultatType())) {
             throw new IllegalStateException(
-                UTVIKLER_FEIL_VEDTAK //$NON-NLS-1$
+                UTVIKLER_FEIL_VEDTAK // $NON-NLS-1$
                     + (behandlingsresultat == null ? "null" : behandlingsresultat.getBehandlingResultatType().getNavn()));
         }
     }
@@ -125,7 +107,4 @@ public class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
         // FIXME SP: oppretter vedtak på noe vis
     }
 
-    private boolean erKlarForVedtak(Behandling behandling) {
-        return behandling.erKlage() || BehandlingStatus.FATTER_VEDTAK.equals(behandling.getStatus());
-    }
 }

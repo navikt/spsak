@@ -113,7 +113,7 @@ public class AvsluttBehandlingImplTest {
     @Test
     public void testAvsluttBehandlingMedAnnenBehandlingSomIkkeVenter() {
         // Arrange
-        Behandling behandling2 = ScenarioMorSøkerEngangsstønad.forAdopsjon().lagMocked();
+        Behandling behandling2 = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagMocked();
         when(behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(fagsak.getSaksnummer())).thenReturn(Arrays.asList(behandling, behandling2));
         avsluttBehandling = new AvsluttBehandlingImpl(repositoryProvider, behandlingskontrollTjeneste, behandlingVedtakEventPubliserer, null);
 
@@ -205,7 +205,7 @@ public class AvsluttBehandlingImplTest {
     }
 
     private Behandling lagBehandling(LocalDateTime opprettet, LocalDateTime vedtaksdato) {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         if (fagsak != null) {
             scenario.medFagsakId(fagsak.getId());
             scenario.medSaksnummer(fagsak.getSaksnummer());

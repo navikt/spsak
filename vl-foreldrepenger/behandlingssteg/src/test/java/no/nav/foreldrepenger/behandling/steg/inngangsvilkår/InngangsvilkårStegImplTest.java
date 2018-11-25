@@ -64,7 +64,7 @@ public class InngangsvilkårStegImplTest {
     @Test
     public void skal_hoppe_til_uttak_ved_avslag_for_foreldrepenger_ved_revurdering() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.REVURDERING)
             .medVilkårResultatType(VilkårResultatType.IKKE_FASTSATT)
             .leggTilVilkår(sutVilkårType, VilkårUtfallType.IKKE_OPPFYLT);
@@ -93,7 +93,7 @@ public class InngangsvilkårStegImplTest {
     public void skal_ved_tilbakehopp_rydde_vilkårresultat_og_vilkår_og_behandlingsresultattype() {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .medVilkårResultatType(VilkårResultatType.INNVILGET)
             .leggTilVilkår(sutVilkårType, VilkårUtfallType.OPPFYLT);
         Behandling behandling = scenario.lagMocked();
@@ -116,7 +116,7 @@ public class InngangsvilkårStegImplTest {
     @Test
     public void skal_ved_fremoverhopp_rydde_avklarte_fakta_og_vilkår() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør()
             .medVilkårResultatType(VilkårResultatType.INNVILGET)
             .leggTilVilkår(sutVilkårType, VilkårUtfallType.OPPFYLT);
 

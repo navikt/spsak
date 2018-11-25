@@ -26,9 +26,7 @@ public interface BehandlingsutredningApplikasjonTjeneste {
     void kanEndreBehandling(Long behandlingId, Long versjon);
 
     /** Opprett ny behandling. Returner Prosess Task gruppe for å ta den videre. */
-    void opprettNyFørstegangsbehandling(Long fagsakId, Saksnummer saksnummer, boolean erEtterKlageBehandling);
-
-    Behandling opprettInnsyn(Saksnummer saksnummer);
+    void opprettNyFørstegangsbehandling(Long fagsakId, Saksnummer saksnummer);
 
     Behandling opprettRevurdering(Fagsak fagsak, BehandlingÅrsakType behandlingÅrsakType);
 

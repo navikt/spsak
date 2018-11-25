@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import no.nav.foreldrepenger.behandling.innsyn.InnsynTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
@@ -79,9 +78,6 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
     @Mock
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjenesteMock;
 
-    @Mock
-    private InnsynTjeneste innsynTjeneste;
-
     private BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste;
 
     private Long behandlingId;
@@ -91,7 +87,7 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
         repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
         behandlingRepository = repositoryProvider.getBehandlingRepository();
         Behandling behandling = ScenarioMorSøkerEngangsstønad
-            .forFødsel()
+            .forDefaultAktør()
             .lagre(repositoryProvider);
         behandlingId = behandling.getId();
 
@@ -108,8 +104,7 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
             behandlingskontrollTjenesteImpl,
             revurderingTjenesteProviderMock,
             saksbehandlingDokumentmottakTjenesteMock,
-            datavarehusTjenesteMock,
-            innsynTjeneste);
+            datavarehusTjenesteMock);
     }
 
     @Test

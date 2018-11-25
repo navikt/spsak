@@ -58,7 +58,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
     public void skal_ikke_opprette_aksjonspunkt_om_soker_har_fodt() {
         // Arrange
         LocalDate fødselsdato = LocalDate.now();
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
         SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
         sykemeldingBuilder.medPeriode(fødselsdato, fødselsdato.plusDays(36))
@@ -81,7 +81,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         LocalDate termindato = LocalDate.now();
         AktørId aktørId1 = new AktørId("1");
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medSøknad()
             .medMottattDato(LocalDate.now());
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
@@ -106,7 +106,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         LocalDate termindato = LocalDate.now();
         AktørId aktørId1 = new AktørId("1");
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medSøknad()
             .medMottattDato(LocalDate.now());
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
@@ -133,7 +133,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         LocalDate tom = LocalDate.now().minusWeeks(1L);
         LocalDate termindato = LocalDate.now().plusDays(40);
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();
         SykefraværPeriodeBuilder sykemeldingBuilder = builderb.periodeBuilder();
         sykemeldingBuilder.medPeriode(termindato, termindato.plusDays(36))
@@ -164,7 +164,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         LocalDate termindato = LocalDate.now().minusDays(15L);
         AktørId aktørId1 = new AktørId("1");
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medSøknad()
             .medMottattDato(LocalDate.now());
         SykefraværBuilder builderb = scenario.getSykefraværBuilder();

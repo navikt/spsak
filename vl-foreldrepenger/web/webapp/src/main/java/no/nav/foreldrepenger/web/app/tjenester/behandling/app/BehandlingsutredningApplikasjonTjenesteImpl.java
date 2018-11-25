@@ -14,7 +14,6 @@ import java.util.Objects;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandling.innsyn.InnsynTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
@@ -72,7 +71,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
     private DatavarehusTjeneste datavarehusTjeneste;
     private MottatteDokumentRepository mottatteDokumentRepository;
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste;
-    private InnsynTjeneste innsynTjeneste;
 
     BehandlingsutredningApplikasjonTjenesteImpl() {
         // for CDI proxy
@@ -87,10 +85,9 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
                                                        BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                                        RevurderingTjenesteProvider revurderingTjenesteProvider,
                                                        SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste,
-                                                       DatavarehusTjeneste datavarehusTjeneste,
-                                                       InnsynTjeneste innsynTjeneste) {
-        this.defaultVenteFrist = defaultVenteFrist;
+                                                       DatavarehusTjeneste datavarehusTjeneste) {
         Objects.requireNonNull(behandlingRepositoryProvider, "behandlingRepositoryProvider");
+        this.defaultVenteFrist = defaultVenteFrist;
         this.datavarehusTjeneste = datavarehusTjeneste;
         this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
         this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
@@ -100,7 +97,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
         this.mottatteDokumentRepository = behandlingRepositoryProvider.getMottatteDokumentRepository();
         this.saksbehandlingDokumentmottakTjeneste = saksbehandlingDokumentmottakTjeneste;
-        this.innsynTjeneste = innsynTjeneste;
     }
 
     @Override
@@ -172,7 +168,7 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
     }
 
     @Override
-    public void opprettNyFørstegangsbehandling(Long fagsakId, Saksnummer saksnummer, boolean erEtterKlageBehandling) {
+    public void opprettNyFørstegangsbehandling(Long fagsakId, Saksnummer saksnummer) {
 
         List<Behandling> behandlinger = behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(saksnummer);
 
@@ -186,13 +182,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
                 .orElseThrow(() -> BehandlingsutredningApplikasjonTjenesteFeil.FACTORY
                     .ingenSøknaderÅOppretteNyFørstegangsbehandlingPå(fagsakId).toException());
             String behandlingÅrsaktypeKode = null;
-            if (erEtterKlageBehandling) {
-                if (erEtterKlageGyldigValg(fagsakId)) {
-                    behandlingÅrsaktypeKode = BehandlingÅrsakType.ETTER_KLAGE.getKode();
-                } else {
-                    throw BehandlingsutredningApplikasjonTjenesteFeil.FACTORY.kanIkkeOppretteNyFørstegangsbehandlingEtterKlage(fagsakId).toException();
-                }
-            }
             saksbehandlingDokumentmottakTjeneste.dokumentAnkommet(tilSaksdokument(fagsakId, sisteMottatteSøknad, behandlingÅrsaktypeKode));
         } else {
             throw BehandlingsutredningApplikasjonTjenesteFeil.FACTORY.kanIkkeOppretteNyFørstegangsbehandling(fagsakId).toException();
@@ -241,30 +230,12 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
         return ingenApenYtelsesBeh && minstEnAvsluttet;
     }
 
-    private boolean erEtterKlageGyldigValg(Long fagsakId) {
-        Behandling klage = behandlingRepository.hentSisteBehandlingForFagsakId(fagsakId, BehandlingType.KLAGE).orElse(null);
-
-        // Vurdere å differensiere på KlageVurderingResultat (er tilstede) eller henlagt (resultat ikke tilstede)
-        return klage != null && klage.erAvsluttet();
-    }
-
-
-    @Override
-    public Behandling opprettInnsyn(Saksnummer saksnummer) {
-        // TODO (essv): Guard-betingelser for å opprette Innsyn?
-        Behandling behandling = innsynTjeneste.opprettManueltInnsyn(saksnummer);
-        return behandling;
-    }
-
     @Override
     public Behandling opprettRevurdering(Fagsak fagsak, BehandlingÅrsakType behandlingÅrsakType) {
         RevurderingTjeneste revurderingTjeneste = revurderingTjenesteProvider.finnRevurderingTjenesteFor(fagsak);
         Boolean kanRevurderingOpprettes = revurderingTjeneste.kanRevurderingOpprettes(fagsak);
         if (!kanRevurderingOpprettes) {
             throw BehandlingsutredningApplikasjonTjenesteFeil.FACTORY.kanIkkeOppretteRevurdering(fagsak.getSaksnummer()).toException();
-        }
-        if (BehandlingÅrsakType.årsakerEtterKlageBehandling().contains(behandlingÅrsakType) && !erEtterKlageGyldigValg(fagsak.getId())) {
-            throw BehandlingsutredningApplikasjonTjenesteFeil.FACTORY.kanIkkeOppretteRevurderingEtterKlage(fagsak.getId()).toException();
         }
         return revurderingTjeneste.opprettManuellRevurdering(fagsak, behandlingÅrsakType);
     }
@@ -306,12 +277,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
 
         @FunksjonellFeil(feilkode = "FP-909861", feilmelding = "Det eksisterer allerede en åpen ytelsesbehandling eller det eksisterer ingen avsluttede behandlinger for fagsakId %s", løsningsforslag = "", logLevel = ERROR)
         Feil kanIkkeOppretteNyFørstegangsbehandling(Long fagsakId);
-
-        @FunksjonellFeil(feilkode = "FP-909862", feilmelding = "Det eksisterer ingen avsluttede klagebehandlinger for fagsakId %s", løsningsforslag = "", logLevel = ERROR)
-        Feil kanIkkeOppretteNyFørstegangsbehandlingEtterKlage(Long fagsakId);
-
-        @FunksjonellFeil(feilkode = "FP-909863", feilmelding = "Det eksisterer ingen avsluttede klagebehandlinger for fagsakId %s", løsningsforslag = "", logLevel = ERROR)
-        Feil kanIkkeOppretteRevurderingEtterKlage(Long fagsakId);
 
         @FunksjonellFeil(feilkode = "FP-287882", feilmelding = "Ingen MottattDokument av type søknad funnet for fagsakId %s", løsningsforslag = "", logLevel = ERROR)
         Feil ingenSøknaderÅOppretteNyFørstegangsbehandlingPå(Long fagsakId);

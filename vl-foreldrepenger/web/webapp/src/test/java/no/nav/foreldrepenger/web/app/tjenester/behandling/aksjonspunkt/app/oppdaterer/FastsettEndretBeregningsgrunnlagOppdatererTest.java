@@ -72,7 +72,7 @@ public class FastsettEndretBeregningsgrunnlagOppdatererTest {
 
     @Before
     public void setup() {
-        this.scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(AKTØR_ID);
+        this.scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         this.behandling = scenario.lagre(repositoryProvider);
     }
 

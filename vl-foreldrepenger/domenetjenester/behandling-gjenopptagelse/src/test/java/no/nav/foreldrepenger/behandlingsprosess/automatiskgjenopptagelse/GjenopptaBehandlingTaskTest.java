@@ -51,7 +51,7 @@ public class GjenopptaBehandlingTaskTest {
         final Long behandlingId = 10L;
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel();
+            .forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
         behandling.setBehandlendeEnhet(organisasjonsEnhet);
         when(mockBehandlingRepository.hentBehandling(any())).thenReturn(behandling);
@@ -77,7 +77,7 @@ public class GjenopptaBehandlingTaskTest {
         BehandlingLås lås = mock(BehandlingLås.class);
         BehandlingskontrollKontekst kontekst = mock(BehandlingskontrollKontekst.class);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel();
+            .forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
         behandling.setBehandlendeEnhet(organisasjonsEnhet);
         when(mockBehandlingRepository.hentBehandling(any())).thenReturn(behandling);

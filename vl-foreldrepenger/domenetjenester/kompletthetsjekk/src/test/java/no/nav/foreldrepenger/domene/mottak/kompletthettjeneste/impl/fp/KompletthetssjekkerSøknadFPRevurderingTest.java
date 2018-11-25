@@ -46,7 +46,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
     @Test
     public void skal_utlede_at_et_påkrevd_vedlegg_finnes_i_journal() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
             .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
@@ -68,7 +68,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
     @Test
     public void skal_utlede_at_et_påkrevd_vedlegg_ikke_finnes_i_journal() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
             .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
@@ -91,7 +91,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
     @Test
     public void skal_utlede_at_et_påkrevd_vedlegg_ikke_finnes_i_journal_når_det_ble_mottatt_før_gjeldende_vedtak() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
             .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
@@ -115,7 +115,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
     @Test
     public void skal_utlede_at_et_påkrevd_vedlegg_som_finnes_i_mottatte_dokumenter_ikke_mangler_selv_om_vedlegget_fra_journal_har_mottatt_dato_null() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
             .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
@@ -145,7 +145,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
     @Test
     public void skal_utlede_at_et_påkrevd_vedlegg_som_ikke_finnes_i_mottatte_dokumenter_mangler_når_vedlegget_fra_journal_har_mottatt_dato_null() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
             .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
@@ -169,7 +169,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
     @Test
     public void skal_utlede_at_et_dokument_som_er_påkrevd_som_følger_av_utsettelse_finnes_i_journal() {
         // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenarioForMor();
+        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
         testUtil.lagreSøknad(behandling, false);
 

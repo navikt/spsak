@@ -93,7 +93,7 @@ public class AksjonspunktUtlederForBeregningTest {
     @Before
     public void setup() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger
-            .forFødselMedGittAktørId(AKTØR_ID);
+            .forAktør(AKTØR_ID);
         behandling = scenario.lagre(repositoryProvider);
         when(beregningsperiodeTjeneste.skalBehandlingSettesPåVent(behandling)).thenReturn(false);
         this.aksjonspunktUtlederForBeregning = new AksjonspunktUtlederForBeregning(aksjonspunktRepository,

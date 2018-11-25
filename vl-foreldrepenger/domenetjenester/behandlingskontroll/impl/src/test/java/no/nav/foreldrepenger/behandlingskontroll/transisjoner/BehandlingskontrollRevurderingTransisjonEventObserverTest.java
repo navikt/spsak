@@ -48,7 +48,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
 
     @Test
     public void skal_slette_aksjonspunkt_som_ikke_er_manuelt_opprettet_og_som_er_i_eller_etter_steget_det_hoppes_til() {
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(behandlingRepositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(behandlingRepositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         Aksjonspunkt ap1 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
         Aksjonspunkt ap3 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.FORESLÅ_VEDTAK);
@@ -83,7 +83,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
 
     @Test
     public void skal_reaktiver_og_gjenåpne_aksjonspunkt_som_er_manuelt_opprettet_og_som_er_i_eller_etter_steget_det_hoppes_til() {
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forFødsel().lagre(behandlingRepositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(behandlingRepositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         Aksjonspunkt ap1 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
         Aksjonspunkt ap3 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.FORESLÅ_VEDTAK_MANUELT);

@@ -12,8 +12,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioInnsynEngangsstønad;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioKlageEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 
 public class UtledVedtakResultatTypeTest {
@@ -21,33 +19,7 @@ public class UtledVedtakResultatTypeTest {
 
     @Before
     public void setup() {
-        scenarioFørstegang = ScenarioMorSøkerEngangsstønad.forFødsel();
-    }
-
-    @Test
-    public void vedtakResultatTypeSettesTilVEDTAK_I_KLAGEBEHANDLING() {
-        // Arrange
-        ScenarioKlageEngangsstønad scenarioKlage = ScenarioKlageEngangsstønad.forMedholdNFP(scenarioFørstegang);
-        Behandling behandling = scenarioKlage.lagMocked();
-
-        // Act
-        VedtakResultatType vedtakResultatType = UtledVedtakResultatType.utled(behandling);
-
-        // Assert
-        assertThat(vedtakResultatType).isEqualTo(VedtakResultatType.VEDTAK_I_KLAGEBEHANDLING);
-    }
-
-    @Test
-    public void vedtakResultatTypeSettesTilVEDTAK_I_INNSYNBEHANDLING() {
-        // Arrange
-        ScenarioInnsynEngangsstønad scenarioKlage = ScenarioInnsynEngangsstønad.innsyn(scenarioFørstegang);
-        Behandling behandling = scenarioKlage.lagMocked();
-
-        // Act
-        VedtakResultatType vedtakResultatType = UtledVedtakResultatType.utled(behandling);
-
-        // Assert
-        assertThat(vedtakResultatType).isEqualTo(VedtakResultatType.VEDTAK_I_INNSYNBEHANDLING);
+        scenarioFørstegang = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
     }
 
     @Test

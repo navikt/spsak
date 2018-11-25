@@ -65,7 +65,7 @@ public class BehandlingÅrsakTjenesteImplTest {
         initMocks(this);
 
         tjeneste = new BehandlingÅrsakTjenesteImpl(utledere, endringsresultatSjekker);
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBruker(AKTØRID, NavBrukerKjønn.KVINNE)
             .medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD);
         behandling = scenario.lagre(repositoryProvider);

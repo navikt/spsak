@@ -44,7 +44,7 @@ public class BehandlingEntitetTest {
     }
 
     private Behandling opprettOgLagreBehandling() {
-        final ScenarioMorSøkerEngangsstønad scenarioMorSøkerEngangsstønad = ScenarioMorSøkerEngangsstønad.forFødsel();
+        final ScenarioMorSøkerEngangsstønad scenarioMorSøkerEngangsstønad = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         return scenarioMorSøkerEngangsstønad.lagre(repositoryProvider);
     }
 
@@ -73,7 +73,7 @@ public class BehandlingEntitetTest {
 
     @Test
     public void skal_opprette_ny_behandling_med_søknad() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         scenario.lagre(repositoryProvider);
 
@@ -89,7 +89,7 @@ public class BehandlingEntitetTest {
 
     @Test
     public void skal_ikke_opprette_nytt_behandlingsgrunnlag_når_endring_skjer_på_samme_behandling_som_originalt_lagd_for() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         lagreBehandling(behandling);

@@ -45,7 +45,7 @@ public class OppdaterFagsakStatusFellesTest {
     }
 
     private boolean erVedtakDirekteAvsluttbart(VedtakResultatType vedtakResultatType) {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         BehandlingVedtak behandlingVedtak = scenario.medBehandlingVedtak().medVedtakResultatType(vedtakResultatType).build();
         Behandling behandling = scenario.lagMocked();
         Whitebox.setInternalState(behandling.getBehandlingsresultat(), "behandlingVedtak", behandlingVedtak);
@@ -63,7 +63,7 @@ public class OppdaterFagsakStatusFellesTest {
         LocalDate.now().minusYears(antallÅrSidenFødsel);
         LocalDate.now().minusDays(antallDagerEtterMaksdato);
 
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
         BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
 

@@ -24,10 +24,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsa
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageAvvistÅrsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdering;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurderingResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.klage.KlageVurdertAv;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingKandidaterRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingKandidaterRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
@@ -51,8 +47,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioFarSøkerEngangsstønad;
-import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioKlageEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -150,22 +144,6 @@ public class BehandlingRepositoryImplTest {
     }
 
     @Test
-    public void skal_hente_siste_behandling_ekskluder_basert_på_fagsakId() {
-        ScenarioKlageEngangsstønad scenario = ScenarioKlageEngangsstønad.forUtenVurderingResultat(ScenarioMorSøkerEngangsstønad.forAdopsjon());
-        Behandling klageBehandling = scenario.lagre(repositoryProvider);
-
-        List<Behandling> alleBehandlinger = behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(klageBehandling.getFagsak().getSaksnummer());
-        assertThat(alleBehandlinger).as("Forventer at alle behandlinger opprettet skal eksistere").hasSize(2);
-
-        Optional<Behandling> sisteBehandling = behandlingRepository
-            .hentSisteBehandlingForFagsakIdEkskluderBehandlingerAvType(klageBehandling.getFagsak().getId(), Arrays.asList(BehandlingType.KLAGE));
-
-        assertThat(sisteBehandling).isPresent();
-        assertThat(sisteBehandling.get().getFagsakId()).isEqualTo(klageBehandling.getFagsak().getId());
-        assertThat(sisteBehandling.get().getType()).isNotEqualTo(BehandlingType.KLAGE);
-    }
-
-    @Test
     public void skal_kunne_lagre_vedtak() {
         BehandlingVedtak vedtak = opprettBuilderForVedtak().build();
 
@@ -224,27 +202,6 @@ public class BehandlingRepositoryImplTest {
     }
 
     @Test
-    public void skal_kunne_lagre_klageVurderingResultat() {
-        // Arrange
-        KlageVurderingResultat klageVurderingResultat = opprettBuilderForKlageVurderingResultat().build();
-
-        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-
-        behandlingRepository.lagre(behandling, lås);
-
-        // Act
-        behandlingRepository.lagre(klageVurderingResultat, lås);
-
-        // Assert
-        Long id = klageVurderingResultat.getId();
-        assertThat(id).isNotNull();
-
-        repository.flushAndClear();
-        KlageVurderingResultat klageVurderingResultatLest = repository.hent(KlageVurderingResultat.class, id);
-        assertThat(klageVurderingResultatLest).isNotNull();
-    }
-
-    @Test
     public void skal_hente_liste_over_revurderingsaarsaker() {
         List<VurderÅrsak> aarsaksListe = repository.hentAlle(VurderÅrsak.class);
         assertThat(aarsaksListe.size()).isEqualTo(5);
@@ -291,35 +248,6 @@ public class BehandlingRepositoryImplTest {
         List<Vilkår> alleVilkår = repository.hentAlle(Vilkår.class);
         assertThat(alleVilkår.size()).isEqualTo(1);
         assertThat(alleVilkår.get(0)).isEqualTo(opphentetBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().iterator().next());
-    }
-
-    @Test
-    public void skal_slette_klage_resultat() {
-        // Arrange
-        ScenarioKlageEngangsstønad scenario = ScenarioKlageEngangsstønad.forAvvistNK(ScenarioFarSøkerEngangsstønad.forAdopsjon());
-        behandling = scenario.lagre(repositoryProvider);
-        entityManager.flush();
-
-        // Asserting arrangement
-        Behandling behandlingMedKlageVR = behandlingRepository.hentBehandling(behandling.getId());
-
-        assertThat(behandlingMedKlageVR.hentKlageVurderingResultat(KlageVurdertAv.NFP))
-            .as("Mangler KlageVurderingResultat gitt av NFP").isPresent();
-        assertThat(behandlingMedKlageVR.hentKlageVurderingResultat(KlageVurdertAv.NK))
-            .as("Mangler KlageVurderingResultat gitt av NK").isPresent();
-
-        // Act
-        behandlingRepository.slettKlageVurderingResultat(behandlingMedKlageVR, behandlingRepository.taSkriveLås(behandlingMedKlageVR), KlageVurdertAv.NK);
-        behandlingRepository.slettKlageVurderingResultat(behandlingMedKlageVR, behandlingRepository.taSkriveLås(behandlingMedKlageVR), KlageVurdertAv.NFP);
-        repository.flushAndClear();
-
-        // Assert
-        Behandling behandlingEtterSletting = behandlingRepository.hentBehandling(behandling.getId());
-        assertThat(behandlingEtterSletting.hentKlageVurderingResultat(KlageVurdertAv.NFP))
-            .as("KlageVurderingResultat gitt av NFP ikke fjernet.").isNotPresent();
-
-        assertThat(behandlingEtterSletting.hentKlageVurderingResultat(KlageVurdertAv.NK))
-            .as("KlageVurderingResultat gitt av NK ikke fjernet.").isNotPresent();
     }
 
     @Test
@@ -425,7 +353,7 @@ public class BehandlingRepositoryImplTest {
     public void skal_finne_førstegangsbehandling_naar_frist_er_utgatt() {
         // Arrange
         LocalDate tidsfrist = LocalDate.now().minusDays(1);
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør()
             .medBehandlingstidFrist(tidsfrist);
         scenario.lagre(repositoryProvider);
 
@@ -457,7 +385,7 @@ public class BehandlingRepositoryImplTest {
     public void skal_opprettholde_id_etter_endringer() {
 
         // Lagre Personopplysning
-        AbstractTestScenario<?> scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        AbstractTestScenario<?> scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.lagre(repositoryProvider);
     }
 
@@ -530,7 +458,7 @@ public class BehandlingRepositoryImplTest {
     private Behandling opprettBehandlingForAutomatiskGjenopptagelse() {
 
         LocalDate.now().plusDays(5);
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         Behandling behandling = scenario.lagre(repositoryProvider);
         return behandling;
@@ -580,21 +508,9 @@ public class BehandlingRepositoryImplTest {
             .medBehandlingsresultat(behandling.getBehandlingsresultat());
     }
 
-    private KlageVurderingResultat.Builder opprettBuilderForKlageVurderingResultat() {
-        behandling = opprettBehandlingMedTermindato();
-        oppdaterMedBehandlingsresultatOgLagre(behandling, true, false);
-
-        return KlageVurderingResultat.builder().medBehandling(behandling)
-            .medKlageVurdertAv(KlageVurdertAv.NK)
-            .medKlageVurdering(KlageVurdering.AVVIS_KLAGE)
-            .medKlageAvvistÅrsak(KlageAvvistÅrsak.KLAGE_UGYLDIG)
-            .medVedtaksdatoPåklagdBehandling(LocalDate.now())
-            .medBegrunnelse("begrunnelse klage avvist");
-    }
-
     private Behandling opprettBehandlingMedTermindato() {
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         behandling = scenario.lagre(repositoryProvider);
         return behandling;
@@ -603,7 +519,7 @@ public class BehandlingRepositoryImplTest {
     private Behandling opprettRevurderingsKandidat(int dagerTilbake) {
 
         LocalDate.now().minusDays(dagerTilbake);
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         behandling = scenario.lagre(repositoryProvider);
         Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()

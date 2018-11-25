@@ -28,7 +28,7 @@ public class FagsakDvhMapperTest {
 
     @Test
     public void skal_mappe_til_fagsak_dvh() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel()
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør()
             .medBruker(BRUKER_AKTØR_ID, NavBrukerKjønn.KVINNE)
             .medSaksnummer(SAKSNUMMER);
 

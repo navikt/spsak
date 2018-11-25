@@ -78,7 +78,7 @@ public class InfotrygdberegningsgrunnlagTest {
 
     @Before
     public void setup() {
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagre(repositoryProvider);
     }
 

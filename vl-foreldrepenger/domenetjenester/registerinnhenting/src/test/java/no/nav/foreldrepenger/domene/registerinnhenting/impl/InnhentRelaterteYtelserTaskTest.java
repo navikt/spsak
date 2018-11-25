@@ -72,7 +72,7 @@ public class InnhentRelaterteYtelserTaskTest {
     @Test
     public void innhentTaskForBareSøker() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         behandlingRepository = repositoryProvider.getBehandlingRepository();
@@ -93,7 +93,7 @@ public class InnhentRelaterteYtelserTaskTest {
     @Test
     public void innhentTaskForSøkerOgAnnenForelder() {
         // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         final Behandling behandling = scenario.lagMocked();
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         behandlingRepository = repositoryProvider.getBehandlingRepository();

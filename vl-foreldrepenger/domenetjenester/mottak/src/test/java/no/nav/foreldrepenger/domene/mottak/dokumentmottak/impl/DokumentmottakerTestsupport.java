@@ -56,7 +56,7 @@ public abstract class DokumentmottakerTestsupport {
     protected Behandling opprettBehandling(FagsakYtelseType fagsakYtelseType, BehandlingType behandlingType, BehandlingResultatType behandlingResultatType, Avslagsårsak avslagsårsak, VedtakResultatType vedtakResultatType, LocalDate vedtaksdato) {
 
         if (fagsakYtelseType.gjelderForeldrepenger()) {
-            ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel()
+            ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
                 .medFagsakId(1234L)
                 .medSaksnummer(new Saksnummer("2345"))
                 .medBehandlingType(behandlingType);

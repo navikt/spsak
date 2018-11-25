@@ -48,24 +48,20 @@ public class ScenarioMorSøkerForeldrepenger extends AbstractTestScenario<Scenar
         }
     }
 
-    public static ScenarioMorSøkerForeldrepenger forFødsel() {
+    public static ScenarioMorSøkerForeldrepenger forDefaultAktør() {
         return new ScenarioMorSøkerForeldrepenger(true);
     }
 
-    public static ScenarioMorSøkerForeldrepenger forFødsel(boolean defaultSøknad, AktørId aktørId) {
+    public static ScenarioMorSøkerForeldrepenger forAktør(boolean defaultSøknad, AktørId aktørId) {
         return new ScenarioMorSøkerForeldrepenger(defaultSøknad, aktørId);
     }
 
-    public static ScenarioMorSøkerForeldrepenger forFødselMedGittAktørId(AktørId aktørId) {
+    public static ScenarioMorSøkerForeldrepenger forAktør(AktørId aktørId) {
         return new ScenarioMorSøkerForeldrepenger(true, aktørId);
     }
 
-    public static ScenarioMorSøkerForeldrepenger forFødselMedGittBruker(NavBruker navBruker) {
+    public static ScenarioMorSøkerForeldrepenger forBruker(NavBruker navBruker) {
         return new ScenarioMorSøkerForeldrepenger(true, navBruker);
-    }
-
-    public static ScenarioMorSøkerForeldrepenger forAdopsjon() {
-        return new ScenarioMorSøkerForeldrepenger(true);
     }
 
     public Beregningsgrunnlag.Builder medBeregningsgrunnlag() {

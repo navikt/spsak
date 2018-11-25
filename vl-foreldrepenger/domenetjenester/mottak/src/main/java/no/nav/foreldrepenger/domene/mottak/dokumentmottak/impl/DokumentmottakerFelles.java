@@ -1,9 +1,5 @@
 package no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl;
 
-import static java.util.Arrays.asList;
-import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType.INNSYN;
-import static no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType.KLAGE;
-
 import java.time.LocalDateTime;
 
 import javax.enterprise.context.Dependent;
@@ -18,8 +14,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
@@ -33,7 +27,6 @@ class DokumentmottakerFelles {
 
     private ProsessTaskRepository prosessTaskRepository;
     private BehandlendeEnhetTjeneste behandlendeEnhetTjeneste;
-    private BehandlingRepository behandlingRepository;
     private HistorikkinnslagTjeneste historikkinnslagTjeneste;
 
     @SuppressWarnings("unused")
@@ -42,13 +35,11 @@ class DokumentmottakerFelles {
     }
 
     @Inject
-    public DokumentmottakerFelles(BehandlingRepositoryProvider repositoryProvider,
-                                  ProsessTaskRepository prosessTaskRepository,
+    public DokumentmottakerFelles(ProsessTaskRepository prosessTaskRepository,
                                   BehandlendeEnhetTjeneste behandlendeEnhetTjeneste,
                                   HistorikkinnslagTjeneste historikkinnslagTjeneste) {
         this.prosessTaskRepository = prosessTaskRepository;
         this.behandlendeEnhetTjeneste = behandlendeEnhetTjeneste;
-        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.historikkinnslagTjeneste = historikkinnslagTjeneste;
     }
 
@@ -100,12 +91,6 @@ class DokumentmottakerFelles {
         }
         if (behandling == null) {
             return finnEnhetFraFagsak(sak);
-        }
-        if (behandling.erKlage()) {
-            return behandlingRepository.hentSisteBehandlingForFagsakIdEkskluderBehandlingerAvType(
-                behandling.getFagsak().getId(), asList(KLAGE, INNSYN))
-                .map(Behandling::getBehandlendeEnhet)
-                .orElse(finnEnhetFraFagsak(sak));
         }
         return behandling.getBehandlendeEnhet();
     }

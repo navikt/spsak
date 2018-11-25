@@ -180,7 +180,7 @@ public class BehandlingModellTest {
         );
         BehandlingModellImpl modell = setupModell(modellData);
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         BehandlingStegVisitorUtenLagring visitor = lagVisitor(scenario, modell);
         BehandlingStegUtfall siste = modell.prosesserFra(STEG_1, visitor);
@@ -203,7 +203,7 @@ public class BehandlingModellTest {
         );
         BehandlingModellImpl modell = setupModell(modellData);
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         BehandlingStegVisitorUtenLagring visitor = lagVisitor(scenario, modell);
         BehandlingStegUtfall siste = modell.prosesserFra(STEG_1, visitor);
@@ -224,7 +224,7 @@ public class BehandlingModellTest {
         );
         BehandlingModellImpl modell = setupModell(modellData);
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         BehandlingStegVisitorUtenLagring visitor = lagVisitor(scenario, modell);
 
@@ -262,7 +262,7 @@ public class BehandlingModellTest {
             new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
         );
         BehandlingModellImpl modell = setupModell(modellData);
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         BehandlingStegVisitorUtenLagring visitor = lagVisitor(scenario, modell);
 
         // Act
@@ -285,7 +285,7 @@ public class BehandlingModellTest {
         );
         BehandlingModellImpl modell = setupModell(modellData);
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         BehandlingStegVisitorUtenLagring visitor = lagVisitor(scenario, modell);
 
@@ -315,7 +315,7 @@ public class BehandlingModellTest {
         );
         BehandlingModellImpl modell = setupModell(modellData);
 
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forFødsel();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         BehandlingStegVisitorUtenLagring visitor = lagVisitor(scenario, modell);
 

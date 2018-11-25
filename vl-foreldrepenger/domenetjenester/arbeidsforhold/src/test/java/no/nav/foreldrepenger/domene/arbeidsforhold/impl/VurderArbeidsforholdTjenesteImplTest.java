@@ -71,7 +71,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
 
     @Test
     public void skal_ikke_gi_aksjonspunkt() {
-        final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         final Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -132,7 +132,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
 
     @Test
     public void skal_ikke_gi_aksjonspunkt_2() {
-        final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
         final Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -170,7 +170,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
 
     @Test
     public void skal_ikke_gi_aksjonspunkt_3() {
-        final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødsel();
+        final ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.removeDodgyDefaultInntektArbeidYTelse();
         final Behandling behandling = scenario.lagre(repositoryProvider);
 
@@ -254,7 +254,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
 
     private Behandling opprettRevurderingsbehandling(Behandling opprinneligBehandling) {
         BehandlingType behandlingType = repositoryProvider.getKodeverkRepository().finn(BehandlingType.class, BehandlingType.REVURDERING);
-        BehandlingÅrsak.Builder revurderingÅrsak = BehandlingÅrsak.builder(BehandlingÅrsakType.RE_HENDELSE_FØDSEL)
+        BehandlingÅrsak.Builder revurderingÅrsak = BehandlingÅrsak.builder(BehandlingÅrsakType.RE_ANNET)
             .medOriginalBehandling(opprinneligBehandling);
         Behandling revurdering = Behandling.fraTidligereBehandling(opprinneligBehandling, behandlingType)
             .medBehandlingÅrsak(revurderingÅrsak).build();

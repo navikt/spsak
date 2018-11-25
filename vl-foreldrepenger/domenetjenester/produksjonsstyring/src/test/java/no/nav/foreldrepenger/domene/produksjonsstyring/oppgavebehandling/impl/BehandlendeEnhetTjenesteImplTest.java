@@ -81,7 +81,7 @@ public class BehandlendeEnhetTjenesteImplTest {
     }
 
     private Behandling opprettBehandling() {
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forFødselMedGittAktørId(MOR_AKTØR_ID);
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(MOR_AKTØR_ID);
         leggTilSøker(scenario, NavBrukerKjønn.KVINNE);
         return scenario.lagre(repositoryProvider);
     }

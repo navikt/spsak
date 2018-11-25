@@ -30,7 +30,7 @@ public class CommonDvhMapperTest {
    
 
     private Behandling byggNyBehandling() {
-        Behandling behandling = ScenarioMorSøkerEngangsstønad.forFødsel().lagMocked();
+        Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagMocked();
         Whitebox.setInternalState(behandling, "opprettetAv", OPPRETTET_AV);
         Whitebox.setInternalState(behandling, "opprettetTidspunkt", OPPRETTET_TIDSPUNKT);
         return behandling;

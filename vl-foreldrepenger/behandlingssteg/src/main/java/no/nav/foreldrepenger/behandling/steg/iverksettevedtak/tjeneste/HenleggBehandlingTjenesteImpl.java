@@ -54,9 +54,7 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
         håndterHenleggelseUtenOppgitteSøknadsopplysninger(behandling, kontekst);
         behandlingskontrollTjeneste.henleggBehandling(kontekst, årsakKode);
 
-        if (BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET.equals(årsakKode)
-                || BehandlingResultatType.HENLAGT_KLAGE_TRUKKET.equals(årsakKode)
-                || BehandlingResultatType.HENLAGT_INNSYN_TRUKKET.equals(årsakKode)) {
+        if (BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET.equals(årsakKode)) {
             sendHenleggelsesbrev(behandlingId, HistorikkAktør.VEDTAKSLØSNINGEN);
         } else if (BehandlingResultatType.MANGLER_BEREGNINGSREGLER.equals(årsakKode)) {
             fagsakRepository.fagsakSkalBehandlesAvInfotrygd(behandling.getFagsakId());

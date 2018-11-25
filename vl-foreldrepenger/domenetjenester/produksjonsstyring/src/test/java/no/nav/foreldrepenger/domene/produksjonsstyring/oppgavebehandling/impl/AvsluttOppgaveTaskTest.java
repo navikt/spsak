@@ -72,7 +72,7 @@ public class AvsluttOppgaveTaskTest {
         // Arrange
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad
-            .forFødsel();
+            .forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
         Fagsak fagsak = scenario.getFagsak();
 
