@@ -232,6 +232,11 @@
             <artifactId>kafka-streams</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180813</version>
+        </dependency>
 
 		<!-- Må gjenta her for å få riktig scope (kolliderer ellers med dependencyManagement -->
 		<dependency>

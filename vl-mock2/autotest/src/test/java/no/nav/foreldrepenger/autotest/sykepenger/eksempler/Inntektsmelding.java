@@ -2,14 +2,18 @@ package no.nav.foreldrepenger.autotest.sykepenger.eksempler;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import kafka.utils.json.JsonObject;
 import no.nav.foreldrepenger.autotest.aktoerer.Aktoer.Rolle;
 import no.nav.foreldrepenger.autotest.sykepenger.SpsakTestBase;
 import no.nav.foreldrepenger.fpmock2.dokumentgenerator.inntektsmelding.erketyper.InntektsmeldingBuilder;
@@ -24,7 +28,6 @@ public class Inntektsmelding extends SpsakTestBase {
         TestscenarioDto testscenario = opprettScenario("40");
         List<InntektsmeldingBuilder> inntektsmeldinger = makeInntektsmeldingFromTestscenario(testscenario, LocalDate.now());
         InntektsmeldingBuilder inntektsmelding = inntektsmeldinger.get(0); // bruker en av inntektsrapporteringene fra skatt, som grunnlag for inntektsmelding
-
 
         long beloep = inntektsmelding.getArbeidsforhold().getBeregnetInntekt().getValue().getBeloep().getValue().longValue();
 
@@ -44,12 +47,20 @@ public class Inntektsmelding extends SpsakTestBase {
         final String xml = inntektsmelding.createInntektesmeldingXML();
         System.out.println(xml);
 
-        new LocalKafkaProducer().sendSynkront("inntektsmelding", "111", xml);
+        final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
+        fordel.erLoggetInnMedRolle(Rolle.SAKSBEHANDLER);
+        final String journalpostId = fordel.journalførInntektsmeldingUtenSaksnummer(inntektsmelding, testscenario);
+        final Long saksnummer = fordel.opprettSakKnyttetTilJournalpost(journalpostId, "ab0047", aktørId);
 
-        //fordel.erLoggetInnMedRolle(Rolle.SAKSBEHANDLER);
-        //long saksnummer = fordel.sendInnInntektsmelding(inntektsmelding, testscenario, null);
+        JSONObject json = new JSONObject();
 
-        //System.out.println(saksnummer);
+        json.put("journalpostId", journalpostId);
+        json.put("behandlingstemaOffisiellKode", "ab0061");
+        json.put("aktørId", aktørId);
+        json.put("saksnummer", saksnummer);
+        json.put("xml", Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))));
+
+        new LocalKafkaProducer().sendSynkront("inntektsmelding", aktørId, json.toJSONString());
     }
 
 }
