@@ -55,10 +55,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelse
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.ForeslåBeregningsgrunnlag;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjeneste;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjenesteImpl;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraVLTilRegel;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.verdikjede.VerdikjedeTestHjelper;
@@ -135,7 +131,7 @@ public class ForeslåBeregningsgrunnlagTest {
         lagBeregningsgrunnlagAT(scenario);
         when(kontrollerFaktaBeregningTjeneste.hentAndelerForKortvarigeArbeidsforhold(any())).thenAnswer((b) -> yrkesaktivitetMap);
         beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        }
+    }
 
     private Beregningsgrunnlag lagBeregningsgrunnlagAT(ScenarioMorSøkerForeldrepenger scenario) {
         Beregningsgrunnlag.Builder beregningsgrunnlagBuilder = scenario.medBeregningsgrunnlag();
@@ -211,19 +207,17 @@ public class ForeslåBeregningsgrunnlagTest {
 
     private Behandling lagBehandling(ScenarioMorSøkerForeldrepenger scenario,
                                      BigDecimal inntektSammenligningsgrunnlag,
-                                     BigDecimal inntektBeregningsgrunnlag, VirksomhetEntitet beregningVirksomhet) {
+                                     BigDecimal inntektBeregningsgrunnlag, VirksomhetEntitet... virksomheter) {
         LocalDate fraOgMed = MINUS_YEARS_1.withDayOfMonth(1);
         LocalDate tilOgMed = fraOgMed.plusYears(1);
 
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseBuilder = scenario.getInntektArbeidYtelseScenarioTestBuilder().getKladd();
-
-        yrkesaktivitetBuilder = VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, beregningVirksomhet, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD);
-        for (LocalDate dt = fraOgMed; dt.isBefore(tilOgMed); dt = dt.plusMonths(1)) {
-            VerdikjedeTestHjelper.lagInntektForSammenligning(inntektArbeidYtelseBuilder, yrkesaktivitetBuilder, AKTØR_ID, dt, dt.plusMonths(1),
-                inntektSammenligningsgrunnlag, beregningVirksomhet);
-            VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder, yrkesaktivitetBuilder, AKTØR_ID, dt, dt.plusMonths(1),
-                inntektBeregningsgrunnlag, beregningVirksomhet);
-        }
+        VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD, virksomheter);
+        List<DatoIntervallEntitet> perioder = VerdikjedeTestHjelper.utledPerioderMellomFomTom(fraOgMed, tilOgMed);
+        VerdikjedeTestHjelper.lagInntektForSammenligning(inntektArbeidYtelseBuilder, AKTØR_ID, perioder,
+            inntektSammenligningsgrunnlag, virksomheter);
+        VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder, AKTØR_ID, perioder,
+            List.of(inntektBeregningsgrunnlag), virksomheter);
 
         return scenario.lagre(repositoryProvider);
     }
@@ -547,7 +541,8 @@ public class ForeslåBeregningsgrunnlagTest {
         Beregningsgrunnlag nyttGrunnlag = lagBeregningsgrunnlagATFL_SN(scenario, true).dypKopi();
         behandling = lagBehandlingFor_AT_SN(repositoryProvider, scenario,
             BigDecimal.valueOf(12 * MÅNEDSINNTEKT1), 2014, SKJÆRINGSTIDSPUNKT_BEREGNING,
-            beregningVirksomhet1, BigDecimal.valueOf(MÅNEDSINNTEKT1),  BigDecimal.valueOf(MÅNEDSINNTEKT1));        BeregningsgrunnlagPrStatusOgAndel eksisterendeAndel = nyttGrunnlag.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList().get(0);
+            beregningVirksomhet1, BigDecimal.valueOf(MÅNEDSINNTEKT1), BigDecimal.valueOf(MÅNEDSINNTEKT1));
+        BeregningsgrunnlagPrStatusOgAndel eksisterendeAndel = nyttGrunnlag.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList().get(0);
         BeregningsgrunnlagPrStatusOgAndel.builder(eksisterendeAndel)
             .medBGAndelArbeidsforhold(BGAndelArbeidsforhold.builder(eksisterendeAndel.getBgAndelArbeidsforhold().orElse(null)).medTidsbegrensetArbeidsforhold(true))
             .build(nyttGrunnlag.getBeregningsgrunnlagPerioder().get(0));
@@ -563,6 +558,7 @@ public class ForeslåBeregningsgrunnlagTest {
         List<AksjonspunktDefinisjon> aps = resultat.getAksjonspunkter();
         assertThat(aps.stream().filter(a -> a.equals(AksjonspunktDefinisjon.FASTSETT_BEREGNINGSGRUNNLAG_FOR_SN_NY_I_ARBEIDSLIVET)).count()).isEqualTo(1);
     }
+
     private void verifiserPeriode(BeregningsgrunnlagPeriode periode, LocalDate fom, LocalDate tom, int antallAndeler, PeriodeÅrsak... forventedePeriodeÅrsaker) {
         assertThat(periode.getBeregningsgrunnlagPeriodeFom()).isEqualTo(fom);
         assertThat(periode.getBeregningsgrunnlagPeriodeTom()).isEqualTo(tom);

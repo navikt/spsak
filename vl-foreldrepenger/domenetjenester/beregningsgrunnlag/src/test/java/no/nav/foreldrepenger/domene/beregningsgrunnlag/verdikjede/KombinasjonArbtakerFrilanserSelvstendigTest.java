@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
@@ -39,7 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Hjemmel;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.VersjonType;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YrkesaktivitetBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder.EgenNæringBuilder;
@@ -94,7 +92,7 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = Mockito.spy(new BehandlingRepositoryProviderImpl(repoRule.getEntityManager()));
+    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
     private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
     private InntektArbeidYtelseTjenesteImpl inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
@@ -119,86 +117,39 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
     private ScenarioMorSøkerForeldrepenger scenario;
     private BeregningsperiodeTjeneste beregningsperiodeTjeneste;
 
-
-    @Before
-    public void setup() {
-        beregningVirksomhet1 = new VirksomhetEntitet.Builder()
-                .medOrgnr(ARBEIDSFORHOLD_ORGNR1)
-                .medNavn("BeregningVirksomhet nr 1")
-                .oppdatertOpplysningerNå()
-                .build();
-        repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet1);
-        beregningVirksomhet2 = new VirksomhetEntitet.Builder()
-                .medOrgnr(ARBEIDSFORHOLD_ORGNR2)
-                .medNavn("BeregningVirksomhet nr 2")
-                .oppdatertOpplysningerNå()
-                .build();
-        repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet2);
-        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
-        IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingFPTjenesteImpl.class);
-        when(iayRegisterInnhentingTjeneste.innhentInntekterFor(any(Behandling.class), any(), any(), any()))
-            .thenAnswer(a -> repositoryProvider.getInntektArbeidYtelseRepository().opprettBuilderFor(a.getArgument(0), VersjonType.REGISTER));
-        HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjenesteImpl(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);
-        MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5);
-        MapBeregningsgrunnlagFraRegelTilVL oversetterFraRegel = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste);
-        fastsettSkjæringstidspunktOgStatuser = new FastsettSkjæringstidspunktOgStatuser(oversetterTilRegel,oversetterFraRegel);
-        BeregningInntektsmeldingTjeneste beregningInntektsmeldingTjeneste = new BeregningInntektsmeldingTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
-        KontrollerFaktaBeregningTjenesteImpl kontrollerFaktaBeregningTjeneste = new KontrollerFaktaBeregningTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste, hentGrunnlagsdataTjeneste, beregningInntektsmeldingTjeneste);
-        beregningsperiodeTjeneste = new BeregningsperiodeTjeneste(inntektArbeidYtelseTjeneste, beregningsgrunnlagRepository, 5);
-        KontrollerFaktaBeregningFrilanserTjeneste kontrollerFaktaBeregningFrilaserTjeneste = new KontrollerFaktaBeregningFrilanserTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
-        faktaOmBeregningTilfelleTjeneste = new FaktaOmBeregningTilfelleTjeneste(repositoryProvider, kontrollerFaktaBeregningTjeneste, kontrollerFaktaBeregningFrilaserTjeneste);
-        aksjonspunktUtlederForBeregning = new AksjonspunktUtlederForBeregning(repositoryProvider.getAksjonspunktRepository(), faktaOmBeregningTilfelleTjeneste, beregningsperiodeTjeneste);
-        foreslåBeregningsgrunnlagTjeneste = new ForeslåBeregningsgrunnlag(oversetterTilRegel, oversetterFraRegel, repositoryProvider, kontrollerFaktaBeregningTjeneste, hentGrunnlagsdataTjeneste);
-        fullføreBeregningsgrunnlagTjeneste = new FullføreBeregningsgrunnlag(oversetterTilRegel, oversetterFraRegel);
-        this.fastsettBeregningsgrunnlagPeriodeTjeneste = new FastsettBeregningsgrunnlagPerioderTjenesteImpl(inntektArbeidYtelseTjeneste, beregningInntektsmeldingTjeneste);
-        scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
-        gverdi = beregningRepository.finnEksaktSats(SatsType.GRUNNBELØP, SKJÆRINGSTIDSPUNKT_OPPTJENING).getVerdi();
-        seksG = gverdi * 6;
-    }
-
     public static Behandling lagBehandlingATogFLogSN(BehandlingRepositoryProvider repositoryProvider,
-            ScenarioMorSøkerForeldrepenger scenario,
-            List<BigDecimal> inntektBeregningsgrunnlag,
-            List<VirksomhetEntitet> beregningVirksomhet,
-            BigDecimal inntektFrilans,
-            List<BigDecimal> årsinntekterSN,
-            int førsteÅr,
-            BigDecimal årsinntektVarigEndring) {
+                                                     ScenarioMorSøkerForeldrepenger scenario,
+                                                     List<BigDecimal> inntektBeregningsgrunnlag,
+                                                     BigDecimal inntektFrilans, List<BigDecimal> årsinntekterSN, int førsteÅr, BigDecimal årsinntektVarigEndring,
+                                                     VirksomhetEntitet... virksomheter) {
         LocalDate fraOgMed = MINUS_YEARS_1.withDayOfMonth(1);
         LocalDate tilOgMed = fraOgMed.plusYears(1);
 
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseBuilder = scenario.getInntektArbeidYtelseScenarioTestBuilder().getKladd();
 
         VirksomhetEntitet dummyVirksomhet = new VirksomhetEntitet.Builder()
-                .medOrgnr(DUMMY_ORGNR)
-                .medNavn("Dummyvirksomhet")
-                .oppdatertOpplysningerNå()
-                .build();
+            .medOrgnr(DUMMY_ORGNR)
+            .medNavn("Dummyvirksomhet")
+            .oppdatertOpplysningerNå()
+            .build();
         repositoryProvider.getVirksomhetRepository().lagre(dummyVirksomhet);
 
-        YrkesaktivitetBuilder forFrilans = VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, dummyVirksomhet, fraOgMed, tilOgMed, ArbeidType.FRILANSER_OPPDRAGSTAKER_MED_MER);
-        List<YrkesaktivitetBuilder> forArbeidsforhold =
-                beregningVirksomhet.stream()
-                    .map(v -> VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, v, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD))
-                    .collect(Collectors.toList());
+        VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, fraOgMed, tilOgMed, ArbeidType.FRILANSER_OPPDRAGSTAKER_MED_MER, dummyVirksomhet);
+        VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD, virksomheter);
 
-        for (LocalDate dt = fraOgMed; dt.isBefore(tilOgMed); dt = dt.plusMonths(1)) {
-            for (int i = 0; i < forArbeidsforhold.size(); i++) {
-                VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder,
-                        forArbeidsforhold.get(i),
-                        AKTØR_ID, dt, dt.plusMonths(1),
-                        inntektBeregningsgrunnlag.get(i),
-                        beregningVirksomhet.get(i));
-            }
-            if (inntektFrilans != null) {
-                VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder, forFrilans, AKTØR_ID, dt, dt.plusMonths(1),
-                    inntektFrilans, dummyVirksomhet);
-            }
+        List<DatoIntervallEntitet> perioder = VerdikjedeTestHjelper.utledPerioderMellomFomTom(fraOgMed, tilOgMed);
+
+        VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder,
+            AKTØR_ID, perioder,
+            inntektBeregningsgrunnlag,
+            virksomheter);
+        if (inntektFrilans != null) {
+            VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder, AKTØR_ID, perioder, List.of(inntektFrilans), dummyVirksomhet);
         }
 
         if (årsinntekterSN != null) {
             for (int ix = 0; ix < 3; ix++) {
-                VerdikjedeTestHjelper.lagInntektForSN(inntektArbeidYtelseBuilder, AKTØR_ID, LocalDate.of(førsteÅr+ix, Month.JANUARY, 1), årsinntekterSN.get(ix));
+                VerdikjedeTestHjelper.lagInntektForSN(inntektArbeidYtelseBuilder, AKTØR_ID, LocalDate.of(førsteÅr + ix, Month.JANUARY, 1), årsinntekterSN.get(ix));
             }
         }
         if (årsinntektVarigEndring != null) {
@@ -213,12 +164,51 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
         return scenario.lagre(repositoryProvider);
     }
 
+    @Before
+    public void setup() {
+        if (beregningVirksomhet1 != null) {
+            return;
+        }
+        beregningVirksomhet1 = new VirksomhetEntitet.Builder()
+            .medOrgnr(ARBEIDSFORHOLD_ORGNR1)
+            .medNavn("BeregningVirksomhet nr 1")
+            .oppdatertOpplysningerNå()
+            .build();
+        repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet1);
+        beregningVirksomhet2 = new VirksomhetEntitet.Builder()
+            .medOrgnr(ARBEIDSFORHOLD_ORGNR2)
+            .medNavn("BeregningVirksomhet nr 2")
+            .oppdatertOpplysningerNå()
+            .build();
+        repositoryProvider.getVirksomhetRepository().lagre(beregningVirksomhet2);
+        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
+        IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingFPTjenesteImpl.class);
+        when(iayRegisterInnhentingTjeneste.innhentInntekterFor(any(Behandling.class), any(), any(), any()))
+            .thenAnswer(a -> repositoryProvider.getInntektArbeidYtelseRepository().opprettBuilderFor(a.getArgument(0), VersjonType.REGISTER));
+        HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjenesteImpl(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);
+        MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5);
+        MapBeregningsgrunnlagFraRegelTilVL oversetterFraRegel = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste);
+        fastsettSkjæringstidspunktOgStatuser = new FastsettSkjæringstidspunktOgStatuser(oversetterTilRegel, oversetterFraRegel);
+        BeregningInntektsmeldingTjeneste beregningInntektsmeldingTjeneste = new BeregningInntektsmeldingTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
+        KontrollerFaktaBeregningTjenesteImpl kontrollerFaktaBeregningTjeneste = new KontrollerFaktaBeregningTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste, hentGrunnlagsdataTjeneste, beregningInntektsmeldingTjeneste);
+        beregningsperiodeTjeneste = new BeregningsperiodeTjeneste(inntektArbeidYtelseTjeneste, beregningsgrunnlagRepository, 5);
+        KontrollerFaktaBeregningFrilanserTjeneste kontrollerFaktaBeregningFrilaserTjeneste = new KontrollerFaktaBeregningFrilanserTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
+        faktaOmBeregningTilfelleTjeneste = new FaktaOmBeregningTilfelleTjeneste(repositoryProvider, kontrollerFaktaBeregningTjeneste, kontrollerFaktaBeregningFrilaserTjeneste);
+        aksjonspunktUtlederForBeregning = new AksjonspunktUtlederForBeregning(repositoryProvider.getAksjonspunktRepository(), faktaOmBeregningTilfelleTjeneste, beregningsperiodeTjeneste);
+        foreslåBeregningsgrunnlagTjeneste = new ForeslåBeregningsgrunnlag(oversetterTilRegel, oversetterFraRegel, repositoryProvider, kontrollerFaktaBeregningTjeneste, hentGrunnlagsdataTjeneste);
+        fullføreBeregningsgrunnlagTjeneste = new FullføreBeregningsgrunnlag(oversetterTilRegel, oversetterFraRegel);
+        this.fastsettBeregningsgrunnlagPeriodeTjeneste = new FastsettBeregningsgrunnlagPerioderTjenesteImpl(inntektArbeidYtelseTjeneste, beregningInntektsmeldingTjeneste);
+        scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
+        gverdi = beregningRepository.finnEksaktSats(SatsType.GRUNNBELØP, SKJÆRINGSTIDSPUNKT_OPPTJENING).getVerdi();
+        seksG = gverdi * 6;
+    }
+
     @Test
     public void toArbeidsforholdOgFrilansMedBgOver6gOgRefusjonUnder6G() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(12*28000d, 12*14000d);
-        final List<Double> refusjonsKrav = Arrays.asList(12*20000d, 12*15000d);
-        final Double frilansÅrsinntekt = 12*23000d;
+        final List<Double> ÅRSINNTEKT = Arrays.asList(12 * 28000d, 12 * 14000d);
+        final List<Double> refusjonsKrav = Arrays.asList(12 * 20000d, 12 * 15000d);
+        final Double frilansÅrsinntekt = 12 * 23000d;
 
         final double årsinntekt1 = 4.0 * beregningRepository.finnEksaktSats(SatsType.GSNITT, LocalDate.of(2014, Month.JANUARY, 1)).getVerdi();
         final double årsinntekt2 = 4.0 * beregningRepository.finnEksaktSats(SatsType.GSNITT, LocalDate.of(2015, Month.JANUARY, 1)).getVerdi();
@@ -231,7 +221,7 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
         double forventetRedusert1 = Math.min(ÅRSINNTEKT.get(0), refusjonsKrav.get(0));
         double forventetRedusert2 = Math.min(ÅRSINNTEKT.get(1), refusjonsKrav.get(1));
 
-        double forventetRedusertFLogSN = Math.max(0,  seksG - (ÅRSINNTEKT.stream().mapToDouble(Double::doubleValue).sum()));
+        double forventetRedusertFLogSN = Math.max(0, seksG - (ÅRSINNTEKT.stream().mapToDouble(Double::doubleValue).sum()));
         double forventetBrukersAndelFL = forventetRedusertFLogSN * frilansÅrsinntekt / (frilansÅrsinntekt + forventetBruttoSN);
 
         final double forventetAvkortetSN = forventetRedusertFLogSN * forventetBruttoSN / (frilansÅrsinntekt + forventetBruttoSN);
@@ -250,22 +240,20 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
 
         // Arrange
         Behandling behandling = lagBehandlingATogFLogSN(repositoryProvider, scenario,
-                månedsinntekterAT,
-                virksomhetene,
-                BigDecimal.valueOf(frilansÅrsinntekt/12),
-                årsinntekterSN,
-                ÅR.get(0), null);
+            månedsinntekterAT,
+            BigDecimal.valueOf(frilansÅrsinntekt / 12), årsinntekterSN, ÅR.get(0), null,
+            beregningVirksomhet1, beregningVirksomhet2);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
-                månedsinntekterAT.get(0),BigDecimal.valueOf(refusjonsKrav.get(0)/12));
+            månedsinntekterAT.get(0), BigDecimal.valueOf(refusjonsKrav.get(0) / 12));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet2,
-                månedsinntekterAT.get(1),BigDecimal.valueOf(refusjonsKrav.get(1)/12));
+            månedsinntekterAT.get(1), BigDecimal.valueOf(refusjonsKrav.get(1) / 12));
 
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-                VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-                VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
-                VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
+            VerdikjedeTestHjelper.opprettAktivitetFor(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -303,7 +291,7 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
         verifiserBGSNetterAvkorting(periode, forventetBruttoSN, forventetAvkortetSN, forventetRedusertSN, 2016);
 
         verifiserBGATetterAvkorting(periode,
-                ÅRSINNTEKT, virksomhetene, ÅRSINNTEKT, forventetRedusert, forventetRedusert, forventetRedusertBrukersAndel, false);
+            ÅRSINNTEKT, virksomhetene, ÅRSINNTEKT, forventetRedusert, forventetRedusert, forventetRedusertBrukersAndel, false);
         verifiserFLetterAvkorting(periode, frilansÅrsinntekt, forventetBrukersAndelFL, forventetBrukersAndelFL);
     }
 
@@ -311,7 +299,7 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
     public void frilansOgSNMedBgFraArbeidsforholdUnder6G() {
 
         final List<Double> ÅRSINNTEKT = new ArrayList<>();
-        final Double frilansÅrsinntekt = 12*23000d;
+        final Double frilansÅrsinntekt = 12 * 23000d;
 
         final double årsinntekt1 = 4.0 * beregningRepository.finnEksaktSats(SatsType.GSNITT, LocalDate.of(2014, Month.JANUARY, 1)).getVerdi();
         final double årsinntekt2 = 4.0 * beregningRepository.finnEksaktSats(SatsType.GSNITT, LocalDate.of(2015, Month.JANUARY, 1)).getVerdi();
@@ -319,7 +307,7 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
         final List<Double> ÅRSINNTEKT_SN = Arrays.asList(årsinntekt1, årsinntekt2, årsinntekt3);
         final List<Integer> ÅR = Arrays.asList(2014, 2015, 2016);
 
-        final double forventetBruttoSN = 4*gverdi - frilansÅrsinntekt;
+        final double forventetBruttoSN = 4 * gverdi - frilansÅrsinntekt;
 
         double forventetBrukersAndelFL = frilansÅrsinntekt;
 
@@ -336,15 +324,12 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
 
         // Arrange 1
         Behandling behandling = lagBehandlingATogFLogSN(repositoryProvider, scenario,
-                månedsinntekterAT,
-                virksomhetene,
-                BigDecimal.valueOf(frilansÅrsinntekt/12),
-                årsinntekterSN,
-                ÅR.get(0), null);
+            månedsinntekterAT,
+            BigDecimal.valueOf(frilansÅrsinntekt / 12), årsinntekterSN, ÅR.get(0), null);
 
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-                VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
-                VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
+            VerdikjedeTestHjelper.opprettAktivitetFor(DUMMY_ORGNR, OpptjeningAktivitetType.FRILANS),
+            VerdikjedeTestHjelper.opprettAktivitetFor(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -382,7 +367,7 @@ public class KombinasjonArbtakerFrilanserSelvstendigTest {
         verifiserBGSNetterAvkorting(periode, forventetBruttoSN, forventetAvkortetSN, forventetRedusertSN, 2016);
 
         verifiserBGATetterAvkorting(periode,
-                ÅRSINNTEKT, virksomhetene, ÅRSINNTEKT, forventetRedusert, forventetRedusert, forventetRedusertBrukersAndel, false);
+            ÅRSINNTEKT, virksomhetene, ÅRSINNTEKT, forventetRedusert, forventetRedusert, forventetRedusertBrukersAndel, false);
         verifiserFLetterAvkorting(periode, frilansÅrsinntekt, forventetBrukersAndelFL, forventetBrukersAndelFL);
     }
 }

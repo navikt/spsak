@@ -16,7 +16,6 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +23,6 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
@@ -37,7 +35,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Hjemmel;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.VersjonType;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YrkesaktivitetBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
@@ -77,6 +74,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraVLTilRegel;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.wrapper.BeregningsgrunnlagRegelResultat;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 public class FlereArbeidsforholdTest {
 
@@ -91,7 +89,7 @@ public class FlereArbeidsforholdTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = Mockito.spy(new BehandlingRepositoryProviderImpl(repoRule.getEntityManager()));
+    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
 
     private ForeslåBeregningsgrunnlag foreslåBeregningsgrunnlagTjeneste;
     private FullføreBeregningsgrunnlag fullføreBeregningsgrunnlagTjeneste;
@@ -124,6 +122,9 @@ public class FlereArbeidsforholdTest {
 
     @Before
     public void setup() {
+        if (beregningVirksomhet1 != null) {
+            return;
+        }
         beregningVirksomhet1 = new VirksomhetEntitet.Builder()
             .medOrgnr(ARBEIDSFORHOLD_ORGNR1)
             .medNavn("BeregningVirksomhet nr 1")
@@ -173,28 +174,17 @@ public class FlereArbeidsforholdTest {
     private Behandling lagBehandlingAT(ScenarioMorSøkerForeldrepenger scenario,
                                        BigDecimal inntektSammenligningsgrunnlag,
                                        List<BigDecimal> inntektBeregningsgrunnlag,
-                                       List<VirksomhetEntitet> beregningVirksomhet) {
+                                       VirksomhetEntitet... virksomheter) {
         LocalDate fraOgMed = MINUS_YEARS_1.withDayOfMonth(1);
         LocalDate tilOgMed = fraOgMed.plusYears(1);
-
-        InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseBuilder = scenario.getInntektArbeidYtelseScenarioTestBuilder().getKladd();
-
-        List<YrkesaktivitetBuilder> forArbeidsforhold =
-            beregningVirksomhet.stream()
-                .map(v -> VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, v, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD))
-                .collect(Collectors.toList());
-
-        for (LocalDate dt = fraOgMed; dt.isBefore(tilOgMed); dt = dt.plusMonths(1)) {
-            for (int i = 0; i < forArbeidsforhold.size(); i++) {
-                VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder,
-                    forArbeidsforhold.get(i),
-                    AKTØR_ID, dt, dt.plusMonths(1),
-                    inntektBeregningsgrunnlag.get(i),
-                    beregningVirksomhet.get(i));
-            }
-            VerdikjedeTestHjelper.lagInntektForSammenligning(inntektArbeidYtelseBuilder, forArbeidsforhold.get(0), AKTØR_ID, dt, dt.plusMonths(1),
-                inntektSammenligningsgrunnlag, beregningVirksomhet.get(0));
-        }
+        scenario.removeDodgyDefaultInntektArbeidYTelse();
+        InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseBuilder = scenario
+            .getInntektArbeidYtelseScenarioTestBuilder()
+            .getKladd();
+        VerdikjedeTestHjelper.lagAktørArbeid(inntektArbeidYtelseBuilder, AKTØR_ID, fraOgMed, tilOgMed, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD, virksomheter);
+        List<DatoIntervallEntitet> perioder = VerdikjedeTestHjelper.utledPerioderMellomFomTom(fraOgMed, tilOgMed);
+        VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder, AKTØR_ID, perioder, inntektBeregningsgrunnlag, virksomheter);
+        VerdikjedeTestHjelper.lagInntektForSammenligning(inntektArbeidYtelseBuilder, AKTØR_ID, perioder, inntektSammenligningsgrunnlag, virksomheter);
 
         return scenario.lagre(repositoryProvider);
     }
@@ -203,7 +193,7 @@ public class FlereArbeidsforholdTest {
     public void ettArbeidsforholdMedAvrundetDagsats() {
 
         final double DAGSATS = 1959.76;
-        final List<Double> ÅRSINNTEKT = Arrays.asList(DAGSATS * 260);
+        final List<Double> ÅRSINNTEKT = List.of(DAGSATS * 260);
         final Double bg = ÅRSINNTEKT.get(0);
 
         final double forventetAvkortet = ÅRSINNTEKT.get(0);
@@ -211,19 +201,19 @@ public class FlereArbeidsforholdTest {
 
         final long forventetDagsats = 1960;
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1);
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1);
 
         // Arrange 1
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(ÅRSINNTEKT.get(0) / 12),
             månedsinntekter,
-            virksomhetene);
+            beregningVirksomhet1);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), månedsinntekter.get(0));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -257,13 +247,13 @@ public class FlereArbeidsforholdTest {
         periode = fullførtBeregningsgrunnlag.getBeregningsgrunnlagPerioder().get(0);
         verifiserPeriode(periode, SKJÆRINGSTIDSPUNKT_BEREGNING, null, 1, forventetDagsats);
         verifiserBGATetterAvkorting(periode,
-            ÅRSINNTEKT, virksomhetene, Arrays.asList(forventetRedusert), ÅRSINNTEKT, Arrays.asList(forventetRedusert), Arrays.asList(0.0d), false);
+            ÅRSINNTEKT, virksomhetene, List.of(forventetRedusert), ÅRSINNTEKT, List.of(forventetRedusert), List.of(0.0d), false);
     }
 
     @Test
     public void ettArbeidsforholdMedOverstyringUnder6G() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(180000d);
+        final List<Double> ÅRSINNTEKT = List.of(180000d);
         final Double bg = ÅRSINNTEKT.get(0);
         final Double overstyrt = 200000d;
 
@@ -273,19 +263,19 @@ public class FlereArbeidsforholdTest {
         final long forventetDagsats = Math.round(overstyrt / 260);
 
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1);
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1);
 
         // Arrange 1
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(ÅRSINNTEKT.get(0) / 12 / 2),
             månedsinntekter,
-            virksomhetene);
+            beregningVirksomhet1);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), månedsinntekter.get(0));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -333,7 +323,7 @@ public class FlereArbeidsforholdTest {
     @Test
     public void ettArbeidsforholdMedOverstyringOver6G() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(480000d);
+        final List<Double> ÅRSINNTEKT = List.of(480000d);
         final Double bg = ÅRSINNTEKT.get(0);
         final Double overstyrt = 700000d;
 
@@ -341,7 +331,7 @@ public class FlereArbeidsforholdTest {
         final double forventetRedusert1 = forventetAvkortet1;
 
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1);
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1);
 
         final long forventetDagsats = Math.round(seksG / 260);
 
@@ -349,13 +339,13 @@ public class FlereArbeidsforholdTest {
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(ÅRSINNTEKT.get(0) / 12 / 2),
             månedsinntekter,
-            virksomhetene);
+            beregningVirksomhet1);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), månedsinntekter.get(0));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -403,7 +393,7 @@ public class FlereArbeidsforholdTest {
     @Test
     public void ettArbeidsforholdMedOverstyringOver6GOgReduksjon() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(480000d);
+        final List<Double> ÅRSINNTEKT = List.of(480000d);
         final Double bg = ÅRSINNTEKT.get(0);
         final Double overstyrt = 700000d;
 
@@ -414,19 +404,19 @@ public class FlereArbeidsforholdTest {
 
         final long forventetDagsats = Math.round(forventetRedusert / 260);
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1);
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1);
 
         // Arrange 1
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(ÅRSINNTEKT.get(0) / 12 / 2),
             månedsinntekter,
-            virksomhetene);
+            beregningVirksomhet1);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), månedsinntekter.get(0));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -481,34 +471,34 @@ public class FlereArbeidsforholdTest {
     @Test
     public void toArbeidsforholdMedBgUnder6gOgFullRefusjon() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(180000d, 72000d);
+        final List<Double> ÅRSINNTEKT = List.of(180000d, 72000d);
         final Double totalÅrsinntekt = ÅRSINNTEKT.stream().reduce((v1, v2) -> v1 + v2).orElse(null);
 
         final double forventetRedusert1 = ÅRSINNTEKT.get(0);
         final double forventetRedusert2 = ÅRSINNTEKT.get(1);
 
-        final List<Double> forventetRedusert = Arrays.asList(forventetRedusert1, forventetRedusert2);
-        final List<Double> forventetRedusertBrukersAndel = Arrays.asList(0d, 0d);
+        final List<Double> forventetRedusert = List.of(forventetRedusert1, forventetRedusert2);
+        final List<Double> forventetRedusertBrukersAndel = List.of(0d, 0d);
 
         final long forventetDagsats = Math.round(forventetRedusert1 / 260) + Math.round(forventetRedusert2 / 260);
 
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1, beregningVirksomhet2);
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1, beregningVirksomhet2);
 
         // Arrange 1
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(totalÅrsinntekt / 12),
             månedsinntekter,
-            virksomhetene);
+            beregningVirksomhet1, beregningVirksomhet2);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), månedsinntekter.get(0));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet2,
             månedsinntekter.get(1), månedsinntekter.get(1));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -550,17 +540,17 @@ public class FlereArbeidsforholdTest {
     @Test
     public void toArbeidsforholdMedBgOver6gOgFullRefusjon() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(448000d, 336000d);
+        final List<Double> ÅRSINNTEKT = List.of(448000d, 336000d);
         final Double totalÅrsinntekt = ÅRSINNTEKT.stream().reduce((v1, v2) -> v1 + v2).orElse(null);
 
         final double forventetRedusert1 = seksG * ÅRSINNTEKT.get(0) / (ÅRSINNTEKT.get(0) + ÅRSINNTEKT.get(1));
         final double forventetRedusert2 = seksG * ÅRSINNTEKT.get(1) / (ÅRSINNTEKT.get(0) + ÅRSINNTEKT.get(1));
 
-        final List<Double> forventetRedusert = Arrays.asList(forventetRedusert1, forventetRedusert2);
-        final List<Double> forventetRedusertBrukersAndel = Arrays.asList(0d, 0d);
+        final List<Double> forventetRedusert = List.of(forventetRedusert1, forventetRedusert2);
+        final List<Double> forventetRedusertBrukersAndel = List.of(0d, 0d);
 
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1, beregningVirksomhet2);
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1, beregningVirksomhet2);
 
         final long forventetDagsats = forventetRedusert.stream().mapToLong(dv -> Math.round(dv / 260)).sum() +
             forventetRedusertBrukersAndel.stream().mapToLong(dv -> Math.round(dv / 260)).sum();
@@ -569,16 +559,16 @@ public class FlereArbeidsforholdTest {
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(totalÅrsinntekt / 12),
             månedsinntekter,
-            virksomhetene);
+            beregningVirksomhet1, beregningVirksomhet2);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), månedsinntekter.get(0));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet2,
             månedsinntekter.get(1), månedsinntekter.get(1));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -620,8 +610,8 @@ public class FlereArbeidsforholdTest {
     @Test
     public void fireArbeidsforholdMedBgOver6gOgDelvisRefusjonUnder6G() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(400000d, 500000d, 300000d, 100000d);
-        final List<Double> refusjonsKrav = Arrays.asList(200000d, 150000d, 300000d, 100000d);
+        final List<Double> ÅRSINNTEKT = List.of(400000d, 500000d, 300000d, 100000d);
+        final List<Double> refusjonsKrav = List.of(200000d, 150000d, 300000d, 100000d);
         final Double totalÅrsinntekt = ÅRSINNTEKT.stream().reduce((v1, v2) -> v1 + v2).orElse(null);
 
         double fordelingRunde2 = seksG - (refusjonsKrav.get(0) + refusjonsKrav.get(1));
@@ -630,11 +620,11 @@ public class FlereArbeidsforholdTest {
         double forventetRedusert3 = fordelingRunde2 * ÅRSINNTEKT.get(2) / (ÅRSINNTEKT.get(2) + ÅRSINNTEKT.get(3));
         double forventetRedusert4 = fordelingRunde2 * ÅRSINNTEKT.get(3) / (ÅRSINNTEKT.get(2) + ÅRSINNTEKT.get(3));
 
-        final List<Double> forventetRedusert = Arrays.asList(forventetRedusert1, forventetRedusert2, forventetRedusert3, forventetRedusert4);
-        final List<Double> forventetRedusertBrukersAndel = Arrays.asList(0d, 0d, 0d, 0d);
+        final List<Double> forventetRedusert = List.of(forventetRedusert1, forventetRedusert2, forventetRedusert3, forventetRedusert4);
+        final List<Double> forventetRedusertBrukersAndel = List.of(0d, 0d, 0d, 0d);
 
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1, beregningVirksomhet2
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1, beregningVirksomhet2
             , beregningVirksomhet3, beregningVirksomhet4);
 
         final long forventetDagsats = forventetRedusert.stream().mapToLong(dv -> Math.round(dv / 260)).sum() +
@@ -644,7 +634,7 @@ public class FlereArbeidsforholdTest {
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(totalÅrsinntekt / 12),
             månedsinntekter,
-            virksomhetene);
+            beregningVirksomhet1, beregningVirksomhet2, beregningVirksomhet3, beregningVirksomhet4);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), BigDecimal.valueOf(refusjonsKrav.get(0) / 12));
@@ -655,11 +645,11 @@ public class FlereArbeidsforholdTest {
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet4,
             månedsinntekter.get(3), BigDecimal.valueOf(refusjonsKrav.get(3) / 12));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR3, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR4, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR3, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR4, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -701,8 +691,8 @@ public class FlereArbeidsforholdTest {
     @Test
     public void fireArbeidsforholdMedBgOver6gOgDelvisRefusjonOver6G() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(400000d, 500000d, 300000d, 100000d);
-        final List<Double> refusjonsKrav = Arrays.asList(200000d, 150000d, 100000d, 42000d);
+        final List<Double> ÅRSINNTEKT = List.of(400000d, 500000d, 300000d, 100000d);
+        final List<Double> refusjonsKrav = List.of(200000d, 150000d, 100000d, 42000d);
 
         final Double totalÅrsinntekt = ÅRSINNTEKT.stream().reduce((v1, v2) -> v1 + v2).orElse(null);
 
@@ -717,24 +707,24 @@ public class FlereArbeidsforholdTest {
         double bruker3 = rest * ÅRSINNTEKT.get(2) / (ÅRSINNTEKT.get(1) + ÅRSINNTEKT.get(2)) - arb3;
         double bruker4 = 0.0d;
 
-        final List<Double> forventetRedusert = Arrays.asList(arb1, arb2, arb3, arb4);
+        final List<Double> forventetRedusert = List.of(arb1, arb2, arb3, arb4);
 
-        final List<Double> forventetRedusertBrukersAndel = Arrays.asList(bruker1, bruker2, bruker3, bruker4);
+        final List<Double> forventetRedusertBrukersAndel = List.of(bruker1, bruker2, bruker3, bruker4);
 
         final long forventetDagsats = forventetRedusert.stream().mapToLong(dv -> Math.round(dv / 260)).sum() +
             forventetRedusertBrukersAndel.stream().mapToLong(dv -> Math.round(dv / 260)).sum();
 
-        final List<Double> forventetAvkortet = Arrays.asList(arb1 + bruker1, arb2 + bruker2, arb3 + bruker3, arb4 + bruker4);
+        final List<Double> forventetAvkortet = List.of(arb1 + bruker1, arb2 + bruker2, arb3 + bruker3, arb4 + bruker4);
 
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1, beregningVirksomhet2
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1, beregningVirksomhet2
             , beregningVirksomhet3, beregningVirksomhet4);
 
         // Arrange 1
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(totalÅrsinntekt / 12),
             månedsinntekter,
-            virksomhetene);
+            beregningVirksomhet1, beregningVirksomhet2, beregningVirksomhet3, beregningVirksomhet4);
 
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), BigDecimal.valueOf(refusjonsKrav.get(0) / 12));
@@ -745,11 +735,11 @@ public class FlereArbeidsforholdTest {
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet4,
             månedsinntekter.get(3), BigDecimal.valueOf(refusjonsKrav.get(3) / 12));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR3, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR4, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR3, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR4, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -791,33 +781,32 @@ public class FlereArbeidsforholdTest {
     @Test
     public void toArbeidsforholdMedOverstyringEtterTilbakeføringOver6GMedRefusjonOver6G() {
 
-        final List<Double> ÅRSINNTEKT = Arrays.asList(720000d, 720000d);
+        final List<Double> ÅRSINNTEKT = List.of(720000d, 720000d);
         final Double totalÅrsinntekt = ÅRSINNTEKT.stream().reduce((v1, v2) -> v1 + v2).orElse(null);
-        final List<Double> refusjonsKrav = Arrays.asList(seksG, seksG);
+        final List<Double> refusjonsKrav = List.of(seksG, seksG);
 
         final double forventetRedusert1 = seksG * ÅRSINNTEKT.get(0) / (ÅRSINNTEKT.get(0) + ÅRSINNTEKT.get(1));
         final double forventetRedusert2 = seksG * ÅRSINNTEKT.get(1) / (ÅRSINNTEKT.get(0) + ÅRSINNTEKT.get(1));
 
-        final List<Double> forventetRedusert = Arrays.asList(forventetRedusert1, forventetRedusert2);
-        final List<Double> forventetRedusertBrukersAndel = Arrays.asList(0d, 0d);
+        final List<Double> forventetRedusert = List.of(forventetRedusert1, forventetRedusert2);
+        final List<Double> forventetRedusertBrukersAndel = List.of(0d, 0d);
 
         List<BigDecimal> månedsinntekter = ÅRSINNTEKT.stream().map((v) -> BigDecimal.valueOf(v / 12)).collect(Collectors.toList());
-        List<VirksomhetEntitet> virksomhetene = Arrays.asList(beregningVirksomhet1, beregningVirksomhet2);
+        List<VirksomhetEntitet> virksomhetene = List.of(beregningVirksomhet1, beregningVirksomhet2);
 
         // Arrange 1
         Behandling behandling = lagBehandlingAT(scenario,
             BigDecimal.valueOf(totalÅrsinntekt / 12),
             månedsinntekter,
-            virksomhetene);
-
+            beregningVirksomhet1, beregningVirksomhet2);
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet1,
             månedsinntekter.get(0), BigDecimal.valueOf(refusjonsKrav.get(0) / 12));
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet2,
             månedsinntekter.get(1), BigDecimal.valueOf(refusjonsKrav.get(1) / 12));
 
-        List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
-            VerdikjedeTestHjelper.leggTilOpptjening(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID)
+        List<OpptjeningAktivitet> aktiviteter = List.of(
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR1, OpptjeningAktivitetType.ARBEID),
+            VerdikjedeTestHjelper.opprettAktivitetFor(ARBEIDSFORHOLD_ORGNR2, OpptjeningAktivitetType.ARBEID)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);

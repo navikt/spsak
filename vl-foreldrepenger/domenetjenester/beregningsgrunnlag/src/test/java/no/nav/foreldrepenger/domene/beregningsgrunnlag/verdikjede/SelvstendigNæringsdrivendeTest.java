@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
@@ -77,7 +76,7 @@ public class SelvstendigNæringsdrivendeTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = Mockito.spy(new BehandlingRepositoryProviderImpl(repoRule.getEntityManager()));
+    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
 
     private AksjonspunktUtlederForBeregning aksjonspunktUtlederForBeregning;
 
@@ -103,6 +102,9 @@ public class SelvstendigNæringsdrivendeTest {
 
     @Before
     public void setup() {
+        if (fastsettSkjæringstidspunktOgStatuser != null) {
+            return;
+        }
         OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, repositoryProvider, periodeTjeneste);
         IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingFPTjenesteImpl.class);
         when(iayRegisterInnhentingTjeneste.innhentInntekterFor(any(Behandling.class), any(), any(), any()))
@@ -140,11 +142,11 @@ public class SelvstendigNæringsdrivendeTest {
 
         // Arrange
         Behandling behandling = KombinasjonArbtakerFrilanserSelvstendigTest.lagBehandlingATogFLogSN(repositoryProvider,
-            scenario, Arrays.asList(), Arrays.asList(), null, årsinntekterSN, 2014, BigDecimal.valueOf(12 * varigEndringMånedsinntekt));
+            scenario, Arrays.asList(), null, årsinntekterSN, 2014, BigDecimal.valueOf(12 * varigEndringMånedsinntekt));
 
 //        VerdikjedeTestHjelper.settoppÅrsinntekterVarigEndring(beregningsgrunnlagMockRepository, ÅRSINNTEKT, ÅR, varigEndringMånedsinntekt);
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
+            VerdikjedeTestHjelper.opprettAktivitetFor(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -198,9 +200,9 @@ public class SelvstendigNæringsdrivendeTest {
 
         // Arrange
         Behandling behandling = KombinasjonArbtakerFrilanserSelvstendigTest.lagBehandlingATogFLogSN(repositoryProvider,
-            scenario, Arrays.asList(), Arrays.asList(), null, årsinntekterSN, 2014, null);
+            scenario, Arrays.asList(), null, årsinntekterSN, 2014, null);
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
+            VerdikjedeTestHjelper.opprettAktivitetFor(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -253,9 +255,9 @@ public class SelvstendigNæringsdrivendeTest {
 
         // Arrange
         Behandling behandling = KombinasjonArbtakerFrilanserSelvstendigTest.lagBehandlingATogFLogSN(repositoryProvider,
-            scenario, Arrays.asList(), Arrays.asList(), null, årsinntekterSN, 2014, null);
+            scenario, Arrays.asList(), null, årsinntekterSN, 2014, null);
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
+            VerdikjedeTestHjelper.opprettAktivitetFor(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);
@@ -308,9 +310,9 @@ public class SelvstendigNæringsdrivendeTest {
 
         // Arrange
         Behandling behandling = KombinasjonArbtakerFrilanserSelvstendigTest.lagBehandlingATogFLogSN(repositoryProvider,
-            scenario, Arrays.asList(), Arrays.asList(), null, årsinntekterSN, 2014, null);
+            scenario, Arrays.asList(), null, årsinntekterSN, 2014, null);
         List<OpptjeningAktivitet> aktiviteter = Arrays.asList(
-            VerdikjedeTestHjelper.leggTilOpptjening(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
+            VerdikjedeTestHjelper.opprettAktivitetFor(DUMMY_ORGNR, OpptjeningAktivitetType.NÆRING)
         );
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING.minusYears(1), SKJÆRINGSTIDSPUNKT_OPPTJENING.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);

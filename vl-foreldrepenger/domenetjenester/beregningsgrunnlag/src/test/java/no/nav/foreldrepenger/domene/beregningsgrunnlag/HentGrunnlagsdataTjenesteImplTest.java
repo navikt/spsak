@@ -480,7 +480,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
     private void opprettOpptjening(Behandling behandling, OpptjeningAktivitetType... opptjeningAktivitetTypes) {
         List<OpptjeningAktivitet> aktiviteter = new ArrayList<>();
         for (OpptjeningAktivitetType aktivitet : Arrays.asList(opptjeningAktivitetTypes)) {
-            aktiviteter.add(VerdikjedeTestHjelper.leggTilOpptjening("111", aktivitet));
+            aktiviteter.add(VerdikjedeTestHjelper.opprettAktivitetFor("111", aktivitet));
         }
         opptjeningRepository.lagreOpptjeningsperiode(behandling, SKJÆRINGSTIDSPUNKT.minusYears(1), SKJÆRINGSTIDSPUNKT.plusYears(10));
         opptjeningRepository.lagreOpptjeningResultat(behandling, Period.ofDays(100), aktiviteter);

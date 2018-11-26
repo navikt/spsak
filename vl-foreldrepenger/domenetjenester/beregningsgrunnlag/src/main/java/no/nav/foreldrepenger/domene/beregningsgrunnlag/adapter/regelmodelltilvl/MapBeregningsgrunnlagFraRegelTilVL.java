@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Iterator;
@@ -443,7 +442,7 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
             throw new IllegalStateException("Antall regelinput og regelresultater må være 2 for å spore regellogg");
         }
 
-        if (regelmodell.getAktivitetStatuser().containsAll(Arrays.asList(no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.AktivitetStatus.DP,
+        if (regelmodell.getAktivitetStatuser().containsAll(List.of(no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.AktivitetStatus.DP,
             no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.AktivitetStatus.AAP))) {
             throw new IllegalStateException("Ugyldig kombinasjon av statuser: Kan ikke både ha status AAP og DP samtidig");
         }
