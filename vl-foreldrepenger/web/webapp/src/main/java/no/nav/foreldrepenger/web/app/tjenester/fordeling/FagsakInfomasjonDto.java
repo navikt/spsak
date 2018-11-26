@@ -12,14 +12,8 @@ public class FagsakInfomasjonDto {
     @Digits(integer = 19, fraction = 0)
     private String aktørId;
 
-    @NotNull
-    @Size(max = 8)
-    @Pattern(regexp = InputValideringRegex.KODEVERK)
-    private String behandlingstemaOffisiellKode;
-
-    public FagsakInfomasjonDto(String aktørId, String behandlingstemaOffisiellKode) {
+    public FagsakInfomasjonDto(String aktørId) {
         this.aktørId = aktørId;
-        this.behandlingstemaOffisiellKode = behandlingstemaOffisiellKode;
     }
 
     public FagsakInfomasjonDto() { // For Jackson
@@ -27,9 +21,5 @@ public class FagsakInfomasjonDto {
 
     public String getAktørId() {
         return aktørId;
-    }
-
-    public String getBehandlingstemaOffisiellKode() {
-        return behandlingstemaOffisiellKode;
     }
 }

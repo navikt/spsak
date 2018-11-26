@@ -28,6 +28,7 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokument
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.foreldrepenger.web.app.tjenester.fordeling.sak.OpprettSakOrchestrator;
 import no.nav.vedtak.felles.jpa.Transaction;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessursActionAttributt;
@@ -51,6 +52,7 @@ public class FordelRestTjeneste {
     private FagsakTjeneste fagsakTjeneste;
     private KodeverkRepository kodeverkRepository;
     private BehandlingRepository behandlingRepository;
+    private OpprettSakOrchestrator opprettSakOrchestrator;
 
     public FordelRestTjeneste() {// For Rest-CDI
     }
@@ -59,12 +61,14 @@ public class FordelRestTjeneste {
     public FordelRestTjeneste(SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste,
                               DokumentArkivTjeneste dokumentArkivTjeneste,
                               FagsakTjeneste fagsakTjeneste,
-                              BehandlingRepositoryProvider repositoryProvider) {
+                              BehandlingRepositoryProvider repositoryProvider,
+                              OpprettSakOrchestrator opprettSakOrchestrator) {
         this.dokumentmottakTjeneste = dokumentmottakTjeneste;
         this.dokumentArkivTjeneste = dokumentArkivTjeneste;
         this.fagsakTjeneste = fagsakTjeneste;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
+        this.opprettSakOrchestrator = opprettSakOrchestrator;
     }
 
     @POST
@@ -94,10 +98,8 @@ public class FordelRestTjeneste {
             return null;
         }
         behandlingRepository.hentSisteBehandlingForFagsakId(optFagsak.get().getId());
-        BehandlingTema behandlingTemaFraKodeverksRepo = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.fraFagsak(optFagsak.get()));
-        String behandlingstemaOffisiellKode = behandlingTemaFraKodeverksRepo.getOffisiellKode();
         AktørId aktørId = optFagsak.get().getAktørId();
-        return new FagsakInfomasjonDto(aktørId.getId(), behandlingstemaOffisiellKode);
+        return new FagsakInfomasjonDto(aktørId.getId());
     }
 
     @POST
@@ -108,12 +110,15 @@ public class FordelRestTjeneste {
     @BeskyttetRessurs(action = BeskyttetRessursActionAttributt.CREATE, ressurs = BeskyttetRessursResourceAttributt.FAGSAK)
     public SaksnummerDto opprettSak(@ApiParam("Oppretter fagsak") @Valid OpprettSakDto opprettSakDto) {
         Optional<String> journalpostId = opprettSakDto.getJournalpostId();
-        BehandlingTema behandlingTema = kodeverkRepository.finnForKodeverkEiersKode(BehandlingTema.class, opprettSakDto.getBehandlingstemaOffisiellKode(),
-            BehandlingTema.UDEFINERT);
 
         AktørId aktørId = new AktørId(opprettSakDto.getAktørId());
 
-        Saksnummer s = new Saksnummer("FIXME SP: Mangler saksnummer");
+        Saksnummer s;
+        if (journalpostId.isPresent()) {
+            s = opprettSakOrchestrator.opprettSak(new JournalpostId(journalpostId.get()), aktørId);
+        } else {
+            s = opprettSakOrchestrator.opprettSak(aktørId);
+        }
         return new SaksnummerDto(s.getVerdi());
     }
 
@@ -124,8 +129,7 @@ public class FordelRestTjeneste {
     @ApiOperation(value = "Knytt journalpost til fagsak.", notes = ("Før en journalpost journalføres på en fagsak skal fagsaken oppdateres med journalposten."))
     @BeskyttetRessurs(action = BeskyttetRessursActionAttributt.CREATE, ressurs = BeskyttetRessursResourceAttributt.FAGSAK)
     public void knyttSakOgJournalpost(@ApiParam("Saksnummer og JournalpostId som skal knyttes sammen") @Valid JournalpostKnyttningDto journalpostKnytningDto) {
-        
-        // FIXME SP: knyttSakOgJournalpost Uklart om trengs?
+        opprettSakOrchestrator.knyttSakOgJournalpost(new Saksnummer(journalpostKnytningDto.getSaksnummer()), new JournalpostId(journalpostKnytningDto.getJournalpostId()));
     }
 
     @POST
