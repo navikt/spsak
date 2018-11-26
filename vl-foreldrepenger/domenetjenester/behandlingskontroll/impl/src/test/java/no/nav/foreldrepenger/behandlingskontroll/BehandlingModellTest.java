@@ -49,7 +49,7 @@ public class BehandlingModellTest {
 
     private static final BehandlingStegType STEG_1 = BehandlingStegType.INNHENT_REGISTEROPP;
     private static final BehandlingStegType STEG_2 = BehandlingStegType.KONTROLLER_FAKTA;
-    private static final BehandlingStegType STEG_3 = BehandlingStegType.SØKERS_RELASJON_TIL_BARN;
+    private static final BehandlingStegType STEG_3 = BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR;
     private static final BehandlingStegType STEG_4 = BehandlingStegType.FATTE_VEDTAK;
 
     @Inject

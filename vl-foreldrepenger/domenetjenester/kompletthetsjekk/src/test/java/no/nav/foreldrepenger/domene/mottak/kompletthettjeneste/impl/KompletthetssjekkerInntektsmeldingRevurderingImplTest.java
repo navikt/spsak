@@ -51,7 +51,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.lagreSøknad(behandling, false);
+        testUtil.lagreSøknad(behandling);
 
         // Act
         List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeInntektsmeldinger(behandling);
@@ -67,7 +67,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.lagreSøknad(behandling, false);
+        testUtil.lagreSøknad(behandling);
 
         // Act
         List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeInntektsmeldinger(behandling);
@@ -81,7 +81,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.lagreSøknad(behandling, false);
+        testUtil.lagreSøknad(behandling);
 
         Virksomhet virksomhet = new VirksomhetEntitet.Builder().medOrgnr(ARBGIVER1).build();
         Inntektsmelding inntektsmelding = InntektsmeldingBuilder.builder().medVirksomhet(virksomhet).medInnsendingstidspunkt(LocalDateTime.now()).build();
@@ -100,7 +100,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.lagreSøknad(behandling, false);
+        testUtil.lagreSøknad(behandling);
 
         // Act
         List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeInntektsmeldingerFraGrunnlag(behandling);

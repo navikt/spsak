@@ -48,7 +48,6 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
-            .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();
@@ -70,7 +69,6 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
-            .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();
@@ -93,7 +91,6 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
-            .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();
@@ -117,7 +114,6 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
-            .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();
@@ -147,7 +143,6 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
-            .medElektroniskRegistrert(true)
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();
@@ -171,7 +166,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        testUtil.lagreSøknad(behandling, false);
+        testUtil.lagreSøknad(behandling);
 
         // Matcher med utsettelse:
         Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.DOK_INNLEGGELSE);

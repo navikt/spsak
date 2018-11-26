@@ -31,7 +31,6 @@ public class BehandlingStegType extends KodeverkTabell {
     public static final BehandlingStegType VARSEL_REVURDERING = new BehandlingStegType("VRSLREV"); //$NON-NLS-1$
     public static final BehandlingStegType INNHENT_REGISTEROPP = new BehandlingStegType("INREG"); //$NON-NLS-1$
     public static final BehandlingStegType KONTROLLER_FAKTA = new BehandlingStegType("KOFAK"); //$NON-NLS-1$
-    public static final BehandlingStegType SØKERS_RELASJON_TIL_BARN = new BehandlingStegType("VURDERSRB"); //$NON-NLS-1$
     public static final BehandlingStegType VURDER_MEDLEMSKAPVILKÅR = new BehandlingStegType("VURDERMV"); //$NON-NLS-1$
     public static final BehandlingStegType BEREGN_YTELSE = new BehandlingStegType("BERYT"); //$NON-NLS-1$
     public static final BehandlingStegType FATTE_VEDTAK = new BehandlingStegType("FVEDSTEG"); //$NON-NLS-1$

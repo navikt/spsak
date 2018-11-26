@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +24,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet;
-import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "Søknad")
 @Table(name = "SO_SOEKNAD")
@@ -38,16 +36,9 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     @Column(name = "soeknadsdato", nullable = false)
     private LocalDate søknadsdato;
 
-    @Column(name = "kilde_ref")
-    private String kildeReferanse;
-
     @Version
     @Column(name = "versjon", nullable = false)
     private long versjon;
-
-    @Convert(converter = BooleanToStringConverter.class)
-    @Column(name = "elektronisk_registrert", nullable = false)
-    private boolean elektroniskRegistrert;
 
     @Column(name = "mottatt_dato")
     private LocalDate mottattDato;
@@ -62,16 +53,9 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     @OneToMany(cascade = { CascadeType.ALL }, mappedBy = "søknad")
     private Set<SøknadVedleggEntitet> søknadVedlegg = new HashSet<>(2);
 
-    @Column(name = "begrunnelse_for_sen_innsending")
-    private String begrunnelseForSenInnsending;
-
     @OneToOne
     @JoinColumn(name = "oppgitt_opptjening_id", updatable = false, unique = true)
     private OppgittOpptjeningEntitet oppgittOpptjening;
-
-    @Convert(converter = BooleanToStringConverter.class)
-    @Column(name = "er_endringssoeknad", nullable = false)
-    private boolean erEndringssøknad;
 
     SøknadEntitet() {
         // hibernate
@@ -81,12 +65,8 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
      * Deep copy.
      */
     SøknadEntitet(Søknad søknadMal) {
-        this.begrunnelseForSenInnsending = søknadMal.getBegrunnelseForSenInnsending();
-        this.elektroniskRegistrert = søknadMal.getElektroniskRegistrert();
-        this.kildeReferanse = søknadMal.getKildeReferanse();
         this.mottattDato = søknadMal.getMottattDato();
         this.søknadsdato = søknadMal.getSøknadsdato();
-        this.erEndringssøknad = søknadMal.erEndringssøknad();
         this.tilleggsopplysninger = søknadMal.getTilleggsopplysninger();
 
         if (søknadMal.getOppgittTilknytning() != null) {
@@ -112,24 +92,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     void setSøknadsdato(LocalDate søknadsdato) {
         this.søknadsdato = søknadsdato;
-    }
-
-    @Override
-    public String getKildeReferanse() {
-        return kildeReferanse;
-    }
-
-    void setKildeReferanse(String kildeReferanse) {
-        this.kildeReferanse = kildeReferanse;
-    }
-
-    @Override
-    public boolean getElektroniskRegistrert() {
-        return elektroniskRegistrert;
-    }
-
-    void setElektroniskRegistrert(boolean elektroniskRegistrert) {
-        this.elektroniskRegistrert = elektroniskRegistrert;
     }
 
     @Override
@@ -174,24 +136,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     }
 
     @Override
-    public String getBegrunnelseForSenInnsending() {
-        return begrunnelseForSenInnsending;
-    }
-
-    void setBegrunnelseForSenInnsending(String begrunnelseForSenInnsending) {
-        this.begrunnelseForSenInnsending = begrunnelseForSenInnsending;
-    }
-
-    @Override
-    public boolean erEndringssøknad() {
-        return erEndringssøknad;
-    }
-
-    void setErEndringssøknad(boolean endringssøknad) {
-        this.erEndringssøknad = endringssøknad;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -199,35 +143,27 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             return false;
         }
         SøknadEntitet other = (SøknadEntitet) obj;
-        return Objects.equals(this.elektroniskRegistrert, other.elektroniskRegistrert)
-            && Objects.equals(this.kildeReferanse, other.kildeReferanse)
-            && Objects.equals(this.mottattDato, other.mottattDato)
+        return Objects.equals(this.mottattDato, other.mottattDato)
             // Dette er ikke en god måte å gjøre ting på, men det er en løsning på at PersistentSet.equals ikke følger spec'en.
             && Objects.equals(this.søknadsdato, other.søknadsdato)
             && Objects.equals(this.oppgittTilknytning, other.oppgittTilknytning)
-            && Objects.equals(this.erEndringssøknad, other.erEndringssøknad)
             && Objects.equals(this.tilleggsopplysninger, other.tilleggsopplysninger)
             && Objects.equals(this.søknadVedlegg, other.søknadVedlegg)
-            && Objects.equals(this.oppgittOpptjening, other.oppgittOpptjening)
-            && Objects.equals(this.begrunnelseForSenInnsending, other.begrunnelseForSenInnsending);
+            && Objects.equals(this.oppgittOpptjening, other.oppgittOpptjening);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(elektroniskRegistrert, kildeReferanse, mottattDato,
-            søknadsdato, oppgittTilknytning, erEndringssøknad, tilleggsopplysninger, søknadVedlegg, oppgittOpptjening, begrunnelseForSenInnsending);
+        return Objects.hash(mottattDato, søknadsdato, oppgittTilknytning, tilleggsopplysninger,
+            søknadVedlegg, oppgittOpptjening);
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() +
             "<søknadsdato=" + søknadsdato //$NON-NLS-1$
-            + ", kildeReferanse=" + kildeReferanse
-            + ", elektroniskRegistrert=" + elektroniskRegistrert
             + ", mottattDato=" + mottattDato
-            + ", erEndringssøknad=" + erEndringssøknad
             + ", tilleggsopplysninger=" + tilleggsopplysninger
-            + ", begrunnelseForSenInnsending=" + begrunnelseForSenInnsending
             + ">"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
@@ -244,16 +180,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             } else {
                 this.søknadMal = new SøknadEntitet();
             }
-        }
-
-        public Builder medElektroniskRegistrert(boolean elektroniskRegistrert) {
-            søknadMal.setElektroniskRegistrert(elektroniskRegistrert);
-            return this;
-        }
-
-        public Builder medKildeReferanse(String kildeReferanse) {
-            søknadMal.setKildeReferanse(kildeReferanse);
-            return this;
         }
 
         public Builder medMottattDato(LocalDate mottattDato) {
@@ -285,16 +211,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             SøknadVedleggEntitet sve = new SøknadVedleggEntitet(søknadVedlegg);
             søknadMal.søknadVedlegg.add(sve);
             sve.setSøknad(søknadMal);
-            return this;
-        }
-
-        public Builder medBegrunnelseForSenInnsending(String begrunnelseForSenInnsending) {
-            søknadMal.setBegrunnelseForSenInnsending(begrunnelseForSenInnsending);
-            return this;
-        }
-
-        public Builder medErEndringssøknad(boolean erEndringssøknad) {
-            søknadMal.setErEndringssøknad(erEndringssøknad);
             return this;
         }
 

@@ -47,7 +47,7 @@ class StartpunktUtlederInntektsmelding {
 
     public StartpunktType utledStartpunkt(Behandling behandling, InntektArbeidYtelseGrunnlag grunnlag1, InntektArbeidYtelseGrunnlag grunnlag2) {
         if (behandling.getType().equals(BehandlingType.FØRSTEGANGSSØKNAD)) {
-            return StartpunktType.SØKERS_RELASJON_TIL_BARNET;
+            return StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP;
         }
         List<Inntektsmelding> origIm = hentInntektsmeldingerFraGrunnlag(behandling, grunnlag1, grunnlag2);
         List<Inntektsmelding> nyeIm = inntektArbeidYtelseTjeneste.hentAlleInntektsmeldingerMottattEtterGjeldendeVedtak(behandling);

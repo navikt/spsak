@@ -76,9 +76,8 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
         //assert
         Set<Aksjonspunkt> aper = revurdering.getAlleAksjonspunkterInklInaktive();
         assertThat(aper).hasSize(2);
-        assertThat(aper.stream().filter(ap -> ap.getReaktiveringStatus().equals(ReaktiveringStatus.SLETTET)).collect(toList())).hasSize(1);
-        assertThat(aper.stream().filter(ap -> !ap.getReaktiveringStatus().equals(ReaktiveringStatus.SLETTET)).findFirst().get().getAksjonspunktDefinisjon())
-            .isEqualTo(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
+        assertThat(aper.stream().filter(ap -> ap.getReaktiveringStatus().equals(ReaktiveringStatus.SLETTET)).collect(toList())).hasSize(2);
+        assertThat(aper.stream().filter(ap -> !ap.getReaktiveringStatus().equals(ReaktiveringStatus.SLETTET)).collect(toList())).isEmpty();
     }
 
     @Test
@@ -112,7 +111,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
 
         //assert
         assertThat(revurdering.getAlleAksjonspunkterInklInaktive()).hasSize(2);
-        assertThat(revurdering.getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD)).isNotPresent();
+        assertThat(revurdering.getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD)).isPresent();
         Optional<Aksjonspunkt> apForeslå = revurdering.getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.FORESLÅ_VEDTAK_MANUELT);
         assertThat(apForeslå).isPresent();
         assertThat(apForeslå.get().getStatus()).isEqualTo(AksjonspunktStatus.OPPRETTET);

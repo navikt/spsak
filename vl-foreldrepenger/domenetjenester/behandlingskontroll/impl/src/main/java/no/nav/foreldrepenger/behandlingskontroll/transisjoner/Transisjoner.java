@@ -19,7 +19,6 @@ public class Transisjoner {
         new FremoverhoppTransisjon(FellesTransisjoner.FREMHOPP_TIL_IVERKSETT_VEDTAK.getId(), BehandlingStegType.IVERKSETT_VEDTAK),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.KONTROLLER_FAKTA_BEREGNING),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.KONTROLLERER_SØKERS_OPPLYSNINGSPLIKT),
-        new RevurderingFremoverhoppTransisjon(BehandlingStegType.SØKERS_RELASJON_TIL_BARN),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.KONTROLLER_LØPENDE_MEDLEMSKAP),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.FASTSETT_OPPTJENINGSPERIODE)

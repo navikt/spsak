@@ -37,7 +37,7 @@ public class BehandlingskontrollEventPublisererTest {
 
     private static final BehandlingStegType STEG_1 = BehandlingStegType.INNHENT_REGISTEROPP;
     private static final BehandlingStegType STEG_2 = BehandlingStegType.KONTROLLER_FAKTA;
-    private static final BehandlingStegType STEG_3 = BehandlingStegType.SØKERS_RELASJON_TIL_BARN;
+    private static final BehandlingStegType STEG_3 = BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR;
     private static final BehandlingStegType STEG_4 = BehandlingStegType.FATTE_VEDTAK;
 
     @Rule
@@ -90,7 +90,7 @@ public class BehandlingskontrollEventPublisererTest {
 
         BehandlingskontrollKontekst kontekst = kontrollTjeneste.initBehandlingskontroll(behandling.getId());
 
-        BehandlingStegType stegType = BehandlingStegType.SØKERS_RELASJON_TIL_BARN;
+        BehandlingStegType stegType = BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR;
 
         Aksjonspunkt aksjonspunkt = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AUTO_MANUELT_SATT_PÅ_VENT, stegType);
         kontrollTjeneste.aksjonspunkterFunnet(kontekst, stegType, Arrays.asList(aksjonspunkt));

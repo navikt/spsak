@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType;
@@ -79,14 +77,6 @@ public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
             return KompletthetResultat.oppfylt();
         }
 
-        if (endringssøknadErMottatt(behandling)) {
-            if (endringssøknadIkkeErKomplett(behandling)) {
-                return opprettKompletthetResultatMedVentefrist(behandling);
-            } else {
-                return KompletthetResultat.oppfylt();
-            }
-        }
-
         List<Inntektsmelding> inntektsmeldinger = inntektArbeidYtelseTjeneste.hentAlleInntektsmeldingerMottattEtterGjeldendeVedtak(behandling);
         if (!inntektsmeldinger.isEmpty()) {
             return vurderKompletthetForInntektsmeldingUtenSøknad(behandling, inntektsmeldinger);
@@ -120,18 +110,6 @@ public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
             .collect(Collectors.toList());
     }
 
-    private boolean endringssøknadErMottatt(Behandling behandling) {
-        LocalDate vedtaksdato = behandlingVedtakRepository.hentBehandlingVedtakFraRevurderingensOriginaleBehandling(behandling).getVedtaksdato();
-        Optional<Søknad> søknadOptional = søknadRepository.hentSøknadHvisEksisterer(behandling);
-        return søknadOptional.isPresent() && søknadOptional.get().erEndringssøknad() && !søknadOptional.get().getMottattDato().isBefore(vedtaksdato);
-    }
-
-    private boolean endringssøknadIkkeErKomplett(Behandling behandling) {
-        List<ManglendeVedlegg> manglendeInntektsmeldinger = hentManglendeInntektsmeldinger(behandling);
-        return !manglendeInntektsmeldinger.isEmpty()
-            || !kompletthetssjekkerSøknad.utledManglendeVedleggForSøknad(behandling).isEmpty();
-    }
-
     private List<ManglendeVedlegg> hentManglendeInntektsmeldinger(Behandling behandling) {
         List<ManglendeVedlegg> manglendeInntektsmeldinger = kompletthetssjekkerInntektsmelding.utledManglendeInntektsmeldinger(behandling);
         if (!manglendeInntektsmeldinger.isEmpty()) {
@@ -162,7 +140,7 @@ public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
         for (Inntektsmelding inntektsmelding : inntektsmeldinger) {
             // TODO SP: ??
         }
-        
+
 
         if (graderingEndret || arbeidEndret || ferieEndret) {
             LOGGER.info("Behandling {} er ikke komplett for IM uten søknad: graderingEndret={}, arbeidEndret={}, ferieEndret={}", revurdering.getId(), graderingEndret, arbeidEndret, ferieEndret); // NOSONAR //$NON-NLS-1$

@@ -77,11 +77,8 @@ public abstract class KompletthetssjekkerSøknadFP implements Kompletthetssjekke
     }
 
     private Set<SøknadVedlegg> getSøknadVedleggListe(Optional<Søknad> søknad) {
-        if (søknad.map(Søknad::getElektroniskRegistrert).orElse(false)) {
-            return søknad.map(Søknad::getSøknadVedlegg)
-                .orElse(Collections.emptySet());
-        }
-        return Collections.emptySet();
+        return søknad.map(Søknad::getSøknadVedlegg)
+            .orElse(Collections.emptySet());
     }
 
     private DokumentTypeId finnDokumentTypeId(String dokumentTypeIdKode) {

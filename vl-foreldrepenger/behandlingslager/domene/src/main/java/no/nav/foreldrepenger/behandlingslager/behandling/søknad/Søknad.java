@@ -12,12 +12,6 @@ public interface Søknad {
 
     LocalDate getMottattDato();
 
-    boolean getElektroniskRegistrert();
-
-    String getBegrunnelseForSenInnsending();
-
-    String getKildeReferanse();
-
     OppgittTilknytning getOppgittTilknytning();
 
     String getTilleggsopplysninger();
@@ -26,5 +20,4 @@ public interface Søknad {
 
     OppgittOpptjening getOppgittOpptjening();
 
-    boolean erEndringssøknad();
 }

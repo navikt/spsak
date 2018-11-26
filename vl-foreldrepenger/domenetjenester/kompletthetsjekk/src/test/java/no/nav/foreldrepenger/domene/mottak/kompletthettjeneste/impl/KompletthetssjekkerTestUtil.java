@@ -58,12 +58,11 @@ public class KompletthetssjekkerTestUtil {
         fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.LØPENDE);
     }
 
-    public void lagreSøknad(Behandling behandling, boolean erEndringssøknad) {
+    public void lagreSøknad(Behandling behandling) {
 
-        Søknad søknad = new SøknadEntitet.Builder().medElektroniskRegistrert(true)
+        Søknad søknad = new SøknadEntitet.Builder()
             .medSøknadsdato(LocalDate.now())
             .medMottattDato(LocalDate.now())
-            .medErEndringssøknad(erEndringssøknad)
             .build();
         repositoryProvider.getSøknadRepository().lagreOgFlush(behandling, søknad);
     }

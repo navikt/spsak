@@ -122,7 +122,7 @@ class RyddVilkårTyper {
     }
 
     private void spesialhåndterSøknadsfrist() {
-        if(Objects.equals(modell.getBehandlingStegType(), BehandlingStegType.SØKERS_RELASJON_TIL_BARN)) {
+        if(Objects.equals(modell.getBehandlingStegType(), BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR)) {
             // Ved tilbakehopp til steg hvor man kan endre skjæringstidspunkt må
             // MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET nullstilles, ettersom det ikke alltid fanges av generelle regl.
             behandling.getÅpneAksjonspunkter().stream()

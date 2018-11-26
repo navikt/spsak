@@ -98,8 +98,8 @@ class StartpunktUtlederPersonopplysning implements StartpunktUtleder {
 
         if (startpunkter.isEmpty()) {
             // Har ikke identifisert endringen som trigget utledning av startpunkt - sett default-verdi ved andre endringer
-            FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.SØKERS_RELASJON_TIL_BARNET, "kunne ikke fastsettes", grunnlag1.getId(), grunnlag2.getId());
-            startpunkter.add(StartpunktType.SØKERS_RELASJON_TIL_BARNET);
+            FellesStartpunktUtlederLogger.loggEndringSomFørteTilStartpunkt(this.getClass().getSimpleName(), StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP, "kunne ikke fastsettes", grunnlag1.getId(), grunnlag2.getId());
+            startpunkter.add(StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP);
         }
 
         return startpunkter;

@@ -27,7 +27,6 @@ public class StartpunktType extends KodeverkTabell {
     public static final StartpunktType UDEFINERT = new StartpunktType("-"); //$NON-NLS-1$
     public static final StartpunktType KONTROLLER_ARBEIDSFORHOLD = new StartpunktType("KONTROLLER_ARBEIDSFORHOLD"); //$NON-NLS-1$
     public static final StartpunktType INNGANGSVILKÅR_OPPLYSNINGSPLIKT = new StartpunktType("INNGANGSVILKÅR_OPPL"); //$NON-NLS-1$
-    public static final StartpunktType SØKERS_RELASJON_TIL_BARNET = new StartpunktType("SØKERS_RELASJON_TIL_BARNET"); //$NON-NLS-1$
     public static final StartpunktType INNGANGSVILKÅR_MEDLEMSKAP = new StartpunktType("INNGANGSVILKÅR_MEDL"); //$NON-NLS-1$
     public static final StartpunktType OPPTJENING = new StartpunktType("OPPTJENING"); //$NON-NLS-1$
     public static final StartpunktType BEREGNING = new StartpunktType("BEREGNING"); //$NON-NLS-1$
@@ -42,10 +41,6 @@ public class StartpunktType extends KodeverkTabell {
         // Opplysningsplikt - ingen vilkår håndter før dette startpunktet
         VILKÅR_HÅNDTERT_INNEN_STARTPUNKT.put(StartpunktType.INNGANGSVILKÅR_OPPLYSNINGSPLIKT,
             new HashSet<>());
-
-        // Søkers relasjon
-        VILKÅR_HÅNDTERT_INNEN_STARTPUNKT.put(StartpunktType.SØKERS_RELASJON_TIL_BARNET,
-            new HashSet<>(Collections.singleton(VilkårType.SØKERSOPPLYSNINGSPLIKT)));
 
         // Medlemskap
         VILKÅR_HÅNDTERT_INNEN_STARTPUNKT.put(StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP, VILKÅR_HÅNDTERT_INNEN_STARTPUNKT.values().stream().flatMap(Collection::stream).collect(toSet()));

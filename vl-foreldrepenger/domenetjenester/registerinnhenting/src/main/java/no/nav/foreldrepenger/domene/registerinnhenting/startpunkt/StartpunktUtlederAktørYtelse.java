@@ -14,6 +14,6 @@ class StartpunktUtlederAktørYtelse {
     }
 
     StartpunktType utledStartpunkt() {
-        return StartpunktType.SØKERS_RELASJON_TIL_BARNET;
+        return StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP;
     }
 }

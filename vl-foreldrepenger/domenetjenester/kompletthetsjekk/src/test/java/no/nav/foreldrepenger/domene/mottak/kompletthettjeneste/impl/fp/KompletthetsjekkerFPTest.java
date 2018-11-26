@@ -96,7 +96,7 @@ public class KompletthetsjekkerFPTest {
         // Arrange
         Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
         mockManglendeInntektsmelding();
-        testUtil.lagreSøknad(behandling, false);
+        testUtil.lagreSøknad(behandling);
 
         // Act
         KompletthetResultat kompletthetResultat = kompletthetsjekkerFP.vurderForsendelseKomplett(behandling);
@@ -156,7 +156,7 @@ public class KompletthetsjekkerFPTest {
     }
 
     private void opprettSøknadMedPåkrevdVedlegg(Behandling behandling) {
-        testUtil.lagreSøknad(behandling, false);
+        testUtil.lagreSøknad(behandling);
         Søknad søknad = new SøknadEntitet.Builder(søknadRepository.hentSøknad(behandling)).leggTilVedlegg(
             new SøknadVedleggEntitet.Builder()
                 .medSkjemanummer(KODE_INNLEGGELSE)

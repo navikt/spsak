@@ -147,7 +147,6 @@ public class PipRepositoryTest {
         repositoryProvider.getSøknadRepository().lagreOgFlush(behandling, new SøknadEntitet.Builder()
             .medSøknadsdato(LocalDate.now())
             .medMottattDato(mottattDato)
-            .medElektroniskRegistrert(true)
             .build());
 
         return behandling;

@@ -490,7 +490,7 @@ public class BehandlingRepositoryImplTest {
         final Søknad søknad = new SøknadEntitet.Builder()
             .medSøknadsdato(LocalDate.now())
             .medMottattDato(mottattDato)
-            .medElektroniskRegistrert(true).build();
+            .build();
         repositoryProvider.getSøknadRepository().lagreOgFlush(behandling, søknad);
 
         return behandling;
