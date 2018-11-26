@@ -10,6 +10,8 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 public interface EnhetsTjeneste {
 
     List<OrganisasjonsEnhet> hentEnhetListe(BehandlingTema behandlingTema);
+    
+    List<OrganisasjonsEnhet> hentEnhetListe();
 
     // Vil undersøke Kode6 for aktør og dennes relasjoner registrert i TPS (ikke foreldre)
     OrganisasjonsEnhet hentEnhetSjekkRegistrerteRelasjoner(AktørId aktørId, BehandlingTema behandlingTema);

@@ -34,7 +34,7 @@ public class SaksbehandlingDokumentmottakTjenesteImplTest {
     private static final Boolean ELEKTRONISK_SØKNAD = Boolean.TRUE;
     private static final String PAYLOAD_XML = "<test></test>";
 
-    private BehandlingTema behandlingTema = BehandlingTema.ENGANGSSTØNAD_FØDSEL;
+    private BehandlingTema behandlingTema = BehandlingTema.SYKEPENGER;
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();

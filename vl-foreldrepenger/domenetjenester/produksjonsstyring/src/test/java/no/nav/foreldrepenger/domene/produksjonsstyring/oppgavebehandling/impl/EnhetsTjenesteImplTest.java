@@ -54,7 +54,7 @@ public class EnhetsTjenesteImplTest {
         // Oppsett
         settOppTpsStrukturer(false);
 
-        OrganisasjonsEnhet enhet = enhetsTjeneste.hentEnhetSjekkRegistrerteRelasjoner(MOR_AKTØR_ID, BehandlingTema.ENGANGSSTØNAD);
+        OrganisasjonsEnhet enhet = enhetsTjeneste.hentEnhetSjekkRegistrerteRelasjoner(MOR_AKTØR_ID, BehandlingTema.SYKEPENGER);
 
         assertThat(enhet).isNotNull();
         assertThat(enhet).isEqualTo(enhetNormal);
@@ -65,7 +65,7 @@ public class EnhetsTjenesteImplTest {
         // Oppsett
         settOppTpsStrukturer(true);
 
-        OrganisasjonsEnhet enhet = enhetsTjeneste.hentEnhetSjekkRegistrerteRelasjoner(MOR_AKTØR_ID, BehandlingTema.ENGANGSSTØNAD);
+        OrganisasjonsEnhet enhet = enhetsTjeneste.hentEnhetSjekkRegistrerteRelasjoner(MOR_AKTØR_ID, BehandlingTema.SYKEPENGER);
 
         assertThat(enhet).isNotNull();
         assertThat(enhet).isEqualTo(enhetKode6);

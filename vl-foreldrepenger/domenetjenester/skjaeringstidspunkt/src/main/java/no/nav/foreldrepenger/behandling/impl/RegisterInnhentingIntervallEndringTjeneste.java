@@ -32,10 +32,7 @@ public class RegisterInnhentingIntervallEndringTjeneste {
         if (bekreftetSkjæringstidspunkt == null) {
             return false;
         }
-        if (ytelseType.gjelderForeldrepenger()) {
-            return vurderEndringIPeriodenForeldrepenger(oppgittSkjæringstidspunkt, bekreftetSkjæringstidspunkt);
-        }
-        throw new IllegalStateException("Ukjent ytelsetype" + ytelseType);
+        return vurderEndringIPeriodenForeldrepenger(oppgittSkjæringstidspunkt, bekreftetSkjæringstidspunkt);
     }
 
     private boolean vurderEndringIPeriodenForeldrepenger(LocalDate oppgittSkjæringstidspunkt, LocalDate bekreftetSkjæringstidspunkt) {

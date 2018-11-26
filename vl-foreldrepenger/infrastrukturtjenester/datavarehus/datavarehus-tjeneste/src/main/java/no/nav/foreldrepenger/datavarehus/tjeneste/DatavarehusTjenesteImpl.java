@@ -24,7 +24,6 @@ import no.nav.foreldrepenger.datavarehus.BehandlingStegDvh;
 import no.nav.foreldrepenger.datavarehus.BehandlingVedtakDvh;
 import no.nav.foreldrepenger.datavarehus.DatavarehusRepository;
 import no.nav.foreldrepenger.datavarehus.FagsakDvh;
-import no.nav.foreldrepenger.domene.typer.AktørId;
 
 @ApplicationScoped
 public class DatavarehusTjenesteImpl implements DatavarehusTjeneste {

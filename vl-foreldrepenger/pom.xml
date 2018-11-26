@@ -374,6 +374,18 @@
 				<version>${project.version}</version>
 				<classifier>jaxb</classifier>
 			</dependency>
+			
+			<!-- 3rd party -->
+			<dependency>
+				<groupId>io.dropwizard.metrics</groupId>
+				<artifactId>metrics-servlets</artifactId>
+				<version>3.2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>io.dropwizard.metrics</groupId>
+				<artifactId>metrics-healthchecks</artifactId>
+				<version>3.2.5</version>
+			</dependency>
 
 			<!-- EKSTRA TEST AVHENGIGHETER FOR LOKAL WEBSERVER -->
 			<!-- NB: Definer scope der det brukes, ikke her. -->

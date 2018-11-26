@@ -167,7 +167,8 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         }
     }
 
-    private void leggTilYtelseInntekter(List<Månedsinntekt> ytelsesTrygdEllerPensjonInntekt, InntektArbeidYtelseAggregatBuilder builder, AktørId aktørId, InntektsKilde inntektOpptjening) {
+    private void leggTilYtelseInntekter(List<Månedsinntekt> ytelsesTrygdEllerPensjonInntekt, InntektArbeidYtelseAggregatBuilder builder, AktørId aktørId,
+                                        InntektsKilde inntektOpptjening) {
         final InntektArbeidYtelseAggregatBuilder.AktørInntektBuilder aktørInntektBuilder = builder.getAktørInntektBuilder(aktørId);
         final AktørInntektEntitet.InntektBuilder inntektBuilderForYtelser = aktørInntektBuilder.getInntektBuilderForYtelser(inntektOpptjening);
         ytelsesTrygdEllerPensjonInntekt.forEach(mi -> lagInntektsposter(mi, inntektBuilderForYtelser));
@@ -195,7 +196,8 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         builder.leggTilAktørArbeid(aktørArbeidBuilder);
     }
 
-    private void leggTilInntekterPåArbeidsforhold(InntektArbeidYtelseAggregatBuilder builder, InntektArbeidYtelseAggregatBuilder.AktørInntektBuilder aktørInntektBuilder,
+    private void leggTilInntekterPåArbeidsforhold(InntektArbeidYtelseAggregatBuilder builder,
+                                                  InntektArbeidYtelseAggregatBuilder.AktørInntektBuilder aktørInntektBuilder,
                                                   Map<YearMonth, BigDecimal> månedsinntekterGruppertPåArbeidsgiver,
                                                   String arbeidsgiverIdentifikator, InntektsKilde inntektOpptjening) {
 
@@ -255,7 +257,8 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         Map<ArbeidsforholdIdentifikator, List<Arbeidsforhold>> arbeidsforhold = innhentingSamletTjeneste.getArbeidsforhold(aktørId, opplysningsPeriode);
         arbeidsforhold.entrySet().forEach(forholdet -> oversettArbeidsforholdTilYrkesaktivitet(builder, forholdet, aktørId, behandling));
 
-        final InntektsInformasjon inntektsInformasjon = innhentingSamletTjeneste.getInntektsInformasjon(aktørId, behandling, opplysningsPeriode, InntektsKilde.INNTEKT_OPPTJENING);
+        final InntektsInformasjon inntektsInformasjon = innhentingSamletTjeneste.getInntektsInformasjon(aktørId, behandling, opplysningsPeriode,
+            InntektsKilde.INNTEKT_OPPTJENING);
         leggTilInntekter(aktørId, builder, inntektsInformasjon);
         inntektsInformasjon.getFrilansArbeidsforhold()
             .entrySet()
@@ -263,11 +266,13 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
     }
 
     private void oversettArbeidsforholdTilYrkesaktivitet(InntektArbeidYtelseAggregatBuilder builder,
-                                                         Map.Entry<ArbeidsforholdIdentifikator, List<Arbeidsforhold>> arbeidsforhold, AktørId aktørId, Behandling behandling) {
+                                                         Map.Entry<ArbeidsforholdIdentifikator, List<Arbeidsforhold>> arbeidsforhold, AktørId aktørId,
+                                                         Behandling behandling) {
         final ArbeidsforholdIdentifikator arbeidsgiverIdent = arbeidsforhold.getKey();
         final Arbeidsgiver arbeidsgiver = mapArbeidsgiver(arbeidsgiverIdent);
         final String arbeidsforholdId = arbeidsgiverIdent.harArbeidsforholdRef() ? arbeidsgiverIdent.getArbeidsforholdId().getReferanse() : null;
-        final ArbeidsforholdRef arbeidsforholdRef = inntektArbeidYtelseTjeneste.finnReferanseFor(behandling, arbeidsgiver, ArbeidsforholdRef.ref(arbeidsforholdId), true);
+        final ArbeidsforholdRef arbeidsforholdRef = inntektArbeidYtelseTjeneste.finnReferanseFor(behandling, arbeidsgiver,
+            ArbeidsforholdRef.ref(arbeidsforholdId), true);
         InntektArbeidYtelseAggregatBuilder.AktørArbeidBuilder aktørArbeidBuilder = builder.getAktørArbeidBuilder(aktørId);
         final Opptjeningsnøkkel nøkkel = mapOpptjeningsnøkkel(arbeidsgiver, arbeidsforholdRef);
         final ArbeidType arbeidsforholdType = kodeverkRepository.finnForKodeverkEiersKode(ArbeidType.class, arbeidsgiverIdent.getType());
@@ -336,7 +341,8 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         } else {
             periode = DatoIntervallEntitet.fraOgMedTilOgMed(arbeidsavtale.getArbeidsavtaleFom(), arbeidsavtale.getArbeidsavtaleTom());
         }
-        YrkesaktivitetEntitet.AktivitetsAvtaleBuilder aktivitetsAvtaleBuilder = yrkesaktivitetBuilder.getAktivitetsAvtaleBuilder(periode, arbeidsavtale.getErAnsettelsesPerioden());
+        YrkesaktivitetEntitet.AktivitetsAvtaleBuilder aktivitetsAvtaleBuilder = yrkesaktivitetBuilder.getAktivitetsAvtaleBuilder(periode,
+            arbeidsavtale.getErAnsettelsesPerioden());
         aktivitetsAvtaleBuilder
             .medProsentsats(arbeidsavtale.getStillingsprosent())
             .medAntallTimer(arbeidsavtale.getBeregnetAntallTimerPrUke())
@@ -358,7 +364,6 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         return yrkesaktivitetBuilder.getAktivitetsAvtaleBuilder(periode, true);
     }
 
-
     private Permisjon opprettPermisjoner(no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.Permisjon permisjon,
                                          YrkesaktivitetBuilder yrkesaktivitetBuilder, LocalDate arbeidsforholdTom) {
         YrkesaktivitetEntitet.PermisjonBuilder permisjonBuilder = yrkesaktivitetBuilder.getPermisjonBuilder();
@@ -366,12 +371,14 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         return permisjonBuilder
             .medProsentsats(permisjon.getPermisjonsprosent())
             .medPeriode(permisjon.getPermisjonFom(), permisjonTom)
-            .medPermisjonsbeskrivelseType(kodeverkRepository.finnForKodeverkEiersKode(PermisjonsbeskrivelseType.class, permisjon.getPermisjonsÅrsak(), PermisjonsbeskrivelseType.UDEFINERT))
+            .medPermisjonsbeskrivelseType(kodeverkRepository.finnForKodeverkEiersKode(PermisjonsbeskrivelseType.class, permisjon.getPermisjonsÅrsak(),
+                PermisjonsbeskrivelseType.UDEFINERT))
             .build();
     }
 
     private AktørInntektEntitet.InntektBuilder byggInntekt(Map<YearMonth, BigDecimal> inntekter, Arbeidsgiver arbeidsgiver,
-                                                           InntektArbeidYtelseAggregatBuilder.AktørInntektBuilder aktørInntektBuilder, InntektsKilde inntektOpptjening) {
+                                                           InntektArbeidYtelseAggregatBuilder.AktørInntektBuilder aktørInntektBuilder,
+                                                           InntektsKilde inntektOpptjening) {
         AktørInntektEntitet.InntektBuilder inntektBuilder = aktørInntektBuilder.getInntektBuilder(inntektOpptjening, new Opptjeningsnøkkel(arbeidsgiver));
 
         inntekter.entrySet()
@@ -411,7 +418,9 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
     }
 
     public void oversettSakGrunnlagTilYtelse(InntektArbeidYtelseAggregatBuilder.AktørYtelseBuilder aktørYtelseBuilder, InfotrygdSakOgGrunnlag ytelse) {
-        YtelseBuilder ytelseBuilder = aktørYtelseBuilder.getYtelselseBuilderForType(Fagsystem.INFOTRYGD, ytelse.getSak().getRelatertYtelseType(), ytelse.getSak().getTemaUnderkategori(), ytelse.getPeriode())
+        YtelseBuilder ytelseBuilder = aktørYtelseBuilder
+            .getYtelselseBuilderForType(Fagsystem.INFOTRYGD, ytelse.getSak().getRelatertYtelseType(), ytelse.getSak().getTemaUnderkategori(),
+                ytelse.getPeriode())
             .medBehandlingsTema(ytelse.getSak().getTemaUnderkategori())
             .medSaksnummer(ytelse.getSaksnummer())
             .medStatus(ytelse.getSak().getRelatertYtelseTilstand())
@@ -419,8 +428,8 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         ytelseBuilder.tilbakestillAnvisteYtelser();
         ytelse.getGrunnlag().ifPresent(grunnlag -> {
             for (YtelseBeregningsgrunnlagVedtak vedtak : grunnlag.getVedtak()) {
-                final DatoIntervallEntitet intervall = vedtak.getTom() == null ? DatoIntervallEntitet.fraOgMed(vedtak.getFom()) :
-                    DatoIntervallEntitet.fraOgMedTilOgMed(vedtak.getFom(), vedtak.getTom());
+                final DatoIntervallEntitet intervall = vedtak.getTom() == null ? DatoIntervallEntitet.fraOgMed(vedtak.getFom())
+                    : DatoIntervallEntitet.fraOgMedTilOgMed(vedtak.getFom(), vedtak.getTom());
                 ytelseBuilder.medYtelseAnvist(ytelseBuilder.getAnvistBuilder()
                     .medAnvistPeriode(intervall)
                     .medUtbetalingsgradProsent(vedtak.getUtbetalingsgrad() != null ? new BigDecimal(vedtak.getUtbetalingsgrad()) : null)
@@ -441,10 +450,13 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         return grunnlagBuilder.build();
     }
 
-    private void oversettMeldekortUtbetalingsgrunnlagTilYtelse(InntektArbeidYtelseAggregatBuilder.AktørYtelseBuilder aktørYtelseBuilder, MeldekortUtbetalingsgrunnlagSak ytelse) {
-        YtelseBuilder ytelseBuilder = aktørYtelseBuilder.getYtelselseBuilderForType(ytelse.getKilde(), ytelse.getYtelseType(), ytelse.getSaksnummer(), ytelse.getVedtaksPeriodeFom());
+    private void oversettMeldekortUtbetalingsgrunnlagTilYtelse(InntektArbeidYtelseAggregatBuilder.AktørYtelseBuilder aktørYtelseBuilder,
+                                                               MeldekortUtbetalingsgrunnlagSak ytelse) {
+        YtelseBuilder ytelseBuilder = aktørYtelseBuilder.getYtelselseBuilderForType(ytelse.getKilde(), ytelse.getYtelseType(), ytelse.getSaksnummer(),
+            ytelse.getVedtaksPeriodeFom());
         ytelseBuilder
-            .medPeriode(ytelse.getVedtaksPeriodeTom() == null ? DatoIntervallEntitet.fraOgMed(ytelse.getVedtaksPeriodeFom()) : DatoIntervallEntitet.fraOgMedTilOgMed(ytelse.getVedtaksPeriodeFom(), ytelse.getVedtaksPeriodeTom()))
+            .medPeriode(ytelse.getVedtaksPeriodeTom() == null ? DatoIntervallEntitet.fraOgMed(ytelse.getVedtaksPeriodeFom())
+                : DatoIntervallEntitet.fraOgMedTilOgMed(ytelse.getVedtaksPeriodeFom(), ytelse.getVedtaksPeriodeTom()))
             .medStatus(ytelse.getYtelseTilstand())
             .medYtelseGrunnlag(ytelseBuilder.getGrunnlagBuilder().medOpprinneligIdentdato(ytelse.getKravMottattDato()).build());
         ytelseBuilder.tilbakestillAnvisteYtelser();
@@ -473,7 +485,8 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
     }
 
     private void oversettRelaterteYtelserFraVedtaksløsning(final AktørId aktørId, Behandling behandling,
-                                                           Interval opplysningsPeriode, InntektArbeidYtelseAggregatBuilder.AktørYtelseBuilder aktørYtelseBuilder,
+                                                           Interval opplysningsPeriode,
+                                                           InntektArbeidYtelseAggregatBuilder.AktørYtelseBuilder aktørYtelseBuilder,
                                                            boolean medDenneFagsaken) {
         final List<Fagsak> fagsakListe = behandlingRepositoryProvider.getFagsakRepository().hentForBruker(aktørId);
 
@@ -486,7 +499,8 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
                 .map(Behandling::getBehandlingsresultat)
                 .map(Behandlingsresultat::getBehandlingVedtak)
                 .filter(behandlingVedtak -> behandlingVedtak.getVedtakResultatType().equals(VedtakResultatType.INNVILGET))
-                .map(behandlingVedtak -> mapFraFagsak(fagsak, aktørYtelseBuilder, behandlingVedtak.getBehandlingsresultat().getBehandling(), opplysningsPeriode))
+                .map(
+                    behandlingVedtak -> mapFraFagsak(fagsak, aktørYtelseBuilder, behandlingVedtak.getBehandlingsresultat().getBehandling(), opplysningsPeriode))
                 .ifPresent(aktørYtelseBuilder::leggTilYtelse);
         }
     }
@@ -516,17 +530,15 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         if (uttakResultat.isPresent()) {
             ytelseBuilder.medPeriode(hentPeriodeFraUttak(uttakResultat.get()));
         } else {
-            ytelseBuilder.medPeriode(DatoIntervallEntitet.
-                fraOgMedTilOgMed(behandling.getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato(), behandling.getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato()));
+            ytelseBuilder.medPeriode(DatoIntervallEntitet.fraOgMedTilOgMed(behandling.getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato(),
+                behandling.getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato()));
         }
-        //Sjekker om perioden for uttak faktisk er utenfor innhentingsintervalet
+        // Sjekker om perioden for uttak faktisk er utenfor innhentingsintervalet
         if (!periodeFraRelaterteYtelserSøkesIVL.overlaps(IntervallUtil.tilIntervall(ytelseBuilder.getPeriode().getTomDato()))) {
             return null;
         }
         mapFraUttakTilYtelseAnvist(behandling, ytelseBuilder);
-        if (fagsak.getYtelseType().gjelderForeldrepenger()) {
-            mapFraBeregning(behandling, ytelseBuilder);
-        }
+        mapFraBeregning(behandling, ytelseBuilder);
         return ytelseBuilder;
     }
 
@@ -589,9 +601,12 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
     }
 
     private DatoIntervallEntitet hentPeriodeFraUttak(UttakResultatEntitet uttakResultatPlan) {
-        final LocalDate tom = uttakResultatPlan.getGjeldendePerioder().getPerioder().stream().filter(p -> PeriodeResultatType.INNVILGET.equals(p.getPeriodeResultatType()))
+        final LocalDate tom = uttakResultatPlan.getGjeldendePerioder().getPerioder().stream()
+            .filter(p -> PeriodeResultatType.INNVILGET.equals(p.getPeriodeResultatType()))
             .max(Comparator.comparing(UttakResultatPeriodeEntitet::getTom)).get().getTom();
-        return DatoIntervallEntitet.fraOgMedTilOgMed(uttakResultatPlan.getGjeldendePerioder().getPerioder().stream().filter(p -> PeriodeResultatType.INNVILGET.equals(p.getPeriodeResultatType()))
-            .min(Comparator.comparing(UttakResultatPeriodeEntitet::getFom)).get().getFom(), tom);
+        return DatoIntervallEntitet.fraOgMedTilOgMed(
+            uttakResultatPlan.getGjeldendePerioder().getPerioder().stream().filter(p -> PeriodeResultatType.INNVILGET.equals(p.getPeriodeResultatType()))
+                .min(Comparator.comparing(UttakResultatPeriodeEntitet::getFom)).get().getFom(),
+            tom);
     }
 }

@@ -189,18 +189,8 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
     }
 
     private BehandlingTema utledBehandlingTema(DokumentTypeId dokumentTypeId) {
-        final BehandlingTema behandlingTemaKonst;
-        if (dokumentTypeId.equals(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL)) {
-            behandlingTemaKonst = BehandlingTema.ENGANGSSTØNAD_FØDSEL;
-        } else if (dokumentTypeId.equals(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_ADOPSJON)) {
-            behandlingTemaKonst = BehandlingTema.ENGANGSSTØNAD_ADOPSJON;
-        } else if (dokumentTypeId.equals(DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL)) {
-            behandlingTemaKonst = BehandlingTema.FORELDREPENGER_FØDSEL;
-        } else if (dokumentTypeId.equals(DokumentTypeId.SØKNAD_FORELDREPENGER_ADOPSJON)) {
-            behandlingTemaKonst = BehandlingTema.FORELDREPENGER_ADOPSJON;
-        } else {
-            behandlingTemaKonst = BehandlingTema.UDEFINERT;
-        }
+        // FIXME SP : Finnes logikk for å avlede behandlingtema for sykepenger?
+        final BehandlingTema behandlingTemaKonst = BehandlingTema.SYKEPENGER;
         return kodeverkRepository.finn(BehandlingTema.class, behandlingTemaKonst);
     }
 

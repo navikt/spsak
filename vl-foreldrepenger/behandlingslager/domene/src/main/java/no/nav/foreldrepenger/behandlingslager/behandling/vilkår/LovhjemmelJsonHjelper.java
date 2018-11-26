@@ -20,9 +20,7 @@ public class LovhjemmelJsonHjelper {
     public static String findLovhjemmelIJson(FagsakYtelseType fagsakYtelseType, String ekstraData, String kodeverk, String kode) {
         JsonNode ekstraDataJsonNode = getEkstraDataAsJsonNode(ekstraData, kodeverk, kode);
         List<JsonNode> referanser = Collections.emptyList();
-        if (fagsakYtelseType.gjelderForeldrepenger()) {
-            referanser = ekstraDataJsonNode.findValue("FP").findValues("lovreferanse");
-        }
+        referanser = ekstraDataJsonNode.findValue(fagsakYtelseType.getKode()).findValues("lovreferanse");
         return referanser.stream()
             .map(JsonNode::asText)
             .flatMap(s -> Arrays.stream(s.split(","))).distinct().collect(Collectors.joining("\n"));

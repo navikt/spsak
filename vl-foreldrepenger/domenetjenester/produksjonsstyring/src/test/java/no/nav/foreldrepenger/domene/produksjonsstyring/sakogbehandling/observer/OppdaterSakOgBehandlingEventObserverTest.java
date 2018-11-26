@@ -1,18 +1,13 @@
 package no.nav.foreldrepenger.domene.produksjonsstyring.sakogbehandling.observer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.MetricRegistry;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStatusEvent;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStatusEvent.BehandlingAvsluttetEvent;
@@ -44,22 +39,16 @@ public class OppdaterSakOgBehandlingEventObserverTest {
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
 
     private ProsessTaskRepository prosessTaskRepositoryMock;
-    private MetricRegistry metricRegistryMock;
     private KodeverkRepository kodeverkRepository;
-    private Meter meterMock;
 
     @Before
     public void setup() {
 
         prosessTaskRepositoryMock = mock(ProsessTaskRepository.class);
 
-        metricRegistryMock = mock(MetricRegistry.class);
-        meterMock = mock(Meter.class);
-        when(metricRegistryMock.meter(any(String.class))).thenReturn(meterMock);
-
         kodeverkRepository = KodeverkTestHelper.getKodeverkRepository();
 
-        observer = new OppdaterSakOgBehandlingEventObserver(repositoryProvider, prosessTaskRepositoryMock, metricRegistryMock);
+        observer = new OppdaterSakOgBehandlingEventObserver(repositoryProvider, prosessTaskRepositoryMock);
     }
 
     @Test
@@ -81,7 +70,6 @@ public class OppdaterSakOgBehandlingEventObserverTest {
         ProsessTaskData prosessTaskData = captor.getValue();
         verifiserProsessTaskData(scenario, prosessTaskData, BehandlingStatus.OPPRETTET.getKode());
 
-        verify(meterMock).mark();
     }
 
     @Test
@@ -121,7 +109,7 @@ public class OppdaterSakOgBehandlingEventObserverTest {
         assertThat(prosessTaskData.getPropertyValue(SakOgBehandlingTask.BEHANDLINGS_TYPE_KODE_KEY))
             .isEqualTo(scenario.getBehandling().getType().getOffisiellKode());
         assertThat(prosessTaskData.getPropertyValue(SakOgBehandlingTask.BEHANDLINGSTEMAKODE))
-            .isEqualTo(kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.FORELDREPENGER.getKode()).getOffisiellKode());
+            .isEqualTo(kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.SYKEPENGER.getKode()).getOffisiellKode());
         assertThat(prosessTaskData.getPropertyValue(SakOgBehandlingTask.BEHANDLING_STATUS_KEY)).isEqualTo(behandlingStatusKode);
     }
 

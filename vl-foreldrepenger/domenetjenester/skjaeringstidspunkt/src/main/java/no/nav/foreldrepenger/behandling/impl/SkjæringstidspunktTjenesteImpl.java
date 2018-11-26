@@ -60,10 +60,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Override
     public LocalDate utledSkjæringstidspunktForForeldrepenger(Behandling behandling) {
-        if (!behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
-            throw SkjæringstidspunktFeil.FACTORY.ikkeForeldrepengerSak(behandling).toException();
-        }
-
         final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling);
         if (opptjening.isPresent()) {
             return opptjening.get().getTom().plusDays(1);
@@ -74,10 +70,7 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Override
     public LocalDate utledSkjæringstidspunktForRegisterInnhenting(Behandling behandling) {
-        if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
-            return utledSkjæringstidspunktForRegisterinnhentingSP(behandling);
-        }
-        throw new IllegalStateException("Ukjent ytelse type.");
+        return utledSkjæringstidspunktForRegisterinnhentingSP(behandling);
     }
 
     private LocalDate utledSkjæringstidspunktForRegisterinnhentingSP(Behandling behandling) {
@@ -92,7 +85,8 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
                 // FIXME SP: Trengs noe annet enn feilhåndtering her? foreldrepenger utleder fra fordeling
                 throw SkjæringstidspunktFeil.FACTORY.finnerIkkeSkjæringstidspunktForForeldrepenger(behandling).toException();
             } else {
-                final LocalDate skjæringstidspunkt = utledTidligste(førsteSykefraværsdagIBehandlingen.orElse(Tid.TIDENES_ENDE), førsteSykedagIForrigeVedtak.orElse(Tid.TIDENES_ENDE));
+                final LocalDate skjæringstidspunkt = utledTidligste(førsteSykefraværsdagIBehandlingen.orElse(Tid.TIDENES_ENDE),
+                    førsteSykedagIForrigeVedtak.orElse(Tid.TIDENES_ENDE));
                 if (skjæringstidspunkt.equals(Tid.TIDENES_ENDE)) {
                     // Fant da ikke noe skjæringstidspunkt i tidligere vedtak heller.
                     throw SkjæringstidspunktFeil.FACTORY.finnerIkkeSkjæringstidspunktForForeldrepenger(behandling).toException();
@@ -104,7 +98,8 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
                 // Har ikke grunnlag for å avgjøre skjæringstidspunkt enda så gir midlertidig dagens dato. for at DTOer skal fungere.
                 return førsteSykefraværsdagIBehandlingen.orElse(LocalDate.now(FPDateUtil.getOffset()));
             }
-            return førsteSykefraværsdagIBehandlingen.orElseThrow(() -> SkjæringstidspunktFeil.FACTORY.finnerIkkeSkjæringstidspunktForForeldrepenger(behandling).toException());
+            return førsteSykefraværsdagIBehandlingen
+                .orElseThrow(() -> SkjæringstidspunktFeil.FACTORY.finnerIkkeSkjæringstidspunktForForeldrepenger(behandling).toException());
         }
     }
 
@@ -146,10 +141,7 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Override
     public LocalDate utledSkjæringstidspunktFor(Behandling behandling) {
-        if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
-            return utledSkjæringstidspunktForForeldrepenger(behandling);
-        }
-        throw new IllegalStateException("Ukjent ytelse type.");
+        return utledSkjæringstidspunktForForeldrepenger(behandling);
     }
 
     private Behandling originalBehandling(Behandling behandling) {

@@ -84,7 +84,7 @@ public class HåndterMottattDokumentTaskTest {
 
         Long dokumentId = mottatteDokumentTjeneste.lagreMottattDokumentPåFagsak(FAGSAK_ID, mottattDokument);
 
-        final BehandlingTema behandlingTema = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.ENGANGSSTØNAD_FØDSEL);
+        final BehandlingTema behandlingTema = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.SYKEPENGER);
         ProsessTaskData prosessTask = new ProsessTaskData(HåndterMottattDokumentTaskProperties.TASKTYPE);
         prosessTask.setFagsakId(FAGSAK_ID);
         prosessTask.setProperty(HåndterMottattDokumentTaskProperties.MOTTATT_DOKUMENT_ID_KEY, dokumentId.toString());

@@ -36,7 +36,7 @@ public class ArbeidsfordelingTjenesteImplTest {
     private static final String DISKRESJONSKODE = "UFB";
     private static final String KODE6_DISKRESJON = "SPSF";
     private static final String KODE6_ENHET = "2103";
-    private static final BehandlingTema BEHANDLING_TEMA = BehandlingTema.ENGANGSSTØNAD_FØDSEL;
+    private static final BehandlingTema BEHANDLING_TEMA = BehandlingTema.SYKEPENGER;
 
     private ArbeidsfordelingConsumer consumer = mock(ArbeidsfordelingConsumer.class);
     private ArbeidsfordelingTjeneste tjeneste = new ArbeidsfordelingTjenesteImpl(consumer);

@@ -12,7 +12,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapManuellVurderingType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
@@ -68,9 +67,8 @@ class HentKodeverkTjenesteImpl implements HentKodeverkTjeneste {
     @Override
     public List<OrganisasjonsEnhet> hentBehandlendeEnheter() {
         final String statusAktiv = Enhetsstatus.AKTIV.name();
-        final BehandlingTema behandlingTema = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.ENGANGSSTØNAD_FØDSEL);
 
-        List<OrganisasjonsEnhet> orgEnhetsListe = enhetsTjeneste.hentEnhetListe(behandlingTema);
+        List<OrganisasjonsEnhet> orgEnhetsListe = enhetsTjeneste.hentEnhetListe();
 
         return orgEnhetsListe.stream()
             .filter(organisasjonsEnhet -> statusAktiv.equals(organisasjonsEnhet.getStatus()))

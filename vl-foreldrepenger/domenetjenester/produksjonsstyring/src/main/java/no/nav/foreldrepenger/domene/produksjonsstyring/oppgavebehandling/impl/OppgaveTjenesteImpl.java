@@ -331,9 +331,9 @@ public class OppgaveTjenesteImpl implements OppgaveTjeneste {
 
         OpprettOppgaveRequest.Builder builder = OpprettOppgaveRequest.builder();
 
-        if (fagsak.getYtelseType().gjelderForeldrepenger()) {
-            builder = builder.medUnderkategoriKode(FP_UNDERKATEGORI);
-        }
+        // FIXME SP : finnes tilsvarender kategorier her?
+        // builder = builder.medUnderkategoriKode(FP_UNDERKATEGORI); 
+        
         return builder
             .medOpprettetAvEnhetId(Integer.parseInt(enhetsId))
             .medAnsvarligEnhetId(enhetsId)

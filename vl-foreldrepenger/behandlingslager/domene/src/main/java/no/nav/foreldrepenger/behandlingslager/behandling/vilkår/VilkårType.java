@@ -49,9 +49,7 @@ public class VilkårType extends Kodeliste {
 
     public String getLovReferanse(FagsakYtelseType fagsakYtelseType) {
         if (lovReferanse == null) {
-            if(fagsakYtelseType.gjelderForeldrepenger()) {
-                lovReferanse = getJsonField("fagsakYtelseType","FP","lovreferanse"); //$NON-NLS-1$
-            }
+            lovReferanse = getJsonField("fagsakYtelseType", fagsakYtelseType.getKode(), "lovreferanse"); //$NON-NLS-1$
         }
         return lovReferanse;
     }

@@ -33,9 +33,7 @@ public class PeriodeResultatÅrsak extends Kodeliste {
 
     public Optional<String> getLovReferanse(FagsakYtelseType fagsakYtelseType) {
         if (lovReferanse == null) {
-            if (fagsakYtelseType.gjelderForeldrepenger()) {
-                lovReferanse = getJsonField("fagsakYtelseType", "FP", "lovreferanse"); //$NON-NLS-1$
-            }
+            lovReferanse = getJsonField("fagsakYtelseType", fagsakYtelseType.getKode(), "lovreferanse"); //$NON-NLS-1$
         }
         return Optional.ofNullable(lovReferanse);
     }

@@ -4,8 +4,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import com.codahale.metrics.MetricRegistry;
-
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStatusEvent;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStatusEvent.BehandlingAvsluttetEvent;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStatusEvent.BehandlingOpprettetEvent;
@@ -15,7 +13,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.produksjonsstyring.sakogbehandling.task.SakOgBehandlingTask;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
@@ -31,18 +28,15 @@ public class OppdaterSakOgBehandlingEventObserver {
     private BehandlingRepository behandlingRepository;
     private ProsessTaskRepository prosessTaskRepository;
     private KodeverkRepository kodeverkRepository;
-    private MetricRegistry metricRegistry;
 
     static final String FORELDREPENGER_SAKSTEMA = "FOR";
 
     @Inject
     public OppdaterSakOgBehandlingEventObserver(BehandlingRepositoryProvider repositoryProvider,
-                                                ProsessTaskRepository prosessTaskRepository,
-                                                MetricRegistry metricRegistry) {
+                                                ProsessTaskRepository prosessTaskRepository) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.prosessTaskRepository = prosessTaskRepository;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
-        this.metricRegistry = metricRegistry;
     }
 
     public void observerBehandlingStatus(@Observes BehandlingAvsluttetEvent event) {
@@ -62,22 +56,12 @@ public class OppdaterSakOgBehandlingEventObserver {
 
         BehandlingskontrollKontekst kontekst = event.getKontekst();
         Behandling behandling = behandlingRepository.hentBehandling(kontekst.getBehandlingId());
-        Fagsak fagsak = behandling.getFagsak();
 
         sendMeldingTilSakOgBehandling(behandling, nyStatus);
-
-        if (BehandlingStatus.OPPRETTET.equals(nyStatus)) {
-            BehandlingTema behandlingTema = kodeverkRepository.finn(BehandlingTema.class, getBehandlingsTemaForFagsak(fagsak));
-            String key = "fpsak." + (behandlingTema.getOffisiellKode() != null ? behandlingTema.getOffisiellKode() : "udefinert" ) + ".ny.behandling";
-            metricRegistry.meter(key).mark();
-        }
     }
 
     private void sendMeldingTilSakOgBehandling(Behandling behandling, BehandlingStatus nyStatus) {
         BehandlingTema behandlingTema = kodeverkRepository.finn(BehandlingTema.class, behandlingTemaFraBehandling(behandling));
-        if (behandlingTema.equals(BehandlingTema.UDEFINERT)) {
-            throw new IllegalStateException("Utviklerfeil: Finner ikke behandlingstema for fagsak");
-        }
 
         ProsessTaskData prosessTaskData = new ProsessTaskData(SakOgBehandlingTask.TASKNAME);
         prosessTaskData.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());
@@ -90,10 +74,6 @@ public class OppdaterSakOgBehandlingEventObserver {
 
         prosessTaskData.setCallIdFraEksisterende();
         prosessTaskRepository.lagre(prosessTaskData);
-    }
-
-    private BehandlingTema getBehandlingsTemaForFagsak(Fagsak s) {
-        return BehandlingTema.fraFagsak(s);
     }
 
     private BehandlingTema behandlingTemaFraBehandling(Behandling sisteBehandling) {

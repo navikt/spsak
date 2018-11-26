@@ -107,8 +107,7 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
     }
 
     private boolean gjelderFPOgVedtakResultatInnvilget(Behandling behandling, BehandlingVedtak vedtak) {
-        return behandling.getFagsakYtelseType().gjelderForeldrepenger()
-            && vedtak.getVedtakResultatType() != null && vedtak.getVedtakResultatType().equals(VedtakResultatType.INNVILGET);
+        return vedtak.getVedtakResultatType() != null && vedtak.getVedtakResultatType().equals(VedtakResultatType.INNVILGET);
     }
 
     void opprettIverksettingstasker(Behandling behandling) {

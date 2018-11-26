@@ -42,6 +42,12 @@ public class EnhetsTjenesteImpl implements EnhetsTjeneste {
 
 
     @Override
+    public List<OrganisasjonsEnhet> hentEnhetListe() {
+        oppdaterEnhetCache();
+        return alleBehandlendeEnheter;
+    }
+    
+    @Override
     public List<OrganisasjonsEnhet> hentEnhetListe(BehandlingTema behandlingTema) {
         oppdaterEnhetCache();
         return alleBehandlendeEnheter;
@@ -101,8 +107,10 @@ public class EnhetsTjenesteImpl implements EnhetsTjeneste {
 
     private void oppdaterEnhetCache() {
         if (sisteInnhenting.isBefore(LocalDate.now(FPDateUtil.getOffset()))) {
-            enhetKode6 = arbeidsfordelingTjeneste.hentEnhetForDiskresjonskode(Diskresjonskode.KODE6.getKode(), BehandlingTema.UDEFINERT);
-            alleBehandlendeEnheter = arbeidsfordelingTjeneste.finnAlleBehandlendeEnhetListe(BehandlingTema.UDEFINERT);
+            BehandlingTema behandlingTema = BehandlingTema.UDEFINERT;
+            
+            enhetKode6 = arbeidsfordelingTjeneste.hentEnhetForDiskresjonskode(Diskresjonskode.KODE6.getKode(), behandlingTema);
+            alleBehandlendeEnheter = arbeidsfordelingTjeneste.finnAlleBehandlendeEnhetListe(behandlingTema);
             sisteInnhenting = LocalDate.now(FPDateUtil.getOffset());
         }
     }

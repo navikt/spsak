@@ -186,7 +186,7 @@ public class OpprettNyFørstegangsbehandlingTest {
 
     //Verifiserer at den opprettede prosesstasken stemmer overens med MottattDokument-mock
     private void verifiserProsessTaskData(Behandling behandling, ProsessTaskData prosessTaskData) {
-        final BehandlingTema behandlingTemaFødsel = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.ENGANGSSTØNAD_FØDSEL);
+        final BehandlingTema behandlingTemaFødsel = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.SYKEPENGER);
 
         assertThat(prosessTaskData.getTaskType()).isEqualTo(HåndterMottattDokumentTaskProperties.TASKTYPE);
         assertThat(prosessTaskData.getFagsakId()).isEqualTo(behandling.getFagsakId());

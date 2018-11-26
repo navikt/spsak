@@ -37,10 +37,7 @@ public class OpplysningsPeriodeTjenesteImpl implements no.nav.foreldrepenger.beh
     @Override
     public Interval beregn(Behandling behandling) {
         final LocalDate skjæringstidspunkt = skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(behandling);
-        if (behandling.getFagsakYtelseType().gjelderForeldrepenger()) {
-            return beregnIntervalFP(skjæringstidspunkt);
-        }
-        throw SkjæringstidspunktFeil.FACTORY.kanIkkeUtledeOpplysningsperiodeForBehandling(behandling).toException();
+        return beregnIntervalFP(skjæringstidspunkt);
     }
 
     private Interval beregnIntervalFP(LocalDate skjæringstidspunkt) {
