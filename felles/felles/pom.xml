@@ -40,8 +40,6 @@
 		<jms-api.version>2.0.1</jms-api.version>
 		
 		<logback.version>1.2.3</logback.version>
-		<metrics.version>3.2.5</metrics.version>
-		<metrics.cdi.version>1.4.0</metrics.cdi.version>
 		<resteasy.version>3.6.1.SP2</resteasy.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<swagger.version>1.5.13</swagger.version>
@@ -179,33 +177,6 @@
 				<artifactId>nav-fim-virgo-v2-tjenestespesifikasjon</artifactId>
 				<version>${nav.fim.virgo.v2.version}</version>
 				<classifier>jaxws</classifier>
-			</dependency>
-
-			<!-- Metrics -->
-			<dependency>
-				<groupId>io.dropwizard.metrics</groupId>
-				<artifactId>metrics-core</artifactId>
-				<version>${metrics.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.dropwizard.metrics</groupId>
-				<artifactId>metrics-servlets</artifactId>
-				<version>${metrics.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.astefanutti.metrics.cdi</groupId>
-				<artifactId>metrics-cdi</artifactId>
-				<version>${metrics.cdi.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.dropwizard.metrics</groupId>
-				<artifactId>metrics-healthchecks</artifactId>
-				<version>${metrics.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.dropwizard.metrics</groupId>
-				<artifactId>metrics-annotation</artifactId>
-				<version>${metrics.version}</version>
 			</dependency>
 
 			<!-- Logging -->

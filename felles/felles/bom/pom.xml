@@ -34,15 +34,5 @@
             <artifactId>felles-sikkerhet</artifactId>
         </dependency>
 
-        <!-- 3dje part, ikke legg inn her uten å avklare med ansvarlig arkitekt! -->
-        <dependency>
-            <groupId>io.astefanutti.metrics.cdi</groupId>
-            <artifactId>metrics-cdi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
-        </dependency>
-
     </dependencies>
 </project>

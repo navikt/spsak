@@ -1,13 +1,6 @@
 package no.nav.vedtak.felles.prosesstask.impl;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.SlidingTimeWindowReservoir;
-import com.codahale.metrics.Timer;
 
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskHandler;
@@ -25,14 +18,7 @@ import no.nav.vedtak.util.MdcExtendedLogContext;
 public class AuthenticatedCdiProsessTaskDispatcher extends BasicCdiProsessTaskDispatcher {
     private static final MdcExtendedLogContext LOG_CONTEXT = MdcExtendedLogContext.getContext("prosess"); //$NON-NLS-1$
 
-    private MetricRegistry metrics;
-
     public AuthenticatedCdiProsessTaskDispatcher() {
-    }
-
-    @Inject
-    public AuthenticatedCdiProsessTaskDispatcher(MetricRegistry metrics) {
-        this.metrics = metrics;
     }
 
     @Override
@@ -45,12 +31,8 @@ public class AuthenticatedCdiProsessTaskDispatcher extends BasicCdiProsessTaskDi
                 LOG_CONTEXT.add("behandling", task.getBehandlingId()); // NOSONAR //$NON-NLS-1$
             }
 
-            MetricRegistry.MetricSupplier<Timer> metricSupplier = () -> new Timer(new SlidingTimeWindowReservoir(1, TimeUnit.DAYS));
-            String name = "fpsak.task.tid." + task.getTaskType(); //$NON-NLS-1$
-            try (Timer.Context ignored = metrics.timer(name, metricSupplier).time()) {
-                prosessTaskHandler.doTask(task);
-                sporingslogg(task);
-            }
+            prosessTaskHandler.doTask(task);
+            sporingslogg(task);
 
             // renser ikke LOG_CONTEXT her. tar alt i RunTask slik at vi kan logge exceptions også
         }

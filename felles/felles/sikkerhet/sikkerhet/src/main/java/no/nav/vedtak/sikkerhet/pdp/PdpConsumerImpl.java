@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
-import java.util.concurrent.TimeUnit;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
@@ -37,11 +35,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.SlidingTimeWindowReservoir;
-import com.codahale.metrics.Timer;
-
-import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.sikkerhet.pdp.feil.PdpFeil;
 import no.nav.vedtak.sikkerhet.pdp.xacml.XacmlRequestBuilder;
 import no.nav.vedtak.sikkerhet.pdp.xacml.XacmlResponseWrapper;
@@ -59,13 +52,8 @@ public class PdpConsumerImpl implements PdpConsumer {
     private final CloseableHttpClient httpclient;
     private HttpClientContext localContext;
     private HttpHost target;
-    private MetricRegistry metricRegistry;
-    private final String metricKey;
 
-    @Inject
-    public PdpConsumerImpl(MetricRegistry metricRegistry, @KonfigVerdi("application.name") String applicationName) {
-        this.metricRegistry = metricRegistry;
-        this.metricKey = String.format("%s.%s", applicationName, "pdp.forespor.tilgang");
+    public PdpConsumerImpl() {
         @SuppressWarnings("resource")
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(MAX_TOTAL_CONNECTIONS);
@@ -75,7 +63,7 @@ public class PdpConsumerImpl implements PdpConsumer {
             .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
             .setAuthenticationEnabled(true)
             .build();
-        
+
         // FIXME: Hvorfor injectes ikke disse propertyene også?
         String brukernavn = getSystemProperty(SYSTEMBRUKER_USERNAME);
         String passord = getSystemProperty(SYSTEMBRUKER_PASSWORD);
@@ -101,11 +89,7 @@ public class PdpConsumerImpl implements PdpConsumer {
 
     @Override
     public XacmlResponseWrapper evaluate(XacmlRequestBuilder request) {
-        MetricRegistry.MetricSupplier<Timer> metricSupplier = () -> new Timer(new SlidingTimeWindowReservoir(10, TimeUnit.MINUTES));
-
-        try (Timer.Context ignored = metricRegistry.timer(metricKey, metricSupplier).time()) {
-            return execute(request);
-        }
+        return execute(request);
     }
 
     private XacmlResponseWrapper execute(XacmlRequestBuilder request) {

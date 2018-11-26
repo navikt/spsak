@@ -1,5 +1,6 @@
 package no.nav.vedtak.felles.prosesstask.impl;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -48,6 +49,7 @@ public class ProsessTaskHendelseMottakImpl implements ProsessTaskHendelseMottak 
             throw new IllegalStateException("Uventet hendelse " + hendelse + " mottatt, venter hendelse " + venterHendelse.get());
         }
         task.setStatus(ProsessTaskStatus.KLAR);
+        task.setNesteKjøringEtter(LocalDateTime.now());
         log.info("Behandler hendelse {} i task {}, behandling id {}", hendelse, taskId, task.getBehandlingId()); //$NON-NLS-1$
         repository.lagre(task);
     }

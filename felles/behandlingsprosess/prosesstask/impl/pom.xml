@@ -46,11 +46,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.dropwizard.metrics</groupId>
-			<artifactId>metrics-core</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>ca.szc.thirdparty.nl.jworks.markdown_to_asciidoc</groupId>
 			<artifactId>markdown_to_asciidoc</artifactId>
 		</dependency>
