@@ -41,9 +41,6 @@ public class FagsakDvh extends DvhBaseEntitet {
     @Column(name = "FAGSAK_YTELSE", nullable = true)
     private String fagsakYtelse;
 
-    @Column(name = "FAGSAK_AARSAK", nullable = true)
-    private String fagsakAarsak;
-
     FagsakDvh() {
         // hibernate
     }
@@ -80,10 +77,6 @@ public class FagsakDvh extends DvhBaseEntitet {
         return fagsakYtelse;
     }
 
-    public String getFagsakAarsak() {
-        return fagsakAarsak;
-    }
-
     @Override
     public boolean equals(final Object other) {
         if (this == other) {
@@ -102,14 +95,13 @@ public class FagsakDvh extends DvhBaseEntitet {
                 && Objects.equals(opprettetDato, castOther.opprettetDato)
                 && Objects.equals(saksnummer, castOther.saksnummer)
                 && Objects.equals(fagsakStatus, castOther.fagsakStatus)
-                && Objects.equals(fagsakYtelse, castOther.fagsakYtelse)
-                && Objects.equals(fagsakAarsak, castOther.fagsakAarsak);
+                && Objects.equals(fagsakYtelse, castOther.fagsakYtelse);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), fagsakId, brukerId, brukerAktørId, opprettetDato, saksnummer, fagsakStatus,
-                fagsakYtelse, fagsakAarsak);
+                fagsakYtelse);
     }
 
     public static Builder builder() {
@@ -124,7 +116,6 @@ public class FagsakDvh extends DvhBaseEntitet {
         private Long saksnummer;
         private String fagsakStatus;
         private String fagsakYtelse;
-        private String fagsakAarsak;
         private LocalDateTime funksjonellTid;
         private String endretAv;
 
@@ -172,11 +163,6 @@ public class FagsakDvh extends DvhBaseEntitet {
             return this;
         }
 
-        public Builder fagsakAarsak(String fagsakAarsak) {
-            this.fagsakAarsak = fagsakAarsak;
-            return this;
-        }
-
         public Builder funksjonellTid(LocalDateTime funksjonellTid) {
             this.funksjonellTid = funksjonellTid;
             return this;
@@ -196,7 +182,6 @@ public class FagsakDvh extends DvhBaseEntitet {
             fagsakDvh.saksnummer = saksnummer;
             fagsakDvh.fagsakStatus = fagsakStatus;
             fagsakDvh.fagsakYtelse = fagsakYtelse;
-            fagsakDvh.fagsakAarsak = fagsakAarsak;
             fagsakDvh.setFunksjonellTid(funksjonellTid);
             fagsakDvh.setEndretAv(endretAv);
             return fagsakDvh;

@@ -109,7 +109,6 @@ public class DatavarehusTestUtils {
                 .brukerId(BRUKER_ID)
                 .brukerAktørId(BRUKER_AKTØR_ID)
                 .endretAv(ENDRET_AV)
-                .fagsakAarsak(FAGSAK_AARSAK)
                 .fagsakId(FAGSAK_ID)
                 .fagsakStatus(FAGSAK_STATUS)
                 .fagsakYtelse(FAGSAK_YTELSE)
