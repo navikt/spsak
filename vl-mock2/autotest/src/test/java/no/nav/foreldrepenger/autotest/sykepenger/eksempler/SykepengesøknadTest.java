@@ -1,7 +1,9 @@
 package no.nav.foreldrepenger.autotest.sykepenger.eksempler;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,7 +12,10 @@ import org.junit.jupiter.api.Tag;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import no.nav.foreldrepenger.autotest.aktoerer.Aktoer;
 import no.nav.foreldrepenger.autotest.sykepenger.SpsakTestBase;
+import no.nav.foreldrepenger.autotest.sykepenger.modell.InntektsmeldingWrapper;
+import no.nav.foreldrepenger.autotest.sykepenger.modell.SykepengesøknadWrapper;
 import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.EgenmeldingPeriode;
 import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.FraværType;
 import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.FraværsPeriode;
@@ -51,11 +56,28 @@ class SykepengesøknadTest extends SpsakTestBase {
         søknad.setAndreInntektskilder(null);
 
         ObjectMapper mapper = new JsonMapper().lagObjectMapper();
-        String json = mapper.writeValueAsString(søknad);
+        String søknadJson = mapper.writeValueAsString(søknad);
 
-        System.out.println(json);
+        System.out.println(søknadJson);
 
-        new LocalKafkaProducer().sendSynkront("sykepengesoeknad", testscenario.getPersonopplysninger().getSøkerAktørIdent(), json);
+        final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
+        final String journalpostId = "" + lagFalskJournalpostId();
+        fordel.erLoggetInnMedRolle(Aktoer.Rolle.SAKSBEHANDLER);
+        // ikkeAndreVeien fordi journalpostId er "fake"
+        final Long saksnummer = fordel.opprettSakKnyttetTilJournalpostMenIkkeAndreVeien(journalpostId, "ab0061", aktørId);
+
+        var sykepengesøknadWrapper = new SykepengesøknadWrapper(journalpostId, aktørId, saksnummer,
+                Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))));
+
+        System.out.println(new JsonMapper().lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
+
+        new LocalKafkaProducer().sendSynkront("sykepengesoeknad",
+                testscenario.getPersonopplysninger().getSøkerAktørIdent(),
+                new JsonMapper().lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
+    }
+
+    private long lagFalskJournalpostId() {
+        return System.currentTimeMillis() / 1000 - 1000000000;
     }
 
 }

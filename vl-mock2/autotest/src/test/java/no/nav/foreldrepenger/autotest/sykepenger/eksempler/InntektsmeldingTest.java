@@ -49,7 +49,7 @@ public class InntektsmeldingTest extends SpsakTestBase {
         final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
         fordel.erLoggetInnMedRolle(Rolle.SAKSBEHANDLER);
         final String journalpostId = fordel.journalførInntektsmeldingUtenSaksnummer(inntektsmelding, testscenario);
-        final Long saksnummer = fordel.opprettSakKnyttetTilJournalpost(journalpostId, "ab0047", aktørId);
+        final Long saksnummer = fordel.opprettSakKnyttetTilJournalpost(journalpostId, "ab0061", aktørId);
 
         var inntektsmeldingWrapper = new InntektsmeldingWrapper(journalpostId, aktørId, saksnummer,
                 Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))));

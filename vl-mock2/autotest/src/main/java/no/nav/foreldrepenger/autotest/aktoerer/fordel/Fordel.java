@@ -174,6 +174,13 @@ public class Fordel extends Aktoer {
         return saksnummer;
     }
 
+    public Long opprettSakKnyttetTilJournalpostMenIkkeAndreVeien(String journalpostId, String behandlingstemaOffisiellKode, String aktørId) throws IOException {
+        OpprettSak journalpost = new OpprettSak(journalpostId, behandlingstemaOffisiellKode, aktørId);
+        Long saksnummer = fordelKlient.fagsakOpprett(journalpost).saksnummer;
+        return saksnummer;
+    }
+
+
     /*
      * Sender inn journalpost og returnerer saksnummer
      */
