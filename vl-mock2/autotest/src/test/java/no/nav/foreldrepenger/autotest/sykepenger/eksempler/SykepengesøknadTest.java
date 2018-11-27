@@ -18,6 +18,7 @@ import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.Korrige
 import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.Sykepengesøknad;
 import no.nav.foreldrepenger.fpmock2.server.api.scenario.TestscenarioDto;
 import no.nav.foreldrepenger.fpmock2.testmodell.util.JsonMapper;
+import no.nav.sykepenger.spmock.kafka.LocalKafkaProducer;
 
 @Tag("eksempel")
 class SykepengesøknadTest extends SpsakTestBase {
@@ -51,7 +52,10 @@ class SykepengesøknadTest extends SpsakTestBase {
 
         ObjectMapper mapper = new JsonMapper().lagObjectMapper();
         String json = mapper.writeValueAsString(søknad);
+
         System.out.println(json);
+
+        new LocalKafkaProducer().sendSynkront("sykepengesoeknad", testscenario.getPersonopplysninger().getSøkerAktørIdent(), json);
     }
 
 }
