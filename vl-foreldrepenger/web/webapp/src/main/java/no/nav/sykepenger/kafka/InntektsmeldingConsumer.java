@@ -9,6 +9,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
@@ -38,6 +40,8 @@ public class InntektsmeldingConsumer extends KafkaConsumer {
     private KodeverkRepository kodeverkRepository;
     private BehandlingRepository behandlingRepository;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(InntektsmeldingConsumer.class);
+
     InntektsmeldingConsumer() {
         // CDI
     }
@@ -58,7 +62,7 @@ public class InntektsmeldingConsumer extends KafkaConsumer {
 
     @Override
     protected void handleMessage(String key, String payload) {
-        System.out.println("KEY=" + key + ", PAYLOAD=" + payload);
+        LOGGER.debug("KEY=" + key + ", PAYLOAD=" + payload);
         JSONObject json = new JSONObject(payload);
         // TODO: Sanity-check på json-struktur ++
         JournalpostMottakDto mottattJournalpost = new JournalpostMottakDto(
@@ -67,7 +71,7 @@ public class InntektsmeldingConsumer extends KafkaConsumer {
             "ab0061", //json.getString("behandlingstemaOffisiellKode"),
             "I000067", // INNTEKSTMELDING
             LocalDate.now(),
-            new String(Base64.getDecoder().decode(json.getString("xml")), Charset.forName("UTF-8")));
+            new String(Base64.getDecoder().decode(json.getString("payload")), Charset.forName("UTF-8")));
         InngåendeSaksdokument saksdokument = map(mottattJournalpost);
 
         // TODO: Hvis journalpostid allerede finnes med samme payload og parametre ... hopp over dokumentAnkommet-kall ?

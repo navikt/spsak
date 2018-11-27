@@ -8,20 +8,19 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
-import org.jose4j.json.internal.json_simple.JSONObject;
-import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import kafka.utils.json.JsonObject;
 import no.nav.foreldrepenger.autotest.aktoerer.Aktoer.Rolle;
 import no.nav.foreldrepenger.autotest.sykepenger.SpsakTestBase;
+import no.nav.foreldrepenger.autotest.sykepenger.modell.InntektsmeldingWrapper;
 import no.nav.foreldrepenger.fpmock2.dokumentgenerator.inntektsmelding.erketyper.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.fpmock2.server.api.scenario.TestscenarioDto;
+import no.nav.foreldrepenger.fpmock2.testmodell.util.JsonMapper;
 import no.nav.sykepenger.spmock.kafka.LocalKafkaProducer;
 
 @Tag("eksempel")
-public class Inntektsmelding extends SpsakTestBase {
+public class InntektsmeldingTest extends SpsakTestBase {
 
     @Test
     public void test1() throws IOException {
@@ -52,15 +51,12 @@ public class Inntektsmelding extends SpsakTestBase {
         final String journalpostId = fordel.journalførInntektsmeldingUtenSaksnummer(inntektsmelding, testscenario);
         final Long saksnummer = fordel.opprettSakKnyttetTilJournalpost(journalpostId, "ab0047", aktørId);
 
-        JSONObject json = new JSONObject();
+        var inntektsmeldingWrapper = new InntektsmeldingWrapper(journalpostId, aktørId, saksnummer,
+                Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))));
 
-        json.put("journalpostId", journalpostId);
-        json.put("behandlingstemaOffisiellKode", "ab0061");
-        json.put("aktørId", aktørId);
-        json.put("saksnummer", saksnummer);
-        json.put("xml", Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))));
-
-        new LocalKafkaProducer().sendSynkront("inntektsmelding", aktørId, json.toJSONString());
+        new LocalKafkaProducer().sendSynkront("inntektsmelding",
+                aktørId,
+                new JsonMapper().lagObjectMapper().writeValueAsString(inntektsmeldingWrapper));
     }
 
 }
