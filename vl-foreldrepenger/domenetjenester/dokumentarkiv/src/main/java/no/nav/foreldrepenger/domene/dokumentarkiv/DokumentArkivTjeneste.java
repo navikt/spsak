@@ -11,15 +11,11 @@ import no.nav.foreldrepenger.domene.typer.Saksnummer;
 
 public interface DokumentArkivTjeneste {
 
-    byte[] hentDokumnet(JournalpostId journalpostId, String dokumentId);
+    byte[] hentDokument(JournalpostId journalpostId, String dokumentId);
 
     List<ArkivJournalPost> hentAlleDokumenterForVisning(Saksnummer saksnummer);
-
-    List<ArkivJournalPost> hentAlleJournalposterForSak(Saksnummer saksnummer);
-
-    Optional<ArkivJournalPost> hentJournalpostForSak(Saksnummer saksnummer, JournalpostId journalpostId);
-
+    
     Set<DokumentTypeId> hentDokumentTypeIdForSak(Saksnummer saksnummer, LocalDate mottattEtterDato, List<DokumentTypeId> eksisterende);
 
-    DokumentTypeId utledDokumentTypeFraTittel(Saksnummer saksnummer, JournalpostId journalpostId);
+    Optional<ArkivJournalPost> hentJournalpostForSak(Saksnummer saksnummer, JournalpostId journalpostId);
 }

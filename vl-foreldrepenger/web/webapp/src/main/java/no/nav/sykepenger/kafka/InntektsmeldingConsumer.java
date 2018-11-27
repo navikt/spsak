@@ -18,6 +18,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
+import no.nav.foreldrepenger.domene.dokumentarkiv.ArkivJournalPost;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
@@ -119,7 +120,16 @@ public class InntektsmeldingConsumer extends KafkaConsumer {
         if (!DokumentTypeId.UDEFINERT.equals(dokumentTypeId)) {
             return dokumentTypeId;
         }
-        return dokumentArkivTjeneste.utledDokumentTypeFraTittel(saksnummer, journalpostId);
+        return utledDokumentTypeFraTittel(saksnummer, journalpostId);
+    }
+    
+    private DokumentTypeId utledDokumentTypeFraTittel(Saksnummer saksnummer, JournalpostId journalpostId) {
+        ArkivJournalPost arkivJournalPost = dokumentArkivTjeneste.hentJournalpostForSak(saksnummer, journalpostId).orElse(null);
+        if (arkivJournalPost == null || arkivJournalPost.getHovedDokument() == null || arkivJournalPost.getHovedDokument().getTittel() == null) {
+            return DokumentTypeId.UDEFINERT;
+        }
+
+        return kodeverkRepository.finnForKodeverkEiersNavn(DokumentTypeId.class, arkivJournalPost.getHovedDokument().getTittel(), DokumentTypeId.UDEFINERT);
     }
 
     private DokumentKategori utledDokumentKategori(DokumentKategori dokumentKategori, DokumentTypeId dokumentTypeId) {

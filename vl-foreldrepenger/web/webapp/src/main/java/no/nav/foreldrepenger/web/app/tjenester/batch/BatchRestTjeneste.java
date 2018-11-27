@@ -60,19 +60,6 @@ public class BatchRestTjeneste {
         throw new IllegalStateException();
     }
 
-    /**
-     * Kalles på for å logge brukeren inn i løsningen. Dette for å ha minimalt med innloggingslogikk i bash-scriptet
-     *
-     * @return alltid 200 - OK
-     */
-    @GET
-    @Path("/init")
-    @BeskyttetRessurs(action = READ, ressurs = DRIFT, sporingslogg = false)
-    @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
-    public Response init() {
-        return Response.ok().build();
-    }
-
     @POST
     @Path("/launch")
     @Consumes(MediaType.APPLICATION_JSON)

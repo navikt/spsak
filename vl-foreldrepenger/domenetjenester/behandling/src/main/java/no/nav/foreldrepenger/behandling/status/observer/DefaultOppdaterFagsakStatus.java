@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.statusobserver;
+package no.nav.foreldrepenger.behandling.status.observer;
 
 import java.util.List;
 import java.util.Objects;
@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
@@ -15,18 +14,17 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 
 @ApplicationScoped
-@FagsakYtelseTypeRef("FP")
-public class OppdaterFagsakStatusFP implements OppdaterFagsakStatus {
+public class DefaultOppdaterFagsakStatus implements OppdaterFagsakStatus {
 
     private BehandlingRepository behandlingRepository;
     private OppdaterFagsakStatusFelles oppdaterFagsakStatusFelles;
 
-    OppdaterFagsakStatusFP() {
+    DefaultOppdaterFagsakStatus() {
         // CDI
     }
 
     @Inject
-    public OppdaterFagsakStatusFP(BehandlingRepositoryProvider repositoryProvider,
+    public DefaultOppdaterFagsakStatus(BehandlingRepositoryProvider repositoryProvider,
                                   OppdaterFagsakStatusFelles oppdaterFagsakStatusFelles) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.oppdaterFagsakStatusFelles = oppdaterFagsakStatusFelles;

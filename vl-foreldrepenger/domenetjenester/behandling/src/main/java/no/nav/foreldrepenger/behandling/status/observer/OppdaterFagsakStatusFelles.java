@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.statusobserver;
+package no.nav.foreldrepenger.behandling.status.observer;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -54,14 +54,10 @@ public class OppdaterFagsakStatusFelles {
 
         if (sisteInnvilgedeBehandling.isPresent()) {
             Behandling sisteBehandling = sisteInnvilgedeBehandling.get();
-            Optional<LocalDate> fødselsdato = Optional.of(LocalDate.now()); // FIXME SP - Fjernet FamilieHendelse, trenger erstattning?
-            Optional<LocalDate> omsorgsovertalsesdato = Optional.of(LocalDate.now()); // FIXME SP - Fjernet FamilieHendelse, trenger erstattning?
 
             Optional<LocalDate> maksDatoUttak = Optional.of(LocalDate.now()); // FIXME SP - har fjernet uttak, trenger erstatning?
             
             return erDatoUtløpt(maksDatoUttak, LocalDate.now())
-                || erDatoUtløpt(fødselsdato, LocalDate.now().minusYears(foreldelsesfristFP))
-                || erDatoUtløpt(omsorgsovertalsesdato, LocalDate.now().minusYears(foreldelsesfristFP))
                 || erVedtakResultat(sisteBehandling, VedtakResultatType.AVSLAG)
                 || erVedtakResultat(sisteBehandling, VedtakResultatType.OPPHØR);
         }

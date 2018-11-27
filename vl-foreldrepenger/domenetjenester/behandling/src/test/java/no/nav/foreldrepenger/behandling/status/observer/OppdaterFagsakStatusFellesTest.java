@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.statusobserver;
+package no.nav.foreldrepenger.behandling.status.observer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import no.nav.foreldrepenger.behandling.status.observer.OppdaterFagsakStatusFelles;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;

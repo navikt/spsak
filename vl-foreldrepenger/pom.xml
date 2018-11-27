@@ -243,11 +243,6 @@
 				<artifactId>behandling</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-            <dependency>
-                <groupId>no.nav.sykepenger</groupId>
-                <artifactId>behandling-status</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>

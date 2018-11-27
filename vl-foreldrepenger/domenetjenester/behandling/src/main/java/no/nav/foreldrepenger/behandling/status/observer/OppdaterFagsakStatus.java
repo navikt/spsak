@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.statusobserver;
+package no.nav.foreldrepenger.behandling.status.observer;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 

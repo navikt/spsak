@@ -178,29 +178,11 @@ public class DokumentArkivTjenesteImplTest {
 
         // Act
 
-        byte[] bytesActual = dokumentApplikasjonTjeneste.hentDokumnet(new JournalpostId("123"), "456");
+        byte[] bytesActual = dokumentApplikasjonTjeneste.hentDokument(new JournalpostId("123"), "456");
 
         // Assert
         assertThat(bytesActual).isEqualTo(bytesExpected);
     }
-
-    @Test
-    public void skalKorrigereManglendeDokTypeBasertPåTittel() throws Exception {
-        DokumentTypeId fsf = kodeverkRepository.finn(DokumentTypeId.class, DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL);
-        final String tittel = "Søknad om foreldrepenger ved fødsel";
-        HentKjerneJournalpostListeResponse hentJournalpostListeResponse = new HentKjerneJournalpostListeResponse();
-        hentJournalpostListeResponse.getJournalpostListe().add(createJournalpost(ArkivFilType.PDFA, VariantFormat.ARKIV, YESTERDAY, NOW,"I"));
-        hentJournalpostListeResponse.getJournalpostListe().get(0).getHoveddokument().setDokumentTypeId(null);
-        hentJournalpostListeResponse.getJournalpostListe().get(0).getHoveddokument().setTittel(tittel);
-        when(mockJournalProxyService.hentKjerneJournalpostListe(any(HentKjerneJournalpostListeRequest.class))).thenReturn(hentJournalpostListeResponse);
-
-        KodeverkTestHelper.helperSetSvarForNavneOppslag(fsf);
-        DokumentTypeId dtid = dokumentApplikasjonTjeneste.utledDokumentTypeFraTittel(KJENT_SAK, JOURNAL_ID);
-        KodeverkTestHelper.helperSetSvarForNavneOppslag(null);
-
-        assertThat(dtid).isEqualTo(DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL);
-    }
-
 
     private Journalpost createJournalpost(ArkivFilType arkivFilTypeKonst, VariantFormat variantFormatKonst) throws DatatypeConfigurationException {
         return createJournalpost(arkivFilTypeKonst, variantFormatKonst, NOW, NOW, "U");

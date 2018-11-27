@@ -71,7 +71,7 @@ public class DokumentArkivTjenesteImpl implements DokumentArkivTjeneste {
     }
 
     @Override
-    public byte[] hentDokumnet(JournalpostId journalpostId, String dokumentId) {
+    public byte[] hentDokument(JournalpostId journalpostId, String dokumentId) {
         LOG.info("HentDokument: input parametere journalpostId {} dokumentId {}", journalpostId, dokumentId);
         byte[] pdfFile = new byte[0];
         HentDokumentRequest hentDokumentRequest = new HentDokumentRequest();
@@ -133,8 +133,7 @@ public class DokumentArkivTjenesteImpl implements DokumentArkivTjeneste {
 
 
 
-    @Override
-    public List<ArkivJournalPost> hentAlleJournalposterForSak(Saksnummer saksnummer) {
+    List<ArkivJournalPost> hentAlleJournalposterForSak(Saksnummer saksnummer) {
         List<ArkivJournalPost> journalPosts = new ArrayList<>();
         doHentKjerneJournalpostListe(saksnummer)
             .map(HentKjerneJournalpostListeResponse::getJournalpostListe).orElse(new ArrayList<>())
@@ -178,16 +177,6 @@ public class DokumentArkivTjenesteImpl implements DokumentArkivTjeneste {
                 }
             });
         return etterDato;
-    }
-
-    @Override
-    public DokumentTypeId utledDokumentTypeFraTittel(Saksnummer saksnummer, JournalpostId journalpostId) {
-        ArkivJournalPost arkivJournalPost = hentJournalpostForSak(saksnummer, journalpostId).orElse(null);
-        if (arkivJournalPost == null || arkivJournalPost.getHovedDokument() == null || arkivJournalPost.getHovedDokument().getTittel() == null) {
-            return DokumentTypeId.UDEFINERT;
-        }
-
-        return kodeverkRepository.finnForKodeverkEiersNavn(DokumentTypeId.class, arkivJournalPost.getHovedDokument().getTittel(), DokumentTypeId.UDEFINERT);
     }
 
     private void ekstraherDTID(Set<DokumentTypeId> eksisterende, ArkivDokument dokument) {

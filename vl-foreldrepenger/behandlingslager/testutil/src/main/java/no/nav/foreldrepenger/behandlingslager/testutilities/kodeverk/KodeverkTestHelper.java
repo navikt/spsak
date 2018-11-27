@@ -255,9 +255,5 @@ public class KodeverkTestHelper {
             return kodelistePrKodePrKlasse.get(cls);
         }
     }
-    public static void helperSetSvarForNavneOppslag(Kodeliste value) {
-        MockKodeverkRepository.navneOppslag = value;
-    }
-
 
 }
