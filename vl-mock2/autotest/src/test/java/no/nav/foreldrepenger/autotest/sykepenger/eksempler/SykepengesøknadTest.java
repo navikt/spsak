@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.autotest.sykepenger.eksempler;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class SykepengesøknadTest extends SpsakTestBase {
 
         TestscenarioDto testscenario = opprettScenario("40");
 
-        Sykepengesøknad søknad = new Sykepengesøknad();
+        var søknad = new Sykepengesøknad();
         final String søknadId = UUID.randomUUID().toString();
         søknad.setSøknadId(søknadId);
         søknad.setBrukerAktørId(testscenario.getPersonopplysninger().getSøkerAktørIdent());
@@ -39,12 +39,12 @@ class SykepengesøknadTest extends SpsakTestBase {
         final LocalDate sykFom = LocalDate.now().minusMonths(1);
         final LocalDate sykTom = LocalDate.now().minusDays(1);
 
-        søknad.setKorrigertArbeidstid(Arrays.asList(new KorrigertArbeidstidPeriode(sykFom, sykTom, 100, 0, 0)));
+        søknad.setKorrigertArbeidstid(List.of(new KorrigertArbeidstidPeriode(sykFom, sykTom, 100, 0, 0)));
 
-        søknad.setFravær(Arrays.asList(new FraværsPeriode(sykFom.plusDays(7), sykFom.plusDays(8), FraværType.UTENLANDSOPPHOLD)));
+        søknad.setFravær(List.of(new FraværsPeriode(sykFom.plusDays(7), sykFom.plusDays(8), FraværType.UTENLANDSOPPHOLD)));
         søknad.setSøktOmUtenlandsopphold(false);
 
-        søknad.setEgenmeldinger(Arrays.asList(new EgenmeldingPeriode(sykFom, sykFom.plusDays(2))));
+        søknad.setEgenmeldinger(List.of(new EgenmeldingPeriode(sykFom, sykFom.plusDays(2))));
 
         søknad.setPapirsykemeldinger(null);
 
