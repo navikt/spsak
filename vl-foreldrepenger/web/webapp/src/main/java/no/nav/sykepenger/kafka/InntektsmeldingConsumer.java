@@ -69,6 +69,9 @@ public class InntektsmeldingConsumer extends KafkaConsumer {
             LocalDate.now(),
             new String(Base64.getDecoder().decode(json.getString("xml")), Charset.forName("UTF-8")));
         InngåendeSaksdokument saksdokument = map(mottattJournalpost);
+
+        // TODO: Hvis journalpostid allerede finnes med samme payload og parametre ... hopp over dokumentAnkommet-kall ?
+
         dokumentmottakTjeneste.dokumentAnkommet(saksdokument);
     }
 
