@@ -4,11 +4,13 @@ package no.nav.sykepenger.spmock.kafka;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 public class LocalKafkaProducer {
     private final KafkaProducer producer;
+    private final AdminClient kafkaAdminClient;
 
     public LocalKafkaProducer() {
         Properties props = new Properties();
@@ -22,6 +24,12 @@ public class LocalKafkaProducer {
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         producer = new KafkaProducer(props);
+
+        kafkaAdminClient = AdminClient.create(props);
+    }
+
+    public AdminClient getKafkaAdminClient() {
+        return kafkaAdminClient;
     }
 
     public void sendSynkront(String topic, String key, String value) {

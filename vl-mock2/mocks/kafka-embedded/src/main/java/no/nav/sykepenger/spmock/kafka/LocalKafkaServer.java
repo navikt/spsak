@@ -1,14 +1,18 @@
 package no.nav.sykepenger.spmock.kafka;
 
+import java.util.Collection;
 import java.util.Properties;
+import java.util.stream.Collectors;
+
+import org.apache.kafka.clients.admin.NewTopic;
 
 public class LocalKafkaServer {
 
     private static KafkaLocal kafka;
 
-    public static void startKafka() {
+    /*public static void startKafka() {
         startKafka(2181, 9092);
-    }
+    }*/
 
     private static int zookeeperPort;
     private static int kafkaBrokerPort;
@@ -21,7 +25,7 @@ public class LocalKafkaServer {
         return kafkaBrokerPort;
     }
 
-    public static void startKafka(final int zookeeperPort, final int kafkaBrokerPort){
+    public static void startKafka(final int zookeeperPort, final int kafkaBrokerPort, Collection<String> bootstrapTopics){
         LocalKafkaServer.kafkaBrokerPort = kafkaBrokerPort;
         LocalKafkaServer.zookeeperPort = zookeeperPort;
         Properties kafkaProperties = new Properties();
@@ -39,6 +43,13 @@ public class LocalKafkaServer {
 
         try {
             kafka = new KafkaLocal(kafkaProperties, zkProperties);
+
+            if (bootstrapTopics != null) {
+                new LocalKafkaProducer().getKafkaAdminClient().createTopics(
+                        bootstrapTopics.stream().map(
+                                name -> new NewTopic(name, 1, (short)1)).collect(Collectors.toList()));
+            }
+
         } catch (Exception e){
             e.printStackTrace(System.out);
         }

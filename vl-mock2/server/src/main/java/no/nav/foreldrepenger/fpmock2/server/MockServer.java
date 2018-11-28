@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.fpmock2.felles.PropertiesUtils;
 import no.nav.foreldrepenger.fpmock2.ldap.LdapServer;
+import no.nav.sykepenger.spmock.kafka.LocalKafkaProducer;
 import no.nav.sykepenger.spmock.kafka.LocalKafkaServer;
 import no.nav.foreldrepenger.fpmock2.testmodell.repo.JournalRepository;
 import no.nav.foreldrepenger.fpmock2.testmodell.repo.TestscenarioBuilderRepository;
@@ -106,7 +107,7 @@ public class MockServer {
     }
 
     private void startKafkaServer() {
-        LocalKafkaServer.startKafka(2181, 9092);
+        LocalKafkaServer.startKafka(2181, 9092, List.of("inntektsmelding", "sykepengesoeknad", "tulletopic"));
     }
 
     private void startLdapServer() {
