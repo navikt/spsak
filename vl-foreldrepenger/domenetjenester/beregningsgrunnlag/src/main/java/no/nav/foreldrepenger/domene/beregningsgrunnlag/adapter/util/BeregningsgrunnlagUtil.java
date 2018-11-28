@@ -21,10 +21,6 @@ public final class BeregningsgrunnlagUtil {
     private BeregningsgrunnlagUtil() {
     }
 
-    public static Double nullSafeDouble(Double input) {
-        return input;
-    }
-
     public static Long nullSafeLong(Long input) {
         if (input != null) {
             return input;

@@ -39,7 +39,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
  */
 @Table(name = "IAY_OPPGITT_ARBEIDSFORHOLD")
 @Entity(name = "OppgittArbeidsforhold")
-public class OppgittArbeidsforholdEntitet extends BaseEntitet implements OppgittArbeidsforhold, IndexKey {
+class OppgittArbeidsforholdEntitet extends BaseEntitet implements OppgittArbeidsforhold, IndexKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPGITT_ARBEIDSFORHOLD")

@@ -7,20 +7,20 @@ import org.flywaydb.core.api.FlywayException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DatabaseScript {
+class DatabaseScript {
     private static final Logger log = LoggerFactory.getLogger(DatabaseScript.class);
 
     private final DataSource dataSource;
     private final boolean cleanOnException;
     private final String locations;
 
-    public DatabaseScript(DataSource dataSource, boolean cleanOnException, String locations) {
+    DatabaseScript(DataSource dataSource, boolean cleanOnException, String locations) {
         this.dataSource = dataSource;
         this.cleanOnException = cleanOnException;
         this.locations = locations;
     }
 
-    public void migrate() {
+    void migrate() {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
         flyway.setLocations(locations);

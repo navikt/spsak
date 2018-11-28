@@ -14,6 +14,18 @@
 
 
     <dependencies>
+    
+    	<!-- Felles/integrasjon -->
+        <dependency>
+            <groupId>no.nav.spvedtak.felles</groupId>
+            <artifactId>felles-behandlingsprosess-prosesstask-api</artifactId>
+        </dependency>
+
+        <!-- Interne avhengigheter -->
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+    		<artifactId>behandlingslager-domene</artifactId>
+    	</dependency>
 
         <dependency>
             <groupId>no.nav.spvedtak.felles</groupId>
@@ -24,10 +36,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingskontroll-api</artifactId>
         </dependency>
-
-        <!-- NB NB NB NB NB NB NB -->
-        <!-- Dersom du savner eller får lyst til å legge inn noen avhengigheter her til støttetjenester, applikasjonstjenester, integrasjon, behandlingskontroll
-            eller noen andre ting så har du antagelig tenkt helt feil. Snakk med en voksen - eller risiker å bli hengt ut på neste Teknisk Review. -->
 
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

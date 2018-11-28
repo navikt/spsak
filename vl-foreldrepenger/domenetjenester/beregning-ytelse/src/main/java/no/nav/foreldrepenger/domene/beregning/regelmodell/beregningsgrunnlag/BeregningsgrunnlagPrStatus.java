@@ -69,12 +69,5 @@ public class BeregningsgrunnlagPrStatus {
         private void verifyStateForBuild() {
             Objects.requireNonNull(beregningsgrunnlagPrStatusMal.aktivitetStatus, "aktivitetStatus");
         }
-
-        public Builder medArbeidsforhold(List<Arbeidsforhold> arbeidsforhold) {
-            if (arbeidsforhold != null) {
-                arbeidsforhold.forEach(af -> beregningsgrunnlagPrStatusMal.arbeidsforhold.add(BeregningsgrunnlagPrArbeidsforhold.builder().medArbeidsforhold(af).build()));
-            }
-            return this;
-        }
     }
 }

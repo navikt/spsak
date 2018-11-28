@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
 
-import java.util.List;
 import java.util.Objects;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -13,8 +12,6 @@ import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingHistorikk;
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteFelles;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
-import no.nav.foreldrepenger.behandlingslager.aktør.FødtBarnInfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
@@ -32,9 +29,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 
-@FagsakYtelseTypeRef("FP")
 @ApplicationScoped
-public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
+public class RevurderingTjenesteImpl implements RevurderingTjeneste {
 
     private BehandlingRepository behandlingRepository;
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
@@ -48,13 +44,13 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
     private RevurderingEndring revurderingEndring;
     private SykefraværRepository sykefraværRepository;
 
-    public RevurderingFPTjenesteImpl() {
+    public RevurderingTjenesteImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public RevurderingFPTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, BehandlingskontrollTjeneste behandlingskontrollTjeneste,
-                                     HistorikkRepository historikkRepository, @FagsakYtelseTypeRef("FP") RevurderingEndring revurderingEndring) {
+    public RevurderingTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, BehandlingskontrollTjeneste behandlingskontrollTjeneste,
+                                     HistorikkRepository historikkRepository, RevurderingEndring revurderingEndring) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.revurderingHistorikk = new RevurderingHistorikk(historikkRepository);
@@ -127,12 +123,6 @@ public class RevurderingFPTjenesteImpl implements RevurderingTjeneste {
         medlemskapVilkårPeriodeRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
 
         return revurdering;
-    }
-
-
-    @Override
-    public void opprettHistorikkinnslagForFødsler(Behandling behandling, List<FødtBarnInfo> barnFødtIPeriode) {
-        revurderingHistorikk.opprettHistorikkinnslagForFødsler(behandling, barnFødtIPeriode);
     }
 
     @Override

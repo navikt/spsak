@@ -21,7 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
-public abstract class AbstractPersonopplysningTjenesteImpl {
+abstract class AbstractPersonopplysningTjenesteImpl {
 
     private PersonopplysningRepository personopplysningRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
@@ -31,7 +31,7 @@ public abstract class AbstractPersonopplysningTjenesteImpl {
         // CDI
     }
 
-    public AbstractPersonopplysningTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
+    AbstractPersonopplysningTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
         this.personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
         this.behandlingsgrunnlagKodeverkRepository = repositoryProvider.getBehandlingsgrunnlagKodeverkRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;

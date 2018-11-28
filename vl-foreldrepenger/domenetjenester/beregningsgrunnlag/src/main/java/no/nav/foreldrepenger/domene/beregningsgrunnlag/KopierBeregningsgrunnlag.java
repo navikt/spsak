@@ -9,13 +9,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 
-public class KopierBeregningsgrunnlag {
+class KopierBeregningsgrunnlag {
 
     private KopierBeregningsgrunnlag() {
         // skjuler default public constructor
     }
 
-    public static void kopierOverstyrteVerdier(Beregningsgrunnlag gammelBG, Beregningsgrunnlag nyBG) {
+    static void kopierOverstyrteVerdier(Beregningsgrunnlag gammelBG, Beregningsgrunnlag nyBG) {
         List<BeregningsgrunnlagPeriode> gamlePerioder = gammelBG.getBeregningsgrunnlagPerioder();
         nyBG.getBeregningsgrunnlagPerioder().forEach(nyPeriode -> kopierOverstyrteVerdierFraPeriode(gamlePerioder, nyPeriode));
     }

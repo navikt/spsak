@@ -28,12 +28,10 @@ public class Fagsystem extends Kodeliste {
     public static final Fagsystem ENHETSREGISTERET = new Fagsystem("ENHETSREGISTERET", "ER01");
     public static final Fagsystem AAREGISTERET = new Fagsystem("AAREGISTERET", "AR01");
 
-
     /**
      * Alle kodeverk må ha en verdi, det kan ikke være null i databasen. Denne koden gjør samme nytten.
      */
     public static final Fagsystem UDEFINERT = new Fagsystem("-");
-    public static final Comparator<Fagsystem> NULLSAFE_COMPARATOR = Comparator.nullsFirst(Fagsystem::compareTo);
 
     Fagsystem() {
         // Hibernate trenger den

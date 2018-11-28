@@ -34,11 +34,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
-import no.nav.foreldrepenger.behandlingslager.uttak.GraderingAvslagÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.IkkeOppfyltÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.InnvilgetÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakPeriodeType;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakPeriodeVurderingType;
 
 public interface HentKodeverkTjeneste {
 
@@ -58,9 +53,6 @@ public interface HentKodeverkTjeneste {
         Venteårsak.class,
         BehandlingType.class,
         ArbeidType.class,
-        UttakPeriodeType.class,
-        IkkeOppfyltÅrsak.class,
-        InnvilgetÅrsak.class,
         OpptjeningAktivitetType.class,
         RevurderingVarslingÅrsak.class,
         Inntektskategori.class,
@@ -68,12 +60,10 @@ public interface HentKodeverkTjeneste {
         BeregningsgrunnlagAndeltype.class,
         AktivitetStatus.class,
         Arbeidskategori.class,
-        UttakPeriodeVurderingType.class,
         Fagsystem.class,
         Region.class,
         SivilstandType.class,
         FaktaOmBeregningTilfelle.class,
-        GraderingAvslagÅrsak.class,
         SkjermlenkeType.class
     ));
 

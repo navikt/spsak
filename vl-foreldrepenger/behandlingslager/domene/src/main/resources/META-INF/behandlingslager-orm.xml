@@ -376,7 +376,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFeltType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkOpplysningType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAvklartSoeknadsperiodeType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkResultatType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType"/>
@@ -423,7 +422,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.IkkeOppfyltÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.InnvilgetÅrsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivitetEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet"/>

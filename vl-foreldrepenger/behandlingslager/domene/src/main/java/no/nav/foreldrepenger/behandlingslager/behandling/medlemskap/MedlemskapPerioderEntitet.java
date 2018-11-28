@@ -36,7 +36,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @Entity(name = "MedlemskapPerioder")
 @Table(name = "MEDLEMSKAP_PERIODER")
-public class MedlemskapPerioderEntitet extends BaseEntitet implements RegistrertMedlemskapPerioder, IndexKey {
+class MedlemskapPerioderEntitet extends BaseEntitet implements RegistrertMedlemskapPerioder, IndexKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_PERIODER")

@@ -12,7 +12,7 @@ public class FagsakStatusEvent implements FagsakEvent {
     private FagsakStatus nyStatus;
     private AktørId aktørId;
 
-    public FagsakStatusEvent(Long fagsakId, AktørId aktørId, FagsakStatus forrigeStatus, FagsakStatus nyStatus) {
+    FagsakStatusEvent(Long fagsakId, AktørId aktørId, FagsakStatus forrigeStatus, FagsakStatus nyStatus) {
         super();
         this.fagsakId = fagsakId;
         this.aktørId = aktørId;

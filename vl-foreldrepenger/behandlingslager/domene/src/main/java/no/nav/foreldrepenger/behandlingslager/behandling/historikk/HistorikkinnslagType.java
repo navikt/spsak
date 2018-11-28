@@ -13,9 +13,9 @@ public class HistorikkinnslagType extends Kodeliste {
     @Transient
     private String mal;
 
-    public static final String DISCRIMINATOR = "HISTORIKKINNSLAG_TYPE"; //$NON-NLS-1$
+    static final String DISCRIMINATOR = "HISTORIKKINNSLAG_TYPE"; //$NON-NLS-1$
 
-    public static final HistorikkinnslagType UDEFINIERT = new HistorikkinnslagType("-");
+    public static final HistorikkinnslagType UDEFINERT = new HistorikkinnslagType("-");
 
     static final String MAL_TYPE_1 = "TYPE1";
     static final String MAL_TYPE_2 = "TYPE2";
@@ -69,10 +69,6 @@ public class HistorikkinnslagType extends Kodeliste {
     public static final HistorikkinnslagType BYTT_ENHET = new HistorikkinnslagType("BYTT_ENHET", MAL_TYPE_5);
     public static final HistorikkinnslagType KLAGE_BEH_NFP = new HistorikkinnslagType("KLAGE_BEH_NFP", MAL_TYPE_5);
     public static final HistorikkinnslagType KLAGE_BEH_NK = new HistorikkinnslagType("KLAGE_BEH_NK", MAL_TYPE_5);
-    public static final HistorikkinnslagType UTTAK = new HistorikkinnslagType("UTTAK", MAL_TYPE_5);
-
-    // type 6
-    public static final HistorikkinnslagType NY_INFO_FRA_TPS = new HistorikkinnslagType("NY_INFO_FRA_TPS", MAL_TYPE_6);
 
     // type 7
     public static final HistorikkinnslagType OVERSTYRT = new HistorikkinnslagType("OVERSTYRT", MAL_TYPE_7);

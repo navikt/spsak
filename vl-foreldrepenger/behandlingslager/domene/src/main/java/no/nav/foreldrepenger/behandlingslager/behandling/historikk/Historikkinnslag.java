@@ -49,7 +49,7 @@ public class Historikkinnslag extends BaseEntitet {
     @JoinColumnsOrFormulas({
         @JoinColumnOrFormula(column = @JoinColumn(name = "historikkinnslag_type", referencedColumnName = "kode", nullable = false)),
         @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + HistorikkinnslagType.DISCRIMINATOR + "'"))})
-    private HistorikkinnslagType type = HistorikkinnslagType.UDEFINIERT;
+    private HistorikkinnslagType type = HistorikkinnslagType.UDEFINERT;
 
     @OneToMany(mappedBy = "historikkinnslag", cascade = CascadeType.ALL)
     private List<HistorikkinnslagDokumentLink> dokumentLinker = new ArrayList<>();

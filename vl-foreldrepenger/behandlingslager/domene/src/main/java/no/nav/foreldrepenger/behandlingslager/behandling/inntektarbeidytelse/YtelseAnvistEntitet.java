@@ -26,7 +26,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @Entity(name = "YtelseAnvistEntitet")
 @Table(name = "IAY_YTELSE_ANVIST")
-public class YtelseAnvistEntitet extends BaseEntitet implements YtelseAnvist, IndexKey {
+class YtelseAnvistEntitet extends BaseEntitet implements YtelseAnvist, IndexKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE_ANVIST")

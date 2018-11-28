@@ -19,7 +19,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "VergeGrunnlag")
 @Table(name = "GR_VERGE")
-public class VergeGrunnlagEntitet extends BaseEntitet {
+class VergeGrunnlagEntitet extends BaseEntitet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_VERGE")

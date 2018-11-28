@@ -157,10 +157,6 @@ public class UttakResultatPeriodeEntitet extends BaseEntitet {
         return periodeResultatÅrsak;
     }
 
-    public GraderingAvslagÅrsak getGraderingAvslagÅrsak() {
-        return graderingAvslagÅrsak;
-    }
-
     public UttakResultatDokRegelEntitet getDokRegel() {
         return dokRegel;
     }
@@ -204,10 +200,6 @@ public class UttakResultatPeriodeEntitet extends BaseEntitet {
         return Optional.ofNullable(periodeSøknad);
     }
 
-    public boolean opprinneligSendtTilManueltBehandling() {
-        return dokRegel != null && dokRegel.isTilManuellBehandling();
-    }
-
     public boolean isManueltBehandlet() {
         return manueltBehandlet;
     }
@@ -220,12 +212,6 @@ public class UttakResultatPeriodeEntitet extends BaseEntitet {
         return Objects.equals(perioder, that.perioder) &&
             Objects.equals(tidsperiode, that.tidsperiode);
     }
-
-    public boolean overlapper(LocalDate dato) {
-        Objects.requireNonNull(dato);
-        return !dato.isBefore(getFom()) && !dato.isAfter(getTom());
-    }
-
     @Override
     public int hashCode() {
 

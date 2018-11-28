@@ -84,6 +84,7 @@ public class KodeverkAvstemmingTest {
                 .filter(f -> f.getType().equals(cls))
                 .forEach(f -> {
                     Kodeliste k;
+                    f.setAccessible(true);
                     try {
                         k = (Kodeliste) f.get(null);
                     } catch (IllegalArgumentException | IllegalAccessException e) {

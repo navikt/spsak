@@ -10,7 +10,7 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 public class HistorikkBegrunnelseType extends Kodeliste {
     public static final String DISCRIMINATOR = "HISTORIKK_BEGRUNNELSE_TYPE"; //$NON-NLS-1$
 
-    public static final HistorikkBegrunnelseType UDEFINIERT = new HistorikkBegrunnelseType("-");
+    
 
     public static final HistorikkBegrunnelseType SAKSBEH_START_PA_NYTT = new HistorikkBegrunnelseType("SAKSBEH_START_PA_NYTT");
     public static final HistorikkBegrunnelseType BEH_STARTET_PA_NYTT = new HistorikkBegrunnelseType("BEH_STARTET_PA_NYTT");

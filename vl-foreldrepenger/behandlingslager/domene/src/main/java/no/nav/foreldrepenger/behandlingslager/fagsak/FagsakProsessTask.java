@@ -14,7 +14,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 
 @Entity(name = "FagsakProsessTask")
 @Table(name = "FAGSAK_PROSESS_TASK")
-public class FagsakProsessTask extends BaseEntitet {
+class FagsakProsessTask extends BaseEntitet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK_PROSESS_TASK")

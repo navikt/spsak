@@ -23,7 +23,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @Entity(name = "SykemeldingEntitet")
 @Table(name = "SF_SYKEMELDING")
-public class SykemeldingEntitet extends BaseEntitet implements Sykemelding {
+class SykemeldingEntitet extends BaseEntitet implements Sykemelding {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEMELDING")

@@ -75,9 +75,6 @@ public class HistorikkinnslagDto implements  Comparable<HistorikkinnslagDto> {
     @Override
     public int compareTo(HistorikkinnslagDto that) {
         int comparatorValue = that.getOpprettetTidspunkt().compareTo(this.getOpprettetTidspunkt());
-        if(comparatorValue == 0 && that.getType().equals(HistorikkinnslagType.REVURD_OPPR)) {
-            return -1;
-        }
         return comparatorValue;
     }
 

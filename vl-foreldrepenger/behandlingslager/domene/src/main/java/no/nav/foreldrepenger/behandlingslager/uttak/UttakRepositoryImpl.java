@@ -56,11 +56,6 @@ public class UttakRepositoryImpl implements UttakRepository {
         lagreUttaksresultat(behandling, builder -> builder.nullstill().medOpprinneligPerioder(opprinneligPerioder));
     }
 
-    @Override
-    public void lagreOverstyrtUttakResultatPerioder(Behandling behandling, UttakResultatPerioderEntitet overstyrtPerioder) {
-        lagreUttaksresultat(behandling, builder -> builder.medOverstyrtPerioder(overstyrtPerioder));
-    }
-
     private void lagreUttaksresultat(Behandling behandling, Function<UttakResultatEntitet.Builder, UttakResultatEntitet.Builder> resultatTransformator) {
         verify(behandling);
         final BehandlingLås lås = behandlingLåsRepository.taLås(behandling.getId());
@@ -172,17 +167,6 @@ public class UttakRepositoryImpl implements UttakRepository {
     }
 
     @Override
-    public Optional<UttakResultatEntitet> hentUttakResultatPåId(
-        Long id) {
-        Objects.requireNonNull(id, "aggregatId"); // NOSONAR $NON-NLS-1$
-        final TypedQuery<UttakResultatEntitet> query = entityManager.createQuery("FROM UttakResultatEntitet ur " +
-            "WHERE ur.id = :id ", UttakResultatEntitet.class);
-        query.setParameter("id", id);
-        return HibernateVerktøy.hentUniktResultat(query);
-    }
-
-
-    @Override
     public void lagreUttaksperiodegrense(Behandling behandling, Uttaksperiodegrense uttaksperiodegrense) {
         Objects.requireNonNull(behandling, "behandling"); // NOSONAR $NON-NLS-1$
         if (uttaksperiodegrense == null) {
@@ -241,16 +225,6 @@ public class UttakRepositoryImpl implements UttakRepository {
     }
 
     @Override
-    public Uttaksperiodegrense hentUttaksperiodegrense(Long behandlingId) {
-        TypedQuery<Uttaksperiodegrense> query = entityManager
-            .createQuery("select u from Uttaksperiodegrense u " +
-                "where u.behandlingsresultat.behandling.id = :behandlingId " +
-                "and u.aktiv = true", Uttaksperiodegrense.class)
-            .setParameter("behandlingId", behandlingId);
-        return hentEksaktResultat(query);
-    }
-
-    @Override
     public Optional<Uttaksperiodegrense> hentUttaksperiodegrenseHvisEksisterer(Long behandlingId) {
         TypedQuery<Uttaksperiodegrense> query = entityManager
             .createQuery("select u from Uttaksperiodegrense u " +
@@ -258,29 +232,6 @@ public class UttakRepositoryImpl implements UttakRepository {
                 "and u.aktiv = true", Uttaksperiodegrense.class)
             .setParameter("behandlingId", behandlingId);
         return HibernateVerktøy.hentUniktResultat(query);
-    }
-
-    @Override
-    public List<OrgManuellÅrsakEntitet> finnOrgManuellÅrsak(String virksomhetsnummer) {
-        TypedQuery<OrgManuellÅrsakEntitet> query = entityManager
-            .createQuery("select u from OrgManuellÅrsakEntitet u " +
-                "where u.virksomhetsnummer = :virksomhetsnummer", OrgManuellÅrsakEntitet.class)
-            .setParameter("virksomhetsnummer", virksomhetsnummer);
-        return query.getResultList();
-    }
-
-    @Override
-    public void deaktivterAktivtResultat(Behandling behandling) {
-        Optional<UttakResultatEntitet> uttakResultat = hentUttakResultatHvisEksisterer(behandling);
-        uttakResultat.ifPresent(this::deaktiverResultat);
-    }
-
-    @Override
-    public boolean uttakResultatInneholderAvslåttPeriode(Behandling behandling) {
-        return hentUttakResultatHvisEksisterer(behandling)
-            .map(uttakResultat -> uttakResultat.getGjeldendePerioder().getPerioder().stream()
-                .anyMatch(periode -> PeriodeResultatType.AVSLÅTT.equals(periode.getPeriodeResultatType())))
-            .orElse(Boolean.FALSE);
     }
 
     private DiffEntity uttaksperiodegrenseAggregatDiffer() {

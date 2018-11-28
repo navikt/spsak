@@ -19,7 +19,6 @@ public class HistorikkinnslagDelDto {
     private Kodeliste begrunnelse;
     private String begrunnelseFritekst;
     private HistorikkinnslagHendelseDto hendelse;
-    private List<HistorikkinnslagOpplysningDto> opplysninger;
     private HistorikkinnslagSoeknadsperiodeDto soeknadsperiode;
     private SkjermlenkeType skjermlenke;
     private Kodeliste aarsak;
@@ -115,14 +114,6 @@ public class HistorikkinnslagDelDto {
         this.endredeFelter = endredeFelter;
     }
 
-    public List<HistorikkinnslagOpplysningDto> getOpplysninger() {
-        return opplysninger;
-    }
-
-    public void setOpplysninger(List<HistorikkinnslagOpplysningDto> opplysninger) {
-        this.opplysninger = opplysninger;
-    }
-
     public HistorikkinnslagSoeknadsperiodeDto getSoeknadsperiode() {
         return soeknadsperiode;
     }
@@ -173,9 +164,6 @@ public class HistorikkinnslagDelDto {
         });
         if (!historikkinnslagDel.getTotrinnsvurderinger(aksjonspunktRepository).isEmpty()) {
             dto.setAksjonspunkter(HistorikkinnslagTotrinnsVurderingDto.mapFra(historikkinnslagDel.getTotrinnsvurderinger(aksjonspunktRepository)));
-        }
-        if (!historikkinnslagDel.getOpplysninger().isEmpty()) {
-            dto.setOpplysninger(HistorikkinnslagOpplysningDto.mapFra(historikkinnslagDel.getOpplysninger(), kodeverkRepository));
         }
         if (!historikkinnslagDel.getEndredeFelt().isEmpty()) {
             dto.setEndredeFelter(HistorikkinnslagEndretFeltDto.mapFra(historikkinnslagDel.getEndredeFelt(), kodeverkRepository));

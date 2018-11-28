@@ -39,13 +39,13 @@ public class KodeverkBaseEntitet implements Serializable {
     private LocalDateTime endretTidspunkt; // NOSONAR
 
     @PrePersist
-    protected void onCreate() {
+    protected void onCreate() { // NO_UCD (unused code)
         this.opprettetAv = finnBrukernavn();
         this.opprettetTidspunkt = LocalDateTime.now(FPDateUtil.getOffset());
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    protected void onUpdate() { // NO_UCD (unused code)
         endretAv = finnBrukernavn();
         endretTidspunkt = LocalDateTime.now(FPDateUtil.getOffset());
     }

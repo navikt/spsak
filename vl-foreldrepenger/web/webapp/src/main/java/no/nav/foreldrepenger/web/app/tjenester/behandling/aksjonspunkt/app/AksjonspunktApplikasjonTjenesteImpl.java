@@ -121,7 +121,7 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
         behandling.setAnsvarligSaksbehandler(getCurrentUserId());
     }
 
-    protected String getCurrentUserId() {
+    String getCurrentUserId() {
         return SubjectHandler.getSubjectHandler().getUid();
     }
 

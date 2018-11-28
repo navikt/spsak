@@ -17,8 +17,6 @@ public class SkjermlenkeType extends Kodeliste {
     public static final SkjermlenkeType FAKTA_OM_MEDLEMSKAP = new SkjermlenkeType("FAKTA_OM_MEDLEMSKAP");
     public static final SkjermlenkeType FAKTA_FOR_OPPTJENING = new SkjermlenkeType("FAKTA_FOR_OPPTJENING");
     public static final SkjermlenkeType FAKTA_OM_OPPTJENING = new SkjermlenkeType("FAKTA_OM_OPPTJENING");
-    public static final SkjermlenkeType KLAGE_BEH_NFP = new SkjermlenkeType("KLAGE_BEH_NFP");
-    public static final SkjermlenkeType KLAGE_BEH_NK = new SkjermlenkeType("KLAGE_BEH_NK");
     public static final SkjermlenkeType KONTROLL_AV_SAKSOPPLYSNINGER = new SkjermlenkeType("KONTROLL_AV_SAKSOPPLYSNINGER");
     public static final SkjermlenkeType OPPLYSNINGSPLIKT = new SkjermlenkeType("OPPLYSNINGSPLIKT");
     public static final SkjermlenkeType PUNKT_FOR_MEDLEMSKAP = new SkjermlenkeType("PUNKT_FOR_MEDLEMSKAP");
@@ -28,6 +26,8 @@ public class SkjermlenkeType extends Kodeliste {
     public static final SkjermlenkeType UTTAK = new SkjermlenkeType("UTTAK");
     public static final SkjermlenkeType FAKTA_OM_ARBEIDSFORHOLD = new SkjermlenkeType("FAKTA_OM_ARBEIDSFORHOLD");
     public static final SkjermlenkeType FAKTA_OM_VERGE = new SkjermlenkeType("FAKTA_OM_VERGE");
+    
+    public static final SkjermlenkeType SØKNADSFRIST = new SkjermlenkeType("SOEKNADSFRIST");
 
     public SkjermlenkeType() {
         //

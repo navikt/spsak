@@ -133,10 +133,6 @@ public class AktørArbeidEntitet extends BaseEntitet implements AktørArbeid, In
         return !ArbeidType.FRILANSER_OPPDRAGSTAKER_MED_MER.equals(aktivitet.getArbeidType());
     }
 
-    void setYrkesaktiviter() {
-        this.yrkesaktiviter = new LinkedHashSet<>();
-    }
-
     void setInntektArbeidYtelser(InntektArbeidYtelseAggregatEntitet inntektArbeidYtelser) {
         this.inntektArbeidYtelser = inntektArbeidYtelser;
     }

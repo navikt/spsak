@@ -28,7 +28,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @Entity(name = "SykefraværPeriodeEntitet")
 @Table(name = "SF_SYKEFRAVAER_PERIODE")
-public class SykefraværPeriodeEntitet extends BaseEntitet implements SykefraværPeriode {
+class SykefraværPeriodeEntitet extends BaseEntitet implements SykefraværPeriode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEFRAVAER_PERIODE")

@@ -15,7 +15,7 @@ import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 @ApplicationScoped
 public class KontrollerFaktaTjenesteProvider {
 
-    public KontrollerFaktaTjeneste finnKontrollerFaktaTjenesteFor(Behandling behandling) {
+    KontrollerFaktaTjeneste finnKontrollerFaktaTjenesteFor(Behandling behandling) {
         String fagsakYtelseType = behandling.getFagsakYtelseType().getKode();
         String behandlingType = behandling.getType().getKode();
         String startpunktType = null; // NOSONAR - brukes for å tydeliggjøre uangitt startpunkttype
@@ -30,7 +30,7 @@ public class KontrollerFaktaTjenesteProvider {
         return selectedTjeneste.get();
     }
 
-    public Optional<KontrollerFaktaTjeneste> finnKontrollerFaktaTjenesteFor(Behandling behandling, StartpunktType startpunkt) {
+    Optional<KontrollerFaktaTjeneste> finnKontrollerFaktaTjenesteFor(Behandling behandling, StartpunktType startpunkt) {
         String fagsakYtelseType = behandling.getFagsakYtelseType().getKode();
         String behandlingType = behandling.getType().getKode();
         String startpunktType = startpunkt.getKode();

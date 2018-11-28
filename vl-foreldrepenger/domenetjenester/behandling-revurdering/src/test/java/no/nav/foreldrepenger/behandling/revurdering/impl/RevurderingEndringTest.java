@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 
-public class RevurderingEndringFPTest {
+public class RevurderingEndringTest {
 
     @Rule
     public final UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
@@ -32,7 +32,7 @@ public class RevurderingEndringFPTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private RevurderingEndring revurderingEndringFP = new RevurderingEndringFP();
+    private RevurderingEndring revurderingEndringFP = new DefaultRevurderingEndring();
     private Behandling originalBehandling;
     private Behandling revurdering;
 
@@ -69,7 +69,7 @@ public class RevurderingEndringFPTest {
 
         // Assert
         expectedException.expect(IllegalStateException.class);
-        expectedException.expectMessage(RevurderingEndringFP.UTVIKLERFEIL_INGEN_ENDRING_SAMMEN);
+        expectedException.expectMessage(DefaultRevurderingEndring.UTVIKLERFEIL_INGEN_ENDRING_SAMMEN);
 
         // Act
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
