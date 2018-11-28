@@ -40,7 +40,7 @@ public class InntektsmeldingTest extends SpsakTestBase {
                         new BigDecimal(beloep / 31 * 16),
                         Arrays.asList(InntektsmeldingBuilder.createPeriode(LocalDate.now(), LocalDate.now().plusDays(16))),
                         null) //request.getInntektsmeldingSykepengerIArbeidsgiverperiodenDTO().getBegrunnelseForReduksjon()
-                );
+        );
 
 
         final String xml = inntektsmelding.createInntektesmeldingXML();
@@ -52,11 +52,13 @@ public class InntektsmeldingTest extends SpsakTestBase {
         final Long saksnummer = fordel.opprettSakKnyttetTilJournalpost(journalpostId, "ab0061", aktørId);
 
         var inntektsmeldingWrapper = new InntektsmeldingWrapper(journalpostId, aktørId, saksnummer,
-                Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))));
+                Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))), xml.length());
 
+        String json = new JsonMapper().lagObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(inntektsmeldingWrapper);
+        System.out.println(json);
         new LocalKafkaProducer().sendSynkront("inntektsmelding",
                 aktørId,
-                new JsonMapper().lagObjectMapper().writeValueAsString(inntektsmeldingWrapper));
+                json);
     }
 
 }

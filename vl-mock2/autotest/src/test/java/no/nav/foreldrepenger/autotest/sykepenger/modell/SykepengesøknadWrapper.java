@@ -16,11 +16,15 @@ public class SykepengesøknadWrapper {
     @JsonProperty
     private String payload;
 
-    public SykepengesøknadWrapper(String journalpostId, String aktørId, Long saksnummer, String payload) {
+    @JsonProperty
+    private Integer payloadLength;
+
+    public SykepengesøknadWrapper(String journalpostId, String aktørId, Long saksnummer, String payload, Integer payloadLength) {
         this.journalpostId = journalpostId;
         this.aktørId = aktørId;
         this.saksnummer = saksnummer;
         this.payload = payload;
+        this.payloadLength = payloadLength;
     }
 
     public String getJournalpostId() {
@@ -33,6 +37,10 @@ public class SykepengesøknadWrapper {
 
     public String getAktørId() {
         return aktørId;
+    }
+
+    public Integer getPayloadLength() {
+        return payloadLength;
     }
 
     public void setAktørId(String aktørId) {

@@ -7,14 +7,13 @@ import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import no.nav.foreldrepenger.autotest.aktoerer.Aktoer;
 import no.nav.foreldrepenger.autotest.sykepenger.SpsakTestBase;
-import no.nav.foreldrepenger.autotest.sykepenger.modell.InntektsmeldingWrapper;
 import no.nav.foreldrepenger.autotest.sykepenger.modell.SykepengesøknadWrapper;
 import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.EgenmeldingPeriode;
 import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.FraværType;
@@ -55,7 +54,7 @@ class SykepengesøknadTest extends SpsakTestBase {
 
         søknad.setAndreInntektskilder(null);
 
-        ObjectMapper mapper = new JsonMapper().lagObjectMapper();
+        ObjectWriter mapper = new JsonMapper().lagObjectMapper().writerWithDefaultPrettyPrinter();
         String søknadJson = mapper.writeValueAsString(søknad);
 
         System.out.println(søknadJson);
@@ -64,12 +63,13 @@ class SykepengesøknadTest extends SpsakTestBase {
         final String journalpostId = "" + lagFalskJournalpostId();
         fordel.erLoggetInnMedRolle(Aktoer.Rolle.SAKSBEHANDLER);
         // ikkeAndreVeien fordi journalpostId er "fake"
+
         final Long saksnummer = fordel.opprettSakKnyttetTilJournalpostMenIkkeAndreVeien(journalpostId, "ab0061", aktørId);
 
         var sykepengesøknadWrapper = new SykepengesøknadWrapper(journalpostId, aktørId, saksnummer,
-                Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))));
+                Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))), søknadJson.length());
 
-        System.out.println(new JsonMapper().lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
+        System.out.println(mapper.writeValueAsString(sykepengesøknadWrapper));
 
         new LocalKafkaProducer().sendSynkront("sykepengesoeknad",
                 testscenario.getPersonopplysninger().getSøkerAktørIdent(),

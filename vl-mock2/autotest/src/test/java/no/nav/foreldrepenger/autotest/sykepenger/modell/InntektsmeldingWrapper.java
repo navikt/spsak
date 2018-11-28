@@ -16,11 +16,19 @@ public class InntektsmeldingWrapper {
     @JsonProperty
     private String payload;
 
-    public InntektsmeldingWrapper(String journalpostId, String aktørId, Long saksnummer, String payload) {
+    @JsonProperty
+    private Integer payloadLength;
+
+    public InntektsmeldingWrapper(String journalpostId, String aktørId, Long saksnummer, String payload, Integer payloadLength) {
         this.journalpostId = journalpostId;
         this.aktørId = aktørId;
         this.saksnummer = saksnummer;
         this.payload = payload;
+        this.payloadLength = payloadLength;
+    }
+
+    public Integer getPayloadLength() {
+        return payloadLength;
     }
 
     public String getJournalpostId() {
