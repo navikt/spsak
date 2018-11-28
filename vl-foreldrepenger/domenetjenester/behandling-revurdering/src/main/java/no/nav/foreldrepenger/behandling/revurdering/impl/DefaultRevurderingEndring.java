@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
@@ -13,13 +12,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.KonsekvensForYtelsen;
 /**
  * Sjekk om revurdering endrer utfall.
  */
-@FagsakYtelseTypeRef("FP")
 @ApplicationScoped
-public class RevurderingEndringFP implements RevurderingEndring {
+public class DefaultRevurderingEndring implements RevurderingEndring { // NO_UCD (test only)
 
-    public static final String UTVIKLERFEIL_INGEN_ENDRING_SAMMEN = "Utviklerfeil: Det skal ikke være mulig å ha INGEN_ENDRING sammen med andre konsekvenser. BehandlingId: ";
+    static final String UTVIKLERFEIL_INGEN_ENDRING_SAMMEN = "Utviklerfeil: Det skal ikke være mulig å ha INGEN_ENDRING sammen med andre konsekvenser. BehandlingId: ";
 
-    RevurderingEndringFP() {
+    DefaultRevurderingEndring() {
         // for CDI proxy
     }
 

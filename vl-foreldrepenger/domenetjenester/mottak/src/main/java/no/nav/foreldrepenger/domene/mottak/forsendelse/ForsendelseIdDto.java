@@ -12,7 +12,7 @@ import no.nav.vedtak.sikkerhet.abac.AbacDto;
 
 public class ForsendelseIdDto implements AbacDto {
 
-    public static final String UUID_REGEXP = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
+    
     @NotNull
     @Pattern(
         regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"

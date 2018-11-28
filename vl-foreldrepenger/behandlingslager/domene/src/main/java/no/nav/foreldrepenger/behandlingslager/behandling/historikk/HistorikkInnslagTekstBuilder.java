@@ -20,7 +20,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
 import no.nav.vedtak.feil.Feil;
 
 public class HistorikkInnslagTekstBuilder {
@@ -143,14 +142,6 @@ public class HistorikkInnslagTekstBuilder {
         return this;
     }
 
-    public HistorikkInnslagTekstBuilder medBegrunnelse(LocalDateInterval begrunnelse) {
-        return medBegrunnelse(formatString(begrunnelse), true);
-    }
-
-    public HistorikkInnslagTekstBuilder medBegrunnelse(LocalDate begrunnelse) {
-        return medBegrunnelse(formatString(begrunnelse), true);
-    }
-
     public HistorikkInnslagTekstBuilder medBegrunnelse(Kodeliste begrunnelse) {
         return medBegrunnelse(begrunnelse, true);
     }
@@ -169,7 +160,7 @@ public class HistorikkInnslagTekstBuilder {
         return this;
     }
 
-    public <K extends Kodeliste> HistorikkInnslagTekstBuilder medBegrunnelse(K begrunnelse, boolean erBegrunnelseEndret) {
+    private <K extends Kodeliste> HistorikkInnslagTekstBuilder medBegrunnelse(K begrunnelse, boolean erBegrunnelseEndret) {
         HistorikkinnslagFelt.builder()
             .medFeltType(HistorikkinnslagFeltType.BEGRUNNELSE)
             .medTilVerdi(begrunnelse)
@@ -239,18 +230,6 @@ public class HistorikkInnslagTekstBuilder {
         int neste = antallEndredeFelter;
         antallEndredeFelter++;
         return neste;
-    }
-
-    public <T> HistorikkInnslagTekstBuilder medOpplysning(HistorikkOpplysningType opplysningType, T verdi) {
-        String tilVerdi = formatString(verdi);
-        int sekvensNr = hentNesteOpplysningSekvensNr();
-        HistorikkinnslagFelt.builder()
-            .medFeltType(HistorikkinnslagFeltType.OPPLYSNINGER)
-            .medNavn(opplysningType)
-            .medTilVerdi(tilVerdi)
-            .medSekvensNr(sekvensNr)
-            .build(historikkinnslagDelBuilder);
-        return this;
     }
 
     private int hentNesteOpplysningSekvensNr() {

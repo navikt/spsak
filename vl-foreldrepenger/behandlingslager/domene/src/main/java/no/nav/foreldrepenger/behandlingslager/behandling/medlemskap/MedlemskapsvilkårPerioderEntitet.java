@@ -48,15 +48,22 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
 
     @ManyToOne(optional = false)
     @JoinColumnsOrFormulas({
-        @JoinColumnOrFormula(column = @JoinColumn(name = "vilkar_utfall", referencedColumnName = "kode", nullable = false)),
-        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + VilkårUtfallType.DISCRIMINATOR
-            + "'"))})
+            @JoinColumnOrFormula(column = @JoinColumn(name = "vilkar_utfall", referencedColumnName = "kode", nullable = false)),
+            @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + VilkårUtfallType.DISCRIMINATOR
+                + "'")) })
     private VilkårUtfallType vilkårUtfall = VilkårUtfallType.UDEFINERT;
-
 
     public MedlemskapsvilkårPerioderEntitet() {
     }
-    
+
+    // copy constructor
+    MedlemskapsvilkårPerioderEntitet(MedlemskapsvilkårPerioder m) {
+        this.fom = m.getFom();
+        this.tom = m.getTom();
+        this.vilkårUtfall = m.getVilkårUtfall();
+        this.vurderingsdato = m.getVurderingsdato();
+    }
+
     @Override
     public String getIndexKey() {
         return IndexKey.createKey(fom, tom);
@@ -71,7 +78,7 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
         return fom;
     }
 
-    void setFom(LocalDate fom) {
+    private void setFom(LocalDate fom) {
         this.fom = fom;
     }
 
@@ -80,7 +87,7 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
         return tom;
     }
 
-    void setTom(LocalDate tom) {
+    private void setTom(LocalDate tom) {
         this.tom = tom;
     }
 
@@ -94,7 +101,7 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
         return vurderingsdato;
     }
 
-    void setVilkårUtfall(VilkårUtfallType vilkårUtfall) {
+    private void setVilkårUtfall(VilkårUtfallType vilkårUtfall) {
         this.vilkårUtfall = vilkårUtfall;
     }
 
@@ -105,11 +112,17 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
     void setRot(MedlemskapsvilkårPeriodeEntitet rot) {
         this.rot = rot;
     }
+    
+    private void setVurderingsdato(LocalDate vurderingsdato) {
+        this.vurderingsdato = vurderingsdato;
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         MedlemskapsvilkårPerioderEntitet that = (MedlemskapsvilkårPerioderEntitet) o;
         return Objects.equals(getFom(), that.getFom()) &&
             Objects.equals(getTom(), that.getTom());
@@ -131,7 +144,7 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
             this.mal = mal;
         }
 
-        public static Builder oppdater(Optional<MedlemskapsvilkårPerioderEntitet> entitet, LocalDate vurderingsdato) {
+        static Builder oppdater(Optional<MedlemskapsvilkårPerioderEntitet> entitet, LocalDate vurderingsdato) {
             if (entitet.isPresent()) {
                 return new Builder(entitet.get());
             }
@@ -148,18 +161,15 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
         public Builder medVurderingsdato(LocalDate vurderingsdato) {
             mal.setVurderingsdato(vurderingsdato);
 
-            //fjernes når fom og tom ryddesvekk
+            // fjernes når fom og tom ryddesvekk
             mal.setFom(vurderingsdato);
             mal.setTom(vurderingsdato);
             return this;
         }
 
-        public MedlemskapsvilkårPerioderEntitet build() {
+        MedlemskapsvilkårPerioderEntitet build() {
             return mal;
         }
     }
 
-    private void setVurderingsdato(LocalDate vurderingsdato) {
-        this.vurderingsdato = vurderingsdato;
-    }
 }

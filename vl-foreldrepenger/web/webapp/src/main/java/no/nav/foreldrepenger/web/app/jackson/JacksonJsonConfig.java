@@ -58,8 +58,6 @@ public class JacksonJsonConfig implements ContextResolver<ObjectMapper> {
         module.addSerializer(new KodeverkSerializer());
         module.addSerializer(new KodelisteSerializer());
         module.addSerializer(new StringSerializer());
-        module.addSerializer(new KodelistePeriodeResultatÅrsakSerializer());
-        module.addSerializer(new KodelisteGraderingAvslagÅrsakSerializer());
     }
 
     @Override
@@ -68,7 +66,7 @@ public class JacksonJsonConfig implements ContextResolver<ObjectMapper> {
     }
 
     /** Scan subtyper dynamisk fra WAR slik at superklasse slipper å deklarere @JsonSubtypes. */
-    public static List<Class<?>> getJsonTypeNameClasses() {
+    private static List<Class<?>> getJsonTypeNameClasses() {
         Class<JacksonJsonConfig> cls = JacksonJsonConfig.class;
         IndexClasses indexClasses;
         try {

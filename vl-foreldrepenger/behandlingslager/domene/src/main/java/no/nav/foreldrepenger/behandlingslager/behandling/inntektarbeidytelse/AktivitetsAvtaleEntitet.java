@@ -28,7 +28,7 @@ import no.nav.vedtak.konfig.Tid;
 
 @Table(name = "IAY_AKTIVITETS_AVTALE")
 @Entity(name = "AktivitetsAvtale")
-public class AktivitetsAvtaleEntitet extends BaseEntitet implements AktivitetsAvtale, IndexKey {
+class AktivitetsAvtaleEntitet extends BaseEntitet implements AktivitetsAvtale, IndexKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTIVITETS_AVTALE")

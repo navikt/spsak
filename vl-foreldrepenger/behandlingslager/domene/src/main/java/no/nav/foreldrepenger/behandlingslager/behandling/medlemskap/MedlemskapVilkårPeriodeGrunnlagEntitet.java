@@ -48,7 +48,7 @@ class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet {
     MedlemskapVilkårPeriodeGrunnlagEntitet() {
     }
 
-    public MedlemskapVilkårPeriodeGrunnlagEntitet(VilkårResultat vilkårResultat) {
+    private MedlemskapVilkårPeriodeGrunnlagEntitet(VilkårResultat vilkårResultat) {
         this.vilkårResultat = vilkårResultat;
     }
 
@@ -60,8 +60,8 @@ class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet {
         return medlemskapsvilkårPeriode;
     }
 
-    void setMedlemskapsvilkårPeriode(MedlemskapsvilkårPeriodeEntitet medlemskapsvilkårPeriode) {
-        this.medlemskapsvilkårPeriode = medlemskapsvilkårPeriode;
+    void setMedlemskapsvilkårPeriode(MedlemskapsvilkårPeriode medlemskapsvilkårPeriode) {
+        this.medlemskapsvilkårPeriode = new MedlemskapsvilkårPeriodeEntitet(medlemskapsvilkårPeriode.getPerioder());
     }
 
     void setVilkårResultat(VilkårResultat vilkårResultat) {

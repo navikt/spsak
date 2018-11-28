@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
-
 public class HistorikkinnslagDtoTest {
     private static final LocalDateTime NOW = LocalDateTime.now();
 
@@ -39,27 +37,6 @@ public class HistorikkinnslagDtoTest {
         assertThat(historikkInnslagDtos.get(6).getOpprettetTidspunkt()).isEqualTo(NOW.minusHours(7));
         assertThat(historikkInnslagDtos.get(7).getOpprettetTidspunkt()).isEqualTo(NOW.minusWeeks(8));
         assertThat(historikkInnslagDtos.get(8).getOpprettetTidspunkt()).isEqualTo(NOW.minusYears(9));
-    }
-
-    @Test
-    public void skal_revurdOpprettet_kommer_før_brev_sent_og_brev_vent_hvis_samme_tids_punkt() {
-        List<HistorikkinnslagDto> historikkInnslagDtos = Arrays.asList(
-            lagHistorikkInnslagDtos(NOW, HistorikkinnslagType.REVURD_OPPR),
-            lagHistorikkInnslagDtos(NOW, HistorikkinnslagType.BEH_VENT),
-            lagHistorikkInnslagDtos(NOW, HistorikkinnslagType.BREV_SENT),
-            lagHistorikkInnslagDtos(NOW.minusWeeks(1), HistorikkinnslagType.BEH_STARTET)
-        );
-
-        historikkInnslagDtos.sort(Comparator.naturalOrder());
-
-        assertThat(historikkInnslagDtos.get(2).getType()).isEqualTo(HistorikkinnslagType.REVURD_OPPR);
-    }
-
-    private HistorikkinnslagDto lagHistorikkInnslagDtos(LocalDateTime periodeFraDato, HistorikkinnslagType innslagType) {
-        HistorikkinnslagDto historikkInnslagDto = new HistorikkinnslagDto();
-        historikkInnslagDto.setOpprettetTidspunkt(periodeFraDato);
-        historikkInnslagDto.setType(innslagType);
-        return historikkInnslagDto;
     }
 
     private HistorikkinnslagDto lagHistorikkInnslagDtos(LocalDateTime periodeFraDato) {

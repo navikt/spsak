@@ -113,13 +113,6 @@ public class HistorikkinnslagDel extends BaseEntitet {
         return finnFeltListe(HistorikkinnslagFeltType.ENDRET_FELT);
     }
 
-    public Optional<HistorikkinnslagFelt> getOpplysning(HistorikkOpplysningType historikkOpplysningType) {
-        List<HistorikkinnslagFelt> opplysninger = getOpplysninger();
-        return opplysninger.stream()
-            .filter(felt -> Objects.equals(historikkOpplysningType.getKode(), felt.getNavn()))
-            .findFirst();
-    }
-
     public List<HistorikkinnslagFelt> getOpplysninger() {
         return finnFeltListe(HistorikkinnslagFeltType.OPPLYSNINGER);
     }

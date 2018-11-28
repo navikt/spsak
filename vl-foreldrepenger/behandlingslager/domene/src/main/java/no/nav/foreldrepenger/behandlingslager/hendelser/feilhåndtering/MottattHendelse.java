@@ -11,7 +11,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 
 @Entity(name = "MottattHendelse")
 @Table(name = "MOTTATT_HENDELSE")
-public class MottattHendelse extends BaseEntitet {
+class MottattHendelse extends BaseEntitet {
 
     @Id
     @NaturalId

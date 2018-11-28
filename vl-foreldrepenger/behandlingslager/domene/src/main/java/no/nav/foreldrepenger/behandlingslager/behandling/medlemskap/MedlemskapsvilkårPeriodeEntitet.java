@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 
 @Entity(name = "MedlemskapsvilkårPeriode")
 @Table(name = "MEDLEMSKAP_VILKAR_PERIODE")
-public class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements MedlemskapsvilkårPeriode {
+class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements MedlemskapsvilkårPeriode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_VILKAR_PERIODE")
@@ -33,8 +34,8 @@ public class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements Med
         // For Hibernate
     }
 
-    MedlemskapsvilkårPeriodeEntitet(Set<MedlemskapsvilkårPerioderEntitet> perioder) {
-        this.perioder = perioder;
+    MedlemskapsvilkårPeriodeEntitet(Set<? extends MedlemskapsvilkårPerioder> perioder) {
+        this.perioder = perioder.stream().map(m -> new MedlemskapsvilkårPerioderEntitet(m)).collect(Collectors.toSet());
     }
 
     @Override
@@ -64,7 +65,7 @@ public class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements Med
         return MedlemskapsvilkårPerioderEntitet.Builder.oppdater(medlemOpt, vurderingsdato);
     }
 
-    public void leggTil(MedlemskapsvilkårPerioderEntitet entitet) {
+    void leggTil(MedlemskapsvilkårPerioderEntitet entitet) {
         perioder.add(entitet);
     }
 }

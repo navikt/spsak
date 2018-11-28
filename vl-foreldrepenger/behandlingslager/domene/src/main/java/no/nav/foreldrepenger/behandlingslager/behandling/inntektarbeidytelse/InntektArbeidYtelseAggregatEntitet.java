@@ -24,7 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 
 @Table(name = "IAY_INNTEKT_ARBEID_YTELSER")
 @Entity(name = "InntektArbeidYtelser")
-public class InntektArbeidYtelseAggregatEntitet extends BaseEntitet implements InntektArbeidYtelseAggregat {
+class InntektArbeidYtelseAggregatEntitet extends BaseEntitet implements InntektArbeidYtelseAggregat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INNTEKT_ARBEID_YTELSER")

@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
 import javax.inject.Inject;
 
 import org.junit.Before;
@@ -26,7 +27,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollEventPubliserer;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
-import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -66,7 +66,7 @@ import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
 
 @RunWith(CdiRunner.class)
-public class RevurderingFPBehandlingsresultatutlederTest {
+public class RevurderingBehandlingsresultatutlederTest {
     private static final String ARBEIDSFORHOLD_ID = "987123987";
     private static final LocalDate SKJÆRINGSTIDSPUNKT_BEREGNING = LocalDate.now();
     static final List<String> ARBEIDSFORHOLDLISTE = Arrays.asList("154", "265", "386", "412");
@@ -78,7 +78,8 @@ public class RevurderingFPBehandlingsresultatutlederTest {
 
     @Inject
     private BeregningRevurderingTestUtil revurderingTestUtil;
-    @Inject @FagsakYtelseTypeRef("FP")
+    
+    @Inject
     private RevurderingEndring revurderingEndring;
 
     private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
@@ -113,7 +114,7 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         when(mock.getModell(any(), any())).thenReturn(mock(BehandlingModell.class));
         BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             mock, mock(BehandlingskontrollEventPubliserer.class));
-        revurderingTjeneste = new RevurderingFPTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndring);
+        revurderingTjeneste = new RevurderingTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndring);
         revurdering = revurderingTjeneste
             .opprettAutomatiskRevurdering(behandlingSomSkalRevurderes.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         virksomhet = new VirksomhetEntitet.Builder().medOrgnr(ARBEIDSFORHOLD_ID).medNavn("Virksomheten").oppdatertOpplysningerNå().build();
@@ -122,12 +123,10 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         when(endringsdatoRevurderingUtleder.utledEndringsdato(any(Behandling.class))).thenReturn(endringsdato);
     }
 
-
     // Case 2
     // Løpende vedtak: Ja
     // Oppfylt inngangsvilkår på skjæringstidspunktet
     // Ikkje oppfylt inngangsvilkår i perioden
-    // Endring i uttaksperiode: Ja
     @Test
     public void tilfelle_2_behandlingsresultat_lik_opphør_rettentil_lik_nei_foreldrepenger_opphører() {
 
@@ -155,58 +154,12 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         assertThat(bhResultat.getKonsekvenserForYtelsen()).containsExactly(KonsekvensForYtelsen.FORELDREPENGER_OPPHØRER);
         assertThat(uendretUtfall).isFalse();
     }
-    // Case 8
-    // Løpende vedtak: Ja
-    // Oppfylt inngangsvilkår på skjæringstidspunktet
-    // Oppfylt inngangsvilkår i perioden
-    // Siste uttaksperiode IKKJE avslått med opphørsårsak
-    // Endring i beregning: kun endring i fordeling av ytelsen
-    // Endring i uttaksperiode: Nei
-    @Test
-    public void tilfelle_8_behandlingsresultat_lik_FPEndret_rettentil_lik_ja_foreldrepenger_konsekven_endring_i_fordeling_av_ytelsen() {
-
-        // Arrange
-        LocalDate endringsdato = LocalDate.now();
-        lagBeregningsresultatperiodeMedEndringstidspunkt(endringsdato);
-
-        BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
-
-        // Oppfylt inngangsvilkår på skjæringstidspunkt
-        VilkårResultat vilkårResultat = VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
-            .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
-            .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
-            .buildFor(revurdering);
-        behandlingRepository.lagre(vilkårResultat, lås);
-
-
-        // Oppfylt inngangsvilkår i perioden (medlemskap)
-        settVilkårutfallMedlemskapPåSkjæringstidspunkt(VilkårUtfallType.OPPFYLT);
-
-        // Endring i beregning: kun endring i fordeling av ytelsen
-        List<ÅpenDatoIntervallEntitet> bgPeriode = Collections.singletonList(ÅpenDatoIntervallEntitet.fraOgMedTilOgMed(SKJÆRINGSTIDSPUNKT_BEREGNING, null));
-        byggBeregningsgrunnlagForBehandling(behandlingSomSkalRevurderes, false, false, bgPeriode);
-        byggBeregningsgrunnlagForBehandling(revurdering, false, true, bgPeriode);
-
-        // Act
-        revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(revurdering, erVarselOmRevurderingSendt);
-        Behandlingsresultat bhResultat = revurdering.getBehandlingsresultat();
-        boolean uendretUtfall = revurderingTjeneste.erRevurderingMedUendretUtfall(revurdering);
-
-        // Assert
-        assertThat(bhResultat.getBehandlingResultatType()).isEqualByComparingTo(BehandlingResultatType.FORELDREPENGER_ENDRET);
-        assertThat(bhResultat.getRettenTil()).isEqualByComparingTo(RettenTil.HAR_RETT_TIL_FP);
-        assertThat(bhResultat.getKonsekvenserForYtelsen()).containsExactly(KonsekvensForYtelsen.ENDRING_I_FORDELING_AV_YTELSEN);
-        assertThat(uendretUtfall).isFalse();
-    }
 
     // Case 9
     // Løpende vedtak: Ja
     // Oppfylt inngangsvilkår på skjæringstidspunktet
     // Oppfylt inngangsvilkår i perioden
-    // Siste uttaksperiode IKKJE avslått med opphørsårsak
     // Endring i beregning: Nei
-    // Endring i uttaksperiode: Nei
     @Test
     public void tilfelle_9_behandlingsresultat_lik_ingenEndring_rettentil_lik_ja_foreldrepenger_konsekvens_ingenEndring() {
 
@@ -223,7 +176,6 @@ public class RevurderingFPBehandlingsresultatutlederTest {
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
             .buildFor(revurdering);
         behandlingRepository.lagre(vilkårResultat, lås);
-
 
         // Oppfylt inngangsvilkår i perioden (medlemskap)
         settVilkårutfallMedlemskapPåSkjæringstidspunkt(VilkårUtfallType.OPPFYLT);
@@ -261,7 +213,6 @@ public class RevurderingFPBehandlingsresultatutlederTest {
             .buildFor(revurdering);
         behandlingRepository.lagre(vilkårResultat, lås);
 
-
         // Oppfylt inngangsvilkår i perioden (medlemskap)
         settVilkårutfallMedlemskapPåSkjæringstidspunkt(VilkårUtfallType.OPPFYLT);
 
@@ -280,41 +231,8 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         assertThat(bhResultat.getRettenTil()).isEqualByComparingTo(RettenTil.HAR_RETT_TIL_FP);
         assertThat(bhResultat.getKonsekvenserForYtelsen()).containsExactly(KonsekvensForYtelsen.INGEN_ENDRING);
         assertThat(bhResultat.getVedtaksbrev()).isEqualTo(Vedtaksbrev.INGEN);
-        assertThat(uendretUtfall).isTrue();    }
-
-
-
-    @Test
-    public void skal_gi_ingen_endring_når_original_revurdering_også_hadde_avslått_siste_uttaksperiode() {
-
-        // Arrange
-        LocalDate endringsdato = LocalDate.now();
-        lagBeregningsresultatperiodeMedEndringstidspunkt(endringsdato);
-
-        // Oppfylt inngangsvilkår på skjæringstidspunkt
-        VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
-            .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
-            .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.OPPFYLT)
-            .buildFor(revurdering);
-
-        // Oppfylt inngangsvilkår i perioden (medlemskap)
-                settVilkårutfallMedlemskapPåSkjæringstidspunkt(VilkårUtfallType.OPPFYLT);
-
-
-        // Act
-        revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(revurdering, erVarselOmRevurderingSendt);
-        Behandlingsresultat bhResultat = revurdering.getBehandlingsresultat();
-        boolean uendretUtfall = revurderingTjeneste.erRevurderingMedUendretUtfall(revurdering);
-
-        // Assert
-        assertThat(bhResultat.getBehandlingResultatType()).isEqualByComparingTo(BehandlingResultatType.INGEN_ENDRING);
-        assertThat(bhResultat.getRettenTil()).isEqualByComparingTo(RettenTil.HAR_RETT_TIL_FP);
-        assertThat(bhResultat.getKonsekvenserForYtelsen()).containsExactly(KonsekvensForYtelsen.INGEN_ENDRING);
         assertThat(uendretUtfall).isTrue();
     }
-
-  
 
     @Test
     public void skal_gi_ingen_endring_i_beregningsgrunnlag_ved_lik_dagsats_på_periodenoivå() {
@@ -390,7 +308,6 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         assertThat(endring).isFalse();
     }
 
-
     @Test
     public void skal_gi_endring_i_beregningsgrunnlag_ved_ulik_dagsats_på_periodenoivå() {
         // Arrange
@@ -404,7 +321,6 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         // Assert
         assertThat(endring).isTrue();
     }
-
 
     @Test
     public void skal_teste_at_alle_inngangsvilkår_oppfylt_gir_positivt_utfall() {
@@ -538,7 +454,6 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         assertThat(oppfyllerIkkjeInngangsvilkår).isFalse();
     }
 
-
     private void lagBeregningsresultatperiodeMedEndringstidspunkt(LocalDate endringsdato) {
         BeregningsresultatFP brFPOriginal = BeregningsresultatFP.builder()
             .medRegelInput("clob1")
@@ -551,7 +466,6 @@ public class RevurderingFPBehandlingsresultatutlederTest {
 
         buildBeregningsresultatAndel(originalPeriode, true, 1500);
         buildBeregningsresultatAndel(originalPeriode, false, 500);
-
 
         BeregningsresultatFP nyttResultat = BeregningsresultatFP.builder()
             .medRegelInput("clob1")
@@ -582,11 +496,15 @@ public class RevurderingFPBehandlingsresultatutlederTest {
             .build(beregningsresultatPeriode);
     }
 
-    private Beregningsgrunnlag byggBeregningsgrunnlagForBehandling(Behandling behandling, boolean medOppjustertDagsat, boolean skalDeleAndelMellomArbeidsgiverOgBruker, List<ÅpenDatoIntervallEntitet> perioder) {
-        return byggBeregningsgrunnlagForBehandling(behandling, medOppjustertDagsat, skalDeleAndelMellomArbeidsgiverOgBruker, perioder, new LagEnAndelTjeneste());
+    private Beregningsgrunnlag byggBeregningsgrunnlagForBehandling(Behandling behandling, boolean medOppjustertDagsat,
+                                                                   boolean skalDeleAndelMellomArbeidsgiverOgBruker, List<ÅpenDatoIntervallEntitet> perioder) {
+        return byggBeregningsgrunnlagForBehandling(behandling, medOppjustertDagsat, skalDeleAndelMellomArbeidsgiverOgBruker, perioder,
+            new LagEnAndelTjeneste());
     }
 
-    private Beregningsgrunnlag byggBeregningsgrunnlagForBehandling(Behandling behandling, boolean medOppjustertDagsat, boolean skalDeleAndelMellomArbeidsgiverOgBruker, List<ÅpenDatoIntervallEntitet> perioder, LagAndelTjeneste lagAndelTjeneste) {
+    private Beregningsgrunnlag byggBeregningsgrunnlagForBehandling(Behandling behandling, boolean medOppjustertDagsat,
+                                                                   boolean skalDeleAndelMellomArbeidsgiverOgBruker, List<ÅpenDatoIntervallEntitet> perioder,
+                                                                   LagAndelTjeneste lagAndelTjeneste) {
 
         beregningsgrunnlag = Beregningsgrunnlag.builder()
             .medSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT_BEREGNING)
@@ -607,7 +525,8 @@ public class RevurderingFPBehandlingsresultatutlederTest {
         return beregningsgrunnlag;
     }
 
-    private BeregningsgrunnlagPeriode byggBGPeriode(ÅpenDatoIntervallEntitet datoPeriode, boolean medOppjustertDagsat, boolean skalDeleAndelMellomArbeidsgiverOgBruker, LagAndelTjeneste lagAndelTjeneste) {
+    private BeregningsgrunnlagPeriode byggBGPeriode(ÅpenDatoIntervallEntitet datoPeriode, boolean medOppjustertDagsat,
+                                                    boolean skalDeleAndelMellomArbeidsgiverOgBruker, LagAndelTjeneste lagAndelTjeneste) {
         BeregningsgrunnlagPeriode periode = BeregningsgrunnlagPeriode.builder()
             .medBeregningsgrunnlagPeriode(datoPeriode.getFomDato(), datoPeriode.getTomDato())
             .build(beregningsgrunnlag);

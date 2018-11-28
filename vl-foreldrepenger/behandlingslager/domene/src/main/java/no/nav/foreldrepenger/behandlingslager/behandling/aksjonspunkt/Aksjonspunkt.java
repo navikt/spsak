@@ -179,11 +179,11 @@ public class Aksjonspunkt extends BaseEntitet {
         return revurdering;
     }
 
-    void setRevurdering(boolean revurdering) {
+    private void setRevurdering(boolean revurdering) {
         this.revurdering = revurdering;
     }
 
-    void setBehandlingsresultat(Behandling behandling) {
+    private void setBehandlingsresultat(Behandling behandling) {
         // brukes kun internt for å koble sammen aksjonspunkt og behandling
         this.behandling = behandling;
     }

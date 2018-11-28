@@ -11,7 +11,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.RevurderingVarslingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
@@ -34,11 +33,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
-import no.nav.foreldrepenger.behandlingslager.uttak.GraderingAvslagÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.IkkeOppfyltÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.InnvilgetÅrsak;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakPeriodeType;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakPeriodeVurderingType;
 
 public interface HentKodeverkTjeneste {
 
@@ -58,22 +52,16 @@ public interface HentKodeverkTjeneste {
         Venteårsak.class,
         BehandlingType.class,
         ArbeidType.class,
-        UttakPeriodeType.class,
-        IkkeOppfyltÅrsak.class,
-        InnvilgetÅrsak.class,
         OpptjeningAktivitetType.class,
-        RevurderingVarslingÅrsak.class,
         Inntektskategori.class,
         DokumentTypeId.class,
         BeregningsgrunnlagAndeltype.class,
         AktivitetStatus.class,
         Arbeidskategori.class,
-        UttakPeriodeVurderingType.class,
         Fagsystem.class,
         Region.class,
         SivilstandType.class,
         FaktaOmBeregningTilfelle.class,
-        GraderingAvslagÅrsak.class,
         SkjermlenkeType.class
     ));
 

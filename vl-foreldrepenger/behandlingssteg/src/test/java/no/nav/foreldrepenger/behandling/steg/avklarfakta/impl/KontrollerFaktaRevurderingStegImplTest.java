@@ -52,7 +52,7 @@ import no.nav.foreldrepenger.domene.typer.Prosentsats;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
-public class KontrollerFaktaRevurderingStegForeldrepengerImplTest {
+public class KontrollerFaktaRevurderingStegImplTest {
 
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();

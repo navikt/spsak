@@ -16,13 +16,9 @@ class FastsettBehandlingsresultatVedEndring {
     public static Behandlingsresultat fastsett(Behandling revurdering,
                                                boolean erEndringIBeregning,
                                                boolean erVarselOmRevurderingSendt,
-                                               boolean erKunEndringIFordelingAvYtelsen,
                                                LocalDate endringsdato) {
         List<KonsekvensForYtelsen> konsekvenserForYtelsen = utledKonsekvensForYtelsen(erEndringIBeregning);
 
-        if (erKunEndringIFordelingAvYtelsen) {
-            return ErKunEndringIFordelingAvYtelsen.fastsett(revurdering, erVarselOmRevurderingSendt);
-        }
         Vedtaksbrev vedtaksbrev = utledVedtaksbrev(konsekvenserForYtelsen, erVarselOmRevurderingSendt);
         BehandlingResultatType behandlingResultatType = utledBehandlingResultatType(konsekvenserForYtelsen);
         return buildBehandlingsresultat(revurdering, behandlingResultatType, konsekvenserForYtelsen, vedtaksbrev);

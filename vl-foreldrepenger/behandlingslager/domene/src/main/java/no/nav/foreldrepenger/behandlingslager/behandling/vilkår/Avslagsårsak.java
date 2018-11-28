@@ -13,15 +13,15 @@ public class Avslagsårsak extends Kodeliste {
 
     public static final String DISCRIMINATOR = "AVSLAGSARSAK"; //$NON-NLS-1$
 
-    public static final Avslagsårsak SØKT_FOR_SENT = new Avslagsårsak("1007"); //$NON-NLS-1$
+    
 
     public static final Avslagsårsak MANGLENDE_DOKUMENTASJON = new Avslagsårsak("1019"); //$NON-NLS-1$
     
     public static final Avslagsårsak SØKER_ER_IKKE_MEDLEM = new Avslagsårsak("1020"); //$NON-NLS-1$
     public static final Avslagsårsak SØKER_ER_UTVANDRET = new Avslagsårsak("1021"); //$NON-NLS-1$
-    public static final Avslagsårsak SØKER_HAR_IKKE_LOVLIG_OPPHOLD = new Avslagsårsak("1023"); //$NON-NLS-1$
-    public static final Avslagsårsak SØKER_HAR_IKKE_OPPHOLDSRETT = new Avslagsårsak("1024"); //$NON-NLS-1$
-    public static final Avslagsårsak SØKER_ER_IKKE_BOSATT = new Avslagsårsak("1025"); //$NON-NLS-1$
+    
+    
+    
     
     public static final Avslagsårsak IKKE_TILSTREKKELIG_OPPTJENING = new Avslagsårsak("1035"); //$NON-NLS-1$
     

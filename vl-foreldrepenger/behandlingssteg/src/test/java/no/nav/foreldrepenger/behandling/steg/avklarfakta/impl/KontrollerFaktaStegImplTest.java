@@ -41,7 +41,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
-public class KontrollerFaktaStegImplForeldrepengerTest {
+public class KontrollerFaktaStegImplTest {
 
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();

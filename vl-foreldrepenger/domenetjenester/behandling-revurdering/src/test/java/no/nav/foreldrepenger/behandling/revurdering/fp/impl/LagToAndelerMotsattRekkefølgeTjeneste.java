@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
 
-import static no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingFPBehandlingsresultatutlederTest.ARBEIDSFORHOLDLISTE;
+import static no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingBehandlingsresultatutlederTest.ARBEIDSFORHOLDLISTE;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

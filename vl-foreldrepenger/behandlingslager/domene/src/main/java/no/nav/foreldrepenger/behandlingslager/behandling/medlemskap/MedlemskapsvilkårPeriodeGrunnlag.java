@@ -11,7 +11,7 @@ public class MedlemskapsvilkårPeriodeGrunnlag {
         medlemskapsvilkårPeriodeEntitet = new MedlemskapsvilkårPeriodeEntitet();
     }
 
-    public MedlemskapsvilkårPeriodeEntitet getMedlemskapsvilkårPeriode() {
+    public MedlemskapsvilkårPeriode getMedlemskapsvilkårPeriode() {
         return medlemskapsvilkårPeriodeEntitet;
     }
 
@@ -33,11 +33,11 @@ public class MedlemskapsvilkårPeriodeGrunnlag {
             return new Builder(aggregat);
         }
 
-        public static Builder oppdatere(Optional<MedlemskapsvilkårPeriodeGrunnlag> aggregat) {
+        static Builder oppdatere(Optional<MedlemskapsvilkårPeriodeGrunnlag> aggregat) {
             return aggregat.map(Builder::oppdatere).orElseGet(Builder::new);
         }
 
-        public Builder medmedlemskapsvilkårPeriode(MedlemskapsvilkårPeriodeEntitet medlemskapsvilkår) {
+        Builder medmedlemskapsvilkårPeriode(MedlemskapsvilkårPeriodeEntitet medlemskapsvilkår) {
             kladd.medlemskapsvilkårPeriodeEntitet = medlemskapsvilkår;
             return this;
         }
@@ -51,7 +51,7 @@ public class MedlemskapsvilkårPeriodeGrunnlag {
             return kladd.medlemskapsvilkårPeriodeEntitet.getBuilderFor(vurderingsdato);
         }
 
-        public MedlemskapsvilkårPeriodeGrunnlag build() {
+        MedlemskapsvilkårPeriodeGrunnlag build() {
             return kladd;
         }
     }

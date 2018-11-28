@@ -32,7 +32,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @Table(name = "IAY_EGEN_NAERING")
 @Entity(name = "EgenNæring")
-public class EgenNæringEntitet extends BaseEntitet implements EgenNæring, IndexKey {
+class EgenNæringEntitet extends BaseEntitet implements EgenNæring, IndexKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_EGEN_NAERING")

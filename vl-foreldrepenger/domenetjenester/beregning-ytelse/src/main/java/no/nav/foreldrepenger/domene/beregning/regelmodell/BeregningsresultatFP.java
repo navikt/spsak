@@ -33,10 +33,10 @@ public class BeregningsresultatFP {
         return new Builder();
     }
 
-    public static class Builder {
+    public static class Builder { // NO_UCD (use private)
         private BeregningsresultatFP beregningsresultatFPMal;
 
-        public Builder() {
+        private Builder() {
             beregningsresultatFPMal = new BeregningsresultatFP();
         }
 

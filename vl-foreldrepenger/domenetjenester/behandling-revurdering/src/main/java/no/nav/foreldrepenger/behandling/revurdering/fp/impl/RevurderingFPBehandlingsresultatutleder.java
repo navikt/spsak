@@ -57,10 +57,9 @@ public class RevurderingFPBehandlingsresultatutleder {
         Optional<Beregningsgrunnlag> originalGrunnlagOpt = beregningsgrunnlagRepository.hentBeregningsgrunnlag(originalBehandling);
 
         boolean erEndringIBeregning = ErEndringIBeregning.vurder(revurderingsGrunnlagOpt, originalGrunnlagOpt);
-        boolean erKunEndringIFordelingAvYtelsen = ErKunEndringIFordelingAvYtelsen.vurder(erEndringIBeregning, revurderingsGrunnlagOpt, originalGrunnlagOpt);
         return FastsettBehandlingsresultatVedEndring.fastsett(revurdering,
             erEndringIBeregning,
             erVarselOmRevurderingSendt,
-            erKunEndringIFordelingAvYtelsen, endringsdato);
+            endringsdato);
     }
 }
