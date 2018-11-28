@@ -121,11 +121,11 @@ public class AktørInntektEntitet extends BaseEntitet implements AktørInntekt, 
             .collect(Collectors.toList()));
     }
 
-    public boolean hasValues() {
+    boolean hasValues() {
         return aktørId != null || inntekt != null;
     }
 
-    public InntektBuilder getInntektBuilder(InntektsKilde inntektsKilde, Opptjeningsnøkkel nøkkel) {
+    InntektBuilder getInntektBuilder(InntektsKilde inntektsKilde, Opptjeningsnøkkel nøkkel) {
         Optional<Inntekt> inntektOptional = getInntekt()
             .stream()
             .filter(i -> inntektsKilde.equals(i.getInntektsKilde()))
@@ -138,7 +138,7 @@ public class AktørInntektEntitet extends BaseEntitet implements AktørInntekt, 
         return oppdatere;
     }
 
-    public InntektBuilder getInntektBuilderForYtelser(InntektsKilde inntektsKilde) {
+    InntektBuilder getInntektBuilderForYtelser(InntektsKilde inntektsKilde) {
         Optional<Inntekt> inntektOptional = getInntekt()
             .stream()
             .filter(i -> i.getArbeidsgiver() == null)
@@ -203,11 +203,11 @@ public class AktørInntektEntitet extends BaseEntitet implements AktørInntekt, 
             this.oppdaterer = oppdaterer;
         }
 
-        static InntektBuilder ny() {
+        private static InntektBuilder ny() {
             return new InntektBuilder(new InntektEntitet(), false);
         }
 
-        static InntektBuilder oppdatere(Inntekt oppdatere) {
+        private static InntektBuilder oppdatere(Inntekt oppdatere) {
             return new InntektBuilder((InntektEntitet) oppdatere, true);
         }
 

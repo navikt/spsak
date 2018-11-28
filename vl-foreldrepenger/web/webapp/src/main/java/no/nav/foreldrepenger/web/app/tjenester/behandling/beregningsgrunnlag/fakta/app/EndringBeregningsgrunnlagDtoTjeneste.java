@@ -126,8 +126,7 @@ public class EndringBeregningsgrunnlagDtoTjeneste {
         return endringAndeler;
     }
 
-    // TODO (topas) denne bør være privat eller skrives om for å være mer testbar
-    public void leggTilAndelerSomErLagtTilManueltVedForrigeFaktaavklaring(BeregningsgrunnlagPeriode periodeINyttGrunnlag,
+    private void leggTilAndelerSomErLagtTilManueltVedForrigeFaktaavklaring(BeregningsgrunnlagPeriode periodeINyttGrunnlag,
                                                                           List<EndringBeregningsgrunnlagAndelDto> endringAndeler,
                                                                           Behandling behandling, EndringBeregningsgrunnlagPeriodeDto endringBGPeriode) {
         Optional<BeregningsgrunnlagPeriode> matchetPeriode = dtoUtil.finnMatchendePeriodeIForrigeBeregningsgrunnlag(behandling, periodeINyttGrunnlag);

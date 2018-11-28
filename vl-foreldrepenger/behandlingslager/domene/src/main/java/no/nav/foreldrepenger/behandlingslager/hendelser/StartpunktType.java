@@ -32,7 +32,7 @@ public class StartpunktType extends KodeverkTabell {
     public static final StartpunktType BEREGNING = new StartpunktType("BEREGNING"); //$NON-NLS-1$
     public static final StartpunktType UTTAKSVILKÅR = new StartpunktType("UTTAKSVILKÅR"); //$NON-NLS-1$
 
-    static Map<StartpunktType, Set<VilkårType>> VILKÅR_HÅNDTERT_INNEN_STARTPUNKT = new HashMap<>();
+    private static Map<StartpunktType, Set<VilkårType>> VILKÅR_HÅNDTERT_INNEN_STARTPUNKT = new HashMap<>();
     static {
         // Kontroller arbeidsforhold - ingen vilkår håndter før dette startpunktet
         VILKÅR_HÅNDTERT_INNEN_STARTPUNKT.put(StartpunktType.KONTROLLER_ARBEIDSFORHOLD,
@@ -76,7 +76,7 @@ public class StartpunktType extends KodeverkTabell {
         // Hibernate
     }
 
-    public StartpunktType(final String kode) {
+    private StartpunktType(final String kode) {
         super(kode);
     }
 
