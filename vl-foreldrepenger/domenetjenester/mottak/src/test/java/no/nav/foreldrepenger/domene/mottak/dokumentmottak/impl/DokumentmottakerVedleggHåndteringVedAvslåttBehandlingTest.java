@@ -8,11 +8,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 
 public class DokumentmottakerVedleggHåndteringVedAvslåttBehandlingTest extends DokumentmottakerTestsupport {
 
@@ -46,7 +46,7 @@ public class DokumentmottakerVedleggHåndteringVedAvslåttBehandlingTest extends
             Avslagsårsak.MANGLENDE_DOKUMENTASJON,
             VedtakResultatType.AVSLAG,
             DATO_FØR_INNSENDINGSFRISTEN);
-        MottattDokument inntektsmelding = dummyVedleggDokument(behandling);
+        InngåendeSaksdokument inntektsmelding = dummyVedleggDokument(behandling);
 
         // Act
         dokumentmottakerVedlegg.mottaDokument(inntektsmelding, behandling.getFagsak(), inntektsmelding.getDokumentTypeId(), BehandlingÅrsakType.RE_ANNET);
@@ -66,7 +66,7 @@ public class DokumentmottakerVedleggHåndteringVedAvslåttBehandlingTest extends
             Avslagsårsak.MANGLENDE_DOKUMENTASJON,
             VedtakResultatType.AVSLAG,
             DATO_ETTER_INNSENDINGSFRISTEN);
-        MottattDokument inntektsmelding = dummyVedleggDokument(behandling);
+        InngåendeSaksdokument inntektsmelding = dummyVedleggDokument(behandling);
 
         // Act
         dokumentmottakerVedlegg.mottaDokument(inntektsmelding, behandling.getFagsak(), inntektsmelding.getDokumentTypeId(), BehandlingÅrsakType.RE_ANNET);
@@ -87,7 +87,7 @@ public class DokumentmottakerVedleggHåndteringVedAvslåttBehandlingTest extends
             Avslagsårsak.FOR_LAVT_BEREGNINGSGRUNNLAG,
             VedtakResultatType.AVSLAG,
             DATO_ETTER_INNSENDINGSFRISTEN);
-        MottattDokument inntektsmelding = dummyVedleggDokument(behandling);
+        InngåendeSaksdokument inntektsmelding = dummyVedleggDokument(behandling);
 
         // Act
         dokumentmottakerVedlegg.mottaDokument(inntektsmelding, behandling.getFagsak(), inntektsmelding.getDokumentTypeId(), BehandlingÅrsakType.RE_ANNET);

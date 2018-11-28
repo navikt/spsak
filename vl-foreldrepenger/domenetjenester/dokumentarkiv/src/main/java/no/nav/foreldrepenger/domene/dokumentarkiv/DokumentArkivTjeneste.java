@@ -15,7 +15,7 @@ public interface DokumentArkivTjeneste {
 
     List<ArkivJournalPost> hentAlleDokumenterForVisning(Saksnummer saksnummer);
     
-    Set<DokumentTypeId> hentDokumentTypeIdForSak(Saksnummer saksnummer, LocalDate mottattEtterDato, List<DokumentTypeId> eksisterende);
+    Set<DokumentTypeId> hentDokumentTypeIdForSak(Saksnummer saksnummer, LocalDate mottattEtterDato, Set<DokumentTypeId> eksisterende);
 
     Optional<ArkivJournalPost> hentJournalpostForSak(Saksnummer saksnummer, JournalpostId journalpostId);
 }

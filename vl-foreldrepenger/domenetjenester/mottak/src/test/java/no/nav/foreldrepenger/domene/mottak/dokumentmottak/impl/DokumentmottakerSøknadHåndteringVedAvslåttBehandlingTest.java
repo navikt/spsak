@@ -8,11 +8,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 
 public class DokumentmottakerSøknadHåndteringVedAvslåttBehandlingTest extends DokumentmottakerTestsupport {
 
@@ -42,7 +42,7 @@ public class DokumentmottakerSøknadHåndteringVedAvslåttBehandlingTest extends
             Avslagsårsak.MANGLENDE_DOKUMENTASJON,
             VedtakResultatType.AVSLAG,
             DATO_FØR_INNSENDINGSFRISTEN);
-        MottattDokument søknadDokument = dummySøknadDokument(behandling);
+        InngåendeSaksdokument søknadDokument = dummySøknadDokument(behandling);
 
         // Act
         dokumentmottakerSøknad.mottaDokument(søknadDokument, behandling.getFagsak(), søknadDokument.getDokumentTypeId(), BehandlingÅrsakType.RE_ANNET);

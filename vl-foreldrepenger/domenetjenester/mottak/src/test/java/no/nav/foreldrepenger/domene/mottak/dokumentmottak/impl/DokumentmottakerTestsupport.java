@@ -14,7 +14,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
@@ -28,6 +27,7 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractT
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
@@ -98,17 +98,17 @@ public abstract class DokumentmottakerTestsupport {
         return behandling;
     }
 
-    protected MottattDokument dummyInntektsmeldingDokument(Behandling behandling) {
+    protected InngåendeSaksdokument dummyInntektsmeldingDokument(Behandling behandling) {
         DokumentTypeId dokumentTypeId = DokumentTypeId.INNTEKTSMELDING;
         return DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, behandling.getFagsakId(), "", now(), true, "123");
     }
 
-    protected MottattDokument dummyVedleggDokument(Behandling behandling) {
+    protected InngåendeSaksdokument dummyVedleggDokument(Behandling behandling) {
         DokumentTypeId dokumentTypeId = DokumentTypeId.LEGEERKLÆRING;
         return DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, behandling.getFagsakId(), "", now(), true, "456");
     }
 
-    protected MottattDokument dummySøknadDokument(Behandling behandling) {
+    protected InngåendeSaksdokument dummySøknadDokument(Behandling behandling) {
         DokumentTypeId dokumentTypeId = DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL;
         return DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, behandling.getFagsakId(), "", now(), true, "456");
     }

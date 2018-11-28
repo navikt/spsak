@@ -154,7 +154,7 @@ public class DokumentArkivTjenesteImpl implements DokumentArkivTjeneste {
     }
 
     @Override
-    public Set<DokumentTypeId> hentDokumentTypeIdForSak(Saksnummer saksnummer, LocalDate mottattEtterDato, List<DokumentTypeId> eksisterende) {
+    public Set<DokumentTypeId> hentDokumentTypeIdForSak(Saksnummer saksnummer, LocalDate mottattEtterDato, Set<DokumentTypeId> eksisterende) {
         List<ArkivJournalPost> journalPosts = hentAlleJournalposterForSak(saksnummer);
         Set<DokumentTypeId> alleDTID = new HashSet<>();
         journalPosts.forEach(jpost -> {

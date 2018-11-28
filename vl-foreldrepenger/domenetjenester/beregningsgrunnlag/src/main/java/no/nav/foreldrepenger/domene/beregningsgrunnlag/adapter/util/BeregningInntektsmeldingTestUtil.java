@@ -11,9 +11,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Gradering;
@@ -22,16 +19,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Refusjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.vedtak.konfig.Tid;
 
 @ApplicationScoped
 public class BeregningInntektsmeldingTestUtil {
 
-    private static final String DEFAULT_DOKUMENT_ID = "432422";
     private static final String DEFAULT_JOURNALTPOST_ID = "123123123";
-    private MottatteDokumentRepository mottatteDokumentRepository;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
     private BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil;
 
@@ -42,7 +36,6 @@ public class BeregningInntektsmeldingTestUtil {
     @Inject
     public BeregningInntektsmeldingTestUtil(BehandlingRepositoryProvider repositoryProvider, BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil) {
         inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        mottatteDokumentRepository = repositoryProvider.getMottatteDokumentRepository();
         this.beregningArbeidsgiverTestUtil = beregningArbeidsgiverTestUtil;
     }
 
@@ -123,17 +116,6 @@ public class BeregningInntektsmeldingTestUtil {
     private Inntektsmelding opprettInntektsmelding(Behandling behandling, String orgnr, String arbId, LocalDate skjæringstidspunktOpptjening, List<Gradering> graderinger,  // NOSONAR - brukes bare til test
                                                    BigDecimal refusjon, BigDecimal inntekt, LocalDate opphørsdatoRefusjon, List<NaturalYtelse> naturalYtelser, List<Refusjon> endringRefusjon) {
 
-        final MottattDokument mottattDokument = new MottattDokument.Builder().medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
-            .medDokumentKategori(DokumentKategori.ELEKTRONISK_SKJEMA)
-            .medFagsakId(behandling.getFagsakId())
-            .medBehandlingId(behandling.getId())
-            .medMottattDato(LocalDate.now())
-            .medElektroniskRegistrert(true)
-            .medJournalPostId(new JournalpostId(DEFAULT_JOURNALTPOST_ID))
-            .medDokumentId(DEFAULT_DOKUMENT_ID)
-            .build();
-        mottatteDokumentRepository.lagre(mottattDokument);
-
         InntektsmeldingBuilder inntektsmeldingBuilder = InntektsmeldingBuilder.builder();
         inntektsmeldingBuilder.medStartDatoPermisjon(skjæringstidspunktOpptjening);
         inntektsmeldingBuilder.medBeløp(inntekt);
@@ -141,7 +123,7 @@ public class BeregningInntektsmeldingTestUtil {
         if (refusjon != null) {
             inntektsmeldingBuilder.medRefusjon(refusjon, opphørsdatoRefusjon);
         }
-        inntektsmeldingBuilder.medMottattDokument(mottattDokument);
+        inntektsmeldingBuilder.medJournalpostId(new JournalpostId(DEFAULT_JOURNALTPOST_ID));
         Arbeidsgiver arbeidsgiver = beregningArbeidsgiverTestUtil.forArbeidsgiverVirksomhet(orgnr);
         inntektsmeldingBuilder.medVirksomhet(arbeidsgiver.getVirksomhet());
         inntektsmeldingBuilder.medArbeidsforholdId(arbId);

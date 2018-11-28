@@ -53,10 +53,10 @@ public class JournalpostMottakDto implements AbacDto {
     @Size(max = 5)
     private String journalForendeEnhet;
 
-    @JsonProperty("payloadXml")
+    @JsonProperty("payload")
     @Pattern(regexp = InputValideringRegex.BASE64_RFC4648_URLSAFE_WITH_PADDING)
     @Size(max = PAYLOAD_MAX_CHARS * 2) //Gir plass til 50% flere byte enn characters, det bør holde
-    private String base64EncodedPayloadXml;
+    private String base64EncodedPayload;
 
     /**
      * Siden XML'en encodes før overføring må lengden på XML'en lagres som en separat property for å kunne valideres.
@@ -67,28 +67,43 @@ public class JournalpostMottakDto implements AbacDto {
     @Min(1)
     private Integer payloadLength;
 
-    public JournalpostMottakDto(String saksnummer, String journalpostId, String behandlingstemaOffisiellKode, String dokumentTypeIdOffisiellKode, LocalDate forsendelseMottatt, String payloadXml) {
+    public JournalpostMottakDto(String saksnummer, String journalpostId, String behandlingstemaOffisiellKode, String dokumentTypeIdOffisiellKode, LocalDate forsendelseMottatt, String payload) {
         this.saksnummer = saksnummer;
         this.journalpostId = journalpostId;
         this.behandlingstemaOffisiellKode = behandlingstemaOffisiellKode;
         this.dokumentTypeIdOffisiellKode = dokumentTypeIdOffisiellKode;
         this.forsendelseMottatt = forsendelseMottatt;
-        if (!StringUtils.nullOrEmpty(payloadXml)) {
-            byte[] bytes = payloadXml.getBytes(Charset.forName("UTF-8"));
-            this.payloadLength = payloadXml.length();
-            this.base64EncodedPayloadXml = Base64.getUrlEncoder().encodeToString(bytes);
+        if (!StringUtils.nullOrEmpty(payload)) {
+            byte[] bytes = payload.getBytes(Charset.forName("UTF-8"));
+            this.payloadLength = payload.length();
+            this.base64EncodedPayload = Base64.getUrlEncoder().encodeToString(bytes);
         }
     }
 
-    public void setForsendelseId(UUID forsendelseId) {
-        this.forsendelseId = forsendelseId;
+    JournalpostMottakDto() { //For Jackson
+    }
+
+    static Optional<String> getPayloadValiderLengde(String base64EncodedPayload, Integer deklarertLengde) {
+        if (base64EncodedPayload == null) {
+            return Optional.empty();
+        }
+        if (deklarertLengde == null) {
+            throw JournalpostMottakFeil.FACTORY.manglerPayloadLength().toException();
+        }
+        byte[] bytes = Base64.getDecoder().decode(base64EncodedPayload);
+        String streng = new String(bytes, Charset.forName("UTF-8"));
+        if (streng.length() != deklarertLengde) {
+            throw JournalpostMottakFeil.FACTORY.feilPayloadLength(deklarertLengde, streng.length()).toException();
+        }
+        return Optional.of(streng);
     }
 
     public Optional<UUID> getForsendelseId() {
         return Optional.ofNullable(this.forsendelseId);
     }
 
-    JournalpostMottakDto() { //For Jackson
+    public void setForsendelseId(UUID forsendelseId) {
+        this.forsendelseId = forsendelseId;
     }
 
     public String getSaksnummer() {
@@ -127,24 +142,13 @@ public class JournalpostMottakDto implements AbacDto {
         this.journalForendeEnhet = journalForendeEnhet;
     }
 
-    @JsonIgnore
-    public Optional<String> getPayloadXml() {
-        return getPayloadValiderLengde(base64EncodedPayloadXml, payloadLength);
+    public void setDokumentTypeIdOffisiellKode(String dokumentTypeIdOffisiellKode) {
+        this.dokumentTypeIdOffisiellKode = dokumentTypeIdOffisiellKode;
     }
 
-    static Optional<String> getPayloadValiderLengde(String base64EncodedPayload, Integer deklarertLengde) {
-        if (base64EncodedPayload == null) {
-            return Optional.empty();
-        }
-        if (deklarertLengde == null) {
-            throw JournalpostMottakFeil.FACTORY.manglerPayloadLength().toException();
-        }
-        byte[] bytes = Base64.getUrlDecoder().decode(base64EncodedPayload);
-        String streng = new String(bytes, Charset.forName("UTF-8"));
-        if (streng.length() != deklarertLengde) {
-            throw JournalpostMottakFeil.FACTORY.feilPayloadLength(deklarertLengde, streng.length()).toException();
-        }
-        return Optional.of(streng);
+    @JsonIgnore
+    public Optional<String> getPayload() {
+        return getPayloadValiderLengde(base64EncodedPayload, payloadLength);
     }
 
     @Override

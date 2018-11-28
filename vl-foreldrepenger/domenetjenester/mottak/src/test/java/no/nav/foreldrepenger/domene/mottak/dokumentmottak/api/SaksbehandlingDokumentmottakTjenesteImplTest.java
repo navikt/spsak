@@ -17,6 +17,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.PayloadType;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjenesteImpl;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl.HåndterMottattDokumentTaskProperties;
@@ -45,7 +46,7 @@ public class SaksbehandlingDokumentmottakTjenesteImplTest {
     public void before() {
         prosessTaskRepository = mock(ProsessTaskRepository.class);
         MottatteDokumentTjeneste mottatteDokumentTjeneste = mock(MottatteDokumentTjeneste.class);
-        saksbehandlingDokumentmottakTjeneste = new SaksbehandlingDokumentmottakTjenesteImpl(prosessTaskRepository, mottatteDokumentTjeneste);
+        saksbehandlingDokumentmottakTjeneste = new SaksbehandlingDokumentmottakTjenesteImpl(prosessTaskRepository);
     }
 
     @Test
@@ -57,9 +58,8 @@ public class SaksbehandlingDokumentmottakTjenesteImplTest {
                 .medBehandlingTema(behandlingTema)
                 .medDokumentTypeId(DOKUMENTTYPE)
                 .medDokumentKategori(DOKUMENTKATEGORI)
-                .medForsendelseMottatt(FORSENDELSE_MOTTATT)
-                .medElektroniskSøknad(ELEKTRONISK_SØKNAD)
-                .medPayloadXml(PAYLOAD_XML)
+                .medMottattDato(FORSENDELSE_MOTTATT)
+                .medPayload(PayloadType.XML, PAYLOAD_XML)
                 .build();
         ArgumentCaptor<ProsessTaskData> captor = ArgumentCaptor.forClass(ProsessTaskData.class);
 
@@ -83,9 +83,8 @@ public class SaksbehandlingDokumentmottakTjenesteImplTest {
                 .medBehandlingTema(behandlingTema)
                 .medDokumentTypeId(DOKUMENTTYPE)
                 .medDokumentKategori(DOKUMENTKATEGORI)
-                .medForsendelseMottatt(FORSENDELSE_MOTTATT)
-                .medElektroniskSøknad(ELEKTRONISK_SØKNAD)
-                .medPayloadXml(PAYLOAD_XML)
+                .medMottattDato(FORSENDELSE_MOTTATT)
+                .medPayload(PayloadType.XML, PAYLOAD_XML)
                 .build();
         ArgumentCaptor<ProsessTaskData> captor = ArgumentCaptor.forClass(ProsessTaskData.class);
 

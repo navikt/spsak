@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.ReferanseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
@@ -48,7 +46,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAk
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -397,26 +394,16 @@ public class VerdikjedeTestHjelper {
     }
 
     private static void lagreInntektsmelding(BigDecimal beløp, Behandling behandling,
-                                             MottatteDokumentRepository mottatteDokumentRepository,
                                              VirksomhetRepository virksomhetRepository,
                                              InntektArbeidYtelseRepository inntektArbeidYtelseRepository,
                                              String orgnr, BigDecimal refusjonskrav, NaturalYtelse naturalYtelse) {
         LocalDate fødselsdato = SKJÆRINGSTIDSPUNKT_OPPTJENING;
-        final MottattDokument build = new MottattDokument.Builder().medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
-            .medFagsakId(behandling.getFagsakId())
-            .medMottattDato(MOTTATTDATO_INNTEKTSMELDING)
-            .medBehandlingId(behandling.getId())
-            .medElektroniskRegistrert(true)
-            .medJournalPostId(new JournalpostId("123123123"))
-            .medDokumentId("123123")
-            .build();
-        mottatteDokumentRepository.lagre(build);
 
         InntektsmeldingBuilder inntektsmeldingBuilder = InntektsmeldingBuilder.builder();
         inntektsmeldingBuilder.medStartDatoPermisjon(fødselsdato);
         inntektsmeldingBuilder.medInnsendingstidspunkt(LocalDateTime.now());
         inntektsmeldingBuilder.medBeløp(beløp);
-        inntektsmeldingBuilder.medMottattDokument(build);
+        inntektsmeldingBuilder.medJournalpostId(new JournalpostId("123123123"));
         if (naturalYtelse != null) {
             inntektsmeldingBuilder.leggTil(naturalYtelse);
         }
@@ -591,7 +578,6 @@ public class VerdikjedeTestHjelper {
     public static void opprettInntektsmeldingMedRefusjonskrav(BehandlingRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding,
                                                               NaturalYtelseEntitet naturalYtelse, BigDecimal refusjonskrav) {
         lagreInntektsmelding(inntektInntektsmelding, behandling,
-            repositoryProvider.getMottatteDokumentRepository(),
             repositoryProvider.getVirksomhetRepository(),
             repositoryProvider.getInntektArbeidYtelseRepository(),
             beregningVirksomhet.getOrgnr(),

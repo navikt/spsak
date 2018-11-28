@@ -103,12 +103,12 @@ public class InntektsmeldingAggregatEntitet extends BaseEntitet implements Innte
         }
 
         inntektsmeldinger.stream().filter(it -> it.gjelderSammeArbeidsforhold(inntektsmelding) && !fjernet).findFirst().ifPresent(e -> {
-            logger.info("Persistert inntektsmelding med journalpostid {} er nyere enn den mottatte med journalpostid {}. Ignoreres", e.getMottattDokumentId(), inntektsmelding.getMottattDokumentId());
+            logger.info("Persistert inntektsmelding med journalpostid {} er nyere enn den mottatte med journalpostid {}. Ignoreres", e.getJournalpostId(), inntektsmelding.getJournalpostId());
         });
         
-        inntektsmeldinger.stream().filter(it -> it.getMottattDokumentId().equals(inntektsmelding.getMottattDokumentId())).findFirst().ifPresent(
+        inntektsmeldinger.stream().filter(it -> it.getJournalpostId().equals(inntektsmelding.getJournalpostId())).findFirst().ifPresent(
             e -> {
-                logger.info("Persistert inntektsmelding med samme journalpostid {}", e.getMottattDokumentId());
+                logger.info("Persistert inntektsmelding med samme journalpostid {}", e.getJournalpostId());
             });
     }
 

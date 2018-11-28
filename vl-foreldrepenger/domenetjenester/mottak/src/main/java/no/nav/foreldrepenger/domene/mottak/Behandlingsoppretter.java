@@ -2,8 +2,8 @@ package no.nav.foreldrepenger.domene.mottak;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 
 public interface Behandlingsoppretter {
 
@@ -33,5 +33,5 @@ public interface Behandlingsoppretter {
 
     boolean erAvslåttFørstegangsbehandling(Behandling behandling);
 
-    void opprettNyFørstegangsbehandling(MottattDokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling);
+    void opprettNyFørstegangsbehandling(InngåendeSaksdokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling);
 }

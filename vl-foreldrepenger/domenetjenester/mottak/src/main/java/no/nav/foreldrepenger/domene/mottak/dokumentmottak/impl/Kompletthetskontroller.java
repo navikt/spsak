@@ -15,9 +15,9 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetModell;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResultat;
@@ -61,7 +61,7 @@ public class Kompletthetskontroller {
         this.kompletthetModell = kompletthetModell;
     }
 
-    void persisterDokumentOgVurderKompletthet(Behandling behandling, MottattDokument mottattDokument) {
+    void persisterDokumentOgVurderKompletthet(Behandling behandling, InngåendeSaksdokument mottattDokument) {
         // TODO (essv): Workaround mens vi venter på PKMANTIS-1646
         validerIngenVentingPåRegisteroppdateringer(behandling);
 
@@ -105,7 +105,7 @@ public class Kompletthetskontroller {
         }
     }
 
-    void persisterKøetDokumentOgVurderKompletthet(Behandling behandling, MottattDokument mottattDokument, Optional<LocalDate> gjelderFra) {
+    void persisterKøetDokumentOgVurderKompletthet(Behandling behandling, InngåendeSaksdokument mottattDokument, Optional<LocalDate> gjelderFra) {
         // Persister dokument (dvs. knytt dokument til behandlingen)
         mottatteDokumentTjeneste.persisterDokumentinnhold(behandling, mottattDokument, gjelderFra);
         vurderKompletthetForKøetBehandling(behandling);

@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import javax.xml.bind.JAXBElement;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.ArbeidsgiverperiodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
@@ -24,6 +23,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.InntektsmeldingFeil;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.MottattDokumentOversetter;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.NamespaceRef;
@@ -70,7 +70,7 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
     }
 
     @Override
-    public void trekkUtDataOgPersister(MottattDokumentWrapperInntektsmelding wrapper, MottattDokument mottattDokument, Behandling behandling, Optional<LocalDate> gjelderFra) {
+    public void trekkUtDataOgPersister(MottattDokumentWrapperInntektsmelding wrapper, InngåendeSaksdokument mottattDokument, Behandling behandling, Optional<LocalDate> gjelderFra) {
         String aarsakTilInnsending = wrapper.getSkjema().getSkjemainnhold().getAarsakTilInnsending();
         InntektsmeldingInnsendingsårsak innsendingsårsak = aarsakTilInnsending.isEmpty() ?
             InntektsmeldingInnsendingsårsak.UDEFINERT :
@@ -78,7 +78,7 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
 
         InntektsmeldingBuilder builder = InntektsmeldingBuilder.builder();
         builder.medInnsendingstidspunkt(wrapper.getInnsendingstidspunkt());
-        builder.medMottattDokument(mottattDokument);
+        builder.medJournalpostId(mottattDokument.getJournalpostId());
         builder.medVirksomhet(virksomhetTjeneste.hentOgLagreOrganisasjon(
             wrapper.getArbeidsgiver().getVirksomhetsnummer()))
             .medNærRelasjon(wrapper.getErNærRelasjon());

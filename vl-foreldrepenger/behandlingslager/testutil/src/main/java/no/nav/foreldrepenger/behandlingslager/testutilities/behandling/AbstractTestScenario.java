@@ -77,7 +77,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRep
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepositoryStub;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlagBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlagEntitet;
@@ -242,7 +241,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         SøknadRepository søknadRepository = mockSøknadRepository();
         InntektArbeidYtelseRepository inntektArbeidYtelseRepository = getIayScenario().mockInntektArbeidYtelseRepository();
         VirksomhetRepository virksomhetRepository = InntektArbeidYtelseScenario.mockVirksomhetRepository();
-        MottatteDokumentRepository mottatteDokumentRepository = mockMottatteDokumentRepository();
         BeregningsgrunnlagRepository beregningsgrunnlagRepository = mockBeregningsgrunnlagRepository();
         BeregningRepository beregningRepository = mockBeregningRepository();
         OpptjeningRepository opptjeningRepository = Mockito.mock(OpptjeningRepository.class);
@@ -270,7 +268,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         when(repositoryProvider.getBehandlingVedtakRepository()).thenReturn(behandlingVedtakRepository);
         when(repositoryProvider.getInntektArbeidYtelseRepository()).thenReturn(inntektArbeidYtelseRepository);
         when(repositoryProvider.getVirksomhetRepository()).thenReturn(virksomhetRepository);
-        when(repositoryProvider.getMottatteDokumentRepository()).thenReturn(mottatteDokumentRepository);
         when(repositoryProvider.getBeregningsgrunnlagRepository()).thenReturn(beregningsgrunnlagRepository);
         when(repositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
         when(repositoryProvider.getFagsakLåsRepository()).thenReturn(fagsakLåsRepository);
@@ -436,11 +433,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
             }
 
         };
-    }
-
-    private MottatteDokumentRepository mockMottatteDokumentRepository() {
-        MottatteDokumentRepository dokumentRepository = Mockito.mock(MottatteDokumentRepository.class);
-        return dokumentRepository;
     }
 
     /**

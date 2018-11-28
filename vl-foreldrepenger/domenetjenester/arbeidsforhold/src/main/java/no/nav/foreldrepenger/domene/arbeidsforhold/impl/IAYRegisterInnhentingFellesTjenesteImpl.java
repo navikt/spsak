@@ -381,11 +381,9 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
                                                            InntektsKilde inntektOpptjening) {
         AktørInntektEntitet.InntektBuilder inntektBuilder = aktørInntektBuilder.getInntektBuilder(inntektOpptjening, new Opptjeningsnøkkel(arbeidsgiver));
 
-        inntekter.entrySet()
-            .forEach(mi -> lagInntektsposter(mi, inntektBuilder));
+        inntekter.entrySet().forEach(mi -> lagInntektsposter(mi, inntektBuilder));
 
-        return inntektBuilder
-            .medArbeidsgiver(arbeidsgiver);
+        return inntektBuilder.medArbeidsgiver(arbeidsgiver);
     }
 
     private void lagInntektsposter(Månedsinntekt månedsinntekt, AktørInntektEntitet.InntektBuilder inntektBuilder) {
@@ -398,7 +396,7 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
             inntektspostBuilder.medInntektspostType(InntektspostType.YTELSE)
                 .medYtelse(mapTilKodeliste(månedsinntekt));
         }
-        inntektspostBuilder.build();
+        inntektBuilder.leggTilInntektspost(inntektspostBuilder);
     }
 
     private void lagInntektsposter(Map.Entry<YearMonth, BigDecimal> månedsinntekt, AktørInntektEntitet.InntektBuilder inntektBuilder) {

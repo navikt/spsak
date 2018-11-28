@@ -24,8 +24,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
@@ -106,16 +104,6 @@ public class VurderArbeidsforholdTjenesteImplTest {
     }
 
     private InntektArbeidYtelseRepository sendNyInntektsmelding(Behandling behandling, Arbeidsgiver virksomhet, ArbeidsforholdRef ref) {
-        MottattDokument mottattDokument = new MottattDokument.Builder()
-            .medFagsakId(behandling.getFagsakId())
-            .medBehandlingId(behandling.getId())
-            .medJournalPostId(new JournalpostId("123"))
-            .medDokumentId("121231")
-            .medElektroniskRegistrert(true)
-            .medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
-            .medMottattDato(LocalDate.now()).build();
-        repositoryProvider.getMottatteDokumentRepository().lagre(mottattDokument);
-
         InntektsmeldingBuilder inntektsmeldingBuilder = InntektsmeldingBuilder.builder()
             .medVirksomhet(virksomhet.getVirksomhet())
             .medArbeidsforholdId(ref.getReferanse())
@@ -123,7 +111,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
             .medStartDatoPermisjon(SKJÆRINGSTIDSPUNKT)
             .medInntektsmeldingaarsak(InntektsmeldingInnsendingsårsak.NY)
             .medInnsendingstidspunkt(LocalDateTime.now())
-            .medMottattDokument(mottattDokument);
+            .medJournalpostId(new JournalpostId("123"));
 
         final InntektArbeidYtelseRepository iayrep = repositoryProvider.getInntektArbeidYtelseRepository();
         iayrep.lagre(behandling, inntektsmeldingBuilder.build());
@@ -211,17 +199,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
     }
 
     private void sendInnInntektsmelding(Behandling behandling, Arbeidsgiver virksomhet, ArbeidsforholdRef ref, InntektArbeidYtelseRepository iayrep, Behandling revurdering) {
-        MottattDokument mottattDokument;
         InntektsmeldingBuilder inntektsmeldingBuilder;
-        mottattDokument = new MottattDokument.Builder()
-            .medFagsakId(behandling.getFagsakId())
-            .medBehandlingId(revurdering.getId())
-            .medJournalPostId(new JournalpostId("123"))
-            .medDokumentId("121231")
-            .medElektroniskRegistrert(true)
-            .medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
-            .medMottattDato(LocalDate.now()).build();
-        repositoryProvider.getMottatteDokumentRepository().lagre(mottattDokument);
 
         inntektsmeldingBuilder = InntektsmeldingBuilder.builder()
             .medVirksomhet(virksomhet.getVirksomhet())
@@ -230,7 +208,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
             .medStartDatoPermisjon(SKJÆRINGSTIDSPUNKT)
             .medInntektsmeldingaarsak(InntektsmeldingInnsendingsårsak.ENDRING)
             .medInnsendingstidspunkt(LocalDateTime.now())
-            .medMottattDokument(mottattDokument);
+            .medJournalpostId(new JournalpostId("123"));
 
         iayrep.lagre(revurdering, inntektsmeldingBuilder.build());
     }

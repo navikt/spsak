@@ -33,8 +33,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -68,8 +66,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingL�
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
@@ -105,13 +101,12 @@ public class InntektArbeidYtelseTjenesteImplTest {
     private FagsakRepository fagsakRepository = new FagsakRepositoryImpl(repoRule.getEntityManager());
     private InntektArbeidYtelseTjeneste tjeneste;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-    private MottatteDokumentRepository mottatteDokumentRepository = new MottatteDokumentRepositoryImpl(repoRule.getEntityManager());
     private ArbeidsforholdAdministrasjonTjeneste arbeidsforholdTjeneste;
 
     private String AREBIDSFORHOLD_ID = "1";
     private AktørId AKTØRID = new AktørId("1");
     private Virksomhet virksomhet;
-    private LocalDate I_DAG = LocalDate.now();
+    private LocalDateTime I_DAG = LocalDateTime.now();
 
     @Before
     public void setUp() throws Exception {
@@ -132,9 +127,9 @@ public class InntektArbeidYtelseTjenesteImplTest {
         when(vurderArbeidsforholdTjeneste.vurder(any(Behandling.class))).thenReturn(arbeidsgiverSetMap);
 
         final SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
-        when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(any())).thenReturn(I_DAG);
-        when(skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(any())).thenReturn(I_DAG);
-        when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any())).thenReturn(I_DAG);
+        when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(any())).thenReturn(I_DAG.toLocalDate());
+        when(skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(any())).thenReturn(I_DAG.toLocalDate());
+        when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any())).thenReturn(I_DAG.toLocalDate());
         tjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, arbeidsforholTjenesteMock.getMock(), tpsTjeneste, virksomhetTjeneste, skjæringstidspunktTjeneste, new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste));
         arbeidsforholdTjeneste = new ArbeidsforholdAdministrasjonTjenesteImpl(repositoryProvider, vurderArbeidsforholdTjeneste, tpsTjeneste, skjæringstidspunktTjeneste);
     }
@@ -149,7 +144,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
         // Act+Assert
         assertThat(tjeneste.utledManglendeInntektsmeldingerFraArkiv(behandling)).isNotEmpty();
 
-        lagreInntektsmelding(I_DAG.minusDays(2), behandling, "1");
+        lagreInntektsmelding(I_DAG.minusDays(2), behandling, "1", "123");
 
         // Act+Assert
         assertThat(tjeneste.utledManglendeInntektsmeldingerFraArkiv(behandling)).isEmpty();
@@ -161,7 +156,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
         Behandling behandling = opprettBehandling();
         opprettOppgittOpptjening(behandling);
         opprettInntektArbeidYtelseAggregatForYrkesaktivitet(AKTØRID, AREBIDSFORHOLD_ID, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD, BigDecimal.TEN, behandling);
-        lagreInntektsmelding(I_DAG.minusDays(2), behandling, "1");
+        lagreInntektsmelding(I_DAG.minusDays(2), behandling, "1", "123");
         avsluttBehandlingOgFagsak(behandling);
 
         Behandling revurdering = opprettRevurderingsbehandling(behandling);
@@ -170,7 +165,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
         // Act+Assert
         assertThat(tjeneste.utledManglendeInntektsmeldingerFraArkiv(revurdering)).isNotEmpty();
 
-        final Inntektsmelding nyInntektsmelding = lagreInntektsmelding(I_DAG, revurdering, "1");
+        final Inntektsmelding nyInntektsmelding = lagreInntektsmelding(I_DAG, revurdering, "1", "1234");
 
         // Act+Assert
         assertThat(tjeneste.utledManglendeInntektsmeldingerFraArkiv(revurdering)).isEmpty();
@@ -181,33 +176,33 @@ public class InntektArbeidYtelseTjenesteImplTest {
 
     @Test
     public void skal_utlede_arbeidsforholdwrapper() {
-        LocalDate mottattDato = I_DAG.minusDays(2);
+        LocalDateTime mottattDato = I_DAG.minusDays(2);
 
         Behandling behandling = opprettBehandling();
         opprettOppgittOpptjening(behandling);
         opprettInntektArbeidYtelseAggregatForYrkesaktivitet(AKTØRID, AREBIDSFORHOLD_ID, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD, BigDecimal.TEN, behandling);
-        lagreInntektsmelding(mottattDato, behandling, AREBIDSFORHOLD_ID);
+        lagreInntektsmelding(mottattDato, behandling, AREBIDSFORHOLD_ID, "123");
 
         Set<ArbeidsforholdWrapper> wrapperList = arbeidsforholdTjeneste.hentArbeidsforholdFerdigUtledet(behandling);
 
         assertThat(wrapperList).hasSize(1);
         ArbeidsforholdWrapper arbeidsforhold = wrapperList.iterator().next();
 
-        assertThat(arbeidsforhold.getMottattDatoInntektsmelding()).isEqualTo(mottattDato);
+        assertThat(arbeidsforhold.getMottattDatoInntektsmelding()).isEqualTo(mottattDato.toLocalDate());
         assertThat(arbeidsforhold.getBrukArbeidsforholdet()).isEqualTo(true);
         assertThat(arbeidsforhold.getFortsettBehandlingUtenInntektsmelding()).isEqualTo(false);
-        assertThat(arbeidsforhold.getFomDato()).isEqualTo(I_DAG.minusMonths(3));
-        assertThat(arbeidsforhold.getTomDato()).isEqualTo(I_DAG.plusMonths(2));
+        assertThat(arbeidsforhold.getFomDato()).isEqualTo(I_DAG.minusMonths(3).toLocalDate());
+        assertThat(arbeidsforhold.getTomDato()).isEqualTo(I_DAG.plusMonths(2).toLocalDate());
     }
 
     @Test
     public void skal_utlede_arbeidsforholdwrapper_etter_overstyring() {
-        LocalDate mottattDato = I_DAG.minusDays(2);
+        LocalDateTime mottattDato = I_DAG.minusDays(2);
 
         Behandling behandling = opprettBehandling();
         opprettOppgittOpptjening(behandling);
         opprettInntektArbeidYtelseAggregatForYrkesaktivitet(AKTØRID, AREBIDSFORHOLD_ID, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD, BigDecimal.TEN, behandling);
-        lagreInntektsmelding(mottattDato, behandling, AREBIDSFORHOLD_ID);
+        lagreInntektsmelding(mottattDato, behandling, AREBIDSFORHOLD_ID, "123");
 
         ArbeidsforholdInformasjonBuilder informasjonBuilder = arbeidsforholdTjeneste.opprettBuilderFor(behandling);
         ArbeidsforholdInformasjon arbeidsforholdInformasjon = inntektArbeidYtelseRepository.hentArbeidsforholdInformasjon(behandling).get();
@@ -223,11 +218,11 @@ public class InntektArbeidYtelseTjenesteImplTest {
         assertThat(wrapperList).hasSize(1);
         ArbeidsforholdWrapper arbeidsforhold = wrapperList.iterator().next();
 
-        assertThat(arbeidsforhold.getMottattDatoInntektsmelding()).isEqualTo(mottattDato);
+        assertThat(arbeidsforhold.getMottattDatoInntektsmelding()).isEqualTo(mottattDato.toLocalDate());
         assertThat(arbeidsforhold.getBrukArbeidsforholdet()).isEqualTo(true);
         assertThat(arbeidsforhold.getFortsettBehandlingUtenInntektsmelding()).isEqualTo(false);
-        assertThat(arbeidsforhold.getFomDato()).isEqualTo(I_DAG.minusMonths(3));
-        assertThat(arbeidsforhold.getTomDato()).isEqualTo(I_DAG.plusMonths(2));
+        assertThat(arbeidsforhold.getFomDato()).isEqualTo(I_DAG.minusMonths(3).toLocalDate());
+        assertThat(arbeidsforhold.getTomDato()).isEqualTo(I_DAG.plusMonths(2).toLocalDate());
     }
 
     @Test
@@ -236,16 +231,16 @@ public class InntektArbeidYtelseTjenesteImplTest {
         Behandling behandling = opprettBehandling();
         opprettOppgittOpptjening(behandling);
         opprettInntektArbeidYtelseAggregatForYrkesaktivitet(AKTØRID, AREBIDSFORHOLD_ID, ArbeidType.ORDINÆRT_ARBEIDSFORHOLD, BigDecimal.TEN, behandling);
-        lagreInntektsmelding(I_DAG.minusDays(2), behandling, "1");
-        lagreInntektsmelding(I_DAG.minusDays(3), behandling, "2");
+        lagreInntektsmelding(I_DAG.minusDays(2), behandling, "1", "1");
+        lagreInntektsmelding(I_DAG.minusDays(3), behandling, "2", "12");
         avsluttBehandlingOgFagsak(behandling);
 
         List<Inntektsmelding> inntektsmeldingerFørGjeldendeVedtak = tjeneste.hentAlleInntektsmeldinger(behandling);
 
         Behandling revurdering = opprettRevurderingsbehandling(behandling);
         inntektArbeidYtelseRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revurdering);
-        lagreInntektsmelding(I_DAG.plusWeeks(2), revurdering,"1");
-        lagreInntektsmelding(I_DAG.plusWeeks(3), revurdering, "3");
+        lagreInntektsmelding(I_DAG.plusWeeks(2), revurdering,"1", "123");
+        lagreInntektsmelding(I_DAG.plusWeeks(3), revurdering, "3", "1234");
 
 
         // Act+Assert
@@ -274,30 +269,20 @@ public class InntektArbeidYtelseTjenesteImplTest {
 
     private boolean erDisjonkteListerAvInntektsmeldinger(List<Inntektsmelding> imsA, List<Inntektsmelding> imsB) {
         return Collections.disjoint(
-            imsA.stream().map(ima -> ima.getMottattDokumentId()).collect(Collectors.toList()),
-            imsB.stream().map(imb -> imb.getMottattDokumentId()).collect(Collectors.toList()));
+            imsA.stream().map(ima -> ima.getJournalpostId()).collect(Collectors.toList()),
+            imsB.stream().map(imb -> imb.getJournalpostId()).collect(Collectors.toList()));
     }
 
 
-    private Inntektsmelding lagreInntektsmelding(LocalDate mottattDato, Behandling behandling, String arbeidsforholdId) {
-        final MottattDokument mottattDokument = new MottattDokument.Builder()
-            .medFagsakId(behandling.getFagsakId())
-            .medBehandlingId(behandling.getId())
-            .medJournalPostId(new JournalpostId("123"))
-            .medDokumentId(mottattDato.toString())
-            .medElektroniskRegistrert(true)
-            .medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
-            .medMottattDato(mottattDato).build();
-        mottatteDokumentRepository.lagre(mottattDokument);
-
+    private Inntektsmelding lagreInntektsmelding(LocalDateTime mottattDato, Behandling behandling, String arbeidsforholdId, String journalpostId) {
         Inntektsmelding inntektsmelding = InntektsmeldingBuilder.builder()
-            .medStartDatoPermisjon(I_DAG)
+            .medStartDatoPermisjon(I_DAG.toLocalDate())
             .medVirksomhet(virksomhet)
             .medBeløp(BigDecimal.TEN)
             .medNærRelasjon(false)
             .medArbeidsforholdId(arbeidsforholdId)
-            .medInnsendingstidspunkt(LocalDateTime.now())
-            .medMottattDokument(mottattDokument)
+            .medInnsendingstidspunkt(mottattDato)
+            .medJournalpostId(new JournalpostId(journalpostId))
             .build();
 
         inntektArbeidYtelseRepository.lagre(behandling, inntektsmelding);
@@ -306,7 +291,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
     }
 
     private void opprettOppgittOpptjening(Behandling behandling) {
-        DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(I_DAG.minusMonths(2), I_DAG.plusMonths(1));
+        DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(I_DAG.minusMonths(2).toLocalDate(), I_DAG.plusMonths(1).toLocalDate());
         OppgittOpptjeningBuilder oppgitt = OppgittOpptjeningBuilder.ny();
         oppgitt.leggTilAnnenAktivitet(new AnnenAktivitetEntitet(periode, ArbeidType.MILITÆR_ELLER_SIVILTJENESTE));
         inntektArbeidYtelseRepository.lagre(behandling, oppgitt);
@@ -315,7 +300,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
     private void opprettInntektArbeidYtelseAggregatForYrkesaktivitet(AktørId aktørId, String arbeidsforhold,
                                                                      ArbeidType type, BigDecimal prosentsats,
                                                                      Behandling behandling) {
-        DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(I_DAG.minusMonths(3), I_DAG.plusMonths(2));
+        DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(I_DAG.minusMonths(3).toLocalDate(), I_DAG.plusMonths(2).toLocalDate());
 
         InntektArbeidYtelseAggregatBuilder builder = InntektArbeidYtelseAggregatBuilder
             .oppdatere(Optional.empty(), VersjonType.REGISTER);
@@ -384,7 +369,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
         final Personinfo personinfo = new Personinfo.Builder()
             .medNavn("Navn navnesen")
             .medAktørId(AKTØRID)
-            .medFødselsdato(I_DAG.minusYears(20))
+            .medFødselsdato(I_DAG.minusYears(20).toLocalDate())
             .medLandkode(Landkoder.NOR)
             .medNavBrukerKjønn(NavBrukerKjønn.KVINNE)
             .medPersonIdent(new PersonIdent("12312312312"))
@@ -405,7 +390,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
         behandlingRepository.lagre(behandling, lås);
         BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder()
             .medBehandlingsresultat(behandling.getBehandlingsresultat())
-            .medVedtaksdato(I_DAG.minusDays(1))
+            .medVedtaksdato(I_DAG.minusDays(1).toLocalDate())
             .medAnsvarligSaksbehandler("Nav Navesen")
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .build();

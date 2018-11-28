@@ -61,8 +61,6 @@ public interface BehandlingRepositoryProvider {
 
     BeregningsresultatFPRepository getBeregningsresultatFPRepository();
 
-    MottatteDokumentRepository getMottatteDokumentRepository();
-
     BehandlingRevurderingRepository getBehandlingRevurderingRepository();
 
     FagsakLåsRepository getFagsakLåsRepository();

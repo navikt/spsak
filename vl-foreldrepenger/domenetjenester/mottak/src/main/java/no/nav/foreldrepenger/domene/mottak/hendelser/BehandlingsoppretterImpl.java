@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.domene.mottak.hendelser;
 import static java.util.stream.Collectors.toList;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,22 +23,23 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
+import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentPersistererTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
@@ -55,13 +57,13 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
     private DokumentPersistererTjeneste dokumentPersistererTjeneste;
     private ProsessTaskRepository prosessTaskRepository;
     private MottatteDokumentTjeneste mottatteDokumentTjeneste;
-    private MottatteDokumentRepository mottatteDokumentRepository;
     private SøknadRepository søknadRepository;
     private BehandlendeEnhetTjeneste behandlendeEnhetTjeneste;
     private KodeverkRepository kodeverkRepository;
     private AksjonspunktRepository aksjonspunktRepository;
     private BehandlingRevurderingRepository revurderingRepository;
     private HistorikkinnslagTjeneste historikkinnslagTjeneste;
+    private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
 
     public BehandlingsoppretterImpl() {
         // For CDI
@@ -74,7 +76,9 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
                                     DokumentPersistererTjeneste dokumentPersistererTjeneste,
                                     ProsessTaskRepository prosessTaskRepository,
                                     MottatteDokumentTjeneste mottatteDokumentTjeneste,
-                                    BehandlendeEnhetTjeneste behandlendeEnhetTjeneste, HistorikkinnslagTjeneste historikkinnslagTjeneste) {
+                                    BehandlendeEnhetTjeneste behandlendeEnhetTjeneste,
+                                    HistorikkinnslagTjeneste historikkinnslagTjeneste,
+                                    InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste) {
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
         this.dokumentPersistererTjeneste = dokumentPersistererTjeneste;
@@ -82,13 +86,13 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
         this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
         this.mottatteDokumentTjeneste = mottatteDokumentTjeneste;
         this.aksjonspunktRepository = behandlingRepositoryProvider.getAksjonspunktRepository();
-        this.mottatteDokumentRepository = behandlingRepositoryProvider.getMottatteDokumentRepository();
         this.søknadRepository = behandlingRepositoryProvider.getSøknadRepository();
         this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
         this.behandlendeEnhetTjeneste = behandlendeEnhetTjeneste;
         this.revurderingRepository = behandlingRepositoryProvider.getBehandlingRevurderingRepository();
         this.behandlingVedtakRepository = behandlingRepositoryProvider.getBehandlingVedtakRepository();
         this.historikkinnslagTjeneste = historikkinnslagTjeneste;
+        this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
     }
 
     @Override
@@ -113,7 +117,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
         henleggBehandling(behandling);
         Behandling nyFørstegangsbehandling = opprettNyFørstegangsbehandling(behandlingÅrsakType, fagsak);
         kopierInntektsmeldinger(behandling, nyFørstegangsbehandling);
-        kopierVedlegg(behandling, nyFørstegangsbehandling);
         return nyFørstegangsbehandling;
     }
 
@@ -147,7 +150,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
         Behandling revurdering = opprettRevurdering(sisteYtelseBehandling.getFagsak(), revurderingsÅrsak);
 
         kopierInntektsmeldinger(sisteYtelseBehandling, revurdering);
-        kopierVedlegg(sisteYtelseBehandling, revurdering);
 
         // Kopier behandlingsårsaker fra forrige behandling
         new BehandlingÅrsak.Builder(sisteYtelseBehandling.getBehandlingÅrsaker().stream()
@@ -163,28 +165,17 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
 
     @Override
     public void henleggBehandling(Behandling behandling) {
-        BehandlingskontrollKontekst kontekst =  behandlingskontrollTjeneste.initBehandlingskontroll(behandling.getId());
+        BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(behandling.getId());
         behandlingskontrollTjeneste.settAutopunkterTilUtført(kontekst, true);
         behandlingskontrollTjeneste.henleggBehandling(kontekst, BehandlingResultatType.MERGET_OG_HENLAGT);
     }
 
     private void kopierInntektsmeldinger(Behandling origBehandling, Behandling nyBehandling) {
-        hentInntektsmeldingdokumenter(origBehandling)
-            .forEach(mottattDokument ->
-                dokumentPersistererTjeneste.persisterDokumentinnhold(mottattDokument, nyBehandling));
-    }
-
-    private void kopierVedlegg(Behandling opprinneligBehandling, Behandling nyBehandling) {
-        List<MottattDokument> vedlegg = mottatteDokumentTjeneste.hentMottatteDokumentVedlegg(opprinneligBehandling.getId());
-
-        if (!vedlegg.isEmpty()) {
-            vedlegg.forEach(vedlegget -> {
-                MottattDokument dokument = new MottattDokument.Builder(vedlegget)
-                    .medBehandlingId(nyBehandling.getId())
-                    .build();
-                mottatteDokumentRepository.lagre(dokument);
-            });
-        }
+        List<Inntektsmelding> inntektsmeldinger = inntektArbeidYtelseTjeneste.hentAlleInntektsmeldingerForFagsak(origBehandling.getFagsakId());
+        inntektsmeldinger.sort(Comparator.comparing(Inntektsmelding::getInnsendingstidspunkt));
+        inntektsmeldinger.stream()
+            .map(InntektsmeldingBuilder::kopi)
+            .forEach(imb -> inntektArbeidYtelseTjeneste.lagre(nyBehandling, imb.build()));
     }
 
     @Override
@@ -208,14 +199,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
     @Override
     public Behandling opprettBerørtBehandling(Fagsak fagsak) {
         return opprettRevurdering(fagsak, BehandlingÅrsakType.BERØRT_BEHANDLING);
-    }
-
-    private List<MottattDokument> hentInntektsmeldingdokumenter(Behandling behandling) {
-        DokumentTypeId dokumenttypeIM = kodeverkRepository.finn(DokumentTypeId.class, DokumentTypeId.INNTEKTSMELDING);
-
-        return mottatteDokumentTjeneste.hentMottatteDokument(behandling.getId()).stream()
-            .filter(dok -> dok.getDokumentTypeId().equals(dokumenttypeIM))
-            .collect(toList());
     }
 
     private void opprettTaskForÅStarteBehandling(Behandling behandling) {
@@ -257,20 +240,12 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
     }
 
     @Override
-    public void opprettNyFørstegangsbehandling(MottattDokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling) {
+    public void opprettNyFørstegangsbehandling(InngåendeSaksdokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling) {
         Behandling behandling = finnEllerOpprettFørstegangsbehandling(fagsak);
 
         // Ny førstegangssøknad med payload
-        if (DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL.getKode().equals(mottattDokument.getDokumentTypeId().getKode()) && mottattDokument.getPayloadXml() != null) {
+        if (DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL.getKode().equals(mottattDokument.getDokumentTypeId().getKode()) && mottattDokument.harPayload()) {
             mottatteDokumentTjeneste.persisterDokumentinnhold(behandling, mottattDokument, Optional.empty());
-        } else {
-            Søknad søknad = søknadRepository.hentSøknad(avsluttetBehandling);
-            søknadRepository.lagreOgFlush(behandling, søknad);
-
-            MottattDokument.Builder builder = new MottattDokument.Builder(mottattDokument);
-            builder.medElektroniskRegistrert(true);
-            builder.medId(mottattDokument.getId());
-            mottatteDokumentTjeneste.persisterDokumentinnhold(behandling, builder.build(), Optional.empty());
         }
 
         opprettTaskForÅStarteBehandling(behandling);

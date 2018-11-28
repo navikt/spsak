@@ -1,7 +1,11 @@
 package no.nav.foreldrepenger.domene.mottak.dokumentmottak;
 
+import java.nio.charset.Charset;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
@@ -11,27 +15,42 @@ import no.nav.foreldrepenger.domene.typer.JournalpostId;
 public class InngåendeSaksdokument {
 
     private Long fagsakId;
-    private JournalpostId journalpostId;
-    private BehandlingTema behandlingTema;
+    private Long behandlingId;
+    private DokumentKategori dokumentKategori;
     private DokumentTypeId dokumentTypeId;
+    private JournalpostId journalpostId;
+    private String dokumentId;
+    private BehandlingTema behandlingTema;
     private LocalDate forsendelseMottatt;
-    private Boolean elektroniskSøknad;
-    private String payloadXml;
+    private PayloadType payloadType;
+    private String payloadAsBase64;
     private String behandlingÅrsakType;
     private UUID forsendelseId;
-    private DokumentKategori dokumentKategori;
     private String journalEnhet;
 
     private InngåendeSaksdokument() {
         // Skjult.
     }
 
+    @JsonIgnore
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public Long getFagsakId() {
         return fagsakId;
     }
 
+    public Long getBehandlingId() {
+        return behandlingId;
+    }
+
     public JournalpostId getJournalpostId() {
         return journalpostId;
+    }
+
+    public String getDokumentId() {
+        return dokumentId;
     }
 
     public BehandlingTema getBehandlingTema() {
@@ -46,12 +65,18 @@ public class InngåendeSaksdokument {
         return forsendelseMottatt;
     }
 
-    public Boolean isElektroniskSøknad() {
-        return elektroniskSøknad;
+    @JsonIgnore
+    public boolean harPayload() {
+        return payloadAsBase64 != null;
     }
 
-    public String getPayloadXml() {
-        return payloadXml;
+    @JsonIgnore
+    public String getPayload() {
+        if (harPayload()) {
+            byte[] bytes = Base64.getDecoder().decode(payloadAsBase64);
+            return new String(bytes, Charset.forName("UTF-8"));
+        }
+        return payloadAsBase64;
     }
 
     public String getBehandlingÅrsakType() {
@@ -62,31 +87,53 @@ public class InngåendeSaksdokument {
         return forsendelseId;
     }
 
-    public DokumentKategori getDokumentKategori() { return dokumentKategori; }
+    public DokumentKategori getDokumentKategori() {
+        return dokumentKategori;
+    }
 
     public String getJournalEnhet() {
         return journalEnhet;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public PayloadType getPayloadType() {
+        return payloadType;
+    }
+
+    @JsonIgnore
+    @Override
+    public String toString() {
+        return "InngåendeSaksdokument{" +
+            "fagsakId=" + fagsakId +
+            ", behandlingId=" + behandlingId +
+            ", journalpostId=" + journalpostId +
+            ", dokumentTypeId=" + dokumentTypeId +
+            ", forsendelseMottatt=" + forsendelseMottatt +
+            ", dokumentKategori=" + dokumentKategori +
+            '}';
     }
 
     public static class Builder {
         private Long fagsakId;
+        private Long behandlingId;
         private JournalpostId journalpostId;
         private BehandlingTema behandlingTema;
         private DokumentTypeId dokumentTypeId;
         private LocalDate forsendelseMottatt;
-        private Boolean elektroniskSøknad = Boolean.TRUE;
-        private String payloadXml;
+        private String payload;
+        private PayloadType payloadType;
         private String behandlingÅrsakType;
         private UUID forsendelseId;
         private DokumentKategori dokumentKategori;
         private String journalEnhet;
+        private String dokumentId;
 
         public InngåendeSaksdokument.Builder medFagsakId(Long fagsakId) {
             this.fagsakId = fagsakId;
+            return this;
+        }
+
+        public InngåendeSaksdokument.Builder medBehandlingId(Long behandlingId) {
+            this.behandlingId = behandlingId;
             return this;
         }
 
@@ -120,13 +167,8 @@ public class InngåendeSaksdokument {
             return this;
         }
 
-        public InngåendeSaksdokument.Builder medForsendelseMottatt(LocalDate forsendelseMottatt) {
+        public InngåendeSaksdokument.Builder medMottattDato(LocalDate forsendelseMottatt) {
             this.forsendelseMottatt = forsendelseMottatt;
-            return this;
-        }
-
-        public InngåendeSaksdokument.Builder medElektroniskSøknad(Boolean elektroniskSøknad) {
-            this.elektroniskSøknad = elektroniskSøknad;
             return this;
         }
 
@@ -135,8 +177,22 @@ public class InngåendeSaksdokument {
             return this;
         }
 
-        public InngåendeSaksdokument.Builder medPayloadXml(String payloadXml) {
-            this.payloadXml = payloadXml;
+        public InngåendeSaksdokument.Builder medDokumentId(String dokumentId) {
+            this.dokumentId = dokumentId;
+            return this;
+        }
+
+        public InngåendeSaksdokument.Builder medPayload(PayloadType type, String payload) {
+            if (payload != null) {
+                this.payload = Base64.getEncoder().encodeToString(payload.getBytes(Charset.forName("UTF-8")));
+                this.payloadType = type;
+            }
+            return this;
+        }
+
+        public InngåendeSaksdokument.Builder medPayloadAsBase64(PayloadType type, String payload) {
+            this.payload = payload;
+            this.payloadType = type;
             return this;
         }
 
@@ -144,17 +200,20 @@ public class InngåendeSaksdokument {
             InngåendeSaksdokument saksdokument = new InngåendeSaksdokument();
 
             saksdokument.fagsakId = this.fagsakId;
+            saksdokument.behandlingId = this.behandlingId;
             saksdokument.journalpostId = this.journalpostId;
+            saksdokument.dokumentId = this.dokumentId;
             saksdokument.behandlingTema = this.behandlingTema;
             saksdokument.dokumentTypeId = this.dokumentTypeId;
             saksdokument.forsendelseMottatt = this.forsendelseMottatt;
-            saksdokument.elektroniskSøknad = this.elektroniskSøknad;
-            saksdokument.payloadXml = this.payloadXml;
+            saksdokument.payloadAsBase64 = this.payload;
+            saksdokument.payloadType = this.payloadType;
             saksdokument.behandlingÅrsakType = this.behandlingÅrsakType;
             saksdokument.forsendelseId = this.forsendelseId;
             saksdokument.dokumentKategori = this.dokumentKategori;
             saksdokument.journalEnhet = this.journalEnhet;
             return saksdokument;
         }
+
     }
 }

@@ -11,6 +11,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.xml.sax.SAXException;
 
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.PayloadType;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.MottattDokumentWrapper;
 import no.nav.foreldrepenger.søknad.v1.SøknadConstants;
 import no.nav.vedtak.felles.integrasjon.felles.ws.JaxbHelper;
@@ -32,9 +33,24 @@ public final class MottattDokumentXmlParser {
     }
 
     @SuppressWarnings("rawtypes")
-    public static MottattDokumentWrapper unmarshallXml(String xml) {
-        final Object mottattDokument;
-        final String namespace = hentNamespace(xml);
+    public static MottattDokumentWrapper unmarshall(PayloadType payloadType, String payload) {
+
+        if(PayloadType.XML.equals(payloadType)) {
+            return unmarshallXml(payload);
+        }
+        if(PayloadType.JSON.equals(payloadType)) {
+            return unmarshallJson(payload);
+        }
+        throw new IllegalArgumentException("Ukjent payload type " + payloadType);
+    }
+
+    private static MottattDokumentWrapper unmarshallJson(String payload) {
+        return null; // FIXME SP : Lag parser
+    }
+
+    private static MottattDokumentWrapper unmarshallXml(String payload) {
+        Object mottattDokument;
+        final String namespace = hentNamespace(payload);
 
         try {
             DokumentParserKonfig dokumentParserKonfig = SCHEMA_AND_CLASSES_TIL_STRUKTURERTE_DOKUMENTER.get(namespace);
@@ -42,7 +58,7 @@ public final class MottattDokumentXmlParser {
                 throw FACTORY.ukjentNamespace(namespace, new IllegalStateException()).toException();
             }
             mottattDokument = JaxbHelper.unmarshalAndValidateXMLWithStAX(dokumentParserKonfig.jaxbClass,
-                xml,
+                payload,
                 dokumentParserKonfig.xsdLocation,
                 dokumentParserKonfig.additionalXsd,
                 dokumentParserKonfig.additionalClasses);

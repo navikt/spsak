@@ -40,7 +40,7 @@ public class KompletthetssjekkerSøknadFPFørstegangsbehandling extends Komplett
                                                             SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                                             @KonfigVerdi("ventefrist.uker.ved.tidlig.fp.soeknad") Integer antallUkerVentefristVedForTidligSøknad) {
         super(repositoryProvider.getKodeverkRepository(),
-            skjæringstidspunktTjeneste, antallUkerVentefristVedForTidligSøknad, repositoryProvider.getSøknadRepository(), repositoryProvider.getMottatteDokumentRepository());
+            skjæringstidspunktTjeneste, antallUkerVentefristVedForTidligSøknad, repositoryProvider.getSøknadRepository());
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.dokumentArkivTjeneste = dokumentArkivTjeneste;
     }
@@ -55,7 +55,7 @@ public class KompletthetssjekkerSøknadFPFørstegangsbehandling extends Komplett
     @Override
     public List<ManglendeVedlegg> utledManglendeVedleggForSøknad(Behandling behandling) {
         final Optional<Søknad> søknad = søknadRepository.hentSøknadHvisEksisterer(behandling);
-        Set<DokumentTypeId> dokumentTypeIds = dokumentArkivTjeneste.hentDokumentTypeIdForSak(behandling.getFagsak().getSaksnummer(), LocalDate.MIN, Collections.emptyList());
+        Set<DokumentTypeId> dokumentTypeIds = dokumentArkivTjeneste.hentDokumentTypeIdForSak(behandling.getFagsak().getSaksnummer(), LocalDate.MIN, Collections.emptySet());
         List<ManglendeVedlegg> manglendeVedlegg = identifiserManglendeVedlegg(søknad, dokumentTypeIds);
 
         if (!manglendeVedlegg.isEmpty()) {

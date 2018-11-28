@@ -7,7 +7,6 @@ import static no.nav.vedtak.feil.LogLevel.WARN;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +23,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
@@ -36,7 +34,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.datavarehus.tjeneste.DatavarehusTjeneste;
@@ -69,7 +66,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private RevurderingTjenesteProvider revurderingTjenesteProvider;
     private DatavarehusTjeneste datavarehusTjeneste;
-    private MottatteDokumentRepository mottatteDokumentRepository;
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste;
 
     BehandlingsutredningApplikasjonTjenesteImpl() {
@@ -95,7 +91,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
         this.oppgaveTjeneste = oppgaveTjeneste;
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
-        this.mottatteDokumentRepository = behandlingRepositoryProvider.getMottatteDokumentRepository();
         this.saksbehandlingDokumentmottakTjeneste = saksbehandlingDokumentmottakTjeneste;
     }
 
@@ -173,16 +168,9 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
         List<Behandling> behandlinger = behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(saksnummer);
 
         if (erLovÅOppretteNyBehandling(behandlinger)) {
-            MottattDokument sisteMottatteSøknad = mottatteDokumentRepository.hentMottatteDokumentMedFagsakId(fagsakId).stream()
-                .filter(md -> md.getDokumentTypeId().erSøknadType())
-                // Søknader lagret fra utfylte papirsøknader skal ikke hentes, altså hvis de ikke er elektronisk
-                // registert og har payLoadXml
-                .filter(md -> md.getElektroniskRegistrert() || md.getPayloadXml() == null)
-                .max(Comparator.comparing(MottattDokument::getMottattDato).thenComparing(MottattDokument::getOpprettetTidspunkt))
-                .orElseThrow(() -> BehandlingsutredningApplikasjonTjenesteFeil.FACTORY
-                    .ingenSøknaderÅOppretteNyFørstegangsbehandlingPå(fagsakId).toException());
             String behandlingÅrsaktypeKode = null;
-            saksbehandlingDokumentmottakTjeneste.dokumentAnkommet(tilSaksdokument(fagsakId, sisteMottatteSøknad, behandlingÅrsaktypeKode));
+            // FIXME SP : Må finne på noe annet her.
+            saksbehandlingDokumentmottakTjeneste.dokumentAnkommet(tilSaksdokument(fagsakId, null, behandlingÅrsaktypeKode));
         } else {
             throw BehandlingsutredningApplikasjonTjenesteFeil.FACTORY.kanIkkeOppretteNyFørstegangsbehandling(fagsakId).toException();
         }
@@ -194,18 +182,10 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
         return kodeverkRepository.finn(BehandlingTema.class, behandlingTemaKonst);
     }
 
-    private InngåendeSaksdokument tilSaksdokument(Long fagsakId, MottattDokument mottattDokument, String behandlingÅrsakType) {
+    private InngåendeSaksdokument tilSaksdokument(Long fagsakId, Object mottattDokument, String behandlingÅrsakType) {
         return InngåendeSaksdokument.builder()
+            .medBehandlingTema(kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.SYKEPENGER))
             .medFagsakId(fagsakId)
-            .medBehandlingTema(utledBehandlingTema(mottattDokument.getDokumentTypeId()))
-            .medDokumentTypeId(mottattDokument.getDokumentTypeId())
-            .medForsendelseMottatt(mottattDokument.getMottattDato())
-            .medElektroniskSøknad(mottattDokument.getElektroniskRegistrert()) // Alltid papirsøknad når registrert
-            // fra GUI
-            .medJournalpostId(mottattDokument.getJournalpostId())
-            .medPayloadXml(mottattDokument.getPayloadXml())
-            .medBehandlingÅrsak(behandlingÅrsakType)
-            .medDokumentKategori(mottattDokument.getDokumentKategori())
             .build();
     }
 

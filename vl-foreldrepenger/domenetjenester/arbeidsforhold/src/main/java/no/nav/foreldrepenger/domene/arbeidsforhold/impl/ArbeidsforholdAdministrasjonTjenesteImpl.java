@@ -9,6 +9,7 @@ import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidyte
 import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdKilde.INNTEKTSKOMPONENTEN;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,7 +28,6 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørArbeidEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
@@ -52,7 +52,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektspostType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.domene.arbeidsforhold.ArbeidsforholdAdministrasjonTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.VurderArbeidsforholdTjeneste;
@@ -74,7 +73,6 @@ public class ArbeidsforholdAdministrasjonTjenesteImpl implements ArbeidsforholdA
     private VurderArbeidsforholdTjeneste vurderArbeidsforholdTjeneste;
     private TpsTjeneste tpsTjeneste;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
-    private MottatteDokumentRepository mottatteDokumentRepository;
 
     ArbeidsforholdAdministrasjonTjenesteImpl() {
     }
@@ -85,7 +83,6 @@ public class ArbeidsforholdAdministrasjonTjenesteImpl implements ArbeidsforholdA
                                                     TpsTjeneste tpsTjeneste,
                                                     SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
         this.iayRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        this.mottatteDokumentRepository = repositoryProvider.getMottatteDokumentRepository();
         this.vurderArbeidsforholdTjeneste = vurderArbeidsforholdTjeneste;
         this.tpsTjeneste = tpsTjeneste;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
@@ -159,8 +156,7 @@ public class ArbeidsforholdAdministrasjonTjenesteImpl implements ArbeidsforholdA
         return inntektsmeldinger.stream().map(i -> {
             ArbeidsforholdWrapper wrapper = new ArbeidsforholdWrapper();
             wrapper.setNavn(i.getVirksomhet().getNavn());
-            wrapper.setMottattDatoInntektsmelding(
-                mottatteDokumentRepository.hentMottattDokument(i.getMottattDokumentId()).map(MottattDokument::getMottattDato).orElse(null));
+            wrapper.setMottattDatoInntektsmelding(i.getInnsendingstidspunkt().toLocalDate());
             ArbeidsforholdRef arbeidsforholdRef = i.getArbeidsforholdRef();
             if (arbeidsforholdRef != null) {
                 wrapper.setArbeidsforholdId(arbeidsforholdRef.getReferanse());
@@ -317,11 +313,11 @@ public class ArbeidsforholdAdministrasjonTjenesteImpl implements ArbeidsforholdA
     }
 
     private LocalDate mottattInntektsmelding(ArbeidsforholdOverstyringEntitet a, List<Inntektsmelding> alleInntektsmeldinger) {
-        final Optional<Long> mottattDokumentId = alleInntektsmeldinger.stream().filter(im -> a.getArbeidsgiver().getErVirksomhet()
+        final Optional<LocalDate> mottattTidspunkt = alleInntektsmeldinger.stream().filter(im -> a.getArbeidsgiver().getErVirksomhet()
             && a.getArbeidsgiver().getVirksomhet().equals(im.getVirksomhet())
             && a.getArbeidsforholdRef() == null || (!im.gjelderForEtSpesifiktArbeidsforhold() || im.getArbeidsforholdRef().equals(a.getArbeidsforholdRef()))).findFirst()
-            .map(Inntektsmelding::getMottattDokumentId);
-        return mottattDokumentId.map(id -> mottatteDokumentRepository.hentMottattDokument(id).map(MottattDokument::getMottattDato).orElse(null)).orElse(null);
+            .map(Inntektsmelding::getInnsendingstidspunkt).map(LocalDateTime::toLocalDate);
+        return mottattTidspunkt.orElse(null);
     }
 
     private List<ArbeidsforholdWrapper> utledArbeidsforholdFraInntekt(Behandling behandling, Optional<InntektArbeidYtelseGrunnlag> grunnlagOptional,

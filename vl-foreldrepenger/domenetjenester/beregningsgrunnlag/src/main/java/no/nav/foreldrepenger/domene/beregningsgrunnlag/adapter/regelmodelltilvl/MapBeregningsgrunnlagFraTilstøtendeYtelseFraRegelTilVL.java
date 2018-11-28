@@ -51,7 +51,7 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL {
     private VirksomhetRepository virksomhetRepository;
     private MatchBeregningsgrunnlagTjeneste matchBeregningsgrunnlagTjeneste;
 
-    public MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL() {
+    MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL() {
         // for CDI
     }
 

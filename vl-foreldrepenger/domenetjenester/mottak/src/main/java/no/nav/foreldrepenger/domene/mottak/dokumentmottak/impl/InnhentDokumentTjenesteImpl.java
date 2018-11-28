@@ -14,11 +14,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentGruppe;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InnhentDokumentTjeneste;
 
 @Dependent
@@ -60,7 +60,7 @@ public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
     }
 
     @Override
-    public void utfør(MottattDokument mottattDokument, BehandlingÅrsakType behandlingÅrsakType) {
+    public void utfør(InngåendeSaksdokument mottattDokument, BehandlingÅrsakType behandlingÅrsakType) {
         Fagsak fagsak = fagsakRepository.finnEksaktFagsak(mottattDokument.getFagsakId());
         DokumentTypeId dokumentTypeId = mottattDokument.getDokumentTypeId();
 

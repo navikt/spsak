@@ -27,8 +27,6 @@ import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.ReferanseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.SatsType;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
@@ -51,11 +49,11 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioM
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettSkjæringstidspunktOgStatuser;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningArbeidsgiverTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraVLTilRegel;
+import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
@@ -72,11 +70,9 @@ public class FastsettSkjæringstidspunktOgStatuserTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-
+    private final EntityManager entityManager = repoRule.getEntityManager();
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
-
-    private final EntityManager entityManager = repoRule.getEntityManager();
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
 
     private FastsettSkjæringstidspunktOgStatuser tjeneste;
@@ -357,7 +353,6 @@ public class FastsettSkjæringstidspunktOgStatuserTest {
     public void testSkjæringstidspunktForFlereArbeidsforholdISammeVirksomhet() {
 
 
-
         // Arrange
         aktiviteter.add(new OpptjeningAktivitet(SKJÆRINGSTIDSPUNKT_OPPTJENING.minusMonths(4),
             DAGEN_FØR_SFO,
@@ -391,20 +386,12 @@ public class FastsettSkjæringstidspunktOgStatuserTest {
 
         for (String arbId : arbIdListe) {
 
-            MottattDokument mottattDokument = new MottattDokument.Builder()
-                .medBehandlingId(behandling.getId())
-                .medFagsakId(behandling.getFagsakId())
-                .medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
-                .medDokumentId("foo")
-                .build();
-            repositoryProvider.getMottatteDokumentRepository().lagre(mottattDokument);
-
             Inntektsmelding im = InntektsmeldingBuilder.builder()
                 .medVirksomhet(virksomhet)
                 .medInnsendingstidspunkt(LocalDateTime.now())
                 .medArbeidsforholdId(arbId)
                 .medBeløp(BigDecimal.valueOf(100000))
-                .medMottattDokument(mottattDokument)
+                .medJournalpostId(new JournalpostId(arbId))
                 .medStartDatoPermisjon(LocalDate.now())
                 .build();
             repositoryProvider.getInntektArbeidYtelseRepository().lagre(behandling, im);

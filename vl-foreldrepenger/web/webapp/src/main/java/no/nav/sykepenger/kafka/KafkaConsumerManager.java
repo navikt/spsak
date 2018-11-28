@@ -29,7 +29,7 @@ public class KafkaConsumerManager implements AppServiceHandler {
         for (KafkaConsumer consumer : consumersInstance) {
             consumerList.add(consumer);
         }
-        LOGGER.info("initConsumers la til {} consumers", consumerList.size());
+        LOGGER.info("La til {} consumers", consumerList.size());
     }
 
     // Får inn (indirekte) liste over alle beans av type KafkaConsumer
@@ -39,27 +39,27 @@ public class KafkaConsumerManager implements AppServiceHandler {
         for (KafkaConsumer consumer : consumersInstance) {
             consumerList.add(consumer);
         }
-        LOGGER.info("initConsumers la til {} consumers", consumerList.size());
+        LOGGER.info("La til {} consumers", consumerList.size());
     }
 
 
     @Override
     public void start() {
-        LOGGER.debug("start ...");
+        LOGGER.debug("Starter consumere ...");
         for (KafkaConsumer consumer : consumerList) {
-            LOGGER.info("starter {}" + consumer.getClass().getSimpleName());
+            LOGGER.info("Starter consumer av topic {}", consumer.getTopic());
             consumer.start();
         }
-        LOGGER.info("startet");
+        LOGGER.info("Startet");
     }
 
     @Override
     public void stop() {
-        LOGGER.debug("stop ...");
+        LOGGER.debug("Stopper consumere ...");
         for (KafkaConsumer consumer : consumerList) {
-            LOGGER.info("stopper {}" + consumer.getClass().getSimpleName());
+            LOGGER.info("Stopper consumer av topic {}", consumer.getTopic());
             consumer.stop();
         }
-        LOGGER.info("stoppet");
+        LOGGER.info("Stoppet");
     }
 }

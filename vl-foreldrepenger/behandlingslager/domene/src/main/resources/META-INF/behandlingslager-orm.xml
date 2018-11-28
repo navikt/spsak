@@ -56,7 +56,6 @@
     <sequence-generator name="SEQ_PERMISJON" allocation-size="50" sequence-name="SEQ_PERMISJON"/>
     <sequence-generator name="SEQ_AKTIVITETS_AVTALE" allocation-size="50" sequence-name="SEQ_AKTIVITETS_AVTALE"/>
 
-    <sequence-generator name="SEQ_MOTTATT_DOKUMENT" allocation-size="50" sequence-name="SEQ_MOTTATT_DOKUMENT"/>
     <sequence-generator name="SEQ_SOEKNAD_BARN" allocation-size="50" sequence-name="SEQ_SOEKNAD_BARN"/>
     <sequence-generator name="SEQ_SOEKNAD_ANNEN_PART" allocation-size="50" sequence-name="SEQ_SOEKNAD_ANNEN_PART"/>
     <sequence-generator name="SEQ_SOEKNAD_VEDLEGG" allocation-size="50" sequence-name="SEQ_SOEKNAD_VEDLEGG"/>
@@ -221,7 +220,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentGruppe"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Innsendingsvalg"/>
 

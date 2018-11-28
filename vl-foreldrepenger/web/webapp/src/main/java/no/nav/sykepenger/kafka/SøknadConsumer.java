@@ -24,24 +24,24 @@ import no.nav.vedtak.felles.AktiverContextOgTransaksjon;
 
 @ApplicationScoped
 @AktiverContextOgTransaksjon
-public class InntektsmeldingConsumer extends KafkaConsumer {
+public class SøknadConsumer extends KafkaConsumer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InntektsmeldingConsumer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SøknadConsumer.class);
 
     private MottakTilSaksdokumentMapper mottakTilSaksdokumentMapper;
-    private ObjectMapper objectMapper;
     private SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste;
+    private ObjectMapper objectMapper;
     private KodeverkRepository kodeverkRepository;
 
-    InntektsmeldingConsumer() {
+    SøknadConsumer() {
         // CDI
     }
 
     @Inject
-    public InntektsmeldingConsumer(BehandlingRepositoryProvider repositoryProvider, SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste,
-                                   DokumentArkivTjeneste dokumentArkivTjeneste,
-                                   FagsakTjeneste fagsakTjeneste) {
-        super("inntektsmelding");
+    public SøknadConsumer(BehandlingRepositoryProvider repositoryProvider, SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste,
+                          DokumentArkivTjeneste dokumentArkivTjeneste,
+                          FagsakTjeneste fagsakTjeneste) {
+        super("sykepengesoeknad");
 
         this.dokumentmottakTjeneste = dokumentmottakTjeneste;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
@@ -52,9 +52,10 @@ public class InntektsmeldingConsumer extends KafkaConsumer {
     @Override
     public void handleMessage(String key, String payload) {
         LOGGER.debug("Mottatt melding med key='{}', og payload='{}'", key, payload);
+
         try {
             JournalpostMottakDto dto = objectMapper.readValue(payload, JournalpostMottakDto.class);
-            dto.setDokumentTypeIdOffisiellKode(kodeverkRepository.finn(DokumentTypeId.class, DokumentTypeId.INNTEKTSMELDING).getOffisiellKode());
+            dto.setDokumentTypeIdOffisiellKode(kodeverkRepository.finn(DokumentTypeId.class, DokumentTypeId.UDEFINERT).getOffisiellKode());
             InngåendeSaksdokument saksdokument = mottakTilSaksdokumentMapper.map(dto, PayloadType.XML);
             dokumentmottakTjeneste.dokumentAnkommet(saksdokument);
         } catch (IOException e) {

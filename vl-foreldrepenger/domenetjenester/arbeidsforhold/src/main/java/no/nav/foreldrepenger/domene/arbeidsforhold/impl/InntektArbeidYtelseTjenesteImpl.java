@@ -25,7 +25,6 @@ import no.nav.foreldrepenger.behandlingslager.IntervallUtil;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørYtelseEndring;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
@@ -60,6 +59,7 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.Organisasjon;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.Person;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import no.nav.vedtak.util.FPDateUtil;
@@ -152,7 +152,7 @@ public class InntektArbeidYtelseTjenesteImpl implements InntektArbeidYtelseTjene
         Map<String, Inntektsmelding> origIM = hentIMMedIndexKey(origBehandling);
         return revurderingIM.entrySet().stream()
             .filter(imRevurderingEntry -> !origIM.containsKey(imRevurderingEntry.getKey())
-                || !Objects.equals(origIM.get(imRevurderingEntry.getKey()).getMottattDokumentId(), imRevurderingEntry.getValue().getMottattDokumentId()))
+                || !Objects.equals(origIM.get(imRevurderingEntry.getKey()).getJournalpostId(), imRevurderingEntry.getValue().getJournalpostId()))
             .map(Map.Entry::getValue)
             .collect(Collectors.toList());
     }
@@ -215,6 +215,11 @@ public class InntektArbeidYtelseTjenesteImpl implements InntektArbeidYtelseTjene
     @Override
     public void lagre(Behandling behandling, InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder) {
         repository.lagre(behandling, inntektArbeidYtelseAggregatBuilder);
+    }
+
+    @Override
+    public void lagre(Behandling behandling, Inntektsmelding inntektsmelding) {
+        repository.lagre(behandling, inntektsmelding);
     }
 
     @Override
@@ -354,11 +359,6 @@ public class InntektArbeidYtelseTjenesteImpl implements InntektArbeidYtelseTjene
         return false;
     }
 
-    @Override
-    public Optional<Inntektsmelding> hentInntektsMeldingFor(MottattDokument mottattDokument) {
-        return repository.hentInntektsMeldingFor(mottattDokument);
-    }
-
     private Map<String, Set<String>> utledPåkrevdeInntektsmeldingerFraArkiv(Behandling behandling) {
         final PersonIdent fnr = tpsTjeneste.hentFnrForAktør(behandling.getAktørId());
         final LocalDate mottattDato = utledMottattDato(behandling);
@@ -471,5 +471,15 @@ public class InntektArbeidYtelseTjenesteImpl implements InntektArbeidYtelseTjene
             .flatMap(InntektArbeidYtelseGrunnlag::getOppgittOpptjening)
             .map(oppgittOpptjening -> !oppgittOpptjening.getEgenNæring().isEmpty())
             .orElse(false);
+    }
+
+    @Override
+    public Map<JournalpostId, Set<Long>> hentBehandlingerPerInntektsmeldingFor(Long fagsakId) {
+        return Map.of(); // FIXME : SP implementer
+    }
+
+    @Override
+    public Optional<Inntektsmelding> hentInnteksmeldingFor(JournalpostId journalpostId) {
+        return Optional.empty(); // FIXME : SP implementer
     }
 }

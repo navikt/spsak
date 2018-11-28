@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.domene.beregningsgrunnlag;
 
-import static java.util.Arrays.asList;
-
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -59,7 +57,7 @@ public class FastsettSkjæringstidspunktOgStatuser {
 
         // Oversett endelig resultat av regelmodell (+ spore input -> evaluation)
         List<String> regelInputer = List.of(inputSkjæringstidspunkt, inputStatusFastsetting);
-        List<RegelResultat> regelResultater = asList(RegelmodellOversetter.getRegelResultat(evaluationSkjæringstidspunkt), RegelmodellOversetter.getRegelResultat(evaluationStatusFastsetting));
+        List<RegelResultat> regelResultater = List.of(RegelmodellOversetter.getRegelResultat(evaluationSkjæringstidspunkt), RegelmodellOversetter.getRegelResultat(evaluationStatusFastsetting));
         Dekningsgrad dekningsgrad = oversetterTilRegel.mapDekningsgrad(behandling);
         return oversetterFraRegel.mapForSkjæringstidspunktOgStatuser(behandling, regelmodell, dekningsgrad, regelInputer, regelResultater);
     }

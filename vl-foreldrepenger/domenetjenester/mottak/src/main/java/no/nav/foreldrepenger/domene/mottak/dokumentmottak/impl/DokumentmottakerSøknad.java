@@ -8,17 +8,18 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
 
 @ApplicationScoped
 @DokumentGruppeRef("SØKNAD")
 class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument {
+
+    private final SøknadRepository søknadRepository;
 
     @Inject
     public DokumentmottakerSøknad(BehandlingRepositoryProvider repositoryProvider,
@@ -31,10 +32,11 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
             behandlingsoppretter,
             kompletthetskontroller,
             repositoryProvider);
+        this.søknadRepository = repositoryProvider.getSøknadRepository();
     }
 
     @Override
-    void håndterIngenTidligereBehandling(Fagsak fagsak, MottattDokument mottattDokument, BehandlingÅrsakType behandlingÅrsakType) {
+    void håndterIngenTidligereBehandling(Fagsak fagsak, InngåendeSaksdokument mottattDokument, BehandlingÅrsakType behandlingÅrsakType) {
         // Opprett ny førstegangsbehandling
         Behandling behandling = behandlingsoppretter.finnEllerOpprettFørstegangsbehandling(fagsak);
         mottatteDokumentTjeneste.persisterDokumentinnhold(behandling, mottattDokument, Optional.empty());
@@ -43,7 +45,7 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
     }
 
     @Override
-    void håndterAvsluttetTidligereBehandling(MottattDokument mottattDokument, Fagsak fagsak, BehandlingÅrsakType behandlingÅrsakType) {
+    void håndterAvsluttetTidligereBehandling(InngåendeSaksdokument mottattDokument, Fagsak fagsak, BehandlingÅrsakType behandlingÅrsakType) {
         // Start ny førstegangsbehandling av søknad
         Behandling behandling = behandlingsoppretter.opprettNyFørstegangsbehandling(behandlingÅrsakType, fagsak);
         mottatteDokumentTjeneste.persisterDokumentinnhold(behandling, mottattDokument, Optional.empty());
@@ -52,7 +54,7 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
     }
 
     @Override
-    void oppdaterÅpenBehandlingMedDokument(Behandling behandling, MottattDokument mottattDokument, BehandlingÅrsakType behandlingÅrsakType) {
+    void oppdaterÅpenBehandlingMedDokument(Behandling behandling, InngåendeSaksdokument mottattDokument, BehandlingÅrsakType behandlingÅrsakType) {
         dokumentmottakerFelles.opprettHistorikk(behandling, mottattDokument.getJournalpostId());
 
         Fagsak fagsak = behandling.getFagsak();
@@ -65,26 +67,16 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
             mottatteDokumentTjeneste.persisterDokumentinnhold(nyFørstegangsbehandling, mottattDokument, søknadsdatoFraHenlagtBehandling);
             dokumentmottakerFelles.opprettTaskForÅStarteBehandling(nyFørstegangsbehandling);
         } else {
-            if (!mottattDokument.getElektroniskRegistrert()) {
-                if (kompletthetskontroller.støtterBehandlingstypePapirsøknad(behandling)) {
-                    mottatteDokumentTjeneste.oppdaterMottattDokumentMedBehandling(mottattDokument, behandling.getId());
-                    kompletthetskontroller.flyttTilbakeTilRegistreringPapirsøknad(behandling);
-                } else {
-                    dokumentmottakerFelles.opprettTaskForÅVurdereDokument(fagsak, behandling, mottattDokument);
-                }
-                return;
-            }
             if (erPåVent) {
                 kompletthetskontroller.persisterDokumentOgVurderKompletthet(behandling, mottattDokument);
             } else {
-                mottatteDokumentTjeneste.oppdaterMottattDokumentMedBehandling(mottattDokument, behandling.getId());
                 dokumentmottakerFelles.opprettTaskForÅVurdereDokument(fagsak, behandling, mottattDokument);
             }
         }
     }
 
     @Override
-    void håndterKøetBehandling(MottattDokument mottattDokument, Behandling køetBehandling, BehandlingÅrsakType behandlingÅrsakType) {
+    void håndterKøetBehandling(InngåendeSaksdokument mottattDokument, Behandling køetBehandling, BehandlingÅrsakType behandlingÅrsakType) {
         if (harMottattSøknadTidligere(køetBehandling)) {
             // Oppdatere behandling gjennom henleggelse
             Behandling nyKøetBehandling = behandlingsoppretter.henleggOgOpprettNyFørstegangsbehandling(køetBehandling.getFagsak(), køetBehandling, behandlingÅrsakType);
@@ -99,7 +91,7 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
     }
 
     @Override
-    void håndterAvslåttBehandling(MottattDokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling) {
+    void håndterAvslåttBehandling(InngåendeSaksdokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling) {
         if (erAvslagGrunnetOpplysningsplikt(avsluttetBehandling)) {
             behandlingsoppretter.opprettNyFørstegangsbehandling(mottattDokument, fagsak, avsluttetBehandling);
         } else {
@@ -108,8 +100,7 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
     }
 
     private boolean harMottattSøknadTidligere(Behandling behandling) {
-        return mottatteDokumentTjeneste.harMottattDokumentSet(behandling.getId(), DokumentTypeId.getSøknadTyper()) ||
-            mottatteDokumentTjeneste.harMottattDokumentKat(behandling.getId(), DokumentKategori.SØKNAD);
+        return søknadRepository.hentSøknadHvisEksisterer(behandling.getId()).isPresent();
     }
 
 }

@@ -5,11 +5,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.domene.typer.Beløp;
+import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.vedtak.konfig.Tid;
 
 public class InntektsmeldingBuilder {
@@ -21,6 +21,10 @@ public class InntektsmeldingBuilder {
 
     public static InntektsmeldingBuilder builder() {
         return new InntektsmeldingBuilder(new InntektsmeldingEntitet());
+    }
+
+    public static InntektsmeldingBuilder kopi(Inntektsmelding inntektsmelding) {
+        return new InntektsmeldingBuilder(new InntektsmeldingEntitet(inntektsmelding));
     }
 
     public InntektsmeldingBuilder medVirksomhet(Virksomhet virksomhet) {
@@ -94,8 +98,8 @@ public class InntektsmeldingBuilder {
     }
 
 
-    public InntektsmeldingBuilder medMottattDokument(MottattDokument mottattDokument) {
-        kladd.setMottattDokumentId(mottattDokument.getId());
+    public InntektsmeldingBuilder medJournalpostId(JournalpostId journalpostId) {
+        kladd.setJournalpostId(journalpostId);
         return this;
     }
 

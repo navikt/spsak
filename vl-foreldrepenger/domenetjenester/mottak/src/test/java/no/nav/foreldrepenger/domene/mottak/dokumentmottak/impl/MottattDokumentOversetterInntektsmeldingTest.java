@@ -27,7 +27,6 @@ import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
@@ -37,11 +36,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Refusjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.PayloadType;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.inntektsmelding.v1.MottattDokumentOversetterInntektsmelding;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.inntektsmelding.v1.MottattDokumentWrapperInntektsmelding;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.xml.MottattDokumentXmlParser;
@@ -57,15 +56,13 @@ import no.nav.vedtak.felles.integrasjon.organisasjon.OrganisasjonConsumer;
 
 public class MottattDokumentOversetterInntektsmeldingTest {
 
-    @Rule
-    public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
-
     private final OrganisasjonConsumer organisasjonConsumer = mock(OrganisasjonConsumer.class);
     private final FileToStringUtil fileToStringUtil = new FileToStringUtil();
+    @Rule
+    public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
 
     private final InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-    private MottatteDokumentRepository mottatteDokumentRepository = new MottatteDokumentRepositoryImpl(repositoryRule.getEntityManager());
     private MottattDokumentOversetterInntektsmelding oversetter;
 
     @Before
@@ -129,9 +126,9 @@ public class MottattDokumentOversetterInntektsmeldingTest {
     public void skalMappeOgPersistereKorrektInnsendingsdato() throws IOException, URISyntaxException {
         // Arrange
         final Behandling behandling = opprettBehandling();
-        MottattDokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
+        InngåendeSaksdokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
 
-        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
+        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
 
         // Act
         oversetter.trekkUtDataOgPersister(wrapper, mottattDokument, behandling, Optional.empty());
@@ -153,8 +150,8 @@ public class MottattDokumentOversetterInntektsmeldingTest {
     public void skalVedMottakAvNyInntektsmeldingPåSammeArbeidsforholdIkkeOverskriveHvisPersistertErNyereEnnMottatt() throws IOException, URISyntaxException {
         // Arrange
         final Behandling behandling = opprettBehandling();
-        MottattDokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
-        MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
+        InngåendeSaksdokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
+        MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
 
         MottattDokumentWrapperInntektsmelding wrapperSpied = Mockito.spy(wrapper);
 
@@ -188,8 +185,8 @@ public class MottattDokumentOversetterInntektsmeldingTest {
     public void skalVedMottakAvNyInntektsmeldingPåSammeArbeidsforholdOverskriveHvisPersistertErEldreEnnMottatt() throws IOException, URISyntaxException {
         // Arrange
         final Behandling behandling = opprettBehandling();
-        MottattDokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
-        MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
+        InngåendeSaksdokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
+        MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
 
         MottattDokumentWrapperInntektsmelding wrapperSpied = Mockito.spy(wrapper);
 
@@ -220,9 +217,9 @@ public class MottattDokumentOversetterInntektsmeldingTest {
 
     private Behandling opprettScenarioOgLagreInntektsmelding(String inntektsmeldingFilnavn) throws URISyntaxException, IOException {
         final Behandling behandling = opprettBehandling();
-        MottattDokument mottattDokument = opprettDokument(behandling, inntektsmeldingFilnavn);
+        InngåendeSaksdokument mottattDokument = opprettDokument(behandling, inntektsmeldingFilnavn);
 
-        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshallXml(mottattDokument.getPayloadXml());
+        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
 
         oversetter.trekkUtDataOgPersister(wrapper, mottattDokument, behandling, Optional.empty());
         return behandling;
@@ -233,23 +230,21 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         return scenario.lagre(repositoryProvider);
     }
 
-    private MottattDokument opprettDokument(Behandling behandling, String inntektsmeldingFilnavn) throws IOException, URISyntaxException {
+    private InngåendeSaksdokument opprettDokument(Behandling behandling, String inntektsmeldingFilnavn) throws IOException, URISyntaxException {
         final InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = inntektArbeidYtelseRepository.opprettBuilderFor(behandling, VersjonType.REGISTER);
         inntektArbeidYtelseRepository.lagre(behandling, inntektArbeidYtelseAggregatBuilder);
         final String xml = fileToStringUtil.readFile(inntektsmeldingFilnavn);
-        final MottattDokument.Builder builder = new MottattDokument.Builder();
+        final InngåendeSaksdokument.Builder builder = new InngåendeSaksdokument.Builder();
 
-        MottattDokument mottattDokument = builder.medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
+        InngåendeSaksdokument mottattDokument = builder.medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
             .medFagsakId(behandling.getFagsakId())
             .medMottattDato(LocalDate.now())
             .medBehandlingId(behandling.getId())
-            .medElektroniskRegistrert(true)
-            .medJournalPostId(new JournalpostId("123123123"))
+            .medJournalpostId(new JournalpostId("123123123"))
+            .medPayload(PayloadType.XML, xml)
             .medDokumentId("123123")
-            .medXmlPayload(xml)
             .build();
 
-        mottatteDokumentRepository.lagre(mottattDokument);
         return mottattDokument;
     }
 }

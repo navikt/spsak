@@ -17,18 +17,17 @@ import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InnhentDokumentTjeneste;
-import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.PayloadType;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.json.JacksonJsonConfig;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentPersistererTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.DokumentPersistererTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -47,18 +46,15 @@ public class HåndterMottattDokumentTaskTest {
     private long FAGSAK_ID = 1L;
     private InnhentDokumentTjeneste innhentDokumentTjeneste;
     private HåndterMottattDokumentTask håndterMottattDokumentTask;
-    private MottatteDokumentTjeneste mottatteDokumentTjeneste;
     private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
     private KodeverkRepository kodeverkRepository = new KodeverkRepositoryImpl(repoRule.getEntityManager());
-    private MottatteDokumentRepository mottatteDokumentRepository = new MottatteDokumentRepositoryImpl(repoRule.getEntityManager());
     private DokumentPersistererTjeneste dokumentPersistererTjeneste = new DokumentPersistererTjenesteImpl();
 
     @Before
     public void before() {
         final Integer FRIST_INNSENDING_DOK = 6;
         innhentDokumentTjeneste = mock(InnhentDokumentTjeneste.class);
-        mottatteDokumentTjeneste = new MottatteDokumentTjenesteImpl(FRIST_INNSENDING_DOK, dokumentPersistererTjeneste, mottatteDokumentRepository, repositoryProvider);
-        håndterMottattDokumentTask = new HåndterMottattDokumentTask(innhentDokumentTjeneste, mottatteDokumentTjeneste, repositoryProvider);
+        håndterMottattDokumentTask = new HåndterMottattDokumentTask(innhentDokumentTjeneste, repositoryProvider);
         final Personinfo personinfo = new Personinfo.Builder()
             .medAktørId(new AktørId("1"))
             .medPersonIdent(new PersonIdent("12345678901"))
@@ -73,24 +69,22 @@ public class HåndterMottattDokumentTaskTest {
     @Test
     public void skal_kalle_InnhentDokumentTjeneste_med_argumenter_fra_ProsessTask() throws Exception {
         // Arrange
-        MottattDokument mottattDokument = new MottattDokument.Builder()
+        InngåendeSaksdokument mottattDokument = new InngåendeSaksdokument.Builder()
             .medFagsakId(FAGSAK_ID)
-            .medJournalPostId(JOURNALPOST_ID)
+            .medJournalpostId(JOURNALPOST_ID)
             .medDokumentTypeId(DOKUMENTTYPE)
             .medMottattDato(FORSENDELSE_MOTTATT)
-            .medXmlPayload(PAYLOAD_XML)
-            .medElektroniskRegistrert(true)
+            .medPayload(PayloadType.XML, PAYLOAD_XML)
             .build();
 
-        Long dokumentId = mottatteDokumentTjeneste.lagreMottattDokumentPåFagsak(FAGSAK_ID, mottattDokument);
 
         final BehandlingTema behandlingTema = kodeverkRepository.finn(BehandlingTema.class, BehandlingTema.SYKEPENGER);
         ProsessTaskData prosessTask = new ProsessTaskData(HåndterMottattDokumentTaskProperties.TASKTYPE);
         prosessTask.setFagsakId(FAGSAK_ID);
-        prosessTask.setProperty(HåndterMottattDokumentTaskProperties.MOTTATT_DOKUMENT_ID_KEY, dokumentId.toString());
+        prosessTask.setPayload(JacksonJsonConfig.getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(mottattDokument));
         prosessTask.setProperty(HåndterMottattDokumentTaskProperties.BEHANDLINGSTEMA_OFFISIELL_KODE_KEY, behandlingTema.getOffisiellKode());
         prosessTask.setProperty(HåndterMottattDokumentTaskProperties.BEHANDLING_ÅRSAK_TYPE_KEY, BehandlingÅrsakType.UDEFINERT.getKode());
-        ArgumentCaptor<MottattDokument> captor = ArgumentCaptor.forClass(MottattDokument.class);
+        ArgumentCaptor<InngåendeSaksdokument> captor = ArgumentCaptor.forClass(InngåendeSaksdokument.class);
 
         // Act
         håndterMottattDokumentTask.doTask(prosessTask);

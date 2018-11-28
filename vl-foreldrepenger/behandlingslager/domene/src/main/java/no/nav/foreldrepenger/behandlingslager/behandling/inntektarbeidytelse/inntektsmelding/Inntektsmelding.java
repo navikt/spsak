@@ -9,6 +9,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arb
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.domene.typer.Beløp;
+import no.nav.foreldrepenger.domene.typer.JournalpostId;
 
 public interface Inntektsmelding {
     /**
@@ -61,12 +62,12 @@ public interface Inntektsmelding {
     LocalDate getStartDatoPermisjon();
 
     /**
-     * Referanse til {@link no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument} som benyttes for å markere
+     * Referanse til journalposten som benyttes for å markere
      * hvilke dokument som er gjeldende i behandlingen
      *
-     * @return {@link Long}
+     * @return {@link JournalpostId}
      */
-    Long getMottattDokumentId();
+    JournalpostId getJournalpostId();
 
     /**
      * Er det nær relasjon mellom søker og arbeidsgiver

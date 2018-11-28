@@ -36,9 +36,6 @@
         <listener-class>no.nav.foreldrepenger.web.app.selftest.HealthCheckServletContextListener</listener-class>
     </listener>
     <listener>
-        <listener-class>no.nav.foreldrepenger.web.app.metrics.MetricsServletContextListener</listener-class>
-    </listener>
-    <listener>
         <listener-class>no.nav.foreldrepenger.web.app.startupinfo.AppStartupServletContextListener</listener-class>
     </listener>
     <listener>

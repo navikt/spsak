@@ -24,9 +24,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
@@ -56,7 +54,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -92,7 +89,6 @@ public class HentGrunnlagsdataTjenesteImplTest {
     private OpptjeningRepository opptjeningRepository = repositoryProvider.getOpptjeningRepository();
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
     private VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
-    private MottatteDokumentRepository mottatteDokumentRepository = repositoryProvider.getMottatteDokumentRepository();
     private HentGrunnlagsdataTjenesteImpl hentGrunnlagsdataTjeneste;
 
     private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
@@ -603,17 +599,16 @@ public class HentGrunnlagsdataTjenesteImplTest {
     }
 
     private String lagInntektsmelding(Behandling beh, int beløp, int refusjon, String arbeidsforholdId) {
-        MottattDokument mottattDokument = lagMottattDokument(beh, SKJÆRINGSTIDSPUNKT.minusMonths(1));
         InntektsmeldingBuilder inntektsmeldingBuilder = getInntektsmeldingBuilder()
             .medStartDatoPermisjon(SKJÆRINGSTIDSPUNKT)
             .medBeløp(BigDecimal.valueOf(beløp))
             .medRefusjon(BigDecimal.valueOf(refusjon))
-            .medMottattDokument(mottattDokument)
+            .medJournalpostId(new JournalpostId("123123123"))
             .medVirksomhet(virksomhet)
             .medArbeidsforholdId(arbeidsforholdId);
         inntektArbeidYtelseRepository.lagre(beh, inntektsmeldingBuilder.build());
 
-        return inntektArbeidYtelseRepository.hentInntektsMeldingFor(mottattDokument).get().getArbeidsforholdRef().getReferanse();//NOSONAR
+        return inntektArbeidYtelseRepository.hentInntektsMeldingFor(new JournalpostId("123123123")).get().getArbeidsforholdRef().getReferanse();//NOSONAR
     }
 
     private InntektsmeldingBuilder getInntektsmeldingBuilder() {
@@ -621,16 +616,15 @@ public class HentGrunnlagsdataTjenesteImplTest {
     }
 
     private String lagInntektsmeldingIkkjeForSpesifiktArbeidsforhold(Behandling beh, int beløp, int refusjon) {
-        MottattDokument mottattDokument = lagMottattDokument(beh, SKJÆRINGSTIDSPUNKT.minusMonths(1));
         InntektsmeldingBuilder inntektsmeldingBuilder = getInntektsmeldingBuilder()
             .medStartDatoPermisjon(SKJÆRINGSTIDSPUNKT)
             .medBeløp(BigDecimal.valueOf(beløp))
             .medRefusjon(BigDecimal.valueOf(refusjon))
-            .medMottattDokument(mottattDokument)
+            .medJournalpostId(new JournalpostId("123123123"))
             .medVirksomhet(virksomhet);
         inntektArbeidYtelseRepository.lagre(beh, inntektsmeldingBuilder.build());
 
-        return inntektArbeidYtelseRepository.hentInntektsMeldingFor(mottattDokument).get().getArbeidsforholdRef().getReferanse();//NOSONAR
+        return inntektArbeidYtelseRepository.hentInntektsMeldingFor(new JournalpostId("123123123")).get().getArbeidsforholdRef().getReferanse();//NOSONAR
     }
 
     private VirksomhetEntitet hentVirksomhet() {
@@ -648,18 +642,5 @@ public class HentGrunnlagsdataTjenesteImplTest {
             .build();
         virksomhetRepository.lagre(virksomhet);
         return virksomhet;
-    }
-
-    private MottattDokument lagMottattDokument(Behandling behandling, LocalDate mottattDato) {
-        final MottattDokument mottattDokument = new MottattDokument.Builder().medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
-            .medFagsakId(behandling.getFagsakId())
-            .medBehandlingId(behandling.getId())
-            .medMottattDato(mottattDato)
-            .medElektroniskRegistrert(true)
-            .medJournalPostId(new JournalpostId("123123123"))
-            .medDokumentId("123123")
-            .build();
-        mottatteDokumentRepository.lagre(mottattDokument);
-        return mottattDokument;
     }
 }

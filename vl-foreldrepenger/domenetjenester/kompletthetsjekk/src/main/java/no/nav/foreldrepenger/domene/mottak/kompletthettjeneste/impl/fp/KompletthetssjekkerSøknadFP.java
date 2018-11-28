@@ -12,10 +12,7 @@ import javax.persistence.NoResultException;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedlegg;
@@ -30,7 +27,6 @@ public abstract class KompletthetssjekkerSøknadFP implements Kompletthetssjekke
     private SøknadRepository søknadRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private Integer antallUkerVentefristVedForTidligSøknad;
-    private MottatteDokumentRepository mottatteDokumentRepository;
 
     KompletthetssjekkerSøknadFP() {
         // CDI
@@ -39,13 +35,11 @@ public abstract class KompletthetssjekkerSøknadFP implements Kompletthetssjekke
     KompletthetssjekkerSøknadFP(KodeverkRepository kodeverkRepository,
                                 SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                 Integer antallUkerVentefristVedForTidligSøknad,
-                                SøknadRepository søknadRepository,
-                                MottatteDokumentRepository mottatteDokumentRepository) {
+                                SøknadRepository søknadRepository) {
         this.kodeverkRepository = kodeverkRepository;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.antallUkerVentefristVedForTidligSøknad = antallUkerVentefristVedForTidligSøknad;
         this.søknadRepository = søknadRepository;
-        this.mottatteDokumentRepository = mottatteDokumentRepository;
     }
 
     @Override
@@ -95,12 +89,6 @@ public abstract class KompletthetssjekkerSøknadFP implements Kompletthetssjekke
     @Override
     public Boolean erSøknadMottatt(Behandling behandling) {
         final Optional<Søknad> søknad = søknadRepository.hentSøknadHvisEksisterer(behandling);
-        List<MottattDokument> mottattDokumenter = mottatteDokumentRepository.hentMottatteDokument(behandling.getId());
-        Optional<MottattDokument> mottattSøknad = mottattDokumenter.stream()
-            .filter(mottattDokument -> DokumentTypeId.getSøknadTyper().contains(mottattDokument.getDokumentTypeId())
-                || DokumentKategori.SØKNAD.equals(mottattDokument.getDokumentKategori()))
-            .findFirst();
-        // sjekker på både søknad og mottatte dokumenter siden søknad ikke lagres med en gang
-        return søknad.isPresent() || mottattSøknad.isPresent();
+        return søknad.isPresent();
     }
 }

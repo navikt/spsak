@@ -68,7 +68,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     private BehandlingVedtakRepository behandlingVedtakRepository;
     private OpptjeningRepositoryImpl opptjeningRepository;
     private BeregningsresultatFPRepository beregningsresultatFPRepository;
-    private MottatteDokumentRepository mottatteDokumentRepository;
     private BehandlingRevurderingRepository behandlingRevurderingRepository;
 
     private BehandlingRepository behandlingRepository;
@@ -118,7 +117,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         this.beregningsresultatFPRepository = new BeregningsresultatFPRepositoryImpl(entityManager);
 
         // behandling støtte repositories
-        this.mottatteDokumentRepository = new MottatteDokumentRepositoryImpl(entityManager);
         this.historikkRepository = new HistorikkRepositoryImpl(entityManager);
         this.behandlingVedtakRepository = new BehandlingVedtakRepositoryImpl(entityManager, behandlingRepository);
         this.behandlingRevurderingRepository = new BehandlingRevurderingRepositoryImpl(entityManager, this);
@@ -236,11 +234,6 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
     @Override
     public BeregningsresultatFPRepository getBeregningsresultatFPRepository() {
         return beregningsresultatFPRepository;
-    }
-
-    @Override
-    public MottatteDokumentRepository getMottatteDokumentRepository() {
-        return mottatteDokumentRepository;
     }
 
     @Override

@@ -34,7 +34,10 @@ public class LocalKafkaServer {
         kafkaProperties.put("zookeeper.connect", "localhost:" + zookeeperPort);
         kafkaProperties.put("offsets.topic.replication.factor", "1");
         kafkaProperties.put("logs.dirs", "target/kafka-logs");
-        kafkaProperties.put("listeners", "PLAINTEXT://:" + kafkaBrokerPort);
+        kafkaProperties.put("listeners", "PLAINTEXT://localhost:" + kafkaBrokerPort);
+        kafkaProperties.put("advertised.host.name", "localhost");
+        kafkaProperties.put("port", "9092");
+
 
         final String zookeeperTempInstanceDataDir = ""+ System.currentTimeMillis(); // For å hindre NodeExists-feil på restart p.g.a. at data allerede finnes i katalogen.
         zkProperties.put("dataDir", "target/zookeeper/" + zookeeperTempInstanceDataDir);

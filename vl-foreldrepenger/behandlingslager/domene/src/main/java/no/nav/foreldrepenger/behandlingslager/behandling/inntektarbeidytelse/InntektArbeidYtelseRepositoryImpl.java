@@ -20,7 +20,6 @@ import javax.persistence.TypedQuery;
 import no.nav.foreldrepenger.behandlingslager.TraverseEntityGraphFactory;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.RegisterdataDiffsjekker;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdHandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdInformasjon;
@@ -57,6 +56,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.DiffResult;
 import no.nav.foreldrepenger.behandlingslager.diff.TraverseEntityGraph;
 import no.nav.foreldrepenger.behandlingslager.diff.YtelseKode;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
+import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.vedtak.felles.jpa.HibernateVerktøy;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 
@@ -120,10 +120,10 @@ public class InntektArbeidYtelseRepositoryImpl implements InntektArbeidYtelseRep
     }
 
     @Override
-    public Optional<Inntektsmelding> hentInntektsMeldingFor(MottattDokument mottattDokument) {
+    public Optional<Inntektsmelding> hentInntektsMeldingFor(JournalpostId journalpostId) {
         final TypedQuery<InntektsmeldingEntitet> query = entityManager.createQuery("FROM Inntektsmelding i " +
-            "WHERE i.mottattDokumentId = :mottattDokumentId", InntektsmeldingEntitet.class);
-        query.setParameter("mottattDokumentId", mottattDokument.getId());
+            "WHERE i.journalpostId = :journalpostId", InntektsmeldingEntitet.class);
+        query.setParameter("journalpostId", journalpostId);
         final Optional<InntektsmeldingEntitet> entitet = query.getResultList().stream().findFirst();
         return entitet.isPresent() ? Optional.of(entitet.get()) : Optional.empty();
     }
@@ -278,7 +278,7 @@ public class InntektArbeidYtelseRepositoryImpl implements InntektArbeidYtelseRep
     public AktørYtelseEndring endringPåAktørYtelse(InntektArbeidYtelseGrunnlag før, InntektArbeidYtelseGrunnlag nå) {
         // TODO (mglittum): Skrive om slik at vi ikke differ mot egen fagsak
         Predicate<Ytelse> predikatKildeFpsak = ytelse -> ytelse.getKilde().equals(Fagsystem.FPSAK)
-            && !ytelse.getSaksnummer().equals(((InntektArbeidYtelseGrunnlagEntitet)nå).getBehandling().getFagsak().getSaksnummer());
+            && !ytelse.getSaksnummer().equals(((InntektArbeidYtelseGrunnlagEntitet) nå).getBehandling().getFagsak().getSaksnummer());
         Predicate<Ytelse> predikatKildeEksterneRegistre = ytelse -> !ytelse.getKilde().equals(Fagsystem.FPSAK);
 
         List<Ytelse> førYtelserFpsak = hentYtelser(før, predikatKildeFpsak);

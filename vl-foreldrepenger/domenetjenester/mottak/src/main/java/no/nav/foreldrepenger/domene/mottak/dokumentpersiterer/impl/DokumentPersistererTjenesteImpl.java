@@ -11,7 +11,7 @@ import javax.enterprise.util.TypeLiteral;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
+import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentPersistererTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.MottattDokumentFeil;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.MottattDokumentOversetter;
@@ -27,20 +27,20 @@ public class DokumentPersistererTjenesteImpl implements DokumentPersistererTjene
     }
 
     @Override
-    public MottattDokumentWrapper xmlTilWrapper(MottattDokument dokument) {
-        return MottattDokumentXmlParser.unmarshallXml(dokument.getPayloadXml());
+    public MottattDokumentWrapper payloadTilWrapper(InngåendeSaksdokument dokument) {
+        return MottattDokumentXmlParser.unmarshall(dokument.getPayloadType(), dokument.getPayload());
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void persisterDokumentinnhold(MottattDokumentWrapper wrapper, MottattDokument dokument, Behandling behandling, Optional<LocalDate> gjelderFra) {
+    public void persisterDokumentinnhold(MottattDokumentWrapper wrapper, InngåendeSaksdokument dokument, Behandling behandling, Optional<LocalDate> gjelderFra) {
         MottattDokumentOversetter dokumentOversetter = getDokumentOversetter(wrapper.getSkjemaType());
         dokumentOversetter.trekkUtDataOgPersister(wrapper, dokument, behandling, gjelderFra);
     }
 
     @Override
-    public void persisterDokumentinnhold(MottattDokument dokument, Behandling behandling) {
-        MottattDokumentWrapper dokumentWrapper = xmlTilWrapper(dokument);
+    public void persisterDokumentinnhold(InngåendeSaksdokument dokument, Behandling behandling) {
+        MottattDokumentWrapper dokumentWrapper = payloadTilWrapper(dokument);
         persisterDokumentinnhold(dokumentWrapper, dokument, behandling, Optional.empty());
     }
 

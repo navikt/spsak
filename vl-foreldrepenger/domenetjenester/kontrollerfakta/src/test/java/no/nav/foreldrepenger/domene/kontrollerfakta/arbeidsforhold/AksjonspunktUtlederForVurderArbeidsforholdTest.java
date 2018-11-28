@@ -19,8 +19,6 @@ import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørInntektEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
@@ -214,21 +212,11 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     }
 
     private void sendInnInntektsmeldingPå(Behandling behandling, Virksomhet virksomhet, String arbeidsforholdId) {
-        MottattDokument mottattDokument = new MottattDokument.Builder()
-            .medDokumentTypeId(DokumentTypeId.INNTEKTSMELDING)
-            .medFagsakId(behandling.getFagsakId())
-            .medMottattDato(LocalDate.now())
-            .medBehandlingId(behandling.getId())
-            .medElektroniskRegistrert(true)
-            .medJournalPostId(new JournalpostId("2"))
-            .medDokumentId("3")
-            .build();
-        repositoryProvider.getMottatteDokumentRepository().lagre(mottattDokument);
         final InntektsmeldingBuilder inntektsmeldingBuilder = InntektsmeldingBuilder.builder()
             .medVirksomhet(virksomhet)
             .medInnsendingstidspunkt(LocalDateTime.now())
             .medArbeidsforholdId(arbeidsforholdId)
-            .medMottattDokument(mottattDokument)
+            .medJournalpostId(new JournalpostId("2"))
             .medBeløp(BigDecimal.TEN)
             .medStartDatoPermisjon(LocalDate.now())
             .medNærRelasjon(false)

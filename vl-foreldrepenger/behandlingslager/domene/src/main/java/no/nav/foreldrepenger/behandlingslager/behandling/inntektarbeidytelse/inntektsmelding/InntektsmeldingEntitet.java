@@ -35,6 +35,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEn
 import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 import no.nav.foreldrepenger.domene.typer.Beløp;
+import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "Inntektsmelding")
@@ -73,8 +74,8 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     @Column(name = "naer_relasjon", updatable = false, nullable = false)
     private boolean nærRelasjon;
 
-    @Column(name = "mottatt_dokument_id", updatable = false, nullable = false)
-    private Long mottattDokumentId;
+    @Embedded
+    private JournalpostId journalpostId;
 
     @Embedded
     @AttributeOverrides(@AttributeOverride(name = "verdi", column = @Column(name = "inntekt_beloep", nullable = false)))
@@ -110,8 +111,6 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
         @JoinColumnOrFormula(column = @JoinColumn(name = "innsendingsaarsak", referencedColumnName = "kode", nullable = false)),
         @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + InntektsmeldingInnsendingsårsak.DISCRIMINATOR
             + "'"))})
-
-
     @ChangeTracked
     private InntektsmeldingInnsendingsårsak innsendingsårsak = InntektsmeldingInnsendingsårsak.UDEFINERT;
 
@@ -123,7 +122,7 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
         this.arbeidsforholdRef = inntektsmelding.getArbeidsforholdRef();
         this.startDatoPermisjon = inntektsmelding.getStartDatoPermisjon();
         this.nærRelasjon = inntektsmelding.getErNærRelasjon();
-        this.mottattDokumentId = inntektsmelding.getMottattDokumentId();
+        this.journalpostId = inntektsmelding.getJournalpostId();
         this.inntektBeløp = inntektsmelding.getInntektBeløp();
         this.refusjonBeløpPerMnd = inntektsmelding.getRefusjonBeløpPerMnd();
         this.refusjonOpphører = inntektsmelding.getRefusjonOpphører();
@@ -158,12 +157,12 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
     }
 
     @Override
-    public Long getMottattDokumentId() {
-        return mottattDokumentId;
+    public JournalpostId getJournalpostId() {
+        return journalpostId;
     }
 
-    void setMottattDokumentId(Long mottattDokumentId) {
-        this.mottattDokumentId = mottattDokumentId;
+    void setJournalpostId(JournalpostId journalpostId) {
+        this.journalpostId = journalpostId;
     }
 
     public void setInntektsmeldinger(InntektsmeldingAggregatEntitet inntektsmeldinger) {
@@ -329,7 +328,7 @@ public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmeldi
             ", arbeidsforholdId='" + arbeidsforholdRef + '\'' +
             ", startDatoPermisjon=" + startDatoPermisjon +
             ", nærRelasjon=" + nærRelasjon +
-            ", mottattDokumentId=" + mottattDokumentId +
+            ", journalpostId=" + journalpostId +
             ", inntektBeløp=" + inntektBeløp +
             ", refusjonBeløpPerMnd=" + refusjonBeløpPerMnd +
             ", refusjonOpphører=" + refusjonOpphører +

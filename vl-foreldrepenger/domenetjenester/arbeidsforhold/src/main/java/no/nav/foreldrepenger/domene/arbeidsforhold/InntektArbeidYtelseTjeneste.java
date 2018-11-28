@@ -10,7 +10,6 @@ import java.util.Set;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørYtelseEndring;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
@@ -23,6 +22,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.diff.DiffResult;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.arbeidsforhold.aksjonspunkt.BekreftOpptjeningPeriodeDto;
+import no.nav.foreldrepenger.domene.typer.JournalpostId;
 
 public interface InntektArbeidYtelseTjeneste {
     /**
@@ -67,13 +67,13 @@ public interface InntektArbeidYtelseTjeneste {
      */
     void lagre(Behandling behandling, InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder);
 
+    void lagre(Behandling behandling, Inntektsmelding inntektsmelding);
+
     boolean erEndret(Behandling behandling, InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder);
 
     Map<String, Set<String>> utledManglendeInntektsmeldingerFraArkiv(Behandling behandling);
 
     Map<String, Set<String>> utledManglendeInntektsmeldingerFraGrunnlag(Behandling behandling);
-
-    Optional<Inntektsmelding> hentInntektsMeldingFor(MottattDokument mottattDokument);
 
     Collection<Yrkesaktivitet> hentYrkesaktiviteterForSøker(Behandling behandling, boolean overstyrt);
 
@@ -100,6 +100,10 @@ public interface InntektArbeidYtelseTjeneste {
     ArbeidsforholdRef finnReferanseFor(Behandling behandling, Arbeidsgiver arbeidsgiver, ArbeidsforholdRef arbeidsforholdRef, boolean beholdErstattetVerdi);
 
     boolean søkerHarOppgittEgenNæring(Behandling behandling);
+
+    Map<JournalpostId, Set<Long>> hentBehandlingerPerInntektsmeldingFor(Long fagsakId);
+
+    Optional<Inntektsmelding> hentInnteksmeldingFor(JournalpostId journalpostId);
 
     List<Inntektsmelding> hentAlleInntektsmeldinger(Behandling behandling);
 

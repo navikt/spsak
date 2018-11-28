@@ -18,7 +18,6 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet;
@@ -107,35 +106,6 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Assert
         assertThat(manglendeVedlegg).hasSize(1);
         assertThat(manglendeVedlegg.get(0).getDokumentType().getOffisiellKode()).isEqualTo(TERMINBEKREFTELSE);
-    }
-
-    @Test
-    public void skal_utlede_at_et_påkrevd_vedlegg_som_finnes_i_mottatte_dokumenter_ikke_mangler_selv_om_vedlegget_fra_journal_har_mottatt_dato_null() {
-        // Arrange
-        ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
-        scenario.medSøknad()
-            .medSøknadsdato(LocalDate.now())
-            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
-            .build();
-        Behandling revurdering = scenario.lagre(repositoryProvider);
-
-        // Matcher med søknad, men mangler mottatt dato:
-        Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.DOKUMENTASJON_AV_TERMIN_ELLER_FØDSEL);
-        when(dokumentArkivTjeneste.hentDokumentTypeIdForSak(any(Saksnummer.class), any(), any())).thenReturn(dokumentListe);
-
-        MottattDokument mottattDokument = new MottattDokument.Builder()
-            .medFagsakId(revurdering.getFagsakId())
-            .medBehandlingId(revurdering.getId())
-            .medDokumentTypeId(DokumentTypeId.DOKUMENTASJON_AV_TERMIN_ELLER_FØDSEL)
-            .medMottattDato(LocalDate.now())
-            .build();
-        repositoryProvider.getMottatteDokumentRepository().lagre(mottattDokument);
-
-        // Act
-        List<ManglendeVedlegg> manglendeVedlegg = kompletthetssjekker.utledManglendeVedleggForSøknad(revurdering);
-
-        // Assert
-        assertThat(manglendeVedlegg).hasSize(0);
     }
 
     @Test

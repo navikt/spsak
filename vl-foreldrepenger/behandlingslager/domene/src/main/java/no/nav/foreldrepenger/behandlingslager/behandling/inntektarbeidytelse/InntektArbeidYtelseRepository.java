@@ -6,7 +6,6 @@ import java.util.Set;
 
 import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdInformasjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdInformasjonBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
@@ -14,6 +13,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
 import no.nav.foreldrepenger.behandlingslager.diff.DiffResult;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
+import no.nav.foreldrepenger.domene.typer.JournalpostId;
 
 public interface InntektArbeidYtelseRepository extends BehandlingslagerRepository {
 
@@ -27,7 +27,7 @@ public interface InntektArbeidYtelseRepository extends BehandlingslagerRepositor
 
     DiffResult diffResultat(InntektArbeidYtelseGrunnlagEntitet grunnlag1, InntektArbeidYtelseGrunnlagEntitet grunnlag2, FagsakYtelseType ytelseType, boolean kunSporedeEndringer);
 
-    Optional<Inntektsmelding> hentInntektsMeldingFor(MottattDokument mottattDokument);
+    Optional<Inntektsmelding> hentInntektsMeldingFor(JournalpostId journalpostId);
 
     /**
      * @param behandling      (Behandling)

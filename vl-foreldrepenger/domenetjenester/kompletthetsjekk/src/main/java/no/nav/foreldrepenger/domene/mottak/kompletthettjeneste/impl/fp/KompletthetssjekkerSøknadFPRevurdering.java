@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
 import static java.util.stream.Collectors.toList;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,9 +20,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.MottattDokument;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.MottatteDokumentRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
@@ -38,7 +37,6 @@ public class KompletthetssjekkerSøknadFPRevurdering extends Kompletthetssjekker
     private SøknadRepository søknadRepository;
     private DokumentArkivTjeneste dokumentArkivTjeneste;
     private BehandlingVedtakRepository behandlingVedtakRepository;
-    private MottatteDokumentRepository mottatteDokumentRepository;
 
     @Inject
     public KompletthetssjekkerSøknadFPRevurdering(DokumentArkivTjeneste dokumentArkivTjeneste,
@@ -46,11 +44,10 @@ public class KompletthetssjekkerSøknadFPRevurdering extends Kompletthetssjekker
                                                   SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                                   @KonfigVerdi("ventefrist.uker.ved.tidlig.fp.soeknad") Integer antallUkerVentefristVedForTidligSøknad) {
         super(repositoryProvider.getKodeverkRepository(),
-            skjæringstidspunktTjeneste, antallUkerVentefristVedForTidligSøknad, repositoryProvider.getSøknadRepository(), repositoryProvider.getMottatteDokumentRepository());
+            skjæringstidspunktTjeneste, antallUkerVentefristVedForTidligSøknad, repositoryProvider.getSøknadRepository());
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.dokumentArkivTjeneste = dokumentArkivTjeneste;
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
-        this.mottatteDokumentRepository = repositoryProvider.getMottatteDokumentRepository();
     }
 
     /**
@@ -68,10 +65,8 @@ public class KompletthetssjekkerSøknadFPRevurdering extends Kompletthetssjekker
         final Optional<Søknad> søknad = søknadRepository.hentSøknadHvisEksisterer(behandling);
 
         LocalDate vedtaksdato = behandlingVedtakRepository.hentBehandlingVedtakFraRevurderingensOriginaleBehandling(behandling).getVedtaksdato();
-        List<DokumentTypeId> mottatteDokumentTypeIder = mottatteDokumentRepository.hentMottatteDokumentVedleggPåBehandlingId(behandling.getId())
-            .stream().map(MottattDokument::getDokumentTypeId).collect(toList());
 
-        Set<DokumentTypeId> arkivDokumentTypeIds = dokumentArkivTjeneste.hentDokumentTypeIdForSak(behandling.getFagsak().getSaksnummer(), vedtaksdato, mottatteDokumentTypeIder);
+        Set<DokumentTypeId> arkivDokumentTypeIds = dokumentArkivTjeneste.hentDokumentTypeIdForSak(behandling.getFagsak().getSaksnummer(), vedtaksdato, Collections.emptySet());
 
         final List<ManglendeVedlegg> manglendeVedlegg = identifiserManglendeVedlegg(søknad, arkivDokumentTypeIds);
 
