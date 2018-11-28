@@ -14,7 +14,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottakKanal;
-import no.nav.foreldrepenger.behandlingslager.behandling.Tema;
 import no.nav.foreldrepenger.behandlingslager.behandling.VariantFormat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.OffentligYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.PensjonTrygdType;
@@ -44,7 +43,7 @@ public class LagSlettKodelisteScript {
         /** Klasser som synkes fra Kodeverkforvaltning og dermed ikke nødvendigvis har konstanter definert i klassen som representerer kodeverket. */
         Set<Class<?>> exceptions = Set.of(NavBrukerKjønn.class, Landkoder.class, Poststed.class, Språkkode.class, Diskresjonskode.class, SivilstandType.class,
             AdresseType.class, ArkivFilType.class, BehandlingTema.class, Kommuner.class, LandkodeISO2.class, Geopolitisk.class, Landgrupper.class, Fylker.class,
-            DokumentKategori.class, MottakKanal.class, VariantFormat.class, Tema.class, DokumentTypeId.class, PensjonTrygdType.class,
+            DokumentKategori.class, MottakKanal.class, VariantFormat.class, DokumentTypeId.class, PensjonTrygdType.class,
             OffentligYtelseType.class);
 
         Set<Class<?>> classes = new LinkedHashSet<>(kodelister);

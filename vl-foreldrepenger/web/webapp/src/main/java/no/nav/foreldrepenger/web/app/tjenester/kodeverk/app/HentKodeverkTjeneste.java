@@ -11,7 +11,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.RevurderingVarslingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
@@ -54,7 +53,6 @@ public interface HentKodeverkTjeneste {
         BehandlingType.class,
         ArbeidType.class,
         OpptjeningAktivitetType.class,
-        RevurderingVarslingÅrsak.class,
         Inntektskategori.class,
         DokumentTypeId.class,
         BeregningsgrunnlagAndeltype.class,

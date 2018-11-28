@@ -188,7 +188,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTypeStegSekvens"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Tema"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingsresultatKonsekvensForYtelsen"/>
 
@@ -227,7 +226,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Innsendingsvalg"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.RevurderingVarslingÅrsak"/>
 
     <!-- Medlemskap aggregat og grunnlag -->
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderEntitet"/>
