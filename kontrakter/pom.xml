@@ -28,6 +28,7 @@
 		<module>vl-kontrakt-inntektsmelding</module>
 		<module>vl-kontrakt-okonomistotte</module>
 		<module>vl-kontrakt-soeknad</module>
+		<module>vl-kontrakt-sykepengersoeknad</module>
 	</modules>
 
 	<dependencyManagement>
