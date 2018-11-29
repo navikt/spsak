@@ -26,6 +26,9 @@
 
 	<properties>
 		<java.version>10</java.version> <!--Brukes av jenkins -->
+		<argLine>-Xms256m -Dfile.encoding=UTF-8 -Dlog.level.no.nav=WARN</argLine> <!-- default argLine for surefire-plugin -->
+		<jacoco.skip>true</jacoco.skip> <!-- default skip coverage -->
+		
 		<revision>0.0.1</revision>
 		<sha1></sha1>
 		<changelist>-SNAPSHOT</changelist>
@@ -690,9 +693,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<argLine>-Xms256m -Dfile.encoding=UTF-8 -Dlog.level.no.nav=WARN</argLine>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -712,14 +712,6 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<forkCount>1</forkCount>
-					<reuseForks>true</reuseForks>
-					<useFile>true</useFile>
-					<argLine>-Xms256m -Dfile.encoding=UTF-8 -Dsurefire.forkNumber=${surefire.forkNumber}
-						-Dlog.level.no.nav=WARN
-					</argLine>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -757,44 +749,6 @@
 
 	<profiles>
 		<profile>
-			<!-- Kjører tunge tester. Høyere sannsynlighet for å feile pga transiente feil/false positives. -->
-			<id>integrationTest</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>failsafe-integration-test</id>
-								<goals>
-									<goal>integration-test</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>failsafe-verify</id>
-								<goals>
-									<goal>verify</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<forkCount>1</forkCount>
-							<reuseForks>true</reuseForks>
-							<useFile>true</useFile>
-							<argLine>-Xms384m -Dfile.encoding=UTF-8 -Dsurefire.forkNumber=${surefire.forkNumber}
-								-Dlog.level.no.nav=WARN
-							</argLine>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
 			<id>runSonar</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
@@ -802,12 +756,12 @@
 			<properties>
 				<!-- maven.root bør overstyres fra cmdline -->
 				<maven.root>${project.basedir}</maven.root>
-
+				<jacoco.skip>false</jacoco.skip>
 				<sonar.language />
 				<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 				<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
-				<sonar.java.source>1.8</sonar.java.source>
+				<sonar.java.source>10</sonar.java.source>
 				<sonar.sources>.</sonar.sources>
 				<sonar.inclusions>src/main/java/**,src/client/**</sonar.inclusions>
 				<!-- NB følgende er whitespace sensitivt -->
@@ -855,7 +809,6 @@
 									<goal>prepare-agent</goal>
 								</goals>
 								<configuration>
-									<propertyName>jacoco.agent.argLine</propertyName>
 									<destFile>${sonar.jacoco.reportPaths}</destFile>
 									<append>true</append>
 									<excludes>${sonar.coverage.exclusions}</excludes>
@@ -867,50 +820,12 @@
 									<goal>prepare-agent-integration</goal>
 								</goals>
 								<configuration>
-									<propertyName>jacoco.agent.argLine</propertyName>
 									<destFile>${sonar.jacoco.reportPaths}</destFile>
 									<append>true</append>
 									<excludes>${sonar.coverage.exclusions}</excludes>
 								</configuration>
 							</execution>
 						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<useFile>true</useFile>
-							<argLine>${jacoco.agent.argLine} -Xms256m -Dfile.encoding=UTF-8 -Dlog.level.no.nav=WARN
-							</argLine>
-						</configuration>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>failsafe-integration-test</id>
-								<goals>
-									<goal>integration-test</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>failsafe-verify</id>
-								<goals>
-									<goal>verify</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<forkCount>1</forkCount>
-							<reuseForks>true</reuseForks>
-							<useFile>true</useFile>
-							<argLine>${jacoco.agent.argLine} -Xms256m -Dfile.encoding=UTF-8
-								-Dsurefire.forkNumber=${surefire.forkNumber} -Dlog.level.no.nav=WARN
-							</argLine>
-						</configuration>
 					</plugin>
 
 				</plugins>
