@@ -29,6 +29,12 @@
             <version>${project.version}</version>
             <classifier>jaxb</classifier>
         </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <artifactId>sykepengersoeknad</artifactId>
+            <version>${project.version}</version>
+            <classifier>jaxb</classifier>
+        </dependency>
 
         <!-- 3dje parts biblioteker -->
         <dependency>

@@ -15,13 +15,13 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import no.nav.foreldrepenger.autotest.aktoerer.Aktoer;
 import no.nav.foreldrepenger.autotest.sykepenger.SpsakTestBase;
 import no.nav.foreldrepenger.autotest.sykepenger.modell.SykepengesøknadWrapper;
-import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.EgenmeldingPeriode;
-import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.FraværType;
-import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.FraværsPeriode;
-import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.KorrigertArbeidstidPeriode;
-import no.nav.foreldrepenger.autotest.sykepenger.modell.sykepengesøknad.Sykepengesøknad;
 import no.nav.foreldrepenger.fpmock2.server.api.scenario.TestscenarioDto;
 import no.nav.foreldrepenger.fpmock2.testmodell.util.JsonMapper;
+import no.nav.sykepenger.kontrakter.søknad.v1.SykepengesøknadV1;
+import no.nav.sykepenger.kontrakter.søknad.v1.fravær.FraværType;
+import no.nav.sykepenger.kontrakter.søknad.v1.fravær.FraværsPeriode;
+import no.nav.sykepenger.kontrakter.søknad.v1.perioder.EgenmeldingPeriode;
+import no.nav.sykepenger.kontrakter.søknad.v1.perioder.KorrigertArbeidstidPeriode;
 import no.nav.sykepenger.spmock.kafka.LocalKafkaProducer;
 
 @Tag("eksempel")
@@ -32,7 +32,7 @@ class SykepengesøknadTest extends SpsakTestBase {
 
         TestscenarioDto testscenario = opprettScenario("40");
 
-        var søknad = new Sykepengesøknad();
+        var søknad = new SykepengesøknadV1();
         final String søknadId = UUID.randomUUID().toString();
         søknad.setSøknadId(søknadId);
         søknad.setBrukerAktørId(testscenario.getPersonopplysninger().getSøkerAktørIdent());
