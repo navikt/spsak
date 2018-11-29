@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.behandlingslager.testutilities.behandling;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
@@ -26,6 +27,8 @@ public class ScenarioMorSøkerEngangsstønad extends AbstractTestScenario<Scenar
             // Defaults - antar default alltid minimum med en søknad
             medDefaultOppgittTilknytning();
             medSøknad()
+                .medSøknadReferanse(UUID.randomUUID().toString())
+                .medSykemeldinReferanse(UUID.randomUUID().toString())
                 .medSøknadsdato(LocalDate.now(FPDateUtil.getOffset()));
         }
 
@@ -34,7 +37,7 @@ public class ScenarioMorSøkerEngangsstønad extends AbstractTestScenario<Scenar
     public static ScenarioMorSøkerEngangsstønad forDefaultAktør(boolean medDefaultSøknad) {
         return new ScenarioMorSøkerEngangsstønad(medDefaultSøknad);
     }
-    
+
     public static ScenarioMorSøkerEngangsstønad forDefaultAktør() {
         return new ScenarioMorSøkerEngangsstønad(true);
     }

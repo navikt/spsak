@@ -47,14 +47,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapBehandlingsgrunnlagEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRegistrertEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOpphold;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOppholdEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
@@ -891,17 +889,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
 
         VurdertMedlemskap vurdertMedlemskap = medMedlemskap().build();
         repositoryProvider.getMedlemskapRepository().lagreMedlemskapVurdering(behandling, vurdertMedlemskap);
-        if (oppgittTilknytningBuilder != null) {
-            final OppgittTilknytning oppgittTilknytning = medOppgittTilknytning().build();
-            repositoryProvider.getMedlemskapRepository().lagreOppgittTilkytning(behandling, oppgittTilknytning);
-            final Optional<MedlemskapAggregat> medlemskapAggregat = repositoryProvider.getMedlemskapRepository().hentMedlemskap(behandling);
-            final Optional<OppgittTilknytning> oppgittTilknytningOptional = medlemskapAggregat
-                .flatMap(MedlemskapAggregat::getOppgittTilknytning);
-            if (søknadBuilder != null) {
-                oppgittTilknytningOptional
-                    .ifPresent(oppgittTilknytning1 -> medSøknad().medOppgittTilknytning(oppgittTilknytning1));
-            }
-        }
     }
 
     private Builder grunnBuild(BehandlingRepositoryProvider repositoryProvider) {

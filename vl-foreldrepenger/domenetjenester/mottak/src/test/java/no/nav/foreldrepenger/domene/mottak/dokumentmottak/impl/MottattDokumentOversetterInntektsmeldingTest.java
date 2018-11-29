@@ -43,7 +43,7 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.PayloadType;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.inntektsmelding.v1.MottattDokumentOversetterInntektsmelding;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.inntektsmelding.v1.MottattDokumentWrapperInntektsmelding;
-import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.xml.MottattDokumentXmlParser;
+import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.xml.MottattDokumentParser;
 import no.nav.foreldrepenger.domene.typer.Beløp;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
@@ -128,7 +128,7 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         final Behandling behandling = opprettBehandling();
         InngåendeSaksdokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
 
-        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
+        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
 
         // Act
         oversetter.trekkUtDataOgPersister(wrapper, mottattDokument, behandling, Optional.empty());
@@ -151,7 +151,7 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         // Arrange
         final Behandling behandling = opprettBehandling();
         InngåendeSaksdokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
-        MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
+        MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
 
         MottattDokumentWrapperInntektsmelding wrapperSpied = Mockito.spy(wrapper);
 
@@ -186,7 +186,7 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         // Arrange
         final Behandling behandling = opprettBehandling();
         InngåendeSaksdokument mottattDokument = opprettDokument(behandling, "inntektsmelding.xml");
-        MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
+        MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
 
         MottattDokumentWrapperInntektsmelding wrapperSpied = Mockito.spy(wrapper);
 
@@ -219,7 +219,7 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         final Behandling behandling = opprettBehandling();
         InngåendeSaksdokument mottattDokument = opprettDokument(behandling, inntektsmeldingFilnavn);
 
-        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentXmlParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
+        final MottattDokumentWrapperInntektsmelding wrapper = (MottattDokumentWrapperInntektsmelding) MottattDokumentParser.unmarshall(mottattDokument.getPayloadType(), mottattDokument.getPayload());
 
         oversetter.trekkUtDataOgPersister(wrapper, mottattDokument, behandling, Optional.empty());
         return behandling;

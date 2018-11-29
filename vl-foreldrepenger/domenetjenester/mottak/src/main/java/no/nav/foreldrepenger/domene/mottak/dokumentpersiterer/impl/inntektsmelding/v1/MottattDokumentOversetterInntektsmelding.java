@@ -24,9 +24,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
+import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentParserRef;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.InntektsmeldingFeil;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.MottattDokumentOversetter;
-import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.NamespaceRef;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import no.nav.inntektsmelding.xml.kodeliste._2018xxyy.NaturalytelseKodeliste;
 import no.nav.inntektsmelding.xml.kodeliste._2018xxyy.ÅrsakInnsendingKodeliste;
@@ -40,7 +40,7 @@ import no.seres.xsd.nav.inntektsmelding_m._20180924.Periode;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Refusjon;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.SykepengerIArbeidsgiverperioden;
 
-@NamespaceRef(InntektsmeldingConstants.NAMESPACE)
+@DokumentParserRef(InntektsmeldingConstants.NAMESPACE)
 @ApplicationScoped
 public class MottattDokumentOversetterInntektsmelding implements MottattDokumentOversetter<MottattDokumentWrapperInntektsmelding> {
 
@@ -149,7 +149,6 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
                 .map(JAXBElement::getValue)
                 .map(EndringIRefusjonsListe::getEndringIRefusjon)
                 .orElse(Collections.emptyList())
-                .stream()
                 .forEach(eir -> builder.leggTil(new RefusjonEntitet(eir.getRefusjonsbeloepPrMnd().getValue(), DateUtil.convertToLocalDate(eir.getEndringsdato().getValue()))));
 
         }
@@ -181,7 +180,7 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
         }
     }
 
-    /*private void mapGradering(MottattDokumentWrapperInntektsmelding wrapper, InntektsmeldingBuilder builder) {
+    /*private void mapGradering(MottattDokumentWrapperSøknad wrapper, InntektsmeldingBuilder builder) {
         for (GraderingIForeldrepenger detaljer : wrapper.getGradering()) {
             builder.leggTil(new GraderingEntitet(DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getFom().getValue()),
                 DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getTom().getValue()),

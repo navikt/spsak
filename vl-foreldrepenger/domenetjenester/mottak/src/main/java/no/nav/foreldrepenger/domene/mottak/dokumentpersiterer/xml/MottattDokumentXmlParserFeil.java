@@ -16,5 +16,5 @@ interface MottattDokumentXmlParserFeil extends DeklarerteFeil {
     Feil ukjentNamespace(String namespace, IllegalStateException e);
 
     @TekniskFeil(feilkode = "FP-312346", feilmelding = "Feil ved parsing av ukjent journaldokument-type med namespace '%s'", logLevel = ERROR)
-    Feil uventetFeilVedParsingAvSoeknadsXml(String namespace, Exception e);
+    Feil uventetFeilVedParsing(String namespace, Exception e);
 }

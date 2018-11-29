@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.domene.medlem.impl;
 
-import static java.util.Collections.singletonList;
 import static no.nav.foreldrepenger.domene.medlem.impl.MedlemResultat.AVKLAR_OM_ER_BOSATT;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,8 +22,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOpphold;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOppholdEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -139,60 +136,6 @@ public class AvklarOmErBosattTest {
     }
 
     @Test
-    public void skal_opprette_aksjonspunkt_dersom_minst_to_av_spørsmål_til_bruker_om_tilknytning_er_nei() {
-        // Arrange
-        LocalDate fødselsDato = LocalDate.now();
-        OppgittLandOpphold oppholdNorgeNestePeriode = new OppgittLandOppholdEntitet.Builder()
-            .erTidligereOpphold(false)
-            .medLand(Landkoder.NOR)
-            .medPeriode(LocalDate.now(), LocalDate.now().plusYears(1))
-            .build();
-        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
-        scenario.medOppgittTilknytning().medOpphold(singletonList(oppholdNorgeNestePeriode)).medOppholdNå(false);
-        Behandling behandling = scenario.lagre(provider);
-
-        // Act
-        Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
-
-        // Assert
-        assertThat(resultat).contains(AVKLAR_OM_ER_BOSATT);
-    }
-
-    @Test
-    public void skal_opprette_aksjonspunkt_dersom_søker_har_vært_i_norge_til_nå_men_ikke_skal_bo_i_norge_de_neste_12_månedene() {
-        // Arrange
-        LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        scenario.medSøknad().medMottattDato(LocalDate.now());
-
-        OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
-            .erTidligereOpphold(true)
-            .medLand(Landkoder.NOR)
-            .medPeriode(LocalDate.now().minusYears(1), LocalDate.now().plusDays(19))
-            .build();
-
-        OppgittLandOpphold fremtidigOppholdISverige = new OppgittLandOppholdEntitet.Builder()
-            .erTidligereOpphold(false)
-            .medLand(Landkoder.SWE)
-            .medPeriode(LocalDate.now().plusDays(20), LocalDate.now().plusYears(2))
-            .build();
-
-        leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
-        scenario.medOppgittTilknytning()
-            .medOpphold(Arrays.asList(oppholdINorge, fremtidigOppholdISverige))
-            .medOppholdNå(false);
-        Behandling behandling = scenario.lagre(provider);
-
-
-        // Act
-        Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
-
-        // Assert
-        assertThat(resultat).contains(AVKLAR_OM_ER_BOSATT);
-    }
-
-    @Test
     public void skal_ikke_opprette_aksjonspunkt_dersom_søker_har_søkt_termin_og_skal_bo_i_mange_land_i_fremtiden_men_til_sammen_under_12_måneder() {
         // Arrange
         LocalDate fødselsDato = LocalDate.now();
@@ -240,56 +183,6 @@ public class AvklarOmErBosattTest {
 
         // Assert
         assertThat(resultat).isEmpty();
-    }
-
-    @Test
-    public void skal_opprette_aksjonspunkt_dersom_søker_har_søkt_og_har_bodd_i_norge_til_nå_men__skal_bo_i_mange_land_i_fremtiden_men_til_sammen_mer_12_måneder() {
-        // Arrange
-        LocalDate fødselsDato = LocalDate.now();
-        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        scenario.medSøknad().medMottattDato(LocalDate.now());
-
-        OppgittLandOpphold oppholdINorge = new OppgittLandOppholdEntitet.Builder()
-            .erTidligereOpphold(true)
-            .medLand(Landkoder.NOR)
-            .medPeriode(LocalDate.now().minusYears(1), LocalDate.now().plusDays(19))
-            .build();
-
-        OppgittLandOpphold swe = new OppgittLandOppholdEntitet.Builder()
-            .erTidligereOpphold(false)
-            .medLand(Landkoder.SWE)
-            .medPeriode(LocalDate.now().plusDays(0), LocalDate.now().plusMonths(2))
-            .build();
-
-        OppgittLandOpphold usa = new OppgittLandOppholdEntitet.Builder()
-            .erTidligereOpphold(false)
-            .medLand(Landkoder.USA)
-            .medPeriode(LocalDate.now().plusMonths(2), LocalDate.now().plusMonths(4))
-            .build();
-
-        OppgittLandOpphold bel = new OppgittLandOppholdEntitet.Builder()
-            .erTidligereOpphold(false)
-            .medLand(Landkoder.BEL)
-            .medPeriode(LocalDate.now().plusMonths(4), LocalDate.now().plusMonths(6))
-            .build();
-
-        OppgittLandOpphold png = new OppgittLandOppholdEntitet.Builder()
-            .erTidligereOpphold(false)
-            .medLand(Landkoder.PNG)
-            .medPeriode(LocalDate.now().plusMonths(6), LocalDate.now().plusMonths(15))
-            .build();
-
-        leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
-        scenario.medOppgittTilknytning()
-            .medOpphold(Arrays.asList(oppholdINorge, swe, usa, bel, png))
-            .medOppholdNå(false);
-        Behandling behandling = scenario.lagre(provider);
-
-        // Act
-        Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
-
-        // Assert
-        assertThat(resultat).contains(AVKLAR_OM_ER_BOSATT);
     }
 
     @Test
@@ -366,8 +259,6 @@ public class AvklarOmErBosattTest {
             .build();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
-        OppgittTilknytning oppgittTilknytning = new OppgittTilknytningEntitet.Builder().leggTilOpphold(oppholdNorgeNestePeriode).medOppholdNå(true).build();
-        scenario.medSøknad().medOppgittTilknytning(oppgittTilknytning);
         Behandling behandling = scenario.lagre(provider);
 
         // Act

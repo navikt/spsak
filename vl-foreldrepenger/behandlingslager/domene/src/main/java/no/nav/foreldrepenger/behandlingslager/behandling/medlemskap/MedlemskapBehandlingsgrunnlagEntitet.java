@@ -44,10 +44,6 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
     private Long id;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til et selvstendig aggregat! */ }, fetch = FetchType.EAGER)
-    @JoinColumn(name = "OPPGITT_ID", nullable = true, unique = true)
-    private OppgittTilknytningEntitet oppgittTilknytning;
-
-    @ManyToOne(cascade = { /* NONE - Aldri cascade til et selvstendig aggregat! */ }, fetch = FetchType.EAGER)
     @JoinColumn(name = "REGISTRERT_ID", nullable = true, unique = true)
     @ChangeTracked
     private MedlemskapRegistrertEntitet registerMedlemskap;
@@ -84,20 +80,18 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
 
         return Objects.equals(this.getBehandling(), that.getBehandling())
                 && Objects.equals(this.registerMedlemskap, that.registerMedlemskap)
-                && Objects.equals(this.oppgittTilknytning, that.oppgittTilknytning)
                 && Objects.equals(this.vurderingMedlemskapSkjæringstidspunktet, that.vurderingMedlemskapSkjæringstidspunktet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBehandling(), this.registerMedlemskap, this.oppgittTilknytning, this.vurderingMedlemskapSkjæringstidspunktet);
+        return Objects.hash(getBehandling(), this.registerMedlemskap, this.vurderingMedlemskapSkjæringstidspunktet);
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "<id=" + getId() //$NON-NLS-1$
                 + ", vurdertMedlemskap=" + this.vurderingMedlemskapSkjæringstidspunktet //$NON-NLS-1$
-                + ", oppgittTilknytning=" + this.oppgittTilknytning //$NON-NLS-1$
                 + ", registerMedlemskap=" + this.registerMedlemskap //$NON-NLS-1$
                 + ">"; //$NON-NLS-1$
     }
@@ -109,10 +103,6 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
     /* eksponeres ikke public for andre. */
     Long getId() {
         return id;
-    }
-
-    OppgittTilknytningEntitet getOppgittTilknytning() {
-        return oppgittTilknytning;
     }
 
     MedlemskapRegistrertEntitet getRegisterMedlemskap() {
@@ -139,7 +129,6 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
         return new MedlemskapAggregat(
             this.getVurderingMedlemskapSkjæringstidspunktet(),
             this.getRegistertMedlemskapPerioder(),
-            this.getOppgittTilknytning(),
             this.getVurderingLøpendeMedlemskap());
     }
 
@@ -149,7 +138,6 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
 
         if (tidligereGrunnlagOpt.isPresent()) {
             MedlemskapBehandlingsgrunnlagEntitet tidligereGrunnlag = tidligereGrunnlagOpt.get();
-            nyttGrunnlag.oppgittTilknytning = tidligereGrunnlag.oppgittTilknytning;
             nyttGrunnlag.vurderingMedlemskapSkjæringstidspunktet = tidligereGrunnlag.vurderingMedlemskapSkjæringstidspunktet;
             nyttGrunnlag.registerMedlemskap = tidligereGrunnlag.registerMedlemskap;
         }
@@ -166,7 +154,6 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
     static MedlemskapBehandlingsgrunnlagEntitet fra(Optional<MedlemskapBehandlingsgrunnlagEntitet> tidligereGrunnlagOpt,Behandling nyBehandling,
             OppgittTilknytningEntitet nyeData) {
         MedlemskapBehandlingsgrunnlagEntitet nyttGrunnlag = kopierTidligerGrunnlag(tidligereGrunnlagOpt, nyBehandling);
-        nyttGrunnlag.oppgittTilknytning = nyeData;
         return nyttGrunnlag;
     }
 
@@ -193,7 +180,6 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
 
         if (eksisterendeGrunnlag.isPresent()) {
             MedlemskapBehandlingsgrunnlagEntitet tidligereGrunnlag = eksisterendeGrunnlag.get();
-            nyttGrunnlag.oppgittTilknytning = tidligereGrunnlag.oppgittTilknytning;
         }
         return nyttGrunnlag;
     }

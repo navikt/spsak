@@ -12,11 +12,11 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
+import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentParserRef;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentPersistererTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.MottattDokumentFeil;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.MottattDokumentOversetter;
-import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.NamespaceRef;
-import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.xml.MottattDokumentXmlParser;
+import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.xml.MottattDokumentParser;
 
 @SuppressWarnings("rawtypes")
 @ApplicationScoped
@@ -28,7 +28,7 @@ public class DokumentPersistererTjenesteImpl implements DokumentPersistererTjene
 
     @Override
     public MottattDokumentWrapper payloadTilWrapper(InngåendeSaksdokument dokument) {
-        return MottattDokumentXmlParser.unmarshall(dokument.getPayloadType(), dokument.getPayload());
+        return MottattDokumentParser.unmarshall(dokument.getPayloadType(), dokument.getPayload());
     }
 
     @Override
@@ -45,7 +45,7 @@ public class DokumentPersistererTjenesteImpl implements DokumentPersistererTjene
     }
 
     private MottattDokumentOversetter<?> getDokumentOversetter(String namespace) {
-        NamespaceRef.NamespaceRefLiteral annotationLiteral = new NamespaceRef.NamespaceRefLiteral(namespace);
+        DokumentParserRef.DokumentParserRefLiteral annotationLiteral = new DokumentParserRef.DokumentParserRefLiteral(namespace);
 
         Instance<MottattDokumentOversetter<?>> instance = CDI.current().select(new TypeLiteralMottattDokumentOversetter(), annotationLiteral);
 

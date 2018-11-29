@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
@@ -18,7 +19,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 
 public class KompletthetssjekkerTestUtil {
 
-    public static final AktørId AKTØR_ID  = new AktørId("1000");
+    public static final AktørId AKTØR_ID = new AktørId("1000");
     public static final String ARBGIVER1 = "123456789";
     public static final String ARBGIVER2 = "234567890";
 
@@ -63,6 +64,8 @@ public class KompletthetssjekkerTestUtil {
         Søknad søknad = new SøknadEntitet.Builder()
             .medSøknadsdato(LocalDate.now())
             .medMottattDato(LocalDate.now())
+            .medSøknadReferanse(UUID.randomUUID().toString())
+            .medSykemeldinReferanse(UUID.randomUUID().toString())
             .build();
         repositoryProvider.getSøknadRepository().lagreOgFlush(behandling, søknad);
     }

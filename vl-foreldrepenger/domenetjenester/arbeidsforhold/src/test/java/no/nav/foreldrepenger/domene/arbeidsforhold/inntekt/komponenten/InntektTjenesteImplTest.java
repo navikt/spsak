@@ -18,6 +18,7 @@ import org.mockito.ArgumentCaptor;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.komponenten.impl.InntektTjenesteImpl;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.tjeneste.virksomhet.inntekt.v3.binding.HentInntektListeBolkUgyldigInput;
 import no.nav.tjeneste.virksomhet.inntekt.v3.feil.UgyldigInput;
 import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.Aktoer;
@@ -29,7 +30,6 @@ import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.Loennsinntekt;
 import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.Organisasjon;
 import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.PensjonEllerTrygd;
 import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.PensjonEllerTrygdebeskrivelse;
-import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.PersonIdent;
 import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.Sikkerhetsavvik;
 import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.YtelseFraOffentlige;
 import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.YtelseFraOffentligeBeskrivelse;
@@ -41,7 +41,7 @@ import no.nav.vedtak.felles.integrasjon.inntekt.InntektConsumer;
 
 public class InntektTjenesteImplTest {
 
-    private static final String FNR = "01234567890";
+    private static final AktørId FNR = new AktørId("01234567890");
     private static final YearMonth GJELDENDE_MÅNED = YearMonth.now();
     private static final String SYKEPENGER = "sykepenger";
     private static final String ORGNR = "456";
@@ -110,8 +110,6 @@ public class InntektTjenesteImplTest {
         // Assert
         HentInntektListeBolkRequest request = requestCaptor.getValue();
         assertThat(request.getIdentListe().size()).isEqualTo(1);
-        assertThat(request.getIdentListe().get(0)).isInstanceOf(PersonIdent.class);
-        assertThat(((PersonIdent)request.getIdentListe().get(0)).getPersonIdent()).isEqualTo(FNR);
         assertThat(request.getUttrekksperiode().getMaanedFom()).isEqualTo(DateUtil.convertToXMLGregorianCalendar(GJELDENDE_MÅNED.minusMonths(3).atDay(1)));
         assertThat(request.getUttrekksperiode().getMaanedTom()).isEqualTo(DateUtil.convertToXMLGregorianCalendar(GJELDENDE_MÅNED.atEndOfMonth()));
 

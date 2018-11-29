@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -490,6 +491,8 @@ public class BehandlingRepositoryImplTest {
         final Søknad søknad = new SøknadEntitet.Builder()
             .medSøknadsdato(LocalDate.now())
             .medMottattDato(mottattDato)
+            .medSøknadReferanse(UUID.randomUUID().toString())
+            .medSykemeldinReferanse(UUID.randomUUID().toString())
             .build();
         repositoryProvider.getSøknadRepository().lagreOgFlush(behandling, søknad);
 

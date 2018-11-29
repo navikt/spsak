@@ -3,8 +3,9 @@ package no.nav.foreldrepenger.behandlingslager.behandling.søknad;
 import java.time.LocalDate;
 import java.util.Set;
 
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sykefravær;
 
 public interface Søknad {
 
@@ -12,12 +13,18 @@ public interface Søknad {
 
     LocalDate getMottattDato();
 
-    OppgittTilknytning getOppgittTilknytning();
+    String getSøknadReferanse();
 
-    String getTilleggsopplysninger();
+    String getSykemeldingReferanse();
+
+    Arbeidsgiver getArbeidsgiver();
+
+    Sykefravær getOppgittSykefravær();
+
+    OppgittOpptjening getOppgittOpptjening();
 
     Set<SøknadVedlegg> getSøknadVedlegg();
 
-    OppgittOpptjening getOppgittOpptjening();
+    String getTilleggsopplysninger();
 
 }

@@ -179,8 +179,7 @@ public class InngangsvilkårOversetterTest {
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
         scenario.medSøknad()
-            .medMottattDato(LocalDate.of(2017, 3, 15))
-            .medOppgittTilknytning(oppgittTilknytning);
+            .medMottattDato(LocalDate.of(2017, 3, 15));
 
         PersonInformasjon søker = scenario.opprettBuilderForRegisteropplysninger()
             .medPersonas()

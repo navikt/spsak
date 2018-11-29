@@ -33,9 +33,6 @@ public interface MedlemskapRepository extends BehandlingslagerRepository {
     /** Lagre registrert opplysninger om medlemskap (fra MEDL). Merk at implementasjonen står fritt til å ta en kopi av oppgitte data.*/
     void lagreMedlemskapRegisterOpplysninger(Behandling behandling, Collection<RegistrertMedlemskapPerioder> registrertMedlemskap);
 
-    /** Lagre oppgitte opplysninger om oppgitt tilknytning slik det kan brukes i vurdering av Medlemskap. Merk at implementasjonen står fritt til å ta en kopi av oppgitte data.*/
-    void lagreOppgittTilkytning(Behandling behandling, OppgittTilknytning oppgittTilknytning);
-
     /** Lagre vurderte opplysninger om meldemskap slik det har blitt gjort av Saksbehandler eller av systemet automatisk. Merk at implementasjonen står fritt til å ta en kopi av oppgitte data.*/
     void lagreMedlemskapVurdering(Behandling behandling, VurdertMedlemskap vurdertMedlemskap);
 

@@ -20,19 +20,21 @@ import javax.inject.Qualifier;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @Documented
-public @interface NamespaceRef {
+public @interface DokumentParserRef {
 
     /**
      * namespace av dokumentet
-     * */
+     */
     String value();
 
-    /** AnnotationLiteral som kan brukes ved CDI søk. */
-    public static class NamespaceRefLiteral extends AnnotationLiteral<NamespaceRef> implements NamespaceRef {
+    /**
+     * AnnotationLiteral som kan brukes ved CDI søk.
+     */
+    class DokumentParserRefLiteral extends AnnotationLiteral<DokumentParserRef> implements DokumentParserRef {
 
         private String value;
 
-        public NamespaceRefLiteral(String value) {
+        public DokumentParserRefLiteral(String value) {
             this.value = value;
         }
 

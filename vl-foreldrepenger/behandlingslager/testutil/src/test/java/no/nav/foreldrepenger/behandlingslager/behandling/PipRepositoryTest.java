@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,7 +36,7 @@ import no.nav.foreldrepenger.domene.typer.Saksnummer;
 public class PipRepositoryTest {
 
     private static final JournalpostId JOURNALPOST_ID = new JournalpostId("42");
-    private static final Saksnummer SAKSNUMMER  = new Saksnummer("100000001");
+    private static final Saksnummer SAKSNUMMER = new Saksnummer("100000001");
     private static final Saksnummer SAKSNUMMER2 = new Saksnummer("100000002");
     private static final String ANSVARLIG_SAKSBEHANDLER = "Z123455";
     @Rule
@@ -46,6 +47,25 @@ public class PipRepositoryTest {
     private final FagsakRepository fagsakRepository = new FagsakRepositoryImpl(repoRule.getEntityManager());
     private Behandling behandling;
     private Map<AktørId, NavBruker> aktørMap = new HashMap<>();
+
+    private static Behandling byggForElektroniskSøknadOmFødsel(Fagsak fagsak, LocalDate mottattDato, String ansvarligSaksbehandler,
+                                                               BehandlingRepositoryProvider repositoryProvider) {
+        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+        Behandling.Builder behandlingBuilder = Behandling.forFørstegangssøknad(fagsak);
+        Behandling behandling = behandlingBuilder.build();
+        behandling.setAnsvarligSaksbehandler(ansvarligSaksbehandler);
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandling, lås);
+
+        repositoryProvider.getSøknadRepository().lagreOgFlush(behandling, new SøknadEntitet.Builder()
+            .medSøknadReferanse(UUID.randomUUID().toString())
+            .medSykemeldinReferanse(UUID.randomUUID().toString())
+            .medSøknadsdato(LocalDate.now())
+            .medMottattDato(mottattDato)
+            .build());
+
+        return behandling;
+    }
 
     private void lagreBehandling(Behandling behandling) {
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
@@ -133,22 +153,5 @@ public class PipRepositoryTest {
         final NavBruker bruker = NavBruker.opprettNy(aktørId);
         aktørMap.put(aktørId, bruker);
         return bruker;
-    }
-    
-    private static Behandling byggForElektroniskSøknadOmFødsel(Fagsak fagsak, LocalDate mottattDato, String ansvarligSaksbehandler,
-                                                       BehandlingRepositoryProvider repositoryProvider) {
-        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
-        Behandling.Builder behandlingBuilder = Behandling.forFørstegangssøknad(fagsak);
-        Behandling behandling = behandlingBuilder.build();
-        behandling.setAnsvarligSaksbehandler(ansvarligSaksbehandler);
-        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        behandlingRepository.lagre(behandling, lås);
-
-        repositoryProvider.getSøknadRepository().lagreOgFlush(behandling, new SøknadEntitet.Builder()
-            .medSøknadsdato(LocalDate.now())
-            .medMottattDato(mottattDato)
-            .build());
-
-        return behandling;
     }
 }

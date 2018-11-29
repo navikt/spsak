@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,6 +48,8 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
+            .medSøknadReferanse(UUID.randomUUID().toString())
+            .medSykemeldinReferanse(UUID.randomUUID().toString())
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();
@@ -68,6 +71,8 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
+            .medSøknadReferanse(UUID.randomUUID().toString())
+            .medSykemeldinReferanse(UUID.randomUUID().toString())
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();
@@ -90,6 +95,8 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
+            .medSøknadReferanse(UUID.randomUUID().toString())
+            .medSykemeldinReferanse(UUID.randomUUID().toString())
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();
@@ -113,6 +120,8 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
         scenario.medSøknad()
+            .medSøknadReferanse(UUID.randomUUID().toString())
+            .medSykemeldinReferanse(UUID.randomUUID().toString())
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
             .build();

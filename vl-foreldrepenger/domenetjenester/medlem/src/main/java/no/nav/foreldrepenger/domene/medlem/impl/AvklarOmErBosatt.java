@@ -16,7 +16,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -38,9 +37,7 @@ class AvklarOmErBosatt {
     }
 
     Optional<MedlemResultat> utled(Behandling behandling, LocalDate vurderingsdato) {
-        if (harBrukerTilknytningHjemland(behandling) == NEI) {
-            return Optional.of(MedlemResultat.AVKLAR_OM_ER_BOSATT);
-        } else if (harBrukerUtenlandskPostadresseITps(behandling, vurderingsdato) == NEI) {
+        if (harBrukerUtenlandskPostadresseITps(behandling, vurderingsdato) == NEI) {
             return Optional.empty();
         } else {
             if (erFrivilligMedlemEllerIkkeMedlem(behandling, vurderingsdato) == NEI) {
@@ -59,26 +56,6 @@ class AvklarOmErBosatt {
             return JA;
         }
         return NEI;
-    }
-
-    //TODO(OJR) må denne endres?
-    private Utfall harBrukerTilknytningHjemland(Behandling behandling) {
-        final Optional<MedlemskapAggregat> medlemskapAggregat = medlemskapRepository.hentMedlemskap(behandling);
-        final OppgittTilknytning oppgittTilknytning = medlemskapAggregat.flatMap(MedlemskapAggregat::getOppgittTilknytning)
-            .orElseThrow(IllegalStateException::new);
-
-        int antallNei = 0;
-        if (!oppgittTilknytning.isOppholdINorgeSistePeriode())
-            antallNei++;
-        if (!oppgittTilknytning.isOppholdNå())
-            antallNei++;
-        if (!oppgittTilknytning.isOppholdINorgeNestePeriode())
-            antallNei++;
-
-        if (antallNei >= 2) {
-            return NEI;
-        }
-        return JA;
     }
 
     private Utfall erFrivilligMedlemEllerIkkeMedlem(Behandling behandling, LocalDate vurderingsdato) {

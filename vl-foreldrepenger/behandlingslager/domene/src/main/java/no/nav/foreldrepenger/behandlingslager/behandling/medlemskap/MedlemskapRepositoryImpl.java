@@ -160,16 +160,6 @@ public class MedlemskapRepositoryImpl implements MedlemskapRepository {
     }
 
     @Override
-    public void lagreOppgittTilkytning(Behandling behandling, OppgittTilknytning oppgittTilknytning) {
-        final BehandlingLås lås = taLås(behandling);
-        Optional<MedlemskapBehandlingsgrunnlagEntitet> gr = getAktivtBehandlingsgrunnlag(behandling);
-        OppgittTilknytningEntitet data = kopierHvisEndretOgLagre(gr, oppgittTilknytning);
-        MedlemskapBehandlingsgrunnlagEntitet nyttGrunnlag = MedlemskapBehandlingsgrunnlagEntitet.fra(gr, behandling, data);
-        lagreOgFlush(gr, nyttGrunnlag);
-        oppdaterLås(lås);
-    }
-
-    @Override
     public void slettAvklarteMedlemskapsdata(Behandling behandling, BehandlingLås lås) {
         oppdaterLås(lås);
         Optional<MedlemskapBehandlingsgrunnlagEntitet> gr = getAktivtBehandlingsgrunnlag(behandling);
@@ -207,26 +197,6 @@ public class MedlemskapRepositoryImpl implements MedlemskapRepository {
             return Optional.of(ma);
         } else {
             return Optional.empty();
-        }
-    }
-
-    private OppgittTilknytningEntitet kopierHvisEndretOgLagre(
-            Optional<MedlemskapBehandlingsgrunnlagEntitet> gr, // NOSONAR
-            OppgittTilknytning oppgittTilknytning) {
-
-        OppgittTilknytningEntitet ny = new OppgittTilknytningEntitet(oppgittTilknytning);
-        if (gr.isPresent()) {
-            OppgittTilknytningEntitet eksisterende = gr.get().getOppgittTilknytning();
-            boolean erForskjellig = medlemskapAggregatDiffer(false).areDifferent(eksisterende, ny);
-            if (erForskjellig) {
-                lagreOppgittTilknytning(ny);
-                return ny;
-            } else {
-                return eksisterende;
-            }
-        } else {
-            lagreOppgittTilknytning(ny);
-            return ny;
         }
     }
 
@@ -307,7 +277,7 @@ public class MedlemskapRepositoryImpl implements MedlemskapRepository {
 
     protected Optional<MedlemskapBehandlingsgrunnlagEntitet> getAktivtBehandlingsgrunnlag(Long behandlingId) {
         TypedQuery<MedlemskapBehandlingsgrunnlagEntitet> query = getEntityManager().createQuery(
-                "SELECT mbg FROM MedlemskapBehandlingsgrunnlag mbg WHERE mbg.behandling.id = :behandling_id AND mbg.aktiv = 'J'", //$NON-NLS-1$
+                "SELECT mbg FROM MedlemskapBehandlingsgrunnlag mbg WHERE mbg.behandling.id = :behandling_id AND mbg.aktiv = true", //$NON-NLS-1$
                 MedlemskapBehandlingsgrunnlagEntitet.class)
                 .setParameter("behandling_id", behandlingId); //$NON-NLS-1$
 

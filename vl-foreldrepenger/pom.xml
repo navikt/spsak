@@ -123,6 +123,12 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
+				<artifactId>sykepengersoeknad</artifactId>
+                <classifier>jaxb</classifier>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>behandlingsprosess-vedtak-v2</artifactId>
 				<classifier>jaxb</classifier>
 				<version>${project.version}</version>

@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.domene.mottak.dokumentmottak.json;
 
+import java.util.List;
+
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,6 +9,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import no.nav.sykepenger.kontrakter.søknad.SykepengersøknadConstants;
 
 public final class JacksonJsonConfig {
 
@@ -18,6 +22,7 @@ public final class JacksonJsonConfig {
         OBJECT_MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         OBJECT_MAPPER.registerModule(createModule());
+        OBJECT_MAPPER.registerSubtypes(getJsonTypeNameClasses());
     }
 
     public static ObjectMapper getObjectMapper() {
@@ -38,4 +43,8 @@ public final class JacksonJsonConfig {
         module.addSerializer(new StringSerializer());
     }
 
+    private static List<Class<?>> getJsonTypeNameClasses() {
+        // FIXME SP - Trenger vel egentlig ikke disse når det er konfigurert i abstracten? ..
+        return SykepengersøknadConstants.CLASSES;
+    }
 }

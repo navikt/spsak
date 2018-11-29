@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.behandlingslager.testutilities.behandling;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
@@ -44,6 +45,8 @@ public class ScenarioMorSøkerForeldrepenger extends AbstractTestScenario<Scenar
             medDefaultInntektArbeidYtelse();
 
             medSøknad()
+                .medSøknadReferanse(UUID.randomUUID().toString())
+                .medSykemeldinReferanse(UUID.randomUUID().toString())
                 .medSøknadsdato(LocalDate.now(FPDateUtil.getOffset()));
         }
     }

@@ -3,13 +3,12 @@ package no.nav.foreldrepenger.behandlingslager.behandling.søknad;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,10 +19,11 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytning;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sykefravær;
+import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværEntitet;
 
 @Entity(name = "Søknad")
 @Table(name = "SO_SOEKNAD")
@@ -36,26 +36,36 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     @Column(name = "soeknadsdato", nullable = false)
     private LocalDate søknadsdato;
 
-    @Version
-    @Column(name = "versjon", nullable = false)
-    private long versjon;
-
     @Column(name = "mottatt_dato")
     private LocalDate mottattDato;
 
-    @Column(name = "tilleggsopplysninger")
-    private String tilleggsopplysninger;
+    @Embedded
+    private Arbeidsgiver arbeidsgiver;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = { /* NONE! */ })
-    @JoinColumn(name = "medlemskap_oppg_tilknyt_id", unique = true)
-    private OppgittTilknytningEntitet oppgittTilknytning;
+    @Column(name = "soeknad_referanse", nullable = false)
+    private String søknadReferanse;
 
-    @OneToMany(cascade = { CascadeType.ALL }, mappedBy = "søknad")
-    private Set<SøknadVedleggEntitet> søknadVedlegg = new HashSet<>(2);
+    @Column(name = "sykemelding_referanse", nullable = false)
+    private String sykemeldingReferanse;
 
     @OneToOne
     @JoinColumn(name = "oppgitt_opptjening_id", updatable = false, unique = true)
     private OppgittOpptjeningEntitet oppgittOpptjening;
+
+    @OneToOne
+    @JoinColumn(name = "sykefravaer_id", updatable = false)
+    private SykefraværEntitet sykefravær;
+
+
+    @Column(name = "tilleggsopplysninger")
+    private String tilleggsopplysninger;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "søknad")
+    private Set<SøknadVedleggEntitet> søknadVedlegg = new HashSet<>(2);
+
+    @Version
+    @Column(name = "versjon", nullable = false)
+    private long versjon;
 
     SøknadEntitet() {
         // hibernate
@@ -67,18 +77,18 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     SøknadEntitet(Søknad søknadMal) {
         this.mottattDato = søknadMal.getMottattDato();
         this.søknadsdato = søknadMal.getSøknadsdato();
-        this.tilleggsopplysninger = søknadMal.getTilleggsopplysninger();
+        this.sykemeldingReferanse = søknadMal.getSykemeldingReferanse();
+        this.søknadReferanse = søknadMal.getSøknadReferanse();
+        this.oppgittOpptjening = (OppgittOpptjeningEntitet) søknadMal.getOppgittOpptjening();
+        this.sykefravær = (SykefraværEntitet) søknadMal.getOppgittSykefravær();
 
-        if (søknadMal.getOppgittTilknytning() != null) {
-            this.oppgittTilknytning = new OppgittTilknytningEntitet(søknadMal.getOppgittTilknytning());
-        }
+        // TODO SP : Trenger vi disse?
+        this.tilleggsopplysninger = søknadMal.getTilleggsopplysninger();
         for (SøknadVedlegg aSøknadVedlegg : søknadMal.getSøknadVedlegg()) {
             SøknadVedleggEntitet kopi = new SøknadVedleggEntitet(aSøknadVedlegg);
             kopi.setSøknad(this);
             this.søknadVedlegg.add(kopi);
         }
-
-        this.oppgittOpptjening = (OppgittOpptjeningEntitet) søknadMal.getOppgittOpptjening();
     }
 
     public Long getId() {
@@ -113,15 +123,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     }
 
     @Override
-    public OppgittTilknytningEntitet getOppgittTilknytning() {
-        return oppgittTilknytning;
-    }
-
-    void setOppgittTilknytning(OppgittTilknytning oppgittTilknytning) {
-        this.oppgittTilknytning = (OppgittTilknytningEntitet) oppgittTilknytning;
-    }
-
-    @Override
     public Set<SøknadVedlegg> getSøknadVedlegg() {
         return Collections.unmodifiableSet(søknadVedlegg);
     }
@@ -131,40 +132,56 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
         return oppgittOpptjening;
     }
 
-    public void setOppgittOpptjening(OppgittOpptjening oppgittOpptjening) {
+    void setOppgittOpptjening(OppgittOpptjening oppgittOpptjening) {
         this.oppgittOpptjening = (OppgittOpptjeningEntitet) oppgittOpptjening;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        } else if (!(obj instanceof SøknadEntitet)) {
-            return false;
-        }
-        SøknadEntitet other = (SøknadEntitet) obj;
-        return Objects.equals(this.mottattDato, other.mottattDato)
-            // Dette er ikke en god måte å gjøre ting på, men det er en løsning på at PersistentSet.equals ikke følger spec'en.
-            && Objects.equals(this.søknadsdato, other.søknadsdato)
-            && Objects.equals(this.oppgittTilknytning, other.oppgittTilknytning)
-            && Objects.equals(this.tilleggsopplysninger, other.tilleggsopplysninger)
-            && Objects.equals(this.søknadVedlegg, other.søknadVedlegg)
-            && Objects.equals(this.oppgittOpptjening, other.oppgittOpptjening);
+    public Sykefravær getOppgittSykefravær() {
+        return sykefravær;
+    }
+
+    void setOppgittSykefravær(Sykefravær sykefravær) {
+        this.sykefravær = (SykefraværEntitet) sykefravær;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(mottattDato, søknadsdato, oppgittTilknytning, tilleggsopplysninger,
-            søknadVedlegg, oppgittOpptjening);
+    public String getSøknadReferanse() {
+        return søknadReferanse;
+    }
+
+    void setSøknadReferanse(String søknadReferanse) {
+        this.søknadReferanse = søknadReferanse;
+    }
+
+    @Override
+    public Arbeidsgiver getArbeidsgiver() {
+        return arbeidsgiver;
+    }
+
+    void setArbeidsgiver(Arbeidsgiver arbeidsgiver) {
+        this.arbeidsgiver = arbeidsgiver;
+    }
+
+    @Override
+    public String getSykemeldingReferanse() {
+        return sykemeldingReferanse;
+    }
+
+    void setSykemeldingReferanse(String sykemeldingReferanse) {
+        this.sykemeldingReferanse = sykemeldingReferanse;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() +
-            "<søknadsdato=" + søknadsdato //$NON-NLS-1$
-            + ", mottattDato=" + mottattDato
-            + ", tilleggsopplysninger=" + tilleggsopplysninger
-            + ">"; //$NON-NLS-1$ //$NON-NLS-2$
+        return "SøknadEntitet{" +
+            "id=" + id +
+            ", søknadsdato=" + søknadsdato +
+            ", mottattDato=" + mottattDato +
+            ", arbeidsgiver=" + arbeidsgiver +
+            ", søknadReferanse='" + søknadReferanse + '\'' +
+            ", sykemeldingReferanse='" + sykemeldingReferanse + '\'' +
+            '}';
     }
 
     public static class Builder {
@@ -192,13 +209,28 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
             return this;
         }
 
-        public Builder medOppgittTilknytning(OppgittTilknytning oppgittTilknytning) {
-            søknadMal.setOppgittTilknytning(oppgittTilknytning);
+        public Builder medOppgittOpptjening(OppgittOpptjening oppgittOpptjening) {
+            søknadMal.setOppgittOpptjening(oppgittOpptjening);
             return this;
         }
 
-        public Builder medOppgittOpptjening(OppgittOpptjening oppgittOpptjening) {
-            søknadMal.setOppgittOpptjening(oppgittOpptjening);
+        public Builder medOppgittSykefravær(Sykefravær oppgittSykefravær) {
+            søknadMal.setOppgittSykefravær(oppgittSykefravær);
+            return this;
+        }
+
+        public Builder medSøknadReferanse(String søknadReferanse) {
+            søknadMal.setSøknadReferanse(søknadReferanse);
+            return this;
+        }
+
+        public Builder medSykemeldinReferanse(String sykemeldingReferanse) {
+            søknadMal.setSykemeldingReferanse(sykemeldingReferanse);
+            return this;
+        }
+
+        public Builder medArbeidsgiver(Arbeidsgiver arbeidsgiver) {
+            søknadMal.setArbeidsgiver(arbeidsgiver);
             return this;
         }
 
