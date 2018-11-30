@@ -8,8 +8,7 @@
     <mirrors>
         <mirror>
             <id>nav-nexus</id>
-            <mirrorOf>!public-snapshots,!plugin-snapshots</mirrorOf>
-			<!--<url>https://repo.maven.apache.org/maven2/</url>-->
+            <mirrorOf>external:*,!public-snapshots,!plugin-snapshots</mirrorOf>
             <url>https://repo.adeo.no/repository/maven-public/</url>
         </mirror>	
     </mirrors>
@@ -27,7 +26,7 @@
                         <enabled>false</enabled>
                     </releases>
                     <snapshots>
-                        <enabled>false</enabled>
+                        <enabled>true</enabled>
                         <updatePolicy>interval:20</updatePolicy>
                     </snapshots>
                 </repository>
@@ -36,10 +35,10 @@
                     <name>Public snapshots</name>
                     <url>https://repo.adeo.no/repository/maven-public/</url>
                     <releases>
-                        <enabled>true</enabled>
+                        <enabled>false</enabled>
                     </releases>
                     <snapshots>
-                        <enabled>false</enabled>
+                        <enabled>true</enabled>
                     </snapshots>
                 </repository>				
             </repositories>
@@ -52,7 +51,7 @@
                         <enabled>false</enabled>
                     </releases>
                     <snapshots>
-                        <enabled>false</enabled>
+                        <enabled>true</enabled>
                         <updatePolicy>interval:20</updatePolicy>
                     </snapshots>
                 </pluginRepository>
@@ -61,5 +60,6 @@
 
 
     </profiles>
+	
  </settings>
 
