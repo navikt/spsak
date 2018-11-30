@@ -1,6 +1,6 @@
 CREATE TABLE SF_SYKEMELDINGER (
-  id            NUMBER(19)                        NOT NULL,
-  versjon       NUMBER(19) DEFAULT 0              NOT NULL,
+  id            NUMERIC(19)                        NOT NULL,
+  versjon       NUMERIC(19) DEFAULT 0              NOT NULL,
   opprettet_av  VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
   opprettet_tid TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
   endret_av     VARCHAR2(20 CHAR),
@@ -18,8 +18,8 @@ CREATE SEQUENCE SEQ_SF_SYKEMELDINGER
   NOCYCLE;
 
 CREATE TABLE SF_SYKEFRAVAER (
-  id            NUMBER(19)                        NOT NULL,
-  versjon       NUMBER(19) DEFAULT 0              NOT NULL,
+  id            NUMERIC(19)                        NOT NULL,
+  versjon       NUMERIC(19) DEFAULT 0              NOT NULL,
   opprettet_av  VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
   opprettet_tid TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
   endret_av     VARCHAR2(20 CHAR),
@@ -38,12 +38,12 @@ CREATE SEQUENCE SEQ_SF_SYKEFRAVAER
   NOCYCLE;
 
 CREATE TABLE GR_SYKEFRAVAER (
-  id               NUMBER(19)                        NOT NULL,
-  behandling_id    NUMBER(19)                        NOT NULL,
-  sykemeldinger_id NUMBER(19),
-  sykefravaer_id   NUMBER(19),
+  id               NUMERIC(19)                        NOT NULL,
+  behandling_id    NUMERIC(19)                        NOT NULL,
+  sykemeldinger_id NUMERIC(19),
+  sykefravaer_id   NUMERIC(19),
   aktiv            VARCHAR2(1 CHAR) DEFAULT 'N'      NOT NULL,
-  versjon          NUMBER(19) DEFAULT 0              NOT NULL,
+  versjon          NUMERIC(19) DEFAULT 0              NOT NULL,
   opprettet_av     VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
   opprettet_tid    TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
   endret_av        VARCHAR2(20 CHAR),
@@ -83,13 +83,13 @@ CREATE UNIQUE INDEX UIDX_GR_SYKEFRAVAER_01
   );
 
 CREATE TABLE SF_SYKEMELDING (
-  id                         NUMBER(19)                        NOT NULL,
-  versjon                    NUMBER(19) DEFAULT 0              NOT NULL,
-  sykemeldinger_id           NUMBER(19)                        NOT NULL,
+  id                         NUMERIC(19)                        NOT NULL,
+  versjon                    NUMERIC(19) DEFAULT 0              NOT NULL,
+  sykemeldinger_id           NUMERIC(19)                        NOT NULL,
   EKSTERN_REFERANSE          VARCHAR2(100 CHAR)                NOT NULL,
   ARBEIDSGIVER_AKTOR_ID      VARCHAR2(100 CHAR),
-  ARBEIDSGIVER_VIRKSOMHET_ID NUMBER(19, 0),
-  GRAD                       NUMBER(5, 2)                      NOT NULL,
+  ARBEIDSGIVER_VIRKSOMHET_ID NUMERIC(19, 0),
+  GRAD                       NUMERIC(5, 2)                      NOT NULL,
   FOM                        DATE                              NOT NULL,
   TOM                        DATE                              NOT NULL,
   opprettet_av               VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
@@ -127,13 +127,13 @@ COMMENT ON COLUMN SF_SYKEMELDING.EKSTERN_REFERANSE
 IS 'Sykemeldingen eksterne referanse til sykemeldingsregisteret';
 
 CREATE TABLE SF_SYKEFRAVAER_PERIODE (
-  id                         NUMBER(19)                        NOT NULL,
-  versjon                    NUMBER(19) DEFAULT 0              NOT NULL,
-  sykefravaer_id             NUMBER(19)                        NOT NULL,
+  id                         NUMERIC(19)                        NOT NULL,
+  versjon                    NUMERIC(19) DEFAULT 0              NOT NULL,
+  sykefravaer_id             NUMERIC(19)                        NOT NULL,
   ARBEIDSGIVER_AKTOR_ID      VARCHAR2(100 CHAR),
-  ARBEIDSGIVER_VIRKSOMHET_ID NUMBER(19, 0),
-  gradering                  NUMBER(5, 2)                      NOT NULL,
-  arbeidsgrad                NUMBER(5, 2)                      NOT NULL,
+  ARBEIDSGIVER_VIRKSOMHET_ID NUMERIC(19, 0),
+  gradering                  NUMERIC(5, 2)                      NOT NULL,
+  arbeidsgrad                NUMERIC(5, 2)                      NOT NULL,
   FOM                        DATE                              NOT NULL,
   TOM                        DATE                              NOT NULL,
   fravaer_type               VARCHAR2(100 CHAR)                NOT NULL,
