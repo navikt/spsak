@@ -1,21 +1,10 @@
 #!/usr/bin/env groovy
 
-pipeline {
-    agent any
-    tools {
-        maven 'maven-3.6.0'
-        jdk '10'
-    }
-    stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
-            }
-        }
 
+def call(body) {
+    try {
+		env.LANG = "nb_NO.UTF-8"
+		 
         stage ('Build') {
             steps {
                 sh 'mvn install' 
@@ -27,5 +16,9 @@ pipeline {
             }
         }
 		
-    }
+	} catch (error) {
+		throw error
+	}
 }
+
+return this;

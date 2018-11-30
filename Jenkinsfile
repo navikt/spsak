@@ -3,6 +3,7 @@
 // for each layer we test first whether to run at all, then determine what to build exactly.
 // note that each layer needs to encode dependency info on previous layer's libs.
 // then do it using "parallel"
+def modules = [:]
 
 pipeline {
     agent any
@@ -24,7 +25,10 @@ pipeline {
                 }
             }
             steps {
-                build 'felles'
+                script {
+					modules.felles = load "./felles/Jenkinsfile"
+					modules.felles.call({})
+				}
             }
         }
 		stage('kontrakter') {
@@ -35,7 +39,10 @@ pipeline {
                 }
             }
             steps {
-                build 'kontrakter'
+                script {
+					modules.kontrakter = load "./kontrakter/Jenkinsfile"
+					modules.kontrakter.call({})
+				}
             }
         }
         stage('saksbehandling') {
@@ -46,7 +53,10 @@ pipeline {
                 }
             }
             steps {
-                build 'saksbehandling'
+                script {
+					modules.saksbehandling = load "./saksbehandling/Jenkinsfile"
+					modules.saksbehandling.call({})
+				}
             }
         }
         stage('vtp-mock') {
@@ -57,7 +67,10 @@ pipeline {
                 }
             }
             steps {
-                build 'vtp-mock'
+                script {
+					modules.vtpmock = load "./vtp-mock/Jenkinsfile"
+					modules.vtpmock.call({})
+				}
             }
         }
     }
