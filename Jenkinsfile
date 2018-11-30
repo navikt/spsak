@@ -44,8 +44,8 @@ pipeline {
             }
             steps {
 				script {
-					def module = load "./mvnbuild.groovy"
-					module.call("felles")
+					def module = load './mvnbuild.groovy'
+					module.build('felles')
 				}
             }
         }
@@ -58,8 +58,8 @@ pipeline {
             }
             steps {
                 script {
-					def module = load "./mvnbuild.groovy"
-					module.call("kontrakter")
+					def module = load './mvnbuild.groovy'
+					module.build('kontrakter')
 				}
             }
         }
@@ -72,8 +72,8 @@ pipeline {
             }
             steps {
                 script {
-					def module = load "./mvnbuild.groovy"
-					module.call("saksbehandling")
+					def module = load './mvnbuild.groovy'
+					module.build('saksbehandling')
 				}
             }
         }
@@ -86,8 +86,8 @@ pipeline {
             }
             steps {
                 script {
-					def module = load "./mvnbuild.groovy"
-					module.call("vtp-mock")
+					def module = load './mvnbuild.groovy'
+					module.build('vtp-mock')
 				}
             }
         }

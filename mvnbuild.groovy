@@ -3,10 +3,10 @@ import deploy
 
 def deployLib = new deploy()
 
-def call(String dir) {
+def build(String mydir) {
     try {
-		dir(dir) {
-			stage ('Build: ' + dir) {
+		dir(mydir) {
+			stage ('Build: ' + mydir) {
 				sh 'mvn -s ../mvn-settings.xml install -DskipTests' 
 			}
 		}
