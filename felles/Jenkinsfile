@@ -5,11 +5,6 @@ def deployLib = new deploy()
 
 def call(body) {
     try {
-		env.LANG = "nb_NO.UTF-8"
-		
-		sh "java -version"
-		sh "mvn --version"
-		sh "echo $PATH"
 		
         stage ('Build') {
 			sh 'mvn -s ../mvn-settings.xml install -DskipTests' 

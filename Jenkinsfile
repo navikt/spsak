@@ -9,6 +9,7 @@ pipeline {
 	
 	 tools {
         maven "maven-3.6.0"
+		jdk "10"
     }
 
     triggers {
@@ -26,6 +27,11 @@ pipeline {
                 script {
                     def scmVars = checkout scm
                     env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT = scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT ?: "--"
+					env.LANG = "nb_NO.UTF-8"
+					
+					sh "java -version"
+					sh "mvn --version"
+					sh "echo $PATH"
                 }
             }
         }
