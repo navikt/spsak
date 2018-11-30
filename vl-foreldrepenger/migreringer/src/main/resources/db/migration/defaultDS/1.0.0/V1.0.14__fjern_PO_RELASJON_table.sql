@@ -1,4 +1,4 @@
-drop table PO_RELASJON cascade constraints purge;
+drop table PO_RELASJON cascade ;
 
 alter table so_soeknad drop constraint FK_SOEKNAD_1;
 
