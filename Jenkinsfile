@@ -45,7 +45,7 @@ pipeline {
             steps {
 				script {
 					def module = load "./mvnbuild.groovy"
-					module.call({ dir: "felles" })
+					module.call("felles")
 				}
             }
         }
@@ -59,7 +59,7 @@ pipeline {
             steps {
                 script {
 					def module = load "./mvnbuild.groovy"
-					module.call({ dir: "kontrakter" })
+					module.call("kontrakter")
 				}
             }
         }
@@ -73,7 +73,7 @@ pipeline {
             steps {
                 script {
 					def module = load "./mvnbuild.groovy"
-					module.call({ dir: "saksbehandling" })
+					module.call("saksbehandling")
 				}
             }
         }
@@ -87,7 +87,7 @@ pipeline {
             steps {
                 script {
 					def module = load "./mvnbuild.groovy"
-					module.call({ dir: "vtp-mock" })
+					module.call("vtp-mock")
 				}
             }
         }
