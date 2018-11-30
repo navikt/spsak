@@ -12,14 +12,14 @@ pipeline {
             steps {
                 script {
                     def scmVars = checkout scm
-                    env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT = scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT
+                    env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT = scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT ?: "--"
                 }
             }
         }
         stage('felles') {
             when {
                 expression {
-                    matches = sh(returnStatus:true, script: "git diff --name-only ${MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT:---} |egrep -q '^felles'")
+                    matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^felles'")
                     return !matches
                 }
             }
@@ -30,7 +30,7 @@ pipeline {
 		stage('kontrakter') {
             when {
                 expression {
-                    matches = sh(returnStatus:true, script: "git diff --name-only ${MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT:---} |egrep -q '^kontrakter'")
+                    matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^kontrakter'")
                     return !matches
                 }
             }
@@ -41,7 +41,7 @@ pipeline {
         stage('saksbehandling') {
             when {
                 expression {
-                    matches = sh(returnStatus: true, script: "git diff --name-only ${MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT:---} |egrep -q '^saksbehandling'")
+                    matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^saksbehandling'")
                     return !matches
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
         stage('vtp-mock') {
             when {
                 expression {
-                    matches = sh(returnStatus: true, script: "git diff --name-only ${MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT:---} |egrep -q '^vtp-mock'")
+                    matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^vtp-mock'")
                     return !matches
                 }
             }
