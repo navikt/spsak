@@ -43,11 +43,9 @@ pipeline {
                 }
             }
             steps {
-				dir('felles') {
-					script {
-						def module = load "./Jenkinsfile"
-						module.call({})
-					}
+				script {
+					def module = load "./mvnbuild.groovy"
+					module.call({ dir: "felles" })
 				}
             }
         }
@@ -59,11 +57,9 @@ pipeline {
                 }
             }
             steps {
-                dir('kontrakter') {
-					script {
-						def module = load "./Jenkinsfile"
-						module.call({})
-					}
+                script {
+					def module = load "./mvnbuild.groovy"
+					module.call({ dir: "kontrakter" })
 				}
             }
         }
@@ -75,11 +71,9 @@ pipeline {
                 }
             }
             steps {
-                dir('saksbehandling') {
-					script {
-						def module = load "./Jenkinsfile"
-						module.call({})
-					}
+                script {
+					def module = load "./mvnbuild.groovy"
+					module.call({ dir: "saksbehandling" })
 				}
             }
         }
@@ -91,11 +85,9 @@ pipeline {
                 }
             }
             steps {
-                dir('vtp-mock') {
-					script {
-						def module = load "./Jenkinsfile"
-						module.call({})
-					}
+                script {
+					def module = load "./mvnbuild.groovy"
+					module.call({ dir: "vtp-mock" })
 				}
             }
         }

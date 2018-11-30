@@ -5,10 +5,13 @@ def deployLib = new deploy()
 
 def call(body) {
     try {
+		def dir = body.dir
 		
-        stage ('Build') {
-			sh 'mvn -s ../mvn-settings.xml install -DskipTests' 
-        }
+		dir(dir) {
+			stage ('Build: ' + dir) {
+				sh 'mvn -s ../mvn-settings.xml install -DskipTests' 
+			}
+		}
 		
 	} catch (error) {
 		throw error
