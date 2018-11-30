@@ -1,12 +1,14 @@
-#!/usr/bin/env groovy
+@Library('deploy')
+import deploy
 
+def deployLib = new deploy()
 
 def call(body) {
     try {
 		env.LANG = "nb_NO.UTF-8"
 		 
         stage ('Build') {
-            sh 'mvn install -DskipTests' 
+            sh 'mvn -s /opt/apache-maven-3.3.9/conf/settings.xml install -DskipTests' 
         }
 		
 	} catch (error) {

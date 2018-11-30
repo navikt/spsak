@@ -6,6 +6,19 @@
 
 pipeline {
     agent any
+	
+	 tools {
+        maven "maven-3.6.0"
+    }
+
+    triggers {
+        pollSCM "* * * * *"
+    }
+	
+	options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 30, unit: 'MINUTES')
+    }
 
     stages {
         stage('init') {
