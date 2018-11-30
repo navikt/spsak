@@ -8,7 +8,10 @@ def call(body) {
 		env.LANG = "nb_NO.UTF-8"
 		 
         stage ('Build') {
-            sh 'mvn -s ../mvn-settings.xml install -DskipTests' 
+		
+			withMaven(globalMavenSettingsConfig: "$mavenConfig", jdk: "$JDKVersion", maven: "$mavenLocation") {
+				sh 'mvn -s ../mvn-settings.xml install -DskipTests' 
+			}
         }
 		
 	} catch (error) {
