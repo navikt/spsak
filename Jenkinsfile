@@ -20,7 +20,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^felles'")
-                    return !matches
+					return !fileExists("felles/target") || !matches
                 }
             }
             steps {
@@ -31,7 +31,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^kontrakter'")
-                    return !matches
+                    return !fileExists("kontrakter/target") || !matches
                 }
             }
             steps {
@@ -42,7 +42,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^saksbehandling'")
-                    return !matches
+                    return !fileExists("saksbehandling/target") || !matches
                 }
             }
             steps {
@@ -53,7 +53,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^vtp-mock'")
-                    return !matches
+                    return !fileExists("vtp-mock/target") || !matches
                 }
             }
             steps {
