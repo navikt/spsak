@@ -8,7 +8,7 @@ def call(body) {
 		env.LANG = "nb_NO.UTF-8"
 		 
         stage ('Build') {
-            sh 'mvn -s /opt/apache-maven-3.3.9/conf/settings.xml install -DskipTests' 
+            sh 'mvn -U -s /opt/apache-maven-3.3.9/conf/settings.xml install -DskipTests' 
         }
 		
 	} catch (error) {
