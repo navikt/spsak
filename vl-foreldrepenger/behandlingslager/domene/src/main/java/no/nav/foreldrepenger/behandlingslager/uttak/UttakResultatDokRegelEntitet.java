@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.annotations.Type;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
@@ -38,10 +39,12 @@ public class UttakResultatDokRegelEntitet extends BaseEntitet {
     private ManuellBehandlingÅrsak manuellBehandlingÅrsak = ManuellBehandlingÅrsak.UKJENT;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_input", updatable = false)
     private String regelInput;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_evaluering", updatable = false)
     private String regelEvaluering;
 

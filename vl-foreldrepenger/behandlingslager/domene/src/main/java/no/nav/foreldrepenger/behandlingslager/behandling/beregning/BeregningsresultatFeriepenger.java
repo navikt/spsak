@@ -21,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import no.nav.vedtak.felles.jpa.BaseEntitet;
 
 @Entity(name = "BeregningsresultatFeriepenger")
@@ -49,10 +51,12 @@ public class BeregningsresultatFeriepenger extends BaseEntitet {
     private LocalDate feriepengerPeriodeTom;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "feriepenger_regel_input", nullable = false)
     private String feriepengerRegelInput;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "feriepenger_regel_sporing", nullable = false)
     private String feriepengerRegelSporing;
 

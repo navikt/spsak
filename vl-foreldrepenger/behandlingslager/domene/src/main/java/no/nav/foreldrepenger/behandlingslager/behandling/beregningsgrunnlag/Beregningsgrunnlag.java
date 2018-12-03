@@ -28,6 +28,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
@@ -61,26 +63,32 @@ public class Beregningsgrunnlag extends BaseEntitet {
     private Sammenligningsgrunnlag sammenligningsgrunnlag;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regellogg_skjaringstidspunkt")
     private String regelloggSkjæringstidspunkt;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regellogg_brukers_status")
     private String regelloggBrukersStatus;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regelinput_skjaringstidspunkt")
     private String regelInputSkjæringstidspunkt;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regelinput_brukers_status")
     private String regelInputBrukersStatus;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regelinput_tilstøtende_ytelse")
     private String regelInputTilstøtendeYtelse;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regellogg_tilstøtende_ytelse")
     private String regelloggTilstøtendeYtelse;
 

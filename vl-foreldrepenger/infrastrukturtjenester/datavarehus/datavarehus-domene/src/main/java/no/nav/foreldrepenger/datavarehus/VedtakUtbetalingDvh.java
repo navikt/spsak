@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity(name = "VedtakUtbetalingDvh")
 @Table(name = "VEDTAK_UTBETALING_DVH")
 public class VedtakUtbetalingDvh extends DvhBaseEntitet {
@@ -23,6 +25,7 @@ public class VedtakUtbetalingDvh extends DvhBaseEntitet {
     @Column(name = "VEDTAK_DATO", nullable = false)
     private LocalDate vedtakDato;
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "XML_CLOB", nullable = false)
     private String xmlClob;
 

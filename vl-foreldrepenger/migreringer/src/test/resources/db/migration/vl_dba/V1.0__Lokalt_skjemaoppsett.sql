@@ -1,6 +1,7 @@
 -- ###############################
 -- ### Opplegg for lokal jetty ###
 -- ###############################
+/*
 DECLARE userexists INTEGER;
 BEGIN
   SELECT count(*)
@@ -69,10 +70,10 @@ BEGIN
   SELECT count(*)
   INTO userexists
   FROM SYS.ALL_USERS
-  WHERE USERNAME = upper('${vl_fpsak_schema_unit}');
+  WHERE USERNAME = upper('dollar{vl_fpsak_schema_unit}');
   IF (userexists = 0)
   THEN
-    EXECUTE IMMEDIATE ('CREATE USER ${vl_fpsak_schema_unit} IDENTIFIED BY ${vl_fpsak_schema_unit}');
+    EXECUTE IMMEDIATE ('CREATE USER dollar{vl_fpsak_schema_unit} IDENTIFIED BY dollar{vl_fpsak_schema_unit}');
   END IF;
 END;
 /
@@ -82,16 +83,17 @@ BEGIN
   SELECT count(*)
   INTO userexists
   FROM SYS.ALL_USERS
-  WHERE USERNAME = upper('${vl_fpsak_hist_schema_unit}');
+  WHERE USERNAME = upper('dollar{vl_fpsak_hist_schema_unit}');
   IF (userexists = 0)
   THEN
-    EXECUTE IMMEDIATE ('CREATE USER ${vl_fpsak_hist_schema_unit} IDENTIFIED BY ${vl_fpsak_hist_schema_unit}');
+    EXECUTE IMMEDIATE ('CREATE USER dollar{vl_fpsak_hist_schema_unit} IDENTIFIED BY dollar{vl_fpsak_hist_schema_unit}');
   END IF;
 END;
 /
 
-GRANT CONNECT, RESOURCE, CREATE JOB, CREATE TABLE, CREATE SYNONYM, CREATE VIEW, CREATE MATERIALIZED VIEW TO ${vl_fpsak_schema_unit};
-GRANT CONNECT, RESOURCE, CREATE JOB, CREATE TABLE, CREATE SYNONYM, CREATE VIEW, CREATE MATERIALIZED VIEW TO ${vl_fpsak_hist_schema_unit};
+GRANT CONNECT, RESOURCE, CREATE JOB, CREATE TABLE, CREATE SYNONYM, CREATE VIEW, CREATE MATERIALIZED VIEW TO dollar{vl_fpsak_schema_unit};
+GRANT CONNECT, RESOURCE, CREATE JOB, CREATE TABLE, CREATE SYNONYM, CREATE VIEW, CREATE MATERIALIZED VIEW TO dollar{vl_fpsak_hist_schema_unit};
 
 -- Ikke endre rollenavn, den er referert i migreringsskriptene og skal finnes i alle miljøer inkl prod
-GRANT FPSAK_HIST_SKRIVE_ROLE TO ${vl_fpsak_schema_unit};
+GRANT FPSAK_HIST_SKRIVE_ROLE TO dollar{vl_fpsak_schema_unit};
+*/

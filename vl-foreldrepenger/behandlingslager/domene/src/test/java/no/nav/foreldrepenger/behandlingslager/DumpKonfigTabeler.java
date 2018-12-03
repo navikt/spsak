@@ -132,8 +132,8 @@ public class DumpKonfigTabeler {
         config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:XE");
         config.setUsername("es_empty1");
         config.setPassword("es_empty1");
-        config.setConnectionTestQuery("select 1 from dual");
-        config.setDriverClassName("oracle.jdbc.OracleDriver");
+        config.setConnectionTestQuery("select 1");
+        config.setDriverClassName("org.postgresql.Driver");
         Properties dsProperties = new Properties();
         config.setDataSourceProperties(dsProperties);
 

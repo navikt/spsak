@@ -26,6 +26,7 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.annotations.Type;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
@@ -106,6 +107,7 @@ public class Behandlingsresultat extends BaseEntitet {
     private String overskrift;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "fritekstbrev")
     private String fritekstbrev;
 

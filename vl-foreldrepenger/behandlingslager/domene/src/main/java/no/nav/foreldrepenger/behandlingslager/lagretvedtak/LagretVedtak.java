@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.annotations.Type;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 
@@ -44,6 +45,7 @@ public class LagretVedtak extends BaseEntitet {
     private Long behandlingId;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "XML_CLOB", nullable = false)
     private String xmlClob;
 

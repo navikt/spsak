@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
@@ -39,10 +41,12 @@ public class Uttaksperiodegrense extends BaseEntitet {
     private LocalDate førsteLovligeUttaksdag;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "SPORING_INPUT")
     private String sporingInput;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "SPORING_REGEL")
     private String sporingRegel;
 
