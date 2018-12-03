@@ -36,8 +36,6 @@ import org.junit.runners.Parameterized;
 
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.kodeverk.IndexClasses;
-import no.nav.foreldrepenger.datavarehus.DvhBaseEntitet;
-import no.nav.foreldrepenger.datavarehus.KontrollDvh;
 import no.nav.foreldrepenger.dbstoette.DatasourceConfiguration;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.lokal.dbstoette.DBConnectionProperties;
@@ -112,10 +110,6 @@ public class EntityTest {
     public void sjekk_felt_mapping_primitive_felt_i_entiteter_må_ha_not_nullable_i_db() throws Exception {
         ManagedType<?> managedType = entityManagerFactory.getMetamodel().managedType(entityClass);
 
-        if (DvhBaseEntitet.class.isAssignableFrom(entityClass)) {
-            return;
-        }
-
         for (Attribute<?, ?> att : managedType.getAttributes()) {
             Class<?> javaType = att.getJavaType();
             if (javaType.isPrimitive()) {
@@ -148,9 +142,6 @@ public class EntityTest {
         if (Modifier.isAbstract(entityClass.getModifiers())) {
             return;
         }
-        if (DvhBaseEntitet.class.isAssignableFrom(entityClass)) {
-            return;
-        }
 
         for (Attribute<?, ?> att : managedType.getAttributes()) {
             Member member = att.getJavaMember();
@@ -160,10 +151,6 @@ public class EntityTest {
                 continue;
             }
 
-            // FIXME(IverStubdal): KontrollDvh bør vel extende DvhBaseEntitet?
-            if (KontrollDvh.class.equals(entityClass)) {
-                continue;
-            }
             Id id = field.getDeclaredAnnotation(Id.class);
             if (id != null) {
                 continue;

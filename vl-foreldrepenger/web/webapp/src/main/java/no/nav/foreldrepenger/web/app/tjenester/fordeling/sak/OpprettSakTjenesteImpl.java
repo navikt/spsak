@@ -16,7 +16,6 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Journalpost;
-import no.nav.foreldrepenger.datavarehus.tjeneste.DatavarehusTjeneste;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
@@ -52,7 +51,6 @@ public class OpprettSakTjenesteImpl implements OpprettSakTjeneste {
     private BehandleSakConsumer behandleSakConsumer;
     private SakConsumer sakConsumer;
     private BrukerTjeneste brukerTjeneste;
-    private DatavarehusTjeneste datavarehusTjeneste;
 
     public OpprettSakTjenesteImpl() {
         //For CDI
@@ -60,13 +58,12 @@ public class OpprettSakTjenesteImpl implements OpprettSakTjeneste {
 
     @Inject
     public OpprettSakTjenesteImpl(TpsTjeneste tpsTjeneste, FagsakTjeneste fagsakTjeneste,
-                                  BehandleSakConsumer behandleSakConsumer, SakConsumer sakConsumer, BrukerTjeneste brukerTjeneste, DatavarehusTjeneste datavarehusTjeneste) {
+                                  BehandleSakConsumer behandleSakConsumer, SakConsumer sakConsumer, BrukerTjeneste brukerTjeneste) {
         this.tpsTjeneste = tpsTjeneste;
         this.fagsakTjeneste = fagsakTjeneste;
         this.behandleSakConsumer = behandleSakConsumer;
         this.sakConsumer = sakConsumer;
         this.brukerTjeneste = brukerTjeneste;
-        this.datavarehusTjeneste = datavarehusTjeneste;
     }
 
     @Override
@@ -172,8 +169,6 @@ public class OpprettSakTjenesteImpl implements OpprettSakTjeneste {
     @Override
     public void oppdaterFagsakMedGsakSaksnummer(Long fagsakId, Saksnummer saksnummer) {
         fagsakTjeneste.oppdaterFagsakMedGsakSaksnummer(fagsakId, saksnummer);
-        //Dette er en unntaksløsning for å sikre at DVH oppdaters med saksnummer. DVH oppdatering skal normalt gå gjennom events
-        datavarehusTjeneste.lagreNedFagsak(fagsakId);
     }
 
     @Override

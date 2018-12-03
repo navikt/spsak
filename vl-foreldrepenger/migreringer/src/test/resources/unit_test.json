@@ -8,14 +8,6 @@
       "url": "jdbc:postgresql://localhost:5432/fpsak_unit",
       "default": true,
       "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
-    },
-    {
-      "datasource": "dvhDS",
-      "schema": "public",
-      "user": "fpsak_unit_hist",
-      "password": "fpsak_unit_hist",
-      "url": "jdbc:postgresql://localhost:5432/fpsak_unit_hist",
-      "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
     }
   ]
 }

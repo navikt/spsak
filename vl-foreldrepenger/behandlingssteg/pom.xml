@@ -33,12 +33,6 @@
             <artifactId>felles-util</artifactId>
         </dependency>
 
-		<!-- Annet -->
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>datavarehus-tjeneste</artifactId>
-		</dependency>
-		
 		<!-- Test avhengigheter -->
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

@@ -21,12 +21,6 @@
 			<artifactId>felles-behandlingsprosess-prosesstask</artifactId>
 		</dependency>
 
-		<!-- TODO: Midlertidig til vi får håndtert datavarehus bedre (trenger å inkludere datavarehus-orm i persistence.xml)-->
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>datavarehus-domene</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>

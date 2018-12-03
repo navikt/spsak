@@ -19,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.datavarehus.tjeneste.DatavarehusTjeneste;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjenesteImpl;
@@ -42,8 +41,6 @@ public class OpprettNyFørstegangsbehandlingTest {
 
     private BehandlingRepositoryProvider repositoryProvider;
 
-    private DatavarehusTjeneste datavarehusTjeneste;
-
     private OppgaveTjeneste oppgaveTjeneste;
     private ProsessTaskRepository prosessTaskRepository;
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste;
@@ -60,7 +57,6 @@ public class OpprettNyFørstegangsbehandlingTest {
         Mockito.doNothing().when(prosessTaskEventPubliserer).fireEvent(Mockito.any(ProsessTaskData.class), Mockito.any(), Mockito.any(), Mockito.any());
         oppgaveTjeneste = mock(OppgaveTjeneste.class);
         prosessTaskRepository = Mockito.spy(new ProsessTaskRepositoryImpl(repoRule.getEntityManager(), prosessTaskEventPubliserer));
-        datavarehusTjeneste = mock(DatavarehusTjeneste.class);
 
         repositoryProvider = Mockito.spy(new BehandlingRepositoryProviderImpl(repoRule.getEntityManager()));
         kodeverkRepository = repositoryProvider.getKodeverkRepository();
@@ -75,8 +71,7 @@ public class OpprettNyFørstegangsbehandlingTest {
             oppgaveTjeneste,
             null,
             null,
-            saksbehandlingDokumentmottakTjeneste,
-            datavarehusTjeneste);
+            saksbehandlingDokumentmottakTjeneste);
     }
 
     @Test

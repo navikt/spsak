@@ -161,11 +161,6 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>datavarehus-domene</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>mottak</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -269,11 +264,6 @@
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>kodeverk</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>datavarehus-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

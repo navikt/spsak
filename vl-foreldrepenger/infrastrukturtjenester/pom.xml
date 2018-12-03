@@ -14,8 +14,6 @@
     <modules>
         <module>batch</module>
         <module>kodeverk</module>
-        <module>datavarehus</module>
-
     </modules>
 
 </project>

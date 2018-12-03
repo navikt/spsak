@@ -16,9 +16,6 @@
         <mapping-file>META-INF/fagsak-orm.xml</mapping-file>
         <mapping-file>META-INF/behandlingslager-orm.xml</mapping-file>
 
-        <!-- Datavarehus er del av same persistencecontext, men tabellene lever fysisk i eget skjema FPSAK_HIST -->
-        <mapping-file>META-INF/datavarehus-orm.xml</mapping-file>
-        
         <!-- Skilt ut mapping for vedtak (jmf. 'Vedtakslageret') -->
         <mapping-file>META-INF/vedtakslager-orm.xml</mapping-file>
 
@@ -27,7 +24,7 @@
             <property name="hibernate.connection.autocommit" value="false"/>
             <property name="hibernate.jdbc.use_get_generated_keys" value="true" />
             <property name="org.hibernate.flushMode" value="COMMIT" />
-            
+
         </properties>
     </persistence-unit>
 

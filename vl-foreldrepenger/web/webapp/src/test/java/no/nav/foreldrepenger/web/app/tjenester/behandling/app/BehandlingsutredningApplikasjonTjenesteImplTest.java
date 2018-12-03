@@ -35,7 +35,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.datavarehus.tjeneste.DatavarehusTjeneste;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
@@ -73,9 +72,6 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
     private RevurderingTjenesteProvider revurderingTjenesteProviderMock;
 
     @Mock
-    private DatavarehusTjeneste datavarehusTjenesteMock;
-
-    @Mock
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjenesteMock;
 
     private BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste;
@@ -103,8 +99,7 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
             oppgaveTjenesteMock,
             behandlingskontrollTjenesteImpl,
             revurderingTjenesteProviderMock,
-            saksbehandlingDokumentmottakTjenesteMock,
-            datavarehusTjenesteMock);
+            saksbehandlingDokumentmottakTjenesteMock);
     }
 
     @Test
