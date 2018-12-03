@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
+import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -55,8 +56,10 @@ public class SøknadConsumer extends KafkaConsumer {
 
         try {
             JournalpostMottakDto dto = objectMapper.readValue(payload, JournalpostMottakDto.class);
-            dto.setDokumentTypeIdOffisiellKode(kodeverkRepository.finn(DokumentTypeId.class, DokumentTypeId.UDEFINERT).getOffisiellKode());
-            InngåendeSaksdokument saksdokument = mottakTilSaksdokumentMapper.map(dto, PayloadType.XML);
+            // TODO : Sett noe som gir mening ..
+            dto.setDokumentTypeIdOffisiellKode(kodeverkRepository.finn(DokumentTypeId.class, DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL).getOffisiellKode());
+            dto.setDokumentKategoriOffisiellKode(kodeverkRepository.finn(DokumentKategori.class, DokumentKategori.SØKNAD).getOffisiellKode());
+            InngåendeSaksdokument saksdokument = mottakTilSaksdokumentMapper.map(dto, PayloadType.JSON);
             dokumentmottakTjeneste.dokumentAnkommet(saksdokument);
         } catch (IOException e) {
             throw KafkaConsumerFeil.FACTORY.klarteIkkeParseInput(getTopic(), payload).toException();

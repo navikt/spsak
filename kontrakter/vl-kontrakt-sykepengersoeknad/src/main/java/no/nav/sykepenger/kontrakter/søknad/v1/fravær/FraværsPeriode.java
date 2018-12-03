@@ -15,6 +15,9 @@ public class FraværsPeriode {
     @JsonProperty("type")
     private FraværType type;
 
+    public FraværsPeriode() {
+    }
+
     public FraværsPeriode(LocalDate fom, LocalDate tom, FraværType type) {
         this.fom = fom;
         this.tom = tom;

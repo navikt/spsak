@@ -10,6 +10,9 @@ import java.util.Enumeration;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.X509ExtendedKeyManager;
+
+import org.eclipse.jetty.util.ssl.AliasedX509ExtendedKeyManager;
 
 import com.unboundid.ldap.listener.InMemoryDirectoryServer;
 import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
@@ -22,17 +25,15 @@ public class LdapServer {
 
     private static final String BASEDATA_USERS_LDIF = "basedata/users.ldif";
     private final int listenerPort = Integer.valueOf(System.getProperty("ldaps.port", "8636")); // 636 er default LDAPS port, 389 default for LDAP
-
-    private InMemoryDirectoryServer directoryServer;
-
     private final File keystoreFile;
     private final char[] password;
+    private InMemoryDirectoryServer directoryServer;
 
     public LdapServer(File keystoreFile, char[] password) throws Exception {
         this.keystoreFile = keystoreFile;
         this.password = password;
         InMemoryDirectoryServerConfig cfg = new InMemoryDirectoryServerConfig("DC=local");
-        
+
         cfg.setEnforceAttributeSyntaxCompliance(false);
         cfg.setEnforceSingleStructuralObjectClass(false);
         cfg.setSchema(null); // dropper valider schema slik at vi slipper å definere alle object classes
@@ -43,7 +44,7 @@ public class LdapServer {
         context.init(km, null, null);
 
         InMemoryListenerConfig ldapsConfig = InMemoryListenerConfig.createLDAPSConfig("LDAPS", listenerPort, context.getServerSocketFactory());
-        
+
         cfg.setListenerConfigs(ldapsConfig);
 
         directoryServer = new InMemoryDirectoryServer(cfg);
@@ -53,13 +54,13 @@ public class LdapServer {
     @SuppressWarnings("resource")
     private void readLdifFilesFromClasspath(InMemoryDirectoryServer server) throws Exception {
         Enumeration<URL> ldifs = getClass().getClassLoader().getResources(BASEDATA_USERS_LDIF);
-        while(ldifs.hasMoreElements()) {
+        while (ldifs.hasMoreElements()) {
             URL ldif = ldifs.nextElement();
-            try(InputStream is = ldif.openStream()){
+            try (InputStream is = ldif.openStream()) {
                 LDIFReader r = new LDIFReader(is);
                 LDIFChangeRecord readEntry = null;
                 while ((readEntry = r.readChangeRecord()) != null) {
-                  readEntry.processChange(server);
+                    readEntry.processChange(server);
                 }
             }
         }
@@ -71,7 +72,7 @@ public class LdapServer {
             ks.load(is, password);
             KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
             kmf.init(ks, password);
-            return kmf.getKeyManagers();
+            return new KeyManager[]{new AliasedX509ExtendedKeyManager((X509ExtendedKeyManager) kmf.getKeyManagers()[0], "localhost-ssl")};
         }
     }
 

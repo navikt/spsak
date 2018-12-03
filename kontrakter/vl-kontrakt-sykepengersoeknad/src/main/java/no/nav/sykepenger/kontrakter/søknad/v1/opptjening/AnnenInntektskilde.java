@@ -10,6 +10,14 @@ public class AnnenInntektskilde {
     @JsonProperty("erSykemeldt")
     private Boolean erSykemeldt;
 
+    public AnnenInntektskilde(String type, Boolean erSykemeldt) {
+        this.type = type;
+        this.erSykemeldt = erSykemeldt;
+    }
+
+    public AnnenInntektskilde() {
+    }
+
     public String getType() {
         return type;
     }

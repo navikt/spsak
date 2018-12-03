@@ -7,6 +7,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.ObjectWriter;
+
 import no.nav.foreldrepenger.autotest.aktoerer.Aktoer;
 import no.nav.foreldrepenger.autotest.klienter.fpsak.behandlinger.BehandlingerKlient;
 import no.nav.foreldrepenger.autotest.klienter.fpsak.fordel.FordelKlient;
@@ -29,6 +31,8 @@ import no.nav.foreldrepenger.fpmock2.testmodell.dokument.JournalpostModellGenera
 import no.nav.foreldrepenger.fpmock2.testmodell.dokument.modell.JournalpostModell;
 import no.nav.foreldrepenger.fpmock2.testmodell.dokument.modell.koder.Dokumentkategori;
 import no.nav.foreldrepenger.fpmock2.testmodell.dokument.modell.koder.DokumenttypeId;
+import no.nav.foreldrepenger.fpmock2.testmodell.util.JsonMapper;
+import no.nav.sykepenger.kontrakter.søknad.v1.SykepengesøknadV1;
 import no.nav.vedtak.felles.xml.soeknad.v1.Soeknad;
 
 public class Fordel extends Aktoer {
@@ -56,7 +60,7 @@ public class Fordel extends Aktoer {
      */
     public long sendInnSøknad(Soeknad søknad, TestscenarioDto scenario, DokumenttypeId dokumenttypeId, Long saksnummer) throws Exception {
         String xml = null;
-        if(null != søknad) {
+        if (null != søknad) {
             xml = ForeldrepengesoknadBuilder.tilXML(søknad);
         }
 
@@ -93,7 +97,7 @@ public class Fordel extends Aktoer {
     /*
      * Sender inn søknad og returnerer saksinformasjon
      */
-    public long sendInnPapirsøkand(TestscenarioDto testscenario, DokumenttypeId dokumenttypeId) throws  Exception {
+    public long sendInnPapirsøkand(TestscenarioDto testscenario, DokumenttypeId dokumenttypeId) throws Exception {
         return sendInnSøknad(null, testscenario, dokumenttypeId);
     }
 
@@ -101,11 +105,11 @@ public class Fordel extends Aktoer {
      * Opprett sak
      */
 
-    public String opprettSak(TestscenarioDto testscenarioDto, String fagområde) throws IOException{
+    public String opprettSak(TestscenarioDto testscenarioDto, String fagområde) throws IOException {
 
         List<String> aktører = new ArrayList<>();
         aktører.add(testscenarioDto.getPersonopplysninger().getSøkerIdent());
-        if(testscenarioDto.getPersonopplysninger().getAnnenpartIdent() != null){
+        if (testscenarioDto.getPersonopplysninger().getAnnenpartIdent() != null) {
             aktører.add(testscenarioDto.getPersonopplysninger().getAnnenpartIdent());
         }
 
@@ -143,8 +147,7 @@ public class Fordel extends Aktoer {
         if (saksnummer != null) {
             journalpostModell.setSakId(saksnummer.toString());
         }
-        String journalpostId = journalpostKlient.journalfør(journalpostModell).getJournalpostId();
-        return journalpostId;
+        return journalpostKlient.journalfør(journalpostModell).getJournalpostId();
     }
 
     public String journalførInntektsmeldingUtenSaksnummer(InntektsmeldingBuilder inntektsmelding, TestscenarioDto scenario) throws IOException {
@@ -170,14 +173,13 @@ public class Fordel extends Aktoer {
     public Long opprettSakKnyttetTilJournalpost(String journalpostId, String behandlingstemaOffisiellKode, String aktørId) throws IOException {
         OpprettSak journalpost = new OpprettSak(journalpostId, behandlingstemaOffisiellKode, aktørId);
         Long saksnummer = fordelKlient.fagsakOpprett(journalpost).saksnummer;
-        journalpostKlient.knyttSakTilJournalpost(journalpostId,saksnummer.toString());
+        journalpostKlient.knyttSakTilJournalpost(journalpostId, saksnummer.toString());
         return saksnummer;
     }
 
     public Long opprettSakKnyttetTilJournalpostMenIkkeAndreVeien(String journalpostId, String behandlingstemaOffisiellKode, String aktørId) throws IOException {
         OpprettSak journalpost = new OpprettSak(journalpostId, behandlingstemaOffisiellKode, aktørId);
-        Long saksnummer = fordelKlient.fagsakOpprett(journalpost).saksnummer;
-        return saksnummer;
+        return fordelKlient.fagsakOpprett(journalpost).saksnummer;
     }
 
 
@@ -211,5 +213,20 @@ public class Fordel extends Aktoer {
         fordelKlient.journalpost(journalpostMottak);
 
         return saksnummer;
+    }
+
+    /*
+     * Sender inn søkand og returnerer saksinformasjon
+     */
+    public String journalførSøknad(SykepengesøknadV1 søknad, TestscenarioDto scenario, DokumenttypeId dokumenttypeId, Long saksnummer) throws Exception {
+        ObjectWriter mapper = new JsonMapper().lagObjectMapper().writerWithDefaultPrettyPrinter();
+        String søknadJson = mapper.writeValueAsString(søknad);
+
+        JournalpostModell journalpostModell = JournalpostModellGenerator.lagJournalpost(søknadJson, scenario.getPersonopplysninger().getSøkerIdent(), dokumenttypeId);
+        if (saksnummer != null && saksnummer.longValue() != 0L) {
+            journalpostModell.setSakId(saksnummer.toString());
+        }
+        return journalpostKlient.journalfør(journalpostModell).getJournalpostId();
+
     }
 }

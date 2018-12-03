@@ -18,7 +18,7 @@ import org.mockito.ArgumentCaptor;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.komponenten.impl.InntektTjenesteImpl;
-import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.tjeneste.virksomhet.inntekt.v3.binding.HentInntektListeBolkUgyldigInput;
 import no.nav.tjeneste.virksomhet.inntekt.v3.feil.UgyldigInput;
 import no.nav.tjeneste.virksomhet.inntekt.v3.informasjon.inntekt.Aktoer;
@@ -41,7 +41,7 @@ import no.nav.vedtak.felles.integrasjon.inntekt.InntektConsumer;
 
 public class InntektTjenesteImplTest {
 
-    private static final AktørId FNR = new AktørId("01234567890");
+    private static final PersonIdent FNR = new PersonIdent("01234567890");
     private static final YearMonth GJELDENDE_MÅNED = YearMonth.now();
     private static final String SYKEPENGER = "sykepenger";
     private static final String ORGNR = "456";

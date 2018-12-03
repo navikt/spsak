@@ -1,4 +1,3 @@
-
 package no.nav.foreldrepenger.domene.medlem.impl;
 
 import static no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall.JA;
@@ -59,8 +58,6 @@ class AvklarOmErBosatt {
     }
 
     private Utfall erFrivilligMedlemEllerIkkeMedlem(Behandling behandling, LocalDate vurderingsdato) {
-
-
         Optional<MedlemskapAggregat> medlemskap = medlemskapRepository.hentMedlemskap(behandling);
 
         Collection<RegistrertMedlemskapPerioder> medlemskapsPerioder = medlemskap.isPresent()

@@ -27,7 +27,14 @@ public class SøknadDtoTjenesteImpl implements SøknadDtoTjeneste {
     public Optional<SoknadDto> mapFra(Behandling behandling) {
         Optional<Søknad> søknadOpt = repositoryProvider.getSøknadRepository().hentSøknadHvisEksisterer(behandling);
         if (søknadOpt.isPresent()) {
-            søknadOpt.get();
+            Søknad søknad = søknadOpt.get();
+            SoknadSykepengerDto søknadDto = new SoknadSykepengerDto();
+            søknadDto.setMottattDato(søknad.getMottattDato());
+            søknadDto.setTilleggsopplysninger(søknad.getTilleggsopplysninger());
+            søknadDto.setSykemeldingReferanse(søknad.getSykemeldingReferanse());
+            søknadDto.setSøknadReferanse(søknad.getSøknadReferanse());
+
+            return Optional.of(søknadDto);
         }
         return Optional.empty();
     }

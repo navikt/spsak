@@ -36,7 +36,7 @@ public class BostedsadresseAdapter {
             LocalDate fom = adr.getFom() == null ? LocalDate.of(2000, 1, 1) : adr.getFom();
             LocalDate tom = adr.getTom() == null ? LocalDate.of(2050, 1, 1) : adr.getTom();
             adr1.withPeriode(lagPeriode(fom, tom));
-                        
+
             resultat.add(adr1);
 
         }
@@ -46,7 +46,7 @@ public class BostedsadresseAdapter {
     private static Periode lagPeriode(LocalDate fom, LocalDate tom) {
         Periode periode = new Periode();
         periode.withFom(ConversionUtils.convertToXMLGregorianCalendar(fom));
-        periode.withFom(ConversionUtils.convertToXMLGregorianCalendar(tom));
+        periode.withTom(ConversionUtils.convertToXMLGregorianCalendar(tom));
         return periode;
     }
 }

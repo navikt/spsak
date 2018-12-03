@@ -87,8 +87,8 @@ public class InntektTjenesteImpl implements InntektTjeneste {
     private HentInntektListeBolkRequest opprettRequest(FinnInntektRequest finnInntektRequest, InntektsKilde kilde) throws DatatypeConfigurationException {
         HentInntektListeBolkRequest request = new HentInntektListeBolkRequest();
 
-        AktoerId personIdent = objectFactory.createAktoerId();
-        personIdent.setAktoerId(finnInntektRequest.getAktørId().getId());
+        PersonIdent personIdent = objectFactory.createPersonIdent();
+        personIdent.setPersonIdent(finnInntektRequest.getpersonIdent().getIdent());
         request.getIdentListe().add(personIdent);
 
         Ainntektsfilter ainntektsfilter = objectFactory.createAinntektsfilter();

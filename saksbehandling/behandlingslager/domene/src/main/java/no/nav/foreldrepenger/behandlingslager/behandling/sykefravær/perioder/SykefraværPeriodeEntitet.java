@@ -20,7 +20,6 @@ import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinFormula;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
-import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 import no.nav.foreldrepenger.domene.typer.Prosentsats;
@@ -45,7 +44,7 @@ class SykefraværPeriodeEntitet extends BaseEntitet implements SykefraværPeriod
     @ChangeTracked
     @ManyToOne
     @JoinColumnOrFormula(column = @JoinColumn(name = "fravaer_type", referencedColumnName = "kode", nullable = false))
-    @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + PersonstatusType.DISCRIMINATOR + "'"))
+    @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + SykefraværPeriodeType.DISCRIMINATOR + "'"))
     private SykefraværPeriodeType type = SykefraværPeriodeType.UDEFINERT;
 
     @ChangeTracked

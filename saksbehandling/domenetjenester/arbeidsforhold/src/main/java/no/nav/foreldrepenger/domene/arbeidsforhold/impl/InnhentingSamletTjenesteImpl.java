@@ -77,7 +77,8 @@ public class InnhentingSamletTjenesteImpl implements InnhentingSamletTjeneste {
 
     @Override
     public InntektsInformasjon getInntektsInformasjon(AktørId aktørId, Behandling behandling, Interval periode, InntektsKilde kilde) {
-        FinnInntektRequest request = new FinnInntektRequest(aktørId,
+        PersonIdent personIdent = getFnrFraAktørId(aktørId);
+        FinnInntektRequest request = new FinnInntektRequest(personIdent,
             YearMonth.from(LocalDateTime.ofInstant(periode.getStart(), ZoneId.systemDefault())),
             YearMonth.from(LocalDateTime.ofInstant(periode.getEnd(), ZoneId.systemDefault())),
             behandling.getId(), behandling.getFagsakId());

@@ -25,6 +25,8 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InnhentDokumentTjenest
 public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
 
     private static Map<DokumentTypeId, DokumentGruppe> DOKUMENTTYPE_TIL_GRUPPE = new HashMap<>();
+    private static Map<DokumentKategori, DokumentGruppe> DOKUMENTKATEGORI_TIL_GRUPPE = new HashMap<>();
+
     static {
         // Søknad
         DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL, DokumentGruppe.SØKNAD);
@@ -39,7 +41,6 @@ public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
         DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.KLAGE_DOKUMENT, DokumentGruppe.KLAGE);
     }
 
-    private static Map<DokumentKategori, DokumentGruppe> DOKUMENTKATEGORI_TIL_GRUPPE = new HashMap<>();
     static {
         DOKUMENTKATEGORI_TIL_GRUPPE.put(DokumentKategori.SØKNAD, DokumentGruppe.SØKNAD);
         DOKUMENTKATEGORI_TIL_GRUPPE.put(DokumentKategori.KLAGE_ELLER_ANKE, DokumentGruppe.KLAGE);

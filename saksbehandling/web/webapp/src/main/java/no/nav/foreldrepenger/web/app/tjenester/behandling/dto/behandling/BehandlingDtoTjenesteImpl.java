@@ -164,7 +164,6 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
 
         // mapping ved hjelp av tjenester
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/soknad", "soknad", idDto));
-        dto.leggTil(ResourceLink.post("/fpsak/api/behandling/familiehendelse", "familiehendelse", idDto));
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/person/personopplysninger", "soeker-personopplysninger", idDto));
         if (unleash.isEnabled("fpsak.lopende-medlemskap")) {
             dto.leggTil(ResourceLink.post("/fpsak/api/behandling/person/medlemskap-v2", "soeker-medlemskap-v2", idDto));

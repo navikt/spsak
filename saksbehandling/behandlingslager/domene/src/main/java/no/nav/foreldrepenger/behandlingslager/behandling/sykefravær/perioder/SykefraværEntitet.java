@@ -51,8 +51,8 @@ public class SykefraværEntitet extends BaseEntitet implements Sykefravær {
 
     public void leggTil(SykefraværPeriode periode) {
         SykefraværPeriodeEntitet entitet = (SykefraværPeriodeEntitet) periode;
-        fraværsPeriode.add(entitet);
         entitet.setSykefravær(this);
+        fraværsPeriode.add(entitet);
     }
 
     @Override

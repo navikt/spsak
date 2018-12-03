@@ -12,6 +12,9 @@ public class PapirsykemeldingPeriode {
     @JsonProperty("tom")
     private LocalDate tom;
 
+    public PapirsykemeldingPeriode() {
+    }
+
     public PapirsykemeldingPeriode(LocalDate fom, LocalDate tom) {
         this.fom = fom;
         this.tom = tom;

@@ -61,5 +61,42 @@ public class InntektsmeldingTest extends SpsakTestBase {
                 json);
     }
 
+    @Test
+    public void test2() throws IOException {
+        TestscenarioDto testscenario = opprettScenario("40");
+        List<InntektsmeldingBuilder> inntektsmeldinger = makeInntektsmeldingFromTestscenario(testscenario, LocalDate.now());
+        InntektsmeldingBuilder inntektsmelding = inntektsmeldinger.get(0); // bruker en av inntektsrapporteringene fra skatt, som grunnlag for inntektsmelding
+
+        long beloep = inntektsmelding.getArbeidsforhold().getBeregnetInntekt().getValue().getBeloep().getValue().longValue();
+
+        // ikke noe gradringsinfo for SP (?)
+        //inntektsmelding.addGradertperiode(100, InntektsmeldingBuilder.createPeriode(LocalDate.now().plusWeeks(3), LocalDate.now().plusWeeks(5)));
+
+        inntektsmelding.setRefusjon(InntektsmeldingBuilder.createRefusjon(new BigDecimal(beloep), null, null));
+
+        inntektsmelding.setSykepengerIArbeidsgiverperioden(
+                InntektsmeldingBuilder.createSykepengerIArbeidsgiverperioden(
+                        new BigDecimal(beloep / 31 * 16),
+                        Arrays.asList(InntektsmeldingBuilder.createPeriode(LocalDate.now(), LocalDate.now().plusDays(16))),
+                        null) //request.getInntektsmeldingSykepengerIArbeidsgiverperiodenDTO().getBegrunnelseForReduksjon()
+        );
+
+
+        final String xml = inntektsmelding.createInntektesmeldingXML();
+        System.out.println(xml);
+
+        final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
+
+
+        var inntektsmeldingWrapper = new InntektsmeldingWrapper("1130152002", aktørId, 1130152001L,
+                Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))), xml.length());
+
+        String json = new JsonMapper().lagObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(inntektsmeldingWrapper);
+        System.out.println(json);
+        new LocalKafkaProducer().sendSynkront("inntektsmelding",
+                aktørId,
+                json);
+    }
+
 }
 

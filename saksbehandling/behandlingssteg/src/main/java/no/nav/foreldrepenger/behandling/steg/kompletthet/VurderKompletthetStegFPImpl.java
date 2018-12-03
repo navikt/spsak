@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.behandling.steg.kompletthet;
 import static no.nav.foreldrepenger.behandling.steg.kompletthet.VurderKompletthetStegFelles.autopunktAlleredeUtført;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.AUTO_VENTER_PÅ_KOMPLETT_SØKNAD;
 import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.VENT_PGA_FOR_TIDLIG_SØKNAD;
+import static no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon.VENT_PÅ_SØKNAD;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -44,9 +45,13 @@ public class VurderKompletthetStegFPImpl implements VurderKompletthetSteg {
     public BehandleStegResultat utførSteg(BehandlingskontrollKontekst kontekst) {
         Behandling behandling = behandlingRepository.hentBehandling(kontekst.getBehandlingId());
 
-        KompletthetResultat søknadMottatt = kompletthetsjekker.vurderSøknadMottattForTidlig(behandling);
+        KompletthetResultat søknadMottatt = kompletthetsjekker.vurderSøknadMottatt(behandling);
         if (!søknadMottatt.erOppfylt()) {
-          return vurderKompletthetStegFelles.evaluerUoppfylt(søknadMottatt, VENT_PGA_FOR_TIDLIG_SØKNAD);
+            return vurderKompletthetStegFelles.evaluerUoppfylt(søknadMottatt, VENT_PÅ_SØKNAD);
+        }
+        KompletthetResultat søknadMottattForTidlig = kompletthetsjekker.vurderSøknadMottattForTidlig(behandling);
+        if (!søknadMottattForTidlig.erOppfylt()) {
+            return vurderKompletthetStegFelles.evaluerUoppfylt(søknadMottattForTidlig, VENT_PGA_FOR_TIDLIG_SØKNAD);
         }
         KompletthetResultat forsendelseMottatt = kompletthetsjekker.vurderForsendelseKomplett(behandling);
         if (!forsendelseMottatt.erOppfylt() && !autopunktAlleredeUtført(AUTO_VENTER_PÅ_KOMPLETT_SØKNAD, behandling)) {

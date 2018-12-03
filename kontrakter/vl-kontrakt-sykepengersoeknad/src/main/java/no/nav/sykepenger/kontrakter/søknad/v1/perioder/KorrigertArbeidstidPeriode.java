@@ -21,6 +21,9 @@ public class KorrigertArbeidstidPeriode {
     @JsonProperty("avtaltTimer")
     private Integer avtaltTimer;
 
+    public KorrigertArbeidstidPeriode() {
+    }
+
     public KorrigertArbeidstidPeriode(LocalDate fom, LocalDate tom, Integer faktiskGrad, Integer faktiskTimer, Integer avtaltTimer) {
         this.fom = fom;
         this.tom = tom;

@@ -25,6 +25,7 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.personopplysning.Perso
 import no.nav.foreldrepenger.web.app.tjenester.behandling.søknad.SøknadRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.TotrinnskontrollRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vilkår.VilkårRestTjeneste;
+import no.nav.foreldrepenger.web.app.tjenester.brev.BrevRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.dokument.DokumentRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.fagsak.FagsakRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.fordeling.FordelRestTjeneste;
@@ -91,6 +92,7 @@ public class ApplicationConfig extends Application {
         classes.add(InntektArbeidYtelseRestTjeneste.class);
         classes.add(VilkårRestTjeneste.class);
         classes.add(IntegrasjonstatusRestTjeneste.class);
+        classes.add(BrevRestTjeneste.class);
 
         classes.add(io.swagger.jaxrs.listing.ApiListingResource.class);
         classes.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);

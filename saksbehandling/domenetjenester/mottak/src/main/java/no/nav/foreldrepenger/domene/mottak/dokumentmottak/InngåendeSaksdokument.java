@@ -79,6 +79,10 @@ public class InngåendeSaksdokument {
         return payloadAsBase64;
     }
 
+    public String getPayloadAsBase64() {
+        return payloadAsBase64;
+    }
+
     public String getBehandlingÅrsakType() {
         return behandlingÅrsakType;
     }

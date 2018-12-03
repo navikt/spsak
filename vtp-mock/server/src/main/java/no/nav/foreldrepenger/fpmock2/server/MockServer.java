@@ -69,6 +69,9 @@ public class MockServer {
 
         System.setProperty("server.url", "https://localhost:" + getSslPort());
 
+        System.setProperty("javax.net.ssl.trustStore", getTruststoreFilePath());
+        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+
         server = new Server();
         setConnectors(server);
 
@@ -191,6 +194,11 @@ public class MockServer {
     private String getKeystoreFilePath() {
         return new File(System.getProperty("user.home") + "/spsak/keystore.jks").getAbsolutePath();
     }
+
+    private String getTruststoreFilePath() {
+        return new File(System.getProperty("user.home") + "/spsak/truststore.jks").getAbsolutePath();
+    }
+
 
     private Integer getSslPort() {
         Integer sslPort = Integer.valueOf(System.getProperty("server.https.port", "" + (port + 3)));

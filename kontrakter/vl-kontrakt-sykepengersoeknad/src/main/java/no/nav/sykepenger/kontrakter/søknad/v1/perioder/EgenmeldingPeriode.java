@@ -12,6 +12,9 @@ public class EgenmeldingPeriode {
     @JsonProperty("tom")
     private LocalDate tom;
 
+    public EgenmeldingPeriode() {
+    }
+
     public EgenmeldingPeriode(LocalDate fom, LocalDate tom) {
         this.fom = fom;
         this.tom = tom;
