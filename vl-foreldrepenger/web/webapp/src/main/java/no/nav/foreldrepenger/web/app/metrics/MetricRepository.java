@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.web.app.metrics;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -53,11 +54,11 @@ public class MetricRepository {
         long naaMs = System.currentTimeMillis();
         long alderMs = naaMs - sisteBehandlingTidspunktMs;
         if (alderMs >= MAX_DATA_ALDER_MS) {
-            final Query query = entityManager.createNativeQuery("SELECT count(UNIQUE b.ID) " +
+            final Query query = entityManager.createNativeQuery("SELECT count(DISTINCT b.ID) " +
                 "FROM BEHANDLING b " +
                 "WHERE b.BEHANDLING_STATUS != :status");
             query.setParameter("status", BehandlingStatus.AVSLUTTET.getKode());
-            sisteBehandlingIkkeAvsluttet = (BigDecimal) query.getSingleResult();
+            sisteBehandlingIkkeAvsluttet = new BigDecimal((BigInteger) query.getSingleResult());
             sisteBehandlingTidspunktMs = System.currentTimeMillis();
         }
         return sisteBehandlingIkkeAvsluttet;
@@ -70,7 +71,7 @@ public class MetricRepository {
         if (alderMs >= MAX_DATA_ALDER_MS) {
             List<String> autopunktKoder = aksjonspunktRepository.hentAksjonspunktDefinisjonAvType(AksjonspunktType.AUTOPUNKT)
                 .stream().map(AksjonspunktDefinisjon::getKode).collect(Collectors.toList());
-            final Query query = entityManager.createNativeQuery("SELECT count(UNIQUE a.BEHANDLING_ID) " +
+            final Query query = entityManager.createNativeQuery("SELECT count(DISTINCT a.BEHANDLING_ID) " +
                 "FROM AKSJONSPUNKT a " +
                 "WHERE a.AKSJONSPUNKT_STATUS = :aksjonspunktStatus " +
                 "      AND a.REAKTIVERING_STATUS = :reaktiveringsstatus " +
@@ -79,7 +80,7 @@ public class MetricRepository {
             query.setParameter("reaktiveringsstatus", ReaktiveringStatus.AKTIV.getKode());
             query.setParameter("aksjonspunktList", autopunktKoder);
 
-            sisteVentendeBehandlinger = (BigDecimal) query.getSingleResult();
+            sisteVentendeBehandlinger = new BigDecimal((BigInteger) query.getSingleResult());
             sisteVentendeTidspunktMs = System.currentTimeMillis();
         }
         return sisteVentendeBehandlinger;
@@ -90,12 +91,12 @@ public class MetricRepository {
         long naaMs = System.currentTimeMillis();
         long alderMs = naaMs - sisteOppgaverTidspunktMs;
         if (alderMs >= MAX_DATA_ALDER_MS) {
-            final Query query = entityManager.createNativeQuery("SELECT count(UNIQUE o.BEHANDLING_ID) " +
+            final Query query = entityManager.createNativeQuery("SELECT count(DISTINCT o.BEHANDLING_ID) " +
                 "FROM OPPGAVE_BEHANDLING_KOBLING o " +
                 "WHERE o.FERDIGSTILT = :ferdigstilt ");
             query.setParameter("ferdigstilt", 'N');
 
-            sisteVentendeOppgaver = (BigDecimal) query.getSingleResult();
+            sisteVentendeOppgaver = new BigDecimal((BigInteger) query.getSingleResult());
             sisteOppgaverTidspunktMs = System.currentTimeMillis();
         }
         return sisteVentendeOppgaver;
