@@ -39,6 +39,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class MedlemskapPerioderEntitet extends BaseEntitet implements RegistrertMedlemskapPerioder, IndexKey {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_PERIODER")
     private Long id;
 
@@ -84,7 +85,7 @@ class MedlemskapPerioderEntitet extends BaseEntitet implements RegistrertMedlems
     @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + MedlemskapKildeType.DISCRIMINATOR + "'"))
     private MedlemskapKildeType kildeType = MedlemskapKildeType.UDEFINERT;
 
-    @Column(name = "medl_id")
+    @Column(name = "medl_id", columnDefinition = "NUMERIC")
     private Long medlId;
 
     MedlemskapPerioderEntitet() {

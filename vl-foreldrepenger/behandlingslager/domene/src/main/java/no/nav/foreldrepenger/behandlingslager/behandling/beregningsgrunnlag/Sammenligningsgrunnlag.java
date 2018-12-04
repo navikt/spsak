@@ -32,7 +32,7 @@ public class Sammenligningsgrunnlag extends BaseEntitet {
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @Embedded
@@ -45,7 +45,7 @@ public class Sammenligningsgrunnlag extends BaseEntitet {
     @Column(name = "rapportert_pr_aar", nullable = false)
     private BigDecimal rapportertPrÅr;
 
-    @Column(name = "avvik_promille", nullable = false)
+    @Column(name = "avvik_promille", nullable = false, columnDefinition = "NUMERIC")
     private Long avvikPromille = 0L;
 
     @JsonBackReference

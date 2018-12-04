@@ -34,7 +34,7 @@ public class UttakResultatPeriodeAktivitetEntitet extends BaseEntitet {
     @JoinColumn(name = "uttak_aktivitet_id", nullable = false, updatable = false)
     private UttakAktivitetEntitet uttakAktivitet;
 
-    @Column(name = "trekkdager", nullable = false)
+    @Column(name = "trekkdager", nullable = false, columnDefinition = "NUMERIC")
     private int trekkdager;
 
     @Column(name = "arbeidstidsprosent", nullable = false)

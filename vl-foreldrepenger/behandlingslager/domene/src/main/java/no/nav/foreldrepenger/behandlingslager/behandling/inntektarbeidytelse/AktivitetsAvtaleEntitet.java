@@ -67,7 +67,7 @@ class AktivitetsAvtaleEntitet extends BaseEntitet implements AktivitetsAvtale, I
     private LocalDate sisteLønnsendringsdato;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @Transient

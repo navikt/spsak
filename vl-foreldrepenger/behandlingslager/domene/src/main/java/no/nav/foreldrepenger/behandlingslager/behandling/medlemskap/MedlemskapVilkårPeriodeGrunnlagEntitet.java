@@ -26,6 +26,7 @@ class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_MEDLEMSKAP_VILKAR_PER")
+    @Column(columnDefinition = "NUMERIC")
     private Long id;
 
     @OneToOne(optional = false)
@@ -42,7 +43,7 @@ class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet {
     private boolean aktiv = true;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     MedlemskapVilkårPeriodeGrunnlagEntitet() {

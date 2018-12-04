@@ -44,7 +44,7 @@ public class ArbeidsforholdInformasjonEntitet extends BaseEntitet implements Arb
     private List<ArbeidsforholdOverstyringEntitet> overstyringer = new ArrayList<>();
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private Long versjon;
 
     public ArbeidsforholdInformasjonEntitet() {

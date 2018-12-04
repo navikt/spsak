@@ -28,15 +28,16 @@ public class Historikkinnslag extends BaseEntitet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG")
+    @Column(columnDefinition = "NUMERIC")
     private Long id;
 
     @Column(name = "tekst")
     private String tekst;
 
-    @Column(name = "behandling_id")
+    @Column(name = "behandling_id", columnDefinition = "NUMERIC")
     private Long behandlingId;
 
-    @Column(name = "fagsak_id", nullable = false)
+    @Column(name = "fagsak_id", nullable = false, columnDefinition = "NUMERIC")
     private Long fagsakId;
 
     @ManyToOne(optional = false)

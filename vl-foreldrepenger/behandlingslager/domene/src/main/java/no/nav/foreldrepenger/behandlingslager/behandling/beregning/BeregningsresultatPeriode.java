@@ -38,7 +38,7 @@ public class BeregningsresultatPeriode extends BaseEntitet {
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @ManyToOne(optional = false)

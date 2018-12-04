@@ -41,27 +41,28 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_MEDLEMSKAP")
+    @Column(columnDefinition = "NUMERIC")
     private Long id;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til et selvstendig aggregat! */ }, fetch = FetchType.EAGER)
-    @JoinColumn(name = "OPPGITT_ID", nullable = true, unique = true)
+    @JoinColumn(name = "OPPGITT_ID", nullable = true, unique = true, columnDefinition = "NUMERIC")
     private OppgittTilknytningEntitet oppgittTilknytning;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til et selvstendig aggregat! */ }, fetch = FetchType.EAGER)
-    @JoinColumn(name = "REGISTRERT_ID", nullable = true, unique = true)
+    @JoinColumn(name = "REGISTRERT_ID", nullable = true, unique = true, columnDefinition = "NUMERIC")
     @ChangeTracked
     private MedlemskapRegistrertEntitet registerMedlemskap;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til et selvstendig aggregat! */ }, fetch = FetchType.EAGER)
-    @JoinColumn(name = "VURDERING_ID", nullable = true, unique = true)
+    @JoinColumn(name = "VURDERING_ID", nullable = true, unique = true, columnDefinition = "NUMERIC")
     private VurdertMedlemskapEntitet vurderingMedlemskapSkjæringstidspunktet;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til et selvstendig aggregat! */ }, fetch = FetchType.EAGER)
-    @JoinColumn(name = "VURDERING_LOPENDE_ID", nullable = true, unique = true)
+    @JoinColumn(name = "VURDERING_LOPENDE_ID", nullable = true, unique = true, columnDefinition = "NUMERIC")
     private VurdertMedlemskapPeriodeEntitet vurderingLøpendeMedlemskap;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     MedlemskapBehandlingsgrunnlagEntitet() {

@@ -39,10 +39,10 @@ public class LagretVedtak extends BaseEntitet {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LAGRET_VEDTAK")
     private Long id;
 
-    @Column(name = "FAGSAK_ID", nullable = false, updatable = false)
+    @Column(name = "FAGSAK_ID", nullable = false, updatable = false, columnDefinition = "NUMERIC")
     private Long fagsakId;
 
-    @Column(name = "BEHANDLING_ID", nullable = false, updatable = false)
+    @Column(name = "BEHANDLING_ID", nullable = false, updatable = false, columnDefinition = "NUMERIC")
     private Long behandlingId;
 
     @Lob

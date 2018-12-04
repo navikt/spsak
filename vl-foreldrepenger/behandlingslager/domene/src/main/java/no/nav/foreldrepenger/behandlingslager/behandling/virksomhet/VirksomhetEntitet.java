@@ -52,7 +52,7 @@ public class VirksomhetEntitet extends BaseEntitet implements Virksomhet, IndexK
     private LocalDateTime opplysningerOppdatertTidspunkt;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     public VirksomhetEntitet() {

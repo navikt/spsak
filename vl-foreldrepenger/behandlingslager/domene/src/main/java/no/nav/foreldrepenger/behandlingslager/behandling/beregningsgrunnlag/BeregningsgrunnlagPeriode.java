@@ -47,7 +47,7 @@ public class BeregningsgrunnlagPeriode extends BaseEntitet {
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @JsonBackReference
@@ -74,7 +74,7 @@ public class BeregningsgrunnlagPeriode extends BaseEntitet {
     @Column(name = "redusert_pr_aar")
     private BigDecimal redusertPrÅr;
 
-    @Column(name = "dagsats")
+    @Column(name = "dagsats", columnDefinition = "NUMERIC")
     private Long dagsats;
 
     @Lob

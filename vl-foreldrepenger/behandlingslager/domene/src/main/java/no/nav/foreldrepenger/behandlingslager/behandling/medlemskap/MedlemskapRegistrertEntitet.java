@@ -29,7 +29,7 @@ public class MedlemskapRegistrertEntitet extends BaseEntitet {
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true /* ok med orphanremoval siden perioder er eid av denne */)

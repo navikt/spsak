@@ -27,6 +27,7 @@ public class HistorikkinnslagFelt extends BaseEntitet implements IndexKey {
     private static final String DISCRIMINATOR = "HISTORIKKINNSLAG_FELT_TYPE";
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG_FELT")
     private Long id;
 
@@ -67,7 +68,7 @@ public class HistorikkinnslagFelt extends BaseEntitet implements IndexKey {
     @Column(name = "kl_navn")
     private String klNavn;
 
-    @Column(name = "sekvens_nr")
+    @Column(name = "sekvens_nr", columnDefinition = "NUMERIC")
     private Integer sekvensNr;
 
     protected HistorikkinnslagFelt() {

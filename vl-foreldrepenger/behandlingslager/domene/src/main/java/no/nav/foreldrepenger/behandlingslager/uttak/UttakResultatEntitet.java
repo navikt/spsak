@@ -40,7 +40,7 @@ public class UttakResultatEntitet extends BaseEntitet {
     private Behandlingsresultat behandlingsresultat;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @Convert(converter = BooleanToStringConverter.class)

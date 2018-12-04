@@ -68,7 +68,7 @@ public class StartpunktType extends KodeverkTabell {
     @JoinColumn(name = "behandling_steg", nullable = false, updatable = false, insertable = false)
     private BehandlingStegType behandlingSteg;
 
-    @Column(name = "rangering", nullable = false)
+    @Column(name = "rangering", nullable = false, columnDefinition = "NUMERIC")
     private int rangering;
 
     @SuppressWarnings("unused")

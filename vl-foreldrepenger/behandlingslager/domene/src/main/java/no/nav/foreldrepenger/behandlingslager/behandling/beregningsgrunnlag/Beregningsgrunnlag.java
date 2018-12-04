@@ -48,7 +48,7 @@ public class Beregningsgrunnlag extends BaseEntitet {
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @Column(name = "skjaringstidspunkt", nullable = false)
@@ -93,7 +93,7 @@ public class Beregningsgrunnlag extends BaseEntitet {
     @Column(name = "regellogg_tilstoetende_ytelse")
     private String regelloggTilstøtendeYtelse;
 
-    @Column(name = "dekningsgrad", nullable = false)
+    @Column(name = "dekningsgrad", nullable = false, columnDefinition = "NUMERIC")
     private Long dekningsgrad;
 
     @Column(name = "opprinnelig_skjaringstidspunkt", nullable = false)

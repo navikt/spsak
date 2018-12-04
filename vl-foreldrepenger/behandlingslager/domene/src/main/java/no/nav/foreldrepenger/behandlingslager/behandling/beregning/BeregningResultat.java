@@ -50,7 +50,7 @@ public class BeregningResultat extends BaseEntitet {
     private Behandling originalBehandling;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     public BeregningResultat(Behandling originalBehandling) {

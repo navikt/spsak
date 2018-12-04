@@ -21,20 +21,20 @@ class FagsakProsessTask extends BaseEntitet {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK_PROSESS_TASK")
     private Long id;
 
-    @Column(name = "fagsak_id", nullable = false, updatable = false)
+    @Column(name = "fagsak_id", nullable = false, updatable = false, columnDefinition = "NUMERIC")
     private Long fagsakId;
 
-    @Column(name = "prosess_task_id", nullable = false, updatable = false)
+    @Column(name = "prosess_task_id", nullable = false, updatable = false, columnDefinition = "NUMERIC")
     private Long prosessTaskId;
 
-    @Column(name = "behandling_id", updatable = false)
+    @Column(name = "behandling_id", updatable = false, columnDefinition = "NUMERIC")
     private Long behandlingId;
 
-    @Column(name = "gruppe_sekvensnr", updatable = false)
+    @Column(name = "gruppe_sekvensnr", updatable = false, columnDefinition = "NUMERIC")
     private Long gruppeSekvensNr;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     FagsakProsessTask() {

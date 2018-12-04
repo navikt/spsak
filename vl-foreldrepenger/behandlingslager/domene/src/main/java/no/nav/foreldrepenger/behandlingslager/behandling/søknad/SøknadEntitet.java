@@ -38,7 +38,7 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     private LocalDate søknadsdato;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @Column(name = "mottatt_dato")

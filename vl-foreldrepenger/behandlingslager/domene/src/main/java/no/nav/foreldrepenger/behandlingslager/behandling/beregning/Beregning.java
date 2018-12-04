@@ -27,23 +27,23 @@ public class Beregning extends BaseEntitet {
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "beregning_resultat_id", nullable = false, updatable = false)
     private BeregningResultat beregningResultat;
 
-    @Column(name = "sats_verdi", nullable = false)
+    @Column(name = "sats_verdi", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long satsVerdi;
 
-    @Column(name = "antall_barn", nullable = false)
+    @Column(name = "antall_barn", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long antallBarn;
 
-    @Column(name = "beregnet_tilkjent_ytelse", nullable = false)
+    @Column(name = "beregnet_tilkjent_ytelse", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long beregnetTilkjentYtelse;
 
-    @Column(name = "oppr_beregnet_tilkjent_ytelse")
+    @Column(name = "oppr_beregnet_tilkjent_ytelse", columnDefinition = "NUMERIC", length = 19)
     private Long opprinneligBeregnetTilkjentYtelse;
 
     @Column(name = "beregnet_tidspunkt", nullable = false)

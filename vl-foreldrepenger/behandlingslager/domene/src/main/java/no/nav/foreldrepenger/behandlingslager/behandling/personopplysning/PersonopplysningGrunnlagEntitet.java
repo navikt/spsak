@@ -51,7 +51,7 @@ public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements Pers
     private PersonInformasjonEntitet overstyrtePersonopplysninger;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     PersonopplysningGrunnlagEntitet() {

@@ -40,7 +40,7 @@ public class BehandlingTypeStegSekvens extends BaseEntitet {
     @JoinColumn(name = "behandling_steg_type", nullable = false, updatable = false, insertable = false)
     private BehandlingStegType stegType;
 
-    @Column(name = "sekvens_nr", nullable = false, updatable = false, insertable = false)
+    @Column(name = "sekvens_nr", nullable = false, updatable = false, insertable = false, columnDefinition = "NUMERIC", length = 19)
     private Integer sekvensNr = 1;
 
     BehandlingTypeStegSekvens() {

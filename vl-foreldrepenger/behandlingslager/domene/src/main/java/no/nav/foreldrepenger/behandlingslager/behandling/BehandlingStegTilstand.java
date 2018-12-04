@@ -41,7 +41,7 @@ public class BehandlingStegTilstand extends BaseEntitet implements IndexKey {
     private BehandlingStegStatus behandlingStegStatus = BehandlingStegStatus.UDEFINERT;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     BehandlingStegTilstand() {

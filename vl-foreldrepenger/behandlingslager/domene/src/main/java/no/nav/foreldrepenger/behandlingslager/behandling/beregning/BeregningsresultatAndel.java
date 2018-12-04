@@ -46,7 +46,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @ManyToOne(optional = false)
@@ -70,7 +70,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
     @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + OpptjeningAktivitetType.DISCRIMINATOR + "'"))
     private OpptjeningAktivitetType arbeidsforholdType;
 
-    @Column(name = "dagsats", nullable = false)
+    @Column(name = "dagsats", nullable = false, columnDefinition = "NUMERIC")
     private int dagsats;
 
     @Column(name = "stillingsprosent", nullable = false)
@@ -79,7 +79,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
     @Column(name = "utbetalingsgrad", nullable = false)
     private BigDecimal utbetalingsgrad;
 
-    @Column(name = "dagsats_fra_bg", nullable = false)
+    @Column(name = "dagsats_fra_bg", nullable = false, columnDefinition = "NUMERIC")
     private int dagsatsFraBg;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "beregningsresultatAndel", cascade = CascadeType.PERSIST, orphanRemoval = true)

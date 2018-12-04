@@ -30,13 +30,13 @@ public class Totrinnresultatgrunnlag extends BaseEntitet {
     @JoinColumn(name = "behandling_id", nullable = false, updatable = false)
     private Behandling behandling;
 
-    @Column(name = "inntekt_arbeid_grunnlag_id", updatable = false)
+    @Column(name = "inntekt_arbeid_grunnlag_id", updatable = false, columnDefinition = "NUMERIC")
     private Long inntektArbeidYtelseGrunnlagId;
 
-    @Column(name = "uttak_resultat_id", updatable = false)
+    @Column(name = "uttak_resultat_id", updatable = false, columnDefinition = "NUMERIC")
     private Long uttakResultatEntitetId;
 
-    @Column(name = "beregningsgrunnlag_id", updatable = false)
+    @Column(name = "beregningsgrunnlag_id", updatable = false, columnDefinition = "NUMERIC")
     private Long beregningsgrunnlagId;
 
     @Convert(converter = BooleanToStringConverter.class)
@@ -44,7 +44,7 @@ public class Totrinnresultatgrunnlag extends BaseEntitet {
     private boolean aktiv = true;
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
 

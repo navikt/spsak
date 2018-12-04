@@ -113,7 +113,7 @@ public class Behandling extends BaseEntitet {
     private Set<BehandlingÅrsak> behandlingÅrsaker = new HashSet<>(1);
 
     @Version
-    @Column(name = "versjon", nullable = false)
+    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
     private long versjon;
 
     @ManyToOne(optional = false)
@@ -126,10 +126,10 @@ public class Behandling extends BaseEntitet {
      * Gjelder feltene under
      * --------------------------------------------------------------
      */
-    @Column(name = "opprettet_dato", nullable = false, updatable = false)
+    @Column(name = "opprettet_dato", columnDefinition = "DATE", nullable = false, updatable = false)
     private LocalDateTime opprettetDato;
 
-    @Column(name = "avsluttet_dato")
+    @Column(name = "avsluttet_dato", columnDefinition = "DATE")
     private LocalDateTime avsluttetDato;
 
     @Column(name = "totrinnsbehandling", nullable = false)
