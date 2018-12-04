@@ -205,7 +205,7 @@ public class BehandlingRepositoryImplTest {
     public void skal_hente_liste_over_revurderingsaarsaker() {
         List<VurderÅrsak> aarsaksListe = repository.hentAlle(VurderÅrsak.class);
         assertThat(aarsaksListe.size()).isEqualTo(5);
-        assertThat(aarsaksListe.get(0).getKode()).isEqualTo("FEIL_FAKTA");
+        assertThat(aarsaksListe.stream().map(aarsak -> aarsak.getKode()).collect(Collectors.toList())).contains("FEIL_FAKTA");
     }
 
     // FIXME SP: Hvorfor slettes vilkårene? De burde kun vært logisk slettet.
