@@ -166,7 +166,7 @@ public class KodeverkSynkroniseringRepositoryImpl implements KodeverkSynkroniser
         Query query = entityManager.createNativeQuery(
             "SELECT kodeverk1, kode1, kodeverk2, kode2, gyldig_fom, gyldig_tom " +
                 "FROM kodeliste_relasjon " +
-                "WHERE gyldig_fom <= SYSDATE AND gyldig_tom > SYSDATE " +
+                "WHERE gyldig_fom <= now() AND gyldig_tom > now() " +
             "START WITH kodeverk1=? AND kode1=? " +
             "CONNECT BY PRIOR kodeverk2 = kodeverk1 AND PRIOR kode2 = kode1");
         query.setParameter(1, kodeverk1);
@@ -197,7 +197,7 @@ public class KodeverkSynkroniseringRepositoryImpl implements KodeverkSynkroniser
         Query query = entityManager.createNativeQuery(
                 "SELECT kodeverk1, kode1, kodeverk2, kode2, gyldig_fom, gyldig_tom " +
                         "FROM kodeliste_relasjon " +
-                        "WHERE gyldig_fom <= SYSDATE AND gyldig_tom > SYSDATE " +
+                        "WHERE gyldig_fom <= now() AND gyldig_tom > now() " +
                         "AND KODEVERK1 = ?");
 
         query.setParameter(1, kodeverk);
