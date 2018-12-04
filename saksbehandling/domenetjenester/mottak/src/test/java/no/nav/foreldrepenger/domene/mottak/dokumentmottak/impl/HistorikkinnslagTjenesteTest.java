@@ -178,7 +178,7 @@ public class HistorikkinnslagTjenesteTest {
         builderHoveddok.medDokumentId(dokumentId);
         builderHoveddok.medVariantFormat(variantFormat);
         builderHoveddok.medMottakKanal(MottakKanal.EIA);
-        builderHoveddok.medDokumentType(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL);
+        builderHoveddok.medDokumentType(DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL);
         builderHoveddok.medDokumentKategori(DokumentKategori.SØKNAD);
         builderHoveddok.medArkivFilType(arkivFiltype);
         builderHoveddok.medErHoveddokument(hoveddokument);

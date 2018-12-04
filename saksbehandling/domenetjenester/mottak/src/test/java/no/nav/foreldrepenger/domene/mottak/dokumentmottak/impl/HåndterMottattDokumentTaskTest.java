@@ -38,7 +38,7 @@ import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 public class HåndterMottattDokumentTaskTest {
 
     private static final JournalpostId JOURNALPOST_ID = new JournalpostId("2");
-    private static final DokumentTypeId DOKUMENTTYPE = DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL;
+    private static final DokumentTypeId DOKUMENTTYPE = DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL;
     private static final LocalDate FORSENDELSE_MOTTATT = LocalDate.now();
     private static final String PAYLOAD_XML = "<test></test>";
     @Rule

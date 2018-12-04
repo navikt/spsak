@@ -14,6 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Stream;
 
+import org.jboss.jandex.AnnotationInstance;
+import org.jboss.jandex.AnnotationTarget.Kind;
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 import org.jboss.jandex.Index;
@@ -40,6 +42,27 @@ public class IndexClasses {
         }
         return null;
     }
+    
+    public List<Class<?>> getClassesWithAnnotation(Class<?> annotationClass) {
+
+        DotName search = DotName.createSimple(annotationClass.getName());
+        Collection<AnnotationInstance> annotations = getIndex().getAnnotations(search);
+
+        List<Class<?>> jsonTypes = new ArrayList<>();
+        for (AnnotationInstance annotation : annotations) {
+            if (Kind.CLASS.equals(annotation.target().kind())) {
+                String className = annotation.target().asClass().name().toString();
+                try {
+                    jsonTypes.add(Class.forName(className));
+                } catch (ClassNotFoundException e) {
+                    log.error("Kan ikke finne klasse i Classpath, som funnet i Jandex index", e);// NOSONAR
+                }
+            }
+        }
+
+        return jsonTypes;
+    }
+
 
     private Index scanIndexFromFilesystem(URI location) {
         try {

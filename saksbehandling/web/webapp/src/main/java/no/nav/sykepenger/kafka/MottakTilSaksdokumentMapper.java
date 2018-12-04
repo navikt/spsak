@@ -50,7 +50,7 @@ class MottakTilSaksdokumentMapper {
             DokumentKategori.UDEFINERT; // NOSONAR
 
         dokumentTypeId = utledDokumentTypeId(saksnummer, journalpostId, dokumentTypeId);
-        dokumentKategori = utledDokumentKategori(dokumentKategori, dokumentTypeId);
+        dokumentKategori = DokumentTypeId.utledDokumentKategori(dokumentKategori, dokumentTypeId);
 
         InngåendeSaksdokument.Builder builder = InngåendeSaksdokument.builder()
             .medFagsakId(fagsak.get().getId())
@@ -78,23 +78,5 @@ class MottakTilSaksdokumentMapper {
         return DokumentTypeId.UDEFINERT;
     }
 
-    private DokumentTypeId utledDokumentTypeFraTittel(Saksnummer saksnummer, JournalpostId journalpostId) {
-        ArkivJournalPost arkivJournalPost = dokumentArkivTjeneste.hentJournalpostForSak(saksnummer, journalpostId).orElse(null);
-        if (arkivJournalPost == null || arkivJournalPost.getHovedDokument() == null || arkivJournalPost.getHovedDokument().getTittel() == null) {
-            return DokumentTypeId.UDEFINERT;
-        }
-
-        return kodeverkRepository.finnForKodeverkEiersNavn(DokumentTypeId.class, arkivJournalPost.getHovedDokument().getTittel(), DokumentTypeId.UDEFINERT);
-    }
-
-    private DokumentKategori utledDokumentKategori(DokumentKategori dokumentKategori, DokumentTypeId dokumentTypeId) {
-        if (DokumentTypeId.getSøknadTyper().contains(dokumentTypeId)) {
-            return DokumentKategori.SØKNAD;
-        }
-        if (DokumentTypeId.KLAGE_DOKUMENT.equals(dokumentTypeId)) {
-            return DokumentKategori.KLAGE_ELLER_ANKE;
-        }
-        return dokumentKategori;
-    }
 
 }

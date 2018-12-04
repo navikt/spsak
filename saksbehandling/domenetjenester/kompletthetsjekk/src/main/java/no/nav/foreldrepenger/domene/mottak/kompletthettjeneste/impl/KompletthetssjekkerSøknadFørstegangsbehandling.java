@@ -1,13 +1,11 @@
-package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
-
-import static java.util.stream.Collectors.toList;
+package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,61 +21,52 @@ import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
 import no.nav.vedtak.konfig.KonfigVerdi;
 
 @ApplicationScoped
-@BehandlingTypeRef("BT-004")
+@BehandlingTypeRef("BT-002")
 @FagsakYtelseTypeRef("FP")
-public class KompletthetssjekkerSøknadFPRevurdering extends KompletthetssjekkerSøknadFP {
-    private static final Logger LOGGER = LoggerFactory.getLogger(KompletthetssjekkerSøknadFPRevurdering.class);
+public class KompletthetssjekkerSøknadFørstegangsbehandling extends AbstractKompletthetssjekkerSøknad {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KompletthetssjekkerSøknadFørstegangsbehandling.class);
 
     private SøknadRepository søknadRepository;
     private DokumentArkivTjeneste dokumentArkivTjeneste;
-    private BehandlingVedtakRepository behandlingVedtakRepository;
 
     @Inject
-    public KompletthetssjekkerSøknadFPRevurdering(DokumentArkivTjeneste dokumentArkivTjeneste,
-                                                  BehandlingRepositoryProvider repositoryProvider,
-                                                  SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
-                                                  @KonfigVerdi("ventefrist.uker.ved.tidlig.fp.soeknad") Integer antallUkerVentefristVedForTidligSøknad) {
+    public KompletthetssjekkerSøknadFørstegangsbehandling(DokumentArkivTjeneste dokumentArkivTjeneste,
+                                                            BehandlingRepositoryProvider repositoryProvider,
+                                                            SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
+                                                            @KonfigVerdi("ventefrist.uker.ved.tidlig.fp.soeknad") Integer antallUkerVentefristVedForTidligSøknad) {
         super(repositoryProvider.getKodeverkRepository(),
             skjæringstidspunktTjeneste, antallUkerVentefristVedForTidligSøknad, repositoryProvider.getSøknadRepository());
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.dokumentArkivTjeneste = dokumentArkivTjeneste;
-        this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
     }
 
     /**
      * Spør Joark om dokumentliste og sjekker det som finnes i vedleggslisten på søknaden mot det som ligger i Joark.
-     * I tillegg sjekkes endringssøknaden for påkrevde vedlegg som følger av utsettelse.
-     * Alle dokumenter må være mottatt etter vedtaksdatoen på gjeldende innvilgede vedtak.
+     * Vedleggslisten på søknaden regnes altså i denne omgang som fasit på hva som er påkrevd.
      *
      * @param behandling
      * @return Liste over manglende vedlegg
      */
     @Override
     public List<ManglendeVedlegg> utledManglendeVedleggForSøknad(Behandling behandling) {
-        Objects.requireNonNull(behandling.getId(), "behandlingId må være satt"); // NOSONAR //$NON-NLS-1$
-
         final Optional<Søknad> søknad = søknadRepository.hentSøknadHvisEksisterer(behandling);
-
-        LocalDate vedtaksdato = behandlingVedtakRepository.hentBehandlingVedtakFraRevurderingensOriginaleBehandling(behandling).getVedtaksdato();
-
-        Set<DokumentTypeId> arkivDokumentTypeIds = dokumentArkivTjeneste.hentDokumentTypeIdForSak(behandling.getFagsak().getSaksnummer(), vedtaksdato, Collections.emptySet());
-
-        final List<ManglendeVedlegg> manglendeVedlegg = identifiserManglendeVedlegg(søknad, arkivDokumentTypeIds);
+        Set<DokumentTypeId> dokumentTypeIds = dokumentArkivTjeneste.hentDokumentTypeIdForSak(behandling.getFagsak().getSaksnummer(), LocalDate.MIN, Collections.emptySet());
+        List<ManglendeVedlegg> manglendeVedlegg = identifiserManglendeVedlegg(søknad, dokumentTypeIds);
 
         if (!manglendeVedlegg.isEmpty()) {
             LOGGER.info("Behandling {} er ikke komplett - mangler følgende vedlegg til søknad: {}", behandling.getId(),
                 lagDokumentTypeString(manglendeVedlegg)); // NOSONAR //$NON-NLS-1$
         }
+
         return manglendeVedlegg;
     }
 
     private String lagDokumentTypeString(List<ManglendeVedlegg> manglendeVedlegg) {
-        return manglendeVedlegg.stream().map(mv -> mv.getDokumentType().getKode()).collect(toList()).toString();
+        return manglendeVedlegg.stream().map(mv -> mv.getDokumentType().getKode()).collect(Collectors.toList()).toString();
     }
 }

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
+package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,8 +29,8 @@ import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
 @ApplicationScoped
 @BehandlingTypeRef("BT-002")
 @FagsakYtelseTypeRef("FP")
-public class KompletthetsjekkerFP implements Kompletthetsjekker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(KompletthetsjekkerFP.class);
+public class KompletthetsjekkerFørstegangsbehandling implements Kompletthetsjekker {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KompletthetsjekkerFørstegangsbehandling.class);
 
     private static final Integer TIDLIGST_VENTEFRIST_FØR_UTTAKSDATO_UKER = 3;
     private static final Integer VENTEFRIST_ETTER_MOTATT_DATO_UKER = 1;
@@ -38,18 +38,18 @@ public class KompletthetsjekkerFP implements Kompletthetsjekker {
     private KompletthetssjekkerSøknad kompletthetssjekkerSøknad;
     private KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
-    private KompletthetsjekkerFPFelles fellesUtil;
+    private KompletthetsjekkerFelles fellesUtil;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private SøknadRepository søknadRepository;
 
-    KompletthetsjekkerFP() {
+    KompletthetsjekkerFørstegangsbehandling() {
         // CDI
     }
 
     @Inject
-    public KompletthetsjekkerFP(@FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-002") KompletthetssjekkerSøknad kompletthetssjekkerSøknad,
+    public KompletthetsjekkerFørstegangsbehandling(@FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-002") KompletthetssjekkerSøknad kompletthetssjekkerSøknad,
                                 @FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-002") KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding,
-                                InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, KompletthetsjekkerFPFelles fellesUtil,
+                                InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, KompletthetsjekkerFelles fellesUtil,
                                 SkjæringstidspunktTjeneste skjæringstidspunktTjeneste, SøknadRepository søknadRepository) {
         this.kompletthetssjekkerSøknad = kompletthetssjekkerSøknad;
         this.kompletthetssjekkerInntektsmelding = kompletthetssjekkerInntektsmelding;

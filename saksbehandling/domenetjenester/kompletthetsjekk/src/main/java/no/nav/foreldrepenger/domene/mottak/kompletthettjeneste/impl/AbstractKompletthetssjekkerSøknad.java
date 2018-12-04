@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
+package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,18 +21,18 @@ import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.Kompletthetssjekk
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
 import no.nav.vedtak.util.FPDateUtil;
 
-public abstract class KompletthetssjekkerSøknadFP implements KompletthetssjekkerSøknad {
+public abstract class AbstractKompletthetssjekkerSøknad implements KompletthetssjekkerSøknad {
 
     private KodeverkRepository kodeverkRepository;
     private SøknadRepository søknadRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private Integer antallUkerVentefristVedForTidligSøknad;
 
-    KompletthetssjekkerSøknadFP() {
+    AbstractKompletthetssjekkerSøknad() {
         // CDI
     }
 
-    KompletthetssjekkerSøknadFP(KodeverkRepository kodeverkRepository,
+    AbstractKompletthetssjekkerSøknad(KodeverkRepository kodeverkRepository,
                                 SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                 Integer antallUkerVentefristVedForTidligSøknad,
                                 SøknadRepository søknadRepository) {

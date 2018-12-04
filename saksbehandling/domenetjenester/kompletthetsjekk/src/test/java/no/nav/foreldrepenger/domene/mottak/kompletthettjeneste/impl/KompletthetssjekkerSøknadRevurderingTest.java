@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
+package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -26,12 +26,11 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioM
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
-import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.KompletthetssjekkerTestUtil;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 
-public class KompletthetssjekkerSøknadFPRevurderingTest {
+public class KompletthetssjekkerSøknadRevurderingTest {
 
-    private static final String TERMINBEKREFTELSE = "I000041";
+    private static final String LEGEERKLÆRING_KODE = "I000023";
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
@@ -40,7 +39,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
     private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider);
 
     private final DokumentArkivTjeneste dokumentArkivTjeneste = mock(DokumentArkivTjeneste.class);
-    private final KompletthetssjekkerSøknadFPRevurdering kompletthetssjekker = new KompletthetssjekkerSøknadFPRevurdering(dokumentArkivTjeneste, repositoryProvider,
+    private final KompletthetssjekkerSøknadRevurdering kompletthetssjekker = new KompletthetssjekkerSøknadRevurdering(dokumentArkivTjeneste, repositoryProvider,
         mock(SkjæringstidspunktTjeneste.class), 3);
 
     @Test
@@ -51,12 +50,12 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
             .medSøknadReferanse(UUID.randomUUID().toString())
             .medSykemeldinReferanse(UUID.randomUUID().toString())
             .medSøknadsdato(LocalDate.now())
-            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
+            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(LEGEERKLÆRING_KODE).medErPåkrevdISøknadsdialog(true).build())
             .build();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Matcher med søknad:
-        Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.DOKUMENTASJON_AV_TERMIN_ELLER_FØDSEL);
+        Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.LEGEERKLÆRING);
         when(dokumentArkivTjeneste.hentDokumentTypeIdForSak(any(Saksnummer.class), any(), any())).thenReturn(dokumentListe);
 
         // Act
@@ -74,12 +73,12 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
             .medSøknadReferanse(UUID.randomUUID().toString())
             .medSykemeldinReferanse(UUID.randomUUID().toString())
             .medSøknadsdato(LocalDate.now())
-            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
+            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(LEGEERKLÆRING_KODE).medErPåkrevdISøknadsdialog(true).build())
             .build();
         Behandling behandling = scenario.lagre(repositoryProvider);
 
         // Matcher ikke med søknad:
-        Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.LEGEERKLÆRING);
+        Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.ANNET);
         when(dokumentArkivTjeneste.hentDokumentTypeIdForSak(any(Saksnummer.class), any(), any())).thenReturn(dokumentListe);
 
         // Act
@@ -87,7 +86,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
 
         // Assert
         assertThat(manglendeVedlegg).hasSize(1);
-        assertThat(manglendeVedlegg.get(0).getDokumentType().getOffisiellKode()).isEqualTo(TERMINBEKREFTELSE);
+        assertThat(manglendeVedlegg.get(0).getDokumentType().getOffisiellKode()).isEqualTo(LEGEERKLÆRING_KODE);
     }
 
     @Test
@@ -98,13 +97,13 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
             .medSøknadReferanse(UUID.randomUUID().toString())
             .medSykemeldinReferanse(UUID.randomUUID().toString())
             .medSøknadsdato(LocalDate.now())
-            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
+            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(LEGEERKLÆRING_KODE).medErPåkrevdISøknadsdialog(true).build())
             .build();
         Behandling revurdering = scenario.lagre(repositoryProvider);
 
         // Matcher med søknad, men er mottatt ifbm førstegangsbehandlingen:
         Set<DokumentTypeId> dokumentListe = new HashSet<>();
-        dokumentListe.add(DokumentTypeId.LEGEERKLÆRING);
+        dokumentListe.add(DokumentTypeId.INNTEKTSMELDING);
         when(dokumentArkivTjeneste.hentDokumentTypeIdForSak(any(Saksnummer.class), any(), any())).thenReturn(dokumentListe);
 
         // Act
@@ -112,7 +111,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
 
         // Assert
         assertThat(manglendeVedlegg).hasSize(1);
-        assertThat(manglendeVedlegg.get(0).getDokumentType().getOffisiellKode()).isEqualTo(TERMINBEKREFTELSE);
+        assertThat(manglendeVedlegg.get(0).getDokumentType().getOffisiellKode()).isEqualTo(LEGEERKLÆRING_KODE);
     }
 
     @Test
@@ -123,13 +122,13 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
             .medSøknadReferanse(UUID.randomUUID().toString())
             .medSykemeldinReferanse(UUID.randomUUID().toString())
             .medSøknadsdato(LocalDate.now())
-            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(TERMINBEKREFTELSE).medErPåkrevdISøknadsdialog(true).build())
+            .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(LEGEERKLÆRING_KODE).medErPåkrevdISøknadsdialog(true).build())
             .build();
         Behandling revurdering = scenario.lagre(repositoryProvider);
 
         // Matcher med søknad, men mangler mottatt dato:
         Set<DokumentTypeId> dokumentListe = new HashSet<>();
-        dokumentListe.add(DokumentTypeId.DOKUMENTASJON_AV_TERMIN_ELLER_FØDSEL);
+        dokumentListe.add(DokumentTypeId.LEGEERKLÆRING);
         when(dokumentArkivTjeneste.hentDokumentTypeIdForSak(any(Saksnummer.class), any(), any())).thenReturn(Collections.emptySet());
 
         // Act
@@ -137,7 +136,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
 
         // Assert
         assertThat(manglendeVedlegg).hasSize(1);
-        assertThat(manglendeVedlegg.get(0).getDokumentType().getOffisiellKode()).isEqualTo(TERMINBEKREFTELSE);
+        assertThat(manglendeVedlegg.get(0).getDokumentType().getOffisiellKode()).isEqualTo(LEGEERKLÆRING_KODE);
     }
 
     @Test
@@ -148,7 +147,7 @@ public class KompletthetssjekkerSøknadFPRevurderingTest {
         testUtil.lagreSøknad(behandling);
 
         // Matcher med utsettelse:
-        Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.DOK_INNLEGGELSE);
+        Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.LEGEERKLÆRING);
         when(dokumentArkivTjeneste.hentDokumentTypeIdForSak(any(Saksnummer.class), any(), any())).thenReturn(dokumentListe);
 
         // Act

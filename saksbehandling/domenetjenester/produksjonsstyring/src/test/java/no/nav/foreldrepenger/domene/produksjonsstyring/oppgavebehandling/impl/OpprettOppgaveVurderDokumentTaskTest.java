@@ -49,7 +49,7 @@ public class OpprettOppgaveVurderDokumentTaskTest {
         // Arrange
         ProsessTaskData prosessTaskData = new ProsessTaskData(OpprettOppgaveVurderDokumentTask.TASKTYPE);
         prosessTaskData.setFagsakId(FAGSAK_ID);
-        prosessTaskData.setProperty(OpprettOppgaveVurderDokumentTask.KEY_DOKUMENT_TYPE, DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL.getKode());
+        prosessTaskData.setProperty(OpprettOppgaveVurderDokumentTask.KEY_DOKUMENT_TYPE, DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL.getKode());
         ArgumentCaptor<Long> fagsakIdCaptor = ArgumentCaptor.forClass(Long.class);
         ArgumentCaptor<OppgaveÅrsak> årsakCaptor = ArgumentCaptor.forClass(OppgaveÅrsak.class);
         ArgumentCaptor<String> fordelingsoppgaveEnhetsIdCaptor = ArgumentCaptor.forClass(String.class);
@@ -64,6 +64,6 @@ public class OpprettOppgaveVurderDokumentTaskTest {
             fordelingsoppgaveEnhetsIdCaptor.capture(), beskrivelseCaptor.capture(), priCaptor.capture());
         assertThat(fagsakIdCaptor.getValue()).isEqualTo(FAGSAK_ID);
         assertThat(årsakCaptor.getValue()).isEqualTo(OppgaveÅrsak.VURDER_DOKUMENT);
-        assertThat(beskrivelseCaptor.getValue()).isEqualTo("VL: " + DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL.getKode()); // Antar testhelper, ellers bruk finn+navn
+        assertThat(beskrivelseCaptor.getValue()).isEqualTo("VL: " + DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL.getKode()); // Antar testhelper, ellers bruk finn+navn
     }
 }

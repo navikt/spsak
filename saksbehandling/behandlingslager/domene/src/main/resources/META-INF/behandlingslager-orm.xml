@@ -209,7 +209,6 @@
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadGrunnlagEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadtypeTillegg"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeEntitet"/>
@@ -219,7 +218,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentGruppe"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentType"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Innsendingsvalg"/>
 
@@ -254,7 +252,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.StatsborgerskapEntitet"/>
 
     <!-- InntektArbeidYtelser aggregat og grunnlag-->
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.TypeFiske"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdInformasjonEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdOverstyringEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdReferanseEntitet"/>
@@ -322,9 +319,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.VariantFormat"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.MottakKanal"/>
 
-    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Kommuner"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Fylker"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Landgrupper"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Geopolitisk"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.LandkodeISO2"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Poststed"/>
@@ -410,7 +404,6 @@
     <!-- Uttak av stønad -->
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Posteringstype"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.ManuellBehandlingÅrsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.GraderingAvslagÅrsak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet"/>

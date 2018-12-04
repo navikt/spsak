@@ -206,7 +206,7 @@ public class DokumentArkivTjenesteImplTest {
         DetaljertDokumentinformasjon dokumentinfoRelasjon = new DetaljertDokumentinformasjon();
         dokumentinfoRelasjon.setDokumentId(DOKUMENT_ID);
         DokumenttypeIder dokumenttyper = new DokumenttypeIder();
-        dokumenttyper.setValue(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL.getOffisiellKode());
+        dokumenttyper.setValue(DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL.getOffisiellKode());
         dokumentinfoRelasjon.setDokumentTypeId(dokumenttyper);
         Dokumentkategorier dokumentkategorier = new Dokumentkategorier();
         dokumentkategorier.setValue(DokumentKategori.SØKNAD.getOffisiellKode());

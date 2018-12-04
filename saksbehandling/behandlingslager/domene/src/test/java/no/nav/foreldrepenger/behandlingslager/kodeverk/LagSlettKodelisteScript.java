@@ -19,17 +19,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Off
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.PensjonTrygdType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Diskresjonskode;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.geografisk.Fylker;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Geopolitisk;
-import no.nav.foreldrepenger.behandlingslager.geografisk.Kommuner;
-import no.nav.foreldrepenger.behandlingslager.geografisk.Landgrupper;
 import no.nav.foreldrepenger.behandlingslager.geografisk.LandkodeISO2;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Poststed;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.arkiv.ArkivFilType;
 /**
- * Lager script for å slette kodeverk (fra kodeliste, kodeliste_relasjon, osv.).
+ * Lager script for å slette kodeverk (fra kodeliste, kodeliste_relasjon, osv.) basert på deklarerte konstanter.  (hvis konstant er deklarert antas det at det må finnes i db, hvis ikke kan det slettes).
  * Håndterer ikke dersom andre referenasedata refereer tilbake til kodeliste (eks. AKSJONSPUNKT_DEF#SKJERMLENKE_TYPE)
  */
 public class LagSlettKodelisteScript {
@@ -42,7 +39,7 @@ public class LagSlettKodelisteScript {
 
         /** Klasser som synkes fra Kodeverkforvaltning og dermed ikke nødvendigvis har konstanter definert i klassen som representerer kodeverket. */
         Set<Class<?>> exceptions = Set.of(NavBrukerKjønn.class, Landkoder.class, Poststed.class, Språkkode.class, Diskresjonskode.class, SivilstandType.class,
-            AdresseType.class, ArkivFilType.class, BehandlingTema.class, Kommuner.class, LandkodeISO2.class, Geopolitisk.class, Landgrupper.class, Fylker.class,
+            AdresseType.class, ArkivFilType.class, BehandlingTema.class, LandkodeISO2.class, Geopolitisk.class, 
             DokumentKategori.class, MottakKanal.class, VariantFormat.class, DokumentTypeId.class, PensjonTrygdType.class,
             OffentligYtelseType.class);
 

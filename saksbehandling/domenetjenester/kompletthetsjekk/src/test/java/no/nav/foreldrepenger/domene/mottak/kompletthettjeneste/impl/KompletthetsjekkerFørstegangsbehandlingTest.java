@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
+package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,12 +38,11 @@ import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResult
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetssjekkerInntektsmelding;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.KompletthetssjekkerInntektsmeldingImpl;
-import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.KompletthetssjekkerTestUtil;
 
-public class KompletthetsjekkerFPTest {
+public class KompletthetsjekkerFørstegangsbehandlingTest {
 
     private static final LocalDate STARTDATO_PERMISJON = LocalDate.now().plusWeeks(1);
-    private static final String KODE_INNLEGGELSE = "I000037";
+    private static final String KODE_LEGEERKLÆRING = "I000023";
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
@@ -62,20 +61,20 @@ public class KompletthetsjekkerFPTest {
     @Mock
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjenesteMock;
 
-    private KompletthetssjekkerSøknadFP kompletthetssjekkerSøknadFP;
+    private AbstractKompletthetssjekkerSøknad kompletthetssjekkerSøknadFP;
     private KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding;
-    private KompletthetsjekkerFPFelles kompletthetsjekkerFPFelles;
-    private KompletthetsjekkerFP kompletthetsjekkerFP;
+    private KompletthetsjekkerFelles kompletthetsjekkerFPFelles;
+    private KompletthetsjekkerFørstegangsbehandling kompletthetsjekker;
 
     @Before
     public void before() {
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any(Behandling.class))).thenReturn(STARTDATO_PERMISJON);
         when(inntektArbeidYtelseTjenesteMock.utledManglendeInntektsmeldingerFraArkiv(any(Behandling.class))).thenReturn(new HashMap<>());
 
-        kompletthetssjekkerSøknadFP = new KompletthetssjekkerSøknadFPFørstegangsbehandling(dokumentArkivTjeneste, repositoryProvider, skjæringstidspunktTjeneste, 4);
+        kompletthetssjekkerSøknadFP = new KompletthetssjekkerSøknadFørstegangsbehandling(dokumentArkivTjeneste, repositoryProvider, skjæringstidspunktTjeneste, 4);
         kompletthetssjekkerInntektsmelding = new KompletthetssjekkerInntektsmeldingImpl(inntektArbeidYtelseTjenesteMock);
-        kompletthetsjekkerFPFelles = new KompletthetsjekkerFPFelles(repositoryProvider, mock(SendVarselTjeneste.class));
-        kompletthetsjekkerFP = new KompletthetsjekkerFP(kompletthetssjekkerSøknadFP, kompletthetssjekkerInntektsmelding, inntektArbeidYtelseTjenesteMock, kompletthetsjekkerFPFelles, skjæringstidspunktTjeneste, søknadRepository);
+        kompletthetsjekkerFPFelles = new KompletthetsjekkerFelles(repositoryProvider, mock(SendVarselTjeneste.class));
+        kompletthetsjekker = new KompletthetsjekkerFørstegangsbehandling(kompletthetssjekkerSøknadFP, kompletthetssjekkerInntektsmelding, inntektArbeidYtelseTjenesteMock, kompletthetsjekkerFPFelles, skjæringstidspunktTjeneste, søknadRepository);
     }
 
     @Test
@@ -84,7 +83,7 @@ public class KompletthetsjekkerFPTest {
         Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
 
         // Act
-        KompletthetResultat kompletthetResultat = kompletthetsjekkerFP.vurderForsendelseKomplett(behandling);
+        KompletthetResultat kompletthetResultat = kompletthetsjekker.vurderForsendelseKomplett(behandling);
 
         // Assert
         assertThat(kompletthetResultat.erOppfylt()).isTrue();
@@ -99,7 +98,7 @@ public class KompletthetsjekkerFPTest {
         testUtil.lagreSøknad(behandling);
 
         // Act
-        KompletthetResultat kompletthetResultat = kompletthetsjekkerFP.vurderForsendelseKomplett(behandling);
+        KompletthetResultat kompletthetResultat = kompletthetsjekker.vurderForsendelseKomplett(behandling);
 
         // Assert
         assertThat(kompletthetResultat.erOppfylt()).isFalse();
@@ -113,7 +112,7 @@ public class KompletthetsjekkerFPTest {
         opprettSøknadMedPåkrevdVedlegg(behandling);
 
         // Act
-        KompletthetResultat kompletthetResultat = kompletthetsjekkerFP.vurderForsendelseKomplett(behandling);
+        KompletthetResultat kompletthetResultat = kompletthetsjekker.vurderForsendelseKomplett(behandling);
 
         // Assert
         assertThat(kompletthetResultat.erOppfylt()).isFalse();
@@ -125,14 +124,14 @@ public class KompletthetsjekkerFPTest {
         // Arrange
         Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
 
-        DokumentTypeId dokumentType = repositoryProvider.getKodeverkRepository().finnForKodeverkEiersKode(DokumentTypeId.class, KODE_INNLEGGELSE);
+        DokumentTypeId dokumentType = repositoryProvider.getKodeverkRepository().finnForKodeverkEiersKode(DokumentTypeId.class, KODE_LEGEERKLÆRING);
         Set<DokumentTypeId> dokumentTypeIds = singleton(dokumentType);
         when(dokumentArkivTjeneste.hentDokumentTypeIdForSak(any(), any(), any())).thenReturn(dokumentTypeIds);
 
         opprettSøknadMedPåkrevdVedlegg(behandling);
 
         // Act
-        KompletthetResultat kompletthetResultat = kompletthetsjekkerFP.vurderForsendelseKomplett(behandling);
+        KompletthetResultat kompletthetResultat = kompletthetsjekker.vurderForsendelseKomplett(behandling);
 
         // Assert
         assertThat(kompletthetResultat.erOppfylt()).isTrue();
@@ -147,12 +146,12 @@ public class KompletthetsjekkerFPTest {
         opprettSøknadMedPåkrevdVedlegg(behandling);
 
         // Act
-        List<ManglendeVedlegg> manglendeVedlegg = kompletthetsjekkerFP.utledAlleManglendeVedleggForForsendelse(behandling);
+        List<ManglendeVedlegg> manglendeVedlegg = kompletthetsjekker.utledAlleManglendeVedleggForForsendelse(behandling);
 
         // Assert
         assertThat(manglendeVedlegg).hasSize(2);
         List<DokumentTypeId> koder = manglendeVedlegg.stream().map(ManglendeVedlegg::getDokumentType).collect(Collectors.toList());
-        assertThat(koder).containsExactlyInAnyOrder(DokumentTypeId.DOK_INNLEGGELSE, DokumentTypeId.INNTEKTSMELDING);
+        assertThat(koder).containsExactlyInAnyOrder(DokumentTypeId.LEGEERKLÆRING, DokumentTypeId.INNTEKTSMELDING);
     }
 
     private void opprettSøknadMedPåkrevdVedlegg(Behandling behandling) {
@@ -160,7 +159,7 @@ public class KompletthetsjekkerFPTest {
         Søknad søknad = new SøknadEntitet.Builder(søknadRepository.hentSøknad(behandling))
             .leggTilVedlegg(
             new SøknadVedleggEntitet.Builder()
-                .medSkjemanummer(KODE_INNLEGGELSE)
+                .medSkjemanummer(KODE_LEGEERKLÆRING)
                 .medErPåkrevdISøknadsdialog(true)
                 .build()).build();
         søknadRepository.lagreOgFlush(behandling, søknad);

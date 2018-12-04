@@ -29,16 +29,10 @@ public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
 
     static {
         // Søknad
-        DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL, DokumentGruppe.SØKNAD);
-        DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_ADOPSJON, DokumentGruppe.SØKNAD);
         DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL, DokumentGruppe.SØKNAD);
-        DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.SØKNAD_FORELDREPENGER_ADOPSJON, DokumentGruppe.SØKNAD);
         DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.INNTEKTSMELDING, DokumentGruppe.INNTEKTSMELDING);
         // Endringssøknad
         DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.FORELDREPENGER_ENDRING_SØKNAD, DokumentGruppe.ENDRINGSSØKNAD);
-        DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.FLEKSIBELT_UTTAK_FORELDREPENGER, DokumentGruppe.ENDRINGSSØKNAD);
-        // Klage
-        DOKUMENTTYPE_TIL_GRUPPE.put(DokumentTypeId.KLAGE_DOKUMENT, DokumentGruppe.KLAGE);
     }
 
     static {

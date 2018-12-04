@@ -9,13 +9,6 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 @DiscriminatorValue(HistorikkResultatType.DISCRIMINATOR)
 public class HistorikkResultatType extends Kodeliste {
     public static final String DISCRIMINATOR = "HISTORIKK_RESULTAT_TYPE"; //$NON-NLS-1$
-
-    
-
-    
-    
-    
-    
     
     public static final HistorikkResultatType BEREGNET_AARSINNTEKT = new HistorikkResultatType("BEREGNET_AARSINNTEKT");
     

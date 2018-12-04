@@ -31,7 +31,6 @@ public class HistorikkInnslagTekstBuilder {
     private List<HistorikkinnslagDel> historikkinnslagDeler = new ArrayList<>();
     private int antallEndredeFelter = 0;
     private int antallAksjonspunkter = 0;
-    private int antallOpplysninger = 0;
 
     public HistorikkInnslagTekstBuilder() {
     }
@@ -232,12 +231,6 @@ public class HistorikkInnslagTekstBuilder {
         return neste;
     }
 
-    private int hentNesteOpplysningSekvensNr() {
-        int sekvensNr = antallOpplysninger;
-        antallOpplysninger++;
-        return sekvensNr;
-    }
-
     public HistorikkInnslagTekstBuilder medTotrinnsvurdering(Map<SkjermlenkeType, List<HistorikkinnslagTotrinnsvurdering>> vurdering,
                                                              List<HistorikkinnslagTotrinnsvurdering> vurderingUtenVilkar) {
         boolean første = true;
@@ -332,7 +325,6 @@ public class HistorikkInnslagTekstBuilder {
         historikkinnslagDelBuilder = HistorikkinnslagDel.builder();
         antallEndredeFelter = 0;
         antallAksjonspunkter = 0;
-        antallOpplysninger = 0;
         begrunnelseEndret = false;
         return this;
     }

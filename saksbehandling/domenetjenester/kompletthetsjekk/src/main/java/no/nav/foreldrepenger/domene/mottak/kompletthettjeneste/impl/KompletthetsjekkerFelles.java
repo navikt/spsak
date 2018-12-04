@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
+package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ import no.nav.vedtak.util.FPDateUtil;
  *     Favor composition over inheritance
  */
 @ApplicationScoped
-public class KompletthetsjekkerFPFelles {
+public class KompletthetsjekkerFelles {
 
 
     /**
@@ -34,12 +34,12 @@ public class KompletthetsjekkerFPFelles {
     private SøknadRepository søknadRepository;
     private SendVarselTjeneste sendVarselTjeneste;
 
-    KompletthetsjekkerFPFelles() {
+    KompletthetsjekkerFelles() {
         // CDI
     }
 
     @Inject
-    public KompletthetsjekkerFPFelles(BehandlingRepositoryProvider provider, SendVarselTjeneste sendVarselTjeneste) {
+    public KompletthetsjekkerFelles(BehandlingRepositoryProvider provider, SendVarselTjeneste sendVarselTjeneste) {
         this.søknadRepository = provider.getSøknadRepository();
         this.sendVarselTjeneste = sendVarselTjeneste;
     }

@@ -109,7 +109,7 @@ public abstract class DokumentmottakerTestsupport {
     }
 
     protected InngåendeSaksdokument dummySøknadDokument(Behandling behandling) {
-        DokumentTypeId dokumentTypeId = DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL;
+        DokumentTypeId dokumentTypeId = DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL;
         return DokumentmottakTestUtil.byggMottattDokument(dokumentTypeId, behandling.getFagsakId(), "", now(), true, "456");
     }
 

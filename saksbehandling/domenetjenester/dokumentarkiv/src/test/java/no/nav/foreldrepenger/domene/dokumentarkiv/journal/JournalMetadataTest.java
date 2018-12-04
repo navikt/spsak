@@ -10,7 +10,6 @@ import java.util.List;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottakKanal;
 import no.nav.foreldrepenger.behandlingslager.behandling.VariantFormat;
@@ -29,7 +28,7 @@ public class JournalMetadataTest {
         builder.medDokumentId("dokId");
         builder.medVariantFormat(VariantFormat.ARKIV);
         builder.medMottakKanal(MottakKanal.EIA);
-        builder.medDokumentType(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_ADOPSJON);
+        builder.medDokumentType(DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL);
         builder.medDokumentKategori(DokumentKategori.ELEKTRONISK_SKJEMA);
         builder.medArkivFilType(ArkivFilType.PDFA);
         builder.medJournaltilstand(JournalMetadata.Journaltilstand.ENDELIG);
@@ -49,8 +48,7 @@ public class JournalMetadataTest {
         assertThat(jmd.getJournalpostId().getVerdi()).isEqualTo("jpId");
         assertThat(jmd.getDokumentId()).isEqualTo("dokId");
         assertThat(jmd.getVariantFormat()).isEqualTo(VariantFormat.ARKIV);
-        assertThat(jmd.getMottakKanal()).isEqualTo(MottakKanal.EIA);
-        assertThat(jmd.getDokumentType()).isEqualTo(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_ADOPSJON);
+        assertThat(jmd.getDokumentType()).isEqualTo(DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL);
         assertThat(jmd.getDokumentKategori()).isEqualTo(DokumentKategori.ELEKTRONISK_SKJEMA);
         assertThat(jmd.getArkivFilType()).isEqualTo(ArkivFilType.PDFA);
         assertThat(jmd.getJournaltilstand()).isEqualTo(JournalMetadata.Journaltilstand.ENDELIG);
@@ -63,11 +61,11 @@ public class JournalMetadataTest {
     public void skal_kompensere_for_null_brukerIdentListe() {
         // Arrange
 
-        JournalMetadata.Builder<DokumentType> builder = JournalMetadata.builder();
+        JournalMetadata.Builder<DokumentTypeId> builder = JournalMetadata.builder();
 
         // Act
 
-        JournalMetadata<DokumentType> jmd = builder.build();
+        JournalMetadata<DokumentTypeId> jmd = builder.build();
 
         // Assert
 

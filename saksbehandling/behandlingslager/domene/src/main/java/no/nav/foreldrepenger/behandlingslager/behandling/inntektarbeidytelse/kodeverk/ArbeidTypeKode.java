@@ -7,7 +7,7 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 
 @Entity(name = "ArbeidTypeKode")
 @DiscriminatorValue(ArbeidTypeKode.DISCRIMINATOR)
-class ArbeidTypeKode extends Kodeliste {
+public class ArbeidTypeKode extends Kodeliste {
 
     public static final String DISCRIMINATOR = "ARBEID_TYPE_KODE";
 

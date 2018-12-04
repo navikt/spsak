@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.fp;
+package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,24 +31,24 @@ import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
 @ApplicationScoped
 @BehandlingTypeRef("BT-004")
 @FagsakYtelseTypeRef("FP")
-public class KompletthetsjekkerFPRevurdering implements Kompletthetsjekker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(KompletthetsjekkerFPRevurdering.class);
+public class KompletthetsjekkerRevurdering implements Kompletthetsjekker {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KompletthetsjekkerRevurdering.class);
 
     private KompletthetssjekkerSøknad kompletthetssjekkerSøknad;
     private KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding;
-    private KompletthetsjekkerFPFelles fellesUtil;
+    private KompletthetsjekkerFelles fellesUtil;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private SøknadRepository søknadRepository;
     private BehandlingVedtakRepository behandlingVedtakRepository;
 
-    KompletthetsjekkerFPRevurdering() {
+    KompletthetsjekkerRevurdering() {
         // CDI
     }
 
     @Inject
-    public KompletthetsjekkerFPRevurdering(@FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") KompletthetssjekkerSøknad kompletthetssjekkerSøknad,
+    public KompletthetsjekkerRevurdering(@FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") KompletthetssjekkerSøknad kompletthetssjekkerSøknad,
                                            @FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding,
-                                           KompletthetsjekkerFPFelles fellesUtil,
+                                           KompletthetsjekkerFelles fellesUtil,
                                            InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
                                            BehandlingRepositoryProvider repositoryProvider) {
         this.kompletthetssjekkerSøknad = kompletthetssjekkerSøknad;

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.kontrollerfakta.impl.fp;
+package no.nav.foreldrepenger.domene.kontrollerfakta.impl;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import no.nav.foreldrepenger.domene.kontrollerfakta.medlemskap.Aksjonspunktutled
 import no.nav.foreldrepenger.domene.kontrollerfakta.søknad.AksjonspunktUtlederForTilleggsopplysninger;
 
 
-public abstract class KontrollerFaktaUtledereTjenesteFP implements KontrollerFaktaUtledereTjeneste {
+public abstract class AbstractKontrollerFaktaUtledereTjeneste implements KontrollerFaktaUtledereTjeneste {
 
 
-    KontrollerFaktaUtledereTjenesteFP(BehandlingRepositoryProvider repositoryProvider) {
+    AbstractKontrollerFaktaUtledereTjeneste(BehandlingRepositoryProvider repositoryProvider) {
     }
 
     // Legg til aksjonspunktutledere som er felles for Førstegangsbehandling og Revurdering

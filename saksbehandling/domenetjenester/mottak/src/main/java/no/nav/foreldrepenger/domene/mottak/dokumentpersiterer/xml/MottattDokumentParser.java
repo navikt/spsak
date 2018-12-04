@@ -50,7 +50,7 @@ public final class MottattDokumentParser {
         throw new IllegalArgumentException("Ukjent payload type " + payloadType);
     }
 
-    private static MottattDokumentWrapper unmarshallJson(String payload) {
+    private static MottattDokumentWrapper<?> unmarshallJson(String payload) {
         try {
             // TODO: Mer generisk støtte for andre varianter at dokumenter på JSON
             Object mottattDokument = objectMapper.readValue(payload, Sykepengersøknad.class);
@@ -60,7 +60,7 @@ public final class MottattDokumentParser {
         }
     }
 
-    private static MottattDokumentWrapper unmarshallXml(String payload) {
+    private static MottattDokumentWrapper<?> unmarshallXml(String payload) {
         Object mottattDokument;
         final String namespace = hentNamespace(payload);
 

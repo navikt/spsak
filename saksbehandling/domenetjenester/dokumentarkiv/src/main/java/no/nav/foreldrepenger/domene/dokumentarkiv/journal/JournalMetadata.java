@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentType;
+import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.MottakKanal;
 import no.nav.foreldrepenger.behandlingslager.behandling.VariantFormat;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.arkiv.ArkivFilType;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 
-public class JournalMetadata<T extends DokumentType> {
+public class JournalMetadata<T extends DokumentTypeId> {
 
     public enum Journaltilstand {
         MIDLERTIDIG,
@@ -35,7 +35,7 @@ public class JournalMetadata<T extends DokumentType> {
         // skjult
     }
 
-    public static <T extends DokumentType> Builder<T> builder() {
+    public static <T extends DokumentTypeId> Builder<T> builder() {
         return new Builder<>();
     }
 
@@ -86,7 +86,7 @@ public class JournalMetadata<T extends DokumentType> {
         return forsendelseMottatt;
     }
 
-    public static class Builder<T extends DokumentType> {
+    public static class Builder<T extends DokumentTypeId> {
         private JournalpostId journalpostId;
         private String dokumentId;
         private VariantFormat variantFormat;

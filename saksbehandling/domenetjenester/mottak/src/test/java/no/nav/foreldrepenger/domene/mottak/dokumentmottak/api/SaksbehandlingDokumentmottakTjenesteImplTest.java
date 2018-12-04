@@ -16,7 +16,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
-import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.PayloadType;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjenesteImpl;
@@ -29,10 +28,9 @@ public class SaksbehandlingDokumentmottakTjenesteImplTest {
 
     private static final Long FAGSAK_ID = 1L;
     private static final JournalpostId JOURNALPOST_ID = new JournalpostId("2");
-    private static final DokumentTypeId DOKUMENTTYPE = DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL;
+    private static final DokumentTypeId DOKUMENTTYPE = DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL;
     private static final DokumentKategori DOKUMENTKATEGORI = DokumentKategori.SØKNAD;
     private static final LocalDate FORSENDELSE_MOTTATT = LocalDate.now();
-    private static final Boolean ELEKTRONISK_SØKNAD = Boolean.TRUE;
     private static final String PAYLOAD_XML = "<test></test>";
 
     private BehandlingTema behandlingTema = BehandlingTema.SYKEPENGER;
@@ -45,7 +43,6 @@ public class SaksbehandlingDokumentmottakTjenesteImplTest {
     @Before
     public void before() {
         prosessTaskRepository = mock(ProsessTaskRepository.class);
-        MottatteDokumentTjeneste mottatteDokumentTjeneste = mock(MottatteDokumentTjeneste.class);
         saksbehandlingDokumentmottakTjeneste = new SaksbehandlingDokumentmottakTjenesteImpl(prosessTaskRepository);
     }
 

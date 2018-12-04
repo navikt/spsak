@@ -13,9 +13,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentType;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
+import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.PensjonTrygdType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Diskresjonskode;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Poststed;
@@ -55,11 +53,11 @@ public class KodeverkRepositoryImplTest {
     @Test
     public void cache_må_respektere_forskjellige_kodeverk_med_like_koder() {
         final String kode = "-";
-        DokumentType dokumentType = repo.finn(DokumentType.class, kode);
-        BehandlingTema behandlingTema = repo.finn(BehandlingTema.class, kode);
+        PensjonTrygdType kode1 = repo.finn(PensjonTrygdType.class, kode);
+        Landkoder kode2 = repo.finn(Landkoder.class, kode);
 
-        assertThat(dokumentType.getKode()).isEqualTo(kode);
-        assertThat(behandlingTema.getKode()).isEqualTo(kode);
+        assertThat(kode1.getKode()).isEqualTo(kode);
+        assertThat(kode2.getKode()).isEqualTo(kode);
     }
 
     @Test
@@ -130,14 +128,6 @@ public class KodeverkRepositoryImplTest {
         EntityManager entityManager = repoRule.getEntityManager();
         assertThat(entityManager.contains(pend)).isFalse();
         assertThat(entityManager.contains(mili)).isFalse();
-    }
-
-    @Test
-    public void test_hent_fra_kode_navn() {
-        DokumentTypeId dokumentTypeId1 = repo.finnForKodeverkEiersNavn(DokumentTypeId.class, "Søknad om engangsstønad ved fødsel", DokumentTypeId.UDEFINERT);
-        DokumentTypeId dokumentTypeId2 = repo.finnForKodeverkEiersNavn(DokumentTypeId.class, "skal ikke finnes", DokumentTypeId.UDEFINERT);
-        assertThat(dokumentTypeId1).isEqualTo(DokumentTypeId.SØKNAD_ENGANGSSTØNAD_FØDSEL);
-        assertThat(dokumentTypeId2).isEqualTo(DokumentTypeId.UDEFINERT);
     }
 
     @Test

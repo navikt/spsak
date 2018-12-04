@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.kontrollerfakta.impl.fp;
+package no.nav.foreldrepenger.domene.kontrollerfakta.impl;
 
 import java.util.List;
 
@@ -13,13 +13,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 
 @ApplicationScoped
-@BehandlingTypeRef
+@BehandlingTypeRef("BT-004") // Revurdering
 @StartpunktRef
 @FagsakYtelseTypeRef("FP")
-public class KontrollerFaktaUtledereTjenesteFPFørstegangsbehandling extends KontrollerFaktaUtledereTjenesteFP {
+public class KontrollerFaktaUtledereTjenesteRevurdering extends AbstractKontrollerFaktaUtledereTjeneste {
 
     @Inject
-    public KontrollerFaktaUtledereTjenesteFPFørstegangsbehandling(BehandlingRepositoryProvider repositoryProvider) {
+    public KontrollerFaktaUtledereTjenesteRevurdering(BehandlingRepositoryProvider repositoryProvider) {
         super(repositoryProvider);
     }
 
