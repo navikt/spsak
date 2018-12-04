@@ -35,6 +35,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class SøknadVedleggEntitet extends BaseEntitet implements SøknadVedlegg {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SOEKNAD_VEDLEGG")
     private Long id;
 

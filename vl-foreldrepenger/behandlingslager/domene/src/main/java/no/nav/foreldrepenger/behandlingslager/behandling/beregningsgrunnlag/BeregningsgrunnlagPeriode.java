@@ -42,6 +42,7 @@ import no.nav.vedtak.felles.jpa.tid.ÅpenDatoIntervallEntitet;
 public class BeregningsgrunnlagPeriode extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE")
     private Long id;
 

@@ -31,6 +31,7 @@ import no.nav.vedtak.felles.jpa.BaseEntitet;
 public class ArbeidsforholdInformasjonEntitet extends BaseEntitet implements ArbeidsforholdInformasjon {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IAY_INFORMASJON")
     private Long id;
 

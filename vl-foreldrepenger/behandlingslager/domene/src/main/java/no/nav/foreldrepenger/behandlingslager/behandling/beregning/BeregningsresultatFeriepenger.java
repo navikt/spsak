@@ -30,6 +30,7 @@ import no.nav.vedtak.felles.jpa.BaseEntitet;
 public class BeregningsresultatFeriepenger extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BR_FERIEPENGER")
     private Long id;
 

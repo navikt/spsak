@@ -25,6 +25,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 public class ArbeidsforholdReferanseEntitet extends BaseEntitet implements IndexKey {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IAY_ARBEIDSFORHOLD_REFER")
     private Long id;
 

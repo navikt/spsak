@@ -27,6 +27,7 @@ import no.nav.vedtak.felles.jpa.BaseEntitet;
 public class BeregningsresultatFeriepengerPrÅr extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BR_FERIEPENGER_PR_AAR")
     private Long id;
 
@@ -42,11 +43,11 @@ public class BeregningsresultatFeriepengerPrÅr extends BaseEntitet {
     @JoinColumn(name = "beregningsresultat_andel_id", nullable = false, updatable = false)
     private BeregningsresultatAndel beregningsresultatAndel;
 
-    @Column(name = "opptjeningsår", nullable = false)
+    @Column(name = "opptjeningsaar", nullable = false)
     private LocalDate opptjeningsår;
 
     @Embedded
-    @AttributeOverrides(@AttributeOverride(name = "verdi", column = @Column(name = "årsbeløp", nullable = false)))
+    @AttributeOverrides(@AttributeOverride(name = "verdi", column = @Column(name = "aarsbeloep", nullable = false)))
     @ChangeTracked
     private Beløp årsbeløp;
 

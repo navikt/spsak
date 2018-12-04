@@ -29,6 +29,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BGAndelArbeidsforhold extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_ANDEL_ARBEIDSFORHOLD")
     private Long id;
 
@@ -57,7 +58,7 @@ public class BGAndelArbeidsforhold extends BaseEntitet {
     private Boolean erTidsbegrensetArbeidsforhold;
 
     @Convert(converter = BooleanToStringConverter.class)
-    @Column(name = "lønnsendring_i_perioden")
+    @Column(name = "loennsendring_i_perioden")
     private Boolean lønnsendringIBeregningsperioden;
 
     @Column(name = "arbeidsperiode_fom")

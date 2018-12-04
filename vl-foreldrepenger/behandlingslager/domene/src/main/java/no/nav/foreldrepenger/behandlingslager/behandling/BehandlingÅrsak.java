@@ -29,6 +29,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BehandlingÅrsak extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @SequenceGenerator(name = "behandling_aarsak_sekvens", sequenceName = "SEQ_BEHANDLING_ARSAK")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "behandling_aarsak_sekvens")
     private Long id;
@@ -39,9 +40,9 @@ public class BehandlingÅrsak extends BaseEntitet {
 
     @ManyToOne(optional = false)
     @JoinColumnsOrFormulas({
-            @JoinColumnOrFormula(column = @JoinColumn(name = "behandling_arsak_type", referencedColumnName = "kode", nullable = false)),
-            @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + BehandlingÅrsakType.DISCRIMINATOR
-                    + "'")) })
+        @JoinColumnOrFormula(column = @JoinColumn(name = "behandling_arsak_type", referencedColumnName = "kode", nullable = false)),
+        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + BehandlingÅrsakType.DISCRIMINATOR
+            + "'"))})
     private BehandlingÅrsakType behandlingÅrsakType = BehandlingÅrsakType.UDEFINERT;
 
     @ManyToOne

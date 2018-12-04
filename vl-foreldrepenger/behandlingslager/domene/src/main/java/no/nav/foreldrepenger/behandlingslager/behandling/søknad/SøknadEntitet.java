@@ -30,6 +30,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilkn
 public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SOEKNAD")
     private Long id;
 

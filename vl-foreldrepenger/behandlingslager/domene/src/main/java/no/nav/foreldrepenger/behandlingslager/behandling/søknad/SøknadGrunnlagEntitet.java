@@ -20,6 +20,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 class SøknadGrunnlagEntitet extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_SOEKNAD")
     private Long id;
 

@@ -32,6 +32,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class PermisjonEntitet extends BaseEntitet implements Permisjon, IndexKey {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PERMISJON")
     private Long id;
 

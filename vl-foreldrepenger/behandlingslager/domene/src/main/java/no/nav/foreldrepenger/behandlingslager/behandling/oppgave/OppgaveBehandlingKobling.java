@@ -33,6 +33,7 @@ import no.nav.vedtak.util.FPDateUtil;
 public class OppgaveBehandlingKobling extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPGAVE_BEHANDLING_KOBLING")
     private Long id;
 

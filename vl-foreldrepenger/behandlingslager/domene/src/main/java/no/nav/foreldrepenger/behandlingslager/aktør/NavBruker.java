@@ -21,6 +21,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 public class NavBruker extends Person {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BRUKER")
     private Long id;
 

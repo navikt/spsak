@@ -43,6 +43,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class InntektsmeldingEntitet extends BaseEntitet implements Inntektsmelding, IndexKey {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INNTEKTSMELDING")
     private Long id;
 

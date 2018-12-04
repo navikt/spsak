@@ -31,6 +31,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class SykefraværPeriodeEntitet extends BaseEntitet implements SykefraværPeriode {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEFRAVAER_PERIODE")
     private Long id;
 

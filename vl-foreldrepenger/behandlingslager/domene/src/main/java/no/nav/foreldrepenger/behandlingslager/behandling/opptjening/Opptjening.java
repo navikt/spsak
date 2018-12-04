@@ -48,6 +48,7 @@ public class Opptjening extends BaseEntitet {
     private DatoIntervallEntitet opptjeningPeriode;
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPTJENING")
     private Long id;
 

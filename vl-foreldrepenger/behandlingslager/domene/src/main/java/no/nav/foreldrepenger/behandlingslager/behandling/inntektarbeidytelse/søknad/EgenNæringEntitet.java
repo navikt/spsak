@@ -35,6 +35,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class EgenNæringEntitet extends BaseEntitet implements EgenNæring, IndexKey {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_EGEN_NAERING")
     private Long id;
 

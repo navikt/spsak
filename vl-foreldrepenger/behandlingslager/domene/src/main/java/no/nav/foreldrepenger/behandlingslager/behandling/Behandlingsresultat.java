@@ -42,6 +42,7 @@ import no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense;
 public class Behandlingsresultat extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_RESULTAT")
     private Long id;
 

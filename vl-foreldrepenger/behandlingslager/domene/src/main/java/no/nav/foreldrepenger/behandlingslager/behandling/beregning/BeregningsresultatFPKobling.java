@@ -20,6 +20,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BeregningsresultatFPKobling extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="SEQ_RES_BEREGNINGSRESULTAT_FP")
     private Long id;
 

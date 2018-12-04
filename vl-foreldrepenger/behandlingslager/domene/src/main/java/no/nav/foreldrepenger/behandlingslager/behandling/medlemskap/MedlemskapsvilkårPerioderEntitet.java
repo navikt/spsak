@@ -27,6 +27,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements MedlemskapsvilkårPerioder, IndexKey {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_VILKAR_PERIODER")
     private Long id;
 

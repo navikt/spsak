@@ -28,6 +28,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements PersonopplysningGrunnlag {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_PERSONOPPLYSNING")
     private Long id;
 

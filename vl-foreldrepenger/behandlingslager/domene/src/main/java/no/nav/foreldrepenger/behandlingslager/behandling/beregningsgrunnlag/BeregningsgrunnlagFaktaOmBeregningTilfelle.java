@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregn
 public class BeregningsgrunnlagFaktaOmBeregningTilfelle extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_FAKTA_BER_TILFELLE")
     private Long id;
 

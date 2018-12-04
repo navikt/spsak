@@ -43,6 +43,7 @@ import no.nav.foreldrepenger.domene.typer.Beløp;
 public class Beregningsgrunnlag extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSGRUNNLAG")
     private Long id;
 

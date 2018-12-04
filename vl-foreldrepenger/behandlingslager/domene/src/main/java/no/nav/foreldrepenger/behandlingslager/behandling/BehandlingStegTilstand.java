@@ -23,6 +23,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 public class BehandlingStegTilstand extends BaseEntitet implements IndexKey {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_STEG_TILSTAND")
     private Long id;
 
@@ -60,7 +61,7 @@ public class BehandlingStegTilstand extends BaseEntitet implements IndexKey {
     public Long getId() {
         return id;
     }
-    
+
     @Override
     public String getIndexKey() {
         return IndexKey.createKey(behandlingSteg, behandlingStegStatus);

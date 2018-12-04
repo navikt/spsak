@@ -41,6 +41,7 @@ public class BeregningResultat extends BaseEntitet {
     private boolean overstyrt = false;
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNING_RESULTAT")
     private Long id;
 

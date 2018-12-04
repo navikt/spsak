@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.behandlingslager.behandling;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class BehandlingsresultatKonsekvensForYtelsen extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BR_KONSEKVENS_YTELSE")
     private Long id;
 

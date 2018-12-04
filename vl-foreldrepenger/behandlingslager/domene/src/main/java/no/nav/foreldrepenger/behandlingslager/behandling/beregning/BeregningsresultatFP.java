@@ -31,6 +31,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class BeregningsresultatFP extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSRESULTAT_FP")
     private Long id;
 

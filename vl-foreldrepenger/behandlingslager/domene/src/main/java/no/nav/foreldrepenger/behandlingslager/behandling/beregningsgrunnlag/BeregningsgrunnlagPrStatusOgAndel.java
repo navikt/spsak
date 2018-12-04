@@ -47,6 +47,7 @@ import no.nav.vedtak.felles.jpa.tid.ÅpenDatoIntervallEntitet;
 public class BeregningsgrunnlagPrStatusOgAndel extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PR_STATUS_OG_ANDEL")
     private Long id;
 

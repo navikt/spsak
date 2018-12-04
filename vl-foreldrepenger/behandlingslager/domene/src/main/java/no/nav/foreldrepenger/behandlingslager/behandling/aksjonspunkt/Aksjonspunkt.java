@@ -38,6 +38,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class Aksjonspunkt extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKSJONSPUNKT")
     private Long id;
 

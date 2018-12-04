@@ -25,6 +25,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class BeregningsgrunnlagAktivitetStatus extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_AKTIVITET_STATUS")
     private Long id;
 

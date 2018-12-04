@@ -17,8 +17,8 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class OrgManuellÅrsakEntitet extends BaseEntitet {
 
     @Id
+    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ORG_MANUELL_BEHANDLING")
-    @Column(name = "id")
     private Long id;
 
     @Column( name = "Virksomhetsnummer", nullable = false)
