@@ -1608,7 +1608,7 @@
     }, {
       "comment" : "Input til regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.",
       "primaryKey" : false,
-      "name" : "REGELINPUT_TILSTØTENDE_YTELSE",
+      "name" : "regelinput_tilstoetende_ytelse",
       "type" : "CLOB",
       "size" : 4000,
       "nullable" : true,

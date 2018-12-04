@@ -714,8 +714,8 @@
 	OPPRINNELIG_SKJARINGSTIDSPUNKT DATE, 
 	GRUNNBELOEP NUMERIC(12,2),
 	REDUSERT_GRUNNBELOEP NUMERIC(12,2),
-	REGELINPUT_TILSTØTENDE_YTELSE text, 
-	REGELLOGG_TILSTØTENDE_YTELSE text, 
+	regelinput_tilstoetende_ytelse text,
+	regellogg_tilstoetende_ytelse text,
 	GJELDENDE_BG_KOFAKBER_ID NUMERIC(19,0)
    ) ;
 
@@ -729,8 +729,8 @@
    COMMENT ON COLUMN BEREGNINGSGRUNNLAG.OPPRINNELIG_SKJARINGSTIDSPUNKT IS 'Normalt samme som skjæringstidspunkt. Ved overgang mellom ytelser er det første uttaksdag for den første i rekken av tilstøtende ytelser.';
    COMMENT ON COLUMN BEREGNINGSGRUNNLAG.GRUNNBELOEP IS 'Grunnbeløp (G) ved opprinnelig_skjæringstidspunkt';
    COMMENT ON COLUMN BEREGNINGSGRUNNLAG.REDUSERT_GRUNNBELOEP IS 'Normalt samme som grunnbeløp. Ved overgang mellom ytelser blir grunnbeløpet redusert i henhold til dekningsgrad for alle tidligere tilstøtende ytelser';
-   COMMENT ON COLUMN BEREGNINGSGRUNNLAG.REGELINPUT_TILSTØTENDE_YTELSE IS 'Input til regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.';
-   COMMENT ON COLUMN BEREGNINGSGRUNNLAG.REGELLOGG_TILSTØTENDE_YTELSE IS 'Sporing av regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.';
+   COMMENT ON COLUMN BEREGNINGSGRUNNLAG.regelinput_tilstoetende_ytelse IS 'Input til regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.';
+   COMMENT ON COLUMN BEREGNINGSGRUNNLAG.regellogg_tilstoetende_ytelse IS 'Sporing av regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.';
    COMMENT ON COLUMN BEREGNINGSGRUNNLAG.GJELDENDE_BG_KOFAKBER_ID IS 'FK til gjeldende Beregningsgrunnlag ved inngang til steg kontroller fakta om beregning';
    COMMENT ON TABLE BEREGNINGSGRUNNLAG  IS 'Aggregat for beregningsgrunnlag';
 

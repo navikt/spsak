@@ -84,12 +84,12 @@ public class Beregningsgrunnlag extends BaseEntitet {
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "regelinput_tilstøtende_ytelse")
+    @Column(name = "regelinput_tilstoetende_ytelse")
     private String regelInputTilstøtendeYtelse;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "regellogg_tilstøtende_ytelse")
+    @Column(name = "regellogg_tilstoetende_ytelse")
     private String regelloggTilstøtendeYtelse;
 
     @Column(name = "dekningsgrad", nullable = false)
