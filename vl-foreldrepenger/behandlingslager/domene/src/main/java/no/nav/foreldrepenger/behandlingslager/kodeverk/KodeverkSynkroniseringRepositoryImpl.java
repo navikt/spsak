@@ -68,7 +68,7 @@ public class KodeverkSynkroniseringRepositoryImpl implements KodeverkSynkroniser
     public void opprettNyKode(String kodeverk, String kode, String offisiellKode, String navn, LocalDate fom, LocalDate tom) {
         Query query = entityManager.createNativeQuery(
             "INSERT INTO KODELISTE (id, kodeverk, kode, offisiell_kode, gyldig_fom, gyldig_tom) " +
-                " VALUES (seq_kodeliste.nextval, ?, ?, ?, ?, ?)");
+                " VALUES (nextval('seq_kodeliste'), ?, ?, ?, ?, ?)");
         query.setParameter(1, kodeverk);
         query.setParameter(2, kode);
         query.setParameter(3, offisiellKode);
@@ -77,7 +77,7 @@ public class KodeverkSynkroniseringRepositoryImpl implements KodeverkSynkroniser
         query.executeUpdate();
         Query query2 = entityManager.createNativeQuery(
             "INSERT INTO KODELISTE_NAVN_I18N (id, kl_kodeverk, kl_kode, sprak, navn) " +
-                " VALUES (seq_kodeliste_navn_i18n.nextval, ?, ?, ?, ?)");
+                " VALUES (nextval('seq_kodeliste_navn_i18n'), ?, ?, ?, ?)");
         query2.setParameter(1, kodeverk);
         query2.setParameter(2, kode);
         query2.setParameter(3, "NB");
@@ -121,7 +121,7 @@ public class KodeverkSynkroniseringRepositoryImpl implements KodeverkSynkroniser
     public void opprettNyKodeRelasjon(String kodeverk1, String kode1, String kodeverk2, String kode2, LocalDate fom, LocalDate tom) {
         Query query = entityManager.createNativeQuery(
             "INSERT INTO KODELISTE_RELASJON (id, kodeverk1, kode1, kodeverk2, kode2, gyldig_fom, gyldig_tom) " +
-                " VALUES (seq_kodeliste_relasjon.nextval, ?, ?, ?, ?, ?, ?)");
+                " VALUES (nextval('seq_kodeliste_relasjon'), ?, ?, ?, ?, ?, ?)");
         query.setParameter(1, kodeverk1);
         query.setParameter(2, kode1);
         query.setParameter(3, kodeverk2);
