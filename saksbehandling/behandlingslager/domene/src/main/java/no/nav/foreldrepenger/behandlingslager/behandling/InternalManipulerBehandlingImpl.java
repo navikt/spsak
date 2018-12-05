@@ -23,6 +23,11 @@ public class InternalManipulerBehandlingImpl implements InternalManipulerBehandl
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
     }
 
+    public InternalManipulerBehandlingImpl(BehandlingRepository behandlingRepository, KodeverkRepository kodeverkRepository) {
+        this.behandlingRepository = behandlingRepository;
+        this.kodeverkRepository = kodeverkRepository;
+    }
+
     @Override
     public void forceOppdaterBehandlingSteg(Behandling behandling, BehandlingStegType stegType) {
         forceOppdaterBehandlingSteg(behandling, stegType, BehandlingStegStatus.UDEFINERT);

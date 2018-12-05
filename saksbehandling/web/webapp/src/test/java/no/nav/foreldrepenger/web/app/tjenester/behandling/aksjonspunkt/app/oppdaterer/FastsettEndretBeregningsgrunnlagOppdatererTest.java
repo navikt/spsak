@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.oppd
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -1059,7 +1060,7 @@ public class FastsettEndretBeregningsgrunnlagOppdatererTest {
         assertEndretFelt(gjeldendeFraFelt.get(), HistorikkEndretFeltType.NY_FORDELING, null, dtf.format(SKJÆRINGSTIDSPUNKT), arbeidsgiverHistorikkinnslagTjeneste.lagHistorikkinnslagTekstForBeregningsgrunnlag(andel));
 
         assertEndretFelt(del, HistorikkEndretFeltType.NYTT_REFUSJONSKRAV,
-            String.valueOf(refusjonskravPrÅr.divide(BigDecimal.valueOf(12), 0, BigDecimal.ROUND_HALF_UP)),
+            String.valueOf(refusjonskravPrÅr.divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP)),
             String.valueOf(refusjonPrMåned));
 
         assertEndretFelt(del, HistorikkEndretFeltType.INNTEKT, null, String.valueOf(fastsatt));

@@ -5,6 +5,7 @@ import static no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettBeregnings
 import static no.nav.vedtak.konfig.Tid.TIDENES_ENDE;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -183,13 +184,13 @@ public class EndringBeregningsgrunnlagDtoTjeneste {
             if (andelOpt.isPresent()) {
                 BigDecimal refusjonsKrav = andelOpt.get().getBgAndelArbeidsforhold()
                     .map(BGAndelArbeidsforhold::getRefusjonskravPrÅr)
-                    .orElse(BigDecimal.ZERO).divide(BigDecimal.valueOf(12), 0, BigDecimal.ROUND_HALF_UP);
+                    .orElse(BigDecimal.ZERO).divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP);
                 endringAndel.setRefusjonskravFraInntektsmelding(refusjonsKrav);
             }
         }
         endringAndel.setRefusjonskrav(andel.getBgAndelArbeidsforhold()
             .map(BGAndelArbeidsforhold::getRefusjonskravPrÅr)
-            .orElse(BigDecimal.ZERO).divide(BigDecimal.valueOf(12), 0, BigDecimal.ROUND_HALF_UP));
+            .orElse(BigDecimal.ZERO).divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP));
     }
 
     private void settFordelingForrigeBehandling(Behandling behandling, BeregningsgrunnlagPeriode periode, BeregningsgrunnlagPrStatusOgAndel andel, EndringBeregningsgrunnlagAndelDto endringAndel) {
@@ -197,7 +198,7 @@ public class EndringBeregningsgrunnlagDtoTjeneste {
             Optional<BeregningsgrunnlagPrStatusOgAndel> korAndelOpt = kontrollerFaktaBeregningTjeneste.hentKorresponderendeAndelIOriginaltBeregningsgrunnlag(behandling, periode, andel);
             if (korAndelOpt.isPresent() && korAndelOpt.get().getBeregnetPrÅr() != null) {
                 endringAndel.setFordelingForrigeBehandlingPrAar(korAndelOpt.get().getBeregnetPrÅr());
-                endringAndel.setFordelingForrigeBehandling(korAndelOpt.get().getBeregnetPrÅr().divide(BigDecimal.valueOf(MÅNEDER_I_1_ÅR), 0, BigDecimal.ROUND_HALF_UP));
+                endringAndel.setFordelingForrigeBehandling(korAndelOpt.get().getBeregnetPrÅr().divide(BigDecimal.valueOf(MÅNEDER_I_1_ÅR), 0, RoundingMode.HALF_UP));
                 return;
             }
         }

@@ -44,14 +44,14 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
         public Optional<BehandlingStegStatus> getSisteStegStatus() {
             // siden hopper bakover blir dette fraSteg
             Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
-            return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getBehandlingStegStatus() : null);
+            return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
         }
 
         @Override
         public Optional<BehandlingStegStatus> getFørsteStegStatus() {
             // siden hopper bakover blir dette tilSteg
             Optional<BehandlingStegTilstand> tilstand = getTilTilstand();
-            return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getBehandlingStegStatus() : null);
+            return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
         }
     }
 
@@ -146,7 +146,7 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
     public BehandlingStegType getTilStegType() {
         Optional<BehandlingStegTilstand> tilstand = getTilTilstand();
         if (tilstand.isPresent()) {
-            return tilstand.get().getBehandlingSteg();
+            return tilstand.get().getStegType();
         } else {
             return null;
         }
@@ -156,7 +156,7 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
     public BehandlingStegType getFraStegType() {
         Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
         if (tilstand.isPresent()) {
-            return tilstand.get().getBehandlingSteg();
+            return tilstand.get().getStegType();
         } else {
             return null;
         }
@@ -175,11 +175,11 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
 
     public Optional<BehandlingStegStatus> getFørsteStegStatus() {
         Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
-        return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getBehandlingStegStatus() : null);
+        return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
     }
 
     public Optional<BehandlingStegStatus> getSisteStegStatus() {
         Optional<BehandlingStegTilstand> tilstand = getTilTilstand();
-        return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getBehandlingStegStatus() : null);
+        return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
     }
 }

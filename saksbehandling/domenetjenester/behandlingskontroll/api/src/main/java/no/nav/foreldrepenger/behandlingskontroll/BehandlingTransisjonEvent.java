@@ -50,7 +50,7 @@ public class BehandlingTransisjonEvent implements BehandlingEvent {
 
     public Optional<BehandlingStegStatus> getFørsteStegStatus() {
         Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
-        return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getBehandlingStegStatus() : null);
+        return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
     }
 
     public BehandlingStegType getFørsteSteg() {
@@ -61,7 +61,7 @@ public class BehandlingTransisjonEvent implements BehandlingEvent {
     public BehandlingStegType getFraStegType() {
         Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
         if (tilstand.isPresent()) {
-            return tilstand.get().getBehandlingSteg();
+            return tilstand.get().getStegType();
         } else {
             return null;
         }

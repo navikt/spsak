@@ -26,6 +26,8 @@ public interface BehandlingRepositoryProvider {
     MedlemskapVilkårPeriodeRepository getMedlemskapVilkårPeriodeRepository();
 
     BehandlingLåsRepository getBehandlingLåsRepository();
+    
+    BehandlingskontrollRepository getBehandlingskontrollRepository();
 
     FagsakRepository getFagsakRepository();
 

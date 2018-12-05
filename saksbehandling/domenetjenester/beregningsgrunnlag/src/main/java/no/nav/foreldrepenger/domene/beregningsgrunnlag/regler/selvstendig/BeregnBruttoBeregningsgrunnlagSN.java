@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.selvstendig;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +35,8 @@ class BeregnBruttoBeregningsgrunnlagSN extends LeafSpecification<Beregningsgrunn
 
         BigDecimal bruttoAAP = bgAAP != null ? bgAAP.getBeregnetPrÅr() : BigDecimal.ZERO;
         BigDecimal bruttoDP = bgDP != null ? bgDP.getBeregnetPrÅr() : BigDecimal.ZERO;
-        BigDecimal oppjustertAAP = bruttoAAP.divide(BigDecimal.valueOf(0.66), 10, BigDecimal.ROUND_HALF_UP);
-        BigDecimal oppjustertDP = bruttoDP.divide(BigDecimal.valueOf(0.624), 10, BigDecimal.ROUND_HALF_UP);
+        BigDecimal oppjustertAAP = bruttoAAP.divide(BigDecimal.valueOf(0.66), 10, RoundingMode.HALF_UP);
+        BigDecimal oppjustertDP = bruttoDP.divide(BigDecimal.valueOf(0.624), 10, RoundingMode.HALF_UP);
 
         BigDecimal bruttoSN = gjennomsnittligPGI.subtract(oppjustertAAP).subtract(oppjustertDP).max(BigDecimal.ZERO);
 

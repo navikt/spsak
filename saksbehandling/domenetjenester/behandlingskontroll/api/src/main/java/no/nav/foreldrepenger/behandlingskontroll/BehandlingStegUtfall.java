@@ -12,11 +12,11 @@ public class BehandlingStegUtfall {
         this.resultat = resultat;
     }
 
-    public BehandlingStegType getBehandlingStegType() {
+    public BehandlingStegType getStegType() {
         return behandlingStegType;
     }
 
-    public BehandlingStegStatus getResultat() {
+    public BehandlingStegStatus getStatus() {
         return resultat;
     }
 }

@@ -20,6 +20,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
@@ -31,6 +32,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegKonfigurasjon;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandling;
@@ -41,6 +43,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -71,6 +74,9 @@ public class HenleggBehandlingTjenesteImplTest {
     private BehandlingModellRepository behandlingModellRepository;
 
     @Mock
+    private BehandlingskontrollRepository behandlingskontrollRepository;
+
+    @Mock
     private BehandlingStegType behandlingStegType;
 
     @Mock
@@ -94,25 +100,26 @@ public class HenleggBehandlingTjenesteImplTest {
     @Before
     public void setUp() {
         System.setProperty("systembruker.username", "brukerident");
+        BehandlingStegType stegType = BehandlingStegType.BEREGN_YTELSE;
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagMocked();
         repositoryProviderMock = scenario.mockBehandlingRepositoryProvider();
 
-        manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, BehandlingStegType.BEREGN_YTELSE);
-
+        simulerAktivtSteg(stegType);
+        when(repositoryProviderMock.getBehandlingskontrollRepository()).thenReturn(behandlingskontrollRepository);
         when(repositoryProviderMock.getAksjonspunktRepository()).thenReturn(aksjonspunktRepository);
         when(repositoryProviderMock.getKodeverkRepository()).thenReturn(kodeverkRepository);
         when(repositoryProviderMock.getHistorikkRepository()).thenReturn(historikkRepositoryMock);
         when(repositoryProviderMock.getBehandlingRepository().finnBehandlingStegType(IVERKSETT_VEDTAK.getKode())).thenReturn(behandlingStegType);
         BehandlingskontrollTjenesteImpl behandlingskontrollTjenesteImpl = new BehandlingskontrollTjenesteImpl(repositoryProviderMock,
-                behandlingModellRepository, null);
+            behandlingModellRepository, null);
         when(behandlingModellRepository.getBehandlingStegKonfigurasjon()).thenReturn(BehandlingStegKonfigurasjon.lagDummy());
         when(behandlingModellRepository.getModell(any(), any())).thenReturn(modell);
         when(modell.erStegAFørStegB(any(), any())).thenReturn(true);
 
         henleggBehandlingTjeneste = new HenleggBehandlingTjenesteImpl(repositoryProviderMock,
-                behandlingskontrollTjenesteImpl,
+            behandlingskontrollTjenesteImpl,
             prosessTaskRepositoryMock, mock(SendVarselTjeneste.class));
     }
 
@@ -146,7 +153,8 @@ public class HenleggBehandlingTjenesteImplTest {
     public void skal_henlegge_behandling_med_aksjonspunkt() throws Exception {
         // Arrange
         BehandlingResultatType behandlingsresultat = BehandlingResultatType.HENLAGT_FEILOPPRETTET;
-        Aksjonspunkt aksjonspunkt = repositoryProviderMock.getAksjonspunktRepository().leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_FORTSATT_MEDLEMSKAP);
+        Aksjonspunkt aksjonspunkt = repositoryProviderMock.getAksjonspunktRepository().leggTilAksjonspunkt(behandling,
+            AksjonspunktDefinisjon.AVKLAR_FORTSATT_MEDLEMSKAP);
         assertThat(aksjonspunkt.getStatus()).isEqualTo(AksjonspunktStatus.OPPRETTET);
 
         // Act
@@ -177,8 +185,6 @@ public class HenleggBehandlingTjenesteImplTest {
         AksjonspunktDefinisjon def = AksjonspunktDefinisjon.AUTO_MANUELT_SATT_PÅ_VENT;
         Aksjonspunkt aksjonspunkt = repositoryProviderMock.getAksjonspunktRepository().leggTilAksjonspunkt(behandling, def);
         repositoryProviderMock.getAksjonspunktRepository().setFrist(aksjonspunkt, LocalDateTime.now(), null);
-
-        manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, BehandlingStegType.BEREGN_YTELSE);
 
         BehandlingResultatType behandlingsresultat = BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET;
 
@@ -232,4 +238,7 @@ public class HenleggBehandlingTjenesteImplTest {
         }
     }
 
+    private void simulerAktivtSteg(BehandlingStegType stegType) {
+        when(behandlingskontrollRepository.getAktivtBehandlingStegTilstandDefinitiv(Mockito.anyLong())).thenReturn(new BehandlingStegTilstand(null, stegType));
+    }
 }

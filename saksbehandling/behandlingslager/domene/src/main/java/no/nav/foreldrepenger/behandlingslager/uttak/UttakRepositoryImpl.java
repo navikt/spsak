@@ -1,9 +1,7 @@
 package no.nav.foreldrepenger.behandlingslager.uttak;
 
-import static no.nav.vedtak.felles.jpa.HibernateVerktøy.hentEksaktResultat;
 import static no.nav.vedtak.felles.jpa.HibernateVerktøy.hentUniktResultat;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;

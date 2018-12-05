@@ -114,7 +114,7 @@ public class TestEventObserver {
 
     private static String hentKode(Optional<BehandlingStegTilstand> behandlingStegTilstand) {
         return behandlingStegTilstand
-            .map(BehandlingStegTilstand::getBehandlingStegStatus)
+            .map(BehandlingStegTilstand::getStatus)
             .map(Kodeliste::getKode)
             .orElse("");
     }

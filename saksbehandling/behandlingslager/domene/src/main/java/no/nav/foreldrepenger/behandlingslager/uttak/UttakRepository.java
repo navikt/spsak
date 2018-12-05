@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.uttak;
 
-import java.util.List;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;

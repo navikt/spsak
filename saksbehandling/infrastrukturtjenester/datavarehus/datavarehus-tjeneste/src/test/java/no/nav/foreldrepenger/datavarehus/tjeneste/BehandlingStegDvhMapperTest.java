@@ -35,7 +35,7 @@ public class BehandlingStegDvhMapperTest {
         BehandlingStegDvh dvh = mapper.map(behandlingStegTilstand);
 
         assertThat(dvh).isNotNull();
-        assertThat(dvh.getBehandlingId()).isEqualTo(behandlingStegTilstand.getBehandling().getId());
+        assertThat(dvh.getBehandlingId()).isEqualTo(behandlingStegTilstand.getBehandlingId());
         assertThat(dvh.getBehandlingStegId()).isEqualTo(BEHANDLING_STEG_ID);
         assertThat(dvh.getBehandlingStegStatus()).isEqualTo(BEHANDLING_STEG_STATUS.getKode());
         assertThat(dvh.getBehandlingStegType()).isEqualTo(BEHANDLING_STEG_TYPE.getKode());

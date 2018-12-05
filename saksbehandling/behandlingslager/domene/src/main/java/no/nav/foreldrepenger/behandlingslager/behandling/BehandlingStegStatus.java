@@ -66,7 +66,7 @@ public class BehandlingStegStatus extends Kodeliste {
        return Objects.equals(INNGANG, this);
     }
 
-    public static boolean erVedUtgang(BehandlingStegStatus stegStatus) {
-        return Objects.equals(UTGANG, stegStatus);
-    }
+    public boolean erVedUtgang() {
+        return Objects.equals(UTGANG, this);
+     }
 }

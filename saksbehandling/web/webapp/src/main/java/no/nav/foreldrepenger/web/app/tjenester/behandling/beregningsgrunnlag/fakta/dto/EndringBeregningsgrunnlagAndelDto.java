@@ -69,7 +69,7 @@ public class EndringBeregningsgrunnlagAndelDto extends FaktaOmBeregningAndelDto 
         andelIGjeldendeGrunnlag
             .ifPresent(andel -> {
                 if (andel.getBeregnetPrÅr() != null && Boolean.TRUE.equals(andel.getFastsattAvSaksbehandler())) {
-                    this.fastsattForrige = andel.getBeregnetPrÅr().divide(BigDecimal.valueOf(MÅNEDER_I_1_ÅR), 0, BigDecimal.ROUND_HALF_UP);
+                    this.fastsattForrige = andel.getBeregnetPrÅr().divide(BigDecimal.valueOf(MÅNEDER_I_1_ÅR), 0, RoundingMode.HALF_UP);
                     this.fastsattForrigePrAar = andel.getBeregnetPrÅr();
                 } else {
                     this.fastsattForrige = null;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -27,6 +28,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -57,6 +59,9 @@ public class BehandlingModellTest {
 
     @Inject
     private BehandlingRepositoryProvider repositoryProvider;
+
+    @Inject
+    private BehandlingskontrollRepository behandlingskontrollRepository;
 
     @Inject
     private AksjonspunktRepository aksjonspunktRepository;
@@ -101,13 +106,16 @@ public class BehandlingModellTest {
 
                 getKode(), a1_0.
 
-                getKode(), a1_1.
+                    getKode(),
+                a1_1.
 
-                getKode(), a2_0.
+                    getKode(),
+                a2_0.
 
-                getKode(), a2_1.
+                    getKode(),
+                a2_1.
 
-                getKode());
+                    getKode());
 
         ads = modell.finnAksjonspunktDefinisjonerEtter(STEG_2);
 
@@ -117,9 +125,10 @@ public class BehandlingModellTest {
 
                 getKode(), a2_0.
 
-                getKode(), a2_1.
+                    getKode(),
+                a2_1.
 
-                getKode());
+                    getKode());
 
         ads = modell.finnAksjonspunktDefinisjonerEtter(STEG_3);
 
@@ -152,8 +161,7 @@ public class BehandlingModellTest {
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, steg, ap(), ap()),
             new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, steg0, ap(a0_0), ap(a0_1)),
-            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, steg1, ap(a1_0), ap(a1_1))
-        );
+            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, steg1, ap(a1_0), ap(a1_1)));
 
         BehandlingModellImpl modell = setupModell(modellData);
 
@@ -176,8 +184,7 @@ public class BehandlingModellTest {
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()),
             new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, aksjonspunktSteg, ap(), ap(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS)),
-            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
-        );
+            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()));
         BehandlingModellImpl modell = setupModell(modellData);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
@@ -185,7 +192,7 @@ public class BehandlingModellTest {
         BehandlingStegVisitorUtenLagring visitor = lagVisitor(scenario, modell);
         BehandlingStegUtfall siste = modell.prosesserFra(STEG_1, visitor);
 
-        assertThat(siste.getBehandlingStegType()).isEqualTo(STEG_2);
+        assertThat(siste.getStegType()).isEqualTo(STEG_2);
         assertThat(visitor.kjørteSteg).isEqualTo(Arrays.asList(STEG_1, STEG_2));
     }
 
@@ -199,8 +206,7 @@ public class BehandlingModellTest {
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()),
             new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()),
-            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
-        );
+            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()));
         BehandlingModellImpl modell = setupModell(modellData);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
@@ -220,8 +226,7 @@ public class BehandlingModellTest {
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, nullSteg, ap(avklarFødsel), ap()),
             new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()),
-            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, tilbakeføringssteg, ap(), ap())
-        );
+            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, tilbakeføringssteg, ap(), ap()));
         BehandlingModellImpl modell = setupModell(modellData);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
@@ -235,16 +240,19 @@ public class BehandlingModellTest {
         aksjonspunktRepository.setReåpnet(aksjonspunkt);
 
         BehandlingStegUtfall siste = modell.prosesserFra(STEG_3, visitor);
-        assertThat(siste.getBehandlingStegType()).isEqualTo(STEG_3);
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_1);
+        assertThat(siste.getStegType()).isEqualTo(STEG_3);
+        assertThat(getAktivtBehandlingSteg(behandling)).isEqualTo(STEG_1);
+    }
+
+    private BehandlingStegType getAktivtBehandlingSteg(Behandling behandling) {
+        return behandlingskontrollRepository.getAktivtBehandlingStegTilstandDefinitiv(behandling.getId()).getStegType();
     }
 
     @Test
     public void finner_tidligste_steg_for_aksjonspunkter() {
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, nullSteg, ap(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS), ap()),
-            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
-        );
+            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()));
 
         BehandlingModellImpl modell = setupModell(modellData);
         Set<AksjonspunktDefinisjon> aksjonspunktDefinisjoner = new HashSet<>();
@@ -259,8 +267,7 @@ public class BehandlingModellTest {
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, aksjonspunktModifisererSteg, ap(), ap()),
             new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, nullSteg, ap(), ap(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS)),
-            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
-        );
+            new TestStegKonfig(STEG_3, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()));
         BehandlingModellImpl modell = setupModell(modellData);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         BehandlingStegVisitorUtenLagring visitor = lagVisitor(scenario, modell);
@@ -281,8 +288,7 @@ public class BehandlingModellTest {
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, stegSomOpretterAksjonspunkt, ap(), ap()),
             new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, nullSteg, ap(), ap(apd)),
-            new TestStegKonfig(STEG_4, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
-        );
+            new TestStegKonfig(STEG_4, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()));
         BehandlingModellImpl modell = setupModell(modellData);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
@@ -296,8 +302,8 @@ public class BehandlingModellTest {
         aksjonspunktRepository.deaktiver(aksjonspunkt);
 
         BehandlingStegUtfall siste = modell.prosesserFra(STEG_1, visitor);
-        assertThat(siste.getBehandlingStegType()).isEqualTo(STEG_1);
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(siste.getStegType()).isEqualTo(STEG_1);
+        assertThat(getAktivtBehandlingSteg(behandling)).isEqualTo(STEG_2);
 
         assertThat(behandling.getAksjonspunktFor(apd).erAktivt()).isTrue();
     }
@@ -311,8 +317,7 @@ public class BehandlingModellTest {
         List<TestStegKonfig> modellData = Arrays.asList(
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, stegSomOpretterAksjonspunkt, ap(), ap()),
             new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, nullSteg, ap(), ap(apd, apd2)),
-            new TestStegKonfig(STEG_4, behandlingType, fagsakYtelseType, nullSteg, ap(), ap())
-        );
+            new TestStegKonfig(STEG_4, behandlingType, fagsakYtelseType, nullSteg, ap(), ap()));
         BehandlingModellImpl modell = setupModell(modellData);
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
@@ -330,8 +335,8 @@ public class BehandlingModellTest {
         aksjonspunktRepository.deaktiver(aksjonspunkt2);
 
         BehandlingStegUtfall siste = modell.prosesserFra(STEG_1, visitor);
-        assertThat(siste.getBehandlingStegType()).isEqualTo(STEG_1);
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(siste.getStegType()).isEqualTo(STEG_1);
+        assertThat(getAktivtBehandlingSteg(behandling)).isEqualTo(STEG_2);
 
         assertThat(behandling.getAksjonspunktFor(apd).erAktivt()).isTrue();
         Aksjonspunkt ap2 = behandling.getAlleAksjonspunkterInklInaktive().stream()
@@ -359,7 +364,7 @@ public class BehandlingModellTest {
                                          BehandlingskontrollTjeneste tjeneste, BehandlingskontrollKontekst kontekst, BehandlingModellImpl behandlingModell,
                                          BehandlingskontrollEventPubliserer eventPubliserer,
                                          Behandling behandling) {
-            super(repositoryProvider, behandling, tjeneste, behandlingModell, kontekst, eventPubliserer);
+            super(repositoryProvider, behandling, tjeneste, behandlingModell, kontekst, eventPubliserer, Optional.empty());
         }
 
         @Override
@@ -367,7 +372,7 @@ public class BehandlingModellTest {
             super.settBehandlingStegSomGjeldende(stegType, sluttStegStatusVedOvergang);
             kjørteSteg.add(stegType);
         }
-        
+
         @Override
         public BehandlingStegProsesseringResultat prosesser(BehandlingStegModell stegModell) {
             super.markerOvergangTilNyttSteg(stegModell.getBehandlingStegType());

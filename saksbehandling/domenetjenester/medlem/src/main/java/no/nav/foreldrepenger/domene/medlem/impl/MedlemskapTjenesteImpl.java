@@ -176,7 +176,7 @@ public class MedlemskapTjenesteImpl implements MedlemTjeneste {
     public EndringsresultatPersonopplysningerForMedlemskap søkerHarEndringerIPersonopplysninger(Behandling revurderingBehandling) {
 
         EndringsresultatPersonopplysningerForMedlemskap.Builder builder = EndringsresultatPersonopplysningerForMedlemskap.builder();
-        if (revurderingBehandling.erRevurderingOgGjelderForeldrepengerYtelse()) {
+        if (revurderingBehandling.erRevurdering()) {
             Optional<PersonopplysningerAggregat> historikkAggregat =
                 personopplysningTjeneste.hentGjeldendePersoninformasjonForPeriodeHvisEksisterer(revurderingBehandling, DatoIntervallEntitet.fraOgMedTilOgMed(finnStartdato(revurderingBehandling), LocalDate.now()));
 

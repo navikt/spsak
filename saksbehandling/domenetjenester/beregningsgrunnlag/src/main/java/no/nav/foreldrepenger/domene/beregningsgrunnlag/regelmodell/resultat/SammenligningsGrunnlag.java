@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Periode;
 
@@ -22,7 +23,7 @@ public class SammenligningsGrunnlag {
     }
 
     public Long getAvvikPromille() {
-        return avvikProsent.scaleByPowerOfTen(1).setScale(0, BigDecimal.ROUND_HALF_UP).longValue();
+        return avvikProsent.scaleByPowerOfTen(1).setScale(0, RoundingMode.HALF_UP).longValue();
     }
 
     public BigDecimal getAvvikProsent() {

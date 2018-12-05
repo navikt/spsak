@@ -66,7 +66,7 @@ public class InfotrygdHendelseTjenesteImplTest {
         when(behandling.getAktørId()).thenReturn(aktørId);
         when(aktørId.getId()).thenReturn("9000000001234");
         when(behandling.getBehandlingStegTilstandHistorikk()).thenReturn(Stream.of(tilstand));
-        when(tilstand.getBehandlingSteg()).thenReturn(BehandlingStegType.FATTE_VEDTAK);
+        when(tilstand.getStegType()).thenReturn(BehandlingStegType.FATTE_VEDTAK);
         when(tilstand.getOpprettetTidspunkt()).thenReturn(LocalDateTime.of(2018, 5, 14, 9, 30));
 
         //Act

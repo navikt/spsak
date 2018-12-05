@@ -66,15 +66,15 @@ public class BehandlingStegTilstand extends BaseEntitet implements IndexKey {
         return IndexKey.createKey(behandlingSteg, behandlingStegStatus);
     }
 
-    public Behandling getBehandling() {
-        return behandling;
+    public Long getBehandlingId() {
+        return behandling.getId();
     }
 
-    public BehandlingStegType getBehandlingSteg() {
+    public BehandlingStegType getStegType() {
         return behandlingSteg;
     }
 
-    public BehandlingStegStatus getBehandlingStegStatus() {
+    public BehandlingStegStatus getStatus() {
         return Objects.equals(BehandlingStegStatus.UDEFINERT, behandlingStegStatus) ? null : behandlingStegStatus;
     }
 
@@ -96,20 +96,28 @@ public class BehandlingStegTilstand extends BaseEntitet implements IndexKey {
             return false;
         }
         BehandlingStegTilstand that = (BehandlingStegTilstand) o;
-        return Objects.equals(getBehandlingSteg(), that.getBehandlingSteg()) &&
-            Objects.equals(getBehandlingStegStatus(), that.getBehandlingStegStatus());
+        return Objects.equals(getStegType(), that.getStegType()) &&
+            Objects.equals(getStatus(), that.getStatus());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBehandlingSteg(), getBehandlingStegStatus());
+        return Objects.hash(getStegType(), getStatus());
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "<behandlingId=" + behandling.getId()
-            + ", steg=" + getBehandlingSteg()
-            + ", stegStatus=" + getBehandlingStegStatus()
+            + ", steg=" + getStegType()
+            + ", stegStatus=" + getStatus()
             + ">";
+    }
+
+    public boolean erVedInngangAvSteg() {
+        return this.behandlingStegStatus!=null && this.behandlingStegStatus.erVedInngang();
+    }
+    
+    public boolean erVedUtgangAvSteg() {
+        return this.behandlingStegStatus!=null && this.behandlingStegStatus.erVedUtgang();
     }
 }

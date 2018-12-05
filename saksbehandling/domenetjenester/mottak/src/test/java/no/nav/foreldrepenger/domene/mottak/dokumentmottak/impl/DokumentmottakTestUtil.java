@@ -35,8 +35,9 @@ public class DokumentmottakTestUtil {
                 // NOOP
             }
             @Override
-            public void prosesserBehandling(BehandlingskontrollKontekst kontekst) {
+            public BehandlingStegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst) {
                 // NOOP
+                return null;
             }
         };
         return behandlingskontrollTjeneste;

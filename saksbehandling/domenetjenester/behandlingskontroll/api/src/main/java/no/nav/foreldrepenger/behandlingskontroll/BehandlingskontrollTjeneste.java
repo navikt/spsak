@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.TransisjonIdentifikator;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
@@ -45,8 +46,9 @@ public interface BehandlingskontrollTjeneste {
      *
      * @param kontekst
      *            - kontekst for prosessering. Opprettes gjennom {@link #initBehandlingskontroll(Long)}
+     * @return BehandlingStegTilstand aktivt steg tilstand etter prosessering, eller null (hvis avsluttet).
      */
-    void prosesserBehandling(BehandlingskontrollKontekst kontekst);
+    BehandlingStegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst);
 
     /**
      * Prosesser behandling enten fra akitvt steg eller steg angitt av aksjonspunktDefinsjonerKoder dersom noen er eldre
@@ -213,7 +215,8 @@ public interface BehandlingskontrollTjeneste {
      */
     boolean skalAksjonspunktReaktiveresIEllerEtterSteg(Behandling behandling, BehandlingStegType behandlingSteg, AksjonspunktDefinisjon aksjonspunktDefinisjon);
 
-    void lagHistorikkinnslagForHenleggelse(Long behandlingsId, HistorikkinnslagType historikkinnslagType, BehandlingResultatType aarsak, String begrunnelse, HistorikkAktør aktør);
+    void lagHistorikkinnslagForHenleggelse(Long behandlingsId, HistorikkinnslagType historikkinnslagType, BehandlingResultatType aarsak, String begrunnelse,
+                                           HistorikkAktør aktør);
 
     void fremoverTransisjon(TransisjonIdentifikator transisjonId, BehandlingskontrollKontekst kontekst);
 

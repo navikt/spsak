@@ -62,11 +62,11 @@ public class BehandlingskontrollBehandlingEventObserver {
         // fyr behandling status event
         BehandlingStatus gammelStatus = null;
         if (fraTilstand.isPresent()) {
-            gammelStatus = fraTilstand.get().getBehandling().getStatus();
+            gammelStatus = fraTilstand.get().getStegType().getDefinertBehandlingStatus();
         }
         BehandlingStatus nyStatus = null;
         if (tilTilstand.isPresent()) {
-            nyStatus = tilTilstand.get().getBehandling().getStatus();
+            nyStatus = tilTilstand.get().getStegType().getDefinertBehandlingStatus();
         }
 
         // fyr behandling status event

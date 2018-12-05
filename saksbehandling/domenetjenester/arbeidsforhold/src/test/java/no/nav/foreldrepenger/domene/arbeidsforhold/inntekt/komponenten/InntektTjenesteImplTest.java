@@ -173,7 +173,7 @@ public class InntektTjenesteImplTest {
     }
 
     private Inntekt opprettInntekt(BigDecimal beløp, YearMonth måned, Class<? extends Inntekt> inntektType, Aktoer virksomhet, String beskrivelse) throws Exception {
-        Inntekt inntekt = inntektType.newInstance();
+        Inntekt inntekt = inntektType.getDeclaredConstructor().newInstance();
         inntekt.setBeloep(beløp);
         inntekt.setUtbetaltIPeriode(DateUtil.convertToXMLGregorianCalendar(måned.atDay(1)));
         inntekt.setVirksomhet(virksomhet);

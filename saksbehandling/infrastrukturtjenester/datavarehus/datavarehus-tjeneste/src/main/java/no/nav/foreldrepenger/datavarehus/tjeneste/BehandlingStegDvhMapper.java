@@ -11,10 +11,10 @@ public class BehandlingStegDvhMapper {
 
     public BehandlingStegDvh map(BehandlingStegTilstand behandlingStegTilstand) {
         return BehandlingStegDvh.builder()
-            .behandlingId(behandlingStegTilstand.getBehandling().getId())
+            .behandlingId(behandlingStegTilstand.getBehandlingId())
             .behandlingStegId(behandlingStegTilstand.getId())
             .behandlingStegStatus(finnBehandlingStegStatusKode(behandlingStegTilstand))
-            .behandlingStegType(behandlingStegTilstand.getBehandlingSteg().getKode())
+            .behandlingStegType(behandlingStegTilstand.getStegType().getKode())
             .endretAv(CommonDvhMapper.finnEndretAvEllerOpprettetAv(behandlingStegTilstand))
             .funksjonellTid(FPDateUtil.nå())
             .build();
@@ -22,7 +22,7 @@ public class BehandlingStegDvhMapper {
 
     private String finnBehandlingStegStatusKode(BehandlingStegTilstand behandlingStegTilstand) {
         return Optional.ofNullable(behandlingStegTilstand)
-                .map(BehandlingStegTilstand::getBehandlingStegStatus)
+                .map(BehandlingStegTilstand::getStatus)
                 .map(BehandlingStegStatus::getKode).orElse(null);
     }
 }

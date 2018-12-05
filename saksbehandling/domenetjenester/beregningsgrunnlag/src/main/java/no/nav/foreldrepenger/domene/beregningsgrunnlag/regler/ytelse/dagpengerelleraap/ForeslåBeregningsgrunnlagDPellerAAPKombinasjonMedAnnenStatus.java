@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.ytelse.dagpengerelleraap;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ class ForeslåBeregningsgrunnlagDPellerAAPKombinasjonMedAnnenStatus extends Leaf
             .orElseThrow(() -> new IllegalStateException("Ingen inntekter fra tilstøtende ytelser funnet i siste måned med inntekt"));
         BigDecimal utbetalingsgrad = inntekt.getUtbetalingsgrad()
             .orElseThrow(() -> new IllegalStateException("Utbetalingsgrad for DP/AAP mangler."));
-        BigDecimal utbetalingsFaktor = utbetalingsgrad.divide(BigDecimal.valueOf(200), 10, BigDecimal.ROUND_HALF_UP);
+        BigDecimal utbetalingsFaktor = utbetalingsgrad.divide(BigDecimal.valueOf(200), 10, RoundingMode.HALF_UP);
         BigDecimal beregnetPrÅr = inntekt.getInntekt().multiply(TOLV).multiply(utbetalingsFaktor);
 
         BeregningsgrunnlagPrStatus.builder(bgPerStatus)

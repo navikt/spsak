@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.oppdaterer;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -96,9 +97,9 @@ public class FastsettEndretBeregningsgrunnlagOppdaterer {
             && korrektAndel.getBgAndelArbeidsforhold().map(BGAndelArbeidsforhold::getRefusjonskravPrÅr).orElse(null) != null
             && BigDecimal.valueOf(andel.getFastsatteVerdier().getRefusjon()).compareTo(
             Objects.requireNonNull(korrektAndel.getBgAndelArbeidsforhold().get().getRefusjonskravPrÅr())
-                .divide(BigDecimal.valueOf(12), 0, BigDecimal.ROUND_HALF_UP)) != 0) {
+                .divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP)) != 0) {
             historikkBuilder.medEndretFelt(HistorikkEndretFeltType.NYTT_REFUSJONSKRAV,
-                korrektAndel.getBgAndelArbeidsforhold().get().getRefusjonskravPrÅr().divide(BigDecimal.valueOf(12), 0, BigDecimal.ROUND_HALF_UP), andel.getFastsatteVerdier().getRefusjon());
+                korrektAndel.getBgAndelArbeidsforhold().get().getRefusjonskravPrÅr().divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP), andel.getFastsatteVerdier().getRefusjon());
         }
         historikkBuilder.medEndretFelt(HistorikkEndretFeltType.INNTEKT, null, andel.getFastsatteVerdier().getFastsattBeløp());
         historikkBuilder.medEndretFelt(HistorikkEndretFeltType.INNTEKTSKATEGORI, null, andel.getFastsatteVerdier().getInntektskategori());

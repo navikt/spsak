@@ -209,84 +209,6 @@ public class Behandling extends BaseEntitet {
         return new Builder(forrigeBehandling, behandlingType);
     }
 
-    /** 
-     * @deprecated FIXME PFP-1131 Fjern direkte kobling Behandling->Behandlingsresultat fra entiteter/jpa modell
-     */
-    @Deprecated
-    // (FC) støtter bare ett Behandlingsresultat for en Behandling - JPA har ikke støtte for OneToOne på non-PK
-    // kolonne, så emuleres her ved å tømme listen.
-    public Behandlingsresultat getBehandlingsresultat() {
-        if (this.behandlingsresultat.size() > 1) {
-            throw FeilFactory.create(BehandlingFeil.class).merEnnEttBehandlingsresultat(behandlingsresultat.size()).toException();
-        }
-        return this.behandlingsresultat.isEmpty() ? null : this.behandlingsresultat.iterator().next();
-    }
-
-    public List<BehandlingÅrsak> getBehandlingÅrsaker() {
-        return new ArrayList<>(behandlingÅrsaker);
-    }
-
-    void leggTilBehandlingÅrsaker(List<BehandlingÅrsak> behandlingÅrsaker) {
-        if (erAvsluttet() && erHenlagt()) {
-            throw new IllegalStateException("Utvikler-feil: kan ikke legge til årsaker på en behandling som er avsluttet.");
-        }
-        behandlingÅrsaker.forEach(bå -> {
-            bå.setBehandling(this);
-            this.behandlingÅrsaker.add(bå);
-        });
-    }
-
-    public boolean harBehandlingÅrsak(BehandlingÅrsakType behandlingÅrsak) {
-        return getBehandlingÅrsaker().stream()
-            .map(BehandlingÅrsak::getBehandlingÅrsakType)
-            .collect(Collectors.toList())
-            .contains(behandlingÅrsak);
-    }
-
-    public Optional<Behandling> getOriginalBehandling() {
-        return getBehandlingÅrsaker().stream()
-            .filter(Objects::nonNull)
-            .map(BehandlingÅrsak::getOriginalBehandling)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst();
-    }
-
-    /** 
-     * @deprecated FIXME PFP-1131 Fjern direkte kobling Behandling->Berørt Behandling
-     */
-    @Deprecated
-    public Optional<Behandling> getBerørtBehandling() {
-        return getBehandlingÅrsaker().stream()
-            .filter(Objects::nonNull)
-            .map(BehandlingÅrsak::getBerørtBehandling)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst();
-    }
-
-    /** 
-     * @deprecated FIXME PFP-1131 Fjern direkte kobling Behandling->Berørt Behandling
-     */
-    @Deprecated
-    public boolean erBerørtBehandling() {
-        return getBehandlingÅrsaker().stream()
-            .map(BehandlingÅrsak::getBehandlingÅrsakType)
-            .collect(Collectors.toList())
-            .contains(BehandlingÅrsakType.BERØRT_BEHANDLING);
-    }
-
-    public boolean erManueltOpprettet() {
-        return getBehandlingÅrsaker().stream()
-            .map(BehandlingÅrsak::erManueltOpprettet)
-            .collect(Collectors.toList())
-            .contains(true);
-    }
-
-    public boolean erManueltOpprettetOgHarÅrsak(BehandlingÅrsakType behandlingÅrsak) {
-        return erManueltOpprettet() && harBehandlingÅrsak(behandlingÅrsak);
-    }
-
     public Long getId() {
         return id;
     }
@@ -301,45 +223,6 @@ public class Behandling extends BaseEntitet {
 
     public BehandlingStatus getStatus() {
         return status;
-    }
-
-    /**
-     * Oppdater behandlingssteg og tilhørende status.
-     * <p>
-     * NB::NB::NB Dette skal normalt kun gjøres fra Behandlingskontroll slik at bokføring og events blir riktig.
-     * Er ikke en del av offentlig API.
-     *
-     * @param oppdatertTilstand - tilstand for steg behandlingen er i
-     * @param sluttStatusForEksisterendeSteg - avslutt eksisterende åpne steg og sett til denne statusen.
-     */
-    void oppdaterBehandlingStegOgStatus(BehandlingStegTilstand oppdatertTilstand,
-                                        BehandlingStegStatus sluttStatusForEksisterendeSteg) {
-        Objects.requireNonNull(oppdatertTilstand, "behandlingStegTilstand"); //$NON-NLS-1$
-
-        this.behandlingStegTilstander.remove(oppdatertTilstand);
-
-        // lukk andre steg
-        lukkBehandlingStegStatuser(this.behandlingStegTilstander, sluttStatusForEksisterendeSteg);
-
-        // legg til ny
-        this.behandlingStegTilstander.add(oppdatertTilstand);
-        BehandlingStegType behandlingSteg = oppdatertTilstand.getBehandlingSteg();
-        this.status = behandlingSteg.getDefinertBehandlingStatus();
-    }
-
-    /**
-     * Marker behandling som avsluttet.
-     */
-    public void avsluttBehandling() {
-        lukkBehandlingStegStatuser(this.behandlingStegTilstander, BehandlingStegStatus.UTFØRT);
-        this.status = BehandlingStatus.AVSLUTTET;
-        this.avsluttetDato = LocalDateTime.now(FPDateUtil.getOffset());
-    }
-
-    private void lukkBehandlingStegStatuser(Collection<BehandlingStegTilstand> stegTilstander, BehandlingStegStatus sluttStatusForSteg) {
-        stegTilstander.stream()
-            .filter(t -> !BehandlingStegStatus.erSluttStatus(t.getBehandlingStegStatus()))
-            .forEach(t -> t.setBehandlingStegStatus(sluttStatusForSteg));
     }
 
     public BehandlingType getType() {
@@ -361,53 +244,6 @@ public class Behandling extends BaseEntitet {
     public void setBehandlingstidFrist(LocalDate behandlingstidFrist) {
         guardTilstandPåBehandling();
         this.behandlingstidFrist = behandlingstidFrist;
-    }
-
-    public Optional<BehandlingStegTilstand> getBehandlingStegTilstand() {
-        List<BehandlingStegTilstand> tilstander = behandlingStegTilstander.stream()
-            .filter(t -> !BehandlingStegStatus.erSluttStatus(t.getBehandlingStegStatus()))
-            .collect(Collectors.toList());
-        if (tilstander.size() > 1) {
-            throw new IllegalStateException("Utvikler-feil: Kan ikke ha flere steg samtidig åpne: " + tilstander); //$NON-NLS-1$
-        }
-
-        return tilstander.isEmpty() ? Optional.empty() : Optional.of(tilstander.get(0));
-    }
-
-    public Optional<BehandlingStegTilstand> getBehandlingStegTilstand(BehandlingStegType stegType) {
-        List<BehandlingStegTilstand> tilstander = behandlingStegTilstander.stream()
-            .filter(t -> !BehandlingStegStatus.erSluttStatus(t.getBehandlingStegStatus())
-                && Objects.equals(stegType, t.getBehandlingSteg()))
-            .collect(Collectors.toList());
-        if (tilstander.size() > 1) {
-            throw new IllegalStateException(
-                "Utvikler-feil: Kan ikke ha flere steg samtidig åpne for stegType[" + stegType + "]: " + tilstander); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-
-        return tilstander.isEmpty() ? Optional.empty() : Optional.of(tilstander.get(0));
-    }
-
-    public Stream<BehandlingStegTilstand> getBehandlingStegTilstandHistorikk() {
-        return behandlingStegTilstander.stream().sorted(COMPARATOR_OPPRETTET_TID);
-    }
-
-    public BehandlingStegType getAktivtBehandlingSteg() {
-        BehandlingStegTilstand stegTilstand = getBehandlingStegTilstand().orElse(null);
-        return stegTilstand == null ? null : stegTilstand.getBehandlingSteg();
-    }
-
-    /**
-     * @deprecated FIXME skal ikke ha public settere, og heller ikke setter for behandlingsresultat her. Bør gå via repository.
-     */
-    @Deprecated
-    public void setBehandlingresultat(Behandlingsresultat behandlingsresultat) {
-        // (FC) støtter bare ett Behandlingsresultat for en Behandling - JPA har ikke støtte for OneToOne på non-PK
-        // kolonne, så emuleres her ved å tømme listen.
-
-        this.behandlingsresultat.clear();
-        behandlingsresultat.setBehandling(this);
-        // kun ett om gangen, mappet på annet enn pk
-        this.behandlingsresultat.add(behandlingsresultat);
     }
 
     @Override
@@ -518,12 +354,6 @@ public class Behandling extends BaseEntitet {
         return aksjonspunkter;
     }
 
-    public List<Aksjonspunkt> getBehandledeAksjonspunkter() {
-        return getAksjonspunkterStream()
-            .filter(Aksjonspunkt::erBehandletAksjonspunkt)
-            .collect(Collectors.toList());
-    }
-
     public List<Aksjonspunkt> getÅpneAksjonspunkter(AksjonspunktType aksjonspunktType) {
         return getÅpneAksjonspunkterStream()
             .filter(ad -> Objects.equals(aksjonspunktType, ad.getAksjonspunktDefinisjon().getAksjonspunktType()))
@@ -539,12 +369,6 @@ public class Behandling extends BaseEntitet {
     public List<Aksjonspunkt> getAksjonspunkterMedTotrinnskontroll() {
         return getAksjonspunkterStream()
             .filter(a -> !a.erAvbrutt() && a.isToTrinnsBehandling())
-            .collect(Collectors.toList());
-    }
-
-    public List<Aksjonspunkt> getAksjonspunkterMedTotrinnskontrollInkludertAvbrutte() {
-        return getAksjonspunkterStream()
-            .filter(a -> a.isToTrinnsBehandling())
             .collect(Collectors.toList());
     }
 
@@ -589,11 +413,6 @@ public class Behandling extends BaseEntitet {
 
     public Long getVersjon() {
         return versjon;
-    }
-
-    public BehandlingStegStatus getBehandlingStegStatus() {
-        BehandlingStegTilstand stegTilstand = getBehandlingStegTilstand().orElse(null);
-        return stegTilstand == null ? null : stegTilstand.getBehandlingStegStatus();
     }
 
     public boolean isToTrinnsBehandling() {
@@ -695,27 +514,8 @@ public class Behandling extends BaseEntitet {
         return BehandlingType.REVURDERING.equals(getType());
     }
 
-    public boolean erRevurderingOgGjelderForeldrepengerYtelse() {
-        return erRevurdering() && getFagsakYtelseType().gjelderForeldrepenger();
-    }
-
-    /** @deprecated har kun ytelsesbehandling nå. */
-    @Deprecated
-    public boolean erYtelseBehandling() {
-        return true;
-    }
-
     public OppgaveÅrsak getBehandleOppgaveÅrsak() {
         return erRevurdering() ? OppgaveÅrsak.REVURDER : OppgaveÅrsak.BEHANDLE_SAK;
-    }
-
-    public StartpunktType getStartpunkt() {
-        return startpunkt;
-    }
-
-    public void setStartpunkt(StartpunktType startpunkt) {
-        guardTilstandPåBehandling();
-        this.startpunkt = startpunkt;
     }
 
     public boolean erÅpnetForEndring() {
@@ -735,8 +535,246 @@ public class Behandling extends BaseEntitet {
     
     @PreRemove
     protected void onDelete() {
-     // FIXME: FPFEIL-2799 (FrodeC): Fjern denne når FPFEIL-2799 er godkjent
         throw new IllegalStateException("Skal aldri kunne slette behandling. [id=" + id + ", status=" + getStatus() + ", type=" + getType() + "]");
+    }
+
+    /** 
+     * @deprecated FIXME SP: Skal fjerne herfra. 
+     *                          PFP-1131 Fjern direkte kobling Behandling->Behandlingsresultat fra entiteter/jpa modell
+     */
+    @Deprecated(forRemoval=true)
+    // (FC) støtter bare ett Behandlingsresultat for en Behandling - JPA har ikke støtte for OneToOne på non-PK
+    // kolonne, så emuleres her ved å tømme listen.
+    public Behandlingsresultat getBehandlingsresultat() {
+        if (this.behandlingsresultat.size() > 1) {
+            throw FeilFactory.create(BehandlingFeil.class).merEnnEttBehandlingsresultat(behandlingsresultat.size()).toException();
+        }
+        return this.behandlingsresultat.isEmpty() ? null : this.behandlingsresultat.iterator().next();
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public List<BehandlingÅrsak> getBehandlingÅrsaker() {
+        return new ArrayList<>(behandlingÅrsaker);
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    void leggTilBehandlingÅrsaker(List<BehandlingÅrsak> behandlingÅrsaker) {
+        if (erAvsluttet() && erHenlagt()) {
+            throw new IllegalStateException("Utvikler-feil: kan ikke legge til årsaker på en behandling som er avsluttet.");
+        }
+        behandlingÅrsaker.forEach(bå -> {
+            bå.setBehandling(this);
+            this.behandlingÅrsaker.add(bå);
+        });
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public boolean harBehandlingÅrsak(BehandlingÅrsakType behandlingÅrsak) {
+        return getBehandlingÅrsaker().stream()
+            .map(BehandlingÅrsak::getBehandlingÅrsakType)
+            .collect(Collectors.toList())
+            .contains(behandlingÅrsak);
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public Optional<Behandling> getOriginalBehandling() {
+        return getBehandlingÅrsaker().stream()
+            .filter(Objects::nonNull)
+            .map(BehandlingÅrsak::getOriginalBehandling)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst();
+    }
+
+    /** 
+     * @deprecated FIXME PFP-1131 Fjern direkte kobling Behandling->Berørt Behandling
+     */
+    @Deprecated
+    public Optional<Behandling> getBerørtBehandling() {
+        return getBehandlingÅrsaker().stream()
+            .filter(Objects::nonNull)
+            .map(BehandlingÅrsak::getBerørtBehandling)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst();
+    }
+
+    /** 
+     * @deprecated FIXME PFP-1131 Fjern direkte kobling Behandling->Berørt Behandling
+     */
+    @Deprecated
+    public boolean erBerørtBehandling() {
+        return getBehandlingÅrsaker().stream()
+            .map(BehandlingÅrsak::getBehandlingÅrsakType)
+            .collect(Collectors.toList())
+            .contains(BehandlingÅrsakType.BERØRT_BEHANDLING);
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public boolean erManueltOpprettet() {
+        return getBehandlingÅrsaker().stream()
+            .map(BehandlingÅrsak::erManueltOpprettet)
+            .collect(Collectors.toList())
+            .contains(true);
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public boolean erManueltOpprettetOgHarÅrsak(BehandlingÅrsakType behandlingÅrsak) {
+        return erManueltOpprettet() && harBehandlingÅrsak(behandlingÅrsak);
+    }
+
+    /**
+     * Oppdater behandlingssteg og tilhørende status.
+     * <p>
+     * NB::NB::NB Dette skal normalt kun gjøres fra Behandlingskontroll slik at bokføring og events blir riktig.
+     * Er ikke en del av offentlig API.
+     *
+     * @param oppdatertTilstand - tilstand for steg behandlingen er i
+     * @param sluttStatusForEksisterendeSteg - avslutt eksisterende åpne steg og sett til denne statusen.
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    void oppdaterBehandlingStegOgStatus(BehandlingStegTilstand oppdatertTilstand,
+                                        BehandlingStegStatus sluttStatusForEksisterendeSteg) {
+        Objects.requireNonNull(oppdatertTilstand, "behandlingStegTilstand"); //$NON-NLS-1$
+    
+        this.behandlingStegTilstander.remove(oppdatertTilstand);
+    
+        // lukk andre steg
+        lukkBehandlingStegStatuser(this.behandlingStegTilstander, sluttStatusForEksisterendeSteg);
+    
+        // legg til ny
+        this.behandlingStegTilstander.add(oppdatertTilstand);
+        BehandlingStegType behandlingSteg = oppdatertTilstand.getStegType();
+        this.status = behandlingSteg.getDefinertBehandlingStatus();
+    }
+
+    /**
+     * Marker behandling som avsluttet.
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public void avsluttBehandling() {
+        lukkBehandlingStegStatuser(this.behandlingStegTilstander, BehandlingStegStatus.UTFØRT);
+        this.status = BehandlingStatus.AVSLUTTET;
+        this.avsluttetDato = LocalDateTime.now(FPDateUtil.getOffset());
+    }
+
+    /**
+    * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+    */
+    @Deprecated(forRemoval=true)
+    private void lukkBehandlingStegStatuser(Collection<BehandlingStegTilstand> stegTilstander, BehandlingStegStatus sluttStatusForSteg) {
+        stegTilstander.stream()
+            .filter(t -> !BehandlingStegStatus.erSluttStatus(t.getStatus()))
+            .forEach(t -> t.setBehandlingStegStatus(sluttStatusForSteg));
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    Optional<BehandlingStegTilstand> getBehandlingStegTilstand() {
+        List<BehandlingStegTilstand> tilstander = behandlingStegTilstander.stream()
+            .filter(t -> !BehandlingStegStatus.erSluttStatus(t.getStatus()))
+            .collect(Collectors.toList());
+        if (tilstander.size() > 1) {
+            throw new IllegalStateException("Utvikler-feil: Kan ikke ha flere steg samtidig åpne: " + tilstander); //$NON-NLS-1$
+        }
+    
+        return tilstander.isEmpty() ? Optional.empty() : Optional.of(tilstander.get(0));
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public Optional<BehandlingStegTilstand> getBehandlingStegTilstand(BehandlingStegType stegType) {
+        List<BehandlingStegTilstand> tilstander = behandlingStegTilstander.stream()
+            .filter(t -> !BehandlingStegStatus.erSluttStatus(t.getStatus())
+                && Objects.equals(stegType, t.getStegType()))
+            .collect(Collectors.toList());
+        if (tilstander.size() > 1) {
+            throw new IllegalStateException(
+                "Utvikler-feil: Kan ikke ha flere steg samtidig åpne for stegType[" + stegType + "]: " + tilstander); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+    
+        return tilstander.isEmpty() ? Optional.empty() : Optional.of(tilstander.get(0));
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public Stream<BehandlingStegTilstand> getBehandlingStegTilstandHistorikk() {
+        return behandlingStegTilstander.stream().sorted(COMPARATOR_OPPRETTET_TID);
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public BehandlingStegType getAktivtBehandlingSteg() {
+        BehandlingStegTilstand stegTilstand = getBehandlingStegTilstand().orElse(null);
+        return stegTilstand == null ? null : stegTilstand.getStegType();
+    }
+
+    /**
+     * @deprecated FIXME skal ikke ha public settere, og heller ikke setter for behandlingsresultat her. Bør gå via repository.
+     */
+    @Deprecated
+    public void setBehandlingresultat(Behandlingsresultat behandlingsresultat) {
+        // (FC) støtter bare ett Behandlingsresultat for en Behandling - JPA har ikke støtte for OneToOne på non-PK
+        // kolonne, så emuleres her ved å tømme listen.
+    
+        this.behandlingsresultat.clear();
+        behandlingsresultat.setBehandling(this);
+        // kun ett om gangen, mappet på annet enn pk
+        this.behandlingsresultat.add(behandlingsresultat);
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public BehandlingStegStatus getBehandlingStegStatus() {
+        BehandlingStegTilstand stegTilstand = getBehandlingStegTilstand().orElse(null);
+        return stegTilstand == null ? null : stegTilstand.getStatus();
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public StartpunktType getStartpunkt() {
+        return startpunkt;
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public void setStartpunkt(StartpunktType startpunkt) {
+        guardTilstandPåBehandling();
+        this.startpunkt = startpunkt;
     }
 
     public static class Builder {
@@ -782,6 +820,10 @@ public class Behandling extends BaseEntitet {
             return this;
         }
 
+        /**
+         * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+         */
+        @Deprecated(forRemoval=true)
         public Builder medBehandlingÅrsak(BehandlingÅrsak.Builder årsakBuilder) {
             this.behandlingÅrsakBuilder = årsakBuilder;
             return this;

@@ -37,7 +37,7 @@ public class Kopimaskin {
         }
         try {
             Class objectClass = object.getClass();
-            T newObject = (T) objectClass.newInstance();
+            T newObject = (T) objectClass.getDeclaredConstructor().newInstance();
             for (Field field : objectClass.getDeclaredFields()) {
                 if (COMMON_FIELD_NAMES.contains(field.getName())) {
                     continue;

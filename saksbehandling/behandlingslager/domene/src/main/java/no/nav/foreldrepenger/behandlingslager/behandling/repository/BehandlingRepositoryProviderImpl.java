@@ -6,6 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingskontrollRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
@@ -72,6 +73,7 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
 
     private BehandlingRepository behandlingRepository;
     private FagsakLåsRepository fagsakLåsRepository;
+    private BehandlingskontrollRepositoryImpl behandlingskontrollRepository;
 
     BehandlingRepositoryProviderImpl() {
         // for CDI proxy
@@ -97,6 +99,7 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         this.fagsakRepository = new FagsakRepositoryImpl(entityManager);
         this.aksjonspunktRepository = new AksjonspunktRepositoryImpl(entityManager, this.kodeverkRepository);
         this.fagsakLåsRepository = new FagsakLåsRepositoryImpl(entityManager);
+        this.behandlingskontrollRepository = new BehandlingskontrollRepositoryImpl(this.behandlingRepository, this.behandlingLåsRepository, this.kodeverkRepository, entityManager);
 
         // behandling aggregater
         this.medlemskapRepository = new MedlemskapRepositoryImpl(entityManager);
@@ -135,6 +138,11 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         return behandlingRepository;
     }
 
+    @Override
+    public BehandlingskontrollRepository getBehandlingskontrollRepository() {
+        return this.behandlingskontrollRepository;
+    }
+    
     @Override
     public KodeverkRepository getKodeverkRepository() {
         return kodeverkRepository;

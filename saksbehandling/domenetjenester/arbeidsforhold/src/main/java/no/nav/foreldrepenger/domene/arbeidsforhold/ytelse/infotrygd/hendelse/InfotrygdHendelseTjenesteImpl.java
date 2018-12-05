@@ -82,7 +82,7 @@ public class InfotrygdHendelseTjenesteImpl implements InfotrygdHendelseTjeneste 
 
     private String finnDatoAvForslagTilVedtak(Behandling behandling) {
         LocalDateTime forslagTilVedtakDato = behandling.getBehandlingStegTilstandHistorikk()
-            .filter(tilstand -> tilstand.getBehandlingSteg().equals(BehandlingStegType.FATTE_VEDTAK))
+            .filter(tilstand -> tilstand.getStegType().equals(BehandlingStegType.FATTE_VEDTAK))
             .map(BehandlingStegTilstand::getOpprettetTidspunkt)
             .findFirst().orElseThrow(() -> new IllegalStateException("Vedtaket ble ikke foreslått for behandling"));
 

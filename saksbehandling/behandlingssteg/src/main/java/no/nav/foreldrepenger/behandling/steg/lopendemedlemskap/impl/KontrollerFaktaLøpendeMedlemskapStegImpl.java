@@ -50,7 +50,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImpl implements KontrollerFakt
         if (unleash.isEnabled(FPSAK_LØPENDE_MEDLEMSKAP)) {
             Long behandlingId = kontekst.getBehandlingId();
             Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-            if (!behandling.erRevurderingOgGjelderForeldrepengerYtelse()) {
+            if (!behandling.erRevurdering()) {
                 throw new IllegalStateException("Utvikler-feil: Behandler bare revudering i foreldrepengerkontekst!.");
             }
 

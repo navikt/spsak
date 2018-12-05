@@ -53,7 +53,6 @@ public class BehandlingModellImpl implements AutoCloseable, BehandlingModell {
 
     private FagsakYtelseType fagsakYtelseType;
 
-
     /**
      * Default modell bruker steg implementert vha. CDI.
      *
@@ -399,8 +398,8 @@ public class BehandlingModellImpl implements AutoCloseable, BehandlingModell {
                                                                      Optional<BehandlingStegTilstand> forrigeTilstand,
                                                                      Optional<BehandlingStegTilstand> nyTilstand, BehandlingskontrollKontekst kontekst, boolean erOverstyring) {
 
-        BehandlingStegType stegFørType = forrigeTilstand.isPresent() ? forrigeTilstand.get().getBehandlingSteg() : null;
-        BehandlingStegType stegEtterType = nyTilstand.isPresent() ? nyTilstand.get().getBehandlingSteg() : null;
+        BehandlingStegType stegFørType = forrigeTilstand.isPresent() ? forrigeTilstand.get().getStegType() : null;
+        BehandlingStegType stegEtterType = nyTilstand.isPresent() ? nyTilstand.get().getStegType() : null;
 
         int relativForflytning = modell.relativStegForflytning(stegFørType, stegEtterType);
 

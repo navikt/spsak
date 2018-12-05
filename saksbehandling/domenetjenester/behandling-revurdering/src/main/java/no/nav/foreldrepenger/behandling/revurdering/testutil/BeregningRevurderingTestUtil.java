@@ -4,16 +4,16 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 
 @ApplicationScoped
 public class BeregningRevurderingTestUtil {
 
-    private BehandlingRepository behandlingRepository;
     private FagsakRepository fagsakRepository;
+    private BehandlingskontrollRepository behandlingskontrollRepository;
 
     BeregningRevurderingTestUtil() {
         // for CDI
@@ -21,8 +21,8 @@ public class BeregningRevurderingTestUtil {
 
     @Inject
     public BeregningRevurderingTestUtil(BehandlingRepositoryProvider repositoryProvider) {
-        behandlingRepository = repositoryProvider.getBehandlingRepository();
         fagsakRepository = repositoryProvider.getFagsakRepository();
+        behandlingskontrollRepository = repositoryProvider.getBehandlingskontrollRepository();
     }
 
     public void avsluttBehandling(Behandling behandling) {
@@ -33,8 +33,7 @@ public class BeregningRevurderingTestUtil {
     }
 
     private void avsluttBehandlingOgFagsak(Behandling behandling) {
-        behandling.avsluttBehandling();
-        behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
+        behandlingskontrollRepository.avsluttBehandling(behandling.getId());
         fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.LØPENDE);
     }
 }

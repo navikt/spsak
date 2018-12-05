@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -24,12 +25,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingEvent;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderingspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -91,7 +94,7 @@ public class BehandlingskontrollTjenesteImplTest {
     private static final BehandlingStegType STEG_4 = BehandlingStegType.FATTE_VEDTAK;
     private static final BehandlingStegType STEG_5 = BehandlingStegType.IVERKSETT_VEDTAK;
 
-    private BehandlingskontrollTjenesteImpl kontrollTjeneste;
+    private BehandlingskontrollTjeneste kontrollTjeneste;
 
     private Behandling behandling;
 
@@ -107,6 +110,9 @@ public class BehandlingskontrollTjenesteImplTest {
 
     @Inject
     private BehandlingRepositoryProvider repositoryProvider;
+    
+    @Inject
+    private BehandlingskontrollRepository behandlingskontrollRepository;
 
     @Before
     public void setup() {
@@ -129,14 +135,14 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingTilbakeføringTilTidligsteAksjonspunkt(kontekst, Arrays.asList(steg2InngangAksjonspunkt), false);
 
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_2);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.UTREDES);
-        assertThat(behandling.getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
-        assertThat(behandling.getBehandlingStegTilstand()).isNotNull();
-        assertThat(behandling.getBehandlingStegTilstandHistorikk()).hasSize(2);
+        assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
+        assertThat(getBehandlingStegTilstand()).isNotNull();
+        assertThat(getBehandlingStegTilstandHistorikk()).hasSize(2);
 
-        sjekkBehandlingStegTilstandHistorikk(behandling, STEG_2,
-            BehandlingStegStatus.TILBAKEFØRT, BehandlingStegStatus.INNGANG);
+        sjekkBehandlingStegTilstandHistorikk(STEG_2, BehandlingStegStatus.TILBAKEFØRT,
+            BehandlingStegStatus.INNGANG);
 
     }
 
@@ -147,16 +153,16 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingTilbakeføringTilTidligsteAksjonspunkt(kontekst, Arrays.asList(steg2UtgangAksjonspunkt), false);
 
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_2);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.UTREDES);
-        assertThat(behandling.getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.UTGANG);
-        assertThat(behandling.getBehandlingStegTilstand()).isNotNull();
+        assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.UTGANG);
+        assertThat(getBehandlingStegTilstand()).isNotNull();
 
-        assertThat(behandling.getBehandlingStegTilstand(STEG_2)).isPresent();
-        assertThat(behandling.getBehandlingStegTilstandHistorikk()).hasSize(2);
+        assertThat(getBehandlingStegTilstandSteg2()).isPresent();
+        assertThat(getBehandlingStegTilstandHistorikk()).hasSize(2);
 
-        sjekkBehandlingStegTilstandHistorikk(behandling, STEG_2,
-            BehandlingStegStatus.TILBAKEFØRT, BehandlingStegStatus.UTGANG);
+        sjekkBehandlingStegTilstandHistorikk(STEG_2, BehandlingStegStatus.TILBAKEFØRT,
+            BehandlingStegStatus.UTGANG);
 
     }
 
@@ -165,16 +171,16 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingTilbakeføringTilTidligereBehandlingSteg(kontekst, STEG_2);
 
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_2);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.UTREDES);
-        assertThat(behandling.getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
-        assertThat(behandling.getBehandlingStegTilstand()).isNotNull();
+        assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
+        assertThat(getBehandlingStegTilstand()).isNotNull();
 
-        assertThat(behandling.getBehandlingStegTilstand(STEG_2)).isPresent();
-        assertThat(behandling.getBehandlingStegTilstandHistorikk()).hasSize(2);
+        assertThat(getBehandlingStegTilstandSteg2()).isPresent();
+        assertThat(getBehandlingStegTilstandHistorikk()).hasSize(2);
 
-        sjekkBehandlingStegTilstandHistorikk(behandling, STEG_2,
-            BehandlingStegStatus.TILBAKEFØRT, BehandlingStegStatus.INNGANG);
+        sjekkBehandlingStegTilstandHistorikk(STEG_2, BehandlingStegStatus.TILBAKEFØRT,
+            BehandlingStegStatus.INNGANG);
 
     }
 
@@ -183,14 +189,14 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingTilbakeføringHvisTidligereBehandlingSteg(kontekst, STEG_4);
 
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_2);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.UTREDES);
-        assertThat(behandling.getBehandlingStegStatus()).isNull();
-        assertThat(behandling.getBehandlingStegTilstand()).isNotNull();
+        assertThat(getBehandlingStegStatus()).isNull();
+        assertThat(getBehandlingStegTilstand()).isNotNull();
 
-        assertThat(behandling.getBehandlingStegTilstand(STEG_2)).isPresent();
-        assertThat(behandling.getBehandlingStegTilstand(STEG_4)).isNotPresent();
-        assertThat(behandling.getBehandlingStegTilstandHistorikk()).hasSize(1);
+        assertThat(getBehandlingStegTilstandSteg2()).isPresent();
+        assertThat(getBehandlingStegTilstandSteg4()).isNotPresent();
+        assertThat(getBehandlingStegTilstandHistorikk()).hasSize(1);
     }
 
     @Test
@@ -198,22 +204,20 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingFramføringTilSenereBehandlingSteg(kontekst, STEG_5);
 
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_5);
+        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_5);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.IVERKSETTER_VEDTAK);
-        assertThat(behandling.getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
-        assertThat(behandling.getBehandlingStegTilstand()).isNotNull();
+        assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
+        assertThat(getBehandlingStegTilstand()).isNotNull();
 
-        assertThat(behandling.getBehandlingStegTilstand(STEG_5)).isPresent();
-        assertThat(behandling.getBehandlingStegTilstandHistorikk()).hasSize(2);
+        assertThat(getBehandlingStegTilstandSteg5()).isPresent();
+        assertThat(getBehandlingStegTilstandHistorikk()).hasSize(2);
 
-        sjekkBehandlingStegTilstandHistorikk(behandling, STEG_2,
-            BehandlingStegStatus.AVBRUTT);
+        sjekkBehandlingStegTilstandHistorikk(STEG_2, BehandlingStegStatus.AVBRUTT);
 
         // NB: skipper STEP_4
-        sjekkBehandlingStegTilstandHistorikk(behandling, STEG_4);
+        sjekkBehandlingStegTilstandHistorikk(STEG_4);
 
-        sjekkBehandlingStegTilstandHistorikk(behandling, STEG_5,
-            BehandlingStegStatus.INNGANG);
+        sjekkBehandlingStegTilstandHistorikk(STEG_5, BehandlingStegStatus.INNGANG);
 
     }
 
@@ -230,8 +234,8 @@ public class BehandlingskontrollTjenesteImplTest {
         manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, STEG_4, BehandlingStegStatus.UTGANG,
             BehandlingStegStatus.AVBRUTT);
 
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_4);
-        assertThat(behandling.getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.UTGANG);
+        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_4);
+        assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.UTGANG);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.FATTER_VEDTAK);
 
         String steg4InngangAksjonspunkt = this.behandlingModellForTest.a4_0.getKode();
@@ -240,17 +244,17 @@ public class BehandlingskontrollTjenesteImplTest {
         kontrollTjeneste.behandlingTilbakeføringTilTidligsteAksjonspunkt(kontekst, Arrays.asList(steg4InngangAksjonspunkt), false);
 
         // Assert
-        assertThat(behandling.getAktivtBehandlingSteg()).isEqualTo(STEG_4);
+        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_4);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.FATTER_VEDTAK);
-        assertThat(behandling.getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
-        assertThat(behandling.getBehandlingStegTilstand()).isNotNull();
+        assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
+        assertThat(getBehandlingStegTilstand()).isNotNull();
 
-        assertThat(behandling.getBehandlingStegTilstandHistorikk()).hasSize(3);
+        assertThat(getBehandlingStegTilstandHistorikk()).hasSize(3);
 
         sjekkBehandlingStegTilstandHistorikk(
-            behandling, STEG_4, BehandlingStegStatus.TILBAKEFØRT, BehandlingStegStatus.INNGANG);
+            STEG_4, BehandlingStegStatus.TILBAKEFØRT, BehandlingStegStatus.INNGANG);
 
-        assertThat(behandling.getBehandlingStegTilstand(STEG_4).get().getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
+        assertThat(getBehandlingStegTilstandSteg4().get().getStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
 
     }
 
@@ -291,12 +295,11 @@ public class BehandlingskontrollTjenesteImplTest {
         assertThat(kontrollTjeneste.skalAksjonspunktReaktiveresIEllerEtterSteg(behandling, STEG_4, AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS)).isFalse();
     }
 
-    private void sjekkBehandlingStegTilstandHistorikk(Behandling behandling, BehandlingStegType stegType,
-                                                      BehandlingStegStatus... stegStatuser) {
+    private void sjekkBehandlingStegTilstandHistorikk(BehandlingStegType stegType, BehandlingStegStatus... stegStatuser) {
         assertThat(
-            behandling.getBehandlingStegTilstandHistorikk()
-                .filter(bst -> stegType == null || Objects.equals(bst.getBehandlingSteg(), stegType))
-                .map(bst -> bst.getBehandlingStegStatus()))
+            getBehandlingStegTilstandHistorikk().stream()
+                .filter(bst -> stegType == null || Objects.equals(bst.getStegType(), stegType))
+                .map(bst -> bst.getStatus()))
             .containsExactly(stegStatuser);
     }
 
@@ -340,6 +343,43 @@ public class BehandlingskontrollTjenesteImplTest {
         Mockito.when(behandlingModellRepository.getKodeverkRepository()).thenReturn(kodeverkRepository);
         this.kontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository,
             eventPubliserer);
+    }
+
+
+    private List<BehandlingStegTilstand> getBehandlingStegTilstandHistorikk() {
+        return behandlingskontrollRepository.getBehandlingStegTilstandHistorikk(behandling.getId());
+    }
+
+    private Optional<BehandlingStegTilstand> getBehandlingStegTilstand() {
+        return behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandling.getId());
+    }
+
+    private BehandlingStegStatus getBehandlingStegStatus() {
+        return getAktivtBehandlingStegDefinitiv().getStatus();
+    }
+
+    private BehandlingStegType getAktivtBehandlingSteg() {
+        return getAktivtBehandlingStegDefinitiv().getStegType();
+    }
+
+    private BehandlingStegTilstand getAktivtBehandlingStegDefinitiv() {
+        return behandlingskontrollRepository.getAktivtBehandlingStegTilstandDefinitiv(behandling.getId());
+    }
+
+    private Optional<BehandlingStegTilstand> getAktivtBehandlingSteg(BehandlingStegType stegType) {
+        return behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandling.getId(), stegType);
+    }
+    
+    private Optional<BehandlingStegTilstand> getBehandlingStegTilstandSteg4() {
+        return getAktivtBehandlingSteg(STEG_4);
+    }
+
+    private Optional<BehandlingStegTilstand> getBehandlingStegTilstandSteg2() {
+        return getAktivtBehandlingSteg(STEG_2);
+    }
+
+    private Optional<BehandlingStegTilstand> getBehandlingStegTilstandSteg5() {
+        return getAktivtBehandlingSteg(STEG_5);
     }
 
 }

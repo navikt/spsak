@@ -212,7 +212,7 @@ public class VurderArbeidsforholdTjenesteImpl implements VurderArbeidsforholdTje
     }
 
     private boolean harPassertKontrollerFakta(Behandling behandling) {
-        return behandling.getBehandlingStegTilstandHistorikk().anyMatch(steg -> Objects.equals(steg.getBehandlingSteg(), KONTROLLER_FAKTA));
+        return behandling.getBehandlingStegTilstandHistorikk().anyMatch(steg -> Objects.equals(steg.getStegType(), KONTROLLER_FAKTA));
     }
 
     private void endringIArbeidsforholdsId(Map<Arbeidsgiver, Set<ArbeidsforholdRef>> result,

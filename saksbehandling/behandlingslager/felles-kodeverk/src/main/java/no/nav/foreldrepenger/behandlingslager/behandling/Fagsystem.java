@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.behandling;
 
-import java.util.Comparator;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
