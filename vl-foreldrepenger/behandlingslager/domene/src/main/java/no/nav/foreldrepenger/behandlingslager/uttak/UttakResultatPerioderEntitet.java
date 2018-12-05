@@ -19,8 +19,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 @Table(name = "UTTAK_RESULTAT_PERIODER")
 public class UttakResultatPerioderEntitet extends BaseEntitet {
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_RESULTAT_PERIODER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_RESULTAT_PERIODER")
     private Long id;
 
     @OneToMany(mappedBy = "perioder")

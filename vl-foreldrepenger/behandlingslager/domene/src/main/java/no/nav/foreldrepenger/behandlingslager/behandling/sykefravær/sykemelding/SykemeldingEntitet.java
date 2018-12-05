@@ -26,8 +26,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class SykemeldingEntitet extends BaseEntitet implements Sykemelding {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEMELDING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEMELDING")
     private Long id;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til parent! */}, fetch = FetchType.LAZY)

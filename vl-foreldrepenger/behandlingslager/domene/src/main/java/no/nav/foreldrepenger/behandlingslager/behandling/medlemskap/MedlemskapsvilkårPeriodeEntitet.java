@@ -24,8 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements MedlemskapsvilkårPeriode {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_VILKAR_PERIODE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_VILKAR_PERIODE")
     private Long id;
 
     @OneToMany(mappedBy = "rot")

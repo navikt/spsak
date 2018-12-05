@@ -38,8 +38,7 @@ import no.nav.foreldrepenger.domene.typer.Stillingsprosent;
 public class YtelseGrunnlagEntitet extends BaseEntitet implements YtelseGrunnlag {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE_GRUNNLAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE_GRUNNLAG")
     private Long id;
 
     @OneToOne(optional = false)

@@ -37,8 +37,7 @@ public class InntektsmeldingAggregatEntitet extends BaseEntitet implements Innte
     private static final Logger logger = LoggerFactory.getLogger(InntektsmeldingAggregatEntitet.class);
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INNTEKTSMELDINGER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INNTEKTSMELDINGER")
     private Long id;
 
     @OneToMany(mappedBy = "inntektsmeldinger")

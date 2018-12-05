@@ -35,14 +35,13 @@ public class LagretVedtak extends BaseEntitet {
     //TODO (TOPAS): (thaonguyen): Må flytte tilbake til vedtakslager når vedtakslager får sin egen persistence unit.
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LAGRET_VEDTAK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LAGRET_VEDTAK")
     private Long id;
 
-    @Column(name = "FAGSAK_ID", nullable = false, updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "FAGSAK_ID", nullable = false, updatable = false)
     private Long fagsakId;
 
-    @Column(name = "BEHANDLING_ID", nullable = false, updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "BEHANDLING_ID", nullable = false, updatable = false)
     private Long behandlingId;
 
     @Lob

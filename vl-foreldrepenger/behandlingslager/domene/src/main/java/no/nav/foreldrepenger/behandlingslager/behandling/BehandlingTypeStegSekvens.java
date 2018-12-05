@@ -22,8 +22,7 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 public class BehandlingTypeStegSekvens extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_STEG_TYPE_SEKV")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_STEG_TYPE_SEKV")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -40,7 +39,7 @@ public class BehandlingTypeStegSekvens extends BaseEntitet {
     @JoinColumn(name = "behandling_steg_type", nullable = false, updatable = false, insertable = false)
     private BehandlingStegType stegType;
 
-    @Column(name = "sekvens_nr", nullable = false, updatable = false, insertable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "sekvens_nr", nullable = false, updatable = false, insertable = false)
     private Integer sekvensNr = 1;
 
     BehandlingTypeStegSekvens() {

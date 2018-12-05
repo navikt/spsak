@@ -27,8 +27,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 public class UttakAktivitetEntitet extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_AKTIVITET")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_AKTIVITET")
     private Long id;
 
     @Embedded

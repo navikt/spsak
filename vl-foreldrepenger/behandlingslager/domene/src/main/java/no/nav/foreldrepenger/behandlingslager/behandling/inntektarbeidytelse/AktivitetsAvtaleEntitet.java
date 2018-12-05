@@ -31,8 +31,7 @@ import no.nav.vedtak.konfig.Tid;
 class AktivitetsAvtaleEntitet extends BaseEntitet implements AktivitetsAvtale, IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTIVITETS_AVTALE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTIVITETS_AVTALE")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -67,7 +66,7 @@ class AktivitetsAvtaleEntitet extends BaseEntitet implements AktivitetsAvtale, I
     private LocalDate sisteLønnsendringsdato;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @Transient

@@ -29,8 +29,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class AnnenAktivitetEntitet extends BaseEntitet implements AnnenAktivitet, IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ANNEN_AKTIVITET")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ANNEN_AKTIVITET")
     private Long id;
 
     @ManyToOne(optional = false)

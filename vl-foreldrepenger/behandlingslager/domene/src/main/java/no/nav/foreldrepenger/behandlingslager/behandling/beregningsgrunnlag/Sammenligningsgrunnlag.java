@@ -27,12 +27,11 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class Sammenligningsgrunnlag extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SAMMENLIGNINGSGRUNNLAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SAMMENLIGNINGSGRUNNLAG")
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @Embedded
@@ -45,7 +44,7 @@ public class Sammenligningsgrunnlag extends BaseEntitet {
     @Column(name = "rapportert_pr_aar", nullable = false)
     private BigDecimal rapportertPrÅr;
 
-    @Column(name = "avvik_promille", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "avvik_promille", nullable = false)
     private Long avvikPromille = 0L;
 
     @JsonBackReference

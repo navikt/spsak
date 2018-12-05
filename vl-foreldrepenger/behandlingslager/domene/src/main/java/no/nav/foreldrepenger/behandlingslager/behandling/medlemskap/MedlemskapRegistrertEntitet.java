@@ -24,12 +24,11 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class MedlemskapRegistrertEntitet extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_REGISTRERT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_REGISTRERT")
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true /* ok med orphanremoval siden perioder er eid av denne */)

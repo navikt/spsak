@@ -27,8 +27,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Uttaksperiodegrense extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAKSPERIODEGRENSE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAKSPERIODEGRENSE")
     private Long id;
 
     @ManyToOne
@@ -56,7 +55,7 @@ public class Uttaksperiodegrense extends BaseEntitet {
     private boolean aktiv = true;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     Long getId(){return id;}

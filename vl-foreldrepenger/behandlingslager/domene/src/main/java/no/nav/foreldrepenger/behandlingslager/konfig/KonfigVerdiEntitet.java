@@ -24,8 +24,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class KonfigVerdiEntitet extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_KONFIG_VERDI")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_KONFIG_VERDI")
     private Long id;
 
     /** Foreløpig skrudd av mulghet for oppdatering. */

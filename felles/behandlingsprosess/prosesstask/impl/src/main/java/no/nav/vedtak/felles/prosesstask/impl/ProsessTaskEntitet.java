@@ -32,14 +32,13 @@ import no.nav.vedtak.sikkerhet.context.SubjectHandler;
 @Table(name = "PROSESS_TASK")
 public class ProsessTaskEntitet {
 
-    @Column(name = "feilede_forsoek", columnDefinition = "NUMERIC")
+    @Column(name = "feilede_forsoek")
     private Integer feiledeForsøk = 0;
 
     @Column(name = "task_gruppe")
     private String gruppe;
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PROSESS_TASK")
     private Long id;
 
@@ -51,7 +50,7 @@ public class ProsessTaskEntitet {
     @Column(name = "task_payload")
     private String payload;
 
-    @Column(name = "prioritet", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "prioritet", nullable = false)
     private int prioritet;
 
     @Convert(converter = PropertiesToStringConverter.class)
@@ -85,7 +84,7 @@ public class ProsessTaskEntitet {
     private String opprettetAv;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "versjon", nullable = false)
     private Long versjon;
 
     ProsessTaskEntitet() {

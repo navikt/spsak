@@ -30,8 +30,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class HistorikkinnslagDel extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG_DEL")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG_DEL")
     private Long id;
 
     @ManyToOne(optional = false)

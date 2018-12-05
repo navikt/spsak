@@ -17,24 +17,23 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 class FagsakProsessTask extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK_PROSESS_TASK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK_PROSESS_TASK")
     private Long id;
 
-    @Column(name = "fagsak_id", nullable = false, updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "fagsak_id", nullable = false, updatable = false)
     private Long fagsakId;
 
-    @Column(name = "prosess_task_id", nullable = false, updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "prosess_task_id", nullable = false, updatable = false)
     private Long prosessTaskId;
 
-    @Column(name = "behandling_id", updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "behandling_id", updatable = false)
     private Long behandlingId;
 
-    @Column(name = "gruppe_sekvensnr", updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "gruppe_sekvensnr", updatable = false)
     private Long gruppeSekvensNr;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     FagsakProsessTask() {

@@ -11,10 +11,10 @@ import no.nav.vedtak.felles.prosesstask.spi.ProsessTaskFeilHåndteringParametere
 @Table(name = "PROSESS_TASK_FEILHAND")
 public class ProsessTaskFeilhand extends KodeverkTabell implements ProsessTaskFeilHåndteringParametere {
 
-    @Column(name = "INPUT_VARIABEL1", updatable = false, insertable = false, columnDefinition = "NUMERIC")
+    @Column(name = "INPUT_VARIABEL1", updatable = false, insertable = false)
     private Integer inputVariabel1;
 
-    @Column(name = "INPUT_VARIABEL2", updatable = false, insertable = false, columnDefinition = "NUMERIC")
+    @Column(name = "INPUT_VARIABEL2", updatable = false, insertable = false)
     private Integer inputVariabel2;
 
 

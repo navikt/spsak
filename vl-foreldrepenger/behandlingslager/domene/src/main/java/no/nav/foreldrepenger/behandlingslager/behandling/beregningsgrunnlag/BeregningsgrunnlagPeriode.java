@@ -42,12 +42,11 @@ import no.nav.vedtak.felles.jpa.tid.ÅpenDatoIntervallEntitet;
 public class BeregningsgrunnlagPeriode extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE")
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @JsonBackReference
@@ -74,7 +73,7 @@ public class BeregningsgrunnlagPeriode extends BaseEntitet {
     @Column(name = "redusert_pr_aar")
     private BigDecimal redusertPrÅr;
 
-    @Column(name = "dagsats", columnDefinition = "NUMERIC")
+    @Column(name = "dagsats")
     private Long dagsats;
 
     @Lob

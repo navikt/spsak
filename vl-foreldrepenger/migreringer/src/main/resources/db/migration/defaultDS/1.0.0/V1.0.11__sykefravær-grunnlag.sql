@@ -1,6 +1,6 @@
 CREATE TABLE SF_SYKEMELDINGER (
-  id            NUMERIC(19)                        NOT NULL,
-  versjon       NUMERIC(19) DEFAULT 0              NOT NULL,
+  id            bigint                        NOT NULL,
+  versjon       bigint DEFAULT 0              NOT NULL,
   opprettet_av  VARCHAR(20) DEFAULT 'VL'    NOT NULL,
   opprettet_tid TIMESTAMP(3) DEFAULT localtimestamp NOT NULL,
   endret_av     VARCHAR(20),
@@ -18,8 +18,8 @@ CREATE SEQUENCE SEQ_SF_SYKEMELDINGER
   NO CYCLE;
 
 CREATE TABLE SF_SYKEFRAVAER (
-  id            NUMERIC(19)                        NOT NULL,
-  versjon       NUMERIC(19) DEFAULT 0              NOT NULL,
+  id            bigint                        NOT NULL,
+  versjon       bigint DEFAULT 0              NOT NULL,
   opprettet_av  VARCHAR(20) DEFAULT 'VL'    NOT NULL,
   opprettet_tid TIMESTAMP(3) DEFAULT localtimestamp NOT NULL,
   endret_av     VARCHAR(20),
@@ -38,12 +38,12 @@ CREATE SEQUENCE SEQ_SF_SYKEFRAVAER
   NO CYCLE;
 
 CREATE TABLE GR_SYKEFRAVAER (
-  id               NUMERIC(19)                        NOT NULL,
-  behandling_id    NUMERIC(19)                        NOT NULL,
-  sykemeldinger_id NUMERIC(19),
-  sykefravaer_id   NUMERIC(19),
+  id               bigint                        NOT NULL,
+  behandling_id    bigint                        NOT NULL,
+  sykemeldinger_id bigint,
+  sykefravaer_id   bigint,
   aktiv            VARCHAR(1) DEFAULT 'N'      NOT NULL,
-  versjon          NUMERIC(19) DEFAULT 0              NOT NULL,
+  versjon          bigint DEFAULT 0              NOT NULL,
   opprettet_av     VARCHAR(20) DEFAULT 'VL'    NOT NULL,
   opprettet_tid    TIMESTAMP(3) DEFAULT localtimestamp NOT NULL,
   endret_av        VARCHAR(20),
@@ -83,12 +83,12 @@ CREATE UNIQUE INDEX UIDX_GR_SYKEFRAVAER_01
   );
 
 CREATE TABLE SF_SYKEMELDING (
-  id                         NUMERIC(19)                        NOT NULL,
-  versjon                    NUMERIC(19) DEFAULT 0              NOT NULL,
-  sykemeldinger_id           NUMERIC(19)                        NOT NULL,
+  id                         bigint                        NOT NULL,
+  versjon                    bigint DEFAULT 0              NOT NULL,
+  sykemeldinger_id           bigint                        NOT NULL,
   EKSTERN_REFERANSE          VARCHAR(100)                NOT NULL,
   ARBEIDSGIVER_AKTOR_ID      VARCHAR(100),
-  ARBEIDSGIVER_VIRKSOMHET_ID NUMERIC(19, 0),
+  ARBEIDSGIVER_VIRKSOMHET_ID bigint,
   GRAD                       NUMERIC(5, 2)                      NOT NULL,
   FOM                        DATE                              NOT NULL,
   TOM                        DATE                              NOT NULL,
@@ -127,11 +127,11 @@ COMMENT ON COLUMN SF_SYKEMELDING.EKSTERN_REFERANSE
 IS 'Sykemeldingen eksterne referanse til sykemeldingsregisteret';
 
 CREATE TABLE SF_SYKEFRAVAER_PERIODE (
-  id                         NUMERIC(19)                        NOT NULL,
-  versjon                    NUMERIC(19) DEFAULT 0              NOT NULL,
-  sykefravaer_id             NUMERIC(19)                        NOT NULL,
+  id                         bigint                        NOT NULL,
+  versjon                    bigint DEFAULT 0              NOT NULL,
+  sykefravaer_id             bigint                        NOT NULL,
   ARBEIDSGIVER_AKTOR_ID      VARCHAR(100),
-  ARBEIDSGIVER_VIRKSOMHET_ID NUMERIC(19, 0),
+  ARBEIDSGIVER_VIRKSOMHET_ID bigint,
   gradering                  NUMERIC(5, 2)                      NOT NULL,
   arbeidsgrad                NUMERIC(5, 2)                      NOT NULL,
   FOM                        DATE                              NOT NULL,

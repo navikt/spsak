@@ -17,7 +17,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class KodelisteRelasjon {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19, updatable = false, insertable = false)
+    @Column(name = "id", updatable = false, insertable = false)
     private Integer id;
 
     @Column(name = "kodeverk1", nullable = false)

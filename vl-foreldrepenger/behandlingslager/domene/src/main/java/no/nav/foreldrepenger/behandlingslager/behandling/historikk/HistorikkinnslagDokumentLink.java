@@ -23,8 +23,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 public class HistorikkinnslagDokumentLink extends BaseEntitet implements IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG_DOK_LINK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG_DOK_LINK")
     private Long id;
 
     @Column(name = "link_tekst", updatable=false, nullable = false)

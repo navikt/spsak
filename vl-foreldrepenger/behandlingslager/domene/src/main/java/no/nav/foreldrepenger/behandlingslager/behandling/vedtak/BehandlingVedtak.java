@@ -28,8 +28,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BehandlingVedtak extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_VEDTAK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_VEDTAK")
     private Long id;
 
     @Column(name = "VEDTAK_DATO", nullable = false)

@@ -25,8 +25,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BeregningsgrunnlagGrunnlagEntitet extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="SEQ_GR_BEREGNINGSGRUNNLAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="SEQ_GR_BEREGNINGSGRUNNLAG")
     private Long id;
 
     @OneToOne

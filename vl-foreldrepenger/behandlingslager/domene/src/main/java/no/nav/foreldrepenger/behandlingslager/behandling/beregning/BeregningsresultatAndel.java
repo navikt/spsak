@@ -41,12 +41,11 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BeregningsresultatAndel extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSRESULTAT_ANDEL")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSRESULTAT_ANDEL")
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @ManyToOne(optional = false)
@@ -70,7 +69,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
     @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + OpptjeningAktivitetType.DISCRIMINATOR + "'"))
     private OpptjeningAktivitetType arbeidsforholdType;
 
-    @Column(name = "dagsats", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "dagsats", nullable = false)
     private int dagsats;
 
     @Column(name = "stillingsprosent", nullable = false)
@@ -79,7 +78,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
     @Column(name = "utbetalingsgrad", nullable = false)
     private BigDecimal utbetalingsgrad;
 
-    @Column(name = "dagsats_fra_bg", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "dagsats_fra_bg", nullable = false)
     private int dagsatsFraBg;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "beregningsresultatAndel", cascade = CascadeType.PERSIST, orphanRemoval = true)

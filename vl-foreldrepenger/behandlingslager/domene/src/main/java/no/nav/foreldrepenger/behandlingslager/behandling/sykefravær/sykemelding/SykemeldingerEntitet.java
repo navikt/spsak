@@ -21,8 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 public class SykemeldingerEntitet extends BaseEntitet implements Sykemeldinger {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEMELDINGER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEMELDINGER")
     private Long id;
 
     @ChangeTracked

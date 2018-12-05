@@ -40,8 +40,7 @@ public class Vilkår extends BaseEntitet implements IndexKey {
     private Avslagsårsak avslagsårsak = Avslagsårsak.UDEFINERT;
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VILKAR")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VILKAR")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -53,7 +52,7 @@ public class Vilkår extends BaseEntitet implements IndexKey {
     private Properties merknadParametere = new Properties();
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @ManyToOne(optional = false)

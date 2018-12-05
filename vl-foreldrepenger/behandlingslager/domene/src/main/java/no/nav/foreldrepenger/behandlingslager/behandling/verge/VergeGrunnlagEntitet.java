@@ -22,8 +22,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 class VergeGrunnlagEntitet extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_VERGE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_VERGE")
     private Long id;
 
     @OneToOne
@@ -39,7 +38,7 @@ class VergeGrunnlagEntitet extends BaseEntitet {
     private boolean aktiv = true;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     public VergeGrunnlagEntitet() {

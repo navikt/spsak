@@ -31,8 +31,7 @@ import no.nav.vedtak.felles.jpa.BaseEntitet;
 public class ArbeidsforholdInformasjonEntitet extends BaseEntitet implements ArbeidsforholdInformasjon {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IAY_INFORMASJON")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IAY_INFORMASJON")
     private Long id;
 
     @ChangeTracked
@@ -44,7 +43,7 @@ public class ArbeidsforholdInformasjonEntitet extends BaseEntitet implements Arb
     private List<ArbeidsforholdOverstyringEntitet> overstyringer = new ArrayList<>();
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private Long versjon;
 
     public ArbeidsforholdInformasjonEntitet() {

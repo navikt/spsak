@@ -23,8 +23,7 @@ import no.nav.vedtak.util.FPDateUtil;
 public class VirksomhetEntitet extends BaseEntitet implements Virksomhet, IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VIRKSOMHET")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VIRKSOMHET")
     private Long id;
 
     @Column(name = "orgnr", unique = true, nullable = false, updatable = false)
@@ -52,7 +51,7 @@ public class VirksomhetEntitet extends BaseEntitet implements Virksomhet, IndexK
     private LocalDateTime opplysningerOppdatertTidspunkt;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     public VirksomhetEntitet() {

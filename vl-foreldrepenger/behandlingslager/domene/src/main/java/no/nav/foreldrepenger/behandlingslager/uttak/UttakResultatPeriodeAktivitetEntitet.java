@@ -22,8 +22,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class UttakResultatPeriodeAktivitetEntitet extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_RESULTAT_PERIODE_AKT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_RESULTAT_PERIODE_AKT")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -34,7 +33,7 @@ public class UttakResultatPeriodeAktivitetEntitet extends BaseEntitet {
     @JoinColumn(name = "uttak_aktivitet_id", nullable = false, updatable = false)
     private UttakAktivitetEntitet uttakAktivitet;
 
-    @Column(name = "trekkdager", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "trekkdager", nullable = false)
     private int trekkdager;
 
     @Column(name = "arbeidstidsprosent", nullable = false)

@@ -22,28 +22,27 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Beregning extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNING_RESULTAT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNING_RESULTAT")
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "beregning_resultat_id", nullable = false, updatable = false)
     private BeregningResultat beregningResultat;
 
-    @Column(name = "sats_verdi", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "sats_verdi", nullable = false)
     private long satsVerdi;
 
-    @Column(name = "antall_barn", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "antall_barn", nullable = false)
     private long antallBarn;
 
-    @Column(name = "beregnet_tilkjent_ytelse", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "beregnet_tilkjent_ytelse", nullable = false)
     private long beregnetTilkjentYtelse;
 
-    @Column(name = "oppr_beregnet_tilkjent_ytelse", columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "oppr_beregnet_tilkjent_ytelse")
     private Long opprinneligBeregnetTilkjentYtelse;
 
     @Column(name = "beregnet_tidspunkt", nullable = false)

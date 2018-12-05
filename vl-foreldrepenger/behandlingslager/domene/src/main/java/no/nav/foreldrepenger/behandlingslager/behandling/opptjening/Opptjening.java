@@ -48,8 +48,7 @@ public class Opptjening extends BaseEntitet {
     private DatoIntervallEntitet opptjeningPeriode;
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPTJENING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPTJENING")
     private Long id;
 
     /* Mapper kun fra denne og ikke bi-directional, gjør vedlikehold enklere. */
@@ -62,7 +61,7 @@ public class Opptjening extends BaseEntitet {
     private String opptjentPeriode;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @OneToOne(optional = false)

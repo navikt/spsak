@@ -28,8 +28,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 public class VurderÅrsakTotrinnsvurdering extends BaseEntitet implements IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VURDER_AARSAK_TTVURDERING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VURDER_AARSAK_TTVURDERING")
     private Long id;
 
     @ManyToOne(optional = false)

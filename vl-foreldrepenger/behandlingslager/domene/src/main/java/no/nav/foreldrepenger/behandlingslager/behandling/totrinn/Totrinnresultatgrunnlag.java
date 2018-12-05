@@ -22,21 +22,20 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Totrinnresultatgrunnlag extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOTRINNRESULTATGRUNNLAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOTRINNRESULTATGRUNNLAG")
     private Long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "behandling_id", nullable = false, updatable = false)
     private Behandling behandling;
 
-    @Column(name = "inntekt_arbeid_grunnlag_id", updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "inntekt_arbeid_grunnlag_id", updatable = false)
     private Long inntektArbeidYtelseGrunnlagId;
 
-    @Column(name = "uttak_resultat_id", updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "uttak_resultat_id", updatable = false)
     private Long uttakResultatEntitetId;
 
-    @Column(name = "beregningsgrunnlag_id", updatable = false, columnDefinition = "NUMERIC")
+    @Column(name = "beregningsgrunnlag_id", updatable = false)
     private Long beregningsgrunnlagId;
 
     @Convert(converter = BooleanToStringConverter.class)
@@ -44,7 +43,7 @@ public class Totrinnresultatgrunnlag extends BaseEntitet {
     private boolean aktiv = true;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
 

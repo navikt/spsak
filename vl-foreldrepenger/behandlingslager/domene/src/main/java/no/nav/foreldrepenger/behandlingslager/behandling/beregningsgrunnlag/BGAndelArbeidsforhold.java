@@ -29,8 +29,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BGAndelArbeidsforhold extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_ANDEL_ARBEIDSFORHOLD")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_ANDEL_ARBEIDSFORHOLD")
     private Long id;
 
     @JsonBackReference

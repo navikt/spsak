@@ -26,8 +26,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregn
 public class BeregningsgrunnlagFaktaOmBeregningTilfelle extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_FAKTA_BER_TILFELLE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_FAKTA_BER_TILFELLE")
     private Long id;
 
     @JsonBackReference

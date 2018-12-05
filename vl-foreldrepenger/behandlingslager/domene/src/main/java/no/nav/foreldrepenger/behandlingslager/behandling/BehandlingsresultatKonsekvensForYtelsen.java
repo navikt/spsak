@@ -23,8 +23,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class BehandlingsresultatKonsekvensForYtelsen extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BR_KONSEKVENS_YTELSE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BR_KONSEKVENS_YTELSE")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)

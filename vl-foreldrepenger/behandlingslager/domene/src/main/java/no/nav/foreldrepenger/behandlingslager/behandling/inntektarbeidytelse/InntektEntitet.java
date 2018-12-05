@@ -38,8 +38,7 @@ import no.nav.foreldrepenger.domene.typer.Beløp;
 public class InntektEntitet extends BaseEntitet implements Inntekt, IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INNTEKT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INNTEKT")
     private Long id;
 
     @ManyToOne(optional = false)

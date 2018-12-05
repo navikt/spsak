@@ -77,8 +77,7 @@ public class Behandling extends BaseEntitet {
         });
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -113,7 +112,7 @@ public class Behandling extends BaseEntitet {
     private Set<BehandlingÅrsak> behandlingÅrsaker = new HashSet<>(1);
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @ManyToOne(optional = false)

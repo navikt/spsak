@@ -41,8 +41,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 public class AktørArbeidEntitet extends BaseEntitet implements AktørArbeid, IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTOER_ARBEID")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTOER_ARBEID")
     private Long id;
 
     @Embedded

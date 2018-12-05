@@ -24,8 +24,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class FrilansoppdragEntitet extends BaseEntitet implements Frilansoppdrag, IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_FRILANSOPPDRAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_FRILANSOPPDRAG")
     private Long id;
 
     @ManyToOne(optional = false)

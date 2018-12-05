@@ -43,12 +43,11 @@ import no.nav.foreldrepenger.domene.typer.Beløp;
 public class Beregningsgrunnlag extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSGRUNNLAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSGRUNNLAG")
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     @Column(name = "skjaringstidspunkt", nullable = false)
@@ -93,7 +92,7 @@ public class Beregningsgrunnlag extends BaseEntitet {
     @Column(name = "regellogg_tilstoetende_ytelse")
     private String regelloggTilstøtendeYtelse;
 
-    @Column(name = "dekningsgrad", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "dekningsgrad", nullable = false)
     private Long dekningsgrad;
 
     @Column(name = "opprinnelig_skjaringstidspunkt", nullable = false)

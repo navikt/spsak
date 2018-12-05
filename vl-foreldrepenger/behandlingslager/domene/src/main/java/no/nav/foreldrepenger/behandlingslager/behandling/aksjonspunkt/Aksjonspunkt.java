@@ -38,8 +38,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class Aksjonspunkt extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKSJONSPUNKT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKSJONSPUNKT")
     private Long id;
 
     @Column(name = "frist_tid")
@@ -69,7 +68,7 @@ public class Aksjonspunkt extends BaseEntitet {
     private Venteårsak venteårsak = Venteårsak.UDEFINERT;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private Long versjon;
 
     /**

@@ -23,15 +23,14 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 @Table(name = "SATS")
 public class Sats extends BaseEntitet {
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SATS")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SATS")
     private Long id;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
-    @Column(name = "verdi", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "verdi", nullable = false)
     private long verdi;
 
     @Embedded

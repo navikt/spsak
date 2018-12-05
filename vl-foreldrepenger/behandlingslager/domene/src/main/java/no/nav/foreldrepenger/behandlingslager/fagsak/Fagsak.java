@@ -31,8 +31,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Fagsak extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -61,7 +60,7 @@ public class Fagsak extends BaseEntitet {
     private boolean skalTilInfotrygd = false;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
     Fagsak() {

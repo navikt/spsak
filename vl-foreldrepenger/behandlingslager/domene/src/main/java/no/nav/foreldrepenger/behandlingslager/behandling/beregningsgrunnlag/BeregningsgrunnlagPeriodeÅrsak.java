@@ -24,8 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class BeregningsgrunnlagPeriodeÅrsak extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE_AARSAK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE_AARSAK")
     private Long id;
 
     @JsonBackReference

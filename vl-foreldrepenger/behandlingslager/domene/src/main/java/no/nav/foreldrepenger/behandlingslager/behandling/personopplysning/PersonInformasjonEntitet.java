@@ -30,8 +30,7 @@ public class PersonInformasjonEntitet extends BaseEntitet implements PersonInfor
     private static final String REF_NAME = "personopplysningInformasjon";
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_INFORMASJON")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_INFORMASJON")
     private Long id;
 
     @ChangeTracked

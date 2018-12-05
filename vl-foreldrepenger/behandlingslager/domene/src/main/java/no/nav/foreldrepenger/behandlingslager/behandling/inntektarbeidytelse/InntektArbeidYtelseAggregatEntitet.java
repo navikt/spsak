@@ -28,8 +28,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 class InntektArbeidYtelseAggregatEntitet extends BaseEntitet implements InntektArbeidYtelseAggregat {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INNTEKT_ARBEID_YTELSER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INNTEKT_ARBEID_YTELSER")
     private Long id;
 
     @ChangeTracked

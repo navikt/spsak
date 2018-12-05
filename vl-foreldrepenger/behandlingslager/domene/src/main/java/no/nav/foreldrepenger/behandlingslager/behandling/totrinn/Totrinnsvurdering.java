@@ -31,8 +31,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Totrinnsvurdering extends BaseEntitet {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOTRINNSVURDERING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOTRINNSVURDERING")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -60,7 +59,7 @@ public class Totrinnsvurdering extends BaseEntitet {
     private boolean aktiv = true;
 
     @Version
-    @Column(name = "versjon", nullable = false, columnDefinition = "NUMERIC", length = 19)
+    @Column(name = "versjon", nullable = false)
     private long versjon;
 
 

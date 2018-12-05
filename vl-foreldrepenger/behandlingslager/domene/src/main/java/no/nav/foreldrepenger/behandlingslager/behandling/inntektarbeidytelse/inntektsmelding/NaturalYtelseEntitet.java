@@ -31,8 +31,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class NaturalYtelseEntitet extends BaseEntitet implements NaturalYtelse, IndexKey {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_NATURAL_YTELSE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_NATURAL_YTELSE")
     private Long id;
 
     @ManyToOne(optional = false)

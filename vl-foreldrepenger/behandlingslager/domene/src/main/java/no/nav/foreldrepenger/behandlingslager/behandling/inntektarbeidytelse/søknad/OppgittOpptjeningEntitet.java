@@ -28,8 +28,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 public class OppgittOpptjeningEntitet extends BaseEntitet implements OppgittOpptjening {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_OPPTJENING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_OPPTJENING")
     private Long id;
 
     @OneToMany(mappedBy = "oppgittOpptjening")

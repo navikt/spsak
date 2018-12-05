@@ -21,8 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 public class SykefraværEntitet extends BaseEntitet implements Sykefravær {
 
     @Id
-    @Column(name = "id", columnDefinition = "NUMERIC", length = 19)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEFRAVAER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEFRAVAER")
     private Long id;
 
     @ChangeTracked
