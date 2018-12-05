@@ -36,7 +36,7 @@ public class Beregning extends BaseEntitet {
     @Column(name = "sats_verdi", nullable = false)
     private long satsVerdi;
 
-    @Column(name = "antall_barn", nullable = false)
+    @Column(name = "antall_barn", nullable = false, columnDefinition = "NUMERIC")
     private long antallBarn;
 
     @Column(name = "beregnet_tilkjent_ytelse", nullable = false)

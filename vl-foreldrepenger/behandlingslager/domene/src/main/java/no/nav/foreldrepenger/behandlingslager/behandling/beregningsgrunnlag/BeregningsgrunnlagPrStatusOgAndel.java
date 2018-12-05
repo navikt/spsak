@@ -50,7 +50,7 @@ public class BeregningsgrunnlagPrStatusOgAndel extends BaseEntitet {
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PR_STATUS_OG_ANDEL")
     private Long id;
 
-    @Column(name = "andelsnr", nullable = false)
+    @Column(name = "andelsnr", nullable = false, columnDefinition = "NUMERIC")
     private Long andelsnr;
 
     @Version
@@ -114,10 +114,10 @@ public class BeregningsgrunnlagPrStatusOgAndel extends BaseEntitet {
     @Column(name = "redusert_brukers_andel_pr_aar")
     private BigDecimal redusertBrukersAndelPrÅr;
 
-    @Column(name = "dagsats_bruker")
+    @Column(name = "dagsats_bruker", columnDefinition = "NUMERIC")
     private Long dagsatsBruker;
 
-    @Column(name = "dagsats_arbeidsgiver")
+    @Column(name = "dagsats_arbeidsgiver", columnDefinition = "NUMERIC")
     private Long dagsatsArbeidsgiver;
 
     @Column(name = "pgi_snitt")

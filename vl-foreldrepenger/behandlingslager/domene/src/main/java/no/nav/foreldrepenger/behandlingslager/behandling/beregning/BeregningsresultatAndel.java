@@ -70,7 +70,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
     private OpptjeningAktivitetType arbeidsforholdType;
 
     @Column(name = "dagsats", nullable = false)
-    private int dagsats;
+    private long dagsats;
 
     @Column(name = "stillingsprosent", nullable = false)
     private BigDecimal stillingsprosent;
@@ -79,7 +79,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
     private BigDecimal utbetalingsgrad;
 
     @Column(name = "dagsats_fra_bg", nullable = false)
-    private int dagsatsFraBg;
+    private long dagsatsFraBg;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "beregningsresultatAndel", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<BeregningsresultatFeriepengerPrÅr> beregningsresultatFeriepengerPrÅrListe = new ArrayList<>();
@@ -122,7 +122,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
         return arbeidsforholdType;
     }
 
-    public int getDagsats() {
+    public long getDagsats() {
         return dagsats;
     }
 
@@ -134,7 +134,7 @@ public class BeregningsresultatAndel extends BaseEntitet {
         return utbetalingsgrad;
     }
 
-    public int getDagsatsFraBg() {
+    public long getDagsatsFraBg() {
         return dagsatsFraBg;
     }
 

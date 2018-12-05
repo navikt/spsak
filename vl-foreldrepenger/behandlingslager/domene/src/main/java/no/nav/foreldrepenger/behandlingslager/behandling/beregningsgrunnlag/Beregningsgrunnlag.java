@@ -92,7 +92,7 @@ public class Beregningsgrunnlag extends BaseEntitet {
     @Column(name = "regellogg_tilstoetende_ytelse")
     private String regelloggTilstøtendeYtelse;
 
-    @Column(name = "dekningsgrad", nullable = false)
+    @Column(name = "dekningsgrad", nullable = false, columnDefinition = "INT4") // DELETEME
     private Long dekningsgrad;
 
     @Column(name = "opprinnelig_skjaringstidspunkt", nullable = false)
