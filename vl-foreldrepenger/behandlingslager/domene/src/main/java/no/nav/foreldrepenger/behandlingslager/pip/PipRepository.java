@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.behandlingslager.pip;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -93,8 +93,8 @@ public class PipRepository {
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("journalpostId", journalpostId.stream().map(j -> j.getVerdi()).collect(Collectors.toList()));
 
-        List<BigDecimal> result = (List<BigDecimal>) query.getResultList();
-        return result.stream().map(BigDecimal::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
+        List<BigInteger> result = (List<BigInteger>) query.getResultList();
+        return result.stream().map(BigInteger::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @SuppressWarnings({"unchecked", "cast"})
@@ -105,8 +105,8 @@ public class PipRepository {
         String sql = "SELECT behandling_id FROM OPPGAVE_BEHANDLING_KOBLING WHERE oppgave_id in (:oppgaveIder)";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("oppgaveIder", oppgaveIder);
-        List<BigDecimal> result = (List<BigDecimal>) query.getResultList();
-        return result.stream().map(BigDecimal::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
+        List<BigInteger> result = (List<BigInteger>) query.getResultList();
+        return result.stream().map(BigInteger::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @SuppressWarnings({"unchecked"})
@@ -131,8 +131,8 @@ public class PipRepository {
         String sql = "SELECT behandling_id from DOKUMENT_DATA where id in (:dokumentDataIDer) ";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("dokumentDataIDer", dokumentDataIDer);
-        List<BigDecimal> result = (List<BigDecimal>) query.getResultList();
-        return result.stream().map(BigDecimal::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
+        List<BigInteger> result = (List<BigInteger>) query.getResultList();
+        return result.stream().map(BigInteger::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @SuppressWarnings({"unchecked", "cast"})
@@ -146,8 +146,8 @@ public class PipRepository {
             "where b.aktoer_id in (:aktørId)";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("aktørId", aktørId.stream().map(AktørId::getId).collect(Collectors.toList()));
-        List<BigDecimal> result = (List<BigDecimal>) query.getResultList();
-        return result.stream().map(BigDecimal::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
+        List<BigInteger> result = (List<BigInteger>) query.getResultList();
+        return result.stream().map(BigInteger::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @SuppressWarnings({"unchecked", "cast"})
@@ -158,7 +158,7 @@ public class PipRepository {
         String sql = "SELECT id from FAGSAK where saksnummer in (:saksnummre) ";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("saksnummre", saksnummre);
-        List<BigDecimal> result = (List<BigDecimal>) query.getResultList();
-        return result.stream().map(BigDecimal::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
+        List<BigInteger> result = (List<BigInteger>) query.getResultList();
+        return result.stream().map(BigInteger::longValue).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }
