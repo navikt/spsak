@@ -126,7 +126,7 @@ public class EntityTest {
 
                 if (singleResult != null) {
                     String warn = "Primitiv " + member + " kan ha null i db. Kan medføre en smell ved lasting";
-                    assertThat(singleResult).as(warn).isEqualTo("N");
+                    assertThat(singleResult).as(warn).isEqualTo("NO");
                 } else {
                     // forventer noe Dvh stuff som er Ok
                     assertThat(entityClass.getName()).endsWith("Dvh");
@@ -169,9 +169,9 @@ public class EntityTest {
             String warn = "Felt " + member
                 + " kan ikke ha null i db. Kan medføre en smell ved skriving. Bedre å bruke primitiv hvis kan (husk sjekk med innkommende kilde til data)";
             if (nullable) {
-                assertThat(singleResult).as(warn).isEqualTo("Y");
+                assertThat(singleResult).as(warn).isEqualTo("YES");
             } else {
-                assertThat(singleResult).as(warn).isEqualTo("N");
+                assertThat(singleResult).as(warn).isEqualTo("NO");
             }
         }
     }
@@ -179,7 +179,7 @@ public class EntityTest {
     @SuppressWarnings("unchecked")
     private String getNullability(String tableName, String columnName) {
         List<String> result = em.createNativeQuery(
-            "SELECT NULLABLE FROM ALL_TAB_COLS WHERE COLUMN_NAME=upper(:col) AND TABLE_NAME=upper(:table) AND OWNER=SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA')")
+            "select is_nullable from information_schema.columns where COLUMN_NAME=lower(:col) AND TABLE_NAME=lower(:table) AND table_schema = current_schema")
             .setParameter("table", tableName)
             .setParameter("col", columnName)
             .getResultList();
