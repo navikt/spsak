@@ -578,7 +578,7 @@ public class Behandling extends BaseEntitet {
      * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
      */
     @Deprecated(forRemoval=true)
-    public boolean harBehandlingÅrsak(BehandlingÅrsakType behandlingÅrsak) {
+    boolean harBehandlingÅrsak(BehandlingÅrsakType behandlingÅrsak) {
         return getBehandlingÅrsaker().stream()
             .map(BehandlingÅrsak::getBehandlingÅrsakType)
             .collect(Collectors.toList())
