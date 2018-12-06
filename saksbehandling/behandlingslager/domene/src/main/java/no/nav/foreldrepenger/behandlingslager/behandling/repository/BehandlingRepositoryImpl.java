@@ -326,7 +326,7 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
     @Override
     public Boolean erVersjonUendret(Long behandlingId, Long versjon) {
         Query query = getEntityManager().createNativeQuery(
-            "SELECT COUNT(*) FROM dual " +
+            "SELECT COUNT(*) " +
                 "WHERE exists (SELECT 1 FROM behandling WHERE (behandling.id = ?) AND (behandling.versjon = ?))");
         query.setParameter(1, behandlingId);
         query.setParameter(2, versjon);

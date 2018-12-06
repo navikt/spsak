@@ -36,8 +36,6 @@ import org.junit.runners.Parameterized;
 
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.kodeverk.IndexClasses;
-import no.nav.foreldrepenger.datavarehus.DvhBaseEntitet;
-import no.nav.foreldrepenger.datavarehus.KontrollDvh;
 import no.nav.foreldrepenger.dbstoette.DatasourceConfiguration;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.lokal.dbstoette.DBConnectionProperties;
@@ -112,10 +110,6 @@ public class EntityTest {
     public void sjekk_felt_mapping_primitive_felt_i_entiteter_må_ha_not_nullable_i_db() throws Exception {
         ManagedType<?> managedType = entityManagerFactory.getMetamodel().managedType(entityClass);
 
-        if (DvhBaseEntitet.class.isAssignableFrom(entityClass)) {
-            return;
-        }
-
         for (Attribute<?, ?> att : managedType.getAttributes()) {
             Class<?> javaType = att.getJavaType();
             if (javaType.isPrimitive()) {
@@ -132,7 +126,7 @@ public class EntityTest {
 
                 if (singleResult != null) {
                     String warn = "Primitiv " + member + " kan ha null i db. Kan medføre en smell ved lasting";
-                    assertThat(singleResult).as(warn).isEqualTo("N");
+                    assertThat(singleResult).as(warn).isEqualTo("NO");
                 } else {
                     // forventer noe Dvh stuff som er Ok
                     assertThat(entityClass.getName()).endsWith("Dvh");
@@ -148,9 +142,6 @@ public class EntityTest {
         if (Modifier.isAbstract(entityClass.getModifiers())) {
             return;
         }
-        if (DvhBaseEntitet.class.isAssignableFrom(entityClass)) {
-            return;
-        }
 
         for (Attribute<?, ?> att : managedType.getAttributes()) {
             Member member = att.getJavaMember();
@@ -160,10 +151,6 @@ public class EntityTest {
                 continue;
             }
 
-            // FIXME(IverStubdal): KontrollDvh bør vel extende DvhBaseEntitet?
-            if (KontrollDvh.class.equals(entityClass)) {
-                continue;
-            }
             Id id = field.getDeclaredAnnotation(Id.class);
             if (id != null) {
                 continue;
@@ -182,9 +169,9 @@ public class EntityTest {
             String warn = "Felt " + member
                 + " kan ikke ha null i db. Kan medføre en smell ved skriving. Bedre å bruke primitiv hvis kan (husk sjekk med innkommende kilde til data)";
             if (nullable) {
-                assertThat(singleResult).as(warn).isEqualTo("Y");
+                assertThat(singleResult).as(warn).isEqualTo("YES");
             } else {
-                assertThat(singleResult).as(warn).isEqualTo("N");
+                assertThat(singleResult).as(warn).isEqualTo("NO");
             }
         }
     }
@@ -192,7 +179,7 @@ public class EntityTest {
     @SuppressWarnings("unchecked")
     private String getNullability(String tableName, String columnName) {
         List<String> result = em.createNativeQuery(
-            "SELECT NULLABLE FROM ALL_TAB_COLS WHERE COLUMN_NAME=upper(:col) AND TABLE_NAME=upper(:table) AND OWNER=SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA')")
+            "select is_nullable from information_schema.columns where COLUMN_NAME=lower(:col) AND TABLE_NAME=lower(:table) AND table_schema = current_schema")
             .setParameter("table", tableName)
             .setParameter("col", columnName)
             .getResultList();

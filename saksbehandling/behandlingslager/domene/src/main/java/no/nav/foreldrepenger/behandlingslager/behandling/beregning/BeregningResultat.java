@@ -41,7 +41,7 @@ public class BeregningResultat extends BaseEntitet {
     private boolean overstyrt = false;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNING_RESULTAT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNING_RESULTAT")
     private Long id;
 
     @ManyToOne(optional = false)

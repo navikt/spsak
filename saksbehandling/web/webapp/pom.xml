@@ -24,9 +24,9 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc8</artifactId>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
 			<scope>compile</scope>
 		</dependency>
 
@@ -182,10 +182,6 @@
 		<dependency>
 			<groupId>io.dropwizard.metrics</groupId>
 			<artifactId>metrics-healthchecks</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>datavarehus-tjeneste</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>net.logstash.logback</groupId>

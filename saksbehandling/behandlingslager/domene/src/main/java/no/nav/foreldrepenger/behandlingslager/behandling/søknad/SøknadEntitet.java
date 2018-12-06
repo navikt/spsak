@@ -30,7 +30,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sy
 public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SOEKNAD")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SOEKNAD")
     private Long id;
 
     @Column(name = "soeknadsdato", nullable = false)

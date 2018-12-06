@@ -29,7 +29,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class YtelseAnvistEntitet extends BaseEntitet implements YtelseAnvist, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE_ANVIST")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE_ANVIST")
     private Long id;
 
     @ManyToOne(optional = false)

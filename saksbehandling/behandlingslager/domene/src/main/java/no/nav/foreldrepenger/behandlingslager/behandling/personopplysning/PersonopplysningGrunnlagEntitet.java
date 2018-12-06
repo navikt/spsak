@@ -28,7 +28,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class PersonopplysningGrunnlagEntitet extends BaseEntitet implements PersonopplysningGrunnlag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_PERSONOPPLYSNING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_PERSONOPPLYSNING")
     private Long id;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til behandling! */}, fetch = FetchType.LAZY)

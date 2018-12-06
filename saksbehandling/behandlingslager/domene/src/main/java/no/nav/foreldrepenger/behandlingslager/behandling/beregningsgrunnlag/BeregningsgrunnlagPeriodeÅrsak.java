@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class BeregningsgrunnlagPeriodeÅrsak extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE_AARSAK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE_AARSAK")
     private Long id;
 
     @JsonBackReference

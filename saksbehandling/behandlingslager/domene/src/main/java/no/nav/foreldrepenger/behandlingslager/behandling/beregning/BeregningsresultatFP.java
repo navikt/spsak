@@ -22,6 +22,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 
 @Entity(name = "BeregningsresultatFP")
@@ -29,7 +31,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class BeregningsresultatFP extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSRESULTAT_FP")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSRESULTAT_FP")
     private Long id;
 
     @Version
@@ -46,10 +48,12 @@ public class BeregningsresultatFP extends BaseEntitet {
     private Set<BeregningsresultatFeriepenger> beregningsresultatFeriepenger = new HashSet<>(1);
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_input", nullable = false)
     private String regelInput;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_sporing", nullable = false)
     private String regelSporing;
 

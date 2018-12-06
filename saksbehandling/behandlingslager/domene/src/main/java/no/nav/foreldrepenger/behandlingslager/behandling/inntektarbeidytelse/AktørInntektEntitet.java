@@ -38,7 +38,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 public class AktørInntektEntitet extends BaseEntitet implements AktørInntekt, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTOER_INNTEKT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTOER_INNTEKT")
     private Long id;
 
     @Embedded

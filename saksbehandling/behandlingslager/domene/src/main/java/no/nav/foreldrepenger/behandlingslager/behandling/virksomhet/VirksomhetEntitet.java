@@ -23,7 +23,7 @@ import no.nav.vedtak.util.FPDateUtil;
 public class VirksomhetEntitet extends BaseEntitet implements Virksomhet, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VIRKSOMHET")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VIRKSOMHET")
     private Long id;
 
     @Column(name = "orgnr", unique = true, nullable = false, updatable = false)

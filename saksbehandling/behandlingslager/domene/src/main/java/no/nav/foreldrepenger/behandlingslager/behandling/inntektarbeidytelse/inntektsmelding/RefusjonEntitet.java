@@ -23,7 +23,7 @@ import no.nav.foreldrepenger.domene.typer.Beløp;
 public class RefusjonEntitet extends BaseEntitet implements Refusjon {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REFUSJON")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REFUSJON")
     private Long id;
 
     @ManyToOne(optional = false)

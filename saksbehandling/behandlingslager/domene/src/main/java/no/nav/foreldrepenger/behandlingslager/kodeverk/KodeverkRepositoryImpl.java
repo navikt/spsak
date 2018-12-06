@@ -5,7 +5,7 @@ import static no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkFeil.FEILF
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -362,7 +362,7 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
         Query query = entityManager.createNativeQuery(
             "SELECT kodeverk1, kode1, kodeverk2, kode2, gyldig_fom, gyldig_tom " +
                 "FROM kodeliste_relasjon " +
-                "WHERE gyldig_fom <= SYSDATE AND gyldig_tom > SYSDATE " +
+                "WHERE gyldig_fom <= now() AND gyldig_tom > now() " +
                 "AND KODEVERK1 = ?");
 
         query.setParameter(1, kodeverk);
@@ -381,8 +381,8 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
         for (Object[] kr : koderelasjoner) {
             retval.add(new KodelisteRelasjon((String) kr[kodeverk1Nr], (String) kr[kode1Nr],
                 (String) kr[kodeverk2Nr], (String) kr[kode2Nr],
-                ((Timestamp) kr[fomNr]).toLocalDateTime().toLocalDate(),
-                ((Timestamp) kr[tomNr]).toLocalDateTime().toLocalDate()));
+                ((Date) kr[fomNr]).toLocalDate(),
+                ((Date) kr[tomNr]).toLocalDate()));
         }
         return retval;
     }

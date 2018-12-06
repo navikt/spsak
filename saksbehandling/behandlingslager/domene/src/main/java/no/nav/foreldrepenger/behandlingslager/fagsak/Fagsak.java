@@ -31,8 +31,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Fagsak extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK")
-    @Column(name = "id")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK")
     private Long id;
 
     @ManyToOne(optional = false)

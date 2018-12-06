@@ -17,6 +17,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import no.nav.vedtak.felles.jpa.converters.PropertiesToStringConverter;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskInfo;
@@ -44,6 +46,7 @@ public class ProsessTaskEntitet {
     private LocalDateTime nesteKjøringEtter;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "task_payload")
     private String payload;
 
@@ -61,6 +64,7 @@ public class ProsessTaskEntitet {
     private String sisteFeilKode;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "siste_kjoering_feil_tekst")
     private String sisteFeilTekst;
 

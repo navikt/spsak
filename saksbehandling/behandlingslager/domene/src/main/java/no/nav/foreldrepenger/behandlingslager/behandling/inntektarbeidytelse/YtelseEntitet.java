@@ -47,7 +47,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class YtelseEntitet extends BaseEntitet implements Ytelse, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE")
     private Long id;
 
     @OneToOne(mappedBy = "ytelse")

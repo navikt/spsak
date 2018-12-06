@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
@@ -25,7 +27,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Uttaksperiodegrense extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAKSPERIODEGRENSE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAKSPERIODEGRENSE")
     private Long id;
 
     @ManyToOne
@@ -39,10 +41,12 @@ public class Uttaksperiodegrense extends BaseEntitet {
     private LocalDate førsteLovligeUttaksdag;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "SPORING_INPUT")
     private String sporingInput;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "SPORING_REGEL")
     private String sporingRegel;
 

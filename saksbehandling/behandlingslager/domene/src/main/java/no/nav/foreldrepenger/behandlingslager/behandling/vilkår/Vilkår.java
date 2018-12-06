@@ -24,6 +24,7 @@ import javax.persistence.Version;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.annotations.Type;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
@@ -39,7 +40,7 @@ public class Vilkår extends BaseEntitet implements IndexKey {
     private Avslagsårsak avslagsårsak = Avslagsårsak.UDEFINERT;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VILKAR")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VILKAR")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -82,11 +83,13 @@ public class Vilkår extends BaseEntitet implements IndexKey {
     private VilkårUtfallMerknad vilkårUtfallMerknad = VilkårUtfallMerknad.UDEFINERT;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_evaluering")
     @Basic(fetch = FetchType.LAZY)
     private String regelEvaluering;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_input")
     @Basic(fetch = FetchType.LAZY)
     private String regelInput;

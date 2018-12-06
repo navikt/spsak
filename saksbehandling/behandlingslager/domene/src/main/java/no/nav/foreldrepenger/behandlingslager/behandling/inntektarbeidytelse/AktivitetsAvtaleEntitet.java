@@ -31,7 +31,7 @@ import no.nav.vedtak.konfig.Tid;
 class AktivitetsAvtaleEntitet extends BaseEntitet implements AktivitetsAvtale, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTIVITETS_AVTALE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTIVITETS_AVTALE")
     private Long id;
 
     @ManyToOne(optional = false)

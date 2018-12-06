@@ -25,7 +25,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class SykefraværGrunnlagEntitet extends BaseEntitet implements SykefraværGrunnlag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_SYKEFRAVAER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_SYKEFRAVAER")
     private Long id;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til behandling! */}, fetch = FetchType.LAZY)

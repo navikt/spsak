@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.behandlingslager.behandling.totrinn;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 public class VurderÅrsakTotrinnsvurdering extends BaseEntitet implements IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VURDER_AARSAK_TTVURDERING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VURDER_AARSAK_TTVURDERING")
     private Long id;
 
     @ManyToOne(optional = false)

@@ -28,7 +28,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class OpptjeningAktivitet extends BaseEntitet implements IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPTJENING_AKTIVITET")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPTJENING_AKTIVITET")
     private Long id;
 
     @Version

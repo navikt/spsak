@@ -3,7 +3,7 @@
     {
       "datasource": "vl_dba",
       "schema": "vl_dba",
-      "url": "jdbc:oracle:thin:@localhost:1521:XE",
+      "url": "jdbc:postgresql://localhost:5432/postgres",
       "migrationScriptsFilesystemRoot": "migreringer/src/test/resources/db/migration/",
       "migrateClean": true
     }

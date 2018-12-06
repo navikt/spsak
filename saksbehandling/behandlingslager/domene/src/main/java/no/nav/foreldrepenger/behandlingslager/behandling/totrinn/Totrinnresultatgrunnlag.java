@@ -22,7 +22,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Totrinnresultatgrunnlag extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOTRINNRESULTATGRUNNLAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOTRINNRESULTATGRUNNLAG")
     private Long id;
 
     @ManyToOne(optional = false)

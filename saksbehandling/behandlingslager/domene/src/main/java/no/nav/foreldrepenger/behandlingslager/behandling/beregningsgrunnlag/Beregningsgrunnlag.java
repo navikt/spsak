@@ -28,6 +28,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
@@ -41,7 +43,7 @@ import no.nav.foreldrepenger.domene.typer.Beløp;
 public class Beregningsgrunnlag extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSGRUNNLAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNINGSGRUNNLAG")
     private Long id;
 
     @Version
@@ -61,30 +63,36 @@ public class Beregningsgrunnlag extends BaseEntitet {
     private Sammenligningsgrunnlag sammenligningsgrunnlag;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regellogg_skjaringstidspunkt")
     private String regelloggSkjæringstidspunkt;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regellogg_brukers_status")
     private String regelloggBrukersStatus;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regelinput_skjaringstidspunkt")
     private String regelInputSkjæringstidspunkt;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regelinput_brukers_status")
     private String regelInputBrukersStatus;
 
     @Lob
-    @Column(name = "regelinput_tilstøtende_ytelse")
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "regelinput_tilstoetende_ytelse")
     private String regelInputTilstøtendeYtelse;
 
     @Lob
-    @Column(name = "regellogg_tilstøtende_ytelse")
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "regellogg_tilstoetende_ytelse")
     private String regelloggTilstøtendeYtelse;
 
-    @Column(name = "dekningsgrad", nullable = false)
+    @Column(name = "dekningsgrad", nullable = false, columnDefinition = "INT4") // DELETEME
     private Long dekningsgrad;
 
     @Column(name = "opprinnelig_skjaringstidspunkt", nullable = false)

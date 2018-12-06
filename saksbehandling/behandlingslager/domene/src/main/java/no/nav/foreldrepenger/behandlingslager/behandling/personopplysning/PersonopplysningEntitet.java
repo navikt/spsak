@@ -32,7 +32,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 public class PersonopplysningEntitet extends BaseEntitet implements Personopplysning, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_PERSONOPPLYSNING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_PERSONOPPLYSNING")
     private Long id;
 
     @Embedded

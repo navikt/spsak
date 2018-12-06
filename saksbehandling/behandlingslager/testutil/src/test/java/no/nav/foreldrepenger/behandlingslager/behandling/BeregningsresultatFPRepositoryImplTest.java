@@ -262,8 +262,8 @@ public class BeregningsresultatFPRepositoryImplTest {
             .medVirksomhet(beregningVirksomhet)
             .medDagsats(2160)
             .medDagsatsFraBg(2160)
-            .medUtbetalingsgrad(BigDecimal.valueOf(100))
-            .medStillingsprosent(BigDecimal.valueOf(100))
+            .medUtbetalingsgrad(BigDecimal.valueOf(10000,2))
+            .medStillingsprosent(BigDecimal.valueOf(10000,2))
             .medAktivitetstatus(AktivitetStatus.ARBEIDSTAKER)
             .medInntektskategori(Inntektskategori.ARBEIDSTAKER)
             .build(beregningsresultatPeriode);

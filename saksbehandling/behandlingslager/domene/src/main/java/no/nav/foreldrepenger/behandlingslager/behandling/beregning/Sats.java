@@ -23,7 +23,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 @Table(name = "SATS")
 public class Sats extends BaseEntitet {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SATS")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SATS")
     private Long id;
 
     @Version

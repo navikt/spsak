@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 public class OppgittOpptjeningEntitet extends BaseEntitet implements OppgittOpptjening {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_OPPTJENING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_OPPTJENING")
     private Long id;
 
     @OneToMany(mappedBy = "oppgittOpptjening")

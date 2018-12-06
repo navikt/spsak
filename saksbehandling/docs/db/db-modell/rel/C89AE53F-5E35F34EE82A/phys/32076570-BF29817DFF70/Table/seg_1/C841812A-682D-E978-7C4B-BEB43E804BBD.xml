@@ -94,7 +94,7 @@
 <createdTime>2018-08-14 07:05:35 UTC</createdTime>
 <ownerDesignName>db-modell</ownerDesignName>
 </ColumnProxy>
-<ColumnProxy name="REGELINPUT_TILSTØTENDE_YTELSE" id="FE39DEB8-DAA2-4B13-8E67-FFF106CB4F0C">
+<ColumnProxy name="regelinput_tilstoetende_ytelse" id="FE39DEB8-DAA2-4B13-8E67-FFF106CB4F0C">
 <createdBy>J150219</createdBy>
 <createdTime>2018-08-14 07:05:35 UTC</createdTime>
 <ownerDesignName>db-modell</ownerDesignName>

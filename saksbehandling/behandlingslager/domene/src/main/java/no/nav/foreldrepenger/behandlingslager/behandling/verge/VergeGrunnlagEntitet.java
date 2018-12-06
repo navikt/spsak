@@ -22,7 +22,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 class VergeGrunnlagEntitet extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_VERGE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_VERGE")
     private Long id;
 
     @OneToOne

@@ -31,7 +31,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class StatsborgerskapEntitet extends BaseEntitet implements Statsborgerskap, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_STATSBORGERSKAP")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_STATSBORGERSKAP")
     private Long id;
 
     @Embedded

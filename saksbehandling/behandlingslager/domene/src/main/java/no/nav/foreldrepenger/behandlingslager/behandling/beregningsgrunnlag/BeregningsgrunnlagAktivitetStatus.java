@@ -25,7 +25,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class BeregningsgrunnlagAktivitetStatus extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_AKTIVITET_STATUS")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_AKTIVITET_STATUS")
     private Long id;
 
     @Version

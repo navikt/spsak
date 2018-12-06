@@ -28,7 +28,7 @@ import no.nav.vedtak.felles.jpa.BaseEntitet;
 public class ArbeidsforholdOverstyringEntitet extends BaseEntitet implements IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IAY_ARBEIDSFORHOLD")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IAY_ARBEIDSFORHOLD")
     private Long id;
 
     @Embedded

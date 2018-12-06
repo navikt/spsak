@@ -29,7 +29,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class PersonstatusEntitet extends BaseEntitet implements Personstatus, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_PERSONSTATUS")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_PERSONSTATUS")
     private Long id;
 
     @Embedded

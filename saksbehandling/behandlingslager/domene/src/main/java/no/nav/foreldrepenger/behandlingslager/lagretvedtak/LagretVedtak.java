@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.annotations.Type;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 
@@ -34,7 +35,7 @@ public class LagretVedtak extends BaseEntitet {
     //TODO (TOPAS): (thaonguyen): Må flytte tilbake til vedtakslager når vedtakslager får sin egen persistence unit.
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LAGRET_VEDTAK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LAGRET_VEDTAK")
     private Long id;
 
     @Column(name = "FAGSAK_ID", nullable = false, updatable = false)
@@ -44,6 +45,7 @@ public class LagretVedtak extends BaseEntitet {
     private Long behandlingId;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "XML_CLOB", nullable = false)
     private String xmlClob;
 

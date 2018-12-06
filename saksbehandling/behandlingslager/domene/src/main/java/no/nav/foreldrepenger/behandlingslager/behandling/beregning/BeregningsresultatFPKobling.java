@@ -20,7 +20,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BeregningsresultatFPKobling extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="SEQ_RES_BEREGNINGSRESULTAT_FP")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="SEQ_RES_BEREGNINGSRESULTAT_FP")
     private Long id;
 
     @OneToOne

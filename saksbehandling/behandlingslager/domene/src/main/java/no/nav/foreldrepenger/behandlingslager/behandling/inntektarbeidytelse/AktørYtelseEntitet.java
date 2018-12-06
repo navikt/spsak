@@ -39,7 +39,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class AktørYtelseEntitet extends BaseEntitet implements AktørYtelse, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTOER_YTELSE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AKTOER_YTELSE")
     private Long id;
 
     @Embedded

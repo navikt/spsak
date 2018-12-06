@@ -238,11 +238,11 @@ class TrekkUtInngangsvilkårTestData {
 
     private DataSource createDataSource() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:XE");
+        config.setJdbcUrl("jdbc:postgresql://localhost:5432/fpsak");
         config.setUsername("fpsak");
         config.setPassword("fpsak");
-        config.setConnectionTestQuery("select 1 from dual");
-        config.setDriverClassName("oracle.jdbc.OracleDriver");
+        config.setConnectionTestQuery("select 1");
+        config.setDriverClassName("org.postgresql.Driver");
         Properties dsProperties = new Properties();
         config.setDataSourceProperties(dsProperties);
 

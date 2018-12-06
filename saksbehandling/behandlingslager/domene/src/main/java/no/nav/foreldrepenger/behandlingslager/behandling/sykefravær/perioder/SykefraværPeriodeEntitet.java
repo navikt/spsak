@@ -30,7 +30,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class SykefraværPeriodeEntitet extends BaseEntitet implements SykefraværPeriode {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEFRAVAER_PERIODE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEFRAVAER_PERIODE")
     private Long id;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til parent! */}, fetch = FetchType.LAZY)

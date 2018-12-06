@@ -203,8 +203,8 @@ public class JettyDevDbKonfigurasjon {
             config.setConnectionTimeout(1000);
             config.setMinimumIdle(0);
             config.setMaximumPoolSize(4);
-            config.setConnectionTestQuery("select 1 from dual");
-            config.setDriverClassName("oracle.jdbc.OracleDriver");
+            config.setConnectionTestQuery("select 1");
+            config.setDriverClassName("org.postgresql.Driver");
 
             Properties dsProperties = new Properties();
             config.setDataSourceProperties(dsProperties);

@@ -33,7 +33,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class BeregningsresultatPeriode extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BR_PERIODE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BR_PERIODE")
     private Long id;
 
     @Version

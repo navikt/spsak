@@ -36,7 +36,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class UttakResultatPeriodeEntitet extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_RESULTAT_PERIODE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_RESULTAT_PERIODE")
     private Long id;
 
     @ManyToOne(optional = false)

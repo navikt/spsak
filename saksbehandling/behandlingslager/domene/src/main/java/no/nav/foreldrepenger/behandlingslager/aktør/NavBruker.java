@@ -21,7 +21,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 public class NavBruker extends Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BRUKER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BRUKER")
     private Long id;
 
     @Version

@@ -337,7 +337,7 @@ Aggregat for beregningsgrunnlag
 |13|OPPRINNELIG_SKJARINGSTIDSPUNKT|DATE||||Normalt samme som skjæringstidspunkt. Ved overgang mellom ytelser er det første uttaksdag for den første i rekken av tilstøtende ytelser.|
 |14|GRUNNBELOEP|NUMBER||||Grunnbeløp (G) ved opprinnelig_skjæringstidspunkt|
 |15|REDUSERT_GRUNNBELOEP|NUMBER||||Normalt samme som grunnbeløp. Ved overgang mellom ytelser blir grunnbeløpet redusert i henhold til dekningsgrad for alle tidligere tilstøtende ytelser|
-|16|REGELINPUT_TILSTØTENDE_YTELSE|CLOB||X||Input til regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.|
+|16|regelinput_tilstoetende_ytelse|CLOB||X||Input til regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.|
 |17|REGELLOGG_TILSTØTENDE_YTELSE|CLOB||X||Sporing av regelen som oppretter andeler for aktivitetstatus tilstøtende ytelse.|
 |18|GJELDENDE_BG_KOFAKBER_ID|NUMBER||X||FK til gjeldende Beregningsgrunnlag ved inngang til steg kontroller fakta om beregning|
 |===

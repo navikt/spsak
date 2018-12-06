@@ -24,7 +24,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class GraderingEntitet extends BaseEntitet implements Gradering, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GRADERING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GRADERING")
     private Long id;
 
     @ManyToOne(optional = false)

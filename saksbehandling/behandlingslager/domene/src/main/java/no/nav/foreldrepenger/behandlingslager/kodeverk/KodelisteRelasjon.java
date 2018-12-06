@@ -18,7 +18,7 @@ public class KodelisteRelasjon {
 
     @Id
     @Column(name = "id", updatable = false, insertable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "kodeverk1", nullable = false)
     private String kodeverk1;

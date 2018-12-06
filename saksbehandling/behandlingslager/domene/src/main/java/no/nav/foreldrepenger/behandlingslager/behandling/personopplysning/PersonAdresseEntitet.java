@@ -30,7 +30,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class PersonAdresseEntitet extends BaseEntitet implements PersonAdresse, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_ADRESSE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PO_ADRESSE")
     private Long id;
 
     @Embedded

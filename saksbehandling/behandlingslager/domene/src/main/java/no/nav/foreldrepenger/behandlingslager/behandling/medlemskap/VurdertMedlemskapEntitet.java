@@ -35,7 +35,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class VurdertMedlemskapEntitet extends BaseEntitet implements VurdertMedlemskap {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP")
     private Long id;
 
     @Convert(converter = BooleanToStringConverter.class)

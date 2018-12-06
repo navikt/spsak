@@ -26,7 +26,7 @@ class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_MEDLEMSKAP_VILKAR_PER")
-    private Long id;
+        private Long id;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "vilkar_resultat_id", nullable = false, updatable = false)

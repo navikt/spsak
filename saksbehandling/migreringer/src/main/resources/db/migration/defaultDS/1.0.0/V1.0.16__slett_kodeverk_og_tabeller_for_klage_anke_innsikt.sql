@@ -1,10 +1,10 @@
-drop table KLAGE_VURDERING_RESULTAT cascade constraints purge;
+drop table KLAGE_VURDERING_RESULTAT cascade ;
 drop sequence SEQ_KLAGE_VURDERING_RESULTAT;
 
-drop table INNSYN cascade constraints purge;
+drop table INNSYN cascade ;
 drop sequence SEQ_INNSYN;
 
-drop table INNSYN_DOKUMENT cascade constraints purge;
+drop table INNSYN_DOKUMENT cascade ;
 drop sequence SEQ_INNSYN_DOKUMENT;
 
 alter table so_soeknad drop constraint FK_SOEKNAD_80;

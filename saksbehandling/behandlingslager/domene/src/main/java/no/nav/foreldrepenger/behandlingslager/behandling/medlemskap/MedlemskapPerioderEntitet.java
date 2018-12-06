@@ -39,7 +39,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class MedlemskapPerioderEntitet extends BaseEntitet implements RegistrertMedlemskapPerioder, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_PERIODER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_PERIODER")
     private Long id;
 
     @Embedded

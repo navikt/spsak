@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.s√
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class FrilansoppdragEntitet extends BaseEntitet implements Frilansoppdrag, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_FRILANSOPPDRAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_FRILANSOPPDRAG")
     private Long id;
 
     @ManyToOne(optional = false)

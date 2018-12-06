@@ -28,7 +28,7 @@ public class Historikkinnslag extends BaseEntitet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG")
-    private Long id;
+        private Long id;
 
     @Column(name = "tekst")
     private String tekst;

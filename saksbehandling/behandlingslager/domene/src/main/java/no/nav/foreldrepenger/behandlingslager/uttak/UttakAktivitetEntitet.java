@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.behandlingslager.uttak;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 public class UttakAktivitetEntitet extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_AKTIVITET")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_AKTIVITET")
     private Long id;
 
     @Embedded

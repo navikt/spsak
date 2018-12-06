@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 public class SykemeldingerEntitet extends BaseEntitet implements Sykemeldinger {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEMELDINGER")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SF_SYKEMELDINGER")
     private Long id;
 
     @ChangeTracked

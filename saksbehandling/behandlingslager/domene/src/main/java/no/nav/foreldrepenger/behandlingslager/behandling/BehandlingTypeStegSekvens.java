@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 public class BehandlingTypeStegSekvens extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_STEG_TYPE_SEKV")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_STEG_TYPE_SEKV")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -71,8 +71,8 @@ public class BehandlingTypeStegSekvens extends BaseEntitet {
         }
         BehandlingTypeStegSekvens other = (BehandlingTypeStegSekvens) obj;
         return Objects.equals(behandlingType, other.behandlingType)
-                && Objects.equals(stegType, other.stegType)
-                && Objects.equals(sekvensNr, other.sekvensNr);
+            && Objects.equals(stegType, other.stegType)
+            && Objects.equals(sekvensNr, other.sekvensNr);
     }
 
     @Override
@@ -83,9 +83,9 @@ public class BehandlingTypeStegSekvens extends BaseEntitet {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "<behandlingType=" + behandlingType //$NON-NLS-1$
-                + ", stegType=" + stegType //$NON-NLS-1$
-                + ", sekvensNr=" + sekvensNr //$NON-NLS-1$
-                + ">"; //$NON-NLS-1$
+            + ", stegType=" + stegType //$NON-NLS-1$
+            + ", sekvensNr=" + sekvensNr //$NON-NLS-1$
+            + ">"; //$NON-NLS-1$
 
     }
 }

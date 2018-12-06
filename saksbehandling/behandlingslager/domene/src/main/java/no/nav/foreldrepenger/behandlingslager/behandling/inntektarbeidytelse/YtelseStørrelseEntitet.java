@@ -32,7 +32,7 @@ import no.nav.foreldrepenger.domene.typer.Beløp;
 public class YtelseStørrelseEntitet extends BaseEntitet implements YtelseStørrelse, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE_STOERRELSE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YTELSE_STOERRELSE")
     private Long id;
 
     @ManyToOne(optional = false)

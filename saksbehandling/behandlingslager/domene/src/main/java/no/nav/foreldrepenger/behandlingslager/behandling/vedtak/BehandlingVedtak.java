@@ -28,7 +28,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class BehandlingVedtak extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_VEDTAK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_VEDTAK")
     private Long id;
 
     @Column(name = "VEDTAK_DATO", nullable = false)
@@ -39,9 +39,9 @@ public class BehandlingVedtak extends BaseEntitet {
 
     @ManyToOne
     @JoinColumnsOrFormulas({
-            @JoinColumnOrFormula(column = @JoinColumn(name = "vedtak_resultat_type", referencedColumnName = "kode", nullable = false)),
-            @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + VedtakResultatType.DISCRIMINATOR
-                + "'")) })
+        @JoinColumnOrFormula(column = @JoinColumn(name = "vedtak_resultat_type", referencedColumnName = "kode", nullable = false)),
+        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + VedtakResultatType.DISCRIMINATOR
+            + "'"))})
     private VedtakResultatType vedtakResultatType = VedtakResultatType.UDEFINERT;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -59,9 +59,9 @@ public class BehandlingVedtak extends BaseEntitet {
 
     @ManyToOne(optional = false)
     @JoinColumnsOrFormulas({
-            @JoinColumnOrFormula(column = @JoinColumn(name = "iverksetting_status", referencedColumnName = "kode", nullable = false)),
-            @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + IverksettingStatus.DISCRIMINATOR
-                + "'")) })
+        @JoinColumnOrFormula(column = @JoinColumn(name = "iverksetting_status", referencedColumnName = "kode", nullable = false)),
+        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + IverksettingStatus.DISCRIMINATOR
+            + "'"))})
     private IverksettingStatus iverksettingStatus = IverksettingStatus.UDEFINERT;
 
     private BehandlingVedtak() {

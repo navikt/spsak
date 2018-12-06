@@ -64,7 +64,7 @@ public class VergeEntitet extends BaseEntitet implements Verge {
     boolean stønadMottaker;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VERGE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VERGE")
     private Long id;
 
     public VergeEntitet() {

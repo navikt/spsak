@@ -40,7 +40,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class OppgittLandOppholdEntitet extends BaseEntitet implements OppgittLandOpphold, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_OPPG_LAND")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_OPPG_LAND")
     private Long id;
 
     @ManyToOne(optional = false)

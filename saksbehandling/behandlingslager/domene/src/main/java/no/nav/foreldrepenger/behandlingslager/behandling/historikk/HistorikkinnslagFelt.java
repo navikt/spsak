@@ -27,7 +27,7 @@ public class HistorikkinnslagFelt extends BaseEntitet implements IndexKey {
     private static final String DISCRIMINATOR = "HISTORIKKINNSLAG_FELT_TYPE";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG_FELT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HISTORIKKINNSLAG_FELT")
     private Long id;
 
     @ManyToOne(optional = false)

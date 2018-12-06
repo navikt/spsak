@@ -77,7 +77,7 @@ public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderin
         TypedQuery<Long> query = getEntityManager().createQuery(
             "SELECT b.id FROM Behandling b WHERE b.fagsak.id=:fagsakId " +
                 " AND b.behandlingType=:type" +
-                " AND b.opprettetTidspunkt >= to_timestamp(:etterTidspunkt)" +
+                " AND b.opprettetTidspunkt >= :etterTidspunkt " +
                 " AND EXISTS (SELECT r FROM Behandlingsresultat r" +
                 "    WHERE r.behandling=b " +
                 "    AND r.behandlingResultatType IN :henlagtKoder)" +

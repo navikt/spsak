@@ -27,7 +27,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class Sammenligningsgrunnlag extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SAMMENLIGNINGSGRUNNLAG")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SAMMENLIGNINGSGRUNNLAG")
     private Long id;
 
     @Version

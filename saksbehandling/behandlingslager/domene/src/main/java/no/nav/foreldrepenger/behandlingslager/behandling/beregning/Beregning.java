@@ -22,7 +22,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Beregning extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNING_RESULTAT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEREGNING_RESULTAT")
     private Long id;
 
     @Version
@@ -36,7 +36,7 @@ public class Beregning extends BaseEntitet {
     @Column(name = "sats_verdi", nullable = false)
     private long satsVerdi;
 
-    @Column(name = "antall_barn", nullable = false)
+    @Column(name = "antall_barn", nullable = false, columnDefinition = "NUMERIC")
     private long antallBarn;
 
     @Column(name = "beregnet_tilkjent_ytelse", nullable = false)

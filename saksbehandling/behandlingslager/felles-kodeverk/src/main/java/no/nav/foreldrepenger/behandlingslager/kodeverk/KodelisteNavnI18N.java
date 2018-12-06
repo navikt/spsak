@@ -20,7 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.DiffIgnore;
 public class KodelisteNavnI18N extends KodeverkBaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_KODELISTE_NAVN_I18N")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_KODELISTE_NAVN_I18N")
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -26,7 +26,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class UttakResultatPeriodeSøknadEntitet extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_RES_PER_SOKNAD")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UTTAK_RES_PER_SOKNAD")
     private Long id;
 
     @ManyToOne

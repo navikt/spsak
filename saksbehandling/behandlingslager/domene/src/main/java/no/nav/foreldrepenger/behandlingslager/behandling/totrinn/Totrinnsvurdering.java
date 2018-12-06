@@ -31,7 +31,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class Totrinnsvurdering extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOTRINNSVURDERING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOTRINNSVURDERING")
     private Long id;
 
     @ManyToOne(optional = false)

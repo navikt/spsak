@@ -29,6 +29,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
@@ -40,7 +42,7 @@ import no.nav.vedtak.felles.jpa.tid.ÅpenDatoIntervallEntitet;
 public class BeregningsgrunnlagPeriode extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BG_PERIODE")
     private Long id;
 
     @Version
@@ -75,18 +77,22 @@ public class BeregningsgrunnlagPeriode extends BaseEntitet {
     private Long dagsats;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_evaluering")
     private String regelEvaluering;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_evaluering_fastsett")
     private String regelEvalueringFastsett;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_input")
     private String regelInput;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "regel_input_fastsett")
     private String regelInputFastsett;
 

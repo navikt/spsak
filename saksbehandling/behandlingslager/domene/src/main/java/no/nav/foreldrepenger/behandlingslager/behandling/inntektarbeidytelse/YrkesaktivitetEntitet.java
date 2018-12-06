@@ -42,7 +42,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 public class YrkesaktivitetEntitet extends BaseEntitet implements Yrkesaktivitet, IndexKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YRKESAKTIVITET")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_YRKESAKTIVITET")
     private Long id;
 
     @OneToMany(mappedBy = "yrkesaktivitet")

@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.behandlingslager.pip;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ public class PipBehandlingsData {
     private String ansvarligSaksbehandler;
     private Long fagsakId;
 
-    public PipBehandlingsData(String behandligStatus, String ansvarligSaksbehandler, BigDecimal fagsakId, String fagsakStatus) {
+    public PipBehandlingsData(String behandligStatus, String ansvarligSaksbehandler, BigInteger fagsakId, String fagsakStatus) {
         this.behandligStatus = behandligStatus;
         this.fagsakId = fagsakId.longValue();
         this.fagsakStatus = fagsakStatus;

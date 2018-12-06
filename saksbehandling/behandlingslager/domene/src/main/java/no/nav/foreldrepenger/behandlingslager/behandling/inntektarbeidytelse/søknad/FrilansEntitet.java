@@ -27,7 +27,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class FrilansEntitet extends BaseEntitet implements Frilans {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_FRILANS")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SO_OPPGITT_FRILANS")
     private Long id;
 
     @OneToOne(optional = false)

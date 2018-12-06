@@ -44,7 +44,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class VilkårResultat extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VILKAR_RESULTAT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VILKAR_RESULTAT")
     private Long id;
 
     @Version

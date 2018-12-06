@@ -48,7 +48,7 @@ public class Opptjening extends BaseEntitet {
     private DatoIntervallEntitet opptjeningPeriode;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPTJENING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_OPPTJENING")
     private Long id;
 
     /* Mapper kun fra denne og ikke bi-directional, gjør vedlikehold enklere. */

@@ -24,7 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class MedlemskapRegistrertEntitet extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_REGISTRERT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_REGISTRERT")
     private Long id;
 
     @Version

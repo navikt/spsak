@@ -77,7 +77,7 @@ public class Behandling extends BaseEntitet {
         });
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -125,10 +125,10 @@ public class Behandling extends BaseEntitet {
      * Gjelder feltene under
      * --------------------------------------------------------------
      */
-    @Column(name = "opprettet_dato", nullable = false, updatable = false)
+    @Column(name = "opprettet_dato", columnDefinition = "DATE", nullable = false, updatable = false)
     private LocalDateTime opprettetDato;
 
-    @Column(name = "avsluttet_dato")
+    @Column(name = "avsluttet_dato", columnDefinition = "DATE")
     private LocalDateTime avsluttetDato;
 
     @Column(name = "totrinnsbehandling", nullable = false)

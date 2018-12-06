@@ -20,7 +20,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 class SøknadGrunnlagEntitet extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_SOEKNAD")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_SOEKNAD")
     private Long id;
 
     @OneToOne

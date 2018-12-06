@@ -38,7 +38,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class OppgittTilknytningEntitet extends BaseEntitet implements OppgittTilknytning {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_OPPG_TILKNYT")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_OPPG_TILKNYT")
     private Long id;
 
     @Convert(converter = BooleanToStringConverter.class)

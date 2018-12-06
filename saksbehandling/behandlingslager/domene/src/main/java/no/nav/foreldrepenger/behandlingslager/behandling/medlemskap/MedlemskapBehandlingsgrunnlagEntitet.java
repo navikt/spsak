@@ -41,7 +41,7 @@ public class MedlemskapBehandlingsgrunnlagEntitet extends BaseEntitet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GR_MEDLEMSKAP")
-    private Long id;
+        private Long id;
 
     @ManyToOne(cascade = { /* NONE - Aldri cascade til et selvstendig aggregat! */ }, fetch = FetchType.EAGER)
     @JoinColumn(name = "REGISTRERT_ID", nullable = true, unique = true)

@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 class FagsakProsessTask extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK_PROSESS_TASK")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAGSAK_PROSESS_TASK")
     private Long id;
 
     @Column(name = "fagsak_id", nullable = false, updatable = false)

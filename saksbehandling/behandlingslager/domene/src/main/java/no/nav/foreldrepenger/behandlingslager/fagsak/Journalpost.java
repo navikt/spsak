@@ -19,8 +19,7 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 public class Journalpost extends BaseEntitet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_JOURNALPOST")
-    @Column(name = "id")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_JOURNALPOST")
     private Long id;
 
     @Column(name = "journalpost_id", nullable = false, unique = true)

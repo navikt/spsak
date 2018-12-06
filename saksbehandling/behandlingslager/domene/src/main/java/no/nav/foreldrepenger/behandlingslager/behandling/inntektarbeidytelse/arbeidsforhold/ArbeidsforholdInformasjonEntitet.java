@@ -31,7 +31,7 @@ import no.nav.vedtak.felles.jpa.BaseEntitet;
 public class ArbeidsforholdInformasjonEntitet extends BaseEntitet implements ArbeidsforholdInformasjon {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IAY_INFORMASJON")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IAY_INFORMASJON")
     private Long id;
 
     @ChangeTracked

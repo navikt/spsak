@@ -36,7 +36,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
-import no.nav.foreldrepenger.datavarehus.tjeneste.DatavarehusTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
@@ -65,7 +64,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
     private OppgaveTjeneste oppgaveTjeneste;
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private RevurderingTjenesteProvider revurderingTjenesteProvider;
-    private DatavarehusTjeneste datavarehusTjeneste;
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste;
 
     BehandlingsutredningApplikasjonTjenesteImpl() {
@@ -80,11 +78,9 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
                                                        OppgaveTjeneste oppgaveTjeneste,
                                                        BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                                        RevurderingTjenesteProvider revurderingTjenesteProvider,
-                                                       SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste,
-                                                       DatavarehusTjeneste datavarehusTjeneste) {
+                                                       SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste) {
         Objects.requireNonNull(behandlingRepositoryProvider, "behandlingRepositoryProvider");
         this.defaultVenteFrist = defaultVenteFrist;
-        this.datavarehusTjeneste = datavarehusTjeneste;
         this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
         this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
         this.historikkApplikasjonTjeneste = historikkApplikasjonTjeneste;
@@ -224,10 +220,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
 
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
-
-        // Lagre den oppdaterte behandlingen i datavarehus datavarehus.
-        // Dette er et spesialtilfelle, DVH skal normalt oppdateres via DatavarehusEventObserver
-        datavarehusTjeneste.lagreNedBehandling(behandling);
     }
 
     interface BehandlingsutredningApplikasjonTjenesteFeil extends DeklarerteFeil {

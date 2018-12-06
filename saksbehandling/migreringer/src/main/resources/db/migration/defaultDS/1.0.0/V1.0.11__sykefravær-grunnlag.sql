@@ -1,9 +1,9 @@
 CREATE TABLE SF_SYKEMELDINGER (
-  id            NUMBER(19)                        NOT NULL,
-  versjon       NUMBER(19) DEFAULT 0              NOT NULL,
-  opprettet_av  VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
-  opprettet_tid TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
-  endret_av     VARCHAR2(20 CHAR),
+  id            bigint                        NOT NULL,
+  versjon       bigint DEFAULT 0              NOT NULL,
+  opprettet_av  VARCHAR(20) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid TIMESTAMP(3) DEFAULT localtimestamp NOT NULL,
+  endret_av     VARCHAR(20),
   endret_tid    TIMESTAMP(3),
   CONSTRAINT PK_SF_SYKEMELDINGER PRIMARY KEY (id)
 );
@@ -14,15 +14,15 @@ CREATE SEQUENCE SEQ_SF_SYKEMELDINGER
   MINVALUE 1
   START WITH 1
   INCREMENT BY 50
-  NOCACHE
-  NOCYCLE;
+
+  NO CYCLE;
 
 CREATE TABLE SF_SYKEFRAVAER (
-  id            NUMBER(19)                        NOT NULL,
-  versjon       NUMBER(19) DEFAULT 0              NOT NULL,
-  opprettet_av  VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
-  opprettet_tid TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
-  endret_av     VARCHAR2(20 CHAR),
+  id            bigint                        NOT NULL,
+  versjon       bigint DEFAULT 0              NOT NULL,
+  opprettet_av  VARCHAR(20) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid TIMESTAMP(3) DEFAULT localtimestamp NOT NULL,
+  endret_av     VARCHAR(20),
   endret_tid    TIMESTAMP(3),
   CONSTRAINT PK_SF_SYKEFRAVAER PRIMARY KEY (id)
 );
@@ -34,19 +34,19 @@ CREATE SEQUENCE SEQ_SF_SYKEFRAVAER
   MINVALUE 1
   START WITH 1
   INCREMENT BY 50
-  NOCACHE
-  NOCYCLE;
+
+  NO CYCLE;
 
 CREATE TABLE GR_SYKEFRAVAER (
-  id               NUMBER(19)                        NOT NULL,
-  behandling_id    NUMBER(19)                        NOT NULL,
-  sykemeldinger_id NUMBER(19),
-  sykefravaer_id   NUMBER(19),
-  aktiv            VARCHAR2(1 CHAR) DEFAULT 'N'      NOT NULL,
-  versjon          NUMBER(19) DEFAULT 0              NOT NULL,
-  opprettet_av     VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
-  opprettet_tid    TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
-  endret_av        VARCHAR2(20 CHAR),
+  id               bigint                        NOT NULL,
+  behandling_id    bigint                        NOT NULL,
+  sykemeldinger_id bigint,
+  sykefravaer_id   bigint,
+  aktiv            VARCHAR(1) DEFAULT 'N'      NOT NULL,
+  versjon          bigint DEFAULT 0              NOT NULL,
+  opprettet_av     VARCHAR(20) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid    TIMESTAMP(3) DEFAULT localtimestamp NOT NULL,
+  endret_av        VARCHAR(20),
   endret_tid       TIMESTAMP(3),
   CONSTRAINT PK_GR_SYKEFRAVAER PRIMARY KEY (id),
   CONSTRAINT FK_GR_SYKEFRAVAER_1 FOREIGN KEY (behandling_id) REFERENCES BEHANDLING,
@@ -62,8 +62,8 @@ CREATE SEQUENCE SEQ_GR_SYKEFRAVAER
   MINVALUE 1
   START WITH 1
   INCREMENT BY 50
-  NOCACHE
-  NOCYCLE;
+
+  NO CYCLE;
 
 CREATE INDEX IDX_GR_SYKEFRAVAER_01
   ON GR_SYKEFRAVAER (behandling_id);
@@ -83,18 +83,18 @@ CREATE UNIQUE INDEX UIDX_GR_SYKEFRAVAER_01
   );
 
 CREATE TABLE SF_SYKEMELDING (
-  id                         NUMBER(19)                        NOT NULL,
-  versjon                    NUMBER(19) DEFAULT 0              NOT NULL,
-  sykemeldinger_id           NUMBER(19)                        NOT NULL,
-  EKSTERN_REFERANSE          VARCHAR2(100 CHAR)                NOT NULL,
-  ARBEIDSGIVER_AKTOR_ID      VARCHAR2(100 CHAR),
-  ARBEIDSGIVER_VIRKSOMHET_ID NUMBER(19, 0),
-  GRAD                       NUMBER(5, 2)                      NOT NULL,
+  id                         bigint                        NOT NULL,
+  versjon                    bigint DEFAULT 0              NOT NULL,
+  sykemeldinger_id           bigint                        NOT NULL,
+  EKSTERN_REFERANSE          VARCHAR(100)                NOT NULL,
+  ARBEIDSGIVER_AKTOR_ID      VARCHAR(100),
+  ARBEIDSGIVER_VIRKSOMHET_ID bigint,
+  GRAD                       NUMERIC(5, 2)                      NOT NULL,
   FOM                        DATE                              NOT NULL,
   TOM                        DATE                              NOT NULL,
-  opprettet_av               VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
-  opprettet_tid              TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
-  endret_av                  VARCHAR2(20 CHAR),
+  opprettet_av               VARCHAR(20) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid              TIMESTAMP(3) DEFAULT localtimestamp NOT NULL,
+  endret_av                  VARCHAR(20),
   endret_tid                 TIMESTAMP(3),
   CONSTRAINT PK_SF_SYKEMELDING PRIMARY KEY (id),
   CONSTRAINT FK_SF_SYKEMELDING_1 FOREIGN KEY (sykemeldinger_id) REFERENCES SF_SYKEMELDINGER,
@@ -105,8 +105,8 @@ CREATE SEQUENCE SEQ_SF_SYKEMELDING
   MINVALUE 1
   START WITH 1
   INCREMENT BY 50
-  NOCACHE
-  NOCYCLE;
+
+  NO CYCLE;
 
 CREATE INDEX IDX_SF_SYKEMELDING_01
   ON SF_SYKEMELDING (sykemeldinger_id);
@@ -127,20 +127,20 @@ COMMENT ON COLUMN SF_SYKEMELDING.EKSTERN_REFERANSE
 IS 'Sykemeldingen eksterne referanse til sykemeldingsregisteret';
 
 CREATE TABLE SF_SYKEFRAVAER_PERIODE (
-  id                         NUMBER(19)                        NOT NULL,
-  versjon                    NUMBER(19) DEFAULT 0              NOT NULL,
-  sykefravaer_id             NUMBER(19)                        NOT NULL,
-  ARBEIDSGIVER_AKTOR_ID      VARCHAR2(100 CHAR),
-  ARBEIDSGIVER_VIRKSOMHET_ID NUMBER(19, 0),
-  gradering                  NUMBER(5, 2)                      NOT NULL,
-  arbeidsgrad                NUMBER(5, 2)                      NOT NULL,
+  id                         bigint                        NOT NULL,
+  versjon                    bigint DEFAULT 0              NOT NULL,
+  sykefravaer_id             bigint                        NOT NULL,
+  ARBEIDSGIVER_AKTOR_ID      VARCHAR(100),
+  ARBEIDSGIVER_VIRKSOMHET_ID bigint,
+  gradering                  NUMERIC(5, 2)                      NOT NULL,
+  arbeidsgrad                NUMERIC(5, 2)                      NOT NULL,
   FOM                        DATE                              NOT NULL,
   TOM                        DATE                              NOT NULL,
-  fravaer_type               VARCHAR2(100 CHAR)                NOT NULL,
-  kl_fravaer_type            VARCHAR2(100 CHAR) AS ('SYKEFRAVÆR_PERIODE_TYPE'),
-  opprettet_av               VARCHAR2(20 CHAR) DEFAULT 'VL'    NOT NULL,
-  opprettet_tid              TIMESTAMP(3) DEFAULT systimestamp NOT NULL,
-  endret_av                  VARCHAR2(20 CHAR),
+  fravaer_type               VARCHAR(100)                NOT NULL,
+  kl_fravaer_type            VARCHAR(100) DEFAULT 'SYKEFRAVÆR_PERIODE_TYPE',
+  opprettet_av               VARCHAR(20) DEFAULT 'VL'    NOT NULL,
+  opprettet_tid              TIMESTAMP(3) DEFAULT localtimestamp NOT NULL,
+  endret_av                  VARCHAR(20),
   endret_tid                 TIMESTAMP(3),
   CONSTRAINT PK_SF_SYKEFRAVAER_PERIODE PRIMARY KEY (id),
   CONSTRAINT FK_SF_SYKEFRAVAER_PERIODE_1 FOREIGN KEY (sykefravaer_id) REFERENCES SF_SYKEFRAVAER,
@@ -152,8 +152,8 @@ CREATE SEQUENCE SEQ_SF_SYKEFRAVAER_PERIODE
   MINVALUE 1
   START WITH 1
   INCREMENT BY 50
-  NOCACHE
-  NOCYCLE;
+
+  NO CYCLE;
 
 CREATE INDEX IDX_SF_SYKEFRAVAER_PERIODE_01
   ON SF_SYKEFRAVAER_PERIODE (sykefravaer_id);
