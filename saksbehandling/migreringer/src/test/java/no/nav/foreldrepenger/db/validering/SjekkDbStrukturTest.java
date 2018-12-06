@@ -63,7 +63,7 @@ public class SjekkDbStrukturTest {
     public void sjekk_at_alle_relevant_kolonner_er_dokumentert() throws Exception {
         List<String> avvik = new ArrayList<>();
 
-        String sql = "SELECT c.table_schema,c.table_name,c.column_name,pgd.description\n" +
+        String sql = "SELECT c.table_name||'.'||c.column_name  " +
             "FROM pg_catalog.pg_statio_all_tables as st\n" +
             "       right join pg_catalog.pg_description pgd on (pgd.objoid=st.relid)\n" +
             "       right join information_schema.columns c on (pgd.objsubid=c.ordinal_position\n" +
