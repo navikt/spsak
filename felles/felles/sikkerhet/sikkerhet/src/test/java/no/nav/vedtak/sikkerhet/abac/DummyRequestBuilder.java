@@ -14,6 +14,6 @@ import javax.enterprise.inject.Alternative;
 public class DummyRequestBuilder implements PdpRequestBuilder {
     @Override
     public PdpRequest lagPdpRequest(AbacAttributtSamling attributter) {
-        return null;
+        return new PdpRequest();
     }
 }

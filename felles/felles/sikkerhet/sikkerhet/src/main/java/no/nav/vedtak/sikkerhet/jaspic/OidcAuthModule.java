@@ -1,16 +1,22 @@
 package no.nav.vedtak.sikkerhet.jaspic;
 
-import no.nav.vedtak.feil.FeilFactory;
-import no.nav.vedtak.isso.config.ServerInfo;
-import no.nav.vedtak.log.mdc.MDCOperations;
-import no.nav.vedtak.sikkerhet.context.SubjectHandler;
-import no.nav.vedtak.sikkerhet.loginmodule.LoginConfigNames;
-import no.nav.vedtak.sikkerhet.loginmodule.LoginContextConfiguration;
-import no.nav.vedtak.sikkerhet.loginmodule.LoginModuleFeil;
-import no.nav.vedtak.sikkerhet.oidc.IdTokenProvider;
-import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.wss4j.dom.handler.WSHandlerConstants;
-import org.slf4j.MDC;
+import static javax.security.auth.message.AuthStatus.FAILURE;
+import static javax.security.auth.message.AuthStatus.SEND_FAILURE;
+import static javax.security.auth.message.AuthStatus.SEND_SUCCESS;
+import static javax.security.auth.message.AuthStatus.SUCCESS;
+import static no.nav.vedtak.sikkerhet.Constants.ID_TOKEN_COOKIE_NAME;
+import static no.nav.vedtak.sikkerhet.loginmodule.LoginConfigNames.OIDC;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.CDI;
@@ -33,28 +39,30 @@ import javax.security.auth.message.module.ServerAuthModule;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
-import static javax.security.auth.message.AuthStatus.FAILURE;
-import static javax.security.auth.message.AuthStatus.SEND_FAILURE;
-import static javax.security.auth.message.AuthStatus.SEND_SUCCESS;
-import static javax.security.auth.message.AuthStatus.SUCCESS;
-import static no.nav.vedtak.sikkerhet.Constants.ID_TOKEN_COOKIE_NAME;
-import static no.nav.vedtak.sikkerhet.loginmodule.LoginConfigNames.OIDC;
+import org.apache.cxf.binding.soap.SoapMessage;
+import org.apache.wss4j.dom.handler.WSHandlerConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+import no.nav.vedtak.feil.FeilFactory;
+import no.nav.vedtak.isso.config.ServerInfo;
+import no.nav.vedtak.log.mdc.MDCOperations;
+import no.nav.vedtak.sikkerhet.context.SubjectHandler;
+import no.nav.vedtak.sikkerhet.context.ThreadLocalSubjectHandler;
+import no.nav.vedtak.sikkerhet.loginmodule.LoginConfigNames;
+import no.nav.vedtak.sikkerhet.loginmodule.LoginContextConfiguration;
+import no.nav.vedtak.sikkerhet.loginmodule.LoginModuleFeil;
+import no.nav.vedtak.sikkerhet.oidc.IdTokenProvider;
 
 /**
  * Stjålet mye fra https://github.com/omnifaces/omnisecurity
+ * 
+ * Klassen er thread-safe og vil brukes til å kalle på subjects samtidig.  Bør derfor ikke inneholde felter som holder Subject el.
  */
 public class OidcAuthModule implements ServerAuthModule {
-    private String token;
+    private static final Logger LOG = LoggerFactory.getLogger(OidcAuthModule.class);
 
     private static final Class<?>[] SUPPORTED_MESSAGE_TYPES = new Class[]{HttpServletRequest.class, HttpServletResponse.class};
     // Key in the MessageInfo Map that when present AND set to true indicated a protected resource is being accessed.
@@ -90,11 +98,10 @@ public class OidcAuthModule implements ServerAuthModule {
     }
 
     @Override
-    public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler, @SuppressWarnings("rawtypes") Map options) throws AuthException {
+    public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler, Map options) throws AuthException {
         this.containerCallbackHandler = handler;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public Class[] getSupportedMessageTypes() {
         return SUPPORTED_MESSAGE_TYPES;
@@ -102,6 +109,7 @@ public class OidcAuthModule implements ServerAuthModule {
 
     @Override
     public AuthStatus validateRequest(MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject) throws AuthException {
+        validateCleanSubjecthandler();
         HttpServletRequest originalRequest = (HttpServletRequest) messageInfo.getRequestMessage();
         setCallAndConsumerId(originalRequest);
         AuthStatus authStatus;
@@ -124,6 +132,18 @@ public class OidcAuthModule implements ServerAuthModule {
             ensureStatelessApplication(messageInfo);
         }
         return authStatus;
+    }
+
+    private void validateCleanSubjecthandler() {
+        final SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
+        if(subjectHandler instanceof ThreadLocalSubjectHandler) {
+            final ThreadLocalSubjectHandler threadLocalSubjectHandler = (ThreadLocalSubjectHandler) subjectHandler;
+            final Subject subject = threadLocalSubjectHandler.getSubject();
+            if (subject != null) {
+                JaspicFeil.FACTORY.eksisterendeSubject(new HashSet<>(subject.getPrincipals())).log(LOG);
+                threadLocalSubjectHandler.setSubject(null);
+            }
+        }
     }
 
     public void setCallAndConsumerId(HttpServletRequest request) {
@@ -165,6 +185,7 @@ public class OidcAuthModule implements ServerAuthModule {
         Optional<String> oidcToken = tokenLocator.getToken(request);
         Optional<String> refreshToken = tokenLocator.getRefreshToken(request);
 
+        String token;
         if (oidcToken.isPresent()) {
             token = oidcToken.get();
         } else {
@@ -172,16 +193,19 @@ public class OidcAuthModule implements ServerAuthModule {
         }
 
         // Setup login context
-        LoginContext loginContext = createLoginContext(OIDC, clientSubject);
+        LoginContext loginContext = createLoginContext(OIDC, clientSubject, token);
 
         // Do login
         try {
             try {
                 loginContext.login();
             } catch (CredentialExpiredException cee) { // NOSONAR
-                if (idTokenRefreshed(refreshToken)) {
-                    loginContext.login();
-                    registerUpdatedTokenAtUserAgent(messageInfo, token);
+                Optional<String> tokenRefreshed = idTokenRefreshed(token, refreshToken);
+                if (tokenRefreshed.isPresent()) {
+                    String newToken = tokenRefreshed.get();
+                    LoginContext loginContextRefresh = createLoginContext(OIDC, clientSubject, newToken);
+                    loginContextRefresh.login();
+                    registerUpdatedTokenAtUserAgent(messageInfo, newToken);
                 } else {
                     return FAILURE;
                 }
@@ -194,22 +218,30 @@ public class OidcAuthModule implements ServerAuthModule {
         return handleValidatedToken(clientSubject, SubjectHandler.getUid(clientSubject));
     }
 
-    private boolean idTokenRefreshed(Optional<String> refreshToken) {
+    private Optional<String> idTokenRefreshed(String originalToken, Optional<String> refreshToken) {
         if (refreshToken.isPresent()) {
-            Optional<String> nyttToken = tokenProvider.getToken(this.token, refreshToken.get());
-            if (nyttToken.isPresent()) {
-                this.token = nyttToken.get();
-                return true;
-            } else {
-                //typisk når refresh token er utløpt
-                this.token = null;
-                return false;
-            }
+            Optional<String> nyttToken = tokenProvider.getToken(originalToken, refreshToken.get());
+            return nyttToken;
         }
-        return false;
+        return Optional.empty();
     }
 
-    private LoginContext createLoginContext(LoginConfigNames loginConfigName, Subject clientSubject) {
+    private LoginContext createLoginContext(LoginConfigNames loginConfigName, Subject clientSubject, String token) {
+        char[] tokenChars = token.toCharArray();
+        class PasswordCallbackHandler implements CallbackHandler {
+            @Override
+            public void handle(Callback[] callbacks) throws UnsupportedCallbackException {
+                for (Callback callback : callbacks) {
+                    if (callback instanceof PasswordCallback) {
+                        ((PasswordCallback) callback).setPassword(tokenChars);
+                    } else {
+                        // Should never happen
+                        throw new UnsupportedCallbackException(callback, PasswordCallback.class + " is the only supported Callback");
+                    }
+                }
+            }
+        }
+        
         CallbackHandler callbackHandler = new PasswordCallbackHandler();
         try {
             return new LoginContext(loginConfigName.name(), clientSubject, callbackHandler, loginConfiguration);
@@ -357,18 +389,4 @@ public class OidcAuthModule implements ServerAuthModule {
         return CDI.current().select(WSS4JProtectedServlet.class).get();
     }
 
-    private class PasswordCallbackHandler implements CallbackHandler {
-
-        @Override
-        public void handle(Callback[] callbacks) throws UnsupportedCallbackException {
-            for (Callback callback : callbacks) {
-                if (callback instanceof PasswordCallback) {
-                    ((PasswordCallback) callback).setPassword(token.toCharArray());
-                } else {
-                    // Should never happen
-                    throw new UnsupportedCallbackException(callback, PasswordCallback.class + " is the only supported Callback");
-                }
-            }
-        }
-    }
 }

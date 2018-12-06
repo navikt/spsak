@@ -10,6 +10,7 @@ public class PdpRequest {
 
     private List<String> fnr;
     private List<String> aktørId;
+    private List<String> saksnummer;
     private AbacIdToken token;
     private String ansvarligSaksbehandler;
 
@@ -134,6 +135,23 @@ public class PdpRequest {
 
     public int antallAktørId() {
         return aktørId != null ? aktørId.size() : 0;
+    }
+
+    public void setSaksummer(List<String> saksnumer){
+        this.saksnummer = saksnumer;
+    }
+
+    public List<String> getSaksnummer(){ return saksnummer; }
+
+    private int antallSaksnummer(){
+        return saksnummer != null ? saksnummer.size() : 0;
+    }
+
+    public Optional<String> getSaksummerForIndex(int index) {
+        int antallSaksummer = antallSaksnummer();
+        return antallSaksummer == 0
+                ? Optional.empty()
+                : Optional.of(saksnummer.get(index));
     }
 
 }

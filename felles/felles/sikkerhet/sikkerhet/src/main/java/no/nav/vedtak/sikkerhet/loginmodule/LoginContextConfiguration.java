@@ -1,8 +1,5 @@
 package no.nav.vedtak.sikkerhet.loginmodule;
 
-
-import com.google.common.collect.ImmutableMap;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
@@ -51,9 +48,9 @@ public class LoginContextConfiguration extends Configuration {
                         AppConfigurationEntry.LoginModuleControlFlag.REQUISITE,
                         Collections.emptyMap()),
                 new AppConfigurationEntry(
-                        "org.jboss.security.ClientLoginModule",
+                        "no.nav.vedtak.sikkerhet.loginmodule.ThreadLocalLoginModule",
                         AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
-                        ImmutableMap.of("password-stacking", "useFirstPass"))
+                        Collections.emptyMap())
         };
     }
 
@@ -64,9 +61,9 @@ public class LoginContextConfiguration extends Configuration {
                         AppConfigurationEntry.LoginModuleControlFlag.REQUISITE,
                         Collections.emptyMap()),
                 new AppConfigurationEntry(
-                        "org.jboss.security.ClientLoginModule",
+                        "no.nav.vedtak.sikkerhet.loginmodule.ThreadLocalLoginModule",
                         AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
-                        ImmutableMap.of("password-stacking", "useFirstPass"))
+                        Collections.emptyMap())
         };
     }
 

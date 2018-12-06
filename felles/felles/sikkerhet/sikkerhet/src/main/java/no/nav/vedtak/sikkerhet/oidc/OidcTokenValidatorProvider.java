@@ -79,7 +79,7 @@ public class OidcTokenValidatorProvider {
                 config -> config.getIssuer().toExternalForm(),
                 config -> new OidcTokenValidator(config)));
 
-        LOG.debug("Opprettet OidcTokenValidator for {}", configs);
+        LOG.info("Opprettet OidcTokenValidator for {}", configs);
         return Collections.unmodifiableMap(map);
     }
 
@@ -116,7 +116,6 @@ public class OidcTokenValidatorProvider {
         private OpenIDProviderConfig createStsConfiguration(String providerName, boolean useProxyForJwks, int allowedClockSkewInSeconds, boolean skipAudienceValidation, Set<IdentType> identTyper) {
             String issuer = getProperty(providerName + ALT_ISSUER_URL_KEY);
             if(null == issuer){
-                TokenProviderFeil.FACTORY.manglerKonfigurasjonForOidcProvider(providerName).log(LOG);
                 return null;
             }
             String clientName = "Client name is not used for STS";
@@ -137,7 +136,6 @@ public class OidcTokenValidatorProvider {
 
         private OpenIDProviderConfig createConfiguration(String providerName, String issuer, String jwks, boolean useProxyForJwks, String clientName, String clientPassword, String host, int allowedClockSkewInSeconds, boolean skipAudienceValidation, Set<IdentType> identTyper) {
             if (null == clientName) {
-                TokenProviderFeil.FACTORY.manglerKonfigurasjonForOidcProvider(providerName).log(LOG);
                 return null;
             }
             URL issuerUrl;
@@ -174,21 +172,16 @@ public class OidcTokenValidatorProvider {
 
             String naisEnvName = getProperty("fasit.environment.name");
             String naisEnvClass = null == naisEnvName ? "x": naisEnvName.substring(0,1);
-            String skyaEnvClass = getProperty("environment.class");
-            skyaEnvClass = null == skyaEnvClass ? "x" : skyaEnvClass;
             boolean develop = Boolean.getBoolean("develop-local");
 
             if(develop ||
                     "t".equalsIgnoreCase(naisEnvClass) ||
-                    "u".equalsIgnoreCase(naisEnvClass) ||
-                    "t".equalsIgnoreCase(skyaEnvClass) ||
-                    "u".equalsIgnoreCase(skyaEnvClass)){
+                    "u".equalsIgnoreCase(naisEnvClass) ){
                 createConfig=true;
                 // FIXME (u139158): PK-53010 Må få testhub til å eksponere denne på https
                 jwks = "http://e34apvl00250.devillo.no:8050/sikkerhet/jwks_uri";
             }
-            if("q".equalsIgnoreCase(naisEnvClass) ||
-                    "q".equalsIgnoreCase(skyaEnvClass)){
+            if("q".equalsIgnoreCase(naisEnvClass) ){
                 createConfig=true;
                 jwks = "https://testhub.nais.preprod.local/sikkerhet/jwks_uri";
             }

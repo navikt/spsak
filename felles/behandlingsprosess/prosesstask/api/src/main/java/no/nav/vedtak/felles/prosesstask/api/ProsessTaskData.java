@@ -23,23 +23,26 @@ public class ProsessTaskData implements ProsessTaskInfo {
     /**
      * Standard properties - aktoerId.
      */
-    private static final String AKTØR_ID = "aktoerId"; // NOSONAR //$NON-NLS-1$
+    public static final String AKTØR_ID = "aktoerId"; // NOSONAR //$NON-NLS-1$
     /**
      * Standard properties - behandlingId.
      */
-    private static final String BEHANDLING_ID = "behandlingId"; // NOSONAR //$NON-NLS-1$
+    public static final String BEHANDLING_ID = "behandlingId"; // NOSONAR //$NON-NLS-1$
     /**
      * Standard properties - fagsakId.
      */
-    private static final String FAGSAK_ID = "fagsakId"; // NOSONAR //$NON-NLS-1$
+    public static final String FAGSAK_ID = "fagsakId"; // NOSONAR //$NON-NLS-1$
     /**
      * Standard properties - hendelse som tasken venter på eller har behandlet.
      */
-    private static final String HENDELSE_PROPERTY = "hendelse"; // NOSONAR //$NON-NLS-1$
+    public static final String HENDELSE_PROPERTY = "hendelse"; // NOSONAR //$NON-NLS-1$
 
-    private static final String OPPGAVE_ID = "oppgaveId";
+    /**
+     * Standard properties - hendelse som tasken venter på eller har behandlet.
+     */
+    public static final String OPPGAVE_ID = "oppgaveId";
 
-    private static final Pattern VALID_KEY_PATTERN = Pattern.compile("[a-zA-Z0-9_\\.]+$"); //$NON-NLS-1$
+    public static final Pattern VALID_KEY_PATTERN = Pattern.compile("[a-zA-Z0-9_\\.]+$"); //$NON-NLS-1$
 
     private int antallFeiledeForsøk;
 

@@ -124,10 +124,14 @@ public class OidcTokenValidatorProviderTest {
     }
 
     @Test
-    public void finner_alle_kjente_providere() {
+    public void finner_alle_kjente_providere_og_logger_dem() {
         assertThat(OidcTokenValidatorProvider.instance().getValidator(openam_iss)).isNotNull();
         assertThat(OidcTokenValidatorProvider.instance().getValidator(sts_iss)).isNotNull();
         assertThat(OidcTokenValidatorProvider.instance().getValidator(aad_b2c_iss)).isNotNull();
+        logSniffer.assertHasInfoMessage("Opprettet OidcTokenValidator for ");
+        logSniffer.assertHasInfoMessage("OpenIDProviderConfig<issuer=https://sts.no>");
+        logSniffer.assertHasInfoMessage("OpenIDProviderConfig<issuer=https://aad.b2c.no>");
+        logSniffer.assertHasInfoMessage("OpenIDProviderConfig<issuer=https://openam.no>");
     }
 
     @Test
@@ -140,16 +144,6 @@ public class OidcTokenValidatorProviderTest {
         System.setProperty(OPEN_ID_CONNECT_ISSO_JWKS, validUrl);
 
         assertThat(OidcTokenValidatorProvider.instance().getValidator(openam_iss)).isNotNull();
-    }
-
-    @Test
-    public void logger_manglende_konfigurasjon_for_alle_kjente_providere() throws Exception {
-        cleanupState();
-        System.clearProperty(OPEN_ID_CONNECT_USERNAME);
-        assertThat(OidcTokenValidatorProvider.instance().getValidator("https://foo.no.such.domain/")).isNull();
-        logSniffer.assertHasInfoMessage("Fant ingen OIDC konfigurasjon for '" + PROVIDERNAME_OPEN_AM);
-        logSniffer.assertHasInfoMessage("Fant ingen OIDC konfigurasjon for '" + PROVIDERNAME_STS);
-        logSniffer.assertHasInfoMessage("Fant ingen OIDC konfigurasjon for '" + PROVIDERNAME_AAD_B2C);
     }
 
     @Test
@@ -212,18 +206,6 @@ public class OidcTokenValidatorProviderTest {
     @Test
     public void finner_TestHub_provider_ved_lokal_utvikling() {
         System.setProperty("develop-local", "true");
-        assertThat(OidcTokenValidatorProvider.instance().getValidator(testhub_iss)).isNotNull();
-    }
-
-    @Test
-    public void finner_TestHub_provider_i_skya_t() {
-        System.setProperty("environment.class", "t");
-        assertThat(OidcTokenValidatorProvider.instance().getValidator(testhub_iss)).isNotNull();
-    }
-
-    @Test
-    public void finner_TestHub_provider_i_skya_q() {
-        System.setProperty("environment.class", "q");
         assertThat(OidcTokenValidatorProvider.instance().getValidator(testhub_iss)).isNotNull();
     }
 

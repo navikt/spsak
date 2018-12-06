@@ -4,12 +4,8 @@ import static org.junit.Assert.assertThat;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
 import ch.qos.logback.classic.Level;
 import no.nav.modig.core.test.LogSniffer;
@@ -17,32 +13,21 @@ import no.nav.vedtak.sikkerhet.domene.IdentType;
 
 public class SubjectHandlerTest {
 
-    @Rule
-    public final MockitoRule mockito = MockitoJUnit.rule().silent();
-    
     private static final String USER_ID = "userId";
     private static final IdentType IDENT_TYPE = IdentType.InternBruker;
     private static final int AUTH_LEVEL = 4;
-    private static final String DUMMYSTRING = "test";
 
     @Rule
     public LogSniffer logSniffer = new LogSniffer(Level.DEBUG);
 
-    @Before
-    public void setUpSubjectHandlerAndSubject() throws Exception {
-        SubjectHandlerUtils.useSubjectHandler(ThreadLocalSubjectHandler.class);
-
-        SubjectHandlerUtils.setInternBruker(USER_ID);
-    }
-
     @After
-    public void clearSubjectHandler() throws Exception {
+    public void clearSubjectHandler() {
         SubjectHandlerUtils.reset();
         SubjectHandlerUtils.unsetSubjectHandler();
     }
 
     @Test
-    public void testGetSubjectHandler() throws Exception {
+    public void testGetDefaultSubjectHandler() {
         SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
 
         assertThat(subjectHandler, CoreMatchers.notNullValue());
@@ -50,29 +35,20 @@ public class SubjectHandlerTest {
     }
 
     @Test
-    public void testGetSubjectHandlerNoProperty() throws Exception {
-        SubjectHandlerUtils.unsetSubjectHandler();
+    public void testGetConfiguredSubjectHandler() {
+        SubjectHandlerUtils.useSubjectHandler(StaticSubjectHandler.class);
 
-        try {
-            SubjectHandler.getSubjectHandler();
-            Assert.fail("hit skal man ikke komme");
-        } catch (RuntimeException e) {
-            // try-catch er for å forhindre at tearDown kaster runtimeexception
-        }
-        SubjectHandlerUtils.useSubjectHandler(ThreadLocalSubjectHandler.class);
+        SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
+
+        assertThat(subjectHandler, CoreMatchers.notNullValue());
+        assertThat(subjectHandler, CoreMatchers.instanceOf(StaticSubjectHandler.class));
     }
 
     @Test
-    public void testGetSubjectHandlerRunningOnJBoss() throws Exception {
-        System.setProperty(JbossSubjectHandler.JBOSS_PROPERTY_KEY, DUMMYSTRING);
+    public void testGetSubject() {
+        SubjectHandlerUtils.useSubjectHandler(StaticSubjectHandler.class);
+        SubjectHandlerUtils.setInternBruker(USER_ID);
 
-        assertThat(SubjectHandler.getSubjectHandler(), CoreMatchers.instanceOf(JbossSubjectHandler.class));
-
-        System.clearProperty(JbossSubjectHandler.JBOSS_PROPERTY_KEY);
-    }
-
-    @Test
-    public void testGetSubject() throws Exception {
         SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
 
         assertThat(subjectHandler, CoreMatchers.notNullValue());

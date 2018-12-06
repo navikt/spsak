@@ -8,6 +8,9 @@ public enum BeskyttetRessursResourceAttributt {
     BATCH("no.nav.abac.attributter.foreldrepenger.batch"),
     SAKLISTE("no.nav.abac.attributter.foreldrepenger.sakliste"),
     SP_BEREGNING_APPLIKASJON("no.nav.abac.attributter.resource.sykepenger.beregning"), //TODO HUMLE: midlertidig attributt til vi finner ut hvordan Felles skal splittes mellom FP og SP
+    OPPGAVEKO("no.nav.abac.attributter.foreldrepenger.oppgaveko"),
+    OPPGAVESTYRING("no.nav.abac.attributter.foreldrepenger.oppgavestyring"),
+    PIP("pip.tjeneste.kan.kun.kalles.av.pdp.servicebruker"),
 
     /**
      * Skal kun brukes av Interceptor

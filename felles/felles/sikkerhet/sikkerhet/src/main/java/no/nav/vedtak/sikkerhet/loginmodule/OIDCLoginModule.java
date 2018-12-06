@@ -37,8 +37,6 @@ public class OIDCLoginModule extends LoginModuleBase {
     // Set during initialize()
     private Subject subject;
     private CallbackHandler callbackHandler;
-    @SuppressWarnings("rawtypes")
-    private Map sharedState;
 
     // Set during login()
     private String ssoToken;
@@ -58,10 +56,8 @@ public class OIDCLoginModule extends LoginModuleBase {
         logger.trace("Initialize loginmodule");
         this.subject = subject;
         this.callbackHandler = callbackHandler;
-        this.sharedState = sharedState;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public boolean login() throws LoginException {
         logger.trace("Enter login method");
@@ -74,8 +70,6 @@ public class OIDCLoginModule extends LoginModuleBase {
         OidcLogin.LoginResult loginResult = oidcLogin.doLogin();
         if (loginResult == OidcLogin.LoginResult.SUCCESS) {
             sluttBruker = SluttBruker.internBruker(oidcLogin.getSubject());
-            // Pass on the Principal to ClientLoginModule to avoid an extra SimplePrincipal
-            sharedState.put("javax.security.auth.login.name", sluttBruker);
             setLoginSuccess(true);
             logger.trace("Login successful for user {}", sluttBruker);
             return true;

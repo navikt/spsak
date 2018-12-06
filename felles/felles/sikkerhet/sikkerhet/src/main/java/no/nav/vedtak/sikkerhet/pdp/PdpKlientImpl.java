@@ -108,6 +108,7 @@ public class PdpKlientImpl implements PdpKlient {
         pdpRequest.getXacmlSakstatus().ifPresent(s -> resourceAttributeSet.addAttribute(NavAttributter.RESOURCE_FORELDREPENGER_SAK_SAKSSTATUS, s));
         pdpRequest.getXacmlBehandlingStatus().ifPresent(b -> resourceAttributeSet.addAttribute(NavAttributter.RESOURCE_FORELDREPENGER_SAK_BEHANDLINGSSTATUS, b));
         pdpRequest.getAnsvarligSaksbehandler().ifPresent(a -> resourceAttributeSet.addAttribute(NavAttributter.RESOURCE_FORELDREPENGER_SAK_ANSVARLIG_SAKSBEHANDLER, a));
+        pdpRequest.getSaksummerForIndex(index).ifPresent(s -> resourceAttributeSet.addAttribute(NavAttributter.RESOURCE_ARKIV_GSAK_SAKSID, s));
         return resourceAttributeSet;
     }
 

@@ -11,7 +11,6 @@ public abstract class TestSubjectHandler extends SubjectHandler {
     /**
      * Resets the subject to default value which may be null or a concrete subject
      *
-     * @see ThreadLocalSubjectHandler#reset()
      * @see StaticSubjectHandler#reset()
      */
     public abstract void reset();

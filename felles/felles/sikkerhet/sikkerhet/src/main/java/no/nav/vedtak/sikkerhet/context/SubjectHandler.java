@@ -1,5 +1,6 @@
 package no.nav.vedtak.sikkerhet.context;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,29 +23,21 @@ public abstract class SubjectHandler {
     private static final Logger logger = LoggerFactory.getLogger(SubjectHandler.class);
 
     public static final String SUBJECTHANDLER_KEY = "no.nav.modig.core.context.subjectHandlerImplementationClass";
-    static final String JBOSS_PROPERTY_KEY = JbossSubjectHandler.JBOSS_PROPERTY_KEY;
 
     public static SubjectHandler getSubjectHandler() {
 
-        String subjectHandlerImplementationClass;
-
-        if (JbossSubjectHandler.runningOnJboss()) {
-            subjectHandlerImplementationClass = JbossSubjectHandler.class.getName();
-            logger.debug("Detected running on JBoss Application Server. Using: {}", subjectHandlerImplementationClass);
-        } else {
-            subjectHandlerImplementationClass = resolveProperty(SUBJECTHANDLER_KEY);
-        }
+        String subjectHandlerImplementationClass = resolveProperty(SUBJECTHANDLER_KEY);
 
         if (subjectHandlerImplementationClass == null) {
-            throw new IllegalStateException("Du kjører på noe annet enn JBoss. Om du kjører i jetty og test " +
-                    "må du velge hvilken klasse SubjectHandler som skal brukes. Det kan du gjøre ved å kalls SubjectHanderUtils.useSubjectHandler(klasse) " +
-                    "eller ved å sette system property " + SUBJECTHANDLER_KEY + " til klassen du ønsker");
+            subjectHandlerImplementationClass = JettySubjectHandler.class.getName();
+            logger.debug("SubjectHandler not configured, will use default: {}", subjectHandlerImplementationClass);
         }
 
         try {
             Class<?> clazz = Class.forName(subjectHandlerImplementationClass);
-            return (SubjectHandler) clazz.newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            logger.debug("Creating a SubjectHandler of type: {}", subjectHandlerImplementationClass);
+            return (SubjectHandler) clazz.getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             throw new IllegalStateException("Klarte ikke å konfigurere plattformavhengig SubjectHandler", e);
         }
     }
@@ -56,13 +49,26 @@ public abstract class SubjectHandler {
     }
 
     public static String getUid(Subject subject) {
+        SluttBruker sluttBruker = getSluttBruker(subject);
+        if (sluttBruker != null) {
+            return sluttBruker.getName();
+        }
+
+        return null;
+    }
+
+    public SluttBruker getSluttBruker(){
+        return getSluttBruker(getSubject());
+    }
+
+    public static SluttBruker getSluttBruker(Subject subject) {
         if (subject  == null) {
             return null;
         }
 
         SluttBruker sluttBruker = getTheOnlyOneInSet(subject.getPrincipals(SluttBruker.class));
         if (sluttBruker != null) {
-            return sluttBruker.getName();
+            return sluttBruker;
         }
 
         return null;

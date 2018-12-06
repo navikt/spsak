@@ -26,9 +26,6 @@ interface TokenProviderFeil extends DeklarerteFeil {
     @TekniskFeil(feilkode = "F-874196", feilmelding = "Fikk ikke '%s' i responsen", logLevel = LogLevel.WARN)
     Feil fikkIkkeTokenIReponse(String tokenName);
 
-    @TekniskFeil(feilkode = "F-874145", feilmelding = "Fant ingen OIDC konfigurasjon for '%s'. Hvis applikasjonen trenger den må det konfigureres opp.", logLevel = LogLevel.INFO)
-    Feil manglerKonfigurasjonForOidcProvider(String providerName);
-
     @TekniskFeil(feilkode = "F-644196", feilmelding = "Syntaksfeil i OIDC konfigurasjonen av '%s' for '%s'", logLevel = LogLevel.ERROR)
     Feil feilIKonfigurasjonAvOidcProvider(String key, String providerName, MalformedURLException e);
 }

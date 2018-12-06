@@ -3,6 +3,7 @@ package no.nav.vedtak.felles.testutilities.sikkerhet;
 import javax.security.auth.Subject;
 
 import no.nav.vedtak.sikkerhet.context.SubjectHandler;
+import no.nav.vedtak.sikkerhet.context.ThreadLocalSubjectHandler;
 import no.nav.vedtak.sikkerhet.domene.AuthenticationLevelCredential;
 import no.nav.vedtak.sikkerhet.domene.ConsumerId;
 import no.nav.vedtak.sikkerhet.domene.IdentType;
@@ -17,7 +18,14 @@ public class SubjectHandlerUtils {
      * @see TestSubjectHandler#reset()
      */
     public static void reset() {
-        ((TestSubjectHandler) SubjectHandler.getSubjectHandler()).reset();
+        final SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
+        if(subjectHandler instanceof TestSubjectHandler) {
+            ((TestSubjectHandler) subjectHandler).reset();
+        } else if(subjectHandler instanceof ThreadLocalSubjectHandler) {
+          ((ThreadLocalSubjectHandler) subjectHandler).setSubject(null);
+        } else {
+            System.out.println("Don't know how to reset a SubjectHandler of type " + subjectHandler.getClass().getName());
+        }
     }
 
     public static void setInternBruker(String userId) {
@@ -25,7 +33,14 @@ public class SubjectHandlerUtils {
     }
 
     public static void setSubject(Subject subject) {
-        ((TestSubjectHandler) SubjectHandler.getSubjectHandler()).setSubject(subject);
+        final SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
+        if(subjectHandler instanceof TestSubjectHandler) {
+            ((TestSubjectHandler) subjectHandler).setSubject(subject);
+        } else if(subjectHandler instanceof ThreadLocalSubjectHandler) {
+            ((ThreadLocalSubjectHandler) subjectHandler).setSubject(subject);
+        } else {
+            throw new IllegalStateException("Don't know how to set Subject on a SubjectHandler of type " + subjectHandler.getClass().getName());
+        }
     }
 
     public static void useSubjectHandler(Class<? extends SubjectHandler> subjectHandlerClass) {
