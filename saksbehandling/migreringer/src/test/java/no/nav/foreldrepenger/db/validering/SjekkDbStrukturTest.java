@@ -63,21 +63,29 @@ public class SjekkDbStrukturTest {
     public void sjekk_at_alle_relevant_kolonner_er_dokumentert() throws Exception {
         List<String> avvik = new ArrayList<>();
 
-        String sql = "SELECT t.table_name||'.'||t.column_name "
-            + "  FROM all_col_comments t "
-            + " WHERE (t.comments IS NULL OR t.comments = '') "
-            + "   AND t.owner = sys_context('userenv','current_schema') "
-            + "   AND ( upper(t.table_name) NOT LIKE 'SCHEMA_%' AND upper(t.table_name) NOT LIKE '%_MOCK') "
-            + "   AND NOT EXISTS (SELECT 1 FROM all_constraints a, all_cons_columns b "
-            + "                    WHERE a.table_name = b.table_name "
-            + "                      AND b.table_name = t.table_name "
-            + "                      AND a.constraint_name = b.constraint_name "
-            + "                      AND b.column_name = t.column_name "
-            + "                      AND constraint_type IN ('P','R') "
-            + "                      AND a.owner = t.owner "
-            + "                      AND b.owner = a.owner) "
-            + "   AND upper(t.column_name) NOT IN ('OPPRETTET_TID','ENDRET_TID','OPPRETTET_AV','ENDRET_AV','VERSJON','BESKRIVELSE','NAVN','FOM', 'TOM','LAND', 'LANDKODE', 'KL_LANDKODE', 'KL_LANDKODER', 'AKTIV') "
-            + " ORDER BY t.table_name, t.column_name ";
+        String sql = "SELECT c.table_schema,c.table_name,c.column_name,pgd.description\n" +
+            "FROM pg_catalog.pg_statio_all_tables as st\n" +
+            "       right join pg_catalog.pg_description pgd on (pgd.objoid=st.relid)\n" +
+            "       right join information_schema.columns c on (pgd.objsubid=c.ordinal_position\n" +
+            "                                                     and  c.table_schema=st.schemaname and c.table_name=st.relname)\n" +
+            "WHERE c.table_schema = current_schema\n" +
+            "AND upper(c.column_name) NOT IN ('OPPRETTET_TID','ENDRET_TID','OPPRETTET_AV','ENDRET_AV','VERSJON','BESKRIVELSE','NAVN','FOM', 'TOM','LAND', 'LANDKODE', 'KL_LANDKODE', 'KL_LANDKODER', 'AKTIV')\n" +
+            "AND c.table_name not like 'schema_%'\n" +
+            "AND c.table_name not like 'flyway_%'\n" +
+            "AND pgd.description is null\n" +
+            "and not exists (\n" +
+            "          SELECT\n" +
+            "                 1\n" +
+            "          FROM\n" +
+            "               information_schema.table_constraints AS tc\n" +
+            "                 JOIN information_schema.key_column_usage AS kcu\n" +
+            "                   ON tc.constraint_name = kcu.constraint_name\n" +
+            "                        AND tc.table_schema = kcu.table_schema\n" +
+            "          WHERE constraint_type IN ('FOREIGN KEY', 'PRIMARY KEY')\n" +
+            "            AND tc.table_schema='public'\n" +
+            "            AND tc.table_name = c.table_name and kcu.column_name = c.column_name\n" +
+            "    )\n" +
+            "ORDER BY c.table_name, c.column_name";
 
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
