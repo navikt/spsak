@@ -108,17 +108,18 @@ public class SjekkDbStrukturTest {
 
     @Test
     public void sjekk_alle_KL_kolonner_har_FK_referanser_til_Kodeliste() throws Exception {
-        String sql = "select atc.table_name, atc.column_name from all_tab_columns atc"
-            + " where atc.owner=upper(?) and atc.column_name like 'KL_%' "
-            + "  and (atc.table_name, atc.column_name) "
-            + "        not in (select acc.table_name, acc.column_name from all_cons_columns acc where acc.owner=atc.owner and acc.column_name like 'KL_%')";
+        String sql = "select c.table_name, c.column_name from information_schema.columns c\n" +
+            "    where column_name like 'kl_%'\n" +
+            "    and table_schema = current_schema\n" +
+            "    and (c.table_name, c.column_name) not in\n" +
+            "        (select table_name, column_name from information_schema.key_column_usage kcu where kcu.column_name like 'kl_%' and kcu.constraint_name like 'fk_%'\n" +
+            "         and kcu.constraint_catalog = c.table_catalog\n" +
+            "        and kcu.constraint_schema = c.table_schema)";
 
         List<String> avvik = new ArrayList<>();
         StringBuilder tekst = new StringBuilder();
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-            stmt.setString(1, schema);
 
             try (ResultSet rs = stmt.executeQuery()) {
 
