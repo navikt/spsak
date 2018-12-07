@@ -92,9 +92,9 @@ public class InntektArbeidYtelseScenario {
                 .map(AktørArbeid::getYrkesaktiviteter)
                 .flatMap(java.util.Collection::stream)
                 .forEach(yr -> {
-                    if(yr.getArbeidsgiver().getErVirksomhet()) {
-                        final Optional<Virksomhet> hent = repositoryProvider.getVirksomhetRepository().hent(yr.getArbeidsgiver().getIdentifikator());
-                        if(hent.isPresent()) {
+                    if (yr.getArbeidsgiver().getErVirksomhet()) {
+                        final Optional<Virksomhet> hent = repositoryProvider.getVirksomhetRepository().hentForEditering(yr.getArbeidsgiver().getIdentifikator());
+                        if (hent.isPresent()) {
                             try {
                                 Method m = YrkesaktivitetEntitet.class.getDeclaredMethod("setArbeidsgiver", Arbeidsgiver.class);
                                 m.setAccessible(true);
@@ -161,7 +161,7 @@ public class InntektArbeidYtelseScenario {
 
         Mockito.doAnswer(invocation -> {
             Long behandlingId = invocation.getArgument(0);
-            Optional< InntektArbeidYtelseGrunnlag> aggregat = opptjeningAggregatMap.entrySet().stream()
+            Optional<InntektArbeidYtelseGrunnlag> aggregat = opptjeningAggregatMap.entrySet().stream()
                 .filter(e -> Objects.equals(behandlingId, e.getKey().getId()))
                 .map(e -> e.getValue())
                 .findFirst();
@@ -220,7 +220,7 @@ public class InntektArbeidYtelseScenario {
         private RelatertYtelseTilstand relatertYtelseTilstand = RelatertYtelseTilstand.AVSLUTTET;
         private TemaUnderkategori ytelseBehandlingstema = TemaUnderkategori.FORELDREPENGER_SVANGERSKAPSPENGER;
         private LocalDate tomDato;
-        private Saksnummer saksnummer  = new Saksnummer("00001");
+        private Saksnummer saksnummer = new Saksnummer("00001");
         private Fagsystem ytelseKilde = Fagsystem.INFOTRYGD;
 
         private InntektArbeidYtelseScenarioTestBuilder(InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder) {
@@ -472,6 +472,7 @@ public class InntektArbeidYtelseScenario {
 
         /**
          * Gir den rå buildern for å videre manipulere testdata. på samme måte som entitene bygges på.
+         *
          * @return buildern
          */
         public InntektArbeidYtelseAggregatBuilder getKladd() {

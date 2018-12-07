@@ -38,7 +38,21 @@ public class VirksomhetRepositoryImpl implements VirksomhetRepository {
         query.setParameter("orgnr", orgnr);
         final Optional<VirksomhetEntitet> virksomhetEntitet = HibernateVerktøy.hentUniktResultat(query);
         if (virksomhetEntitet.isPresent()) {
-            return Optional.of(virksomhetEntitet.get());
+            VirksomhetEntitet entitet = virksomhetEntitet.get();
+            entityManager.detach(entitet);
+            return Optional.of(entitet);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Virksomhet> hentForEditering(String orgnr) {
+        final TypedQuery<VirksomhetEntitet> query = entityManager.createQuery("FROM Virksomhet WHERE orgnr = :orgnr", VirksomhetEntitet.class);
+        query.setParameter("orgnr", orgnr);
+        final Optional<VirksomhetEntitet> virksomhetEntitet = HibernateVerktøy.hentUniktResultat(query);
+        if (virksomhetEntitet.isPresent()) {
+            VirksomhetEntitet entitet = virksomhetEntitet.get();
+            return Optional.of(entitet);
         }
         return Optional.empty();
     }
@@ -55,6 +69,7 @@ public class VirksomhetRepositoryImpl implements VirksomhetRepository {
             }
             throw exception;
         }
+        entityManager.detach(virksomhet);
     }
 
 }

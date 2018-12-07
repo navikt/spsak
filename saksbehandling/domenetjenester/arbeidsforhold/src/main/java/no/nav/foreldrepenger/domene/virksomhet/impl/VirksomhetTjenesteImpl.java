@@ -42,7 +42,7 @@ public class VirksomhetTjenesteImpl implements VirksomhetTjeneste {
 
     @Override
     public Virksomhet hentOgLagreOrganisasjon(String orgNummer) {
-        final Optional<Virksomhet> virksomhetOptional = virksomhetRepository.hent(orgNummer);
+        final Optional<Virksomhet> virksomhetOptional = virksomhetRepository.hentForEditering(orgNummer);
         if (!virksomhetOptional.isPresent() || virksomhetOptional.get().skalRehentes()) {
             HentOrganisasjonResponse response = hentOrganisasjon(orgNummer);
 

@@ -26,7 +26,7 @@ public class VirksomhetRepositoryImplTest {
         final Virksomhet virksomheten = builder.medOrgnr(orgnr).medNavn("Virksomheten").medOppstart(LocalDate.now()).oppdatertOpplysningerNå().build();
         repository.lagre(virksomheten);
 
-        Optional<Virksomhet> hent = repository.hent(orgnr);
+        Optional<Virksomhet> hent = repository.hentForEditering(orgnr);
         assertThat(hent).isPresent();
 
         Virksomhet virksomhet = hent.get();
