@@ -143,7 +143,7 @@ public class UttakRepositoryImpl implements UttakRepository {
         TypedQuery<UttakResultatEntitet> query = entityManager.createQuery(
             "select uttakResultat from UttakResultatEntitet uttakResultat " +
                 "join uttakResultat.behandlingsresultat resultat" +
-                " where resultat.behandling.id=:behandlingId and uttakResultat.aktiv='J'", UttakResultatEntitet.class); //$NON-NLS-1$
+                " where resultat.behandling.id=:behandlingId and uttakResultat.aktiv=true", UttakResultatEntitet.class); //$NON-NLS-1$
         query.setParameter("behandlingId", behandling.getId()); //$NON-NLS-1$
         return hentUniktResultat(query);
     }
@@ -158,9 +158,8 @@ public class UttakRepositoryImpl implements UttakRepository {
         Objects.requireNonNull(behandlingsresultat, "behandlingsresultat"); // NOSONAR $NON-NLS-1$
         final TypedQuery<Uttaksperiodegrense> query = entityManager.createQuery("FROM Uttaksperiodegrense Upg " +
             "WHERE Upg.behandlingsresultat.id = :behandlingresultatId " +
-            "AND Upg.aktiv = :aktivt", Uttaksperiodegrense.class);
+            "AND Upg.aktiv = true", Uttaksperiodegrense.class);
         query.setParameter("behandlingresultatId", behandlingsresultat.getId());
-        query.setParameter("aktivt", true);
         return HibernateVerktøy.hentUniktResultat(query);
     }
 

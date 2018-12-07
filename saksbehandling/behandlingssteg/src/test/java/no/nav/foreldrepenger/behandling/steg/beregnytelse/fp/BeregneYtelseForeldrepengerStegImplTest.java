@@ -59,14 +59,12 @@ public class BeregneYtelseForeldrepengerStegImplTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-
-    @Inject
-    private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
     private final BeregningsresultatFPRepository beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatFPRepository();
     private final UttakRepository uttakRepository = repositoryProvider.getUttakRepository();
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
-
+    @Inject
+    private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     @Mock
     private FastsettBeregningsresultatTjeneste fastsettBeregningsresultatTjeneste = mock(FastsettBeregningsresultatTjeneste.class);
     private BeregnFeriepengerTjeneste beregnFeriepengerTjeneste = mock(BeregnFeriepengerTjeneste.class);
