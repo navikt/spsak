@@ -27,7 +27,6 @@ public final class Databaseskjemainitialisering {
         if (GUARD_SKJEMAER.compareAndSet(false, true)) {
             try {
                 settSchemaPlaceholder(DatasourceConfiguration.UNIT_TEST.getRaw());
-                DatabaseStøtte.kjørMigreringFor(DatasourceConfiguration.DBA.get());
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }

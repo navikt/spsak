@@ -23,7 +23,6 @@ public final class Databaseskjemainitialisering {
     public static void settOppSkjemaer() {
         try {
             settSchemaPlaceholder(DatasourceConfiguration.UNIT_TEST.getRaw());
-            DatabaseStøtte.kjørMigreringFor(DatasourceConfiguration.DBA.get());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

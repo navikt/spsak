@@ -7,7 +7,7 @@ import java.util.List;
 import no.nav.vedtak.felles.lokal.dbstoette.DBConnectionProperties;
 
 public enum DatasourceConfiguration {
-    UNIT_TEST, DBA;
+    UNIT_TEST;
 
     private String extension;
 
