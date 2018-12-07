@@ -161,7 +161,7 @@ public class KontrollerFaktaBeregningStegImplTest {
     private IAYRegisterInnhentingTjeneste lagIAYRegisterInnhentingTjeneste() {
         InnhentingSamletTjeneste innhentingSamletTjeneste = mockInnhentingSamletTjeneste();
         return new IAYRegisterInnhentingFPTjenesteImpl(inntektArbeidYtelseTjeneste,
-            repositoryProvider, virksomhetTjeneste, skjæringstidspunktTjeneste, innhentingSamletTjeneste, personopplysningTjeneste, opplysningsPeriodeTjeneste);
+            repositoryProvider, virksomhetTjeneste, skjæringstidspunktTjeneste, innhentingSamletTjeneste, opplysningsPeriodeTjeneste);
     }
 
     private InnhentingSamletTjeneste mockInnhentingSamletTjeneste() {

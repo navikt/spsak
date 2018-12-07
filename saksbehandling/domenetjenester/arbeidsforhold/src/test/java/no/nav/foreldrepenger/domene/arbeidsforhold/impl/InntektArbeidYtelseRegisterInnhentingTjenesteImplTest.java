@@ -56,7 +56,6 @@ import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InnhentingSamletTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.personopplysning.impl.BasisPersonopplysningTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.testutilities.Whitebox;
@@ -93,7 +92,6 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
             null,
             skjæringstidspunktTjeneste,
             innhentingSamletTjeneste,
-            new BasisPersonopplysningTjenesteImpl(behandlingRepositoryProvider, skjæringstidspunktTjeneste),
             new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(0, 17, 0), Period.of(4, 0, 0)));
     }
 

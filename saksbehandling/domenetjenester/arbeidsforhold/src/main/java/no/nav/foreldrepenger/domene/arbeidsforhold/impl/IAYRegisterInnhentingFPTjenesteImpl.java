@@ -13,7 +13,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Inn
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InnhentingSamletTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 
 @ApplicationScoped
@@ -31,7 +30,6 @@ public class IAYRegisterInnhentingFPTjenesteImpl extends IAYRegisterInnhentingFe
                                                VirksomhetTjeneste virksomhetTjeneste,
                                                SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                                InnhentingSamletTjeneste innhentingSamletTjeneste,
-                                               BasisPersonopplysningTjeneste personopplysningTjeneste,
                                                OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste) {
         super(inntektArbeidYtelseTjeneste,
             repositoryProvider,
