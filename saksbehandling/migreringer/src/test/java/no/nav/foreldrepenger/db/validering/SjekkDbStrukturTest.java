@@ -371,18 +371,35 @@ public class SjekkDbStrukturTest {
 
     @Test
     public void skal_ha_korrekt_index_navn() throws Exception {
-        String sql = "select table_name, index_name, column_name"
-            + " from all_ind_columns"
-            + " where table_owner=upper(?)"
-            + " and index_name not like 'PK_%' and index_name not like 'IDX_%' and index_name not like 'UIDX_%'"
-            + " and table_name not like 'schema_%'";
+        String sql = "select\n" +
+            "       t.relname as table_name,\n" +
+            "       i.relname as index_name,\n" +
+            "       a.attname as column_name\n" +
+            "from\n" +
+            "     pg_class t,\n" +
+            "     pg_class i,\n" +
+            "     pg_index ix,\n" +
+            "     pg_attribute a,\n" +
+            "     information_schema.tables it\n" +
+            "where\n" +
+            "    t.oid = ix.indrelid\n" +
+            "  and i.oid = ix.indexrelid\n" +
+            "  and a.attrelid = t.oid\n" +
+            "  and a.attnum = ANY(ix.indkey)\n" +
+            "  and t.relkind = 'r'\n" +
+            "  and t.relname = it.table_name\n" +
+            "  and it.table_schema = current_schema\n" +
+            "  and it.table_name not like 'schema_%' AND it.table_name not like 'flyway_%' and it.table_name not like 'mock_%'\n" +
+            "  --and t.relname like 'test%'\n" +
+            "  and i.relname not like 'pk_%' and i.relname not like 'idx_%' and i.relname not like 'uidx_%' and i.relname not like 'chk_%'\n" +
+            "order by\n" +
+            "         t.relname,\n" +
+            "         i.relname;\n";
 
         List<String> avvik = new ArrayList<>();
         StringBuilder tekst = new StringBuilder();
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-            stmt.setString(1, schema);
 
             try (ResultSet rs = stmt.executeQuery()) {
 
@@ -396,7 +413,7 @@ public class SjekkDbStrukturTest {
         }
 
         int sz = avvik.size();
-        String feilTekst = "Feil navngiving av index.  Primary Keys skal ha prefiks PK_, andre unike indekser prefiks UIDX_, vanlige indekser prefiks IDX_. Antall feil=";
+        String feilTekst = "Feil navngiving av index.  Primary Keys skal ha prefiks PK_, andre unike indekser prefiks UIDX_, vanlige indekser prefiks IDX_, unique constraints CHK_. Antall feil=";
 
         assertThat(avvik).withFailMessage(feilTekst + +sz + "\n\nTabell, Index, Kolonne\n" + tekst).isEmpty();
 
