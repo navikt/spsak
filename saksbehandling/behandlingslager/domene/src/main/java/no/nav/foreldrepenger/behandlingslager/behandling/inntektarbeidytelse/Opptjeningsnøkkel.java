@@ -129,11 +129,20 @@ public class Opptjeningsnøkkel {
 
     //TODO(OJR) håndter ikke frilans?
     public boolean matcher(Opptjeningsnøkkel other) {
-        if(other == null) {
+        if (other == null) {
             return false;
         }
-        if (other.getType() == this.getType()) {
+        if ((this.getType() != Type.ARBEIDSFORHOLD_ID && other.getType() == this.getType())) {
             return other.getVerdi().equals(this.getVerdi());
+        } else if ((this.getType() == Type.ARBEIDSFORHOLD_ID && other.getType() == this.getType())) {
+            boolean likArbeidsforholdsId = other.getVerdi().equals(this.getVerdi());
+            boolean likArbeidsgiver;
+            if ((other.orgNummer != null) || this.orgNummer != null) {
+                likArbeidsgiver = other.orgNummer != null && other.orgNummer.equals(this.orgNummer);
+            } else {
+                likArbeidsgiver = other.aktørId != null && other.aktørId.equals(this.aktørId);
+            }
+            return likArbeidsforholdsId && likArbeidsgiver;
         } else {
             if ((other.getType().equals(Type.ORG_NUMMER) || this.getType().equals(Type.ORG_NUMMER))
                 && (!other.harArbeidsforholdId() || !this.harArbeidsforholdId())) {
