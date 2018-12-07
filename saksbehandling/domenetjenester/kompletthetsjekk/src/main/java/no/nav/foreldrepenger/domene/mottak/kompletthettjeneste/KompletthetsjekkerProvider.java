@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
@@ -16,16 +17,15 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 @ApplicationScoped
 public class KompletthetsjekkerProvider {
 
-    private Instance<Kompletthetsjekker> instans;
-
     private final Map<Set<String>, Kompletthetsjekker> cachedinstanser = new ConcurrentHashMap<>();
+    private Instance<Kompletthetsjekker> instans;
 
     KompletthetsjekkerProvider() {
         // for CDI proxy
     }
 
     @Inject
-    public KompletthetsjekkerProvider(Instance<Kompletthetsjekker> instans) {
+    public KompletthetsjekkerProvider(@Any Instance<Kompletthetsjekker> instans) {
         this.instans = instans;
     }
 

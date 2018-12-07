@@ -354,8 +354,8 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
 
     @Override
     public void oppdaterSistOppdatertTidspunkt(Behandling behandling, LocalDateTime tidspunkt) {
-        Query query = getEntityManager().createNativeQuery("UPDATE BEHANDLING BE SET BE.SIST_OPPDATERT_TIDSPUNKT = :tidspunkt WHERE " +
-            "BE.ID = :behandling_id");
+        Query query = getEntityManager().createNativeQuery("UPDATE BEHANDLING SET SIST_OPPDATERT_TIDSPUNKT = :tidspunkt WHERE " +
+            "ID = :behandling_id");
 
         query.setParameter("tidspunkt", tidspunkt); // NOSONAR $NON-NLS-1$
         query.setParameter("behandling_id", behandling.getId()); // NOSONAR $NON-NLS-1$

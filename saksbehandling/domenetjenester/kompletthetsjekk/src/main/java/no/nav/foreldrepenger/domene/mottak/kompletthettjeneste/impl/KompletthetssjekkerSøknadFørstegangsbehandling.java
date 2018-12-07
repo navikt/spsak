@@ -34,6 +34,9 @@ public class KompletthetssjekkerSøknadFørstegangsbehandling extends AbstractKo
     private SøknadRepository søknadRepository;
     private DokumentArkivTjeneste dokumentArkivTjeneste;
 
+    KompletthetssjekkerSøknadFørstegangsbehandling() {
+    }
+
     @Inject
     public KompletthetssjekkerSøknadFørstegangsbehandling(DokumentArkivTjeneste dokumentArkivTjeneste,
                                                             BehandlingRepositoryProvider repositoryProvider,

@@ -103,6 +103,25 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         }
     }
 
+    private static void postconditionUtfallLagret(Long behandlingId, BehandlingStegTilstand tilstand, BehandlingStegUtfall utfall) {
+        if (utfall == null) {
+            if (tilstand != null) {
+                throw new IllegalStateException("Fant tilstand " + tilstand + ", men har utfall null, på behandlingId=" + behandlingId);
+            }
+        } else {
+            if (tilstand == null) {
+                throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand null, på behandlingId=" + behandlingId);
+            } else {
+                if (Objects.equals(tilstand.getStegType(), utfall.getStegType()) && Objects.equals(tilstand.getStatus(), utfall.getStatus())) {
+                    // OK
+                } else {
+                    throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand " + tilstand + ", på behandlingId=" + behandlingId);
+                }
+            }
+
+        }
+    }
+
     @Override
     public BehandlingStegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst) {
         Behandling behandling = hentBehandling(kontekst);
@@ -202,7 +221,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         var modell = getModell(behandling);
         return modell.erStegAFørStegB(stegA, stegB) ? -1
             : modell.erStegAFørStegB(stegB, stegA) ? 1
-                : 0;
+            : 0;
     }
 
     @Override
@@ -423,7 +442,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
             throw BehandlingskontrollFeil.FACTORY.kanIkkeHenleggeAvsluttetBehandling(behandling.getId()).toException();
         }
         if (behandling.isBehandlingPåVent()
-        // && !behandling.getÅpneAksjonspunkter(AksjonspunktType.AUTOPUNKT).equals(behandling.getÅpneAksjonspunkter())
+            // && !behandling.getÅpneAksjonspunkter(AksjonspunktType.AUTOPUNKT).equals(behandling.getÅpneAksjonspunkter())
         ) {
             throw BehandlingskontrollFeil.FACTORY.kanIkkeHenleggeBehandlingPåVent(behandling.getId()).toException();
         }
@@ -528,11 +547,11 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
             BehandlingStegStatus.AVBRUTT, false);
     }
 
-    protected void doTilbakeføringTilTidligereBehandlingSteg(Behandling behandling, 
+    protected void doTilbakeføringTilTidligereBehandlingSteg(Behandling behandling,
                                                              BehandlingModell modell,
-                                                            final BehandlingStegType tidligereSteg, 
-                                                            final BehandlingStegType stegType,
-                                                            final BehandlingStegStatus startStatusForNyttSteg) {
+                                                             final BehandlingStegType tidligereSteg,
+                                                             final BehandlingStegType stegType,
+                                                             final BehandlingStegStatus startStatusForNyttSteg) {
         if (!erLikEllerTidligereSteg(modell, stegType, tidligereSteg)) {
             throw new IllegalStateException(
                 "Kan ikke angi steg [" + tidligereSteg + "] som er etter [" + stegType + "]" + "for behandlingId " + behandling.getId()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -740,7 +759,9 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     }
 
     private BehandlingStegType finnAktivtBehandlingSteg(Long behandlingId) {
-        return behandlingskontrollRepository.getAktivtBehandlingStegTilstandDefinitiv(behandlingId).getStegType();
+        return behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId)
+            .map(BehandlingStegTilstand::getStegType)
+            .orElse(null);
     }
 
     private void validerOgFlaggStartetProsessering() {
@@ -770,25 +791,5 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         builder.build(historikkinnslag);
         historikkinnslag.setAktør(aktør);
         historikkRepository.lagre(historikkinnslag);
-    }
-    
-
-    private static void postconditionUtfallLagret(Long behandlingId, BehandlingStegTilstand tilstand, BehandlingStegUtfall utfall) {
-        if (utfall == null) {
-            if (tilstand!=null) {
-                throw new IllegalStateException("Fant tilstand " + tilstand + ", men har utfall null, på behandlingId=" + behandlingId);
-            }
-        } else {
-            if (tilstand==null) {
-                throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand null, på behandlingId=" + behandlingId);
-            } else {
-                if (Objects.equals(tilstand.getStegType(), utfall.getStegType()) && Objects.equals(tilstand.getStatus(), utfall.getStatus())) {
-                    // OK
-                } else {
-                    throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand " + tilstand + ", på behandlingId=" + behandlingId);
-                }
-            }
-
-        }
     }
 }

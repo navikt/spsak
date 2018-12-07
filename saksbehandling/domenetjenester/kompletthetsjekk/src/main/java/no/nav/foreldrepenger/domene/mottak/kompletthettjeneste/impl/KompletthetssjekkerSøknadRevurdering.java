@@ -38,11 +38,14 @@ public class KompletthetssjekkerSøknadRevurdering extends AbstractKompletthetss
     private DokumentArkivTjeneste dokumentArkivTjeneste;
     private BehandlingVedtakRepository behandlingVedtakRepository;
 
+    KompletthetssjekkerSøknadRevurdering() {
+    }
+
     @Inject
     public KompletthetssjekkerSøknadRevurdering(DokumentArkivTjeneste dokumentArkivTjeneste,
-                                                  BehandlingRepositoryProvider repositoryProvider,
-                                                  SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
-                                                  @KonfigVerdi("ventefrist.uker.ved.tidlig.fp.soeknad") Integer antallUkerVentefristVedForTidligSøknad) {
+                                                BehandlingRepositoryProvider repositoryProvider,
+                                                SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
+                                                @KonfigVerdi("ventefrist.uker.ved.tidlig.fp.soeknad") Integer antallUkerVentefristVedForTidligSøknad) {
         super(repositoryProvider.getKodeverkRepository(),
             skjæringstidspunktTjeneste, antallUkerVentefristVedForTidligSøknad, repositoryProvider.getSøknadRepository());
         this.søknadRepository = repositoryProvider.getSøknadRepository();
