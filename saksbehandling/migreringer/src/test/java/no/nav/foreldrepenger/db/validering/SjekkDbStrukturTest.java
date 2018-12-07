@@ -222,6 +222,7 @@ public class SjekkDbStrukturTest {
     }
 
     @Test
+    @Ignore
     public void skal_ha_virtual_column_definisjon_for_kodeverk_kolonne_i_source_tabell() throws Exception {
         String sql = "SELECT T.TABLE_NAME, T.CONSTRAINT_NAME, LISTAGG(COLC.COLUMN_NAME, ',') WITHIN GROUP (ORDER BY COLC.POSITION) AS COLUMNS FROM ALL_CONSTRAINTS T\n" +
             "INNER JOIN ALL_CONS_COLUMNS COLC ON COLC.CONSTRAINT_NAME=T.CONSTRAINT_NAME AND COLC.TABLE_NAME = T.TABLE_NAME AND COLC.OWNER=T.OWNER \n" +
@@ -505,20 +506,18 @@ public class SjekkDbStrukturTest {
 
 
     @Test
-    public void skal_ikke_bruke_FLOAT_eller_DOUBLE() throws Exception {
-        String sql = "select table_name, column_name, data_type from all_tab_cols where owner=upper(?) and data_type in ('FLOAT', 'DOUBLE') order by 1, 2";
+    public void skal_ikke_bruke_FLOAT_REAL_eller_DOUBLEPRECISION() throws Exception {
+        String sql = "select table_name, column_name, data_type From information_schema.columns where table_schema = current_schema and data_type in ('real', 'double precision')";
 
         List<String> avvik = new ArrayList<>();
         StringBuilder tekst = new StringBuilder();
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);) {
 
-            stmt.setString(1, schema);
-
             try (ResultSet rs = stmt.executeQuery()) {
 
                 while (rs.next()) {
-                    String t = rs.getString(1) + ", " + rs.getString(2);
+                    String t = rs.getString(1) + ", " + rs.getString(2) + ", " + rs.getString(3);
                     avvik.add(t);
                     tekst.append(t).append("\n");
                 }
@@ -527,7 +526,7 @@ public class SjekkDbStrukturTest {
         }
 
         int sz = avvik.size();
-        String feilTekst = "Feil bruk av datatype, skal ikke ha FLOAT eller DOUBLE (bruk NUMBER for alle desimaltall, spesielt der penger representeres). Antall feil=";
+        String feilTekst = "Feil bruk av datatype, skal ikke ha REAL/FLOAT eller DOUBLE PRECISION (bruk NUMBER for alle desimaltall, spesielt der penger representeres). Antall feil=";
 
         assertThat(avvik).withFailMessage(feilTekst + +sz + "\n\nTabell, Kolonne, Datatype\n" + tekst).isEmpty();
 
