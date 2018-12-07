@@ -18,6 +18,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
+import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
@@ -46,9 +47,9 @@ public class OpprettNyFørstegangsbehandlingTest {
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste;
     private BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste;
     private KodeverkRepository kodeverkRepository;
-
+    private final AbstractTestScenario<?> scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
     private Behandling opprettOgLagreBehandling() {
-        return ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider);
+        return scenario.lagre(repositoryProvider);
     }
 
     @Before
@@ -77,7 +78,7 @@ public class OpprettNyFørstegangsbehandlingTest {
     @Test
     public void skal_opprette_nyførstegangsbehandling() {
         //Arrange
-        behandling.avsluttBehandling();
+        scenario.avsluttBehandling(repositoryProvider, behandling);
 
         //Act
         behandlingsutredningApplikasjonTjeneste.opprettNyFørstegangsbehandling(behandling.getFagsakId(), behandling.getFagsak().getSaksnummer());

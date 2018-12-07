@@ -131,8 +131,8 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
 
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any(Behandling.class))).thenReturn(LocalDate.now());
 
-        Behandling behandling = opprettForeldrePengerSakMedVedtakOgUttakOgBeregning(ytelseHjelper);
-        behandling.avsluttBehandling();
+        @SuppressWarnings("unused")
+        Behandling behandling = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(ytelseHjelper);
 
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
@@ -153,8 +153,8 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
 
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any(Behandling.class))).thenReturn(LocalDate.now());
 
-        Behandling behandling = opprettForeldrePengerSakMedVedtakOgUttakOgBeregning(ytelseHjelper);
-        behandling.avsluttBehandling();
+        @SuppressWarnings("unused")
+        Behandling behandling = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(ytelseHjelper);
 
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
@@ -176,8 +176,8 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         ytelseHjelperTesterList.add(ytelseHjelper);
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any(Behandling.class))).thenReturn(LocalDate.now());
 
-        Behandling behandling1 = opprettForeldrePengerSakMedVedtakOgUttakOgBeregning(ytelseHjelper);
-        behandling1.avsluttBehandling();
+        @SuppressWarnings("unused")
+        Behandling behandling1 = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(ytelseHjelper);
 
         YtelseHjelperTester andreYtelseHjelper = new YtelseHjelperTester();
         andreYtelseHjelper.medAktørId(new AktørId("1")).medArbeidsForhold("65L").medSaksnummer(new Saksnummer("4"))
@@ -185,8 +185,8 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
             .medKilde("FPSAK").medFagsakType("FORELDREPENGER");
         ytelseHjelperTesterList.add(andreYtelseHjelper);
 
-        Behandling behandling2 = opprettForeldrePengerSakMedVedtakOgUttakOgBeregning(andreYtelseHjelper);
-        behandling2.avsluttBehandling();
+        @SuppressWarnings("unused")
+        Behandling behandling2 = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(andreYtelseHjelper);
 
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository().hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
         Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider);
@@ -203,8 +203,8 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
 
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any(Behandling.class))).thenReturn(LocalDate.now());
 
-        Behandling behandling = opprettForeldrePengerSakMedVedtakOgUttakOgBeregning(ytelseHjelper);
-        behandling.avsluttBehandling();
+        @SuppressWarnings("unused")
+        Behandling behandling = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(ytelseHjelper);
 
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
@@ -220,13 +220,12 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         sjekkVerdier(ytelse, ytelseHjelper);
     }
 
-    private Behandling opprettForeldrePengerSakMedVedtakOgUttakOgBeregning(YtelseHjelperTester ytelseHjelper) {
-        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger = ScenarioMorSøkerForeldrepenger.forAktør(ytelseHjelper.aktørId).medSaksnummer(ytelseHjelper.saksnummer);
-        scenarioMorSøkerForeldrepenger.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling behandling = scenarioMorSøkerForeldrepenger.lagre(repositoryProvider);
+    private Behandling opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(YtelseHjelperTester ytelseHjelper) {
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(ytelseHjelper.aktørId).medSaksnummer(ytelseHjelper.saksnummer);
+        scenario.removeDodgyDefaultInntektArbeidYTelse();
+        Behandling behandling = scenario.lagre(repositoryProvider);
 
         opprettVedtakForBehandling(behandling);
-
 
         Beregningsgrunnlag beregningsgrunnlag = buildBeregningsgrunnlag(ytelseHjelper);
         repositoryProvider.getBeregningsgrunnlagRepository().lagre(behandling, beregningsgrunnlag, BeregningsgrunnlagTilstand.OPPRETTET);
@@ -235,6 +234,9 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
 
         UttakResultatEntitet uttakResultatEntitet = opprettUttak(true, behandling, ytelseHjelper.uttakFom, ytelseHjelper.uttakTom, virksomhet);
         repositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, uttakResultatEntitet.getGjeldendePerioder());
+        
+        scenario.avsluttBehandling(repositoryProvider, behandling);
+        
         return behandling;
     }
 

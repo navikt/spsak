@@ -94,6 +94,12 @@ public class BehandleStegResultat {
 
         return new BehandleStegResultat(this.transisjon, liste);
     }
+    
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() +"<transisjon="+transisjon+", aksjonspunkter="+aksjonspunktListe+">";
+    }
+    
 
     public static BehandleStegResultat henlagtBehandling() {
         return new BehandleStegResultat(FellesTransisjoner.HENLAGT, Collections.emptyList());

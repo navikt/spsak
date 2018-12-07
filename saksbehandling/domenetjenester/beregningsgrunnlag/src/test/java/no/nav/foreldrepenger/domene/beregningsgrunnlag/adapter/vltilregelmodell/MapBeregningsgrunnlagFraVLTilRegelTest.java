@@ -74,7 +74,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.TemaUnderkategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
@@ -508,11 +507,11 @@ public class MapBeregningsgrunnlagFraVLTilRegelTest {
     public void skalLageSammenligningsgrunnlagForRevurdering() {
         //Arrange
         Behandling forrigeBehandling = lagBehandling(scenario);
-        forrigeBehandling.avsluttBehandling();
-        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
-        behandlingRepository.lagre(forrigeBehandling, behandlingRepository.taSkriveLås(forrigeBehandling));
+        scenario.avsluttBehandling(repositoryProvider, forrigeBehandling);
+        
         FagsakRepository fagsakRepository = repositoryProvider.getFagsakRepository();
         fagsakRepository.oppdaterFagsakStatus(forrigeBehandling.getFagsakId(), FagsakStatus.LØPENDE);
+        
         behandling = revurderingTjeneste.opprettAutomatiskRevurdering(forrigeBehandling.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         Beregningsgrunnlag nyttBG = buildVLBeregningsgrunnlag();
         Beregningsgrunnlag forrigeBG = buildVLBeregningsgrunnlag();

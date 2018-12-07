@@ -6,13 +6,10 @@ import java.util.UUID;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -24,13 +21,9 @@ public class KompletthetssjekkerTestUtil {
     public static final String ARBGIVER2 = "234567890";
 
     private BehandlingRepositoryProvider repositoryProvider;
-    private BehandlingRepository behandlingRepository;
-    private FagsakRepository fagsakRepository;
 
     public KompletthetssjekkerTestUtil(BehandlingRepositoryProvider repositoryProvider) {
         this.repositoryProvider = repositoryProvider;
-        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.fagsakRepository = repositoryProvider.getFagsakRepository();
     }
 
     public ScenarioMorSøkerForeldrepenger opprettRevurderingsscenario() {
@@ -49,14 +42,8 @@ public class KompletthetssjekkerTestUtil {
             .medAnsvarligSaksbehandler("Nav Navsdotter")
             .build();
         Behandling førstegangsbehandling = scenario.lagre(repositoryProvider);
-        avsluttBehandlingOgFagsak(førstegangsbehandling);
+        scenario.avsluttBehandling(repositoryProvider, førstegangsbehandling);
         return førstegangsbehandling;
-    }
-
-    private void avsluttBehandlingOgFagsak(Behandling behandling) {
-        behandling.avsluttBehandling();
-        behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
-        fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.LØPENDE);
     }
 
     public void lagreSøknad(Behandling behandling) {

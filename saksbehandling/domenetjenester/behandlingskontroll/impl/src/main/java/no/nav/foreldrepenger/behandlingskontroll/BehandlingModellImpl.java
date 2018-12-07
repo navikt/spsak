@@ -24,10 +24,10 @@ import no.nav.foreldrepenger.behandlingskontroll.transisjoner.StegTransisjon;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.TransisjonIdentifikator;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.Transisjoner;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTypeStegSekvens;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderingspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
@@ -395,11 +395,12 @@ public class BehandlingModellImpl implements AutoCloseable, BehandlingModell {
     }
 
     static BehandlingStegOvergangEvent nyBehandlingStegOvergangEvent(BehandlingModell modell,
-                                                                     Optional<BehandlingStegTilstand> forrigeTilstand,
-                                                                     Optional<BehandlingStegTilstand> nyTilstand, BehandlingskontrollKontekst kontekst, boolean erOverstyring) {
+                                                                     Optional<StegTilstand> forrigeTilstand,
+                                                                     Optional<StegTilstand> nyTilstand, 
+                                                                     BehandlingskontrollKontekst kontekst, boolean erOverstyring) {
 
-        BehandlingStegType stegFørType = forrigeTilstand.isPresent() ? forrigeTilstand.get().getStegType() : null;
-        BehandlingStegType stegEtterType = nyTilstand.isPresent() ? nyTilstand.get().getStegType() : null;
+        BehandlingStegType stegFørType = forrigeTilstand.map(StegTilstand::getStegType).orElse(null);
+        BehandlingStegType stegEtterType = nyTilstand.map(StegTilstand::getStegType).orElse(null);
 
         int relativForflytning = modell.relativStegForflytning(stegFørType, stegEtterType);
 

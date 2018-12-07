@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.behandlingskontroll;
 
 import java.lang.annotation.Annotation;
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.BeanManager;
@@ -10,9 +9,6 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingEvent;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 
 /**
  * Håndterer fyring av events via CDI når det skjer en overgang i Behandlingskontroll mellom steg, eller statuser
@@ -34,8 +30,8 @@ public class BehandlingskontrollEventPubliserer {
     }
 
     public void fireEvent(BehandlingStegOvergangEvent event) {
-        Optional<BehandlingStegTilstand> fraTilstand = event.getFraTilstand();
-        Optional<BehandlingStegTilstand> nyTilstand = event.getTilTilstand();
+        var fraTilstand = event.getFraTilstand();
+        var nyTilstand = event.getTilTilstand();
         if ((!fraTilstand.isPresent() && !nyTilstand.isPresent())
                 || (fraTilstand.isPresent() && nyTilstand.isPresent() && Objects.equals(fraTilstand.get(), nyTilstand.get()))) {
             // ikke fyr duplikate events
@@ -47,15 +43,6 @@ public class BehandlingskontrollEventPubliserer {
 
     public void fireEvent(BehandlingTransisjonEvent event){
         doFireEvent(event);
-    }
-
-    public void fireEvent(BehandlingskontrollKontekst kontekst, BehandlingStegType stegType, BehandlingStegStatus forrigeStatus,
-            BehandlingStegStatus nyStatus) {
-        if (Objects.equals(forrigeStatus, nyStatus)) {
-            // gjør ingenting
-            return;
-        }
-        doFireEvent(new BehandlingStegStatusEvent(kontekst, stegType, forrigeStatus, nyStatus));
     }
 
     public void fireEvent(BehandlingskontrollKontekst kontekst, BehandlingStatus gammelStatus, BehandlingStatus nyStatus) {

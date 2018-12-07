@@ -16,9 +16,9 @@ import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -70,7 +70,7 @@ public class BehandlingskontrollEventPublisererTest {
 
         kontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository, eventPubliserer) {
             @Override
-            protected BehandlingModellImpl getModell(Behandling behandling) {
+            protected BehandlingModellImpl getModell(BehandlingType type, FagsakYtelseType ytelseType) {
                 return behandlingModell;
             }
         };
@@ -121,41 +121,6 @@ public class BehandlingskontrollEventPublisererTest {
     }
 
     @Test
-    public void skal_fyre_event_for_behandlingskontroll_behandlingsteg_status_endring_ved_prosessering() throws Exception {
-        // Arrange
-        ScenarioMorSøkerEngangsstønad scenario = nyttScenario(STEG_1);
-
-        Behandling behandling = scenario.lagre(repositoryProvider);
-
-        BehandlingskontrollKontekst kontekst = kontrollTjeneste.initBehandlingskontroll(behandling.getId());
-
-        // Act
-        kontrollTjeneste.prosesserBehandling(kontekst);
-
-        // Assert
-
-        BehandlingStegStatusEvent steg1StatusEvent0 = new BehandlingStegStatusEvent(kontekst, STEG_1, null,
-            BehandlingStegStatus.STARTET);
-        BehandlingStegStatusEvent steg1StatusEvent1 = new BehandlingStegStatusEvent(kontekst, STEG_1, BehandlingStegStatus.STARTET,
-            BehandlingStegStatus.UTFØRT);
-        BehandlingStegStatusEvent steg2StatusEvent0 = new BehandlingStegStatusEvent(kontekst, STEG_2, null,
-            BehandlingStegStatus.STARTET);
-        BehandlingStegStatusEvent steg2StatusEvent = new BehandlingStegStatusEvent(kontekst, STEG_2, BehandlingStegStatus.STARTET,
-            BehandlingStegStatus.UTFØRT);
-        BehandlingStegStatusEvent steg3StatusEvent0 = new BehandlingStegStatusEvent(kontekst, STEG_2, null,
-            BehandlingStegStatus.STARTET);
-        BehandlingStegStatusEvent steg3StatusEvent = new BehandlingStegStatusEvent(kontekst, STEG_3, BehandlingStegStatus.STARTET,
-            BehandlingStegStatus.UTFØRT);
-        BehandlingStegStatusEvent steg4StatusEvent = new BehandlingStegStatusEvent(kontekst, STEG_4, null,
-            BehandlingStegStatus.INNGANG);
-        TestEventObserver.containsExactly(steg1StatusEvent0, steg1StatusEvent1 //
-            , steg2StatusEvent0, steg2StatusEvent//
-            , steg3StatusEvent0, steg3StatusEvent//
-            , steg4StatusEvent//
-        );
-    }
-
-    @Test
     public void skal_fyre_event_for_behandlingskontroll_tilbakeføring_ved_prosessering() throws Exception {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = nyttScenario(STEG_3);
@@ -171,7 +136,7 @@ public class BehandlingskontrollEventPublisererTest {
         // Assert
         // TODO (essv): Vanskelig å overstyre SUT til å gjøre tilbakehopp i riktig retning, her gjøres det fremover.
         // Den trenger et åpent aksjonspunkt som ligger før startsteget
-        BehandlingStegOvergangEvent tilbakeføring3_4 = nyOvergangEvent(kontekst, behandling, STEG_3, BehandlingStegStatus.UTFØRT, STEG_4, BehandlingStegStatus.UTFØRT);
+        BehandlingStegOvergangEvent tilbakeføring3_4 = nyOvergangEvent(kontekst, STEG_3, BehandlingStegStatus.UTFØRT, STEG_4, null);
         TestEventObserver.containsExactly(tilbakeføring3_4);
     }
 
@@ -189,9 +154,9 @@ public class BehandlingskontrollEventPublisererTest {
 
         // Assert
 
-        BehandlingStegOvergangEvent overgang1_2 = nyOvergangEvent(kontekst, behandling, STEG_1, BehandlingStegStatus.UTFØRT, STEG_2, BehandlingStegStatus.UTFØRT);
-        BehandlingStegOvergangEvent overgang2_3 = nyOvergangEvent(kontekst, behandling, STEG_2, BehandlingStegStatus.UTFØRT, STEG_3, BehandlingStegStatus.UTFØRT);
-        BehandlingStegOvergangEvent overgang3_4 = nyOvergangEvent(kontekst, behandling, STEG_3, BehandlingStegStatus.UTFØRT, STEG_4, BehandlingStegStatus.UTFØRT);
+        BehandlingStegOvergangEvent overgang1_2 = nyOvergangEvent(kontekst, STEG_1, BehandlingStegStatus.UTFØRT, STEG_2, null);
+        BehandlingStegOvergangEvent overgang2_3 = nyOvergangEvent(kontekst, STEG_2, BehandlingStegStatus.UTFØRT, STEG_3, null);
+        BehandlingStegOvergangEvent overgang3_4 = nyOvergangEvent(kontekst, STEG_3, BehandlingStegStatus.UTFØRT, STEG_4, null);
         TestEventObserver.containsExactly(overgang1_2, overgang2_3, overgang3_4);
     }
 
@@ -201,15 +166,14 @@ public class BehandlingskontrollEventPublisererTest {
         return scenario;
     }
 
-    private BehandlingStegOvergangEvent nyOvergangEvent(BehandlingskontrollKontekst kontekst, Behandling behandling,
-                                                        BehandlingStegType steg1, BehandlingStegStatus steg1Status, BehandlingStegType steg2, BehandlingStegStatus steg2Status) {
-        return new BehandlingStegOvergangEvent(kontekst, lagTilstand(behandling, steg1, steg1Status),
-            lagTilstand(behandling, steg2, steg2Status));
+    private BehandlingStegOvergangEvent nyOvergangEvent(BehandlingskontrollKontekst kontekst, BehandlingStegType steg1,
+                                                        BehandlingStegStatus steg1Status, BehandlingStegType steg2, BehandlingStegStatus steg2Status) {
+        return new BehandlingStegOvergangEvent(kontekst, lagTilstand(steg1, steg1Status),
+            lagTilstand(steg2, steg2Status));
     }
 
-    private Optional<BehandlingStegTilstand> lagTilstand(Behandling behandling, BehandlingStegType stegType,
-                                                         BehandlingStegStatus stegStatus) {
-        return Optional.of(new BehandlingStegTilstand(behandling, stegType, stegStatus));
+    private Optional<StegTilstand> lagTilstand(BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
+        return Optional.of(new StegTilstand(stegType, stegStatus));
     }
 
     private BehandlingModellImpl byggModell() {

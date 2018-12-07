@@ -49,7 +49,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
@@ -57,8 +56,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRep
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -91,7 +88,6 @@ public class HentGrunnlagsdataTjenesteImplTest {
     private VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
     private HentGrunnlagsdataTjenesteImpl hentGrunnlagsdataTjeneste;
 
-    private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
         mock(BehandlingModellRepository.class), null);
     private RevurderingTjenesteImpl revurderingTjeneste = new RevurderingTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, mock(HistorikkRepository.class), null);
@@ -105,7 +101,8 @@ public class HentGrunnlagsdataTjenesteImplTest {
     public void setUp() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         forrigeBehandling = scenario.lagre(repositoryProvider);
-        avsluttBehandlingOgFagsak(forrigeBehandling);
+        scenario.avsluttBehandling(repositoryProvider, forrigeBehandling);
+        
         virksomhet = hentVirksomhet();
         hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjenesteImpl(repositoryProvider, opptjeningTjeneste, inntektArbeidYtelseTjeneste, null);
     }
@@ -549,13 +546,6 @@ public class HentGrunnlagsdataTjenesteImplTest {
                 .build(periode);
         }
         return beregningsgrunnlag;
-    }
-
-    private void avsluttBehandlingOgFagsak(Behandling behandling) {
-        behandling.avsluttBehandling();
-        behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
-        FagsakRepository fagsakRepository = repositoryProvider.getFagsakRepository();
-        fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.LØPENDE);
     }
 
     private InntektArbeidYtelseAggregatBuilder lagIAY(boolean endretYtelse, boolean endretYtelsePeriode, boolean fpVedtakFraFørstegangsbehandling) {

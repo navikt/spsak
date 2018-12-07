@@ -22,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
@@ -45,6 +46,7 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
+import no.nav.vedtak.felles.testutilities.Whitebox;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
@@ -128,7 +130,7 @@ public class DokumentmottakerEndringssøknadTest {
         when(behandlingsoppretter.opprettRevurdering(behandling.getFagsak(), BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER)).thenReturn(revurdering);
 
         // simulere at den tidligere behandlingen er avsluttet
-        behandling.avsluttBehandling();
+        avsluttBehandling(behandling);
         Long fagsakId = behandling.getFagsakId();
         DokumentTypeId dokumentTypeEndringssøknad = DokumentTypeId.FORELDREPENGER_ENDRING_SØKNAD;
 
@@ -140,6 +142,11 @@ public class DokumentmottakerEndringssøknadTest {
         //Assert
         verify(behandlingsoppretter).opprettRevurdering(behandling.getFagsak(), BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER); //Skal ved opprettelse av revurdering fra endringssøknad sette behandlingårsaktype til 'endring fra bruker'.
         verify(dokumentmottakerFelles).opprettHistorikk(any(Behandling.class), eq(mottattDokument.getJournalpostId()));
+    }
+
+    @SuppressWarnings("deprecation")
+    private void avsluttBehandling(Behandling behandling) {
+        Whitebox.setInternalState(behandling, "status", BehandlingStatus.AVSLUTTET);
     }
 
     @Test

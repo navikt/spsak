@@ -113,11 +113,4 @@ public class BehandlingStegTilstand extends BaseEntitet implements IndexKey {
             + ">";
     }
 
-    public boolean erVedInngangAvSteg() {
-        return this.behandlingStegStatus!=null && this.behandlingStegStatus.erVedInngang();
-    }
-    
-    public boolean erVedUtgangAvSteg() {
-        return this.behandlingStegStatus!=null && this.behandlingStegStatus.erVedUtgang();
-    }
 }

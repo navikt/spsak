@@ -1,13 +1,13 @@
 package no.nav.foreldrepenger.behandlingskontroll;
 
-import no.nav.foreldrepenger.domene.typer.AktørId;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingEvent;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 
 /**
  * Event publiseres av {@link BehandlingskontrollTjeneste} når en {@link Behandling} endrer steg.
@@ -15,15 +15,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
  */
 public class BehandlingStegOvergangEvent implements BehandlingEvent {
 
-
-
     /**
      * Event som fyres dersom vi tilbakefører (går bakover i behandlingstegene)
      */
     public static class BehandlingStegTilbakeføringEvent extends BehandlingStegOvergangEvent {
 
-        public BehandlingStegTilbakeføringEvent(BehandlingskontrollKontekst kontekst, Optional<BehandlingStegTilstand> forrigeTilstand,
-                                                Optional<BehandlingStegTilstand> nyTilstand) {
+        public BehandlingStegTilbakeføringEvent(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> forrigeTilstand,
+                                                Optional<StegTilstand> nyTilstand) {
             super(kontekst, forrigeTilstand, nyTilstand);
 
         }
@@ -43,25 +41,28 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
         @Override
         public Optional<BehandlingStegStatus> getSisteStegStatus() {
             // siden hopper bakover blir dette fraSteg
-            Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
+            Optional<StegTilstand> tilstand = getFraTilstand();
             return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
         }
 
         @Override
         public Optional<BehandlingStegStatus> getFørsteStegStatus() {
             // siden hopper bakover blir dette tilSteg
-            Optional<BehandlingStegTilstand> tilstand = getTilTilstand();
+            Optional<StegTilstand> tilstand = getTilTilstand();
             return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
         }
     }
 
-    public static class BehandlingStegOverstyringTilbakeføringEvent extends BehandlingStegTilbakeføringEvent{
-        public BehandlingStegOverstyringTilbakeføringEvent(BehandlingskontrollKontekst kontekst, Optional<BehandlingStegTilstand> forrigeTilstand,
-                                           Optional<BehandlingStegTilstand> nyTilstand) {
+    public static class BehandlingStegOverstyringTilbakeføringEvent extends BehandlingStegTilbakeføringEvent {
+        public BehandlingStegOverstyringTilbakeføringEvent(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> forrigeTilstand,
+                                                           Optional<StegTilstand> nyTilstand) {
             super(kontekst, forrigeTilstand, nyTilstand);
         }
+
         @Override
-        public BehandlingSteg.TransisjonType getSkalTil(){return BehandlingSteg.TransisjonType.ETTER_UTGANG;}
+        public BehandlingSteg.TransisjonType getSkalTil() {
+            return BehandlingSteg.TransisjonType.ETTER_UTGANG;
+        }
     }
 
     /**
@@ -69,20 +70,20 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
      */
     public static class BehandlingStegOverhoppEvent extends BehandlingStegOvergangEvent {
 
-        public BehandlingStegOverhoppEvent(BehandlingskontrollKontekst kontekst, Optional<BehandlingStegTilstand> forrigeTilstand,
-                                           Optional<BehandlingStegTilstand> nyTilstand) {
+        public BehandlingStegOverhoppEvent(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> forrigeTilstand,
+                                           Optional<StegTilstand> nyTilstand) {
             super(kontekst, forrigeTilstand, nyTilstand);
         }
     }
 
     private BehandlingskontrollKontekst kontekst;
 
-    private Optional<BehandlingStegTilstand> fraTilstand;
-    private Optional<BehandlingStegTilstand> tilTilstand;
+    private Optional<StegTilstand> fraTilstand;
+    private Optional<StegTilstand> tilTilstand;
 
-    public BehandlingStegOvergangEvent(BehandlingskontrollKontekst kontekst, Optional<BehandlingStegTilstand> forrigeTilstand,
-                                       Optional<BehandlingStegTilstand> nyTilstand) {
-        super();
+    public BehandlingStegOvergangEvent(BehandlingskontrollKontekst kontekst, 
+                                       Optional<StegTilstand> forrigeTilstand,
+                                       Optional<StegTilstand> nyTilstand) {
         this.kontekst = kontekst;
         this.fraTilstand = forrigeTilstand;
         this.tilTilstand = nyTilstand;
@@ -107,15 +108,17 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
         return kontekst.getBehandlingId();
     }
 
-    public Optional<BehandlingStegTilstand> getFraTilstand() {
+    public Optional<StegTilstand> getFraTilstand() {
         return fraTilstand;
     }
 
-    public Optional<BehandlingStegTilstand> getTilTilstand() {
+    public Optional<StegTilstand> getTilTilstand() {
         return tilTilstand;
     }
 
-    public BehandlingSteg.TransisjonType getSkalTil(){return BehandlingSteg.TransisjonType.FØR_INNGANG;}
+    public BehandlingSteg.TransisjonType getSkalTil() {
+        return BehandlingSteg.TransisjonType.FØR_INNGANG;
+    }
 
     @Override
     public String toString() {
@@ -126,13 +129,14 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
     }
 
     public static BehandlingStegOvergangEvent nyEvent(BehandlingskontrollKontekst kontekst,
-                                                      Optional<BehandlingStegTilstand> forrigeTilstand, Optional<BehandlingStegTilstand> nyTilstand, int relativForflytning, boolean erOverstyring) {
+                                                      Optional<StegTilstand> forrigeTilstand, Optional<StegTilstand> nyTilstand,
+                                                      int relativForflytning, boolean erOverstyring) {
         if (relativForflytning == 1) {
             // normal forover
             return new BehandlingStegOvergangEvent(kontekst, forrigeTilstand, nyTilstand);
         } else if (relativForflytning < 1) {
             // tilbakeføring
-            if(erOverstyring){
+            if (erOverstyring) {
                 return new BehandlingStegOvergangEvent.BehandlingStegOverstyringTilbakeføringEvent(kontekst, forrigeTilstand, nyTilstand);
             }
             return new BehandlingStegOvergangEvent.BehandlingStegTilbakeføringEvent(kontekst, forrigeTilstand, nyTilstand);
@@ -144,7 +148,7 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
     }
 
     public BehandlingStegType getTilStegType() {
-        Optional<BehandlingStegTilstand> tilstand = getTilTilstand();
+        Optional<StegTilstand> tilstand = getTilTilstand();
         if (tilstand.isPresent()) {
             return tilstand.get().getStegType();
         } else {
@@ -154,7 +158,7 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
     }
 
     public BehandlingStegType getFraStegType() {
-        Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
+        Optional<StegTilstand> tilstand = getFraTilstand();
         if (tilstand.isPresent()) {
             return tilstand.get().getStegType();
         } else {
@@ -174,12 +178,12 @@ public class BehandlingStegOvergangEvent implements BehandlingEvent {
     }
 
     public Optional<BehandlingStegStatus> getFørsteStegStatus() {
-        Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
+        Optional<StegTilstand> tilstand = getFraTilstand();
         return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
     }
 
     public Optional<BehandlingStegStatus> getSisteStegStatus() {
-        Optional<BehandlingStegTilstand> tilstand = getTilTilstand();
+        Optional<StegTilstand> tilstand = getTilTilstand();
         return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
     }
 }

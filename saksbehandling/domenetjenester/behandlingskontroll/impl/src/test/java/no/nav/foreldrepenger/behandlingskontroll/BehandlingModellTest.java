@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -20,9 +19,9 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -245,7 +244,7 @@ public class BehandlingModellTest {
     }
 
     private BehandlingStegType getAktivtBehandlingSteg(Behandling behandling) {
-        return behandlingskontrollRepository.getAktivtBehandlingStegTilstandDefinitiv(behandling.getId()).getStegType();
+        return behandlingskontrollRepository.getBehandlingskontrollTilstand(behandling.getId()).getStegType();
     }
 
     @Test
@@ -364,13 +363,13 @@ public class BehandlingModellTest {
                                          BehandlingskontrollTjeneste tjeneste, BehandlingskontrollKontekst kontekst, BehandlingModellImpl behandlingModell,
                                          BehandlingskontrollEventPubliserer eventPubliserer,
                                          Behandling behandling) {
-            super(repositoryProvider, behandling, tjeneste, behandlingModell, kontekst, eventPubliserer, Optional.empty());
+            super(repositoryProvider, behandling, tjeneste, behandlingModell, kontekst, eventPubliserer, null);
         }
 
         @Override
-        protected void settBehandlingStegSomGjeldende(BehandlingStegType stegType, BehandlingStegStatus sluttStegStatusVedOvergang) {
-            super.settBehandlingStegSomGjeldende(stegType, sluttStegStatusVedOvergang);
-            kjørteSteg.add(stegType);
+        protected void settBehandlingStegSomGjeldende(StegTilstand stegTilstand) {
+            super.settBehandlingStegSomGjeldende(stegTilstand);
+            kjørteSteg.add(stegTilstand.getStegType());
         }
 
         @Override

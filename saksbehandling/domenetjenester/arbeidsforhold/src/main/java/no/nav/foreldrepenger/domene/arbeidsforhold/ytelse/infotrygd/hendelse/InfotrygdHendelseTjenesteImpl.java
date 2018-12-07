@@ -19,11 +19,11 @@ import org.slf4j.LoggerFactory;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.kontrakter.feed.felles.FeedDto;
 import no.nav.foreldrepenger.kontrakter.feed.felles.FeedElement;
 import no.nav.vedtak.felles.integrasjon.rest.OidcRestClient;
 import no.nav.vedtak.konfig.KonfigVerdi;
-
 
 @ApplicationScoped
 public class InfotrygdHendelseTjenesteImpl implements InfotrygdHendelseTjeneste {
@@ -36,18 +36,21 @@ public class InfotrygdHendelseTjenesteImpl implements InfotrygdHendelseTjeneste 
     private OidcRestClient oidcRestClient;
     private URI endpoint;
     private InfotrygdHendelseMapper mapper;
+    private BehandlingskontrollRepository behandlingskontrollRepository;
 
     InfotrygdHendelseTjenesteImpl() {
-        //CDI
+        // CDI
     }
 
     @Inject
     public InfotrygdHendelseTjenesteImpl(@KonfigVerdi(ENDPOINT_KEY) URI endpoint,
                                          OidcRestClient oidcRestClient,
-                                         InfotrygdHendelseMapper mapper) {
+                                         InfotrygdHendelseMapper mapper,
+                                         BehandlingskontrollRepository behandlingskontrollRepository) {
         this.endpoint = endpoint;
         this.oidcRestClient = oidcRestClient;
         this.mapper = mapper;
+        this.behandlingskontrollRepository = behandlingskontrollRepository;
     }
 
     @Override
@@ -81,7 +84,8 @@ public class InfotrygdHendelseTjenesteImpl implements InfotrygdHendelseTjeneste 
     }
 
     private String finnDatoAvForslagTilVedtak(Behandling behandling) {
-        LocalDateTime forslagTilVedtakDato = behandling.getBehandlingStegTilstandHistorikk()
+        LocalDateTime forslagTilVedtakDato = behandlingskontrollRepository.getBehandlingStegTilstandHistorikk(behandling.getId())
+            .stream()
             .filter(tilstand -> tilstand.getStegType().equals(BehandlingStegType.FATTE_VEDTAK))
             .map(BehandlingStegTilstand::getOpprettetTidspunkt)
             .findFirst().orElseThrow(() -> new IllegalStateException("Vedtaket ble ikke foreslått for behandling"));

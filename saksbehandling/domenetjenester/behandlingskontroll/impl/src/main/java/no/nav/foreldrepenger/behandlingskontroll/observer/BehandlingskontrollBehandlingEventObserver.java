@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.behandlingskontroll.observer;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -12,10 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStatusEvent;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegOvergangEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegStatusEvent;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollEventPubliserer;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 
 /**
  * Observerer og propagerer / håndterer events internt i Behandlingskontroll
@@ -37,36 +34,41 @@ public class BehandlingskontrollBehandlingEventObserver {
     /**
      * Intern event propagering i Behandlingskontroll.
      * 
-     * Observer {@link BehandlingStegOvergangEvent} og propagerer events for {@link BehandlingStegStatusEvent} og
+     * Observer {@link BehandlingStegOvergangEvent} og propagerer events for 
      * {@link BehandlingStatusEvent}
      * endringer
      */
     public void propagerBehandlingStatusEventVedStegOvergang(@Observes BehandlingStegOvergangEvent event) {
-
+        System.out.println(event);
         if (eventPubliserer == null) {
             // gjør ingenting
             return;
         }
 
-        Optional<BehandlingStegTilstand> fraTilstand = event.getFraTilstand();
-        Optional<BehandlingStegTilstand> tilTilstand = event.getTilTilstand();
+        var fraTilstand = event.getFraTilstand();
+        var tilTilstand = event.getTilTilstand();
 
         if ((!fraTilstand.isPresent() && !tilTilstand.isPresent())
-                || (fraTilstand.isPresent() && tilTilstand.isPresent() && Objects.equals(fraTilstand.get(), tilTilstand.get()))) {
+            || (fraTilstand.isPresent() && tilTilstand.isPresent() && Objects.equals(fraTilstand.get(), tilTilstand.get()))) {
             // gjør ingenting - ingen endring i steg
             return;
         }
-        
+
         log.info("transisjon fra {} til {}", fraTilstand, tilTilstand);
 
         // fyr behandling status event
         BehandlingStatus gammelStatus = null;
         if (fraTilstand.isPresent()) {
-            gammelStatus = fraTilstand.get().getStegType().getDefinertBehandlingStatus();
+            if (fraTilstand.get().getStegType() != null) {
+                gammelStatus = fraTilstand.get().getStegType().getDefinertBehandlingStatus();
+            }
         }
+
         BehandlingStatus nyStatus = null;
         if (tilTilstand.isPresent()) {
-            nyStatus = tilTilstand.get().getStegType().getDefinertBehandlingStatus();
+            if (tilTilstand.get().getStegType() != null) {
+                nyStatus = tilTilstand.get().getStegType().getDefinertBehandlingStatus();
+            }
         }
 
         // fyr behandling status event

@@ -73,10 +73,6 @@ public class KompletthetsjekkerRevurdering implements Kompletthetsjekker {
 
     @Override
     public KompletthetResultat vurderForsendelseKomplett(Behandling behandling) {
-        if (behandling.erBerørtBehandling()) {
-            return KompletthetResultat.oppfylt();
-        }
-
         List<Inntektsmelding> inntektsmeldinger = inntektArbeidYtelseTjeneste.hentAlleInntektsmeldingerMottattEtterGjeldendeVedtak(behandling);
         if (!inntektsmeldinger.isEmpty()) {
             return vurderKompletthetForInntektsmeldingUtenSøknad(behandling, inntektsmeldinger);

@@ -1,0 +1,1 @@
+alter table BEHANDLING_ARSAK drop column beroert_behandling_id;

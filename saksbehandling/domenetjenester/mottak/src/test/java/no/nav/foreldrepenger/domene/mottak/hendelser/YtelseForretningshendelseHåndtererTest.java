@@ -141,9 +141,7 @@ public class YtelseForretningshendelseHåndtererTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         behandling = scenario.lagre(repositoryProvider);
-        behandling.avsluttBehandling();
-        BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
-        behandlingRepository.lagre(behandling, behandlingLås);
+        scenario.avsluttBehandling(repositoryProvider, behandling);
 
         // Act
         håndterer.håndterAvsluttetBehandling(behandling, ForretningshendelseType.YTELSE_INNVILGET);

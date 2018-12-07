@@ -529,8 +529,10 @@ public class BehandlingRepositoryImplTest {
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
         final BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder().medVedtaksdato(LocalDate.now()).medBehandlingsresultat(behandlingsresultat)
             .medVedtakResultatType(VedtakResultatType.INNVILGET).medAnsvarligSaksbehandler("asdf").build();
-        behandling.avsluttBehandling();
         behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
+        
+        scenario.avsluttBehandling(repositoryProvider, behandling);
+        
         behandlingVedtakRepository.lagre(behandlingVedtak, behandlingRepository.taSkriveLås(behandling));
 
         return behandling;

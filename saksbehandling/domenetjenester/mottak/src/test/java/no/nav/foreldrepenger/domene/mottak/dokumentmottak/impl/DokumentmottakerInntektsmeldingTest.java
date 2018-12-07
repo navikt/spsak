@@ -108,7 +108,8 @@ public class DokumentmottakerInntektsmeldingTest {
         // Arrange - opprette avsluttet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        behandling.avsluttBehandling();
+        scenario.avsluttBehandling(repositoryProvider, behandling);
+        
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
 
@@ -157,7 +158,7 @@ public class DokumentmottakerInntektsmeldingTest {
         // Arrange - opprette avsluttet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        behandling.avsluttBehandling();
+        scenario.avsluttBehandling(repositoryProvider, behandling);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
 
@@ -199,7 +200,7 @@ public class DokumentmottakerInntektsmeldingTest {
         // Arrange - opprette avsluttet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagre(repositoryProvider);
-        behandling.avsluttBehandling();
+        scenario.avsluttBehandling(repositoryProvider, behandling);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
 

@@ -20,8 +20,6 @@ import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
@@ -50,8 +48,6 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
 
     @Inject
     private BehandlingRepositoryProvider repositoryProvider;
-    @Inject
-    private BehandlingRepository behandlingRepository;
 
     @Mock
     private ProsessTaskRepository prosessTaskRepository;
@@ -94,9 +90,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medVilkårResultatType(VilkårResultatType.AVSLÅTT);
         Behandling behandling = scenario.lagre(repositoryProvider);
-        behandling.avsluttBehandling();
-        BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
-        behandlingRepository.lagre(behandling, behandlingLås);
+        scenario.avsluttBehandling(repositoryProvider, behandling);
 
         BehandlingVedtak vedtak = DokumentmottakTestUtil.oppdaterVedtaksresultat(behandling, VedtakResultatType.AVSLAG);
         Whitebox.setInternalState(behandling.getBehandlingsresultat(), "behandlingVedtak", vedtak);
@@ -121,10 +115,8 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
         scenario.medVilkårResultatType(VilkårResultatType.AVSLÅTT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.IKKE_OPPFYLT);
         Behandling behandling = scenario.lagre(repositoryProvider);
-        behandling.avsluttBehandling();
-        BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
-        behandlingRepository.lagre(behandling, behandlingLås);
-
+        scenario.avsluttBehandling(repositoryProvider, behandling);
+        
         BehandlingVedtak vedtak = DokumentmottakTestUtil.oppdaterVedtaksresultat(behandling, VedtakResultatType.AVSLAG);
         Whitebox.setInternalState(behandling.getBehandlingsresultat(), "behandlingVedtak", vedtak);
         repository.lagre(behandling.getBehandlingsresultat());

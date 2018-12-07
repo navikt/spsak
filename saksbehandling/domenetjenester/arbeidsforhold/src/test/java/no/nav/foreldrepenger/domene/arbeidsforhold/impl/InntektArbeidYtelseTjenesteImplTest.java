@@ -74,7 +74,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRe
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
@@ -386,7 +385,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
     private void avsluttBehandlingOgFagsak(Behandling behandling) {
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
-        behandling.avsluttBehandling();
+
         behandlingRepository.lagre(behandling, lås);
         BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder()
             .medBehandlingsresultat(behandling.getBehandlingsresultat())
@@ -395,8 +394,8 @@ public class InntektArbeidYtelseTjenesteImplTest {
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .build();
         repositoryProvider.getBehandlingVedtakRepository().lagre(behandlingVedtak, lås);
-        FagsakRepository fagsakRepository = repositoryProvider.getFagsakRepository();
-        fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.LØPENDE);
+        
+        repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandling.getId());
     }
 
     private Behandling opprettRevurderingsbehandling(Behandling opprinneligBehandling) {

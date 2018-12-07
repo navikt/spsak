@@ -2,8 +2,6 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.søknad;
 
 import java.util.List;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
-
 public class OppgittTilknytningDto {
 
     private boolean oppholdNorgeNa;
@@ -16,7 +14,7 @@ public class OppgittTilknytningDto {
         // trengs for deserialisering av JSON
     }
 
-    private OppgittTilknytningDto(boolean oppholdNorgeNa,
+    OppgittTilknytningDto(boolean oppholdNorgeNa,
                                   boolean oppholdSistePeriode,
                                   boolean oppholdNestePeriode,
                                   List<UtlandsoppholdDto> utlandsoppholdFor,
@@ -27,10 +25,6 @@ public class OppgittTilknytningDto {
         this.oppholdNestePeriode = oppholdNestePeriode;
         this.utlandsoppholdFor = utlandsoppholdFor;
         this.utlandsoppholdEtter = utlandsoppholdEtter;
-    }
-
-    public static OppgittTilknytningDto mapFra(Søknad søknad) {
-        return null;
     }
 
     public boolean isOppholdNorgeNa() {

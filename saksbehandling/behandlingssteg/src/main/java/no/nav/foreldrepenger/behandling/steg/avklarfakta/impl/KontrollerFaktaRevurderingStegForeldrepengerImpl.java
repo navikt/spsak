@@ -125,9 +125,7 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
         StartpunktType startpunkt;
         StartpunktType startpunktForGrunnlagsendringer = startpunktTjeneste.utledStartpunktMotOriginalBehandling(revurdering);
         Behandlingsresultat behandlingsresultatOrginalBehandling = revurdering.getOriginalBehandling().get().getBehandlingsresultat();
-        if (revurdering.erBerørtBehandling()) {
-            startpunkt = utledBerørtStartpunkt(revurdering, startpunktForGrunnlagsendringer);
-        } else if (revurdering.erManueltOpprettet()) {
+        if (revurdering.erManueltOpprettet()) {
             startpunkt = DEFAULT_STARTPUNKT;
         } else if (behandlingsresultatOrginalBehandling != null && behandlingsresultatOrginalBehandling.isVilkårAvslått()) {
             startpunkt = DEFAULT_STARTPUNKT;
@@ -147,33 +145,6 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
         BehandlingÅrsak.Builder builder = BehandlingÅrsak.builder(new ArrayList<>(behandlingÅrsaker));
         behandling.getOriginalBehandling().ifPresent(builder::medOriginalBehandling);
         builder.buildFor(behandling);
-    }
-
-    private StartpunktType utledBerørtStartpunkt(Behandling behandling, StartpunktType startpunktUtledetFraRegisterEndringer) {
-        Optional<Behandling> behandlingBerørtAv = behandling.getBerørtBehandling();
-        if (!behandlingBerørtAv.isPresent()) {
-            throw new IllegalStateException("Berørt behandling må ha en tilhørende avlsuttet behandling for medforelder - skal ikke skje");
-        }
-        boolean flytterPåFørsteStønadsdag = berørtAvFlytterPåFørsteStønadsdag(behandling, behandlingBerørtAv.get());
-        StartpunktType berørtStartpunkt = kodeverkTabellRepository
-            .finnStartpunktType((flytterPåFørsteStønadsdag ? StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP : StartpunktType.UTTAKSVILKÅR).getKode());
-        return tidligsteStartpunkt(berørtStartpunkt, startpunktUtledetFraRegisterEndringer);
-    }
-
-    private StartpunktType tidligsteStartpunkt(StartpunktType berørtStartpunkt, StartpunktType startpunktUtledetFraRegisterEndringer) {
-        if (berørtStartpunkt.getRangering() < startpunktUtledetFraRegisterEndringer.getRangering()) {
-            return berørtStartpunkt;
-        }
-        return startpunktUtledetFraRegisterEndringer;
-    }
-
-    private boolean berørtAvFlytterPåFørsteStønadsdag(Behandling behandling, Behandling behandlingBerørtAv) {
-        UttakResultatEntitet eksisterendeUttakResultat = uttakRepository.hentUttakResultat(behandling.getOriginalBehandling().get());
-        Optional<UttakResultatEntitet> uttakResultatBerørtAv = uttakRepository.hentUttakResultatHvisEksisterer(behandlingBerørtAv);
-        if (uttakResultatBerørtAv.isPresent()) {
-            return harOverlappendePeriodeMedFørsteStønadsdag(eksisterendeUttakResultat, uttakResultatBerørtAv.get());
-        }
-        return false;
     }
 
     boolean harOverlappendePeriodeMedFørsteStønadsdag(UttakResultatEntitet eksisterendeUttakResultat, UttakResultatEntitet uttakResultatBerørtAv) {

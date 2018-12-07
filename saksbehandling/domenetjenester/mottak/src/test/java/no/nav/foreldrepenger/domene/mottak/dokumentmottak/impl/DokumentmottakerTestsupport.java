@@ -16,6 +16,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
@@ -52,18 +53,17 @@ public abstract class DokumentmottakerTestsupport {
     protected Kompletthetskontroller kompletthetskontroller;
     @Inject
     protected BehandlingRepositoryProvider repositoryProvider;
+    
+    @Inject 
+    protected BehandlingskontrollRepository behandlingskontrollRepository;
 
     protected Behandling opprettBehandling(FagsakYtelseType fagsakYtelseType, BehandlingType behandlingType, BehandlingResultatType behandlingResultatType, Avslagsårsak avslagsårsak, VedtakResultatType vedtakResultatType, LocalDate vedtaksdato) {
 
-        if (fagsakYtelseType.gjelderForeldrepenger()) {
-            ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
-                .medFagsakId(1234L)
-                .medSaksnummer(new Saksnummer("2345"))
-                .medBehandlingType(behandlingType);
-            return opprettBehandling(scenario, behandlingType, behandlingResultatType, avslagsårsak, vedtakResultatType, vedtaksdato);
-        }
-
-        throw new UnsupportedOperationException("Fiks testoppsett");
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
+            .medFagsakId(1234L)
+            .medSaksnummer(new Saksnummer("2345"))
+            .medBehandlingType(behandlingType);
+        return opprettBehandling(scenario, behandlingType, behandlingResultatType, avslagsårsak, vedtakResultatType, vedtaksdato);
     }
 
     private Behandling opprettBehandling(AbstractTestScenario<?> scenario, BehandlingType behandlingType, BehandlingResultatType behandlingResultatType, Avslagsårsak avslagsårsak, VedtakResultatType vedtakResultatType, LocalDate vedtaksdato) {
@@ -85,8 +85,7 @@ public abstract class DokumentmottakerTestsupport {
             .medAnsvarligSaksbehandler("fornavn etternavn")
             .build();
 
-        behandling.getFagsak().setAvsluttet();
-        behandling.avsluttBehandling();
+        
         repositoryProvider.getBehandlingVedtakRepository().lagre(originalVedtak, behandlingLås);
 
         VilkårResultat vilkårResultat = VilkårResultat.builder()
@@ -94,6 +93,7 @@ public abstract class DokumentmottakerTestsupport {
             .buildFor(behandling);
         repositoryProvider.getBehandlingRepository().lagre(vilkårResultat, behandlingLås);
 
+        scenario.avsluttBehandling(repositoryProvider, behandling);
 
         return behandling;
     }

@@ -1,6 +1,8 @@
 package no.nav.foreldrepenger.behandlingskontroll;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -16,15 +18,16 @@ import no.nav.foreldrepenger.behandlingskontroll.transisjoner.StegTransisjon;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.TransisjonIdentifikator;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandlingImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingskontrollTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
+import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 
 /**
  * Visitor for å traversere behandlingssteg.
@@ -44,35 +47,33 @@ class BehandlingStegVisitor {
 
     private final Behandling behandling;
 
-    private Optional<BehandlingStegTilstand> sistBehandlingStegTilstand;
-
-    private final InternalManipulerBehandlingImpl manipulerInternBehandling;
+    /** Track rekkefølge av steg tiltand endringer denne visitoren har vært gjennom. */
+    private Deque<BehandlingskontrollTilstand> sisteTilstand = new LinkedList<>();
 
     private final AksjonspunktRepository aksjonspunktRepository;
 
     private BehandlingskontrollRepository behandlingskontrollRepository;
 
+    private KodeverkRepository kodeverkRepository;
 
     BehandlingStegVisitor(BehandlingRepositoryProvider repositoryProvider, Behandling behandling,
                           BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                           BehandlingModell behandlingModell, BehandlingskontrollKontekst kontekst,
                           BehandlingskontrollEventPubliserer eventPubliserer,
-                          Optional<BehandlingStegTilstand> sistBehandlingStegTilstand) {
+                          BehandlingskontrollTilstand sisteTilstand) {
 
         Objects.requireNonNull(behandling, "behandling");
         Objects.requireNonNull(kontekst, "kontekst");
         this.behandling = behandling;
         this.behandlingModell = behandlingModell;
-        
-        this.sistBehandlingStegTilstand = sistBehandlingStegTilstand;
+
+        this.setSisteTilstand(sisteTilstand);
         this.kontrollTjeneste = behandlingskontrollTjeneste;
         this.kontekst = kontekst;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
         this.behandlingskontrollRepository = repositoryProvider.getBehandlingskontrollRepository();
-
-        this.manipulerInternBehandling = new InternalManipulerBehandlingImpl(repositoryProvider);
-
+        this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         if (eventPubliserer != null) {
             this.eventPubliserer = eventPubliserer;
         } else {
@@ -85,7 +86,6 @@ class BehandlingStegVisitor {
         BehandlingStegProsesseringResultat resultat = prosesserSteg(stegModell);
         return resultat;
     }
-
 
     Behandling getBehandling() {
         return behandling;
@@ -124,11 +124,12 @@ class BehandlingStegVisitor {
     }
 
     public void avsluttSteg(BehandlingStegType stegType, BehandlingStegStatus førsteStegStatus, BehandlingStegProsesseringResultat stegResultat,
-                           List<Aksjonspunkt> funnetAksjonspunkter) {
+                            List<Aksjonspunkt> funnetAksjonspunkter) {
 
-        log.info("Avslutter steg={}, transisjon={} med aksjonspunkter={}", stegType, stegResultat, funnetAksjonspunkter.stream().map(a-> a.getAksjonspunktDefinisjon()).collect(Collectors.toList()));
+        log.info("Avslutter steg={}, transisjon={} med aksjonspunkter={}", stegType, stegResultat,
+            funnetAksjonspunkter.stream().map(a -> a.getAksjonspunktDefinisjon()).collect(Collectors.toList()));
 
-        Optional<BehandlingStegTilstand> stegTilstandFør = getBehandlingStegTilstand(behandling.getId());
+        var tilstand = getBehandlingskontrollTilstand(behandling.getId());
 
         // Sett riktig status for steget etter at det er utført. Lagre eventuelle endringer fra steg på behandling
         guardAlleÅpneAksjonspunkterHarDefinertVurderingspunkt();
@@ -138,11 +139,15 @@ class BehandlingStegVisitor {
         // Publiser transisjonsevent
         StegTransisjon transisjon = behandlingModell.finnTransisjon(stegResultat.getTransisjon());
         BehandlingStegType tilSteg = finnFremoverhoppSteg(stegType, transisjon);
-        eventPubliserer.fireEvent(new BehandlingTransisjonEvent(kontekst, stegResultat.getTransisjon(), stegTilstandFør, tilSteg, transisjon.erFremoverhopp()));
+        eventPubliserer
+            .fireEvent(new BehandlingTransisjonEvent(kontekst, stegResultat.getTransisjon(), StegTilstand.fra(tilstand), tilSteg, transisjon.erFremoverhopp()));
 
         // Publiser event om endring i stegets tilstand
-        BehandlingStegTilstandEndringEvent behandlingStegTilstandEndringEvent = new BehandlingStegTilstandEndringEvent(kontekst, sistBehandlingStegTilstand);
-        behandlingStegTilstandEndringEvent.setNyTilstand(getBehandlingStegTilstand(behandling.getId()));
+        BehandlingStegTilstandEndringEvent behandlingStegTilstandEndringEvent = new BehandlingStegTilstandEndringEvent(kontekst,
+            StegTilstand.fra(getSisteTilstand()));
+
+        var nyTilstand = getBehandlingskontrollTilstand(behandling.getId());
+        behandlingStegTilstandEndringEvent.setNyTilstand(StegTilstand.fra(nyTilstand));
         eventPubliserer.fireEvent(behandlingStegTilstandEndringEvent);
 
         // Publiser de funnede aksjonspunktene
@@ -164,9 +169,10 @@ class BehandlingStegVisitor {
         log.info("Markerer nytt steg som aktivt: {}", stegType);
 
         // Flytt aktivt steg til gjeldende steg hvis de ikke er like
-        BehandlingStegStatus sluttStatusForAndreSteg = behandlingStegKonfigurasjon.getUtført();
-        settBehandlingStegSomGjeldende(stegType, sluttStatusForAndreSteg);
-        fyrEventBehandlingStegOvergang();
+        if (!Objects.equals(getAktivtBehandlingSteg(), stegType)) {
+            settBehandlingStegSomGjeldende(new StegTilstand(stegType, null));
+            fyrEventBehandlingStegOvergang();
+        }
     }
 
     private boolean erIkkePåVent() {
@@ -174,11 +180,14 @@ class BehandlingStegVisitor {
     }
 
     void fyrEventBehandlingStegOvergang() {
-        Optional<BehandlingStegTilstand> behandlingStegTilstand = getBehandlingStegTilstand(behandling.getId());
-        BehandlingStegOvergangEvent event = BehandlingModellImpl.nyBehandlingStegOvergangEvent(behandlingModell, sistBehandlingStegTilstand,
-            behandlingStegTilstand, kontekst, false);
+        BehandlingskontrollTilstand behandlingStegTilstand = getBehandlingskontrollTilstand(behandling.getId());
+        BehandlingStegOvergangEvent event = BehandlingModellImpl.nyBehandlingStegOvergangEvent(behandlingModell,
+            StegTilstand.fra(getSisteTilstand()),
+            StegTilstand.fra(behandlingStegTilstand),
+            kontekst,
+            false);
 
-        this.sistBehandlingStegTilstand = behandlingStegTilstand;
+        this.setSisteTilstand(behandlingStegTilstand);
 
         eventPubliserer.fireEvent(event);
     }
@@ -186,23 +195,27 @@ class BehandlingStegVisitor {
     void fyrEventBehandlingStegTilbakeføring() {
         boolean erOverstyring = false;
         BehandlingStegOvergangEvent event = BehandlingModellImpl.nyBehandlingStegOvergangEvent(
-            behandlingModell, sistBehandlingStegTilstand, getBehandlingStegTilstand(behandling.getId()), kontekst, erOverstyring);
+            behandlingModell,
+            StegTilstand.fra(getSisteTilstand()),
+            StegTilstand.fra(getBehandlingskontrollTilstand(behandling.getId())),
+            kontekst,
+            erOverstyring);
 
         eventPubliserer.fireEvent(event);
     }
 
     private void oppdaterBehandlingStegStatus(BehandlingStegType stegType, BehandlingStegStatus førsteStegStatus,
                                               BehandlingStegStatus nyStegStatus) {
-        Optional<BehandlingStegTilstand> behandlingStegTilstand = getBehandlingStegTilstand(stegType);
-        if (behandlingStegTilstand.isPresent()) {
+        var stegTilstand = getStegTilstand(stegType);
+        if (stegTilstand.isPresent()) {
             if (erForskjellig(førsteStegStatus, nyStegStatus)) {
-                manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, stegType, nyStegStatus);
-                lagreBehandling(behandling);
-                eventPubliserer.fireEvent(kontekst, stegType, førsteStegStatus, nyStegStatus);
+                Long behandlingId = behandling.getId();
+                behandlingskontrollRepository.nesteBehandlingStegStatusIntern(behandlingId, stegType, nyStegStatus);
+                setSisteTilstand(behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId));
             }
         }
     }
-    
+
     private static boolean erForskjellig(BehandlingStegStatus førsteStegStatus, BehandlingStegStatus nyStegStatus) {
         return !Objects.equals(nyStegStatus, førsteStegStatus);
     }
@@ -296,20 +309,22 @@ class BehandlingStegVisitor {
 
     private BehandlingStegStatus håndterTilbakeføringTilTidligereSteg(Behandling behandling, BehandlingStegType inneværendeBehandlingStegType) {
         BehandlingStegStatus tilbakeførtStegStatus = behandlingStegKonfigurasjon.mapTilStatus(BehandlingStegResultat.TILBAKEFØRT);
-        BehandlingStegStatus inneværendeBehandlingStegStatus = getBehandlingStegStatus(behandling);
+        var inneværendeBehandlingTilstand = getBehandlingskontrollTilstand(behandling.getId());
 
         List<Aksjonspunkt> åpneAksjonspunkter = behandling.getÅpneAksjonspunkter();
         if (!åpneAksjonspunkter.isEmpty()) {
             List<String> aksjonspunkter = åpneAksjonspunkter.stream().map(a -> a.getAksjonspunktDefinisjon().getKode()).collect(Collectors.toList());
             BehandlingStegModell nesteBehandlingStegModell = behandlingModell.finnTidligsteStegForAksjonspunktDefinisjon(aksjonspunkter);
-            Optional<BehandlingStegStatus> nesteStegStatus = behandlingModell.finnStegStatusFor(nesteBehandlingStegModell.getBehandlingStegType(), aksjonspunkter);
+            Optional<BehandlingStegStatus> nesteStegStatus = behandlingModell.finnStegStatusFor(nesteBehandlingStegModell.getBehandlingStegType(),
+                aksjonspunkter);
 
             // oppdater inneværende steg
-            oppdaterBehandlingStegStatus(inneværendeBehandlingStegType, inneværendeBehandlingStegStatus, tilbakeførtStegStatus);
+            oppdaterBehandlingStegStatus(inneværendeBehandlingStegType, inneværendeBehandlingTilstand.getStegStatus(), tilbakeførtStegStatus);
 
             // oppdater nytt steg
             BehandlingStegType nesteStegtype = nesteBehandlingStegModell.getBehandlingStegType();
-            oppdaterBehandlingStegType(nesteStegtype, nesteStegStatus.isPresent() ? nesteStegStatus.get() : null, tilbakeførtStegStatus);
+            BehandlingStegStatus stegStatus =  nesteStegStatus.isPresent() ? kodeverkRepository.finn(BehandlingStegStatus.class, nesteStegStatus.get()) : null;
+            oppdaterBehandlingStegType(new StegTilstand(nesteStegtype, stegStatus));
         }
         return tilbakeførtStegStatus;
     }
@@ -392,23 +407,24 @@ class BehandlingStegVisitor {
         behandlingRepository.lagre(behandling, kontekst.getSkriveLås());
     }
 
-    void oppdaterBehandlingStegType(BehandlingStegType nesteStegType, BehandlingStegStatus nesteStegStatus, BehandlingStegStatus sluttStegStatusVedOvergang) {
+    void oppdaterBehandlingStegType(StegTilstand nyttSteg) {
         Objects.requireNonNull(behandlingRepository, "behandlingRepository");
-
-        BehandlingStegType nåBehandlingSteg = null;
-        if (sistBehandlingStegTilstand.isPresent()) {
-            nåBehandlingSteg = sistBehandlingStegTilstand.get().getStegType();
-        }
-
-        if (!erSammeStegSomFør(nesteStegType, nåBehandlingSteg)) {
-
+        BehandlingStegType nåBehandlingSteg = getSisteTilstand() == null ? null : getSisteTilstand().getStegType();
+        if (!erSammeStegSomFør(nyttSteg.getStegType(), nåBehandlingSteg)) {
             // sett status for neste steg
-            manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, nesteStegType, nesteStegStatus, sluttStegStatusVedOvergang);
+            if (behandlingModell.erStegAFørStegB(nyttSteg.getStegType(), nåBehandlingSteg)) {
+                behandlingskontrollRepository.nesteBehandlingStegStatusVedTilbakeføring(behandling.getId(), nyttSteg);
+            } else {
+                behandlingskontrollRepository.nesteBehandlingStegStatusVedUtført(behandling.getId(), nyttSteg);
+            }
         }
     }
 
-    void settBehandlingStegSomGjeldende(BehandlingStegType nesteStegType, BehandlingStegStatus sluttStegStatusVedOvergang) {
-        oppdaterBehandlingStegType(nesteStegType, null, sluttStegStatusVedOvergang);
+    void settBehandlingStegSomGjeldende(StegTilstand nyttSteg) {
+        BehandlingStegType nåBehandlingSteg = getSisteTilstand() == null ? null : getSisteTilstand().getStegType();
+        if (!erSammeStegSomFør(nyttSteg.getStegType(), nåBehandlingSteg)) {
+            behandlingskontrollRepository.nesteBehandlingStegStatusVedUtført(behandling.getId(), nyttSteg);
+        }
     }
 
     private boolean erSammeStegSomFør(BehandlingStegType stegType, BehandlingStegType nåværendeBehandlingSteg) {
@@ -457,24 +473,32 @@ class BehandlingStegVisitor {
         });
     }
 
-    
     private BehandlingStegType getAktivtBehandlingSteg() {
-        return getBehandlingStegTilstand(behandling.getId()).get().getStegType();
+        return getBehandlingskontrollTilstand(behandling.getId()).getStegType();
     }
 
-    private BehandlingStegStatus getBehandlingStegStatus(Behandling behandling) {
-        return getBehandlingStegTilstand(behandling.getId()).get().getStatus();
+    private BehandlingskontrollTilstand getBehandlingskontrollTilstand(Long behandlingId) {
+        return behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
     }
 
-    private Optional<BehandlingStegTilstand> getBehandlingStegTilstand(Long behandlingId) {
-        return behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId);
-    }
-
-    private Optional<BehandlingStegTilstand> getBehandlingStegTilstand(BehandlingStegType stegType) {
-        return behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandling.getId(), stegType);
+    private Optional<StegTilstand> getStegTilstand(BehandlingStegType stegType) {
+        var tilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandling.getId());
+        if (tilstand.erSteg(stegType)) {
+            return StegTilstand.fra(tilstand);
+        } else {
+            return Optional.empty();
+        }
     }
 
     private BehandlingStegStatus getBehandlingStegStatus() {
-        return getBehandlingStegTilstand(behandling.getId()).get().getStatus();
+        return getBehandlingskontrollTilstand(behandling.getId()).getStegStatus();
+    }
+
+    private BehandlingskontrollTilstand getSisteTilstand() {
+        return sisteTilstand.isEmpty() ? null : sisteTilstand.peekLast();
+    }
+
+    private void setSisteTilstand(BehandlingskontrollTilstand sisteTilstand) {
+        this.sisteTilstand.add(sisteTilstand);
     }
 }

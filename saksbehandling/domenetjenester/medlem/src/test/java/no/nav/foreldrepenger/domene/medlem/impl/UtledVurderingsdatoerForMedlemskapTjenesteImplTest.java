@@ -50,10 +50,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sy
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
+import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.InntektArbeidYtelseScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
@@ -75,14 +74,13 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider provider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
-    private BehandlingRepository behandlingRepository = provider.getBehandlingRepository();
-    private MedlemskapRepository medlemskapRepository = provider.getMedlemskapRepository();
-    private VirksomhetRepository virksomhetRepository = provider.getVirksomhetRepository();
-    private PersonopplysningRepository personopplysningRepository = provider.getPersonopplysningRepository();
-    private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = provider.getInntektArbeidYtelseRepository();
-    private FagsakRepository fagsakRepository = provider.getFagsakRepository();
-    private SykefraværRepository sykefraværRepository = provider.getSykefraværRepository();
+    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+    private MedlemskapRepository medlemskapRepository = repositoryProvider.getMedlemskapRepository();
+    private VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
+    private PersonopplysningRepository personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
+    private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
+    private SykefraværRepository sykefraværRepository = repositoryProvider.getSykefraværRepository();
 
     @Inject
     private UtledVurderingsdatoerForMedlemskapTjenesteImpl tjeneste;
@@ -102,8 +100,8 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(provider);
-        avslutterBehandlingOgFagsak(behandling);
+        Behandling behandling = scenario.lagre(repositoryProvider);
+        avslutterBehandlingOgFagsak(scenario, behandling);
 
         Behandling revudering = opprettRevudering(behandling);
 
@@ -133,7 +131,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
             .medArbeidsgiver(Arbeidsgiver.person(søkerAktørId));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(repositoryProvider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
 
         PersonInformasjonBuilder personInformasjonBuilder = PersonInformasjonBuilder.oppdater(Optional.of(personopplysningGrunnlag.getRegisterVersjon()), PersonopplysningVersjonType.REGISTRERT);
@@ -168,7 +166,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
             .medArbeidsgiver(Arbeidsgiver.person(søkerAktørId));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(repositoryProvider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
 
         PersonInformasjonBuilder personInformasjonBuilder = PersonInformasjonBuilder.oppdater(Optional.of(personopplysningGrunnlag.getRegisterVersjon()), PersonopplysningVersjonType.REGISTRERT);
@@ -203,7 +201,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
         DatoIntervallEntitet tredjeÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag.plusYears(2), iDag.plusYears(3));
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(repositoryProvider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
 
         PersonInformasjonBuilder personInformasjonBuilder = PersonInformasjonBuilder.oppdater(Optional.of(personopplysningGrunnlag.getRegisterVersjon()), PersonopplysningVersjonType.REGISTRERT);
@@ -230,8 +228,8 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Virksomhet virksomhet = opprettVirksomhet();
         opprettInntekt(scenario.getDefaultBrukerAktørId(), scenario, virksomhet, idag, false);
-        Behandling behandling = scenario.lagre(provider);
-        avslutterBehandlingOgFagsak(behandling);
+        Behandling behandling = scenario.lagre(repositoryProvider);
+        avslutterBehandlingOgFagsak(scenario, behandling);
 
         Behandling revudering = opprettRevudering(behandling);
         endreInntekt(revudering, revudering.getAktørId(), virksomhet, idag);
@@ -254,8 +252,8 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         //tester overlapp
         opprettInntekt(scenario.getDefaultBrukerAktørId(), scenario, virksomhet, idag, true);
 
-        Behandling behandling = scenario.lagre(provider);
-        avslutterBehandlingOgFagsak(behandling);
+        Behandling behandling = scenario.lagre(repositoryProvider);
+        avslutterBehandlingOgFagsak(scenario, behandling);
 
         Behandling revudering = opprettRevudering(behandling);
         endreInntekt(revudering, revudering.getAktørId(), virksomhet, idag);
@@ -294,18 +292,16 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         return revudering;
     }
 
-    private void avslutterBehandlingOgFagsak(Behandling behandling) {
+    private void avslutterBehandlingOgFagsak(AbstractTestScenario<?> scenario, Behandling behandling) {
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         Behandlingsresultat.Builder behandlingsresultatBuilder = Behandlingsresultat.builderForInngangsvilkår();
         Behandlingsresultat behandlingsresultat = behandlingsresultatBuilder.buildFor(behandling);
 
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
         behandlingRepository.lagre(behandling, lås);
-        provider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
+        repositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
 
-        behandling.avsluttBehandling();
-        behandlingRepository.lagre(behandling, lås);
-        fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.AVSLUTTET);
+        scenario.avsluttBehandling(repositoryProvider, behandling);
     }
 
     private RegistrertMedlemskapPerioder opprettPeriode(LocalDate fom, LocalDate tom, MedlemskapDekningType dekningType) {

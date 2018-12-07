@@ -40,7 +40,13 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.arkiv.ArkivFilType;
 import no.nav.foreldrepenger.behandlingslager.uttak.IkkeOppfyltÅrsak;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakPeriodeVurderingType;
 
-/** Sjekker hvilke kodeverk som faktisk brukes i entitetene. Outputter liste av de som ikke er brukt (disse er kandidater til å fjernes). */
+/**
+ * Hjelpeverktøy for å avdekke hvilke kodeverk som faktisk brukes i entitetene. Outputter liste av de som 'ANTATT' ikke er i bruk (disse er
+ * kandidater til å fjernes).
+ * 
+ * Dvs. de lagres ikke på entiteter. Men de kan fortsatt være i bruk i oppslagsverk eller i kode som henter ut f.ek.s String verdier fra
+ * kodelistene (gjelder spesielt Historikk felter).
+ */
 public class SjekkHvilkeKodelisterBlirFaktiskLagret {
 
     public static void main(String[] args) throws Exception {
@@ -67,7 +73,7 @@ public class SjekkHvilkeKodelisterBlirFaktiskLagret {
         // kandidater til å endres for spsak
         var greylist = Set.of(
             DokumentTypeId.class // denne lastes fra kodeverkklienten
-            );
+        );
 
         // kandidater som skal slettes helt fra spsak
         var killList = Set.of();
@@ -77,13 +83,13 @@ public class SjekkHvilkeKodelisterBlirFaktiskLagret {
             VariantFormat.class,
             ArkivFilType.class,
             DokumentKategori.class,
-            
+
             RelatertYtelseTema.class,
             RelatertYtelseStatus.class,
             OpplysningsKilde.class,
             UttakPeriodeVurderingType.class,
             DokumentGruppe.class,
-            
+
             RelatertYtelseSakstype.class,
             InntektsFilter.class,
             ForretningshendelseType.class,
@@ -92,8 +98,7 @@ public class SjekkHvilkeKodelisterBlirFaktiskLagret {
             Diskresjonskode.class,
             BeregningsgrunnlagAndeltype.class,
             InntektsFormål.class,
-            MottakKanal.class
-            );
+            MottakKanal.class);
 
         IndexClasses index = IndexClasses.getIndexFor(NavBrukerKjønn.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 

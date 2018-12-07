@@ -1,6 +1,8 @@
 package no.nav.foreldrepenger.behandlingslager.behandling;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +13,7 @@ import javax.persistence.EntityManager;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
@@ -42,55 +45,72 @@ public class BehandlingskontrollRepositoryImpl implements BehandlingskontrollRep
 
         this.entityManager = Objects.requireNonNull(entityManager, "entityManager");
     }
+    
+    public BehandlingskontrollRepositoryImpl(BehandlingRepositoryProvider repositoryProvider, EntityManager entityManager) {
+        this(repositoryProvider.getBehandlingRepository(), repositoryProvider.getBehandlingLåsRepository(), repositoryProvider.getKodeverkRepository(), entityManager);
+    }
 
     @Override
     public void avsluttBehandling(Long behandlingId) {
         Behandling behandling = entityManager.find(Behandling.class, behandlingId);
         behandling.avsluttBehandling();
-
         behandlingRepository.lagre(behandling, behandlingLåsRepository.taLås(behandlingId));
     }
 
     @Override
-    public void nesteBehandlingStegStatusVedUtført(Long behandlingId, BehandlingStegTilstand nyttSteg) {
-        // TODO Auto-generated method stub
-
+    public void nesteBehandlingStegStatusVedUtført(Long behandlingId, StegTilstand nyttSteg) {
+        Behandling behandling = entityManager.find(Behandling.class, behandlingId);
+        manipulator.forceOppdaterBehandlingSteg(behandling, nyttSteg.getStegType(), nyttSteg.getStatus(), BehandlingStegStatus.UTFØRT);
+        behandlingRepository.lagre(behandling, behandlingLåsRepository.taLås(behandlingId));
     }
 
     @Override
-    public void nesteBehandlingStegStatusVedTilbakeføring(Long behandlingId, BehandlingStegTilstand nyttSteg) {
-        // TODO Auto-generated method stub
-
+    public void nesteBehandlingStegStatusVedTilbakeføring(Long behandlingId, StegTilstand nyttSteg) {
+        Behandling behandling = entityManager.find(Behandling.class, behandlingId);
+        manipulator.forceOppdaterBehandlingSteg(behandling, nyttSteg.getStegType(), nyttSteg.getStatus(), BehandlingStegStatus.TILBAKEFØRT);
+        behandlingRepository.lagre(behandling, behandlingLåsRepository.taLås(behandlingId));
     }
 
     @Override
-    public void nesteBehandlingStegStatusVedFremføring(Long behandlingId, BehandlingStegTilstand nyttSteg) {
-        // TODO Auto-generated method stub
-
+    public void nesteBehandlingStegStatusVedFremføring(Long behandlingId, StegTilstand nyttSteg) {
+        Behandling behandling = entityManager.find(Behandling.class, behandlingId);
+        manipulator.forceOppdaterBehandlingSteg(behandling, nyttSteg.getStegType(), nyttSteg.getStatus(), BehandlingStegStatus.FREMOVERFØRT);
+        behandlingRepository.lagre(behandling, behandlingLåsRepository.taLås(behandlingId));
+    }
+    
+    @Override
+    public void nesteBehandlingStegStatusIntern(Long behandlingId, BehandlingStegType stegType, BehandlingStegStatus nyStegStatus) {
+        Behandling behandling = entityManager.find(Behandling.class, behandlingId);
+        manipulator.forceOppdaterBehandlingSteg(behandling, stegType, nyStegStatus);
+        behandlingRepository.lagre(behandling, behandlingLåsRepository.taLås(behandlingId));
+    }
+   
+    
+    @Override
+    public BehandlingskontrollTilstand getBehandlingskontrollTilstand(Long behandlingId) {
+        Behandling behandling = entityManager.find(Behandling.class, behandlingId);
+        
+        BehandlingskontrollTilstand tilstand = new BehandlingskontrollTilstand(behandlingId, behandling.getFagsakYtelseType(), behandling.getType());
+        Map<BehandlingÅrsakType, Boolean> årsaker = new LinkedHashMap<>();
+        behandling.getBehandlingÅrsaker().forEach(å -> årsaker.put(å.getBehandlingÅrsakType(), å.erManueltOpprettet()));
+        
+        tilstand.setBehandlingÅrsaker(årsaker);
+        tilstand.setStatus(behandling.getStatus());
+        tilstand.setStartpunkt(behandling.getStartpunkt());
+        
+        // tilstand.setAksjonspunkter(aksjonspunkter); // TODO
+        
+        Optional<StegTilstand> stegTilstand = StegTilstand.fra(behandling.getBehandlingStegTilstand());
+        tilstand.setStegTilstand(stegTilstand);
+        
+        return tilstand;
     }
 
+    @Deprecated(forRemoval = true)
     @Override
     public Optional<BehandlingStegTilstand> getAktivtBehandlingStegTilstand(Long behandlingId) {
         Behandling behandling = entityManager.find(Behandling.class, behandlingId);
         return behandling.getBehandlingStegTilstand();
-    }
-
-    @Override
-    public BehandlingStegTilstand getAktivtBehandlingStegTilstandDefinitiv(Long behandlingId) {
-        return getAktivtBehandlingStegTilstand(behandlingId)
-            .orElseThrow(() -> new IllegalStateException("Utvikler-feil: har ikke aktivt behandling steg for behanldingId:" + behandlingId));
-    }
-
-    @Override
-    public BehandlingStegTilstand getAktivtBehandlingStegTilstandDefinitiv(Long behandlingId, BehandlingStegType stegType) {
-        return getAktivtBehandlingStegTilstand(behandlingId).orElseThrow(() -> new IllegalStateException(
-            "Utvikler-feil: Kan ikke ha flere steg samtidig åpne for stegType[" + stegType + "], behandlingId" + behandlingId)); //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    @Override
-    public Optional<BehandlingStegTilstand> getAktivtBehandlingStegTilstand(Long behandlingId, BehandlingStegType stegType) {
-        var result = getAktivtBehandlingStegTilstand(behandlingId).filter(t -> Objects.equals(stegType, t.getStegType()));
-        return result;
     }
 
     @Override
