@@ -44,7 +44,11 @@ public class SjekkDbStrukturTest {
 
     @Test
     public void sjekk_at_alle_tabeller_er_dokumentert() throws Exception {
-        String sql = "SELECT table_name FROM all_tab_comments WHERE (comments IS NULL OR comments in ('', 'MISSING COLUMN COMMENT')) AND owner=sys_context('userenv', 'current_schema') AND table_name NOT LIKE 'schema_%' AND table_name not like '%_MOCK'";
+        String sql = "select t.table_name from information_schema.tables t\n" +
+            "join pg_class c on t.table_name = c.relname\n" +
+            "where t.table_schema = current_schema\n" +
+            "and t.table_name not like 'schema_%' AND t.table_name not like 'flyway_%' and t.table_name not like 'mock_%' \n" +
+            "and obj_description(c.oid) is null";
         List<String> avvik = new ArrayList<>();
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -72,8 +76,9 @@ public class SjekkDbStrukturTest {
             "AND upper(c.column_name) NOT IN ('OPPRETTET_TID','ENDRET_TID','OPPRETTET_AV','ENDRET_AV','VERSJON','BESKRIVELSE','NAVN','FOM', 'TOM','LAND', 'LANDKODE', 'KL_LANDKODE', 'KL_LANDKODER', 'AKTIV')\n" +
             "AND c.table_name not like 'schema_%'\n" +
             "AND c.table_name not like 'flyway_%'\n" +
+            "AND c.table_name not like 'mock_%' \n" +
             "AND pgd.description is null\n" +
-            "and not exists (\n" +
+            "AND not exists (\n" +
             "          SELECT\n" +
             "                 1\n" +
             "          FROM\n" +
@@ -82,7 +87,7 @@ public class SjekkDbStrukturTest {
             "                   ON tc.constraint_name = kcu.constraint_name\n" +
             "                        AND tc.table_schema = kcu.table_schema\n" +
             "          WHERE constraint_type IN ('FOREIGN KEY', 'PRIMARY KEY')\n" +
-            "            AND tc.table_schema='public'\n" +
+            "            AND tc.table_schema=current_schema\n" +
             "            AND tc.table_name = c.table_name and kcu.column_name = c.column_name\n" +
             "    )\n" +
             "ORDER BY c.table_name, c.column_name";
