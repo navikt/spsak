@@ -23,7 +23,6 @@ import no.nav.vedtak.felles.lokal.dbstoette.DBConnectionProperties;
 /**
  * Tester at alle migreringer følger standarder for navn og god praksis.
  */
-@Ignore
 public class SjekkDbStrukturTest {
 
     private static final String HJELP = "\n\nDu har nylig lagt til en ny tabell eller kolonne som ikke er dokumentert ihht. gjeldende regler for dokumentasjon."
@@ -138,6 +137,7 @@ public class SjekkDbStrukturTest {
     }
 
     @Test
+    @Ignore // TODO
     public void sjekk_at_alle_FK_kolonner_har_fornuftig_indekser() throws Exception {
         String sql = "SELECT "
             + "  uc.table_name, uc.constraint_name, LISTAGG(dcc.column_name, ',') WITHIN GROUP (ORDER BY dcc.position) as columns" +
@@ -186,6 +186,7 @@ public class SjekkDbStrukturTest {
     }
 
     @Test
+    @Ignore // TODO
     public void skal_ha_KL_prefiks_for_kodeverk_kolonne_i_source_tabell() throws Exception {
         String sql = "Select cola.table_name, cola.column_name From All_Constraints Uc  " +
             "Inner Join All_Cons_Columns Cola On Cola.Constraint_Name=Uc.Constraint_Name And Cola.Owner=Uc.Owner " +
@@ -308,6 +309,7 @@ public class SjekkDbStrukturTest {
     }
 
     @Test
+    @Ignore // TODO
     public void skal_ha_primary_key_i_hver_tabell_som_begynner_med_PK() throws Exception {
         String sql = "SELECT table_name FROM all_tables at "
             + " WHERE table_name "
@@ -422,6 +424,7 @@ public class SjekkDbStrukturTest {
     }
 
     @Test
+    @Ignore // TODO
     public void skal_ha_samme_data_type_for_begge_sider_av_en_FK() throws Exception {
         String sql = "SELECT T.TABLE_NAME\n" +
             ", TCC.COLUMN_NAME AS KOL_A\n" +
