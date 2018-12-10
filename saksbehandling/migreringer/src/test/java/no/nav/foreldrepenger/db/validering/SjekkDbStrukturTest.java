@@ -309,20 +309,16 @@ public class SjekkDbStrukturTest {
     }
 
     @Test
-    @Ignore // TODO
     public void skal_ha_primary_key_i_hver_tabell_som_begynner_med_PK() throws Exception {
-        String sql = "SELECT table_name FROM all_tables at "
-            + " WHERE table_name "
-            + " NOT IN ( SELECT ac.table_name FROM all_constraints ac "
-            + "         WHERE ac.constraint_type ='P' and at.owner=ac.owner and ac.constraint_name like 'PK_%') "
-            + " AND at.owner=upper(?) and at.table_name not like 'schema_%'";
+        String sql = "SELECT t.table_name FROM information_schema.tables t where t.table_schema = current_schema\n" +
+            "and t.table_name not like 'schema_%' AND t.table_name not like 'flyway_%'\n" +
+            "and t.table_name not in\n" +
+            "    (select c.table_name from information_schema.table_constraints c where c.constraint_type = 'PRIMARY KEY' and constraint_name like 'pk_%')";
 
         List<String> avvik = new ArrayList<>();
         StringBuilder tekst = new StringBuilder();
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-            stmt.setString(1, schema);
 
             try (ResultSet rs = stmt.executeQuery()) {
 
@@ -336,7 +332,7 @@ public class SjekkDbStrukturTest {
         }
 
         int sz = avvik.size();
-        String feilTekst = "Feil eller mangelende definisjon av primary key (skal hete 'PK_<tabell navn>'). Antall feil=";
+        String feilTekst = "Feil eller mangelende definisjon av primary key (skal hete 'pk_<tabell navn>'). Antall feil=";
 
         assertThat(avvik).withFailMessage(feilTekst + +sz + "\n\nTabell\n" + tekst).isEmpty();
 
