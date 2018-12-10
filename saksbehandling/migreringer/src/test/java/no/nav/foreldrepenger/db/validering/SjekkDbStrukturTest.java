@@ -469,41 +469,6 @@ public class SjekkDbStrukturTest {
 
     }
 
-    @Test
-    @Ignore
-    public void skal_deklarere_VARCHAR2_kolonner_som_CHAR_ikke_BYTE_semantikk() throws Exception {
-        String sql = "SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHAR_USED, CHAR_LENGTH\n"
-            + "FROM ALL_TAB_COLS\n"
-            + "WHERE DATA_TYPE = 'VARCHAR2'\n"
-            + "AND CHAR_USED !='C' AND TABLE_NAME NOT LIKE '%schema%' AND CHAR_LENGTH>1 AND OWNER=upper(?)\n"
-            + "ORDER BY 1, 2";
-
-        List<String> avvik = new ArrayList<>();
-        StringBuilder tekst = new StringBuilder();
-        try (Connection conn = ds.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-            stmt.setString(1, schema);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-
-                while (rs.next()) {
-                    String t = rs.getString(1) + ", " + rs.getString(2) + ", " + rs.getString(3) + ", " + rs.getString(4) + ", " + rs.getString(5);
-                    avvik.add(t);
-                    tekst.append(t).append("\n");
-                }
-            }
-
-        }
-
-        int sz = avvik.size();
-        String feilTekst = "Feil deklarasjon av VARCHAR2 kolonne (husk VARCHAR2(100 CHAR) og ikke VARCHAR2(100)). Antall feil=";
-        String cols = ".\n\nTABELL, KOLONNE, DATA_TYPE, CHAR_USED, CHAR_LENGTH\n";
-
-        assertThat(avvik).withFailMessage(feilTekst + +sz + cols + tekst).isEmpty();
-
-    }
-
 
     @Test
     public void skal_ikke_bruke_FLOAT_REAL_eller_DOUBLEPRECISION() throws Exception {
