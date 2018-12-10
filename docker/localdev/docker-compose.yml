@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+
+  db:
+    build: 
+      context: ./
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+    env_file:
+      - ~/spsak/secrets.env
+   
+volumes:
+    data:
+    
+
+      
+      
