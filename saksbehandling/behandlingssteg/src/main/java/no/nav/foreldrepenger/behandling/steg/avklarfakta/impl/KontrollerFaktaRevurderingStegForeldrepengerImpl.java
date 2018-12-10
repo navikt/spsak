@@ -147,6 +147,22 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
         builder.buildFor(behandling);
     }
 
+    private StartpunktType tidligsteStartpunkt(StartpunktType berørtStartpunkt, StartpunktType startpunktUtledetFraRegisterEndringer) {
+        if (berørtStartpunkt.getRangering() < startpunktUtledetFraRegisterEndringer.getRangering()) {
+            return berørtStartpunkt;
+        }
+        return startpunktUtledetFraRegisterEndringer;
+    }
+
+    private boolean berørtAvFlytterPåFørsteStønadsdag(Behandling behandling, Behandling behandlingBerørtAv) {
+        UttakResultatEntitet eksisterendeUttakResultat = uttakRepository.hentUttakResultat(behandling.getOriginalBehandling().get());
+        Optional<UttakResultatEntitet> uttakResultatBerørtAv = uttakRepository.hentUttakResultatHvisEksisterer(behandlingBerørtAv);
+        if (uttakResultatBerørtAv.isPresent()) {
+            return harOverlappendePeriodeMedFørsteStønadsdag(eksisterendeUttakResultat, uttakResultatBerørtAv.get());
+        }
+        return false;
+    }
+
     boolean harOverlappendePeriodeMedFørsteStønadsdag(UttakResultatEntitet eksisterendeUttakResultat, UttakResultatEntitet uttakResultatBerørtAv) {
         UttakResultatPeriodeEntitet eksisterendeUttakFørstePeriode = eksisterendeUttakResultat.getGjeldendePerioder().getPerioder().get(0);
         List<UttakResultatPeriodeEntitet> perioderBerørtAv = uttakResultatBerørtAv.getGjeldendePerioder().getPerioder();

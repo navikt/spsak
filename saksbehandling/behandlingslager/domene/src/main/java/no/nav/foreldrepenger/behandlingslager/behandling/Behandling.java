@@ -554,19 +554,6 @@ public class Behandling extends BaseEntitet {
      * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
      */
     @Deprecated(forRemoval = true)
-    public Optional<Behandling> getOriginalBehandling() {
-        return getBehandlingÅrsaker().stream()
-            .filter(Objects::nonNull)
-            .map(BehandlingÅrsak::getOriginalBehandling)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst();
-    }
-
-    /**
-     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
-     */
-    @Deprecated(forRemoval = true)
     void leggTilBehandlingÅrsaker(List<BehandlingÅrsak> behandlingÅrsaker) {
         if (erAvsluttet() && erHenlagt()) {
             throw new IllegalStateException("Utvikler-feil: kan ikke legge til årsaker på en behandling som er avsluttet.");
@@ -589,6 +576,50 @@ public class Behandling extends BaseEntitet {
     }
 
     /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public Optional<Behandling> getOriginalBehandling() {
+        return getBehandlingÅrsaker().stream()
+            .filter(Objects::nonNull)
+            .map(BehandlingÅrsak::getOriginalBehandling)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst();
+    }
+
+    /** 
+     * @deprecated FIXME PFP-1131 Fjern direkte kobling Behandling->Berørt Behandling
+     */
+    @Deprecated
+    public boolean erBerørtBehandling() {
+        return getBehandlingÅrsaker().stream()
+            .map(BehandlingÅrsak::getBehandlingÅrsakType)
+            .collect(Collectors.toList())
+            .contains(BehandlingÅrsakType.BERØRT_BEHANDLING);
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public boolean erManueltOpprettet() {
+        return getBehandlingÅrsaker().stream()
+            .map(BehandlingÅrsak::erManueltOpprettet)
+            .collect(Collectors.toList())
+            .contains(true);
+    }
+
+    /**
+     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
+     */
+    @Deprecated(forRemoval=true)
+    public boolean erManueltOpprettetOgHarÅrsak(BehandlingÅrsakType behandlingÅrsak) {
+        return erManueltOpprettet() && harBehandlingÅrsak(behandlingÅrsak);
+    }
+
+    /**
+>>>>>>> Fjerner berørt behandling (fra BehandlingÅrsak, Behandling og Kompletthetsjekker)
      * Oppdater behandlingssteg og tilhørende status.
      * <p>
      * NB::NB::NB Dette skal normalt kun gjøres fra Behandlingskontroll slik at bokføring og events blir riktig.
@@ -695,25 +726,6 @@ public class Behandling extends BaseEntitet {
     @Deprecated(forRemoval = true)
     public List<BehandlingÅrsak> getBehandlingÅrsaker() {
         return new ArrayList<>(behandlingÅrsaker);
-    }
-
-    /**
-     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
-     */
-    @Deprecated(forRemoval = true)
-    public boolean erManueltOpprettet() {
-        return getBehandlingÅrsaker().stream()
-            .map(BehandlingÅrsak::erManueltOpprettet)
-            .collect(Collectors.toList())
-            .contains(true);
-    }
-
-    /**
-     * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
-     */
-    @Deprecated(forRemoval = true)
-    public boolean erManueltOpprettetOgHarÅrsak(BehandlingÅrsakType behandlingÅrsak) {
-        return erManueltOpprettet() && harBehandlingÅrsak(behandlingÅrsak);
     }
 
     /**
