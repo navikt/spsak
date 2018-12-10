@@ -60,8 +60,10 @@ public class ForeslåVedtakRevurderingStegForeldrepengerImplTest {
 
     @Before
     public void before() {
-        orginalBehandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider);
-        orginalBehandling.avsluttBehandling();
+        ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
+        orginalBehandling = scenario.lagre(repositoryProvider);
+        scenario.avsluttBehandling(repositoryProvider, orginalBehandling);
+        
         revurdering = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.REVURDERING)
             .medOriginalBehandling(orginalBehandling, BehandlingÅrsakType.UDEFINERT)
@@ -78,6 +80,7 @@ public class ForeslåVedtakRevurderingStegForeldrepengerImplTest {
 
 
     }
+    
     @Test
     public void skal_ikke_opprette_aksjonspunkt_når_samme_beregningsgrunnlag(){
         beregningsgrunnlagRepository.

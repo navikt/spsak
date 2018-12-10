@@ -12,7 +12,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingEvent;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
@@ -55,10 +56,6 @@ public class TestEventObserver {
         addEvent(event);
     }
 
-    public void observer(@Observes BehandlingStegStatusEvent event) {
-        addEvent(event);
-    }
-
     public static void containsExactly(AksjonspunktDefinisjon[]... ads) {
         List<AksjonspunktEvent> aksjonspunkterEvents = getEvents(AksjonspunktEvent.class);
         assertThat(aksjonspunkterEvents).hasSize(ads.length);
@@ -73,9 +70,9 @@ public class TestEventObserver {
     }
 
     @SuppressWarnings("unchecked")
-    private static<V> List<V> getEvents(Class<?> cls) {
+    private static <V> List<V> getEvents(Class<?> cls) {
         return (List<V>) allEvents.stream().filter(p -> cls.isAssignableFrom(p.getClass()))
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 
     public static void containsExactly(BehandlingskontrollEvent... bke) {
@@ -93,28 +90,26 @@ public class TestEventObserver {
         assertThat(overgangEvents).hasSize(bsoe.length);
         for (int i = 0; i < bsoe.length; i++) {
             BehandlingStegOvergangEvent minEvent = bsoe[i];
-            assertThat(overgangEvents.get(i).getFraStegType()).as("%s", i).isEqualTo(minEvent.getFraStegType());
-            assertThat(hentKode(overgangEvents.get(i).getFraTilstand())).as("%s", i)
-                .isEqualTo(hentKode(minEvent.getFraTilstand()));
-            assertThat(overgangEvents.get(i).getTilStegType()).as("%s", i).isEqualTo(minEvent.getTilStegType());
+            BehandlingStegType fraStegType = overgangEvents.get(i).getFraStegType();
+            BehandlingStegType forventetFraStegType = minEvent.getFraStegType();
+            assertThat(fraStegType).as("Fra Steg %s", i).isEqualTo(forventetFraStegType);
+            
+            String overgangKode = hentKode(overgangEvents.get(i).getFraTilstand());
+            String minKode = hentKode(minEvent.getFraTilstand());
+            assertThat(overgangKode).as("Fra Status %s", i).isEqualTo(minKode);
+            
+            BehandlingStegType tilSteg = overgangEvents.get(i).getTilStegType();
+            BehandlingStegType forventetTilSteg = minEvent.getTilStegType();
+            assertThat(tilSteg).as("Fra Steg (Status)%s", i).isEqualTo(forventetTilSteg);
+            
             assertThat(hentKode(overgangEvents.get(i).getTilTilstand())).as("%s", i)
                 .isEqualTo(hentKode(minEvent.getTilTilstand()));
         }
     }
 
-    public static void containsExactly(BehandlingStegStatusEvent... bsoe) {
-        List<BehandlingStegStatusEvent> behandlingStegStatusEvents = getEvents(BehandlingStegStatusEvent.class);
-        assertThat(behandlingStegStatusEvents).hasSize(bsoe.length);
-        for (int i = 0; i < bsoe.length; i++) {
-            BehandlingStegStatusEvent minEvent = bsoe[i];
-            assertThat(behandlingStegStatusEvents.get(i).getForrigeStatus()).as("%s:%s", i, minEvent.getStegType()).isEqualTo(minEvent.getForrigeStatus());
-            assertThat(behandlingStegStatusEvents.get(i).getNyStatus()).as("%s:%s", i, minEvent.getStegType()).isEqualTo(minEvent.getNyStatus());
-        }
-    }
-
-    private static String hentKode(Optional<BehandlingStegTilstand> behandlingStegTilstand) {
+    private static String hentKode(Optional<StegTilstand> behandlingStegTilstand) {
         return behandlingStegTilstand
-            .map(BehandlingStegTilstand::getStatus)
+            .map(StegTilstand::getStatus)
             .map(Kodeliste::getKode)
             .orElse("");
     }

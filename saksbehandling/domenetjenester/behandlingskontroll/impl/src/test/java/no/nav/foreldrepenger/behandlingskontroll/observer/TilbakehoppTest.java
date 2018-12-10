@@ -30,9 +30,9 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -253,8 +253,8 @@ public class TilbakehoppTest {
     private Aksjonspunkt utførTilbakehoppReturnerAksjonspunkt(StegPort fra, BehandlingStegType til, Aksjonspunkt ap) {
         BehandlingStegStatus fraStatus = getBehandlingStegFraStatus(fra);
 
-        BehandlingStegTilstand fraTilstand = new BehandlingStegTilstand(behandling, fra.getSteg(), fraStatus);
-        BehandlingStegTilstand tilTilstand = new BehandlingStegTilstand(behandling, til, BehandlingStegStatus.UTFØRT);
+        StegTilstand fraTilstand = new StegTilstand(fra.getSteg(), fraStatus);
+        StegTilstand tilTilstand = new StegTilstand(til, BehandlingStegStatus.UTFØRT);
         Fagsak fagsak = behandling.getFagsak();
         BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(),fagsak.getAktørId(), behandlingLås);
         BehandlingStegOvergangEvent.BehandlingStegTilbakeføringEvent event =
@@ -269,8 +269,8 @@ public class TilbakehoppTest {
     private Aksjonspunkt utførOverstyringTilbakehoppReturnerAksjonspunkt(StegPort fra, BehandlingStegType til, Aksjonspunkt ap) {
         BehandlingStegStatus fraStatus = getBehandlingStegFraStatus(fra);
 
-        BehandlingStegTilstand fraTilstand = new BehandlingStegTilstand(behandling, fra.getSteg(), fraStatus);
-        BehandlingStegTilstand tilTilstand = new BehandlingStegTilstand(behandling, til, BehandlingStegStatus.UTFØRT);
+        StegTilstand fraTilstand = new StegTilstand(fra.getSteg(), fraStatus);
+        StegTilstand tilTilstand = new StegTilstand(til, BehandlingStegStatus.UTFØRT);
 
         Fagsak fagsak = behandling.getFagsak();
         BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(),fagsak.getAktørId(), behandlingLås);

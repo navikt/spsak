@@ -22,7 +22,6 @@ import org.junit.runner.RunWith;
 import no.nav.foreldrepenger.behandling.revurdering.EndringsdatoRevurderingUtleder;
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingEndring;
-import no.nav.foreldrepenger.behandling.revurdering.testutil.BeregningRevurderingTestUtil;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollEventPubliserer;
@@ -77,9 +76,6 @@ public class RevurderingBehandlingsresultatutlederTest {
     public final RepositoryRule repoRule = new UnittestRepositoryRule();
 
     @Inject
-    private BeregningRevurderingTestUtil revurderingTestUtil;
-    
-    @Inject
     private RevurderingEndring revurderingEndring;
 
     private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
@@ -108,7 +104,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, BehandlingStegType.KONTROLLER_FAKTA);
         behandlingSomSkalRevurderes = scenario.lagre(repositoryProvider);
-        revurderingTestUtil.avsluttBehandling(behandlingSomSkalRevurderes);
+        scenario.avsluttBehandling(repositoryProvider, behandlingSomSkalRevurderes);
         revurderingFPBehandlingsresultatutleder = new RevurderingFPBehandlingsresultatutleder(repositoryProvider, endringsdatoRevurderingUtleder);
         BehandlingModellRepository mock = mock(BehandlingModellRepository.class);
         when(mock.getModell(any(), any())).thenReturn(mock(BehandlingModell.class));

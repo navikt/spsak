@@ -19,6 +19,7 @@ import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingskontrollRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørInntektEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
@@ -36,6 +37,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektspostType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -64,8 +66,10 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     private VirksomhetTjeneste virksomhetTjeneste = new VirksomhetTjenesteImpl(null, repositoryProvider.getVirksomhetRepository());
     private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, mock);
     private InntektArbeidYtelseTjeneste iayTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, virksomhetTjeneste, mock, apOpptjening);
-    private VurderArbeidsforholdTjeneste tjeneste = new VurderArbeidsforholdTjenesteImpl(iayTjeneste, virksomhetTjeneste);
+    private BehandlingskontrollRepository behandlingskontrollRepository = new BehandlingskontrollRepositoryImpl(repositoryProvider, repoRule.getEntityManager());
+    private VurderArbeidsforholdTjeneste tjeneste = new VurderArbeidsforholdTjenesteImpl(iayTjeneste, virksomhetTjeneste, behandlingskontrollRepository);
 
+    
     @Spy
     private AksjonspunktUtlederForVurderArbeidsforhold utleder = new AksjonspunktUtlederForVurderArbeidsforhold(tjeneste);
 

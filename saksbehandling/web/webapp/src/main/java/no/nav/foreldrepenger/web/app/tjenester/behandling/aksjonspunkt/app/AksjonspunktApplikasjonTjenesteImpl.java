@@ -289,11 +289,15 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
             settToTrinnHvisRevurderingOgEndring(behandling, aksjonspunkt, dto.getBegrunnelse(), snapshotFør);
         }
 
-        if (!aksjonspunkt.erLukket() && delresultat.skalUtføreAksjonspunkt()) {
+        if (kanUtføreAksjonspunkt(aksjonspunkt, delresultat)) {
             if (aksjonspunktRepository.setTilUtført(aksjonspunkt, dto.getBegrunnelse())) {
                 utførteAksjonspunkter.add(aksjonspunkt);
             }
         }
+    }
+
+    private boolean kanUtføreAksjonspunkt(Aksjonspunkt aksjonspunkt, OppdateringResultat delresultat) {
+        return !(aksjonspunkt.erBehandletAksjonspunkt() || aksjonspunkt.erAvbrutt()) && delresultat.skalUtføreAksjonspunkt();
     }
 
     private Instance<Object> finnAksjonspunktOppdaterer(Class<?> dtoClass) {

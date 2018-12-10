@@ -38,8 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak;
@@ -59,13 +57,12 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
     @Rule
     public RepositoryRule repositoryRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider provider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
-    private BehandlingRepository behandlingRepository = provider.getBehandlingRepository();
-    private MedlemskapRepository medlemskapRepository = provider.getMedlemskapRepository();
-    private VirksomhetRepository virksomhetRepository = provider.getVirksomhetRepository();
-    private PersonopplysningRepository personopplysningRepository = provider.getPersonopplysningRepository();
-    private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = provider.getInntektArbeidYtelseRepository();
-    private FagsakRepository fagsakRepository = provider.getFagsakRepository();
+    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+    private MedlemskapRepository medlemskapRepository = repositoryProvider.getMedlemskapRepository();
+    private VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
+    private PersonopplysningRepository personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
+    private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
 
     @Inject
     private UtledVurderingsdatoerForMedlemskapTjeneste utlederTjeneste;
@@ -74,7 +71,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
 
     @Before
     public void setUp() {
-        steg = new KontrollerFaktaLøpendeMedlemskapStegImpl(unleash, utlederTjeneste, provider);
+        steg = new KontrollerFaktaLøpendeMedlemskapStegImpl(unleash, utlederTjeneste, repositoryProvider);
     }
 
     @Test
@@ -87,7 +84,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(repositoryProvider);
         avslutterBehandlingOgFagsak(behandling);
 
         Behandling revudering = opprettRevudering(behandling);
@@ -113,7 +110,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(repositoryProvider);
         avslutterBehandlingOgFagsak(behandling);
 
         Behandling revudering = opprettRevudering(behandling);
@@ -171,11 +168,9 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
 
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
         behandlingRepository.lagre(behandling, lås);
-        provider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
+        repositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
 
-        behandling.avsluttBehandling();
-        behandlingRepository.lagre(behandling, lås);
-        fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.AVSLUTTET);
+        repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandling.getId());
     }
 
     private UttakResultatPerioderEntitet lagUttaksPeriode() {

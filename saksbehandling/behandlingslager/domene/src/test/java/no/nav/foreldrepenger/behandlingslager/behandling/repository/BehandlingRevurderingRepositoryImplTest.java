@@ -55,7 +55,7 @@ public class BehandlingRevurderingRepositoryImplTest {
         behandlingRepository.lagre(revurderingsBehandling, behandlingRepository.taSkriveLås(revurderingsBehandling));
 
         oppdaterMedBehandlingsresultatAvslagOgLagre(revurderingsBehandling);
-        revurderingsBehandling.avsluttBehandling();
+        avsluttBehandling(revurderingsBehandling);
         behandlingRepository.lagre(revurderingsBehandling, behandlingRepository.taSkriveLås(revurderingsBehandling));
 
         Behandling nyRevurderingsBehandling = Behandling.fraTidligereBehandling(behandling, BehandlingType.REVURDERING)
@@ -63,7 +63,7 @@ public class BehandlingRevurderingRepositoryImplTest {
         behandlingRepository.lagre(nyRevurderingsBehandling, behandlingRepository.taSkriveLås(nyRevurderingsBehandling));
 
         oppdaterMedBehandlingsresultatAvslagOgLagre(nyRevurderingsBehandling);
-        nyRevurderingsBehandling.avsluttBehandling();
+        avsluttBehandling(nyRevurderingsBehandling);
         behandlingRepository.lagre(nyRevurderingsBehandling, behandlingRepository.taSkriveLås(nyRevurderingsBehandling));
 
         List<Behandling> result = behandlingRevurderingRepository.finnHenlagteBehandlingerEtterSisteInnvilgedeIkkeHenlagteBehandling(behandling.getFagsakId());
@@ -83,11 +83,15 @@ public class BehandlingRevurderingRepositoryImplTest {
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
         final BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder().medVedtaksdato(LocalDate.now()).medBehandlingsresultat(behandlingsresultat)
             .medVedtakResultatType(VedtakResultatType.INNVILGET).medAnsvarligSaksbehandler("asdf").build();
-        behandling.avsluttBehandling();
+        avsluttBehandling(behandling);
         behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
         behandlingVedtakRepository.lagre(behandlingVedtak, behandlingRepository.taSkriveLås(behandling));
 
         return behandling;
+    }
+
+    private void avsluttBehandling(Behandling behandling) {
+        repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandling.getId());
     }
 
     private void oppdaterMedBehandlingsresultatAvslagOgLagre(Behandling behandling) {

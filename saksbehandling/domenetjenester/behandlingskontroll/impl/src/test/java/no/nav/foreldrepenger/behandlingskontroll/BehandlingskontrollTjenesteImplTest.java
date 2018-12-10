@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -25,10 +25,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingEvent;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingskontrollTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderingspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -78,8 +79,7 @@ public class BehandlingskontrollTjenesteImplTest {
             new TestStegKonfig(STEG_1, behandlingType, fagsakYtelseType, steg1, ap(), ap()),
             new TestStegKonfig(STEG_2, behandlingType, fagsakYtelseType, steg2, ap(a2_0), ap(a2_1)),
             new TestStegKonfig(STEG_4, behandlingType, fagsakYtelseType, steg4, ap(a4_0), ap(a4_1)),
-            new TestStegKonfig(STEG_5, behandlingType, fagsakYtelseType, steg5, ap(a5_0), ap(a5_1))
-        );
+            new TestStegKonfig(STEG_5, behandlingType, fagsakYtelseType, steg5, ap(a5_0), ap(a5_1)));
 
         BehandlingModellImpl modell = setupModell(behandlingType, fagsakYtelseType, modellData);
     }
@@ -110,7 +110,7 @@ public class BehandlingskontrollTjenesteImplTest {
 
     @Inject
     private BehandlingRepositoryProvider repositoryProvider;
-    
+
     @Inject
     private BehandlingskontrollRepository behandlingskontrollRepository;
 
@@ -135,7 +135,7 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingTilbakeføringTilTidligsteAksjonspunkt(kontekst, Arrays.asList(steg2InngangAksjonspunkt), false);
 
-        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(getBehandlingSteg()).isEqualTo(STEG_2);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.UTREDES);
         assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
         assertThat(getBehandlingStegTilstand()).isNotNull();
@@ -153,7 +153,7 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingTilbakeføringTilTidligsteAksjonspunkt(kontekst, Arrays.asList(steg2UtgangAksjonspunkt), false);
 
-        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(getBehandlingSteg()).isEqualTo(STEG_2);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.UTREDES);
         assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.UTGANG);
         assertThat(getBehandlingStegTilstand()).isNotNull();
@@ -171,7 +171,7 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingTilbakeføringTilTidligereBehandlingSteg(kontekst, STEG_2);
 
-        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(getBehandlingSteg()).isEqualTo(STEG_2);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.UTREDES);
         assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
         assertThat(getBehandlingStegTilstand()).isNotNull();
@@ -189,7 +189,7 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingTilbakeføringHvisTidligereBehandlingSteg(kontekst, STEG_4);
 
-        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_2);
+        assertThat(getBehandlingSteg()).isEqualTo(STEG_2);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.UTREDES);
         assertThat(getBehandlingStegStatus()).isNull();
         assertThat(getBehandlingStegTilstand()).isNotNull();
@@ -204,7 +204,7 @@ public class BehandlingskontrollTjenesteImplTest {
 
         kontrollTjeneste.behandlingFramføringTilSenereBehandlingSteg(kontekst, STEG_5);
 
-        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_5);
+        assertThat(getBehandlingSteg()).isEqualTo(STEG_5);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.IVERKSETTER_VEDTAK);
         assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
         assertThat(getBehandlingStegTilstand()).isNotNull();
@@ -233,8 +233,10 @@ public class BehandlingskontrollTjenesteImplTest {
         // Arrange
         manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, STEG_4, BehandlingStegStatus.UTGANG,
             BehandlingStegStatus.AVBRUTT);
+        
+        lagreBehandling(behandling);
 
-        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_4);
+        assertThat(getBehandlingSteg()).isEqualTo(STEG_4);
         assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.UTGANG);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.FATTER_VEDTAK);
 
@@ -244,7 +246,7 @@ public class BehandlingskontrollTjenesteImplTest {
         kontrollTjeneste.behandlingTilbakeføringTilTidligsteAksjonspunkt(kontekst, Arrays.asList(steg4InngangAksjonspunkt), false);
 
         // Assert
-        assertThat(getAktivtBehandlingSteg()).isEqualTo(STEG_4);
+        assertThat(getBehandlingSteg()).isEqualTo(STEG_4);
         assertThat(behandling.getStatus()).isEqualTo(BehandlingStatus.FATTER_VEDTAK);
         assertThat(getBehandlingStegStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
         assertThat(getBehandlingStegTilstand()).isNotNull();
@@ -256,6 +258,10 @@ public class BehandlingskontrollTjenesteImplTest {
 
         assertThat(getBehandlingStegTilstandSteg4().get().getStatus()).isEqualTo(BehandlingStegStatus.INNGANG);
 
+    }
+
+    private Long lagreBehandling(Behandling behandling) {
+        return repositoryProvider.getBehandlingRepository().lagre(behandling, repositoryProvider.getBehandlingLåsRepository().taLås(behandling.getId()));
     }
 
     @Test
@@ -287,12 +293,14 @@ public class BehandlingskontrollTjenesteImplTest {
 
     @Test
     public void skal_returnere_true_når_aksjonspunktet_skal_løses_i_angitt_steg() {
-        assertThat(kontrollTjeneste.skalAksjonspunktReaktiveresIEllerEtterSteg(behandling, STEG_4, AksjonspunktDefinisjon.AVKLAR_TILLEGGSOPPLYSNINGER)).isTrue();
+        assertThat(kontrollTjeneste.skalAksjonspunktReaktiveresIEllerEtterSteg(behandling, STEG_4, AksjonspunktDefinisjon.AVKLAR_TILLEGGSOPPLYSNINGER))
+            .isTrue();
     }
 
     @Test
     public void skal_returnere_false_når_aksjonspunktet_skal_løses_før_angitt_steg() {
-        assertThat(kontrollTjeneste.skalAksjonspunktReaktiveresIEllerEtterSteg(behandling, STEG_4, AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS)).isFalse();
+        assertThat(kontrollTjeneste.skalAksjonspunktReaktiveresIEllerEtterSteg(behandling, STEG_4, AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS))
+            .isFalse();
     }
 
     private void sjekkBehandlingStegTilstandHistorikk(BehandlingStegType stegType, BehandlingStegStatus... stegStatuser) {
@@ -300,7 +308,7 @@ public class BehandlingskontrollTjenesteImplTest {
             getBehandlingStegTilstandHistorikk().stream()
                 .filter(bst -> stegType == null || Objects.equals(bst.getStegType(), stegType))
                 .map(bst -> bst.getStatus()))
-            .containsExactly(stegStatuser);
+                    .containsExactly(stegStatuser);
     }
 
     private static List<AksjonspunktDefinisjon> ap(AksjonspunktDefinisjon... aksjonspunktDefinisjoner) {
@@ -341,44 +349,52 @@ public class BehandlingskontrollTjenesteImplTest {
         Mockito.when(behandlingModellRepository.getModell(Mockito.any(), Mockito.any())).thenReturn(modell);
         Mockito.when(behandlingModellRepository.getBehandlingStegKonfigurasjon()).thenReturn(BehandlingStegKonfigurasjon.lagDummy());
         Mockito.when(behandlingModellRepository.getKodeverkRepository()).thenReturn(kodeverkRepository);
-        this.kontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository,
-            eventPubliserer);
+        this.kontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository, eventPubliserer);
     }
 
-
-    private List<BehandlingStegTilstand> getBehandlingStegTilstandHistorikk() {
-        return behandlingskontrollRepository.getBehandlingStegTilstandHistorikk(behandling.getId());
+    private List<StegTilstand> getBehandlingStegTilstandHistorikk() {
+        return behandlingskontrollRepository.getBehandlingStegTilstandHistorikk(behandling.getId())
+                .stream()
+                .map(StegTilstand::fra)
+                .flatMap(Optional::stream)
+                .collect(Collectors.toList());
     }
 
-    private Optional<BehandlingStegTilstand> getBehandlingStegTilstand() {
-        return behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandling.getId());
+    private Optional<StegTilstand> getBehandlingStegTilstand() {
+        var tilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandling.getId());
+        return StegTilstand.fra(tilstand);
     }
 
     private BehandlingStegStatus getBehandlingStegStatus() {
-        return getAktivtBehandlingStegDefinitiv().getStatus();
+        return getBehandlingskontrollTilstand().getStegStatus();
     }
 
-    private BehandlingStegType getAktivtBehandlingSteg() {
-        return getAktivtBehandlingStegDefinitiv().getStegType();
+    private BehandlingStegType getBehandlingSteg() {
+        return getBehandlingskontrollTilstand().getStegType();
     }
 
-    private BehandlingStegTilstand getAktivtBehandlingStegDefinitiv() {
-        return behandlingskontrollRepository.getAktivtBehandlingStegTilstandDefinitiv(behandling.getId());
+    private BehandlingskontrollTilstand getBehandlingskontrollTilstand() {
+        return behandlingskontrollRepository.getBehandlingskontrollTilstand(behandling.getId());
     }
 
-    private Optional<BehandlingStegTilstand> getAktivtBehandlingSteg(BehandlingStegType stegType) {
-        return behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandling.getId(), stegType);
+    private Optional<StegTilstand> getAktivtBehandlingSteg(BehandlingStegType stegType) {
+        var tilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandling.getId());
+        if (tilstand.erSteg(stegType)) {
+            return StegTilstand.fra(tilstand);
+        } else {
+            return Optional.empty();
+        }
     }
-    
-    private Optional<BehandlingStegTilstand> getBehandlingStegTilstandSteg4() {
+
+    private Optional<StegTilstand> getBehandlingStegTilstandSteg4() {
         return getAktivtBehandlingSteg(STEG_4);
     }
 
-    private Optional<BehandlingStegTilstand> getBehandlingStegTilstandSteg2() {
+    private Optional<StegTilstand> getBehandlingStegTilstandSteg2() {
         return getAktivtBehandlingSteg(STEG_2);
     }
 
-    private Optional<BehandlingStegTilstand> getBehandlingStegTilstandSteg5() {
+    private Optional<StegTilstand> getBehandlingStegTilstandSteg5() {
         return getAktivtBehandlingSteg(STEG_5);
     }
 

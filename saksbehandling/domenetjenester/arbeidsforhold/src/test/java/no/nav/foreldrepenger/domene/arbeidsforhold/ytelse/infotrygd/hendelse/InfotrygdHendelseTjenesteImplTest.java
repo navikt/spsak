@@ -9,18 +9,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.kontrakter.feed.felles.FeedDto;
 import no.nav.foreldrepenger.kontrakter.feed.felles.FeedElement;
@@ -42,6 +42,9 @@ public class InfotrygdHendelseTjenesteImplTest {
 
     @Mock
     private OidcRestClient oidcRestClient;
+    
+    @Mock
+    private BehandlingskontrollRepository behandlingskontrollRepository;
 
     private InfotrygdHendelseMapper mapper;
     private InfotrygdHendelseTjenesteImpl tjeneste;
@@ -53,7 +56,7 @@ public class InfotrygdHendelseTjenesteImplTest {
     @Before
     public void setUp() {
         mapper = new InfotrygdHendelseMapper();
-        tjeneste = new InfotrygdHendelseTjenesteImpl(endpoint, oidcRestClient, mapper);
+        tjeneste = new InfotrygdHendelseTjenesteImpl(endpoint, oidcRestClient, mapper, behandlingskontrollRepository);
     }
 
 
@@ -65,7 +68,8 @@ public class InfotrygdHendelseTjenesteImplTest {
         when(oidcRestClient.get(startUri, FeedDto.class)).thenReturn(feed);
         when(behandling.getAktørId()).thenReturn(aktørId);
         when(aktørId.getId()).thenReturn("9000000001234");
-        when(behandling.getBehandlingStegTilstandHistorikk()).thenReturn(Stream.of(tilstand));
+        
+        when(behandlingskontrollRepository.getBehandlingStegTilstandHistorikk(Mockito.anyLong())).thenReturn(List.of(tilstand));
         when(tilstand.getStegType()).thenReturn(BehandlingStegType.FATTE_VEDTAK);
         when(tilstand.getOpprettetTidspunkt()).thenReturn(LocalDateTime.of(2018, 5, 14, 9, 30));
 

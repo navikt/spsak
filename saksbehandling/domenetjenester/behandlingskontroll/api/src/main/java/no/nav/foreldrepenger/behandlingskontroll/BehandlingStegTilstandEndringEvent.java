@@ -3,24 +3,24 @@ package no.nav.foreldrepenger.behandlingskontroll;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingEvent;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 
 public class BehandlingStegTilstandEndringEvent implements BehandlingEvent {
 
-    private Optional<BehandlingStegTilstand> fraTilstand;
-    private Optional<BehandlingStegTilstand> tilTilstand;
+    private Optional<StegTilstand> fraTilstand;
+    private Optional<StegTilstand> tilTilstand;
 
     private BehandlingskontrollKontekst kontekst;
 
 
-    public BehandlingStegTilstandEndringEvent(BehandlingskontrollKontekst kontekst, Optional<BehandlingStegTilstand> forrigeTilstand){
+    public BehandlingStegTilstandEndringEvent(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> forrigeTilstand){
         super();
         this.kontekst = kontekst;
         this.fraTilstand = forrigeTilstand;
     }
 
-    public void setNyTilstand(Optional<BehandlingStegTilstand> nyTilstand){
+    public void setNyTilstand(Optional<StegTilstand> nyTilstand){
         this.tilTilstand=nyTilstand;
     }
 
@@ -39,11 +39,11 @@ public class BehandlingStegTilstandEndringEvent implements BehandlingEvent {
         return kontekst.getBehandlingId();
     }
 
-    public Optional<BehandlingStegTilstand> getFraTilstand() {
+    public Optional<StegTilstand> getFraTilstand() {
         return fraTilstand;
     }
 
-    public Optional<BehandlingStegTilstand> getTilTilstand() {
+    public Optional<StegTilstand> getTilTilstand() {
         return tilTilstand;
     }
 }

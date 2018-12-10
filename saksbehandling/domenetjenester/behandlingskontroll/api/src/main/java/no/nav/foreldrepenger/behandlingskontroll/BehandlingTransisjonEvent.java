@@ -5,19 +5,19 @@ import java.util.Optional;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.TransisjonIdentifikator;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingEvent;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 
 public class BehandlingTransisjonEvent implements BehandlingEvent {
 
     private final BehandlingskontrollKontekst kontekst;
     private TransisjonIdentifikator transisjonIdentifikator;
-    private Optional<BehandlingStegTilstand> fraTilstand = Optional.empty();
+    private Optional<StegTilstand> fraTilstand = Optional.empty();
     private BehandlingStegType tilStegType;
     private boolean erOverhopp;
 
-    public BehandlingTransisjonEvent(BehandlingskontrollKontekst kontekst, TransisjonIdentifikator transisjonIdentifikator, Optional<BehandlingStegTilstand> fraTilstand, BehandlingStegType tilStegType, boolean erOverhopp) {
+    public BehandlingTransisjonEvent(BehandlingskontrollKontekst kontekst, TransisjonIdentifikator transisjonIdentifikator, Optional<StegTilstand> fraTilstand, BehandlingStegType tilStegType, boolean erOverhopp) {
         this.kontekst = kontekst;
         this.transisjonIdentifikator = transisjonIdentifikator;
         this.fraTilstand = fraTilstand;
@@ -49,7 +49,7 @@ public class BehandlingTransisjonEvent implements BehandlingEvent {
     }
 
     public Optional<BehandlingStegStatus> getFørsteStegStatus() {
-        Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
+        Optional<StegTilstand> tilstand = getFraTilstand();
         return Optional.ofNullable(tilstand.isPresent() ? tilstand.get().getStatus() : null);
     }
 
@@ -59,7 +59,7 @@ public class BehandlingTransisjonEvent implements BehandlingEvent {
     }
 
     public BehandlingStegType getFraStegType() {
-        Optional<BehandlingStegTilstand> tilstand = getFraTilstand();
+        Optional<StegTilstand> tilstand = getFraTilstand();
         if (tilstand.isPresent()) {
             return tilstand.get().getStegType();
         } else {
@@ -67,7 +67,7 @@ public class BehandlingTransisjonEvent implements BehandlingEvent {
         }
     }
 
-    public Optional<BehandlingStegTilstand> getFraTilstand() {
+    public Optional<StegTilstand> getFraTilstand() {
         return fraTilstand;
     }
 

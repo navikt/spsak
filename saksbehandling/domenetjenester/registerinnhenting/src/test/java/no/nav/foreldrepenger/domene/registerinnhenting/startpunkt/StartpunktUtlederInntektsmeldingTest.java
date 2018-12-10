@@ -32,7 +32,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
@@ -271,12 +270,10 @@ public class StartpunktUtlederInntektsmeldingTest {
     }
 
     private Behandling opprettFørstegangsbehandling() {
-        ScenarioMorSøkerForeldrepenger førstegangScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling førstegangsbehandling = førstegangScenario.lagre(repositoryProvider);
-        førstegangsbehandling.avsluttBehandling();
-        BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(førstegangsbehandling);
-        behandlingRepository.lagre(førstegangsbehandling, behandlingLås);
-        return førstegangsbehandling;
+        ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
+        Behandling behandling = scenario.lagre(repositoryProvider);
+        scenario.avsluttBehandling(repositoryProvider, behandling);
+        return behandling;
     }
 
     private List<Inntektsmelding> lagInntektsmelding(InntektsmeldingInnsendingsårsak innsendingsårsak, BigDecimal beløp, LocalDate førsteUttaksdato, String arbeidID) {

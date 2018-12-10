@@ -21,6 +21,7 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingskontrollRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
@@ -34,15 +35,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Yrk
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -60,7 +59,8 @@ public class VurderArbeidsforholdTjenesteImplTest {
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
     private VirksomhetTjeneste virksomhetTjeneste = mock(VirksomhetTjeneste.class);
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, virksomhetTjeneste, skjæringstidspunktTjeneste, null);
-    private VurderArbeidsforholdTjeneste tjeneste = new VurderArbeidsforholdTjenesteImpl(inntektArbeidYtelseTjeneste, virksomhetTjeneste);
+    private BehandlingskontrollRepository behandlingskontrollRepository = new BehandlingskontrollRepositoryImpl(repositoryProvider, repositoryRule.getEntityManager());
+    private VurderArbeidsforholdTjeneste tjeneste = new VurderArbeidsforholdTjenesteImpl(inntektArbeidYtelseTjeneste, virksomhetTjeneste, behandlingskontrollRepository);
 
     @Before
     public void setUp() throws Exception {
@@ -94,7 +94,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
         Map<Arbeidsgiver, Set<ArbeidsforholdRef>> vurder = tjeneste.vurder(behandling);
         assertThat(vurder).isEmpty();
 
-        avsluttBehandlingOgFagsak(behandling);
+        avsluttBehandlingOgFagsak(scenario, behandling);
         final Behandling revurdering = opprettRevurderingsbehandling(behandling);
 
         sendInnInntektsmelding(behandling, virksomhet, null, iayrep, revurdering);
@@ -147,7 +147,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
         Map<Arbeidsgiver, Set<ArbeidsforholdRef>> vurder = tjeneste.vurder(behandling);
         assertThat(vurder).isEmpty();
 
-        avsluttBehandlingOgFagsak(behandling);
+        avsluttBehandlingOgFagsak(scenario, behandling);
         final Behandling revurdering = opprettRevurderingsbehandling(behandling);
 
         sendInnInntektsmelding(behandling, virksomhet, ref, iayrep, revurdering);
@@ -213,20 +213,17 @@ public class VurderArbeidsforholdTjenesteImplTest {
         iayrep.lagre(revurdering, inntektsmeldingBuilder.build());
     }
 
-    private void avsluttBehandlingOgFagsak(Behandling behandling) {
-        BehandlingLås lås = repositoryProvider.getBehandlingRepository().taSkriveLås(behandling);
+    private void avsluttBehandlingOgFagsak(ScenarioMorSøkerForeldrepenger scenario, Behandling behandling) {
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
-        behandling.avsluttBehandling();
-        repositoryProvider.getBehandlingRepository().lagre(behandling, lås);
+        @SuppressWarnings("unused")
         BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder()
             .medBehandlingsresultat(behandling.getBehandlingsresultat())
             .medVedtaksdato(LocalDate.now().minusDays(1))
             .medAnsvarligSaksbehandler("Nav Navesen")
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .build();
-        repositoryProvider.getBehandlingVedtakRepository().lagre(behandlingVedtak, lås);
-        FagsakRepository fagsakRepository = repositoryProvider.getFagsakRepository();
-        fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.LØPENDE);
+        
+        scenario.avsluttBehandling(repositoryProvider, behandling);
     }
 
 

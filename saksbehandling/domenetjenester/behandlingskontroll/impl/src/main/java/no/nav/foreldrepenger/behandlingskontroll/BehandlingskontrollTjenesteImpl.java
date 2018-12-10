@@ -27,12 +27,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingskontrollTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandlingImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -50,6 +51,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.Behandlingsk
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
+import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 
 /**
  * Håndterer tilstandsendringer i behandlingskontroll (det som driver prosessen fremover eller bakover).
@@ -103,28 +105,9 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         }
     }
 
-    private static void postconditionUtfallLagret(Long behandlingId, BehandlingStegTilstand tilstand, BehandlingStegUtfall utfall) {
-        if (utfall == null) {
-            if (tilstand != null) {
-                throw new IllegalStateException("Fant tilstand " + tilstand + ", men har utfall null, på behandlingId=" + behandlingId);
-            }
-        } else {
-            if (tilstand == null) {
-                throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand null, på behandlingId=" + behandlingId);
-            } else {
-                if (Objects.equals(tilstand.getStegType(), utfall.getStegType()) && Objects.equals(tilstand.getStatus(), utfall.getStatus())) {
-                    // OK
-                } else {
-                    throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand " + tilstand + ", på behandlingId=" + behandlingId);
-                }
-            }
-
-        }
-    }
-
     @Override
-    public BehandlingStegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst) {
-        Behandling behandling = hentBehandling(kontekst);
+    public StegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst) {
+        var behandling = hentBehandling(kontekst);
         if (Objects.equals(BehandlingStatus.AVSLUTTET.getKode(), behandling.getStatus().getKode())) {
             return null;
         }
@@ -133,16 +116,17 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         var utfall = prosesserBehandling(kontekst, behandling);
 
         // post-condition sjekk tilstand oppdatert
-        var tilstand = behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId);
-        postconditionUtfallLagret(behandlingId, tilstand.orElse(null), utfall);
+        var tilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
+        var stegTilstand = StegTilstand.fra(tilstand).orElse(null);
+        postconditionUtfallLagret(behandlingId, stegTilstand, utfall);
 
-        return tilstand.orElse(null);
+        return stegTilstand;
     }
 
     private BehandlingStegUtfall prosesserBehandling(BehandlingskontrollKontekst kontekst, Behandling behandling) {
         Long behandlingId = kontekst.getBehandlingId();
 
-        var modell = getModell(behandling);
+        var modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
 
         validerOgFlaggStartetProsessering();
         BehandlingStegUtfall behandlingStegUtfall;
@@ -173,11 +157,11 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
         var behandling = behandlingRepository.hentBehandling(behandlingId);
 
-        var modell = getModell(behandling);
+        var modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
 
         validerOgFlaggStartetProsessering();
         try {
-            doTilbakeføringTilTidligsteAksjonspunkt(behandling, stegType, modell, oppdaterteAksjonspunkter, erOverstyring);
+            doTilbakeføringTilTidligsteAksjonspunkt(behandling, stegType, modell, oppdaterteAksjonspunkter);
         } finally {
             ferdigProsessering();
         }
@@ -205,7 +189,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
         var stegType = finnAktivtBehandlingSteg(behandlingId);
 
-        var modell = getModell(behandling);
+        var modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
 
         validerOgFlaggStartetProsessering();
         try {
@@ -218,7 +202,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
     @Override
     public int sammenlignRekkefølge(Behandling behandling, BehandlingStegType stegA, BehandlingStegType stegB) {
-        var modell = getModell(behandling);
+        var modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
         return modell.erStegAFørStegB(stegA, stegB) ? -1
             : modell.erStegAFørStegB(stegB, stegA) ? 1
             : 0;
@@ -234,7 +218,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
         var inneværendeSteg = finnAktivtBehandlingSteg(behandlingId);
 
-        var modell = getModell(behandling);
+        var modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
 
         validerOgFlaggStartetProsessering();
         try {
@@ -316,7 +300,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
             if (behandling.erSaksbehandlingAvsluttet()) {
                 return opprettNyFraTidligereBehandling(behandling, behandlingType, behandlingOppdaterer);
             } else {
-                oppdaterEksisterendeBehandling(behandling, behandlingOppdaterer, false);
+                oppdaterEksisterendeBehandling(behandling, behandlingOppdaterer);
                 return behandlingRepository.hentBehandling(behandling.getId());
             }
         } else {
@@ -407,7 +391,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         Objects.requireNonNull(årsak, "årsak"); //$NON-NLS-1$
         var behandling = hentBehandling(kontekst);
         var behandlingId = kontekst.getBehandlingId();
-        var stegTilstandFør = behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId);
+        var tilstandNå = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
 
         doHenleggBehandling(behandling, årsak);
 
@@ -415,7 +399,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         // må fremoverføres for å trigge riktig events for opprydding
         behandlingFramføringTilSenereBehandlingSteg(kontekst, BehandlingStegType.IVERKSETT_VEDTAK);
 
-        publiserFremhoppTransisjon(kontekst, stegTilstandFør, BehandlingStegType.IVERKSETT_VEDTAK);
+        publiserFremhoppTransisjon(kontekst, StegTilstand.fra(tilstandNå), BehandlingStegType.IVERKSETT_VEDTAK);
 
         // sett Avsluttet og fyr status
         avsluttBehandling(kontekst, behandling);
@@ -427,11 +411,11 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         Objects.requireNonNull(årsak, "årsak"); //$NON-NLS-1$
         var behandling = hentBehandling(kontekst);
         var behandlingId = kontekst.getBehandlingId();
-        var stegTilstandFør = behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId);
+        var tilstandNå = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
 
         doHenleggBehandling(behandling, årsak);
 
-        publiserFremhoppTransisjon(kontekst, stegTilstandFør, BehandlingStegType.IVERKSETT_VEDTAK);
+        publiserFremhoppTransisjon(kontekst, StegTilstand.fra(tilstandNå), BehandlingStegType.IVERKSETT_VEDTAK);
 
         // sett Avsluttet og fyr status
         avsluttBehandling(kontekst, behandling);
@@ -460,7 +444,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         return behandling;
     }
 
-    private void publiserFremhoppTransisjon(BehandlingskontrollKontekst kontekst, Optional<BehandlingStegTilstand> stegTilstandFør,
+    private void publiserFremhoppTransisjon(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> stegTilstandFør,
                                             BehandlingStegType stegEtter) {
         // Publiser tranisjonsevent (eventobserver(e) håndterer tilhørende tranisjonsregler)
         boolean erOverhopp = true;
@@ -471,7 +455,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     @Override
     public boolean erStegPassert(Behandling behandling, BehandlingStegType behandlingSteg) {
 
-        var modell = getModell(behandling);
+        var modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
 
         var behandlingId = behandling.getId();
         var aktivtSteg = finnAktivtBehandlingSteg(behandlingId);
@@ -483,7 +467,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     public boolean skalAksjonspunktReaktiveresIEllerEtterSteg(Behandling behandling, BehandlingStegType behandlingSteg,
                                                               AksjonspunktDefinisjon apDef) {
 
-        BehandlingModell modell = getModell(behandling);
+        BehandlingModell modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
         BehandlingStegType apLøsesteg = Optional.ofNullable(modell
             .finnTidligsteStegForAksjonspunktDefinisjon(singletonList(apDef.getKode())))
             .map(BehandlingStegModell::getBehandlingStegType)
@@ -498,16 +482,22 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
     // TODO: (PK-49128) Midlertidig løsning for å filtrere aksjonspunkter til høyre for steg i hendelsemodul
     @Override
-    public Set<String> finnAksjonspunktDefinisjonerFraOgMed(Behandling behandling, BehandlingStegType steg, boolean medInngangOgså) {
-        var modell = getModell(behandling);
+    public Set<String> finnAksjonspunktDefinisjonerFraOgMed(FagsakYtelseType ytelseType, BehandlingType behandlingType, BehandlingStegType steg,
+                                                            boolean medInngangOgså) {
+        var modell = getModell(behandlingType, ytelseType);
         return modell.finnAksjonspunktDefinisjonerFraOgMed(steg, medInngangOgså);
+    }
+
+    @Override
+    public BehandlingskontrollTilstand getBehandlingskontrollTilstand(Long behandlingId) {
+        return behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
     }
 
     public boolean erSenereSteg(BehandlingskontrollKontekst kontekst, BehandlingStegType tidligereStegType) {
         var behandlingId = kontekst.getBehandlingId();
         var behandling = behandlingRepository.hentBehandling(behandlingId);
         var aktivtBehandlingSteg = finnAktivtBehandlingSteg(behandlingId);
-        var modell = getModell(behandling);
+        var modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
         return erSenereSteg(modell, aktivtBehandlingSteg, tidligereStegType);
     }
 
@@ -518,8 +508,8 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
             throw new IllegalStateException("Utviklerfeil: Kan ikke prosessere avsluttet behandling"); //$NON-NLS-1$
         }
         var behandlingId = kontekst.getBehandlingId();
-        Optional<BehandlingStegTilstand> aktivtBehandlingStegTilstand = behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId);
-        BehandlingModellVisitor visitor = nyStegVisitor(kontekst, modell, behandling, aktivtBehandlingStegTilstand);
+        var tilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
+        BehandlingModellVisitor visitor = nyStegVisitor(kontekst, modell, behandling, tilstand);
 
         BehandlingStegUtfall behandlingStegUtfall = modell.prosesserFra(startFraBehandlingStegType, visitor);
 
@@ -530,9 +520,8 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     }
 
     private BehandlingModellVisitor nyStegVisitor(BehandlingskontrollKontekst kontekst, BehandlingModell modell, Behandling behandling,
-                                                  Optional<BehandlingStegTilstand> aktivtBehandlingStegTilstand) {
-        BehandlingStegVisitor visitor = new BehandlingStegVisitor(repositoryProvider, behandling, this, modell, kontekst, eventPubliserer,
-            aktivtBehandlingStegTilstand);
+                                                  BehandlingskontrollTilstand tilstand) {
+        BehandlingStegVisitor visitor = new BehandlingStegVisitor(repositoryProvider, behandling, this, modell, kontekst, eventPubliserer, tilstand);
         return new TekniskBehandlingStegVisitor(repositoryProvider, visitor, kontekst);
     }
 
@@ -544,7 +533,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
                     + behandling.getId());
         }
         oppdaterEksisterendeBehandlingStegStatusVedFramføringEllerTilbakeføring(behandling, senereSteg, startStatusForNyttSteg,
-            BehandlingStegStatus.AVBRUTT, false);
+            BehandlingStegStatus.AVBRUTT);
     }
 
     protected void doTilbakeføringTilTidligereBehandlingSteg(Behandling behandling,
@@ -557,30 +546,30 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
                 "Kan ikke angi steg [" + tidligereSteg + "] som er etter [" + stegType + "]" + "for behandlingId " + behandling.getId()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         }
         var behandlingId = behandling.getId();
-        var stegTilstand = behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId);
+        var stegTilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId).getStegStatus();
         if (tidligereSteg.equals(stegType)
-            && stegTilstand.isPresent()
-            && stegTilstand.get().erVedInngangAvSteg()) {
+            && stegTilstand != null
+            && stegTilstand.erVedInngang()) {
             // Her står man allerede på steget man skal tilbakeføres, på inngang -> ingen tilbakeføring gjennomføres.
             return;
         }
         oppdaterEksisterendeBehandlingStegStatusVedFramføringEllerTilbakeføring(behandling, tidligereSteg, startStatusForNyttSteg,
-            BehandlingStegStatus.TILBAKEFØRT, false);
+            BehandlingStegStatus.TILBAKEFØRT);
     }
 
     protected void doTilbakeføringTilTidligsteAksjonspunkt(Behandling behandling, BehandlingStegType stegType, BehandlingModell modell,
-                                                           Collection<String> oppdaterteAksjonspunkter, boolean erOverstyring) {
+                                                           Collection<String> oppdaterteAksjonspunkter) {
         Consumer<BehandlingStegType> oppdaterBehandlingStegStatus = (bst) -> {
             var stegStatus = modell.finnStegStatusFor(bst, oppdaterteAksjonspunkter);
             if (stegStatus.isPresent()) {
                 var behandlingId = behandling.getId();
-                var stegTilstand = behandlingskontrollRepository.getAktivtBehandlingStegTilstandDefinitiv(behandlingId);
+                var tilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
+                var status = stegStatus.get();
 
-                if (!(Objects.equals(stegStatus.get(), stegTilstand.getStatus())
-                    && Objects.equals(bst, stegTilstand.getStegType()))) {
+                if (!tilstand.erStegStatus(bst, status)) {
                     // er på starten av steg med endret aksjonspunkt. Ikke kjør steget her, kun oppdater
                     oppdaterEksisterendeBehandlingStegStatusVedFramføringEllerTilbakeføring(behandling, bst, stegStatus.get(),
-                        BehandlingStegStatus.TILBAKEFØRT, erOverstyring);
+                        BehandlingStegStatus.TILBAKEFØRT);
                 }
             }
         };
@@ -601,17 +590,18 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         }
     }
 
-    protected void fireEventBehandlingStegOvergang(BehandlingskontrollKontekst kontekst, Behandling behandling,
-                                                   Optional<BehandlingStegTilstand> forrigeTilstand, Optional<BehandlingStegTilstand> nyTilstand,
-                                                   boolean erOverstyring) {
-        BehandlingModell modell = getModell(behandling);
-        BehandlingStegOvergangEvent event = BehandlingModellImpl.nyBehandlingStegOvergangEvent(modell, forrigeTilstand, nyTilstand,
-            kontekst, erOverstyring);
-        getEventPubliserer().fireEvent(event);
+    protected void fireEventBehandlingStatus(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> forrigeTilstand,
+                                                   Optional<StegTilstand> nyTilstand) {
+
+        BehandlingStatus gammelStatus = forrigeTilstand.map(StegTilstand::getStegType).map(BehandlingStegType::getDefinertBehandlingStatus).orElse(null);
+        BehandlingStatus nyStatus = nyTilstand.map(StegTilstand::getStegType).map(BehandlingStegType::getDefinertBehandlingStatus).orElse(null);
+        if (!Objects.equals(gammelStatus, nyStatus)) {
+            eventPubliserer.fireEvent(kontekst, gammelStatus, nyStatus);
+        }
     }
 
     private void fireEventBehandlingStegTilstandEndring(BehandlingskontrollKontekst kontekst,
-                                                        Optional<BehandlingStegTilstand> stegFør, Optional<BehandlingStegTilstand> stegEtter) {
+                                                        Optional<StegTilstand> stegFør, Optional<StegTilstand> stegEtter) {
         BehandlingStegTilstandEndringEvent event = new BehandlingStegTilstandEndringEvent(kontekst, stegFør);
         event.setNyTilstand(stegEtter);
         getEventPubliserer().fireEvent(event);
@@ -619,12 +609,10 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
     protected void oppdaterEksisterendeBehandlingStegStatusVedFramføringEllerTilbakeføring(Behandling behandling, BehandlingStegType revidertStegType,
                                                                                            BehandlingStegStatus behandlingStegStatus,
-                                                                                           BehandlingStegStatus sluttStatusForAndreÅpneSteg,
-                                                                                           boolean erOverstyring) {
+                                                                                           BehandlingStegStatus sluttStatusForAndreÅpneSteg) {
         oppdaterEksisterendeBehandling(behandling,
             (beh) -> manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, revidertStegType, behandlingStegStatus,
-                sluttStatusForAndreÅpneSteg),
-            erOverstyring);
+                sluttStatusForAndreÅpneSteg));
     }
 
     protected Behandling hentBehandling(BehandlingskontrollKontekst kontekst) {
@@ -637,8 +625,8 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         return eventPubliserer;
     }
 
-    protected BehandlingModell getModell(Behandling behandling) {
-        return behandlingModellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
+    protected BehandlingModell getModell(BehandlingType behandlingType, FagsakYtelseType ytelseType) {
+        return behandlingModellRepository.getModell(behandlingType, ytelseType);
     }
 
     private void fyrEventBehandlingskontrollException(BehandlingskontrollKontekst kontekst, Behandling behandling,
@@ -665,11 +653,11 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     }
 
     private void oppdaterEksisterendeBehandling(Behandling behandling,
-                                                Consumer<Behandling> behandlingOppdaterer, boolean erOverstyring) {
+                                                Consumer<Behandling> behandlingOppdaterer) {
 
         Long behandlingId = behandling.getId();
         BehandlingStatus statusFør = behandling.getStatus();
-        Optional<BehandlingStegTilstand> stegFør = behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId);
+        Optional<StegTilstand> stegFør = StegTilstand.fra(behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId));
 
         // Oppdater behandling og lagre
         behandlingOppdaterer.accept(behandling);
@@ -679,9 +667,9 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
         // Publiser oppdatering
         BehandlingStatus statusEtter = behandling.getStatus();
-        Optional<BehandlingStegTilstand> stegEtter = behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId);
-        fireEventBehandlingStegOvergang(kontekst, behandling, stegFør, stegEtter, erOverstyring);
+        Optional<StegTilstand> stegEtter = StegTilstand.fra(behandlingskontrollRepository.getBehandlingskontrollTilstand(kontekst.getBehandlingId()));
         fireEventBehandlingStegTilstandEndring(kontekst, stegFør, stegEtter);
+        fireEventBehandlingStatus(kontekst, stegFør, stegEtter);
         eventPubliserer.fireEvent(kontekst, statusFør, statusEtter);
     }
 
@@ -689,11 +677,11 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     public void fremoverTransisjon(TransisjonIdentifikator transisjonId, BehandlingskontrollKontekst kontekst) {
         Behandling behandling = behandlingRepository.hentBehandling(kontekst.getBehandlingId());
 
-        Optional<BehandlingStegTilstand> stegTilstandFør = behandlingskontrollRepository.getAktivtBehandlingStegTilstand(kontekst.getBehandlingId());
+        Optional<StegTilstand> stegTilstandFør = StegTilstand.fra(behandlingskontrollRepository.getBehandlingskontrollTilstand(kontekst.getBehandlingId()));
         BehandlingStegType fraSteg = stegTilstandFør.isPresent() ? stegTilstandFør.get().getStegType() : null;
 
         // Flytt behandlingssteg-peker fremover
-        BehandlingModell modell = getModell(behandling);
+        BehandlingModell modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
         StegTransisjon transisjon = modell.finnTransisjon(transisjonId);
         BehandlingStegModell fraStegModell = modell.finnSteg(fraSteg);
         BehandlingStegModell tilStegModell = transisjon.nesteSteg(fraStegModell);
@@ -708,7 +696,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
     @Override
     public boolean inneholderSteg(Behandling behandling, BehandlingStegType behandlingStegType) {
-        BehandlingModell modell = getModell(behandling);
+        BehandlingModell modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
         return modell.hvertSteg()
             .anyMatch(steg -> steg.getBehandlingStegType().equals(behandlingStegType));
     }
@@ -759,9 +747,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     }
 
     private BehandlingStegType finnAktivtBehandlingSteg(Long behandlingId) {
-        return behandlingskontrollRepository.getAktivtBehandlingStegTilstand(behandlingId)
-            .map(BehandlingStegTilstand::getStegType)
-            .orElse(null);
+        return behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId).getAktivtStegType();
     }
 
     private void validerOgFlaggStartetProsessering() {
@@ -791,5 +777,24 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         builder.build(historikkinnslag);
         historikkinnslag.setAktør(aktør);
         historikkRepository.lagre(historikkinnslag);
+    }
+
+    private static void postconditionUtfallLagret(Long behandlingId, StegTilstand tilstand, BehandlingStegUtfall utfall) {
+        if (utfall == null) {
+            if (tilstand != null) {
+                throw new IllegalStateException("Fant tilstand " + tilstand + ", men har utfall null, på behandlingId=" + behandlingId);
+            }
+        } else {
+            if (tilstand == null) {
+                throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand null, på behandlingId=" + behandlingId);
+            } else {
+                if (Objects.equals(tilstand.getStegType(), utfall.getStegType()) && Objects.equals(tilstand.getStatus(), utfall.getStatus())) {
+                    // OK
+                } else {
+                    throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand " + tilstand + ", på behandlingId=" + behandlingId);
+                }
+            }
+
+        }
     }
 }

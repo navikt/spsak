@@ -16,7 +16,6 @@ import no.nav.foreldrepenger.web.app.jackson.JacksonJsonConfig;
 import no.nav.foreldrepenger.web.app.tjenester.batch.BatchRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.BehandlingRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.AksjonspunktRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.BehandlingskontrollRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.BeregningsgrunnlagRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.BeregningsresultatRestTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.inntektarbeidytelse.InntektArbeidYtelseRestTjeneste;
@@ -78,7 +77,6 @@ public class ApplicationConfig extends Application {
         classes.add(AksjonspunktRestTjeneste.class);
         classes.add(DokumentRestTjeneste.class);
         classes.add(HistorikkRestTjeneste.class);
-        classes.add(BehandlingskontrollRestTjeneste.class);
         classes.add(KodeverkRestTjeneste.class);
         classes.add(KonfigRestTjeneste.class);
         classes.add(BatchRestTjeneste.class);

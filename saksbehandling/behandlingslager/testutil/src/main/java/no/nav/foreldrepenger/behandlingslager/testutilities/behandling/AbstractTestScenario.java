@@ -32,8 +32,6 @@ import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling.Builder;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
@@ -95,7 +93,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeType;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
@@ -137,7 +134,7 @@ import no.nav.vedtak.util.FPDateUtil;
  * Mer avansert bruk er ikke gitt at kan bruke denne
  * klassen.
  */
-public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
+public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> implements TestScenario<S> {
 
     private static final AtomicLong FAKE_ID = new AtomicLong(100999L);
     private final FagsakBuilder fagsakBuilder;
@@ -436,6 +433,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     /**
      * Hjelpe metode for å håndtere mock repository.
      */
+    @Override
     public BehandlingRepository mockBehandlingRepository() {
         if (mockBehandlingRepository != null) {
             return mockBehandlingRepository;
@@ -481,6 +479,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return behandlingRepository;
     }
 
+    @Override
     public BehandlingRepositoryProvider mockBehandlingRepositoryProvider() {
         mockBehandlingRepository();
         return repositoryProvider;
@@ -508,6 +507,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return mockBehandlingRepositoryProvider().getInntektArbeidYtelseRepository();
     }
 
+    @Override
     public MedlemskapRepository mockMedlemskapRepository() {
         return mockBehandlingRepositoryProvider().getMedlemskapRepository();
     }
@@ -603,6 +603,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return vRepo;
     }
 
+    @Override
     public FagsakRepository mockFagsakRepository() {
         FagsakRepository fagsakRepository = mock(FagsakRepository.class);
         when(fagsakRepository.finnEksaktFagsak(Mockito.anyLong())).thenAnswer(a -> fagsak);
@@ -630,11 +631,13 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return fagsakRepository;
     }
 
+    @Override
     public Fagsak lagreFagsak(BehandlingRepositoryProvider repositoryProvider) {
         lagFagsak(repositoryProvider.getFagsakRepository());
         return fagsak;
     }
 
+    @Override
     public Behandling lagre(BehandlingRepositoryProvider repositoryProvider) {
         build(repositoryProvider.getBehandlingRepository(), repositoryProvider);
         return behandling;
@@ -653,31 +656,10 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return mockBehandlingRepository;
     }
 
+    @Override
     public Behandling lagMocked() {
         lagMockedRepositoryForOpprettingAvBehandlingInternt();
         return behandling;
-    }
-
-    public void buildAvsluttet(BehandlingRepository behandlingRepo, BehandlingRepositoryProvider repositoryProvider) {
-        Builder behandlingBuilder = grunnBuild(repositoryProvider);
-
-        behandling = behandlingBuilder.medAvsluttetDato(LocalDateTime.now(FPDateUtil.getOffset())).build();
-        BehandlingLås lås = behandlingRepo.taSkriveLås(behandling);
-        behandlingRepo.lagre(behandling, lås);
-
-        lagrePersonopplysning(repositoryProvider, behandling);
-        Whitebox.setInternalState(behandling, "status", BehandlingStatus.AVSLUTTET);
-
-        Behandlingsresultat.Builder builder = Behandlingsresultat.builder();
-
-        // opprett og lagre resulater på behandling
-        lagreBehandlingsresultatOgVilkårResultat(repositoryProvider, lås);
-        lagreBeregningsresultat(repositoryProvider.getBeregningRepository(), lås);
-        builder.medBehandlingResultatType(BehandlingResultatType.AVSLÅTT).medAvslagarsakFritekst("Testavslag")
-            .medAvslagsårsak(Avslagsårsak.SØKER_ER_IKKE_MEDLEM).buildFor(behandling);
-
-        behandlingRepo.lagre(behandling, lås);
-        lagreTilleggsScenarier(repositoryProvider);
     }
 
     private void lagrePersonopplysning(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
@@ -846,20 +828,24 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         }
     }
 
+    @Override
     public SykefraværBuilder getSykefraværBuilder() {
         return SykefraværBuilder.oppdater(Optional.ofNullable(sykefravær));
     }
 
+    @Override
     public SykemeldingerBuilder getSykemeldingerBuilder() {
         return SykemeldingerBuilder.oppdater(Optional.ofNullable(sykemeldinger));
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medSykefravær(SykefraværBuilder sykefraværBuilder) {
         sykefravær = (SykefraværEntitet) sykefraværBuilder.build();
         return (S) this;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medSykemeldinger(SykemeldingerBuilder sykemeldingerBuilder) {
         sykemeldinger = (SykemeldingerEntitet) sykemeldingerBuilder.build();
@@ -977,6 +963,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         beregningRepo.lagre(beregningResultat, lås);
     }
 
+    @Override
     public Fagsak getFagsak() {
         if (fagsak == null) {
             throw new IllegalStateException("Kan ikke hente Fagsak før denne er bygd");
@@ -988,6 +975,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return fagsakBuilder.getBrukerBuilder().getAktørId();
     }
 
+    @Override
     public Behandling getBehandling() {
         if (behandling == null) {
             throw new IllegalStateException("Kan ikke hente Behandling før denne er bygd");
@@ -995,18 +983,21 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return behandling;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medSaksnummer(Saksnummer saksnummer) {
         fagsakBuilder.medSaksnummer(saksnummer);
         return (S) this;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medFagsakId(Long id) {
         this.fagsakId = id;
         return (S) this;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medOppgittTilknytning(OppgittTilknytningEntitet.Builder builder) {
         this.oppgittTilknytningBuilder = builder;
@@ -1029,6 +1020,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         }
     }
 
+    @Override
     public OppgittTilknytningEntitet.Builder medOppgittTilknytning() {
         if (oppgittTilknytningBuilder == null) {
             oppgittTilknytningBuilder = new OppgittTilknytningEntitet.Builder();
@@ -1067,13 +1059,15 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return søknadBuilder;
     }
 
+    @Override
     public VurdertMedlemskapBuilder medMedlemskap() {
         if (vurdertMedlemskapBuilder == null) {
             vurdertMedlemskapBuilder = new VurdertMedlemskapBuilder();
         }
         return vurdertMedlemskapBuilder;
     }
-
+    
+    @Override
     @SuppressWarnings("unchecked")
     public S medBehandlingType(BehandlingType behandlingType) {
         this.behandlingType = behandlingType;
@@ -1102,10 +1096,12 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         aksjonspunktDefinisjoner.put(apDef, stegType);
     }
 
+    @Override
     public void leggTilMedlemskapPeriode(RegistrertMedlemskapPerioder medlemskapPeriode) {
         this.medlemskapPerioder.add(medlemskapPeriode);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medBruker(AktørId aktørId, NavBrukerKjønn kjønn) {
         fagsakBuilder
@@ -1126,20 +1122,24 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return (S) this;
     }
 
+    @Override
     public ArgumentCaptor<Behandling> getBehandlingCaptor() {
         return behandlingCaptor;
     }
 
+    @Override
     public ArgumentCaptor<Fagsak> getFagsakCaptor() {
         return fagsakCaptor;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medBehandlingstidFrist(LocalDate behandlingstidFrist) {
         this.behandlingstidFrist = behandlingstidFrist;
         return (S) this;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medBehandlendeEnhet(String behandlendeEnhet) {
         this.behandlendeEnhet = behandlendeEnhet;
@@ -1185,6 +1185,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return personInformasjonBuilder;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public S medOriginalBehandling(Behandling originalBehandling, BehandlingÅrsakType behandlingÅrsakType) {
         this.originalBehandling = originalBehandling;
@@ -1192,15 +1193,8 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
         return (S) this;
     }
 
-    /**
-     * Resetter scenario med en annen behandling, men ivaretar mocks etc.
-     */
-    public void resetBehandling(Behandling behandling) {
-        this.behandling = behandling;
-        this.fagsak = behandling.getFagsak();
-    }
-
     @SuppressWarnings("unchecked")
+    @Override
     public S leggTilScenario(TestScenarioTillegg testScenarioTillegg) {
         testScenarioTilleggListe.add(testScenarioTillegg);
         return (S) this;
@@ -1218,6 +1212,17 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> {
     public S medOppgittOpptjening(OppgittOpptjeningBuilder oppgittOpptjeningBuilder) {
         getIayScenario().medOppgittOpptjening(oppgittOpptjeningBuilder);
         return (S) this;
+    }
+
+    @Override
+    public void avsluttBehandling() {
+        avsluttBehandling(mockBehandlingRepositoryProvider(), getBehandling());
+    }
+
+    @Override
+    public void avsluttBehandling(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+        Long behandlingId = behandling.getId();
+        repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandlingId);
     }
 
     public void removeDodgyDefaultInntektArbeidYTelse() {

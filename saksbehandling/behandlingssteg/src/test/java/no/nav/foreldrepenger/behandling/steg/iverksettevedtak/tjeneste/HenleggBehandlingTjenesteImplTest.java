@@ -32,8 +32,9 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegKonfigurasjon;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingskontrollTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
@@ -100,13 +101,19 @@ public class HenleggBehandlingTjenesteImplTest {
     @Before
     public void setUp() {
         System.setProperty("systembruker.username", "brukerident");
-        BehandlingStegType stegType = BehandlingStegType.BEREGN_YTELSE;
+        
+        BehandlingStegType stegType = new BehandlingStegType("dummy") {
+                @Override
+                public BehandlingStatus getDefinertBehandlingStatus() {
+                    return BehandlingStatus.UTREDES;
+                }
+        };
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagMocked();
         repositoryProviderMock = scenario.mockBehandlingRepositoryProvider();
 
-        simulerAktivtSteg(stegType);
+        simulerAktivtSteg(behandling, stegType);
         when(repositoryProviderMock.getBehandlingskontrollRepository()).thenReturn(behandlingskontrollRepository);
         when(repositoryProviderMock.getAksjonspunktRepository()).thenReturn(aksjonspunktRepository);
         when(repositoryProviderMock.getKodeverkRepository()).thenReturn(kodeverkRepository);
@@ -238,7 +245,11 @@ public class HenleggBehandlingTjenesteImplTest {
         }
     }
 
-    private void simulerAktivtSteg(BehandlingStegType stegType) {
-        when(behandlingskontrollRepository.getAktivtBehandlingStegTilstandDefinitiv(Mockito.anyLong())).thenReturn(new BehandlingStegTilstand(null, stegType));
+    private void simulerAktivtSteg(Behandling behandling, BehandlingStegType stegType) {
+        
+        BehandlingskontrollTilstand tilstand = new BehandlingskontrollTilstand(behandling.getId(), behandling.getFagsakYtelseType(), behandling.getType());
+        tilstand.setStegTilstand(stegType);
+        
+        when(behandlingskontrollRepository.getBehandlingskontrollTilstand(Mockito.anyLong())).thenReturn(tilstand);
     }
 }

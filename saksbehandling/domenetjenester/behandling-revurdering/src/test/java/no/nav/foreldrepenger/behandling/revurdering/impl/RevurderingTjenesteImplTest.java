@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingTjenesteImpl;
-import no.nav.foreldrepenger.behandling.revurdering.testutil.BeregningRevurderingTestUtil;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepositoryImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
@@ -35,9 +34,6 @@ public class RevurderingTjenesteImplTest {
     @Rule
     public final RepositoryRule repoRule = new UnittestRepositoryRule();
 
-    @Inject
-    private BeregningRevurderingTestUtil revurderingTestUtil;
-
     private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
     private BehandlingModellRepository behandlingModellRepository = new BehandlingModellRepositoryImpl(repoRule.getEntityManager());
     private HistorikkRepository historikkRepository = spy(repositoryProvider.getHistorikkRepository());
@@ -51,7 +47,7 @@ public class RevurderingTjenesteImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, BehandlingStegType.KONTROLLER_FAKTA);
         Behandling behandlingSomSkalRevurderes = scenario.lagre(repositoryProvider);
-        revurderingTestUtil.avsluttBehandling(behandlingSomSkalRevurderes);
+        scenario.avsluttBehandling(repositoryProvider, behandlingSomSkalRevurderes);
 
         final BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             behandlingModellRepository, null);

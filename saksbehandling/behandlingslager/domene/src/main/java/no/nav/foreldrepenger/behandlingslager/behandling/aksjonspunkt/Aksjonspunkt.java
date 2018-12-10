@@ -479,16 +479,6 @@ public class Aksjonspunkt extends BaseEntitet {
         return Objects.equals(status, AksjonspunktStatus.AVBRUTT);
     }
 
-    /**
-     * Brukes for gammelt status LUKKET (nå fjernet).
-     *
-     * @deprecated
-     */
-    @Deprecated
-    public boolean erLukket() {
-        return erBehandletAksjonspunkt() || erAvbrutt();
-    }
-
     @Override
     public String toString() {
         return "Aksjonspunkt{" +

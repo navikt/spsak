@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.behandlingslager.aktør;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,13 +20,5 @@ public class PoststedTest {
         Poststed postSted = kodeverkRepository.finn(Poststed.class, "0103");
 
         Assert.assertEquals(postSted.getNavn(), "OSLO");
-    }
-
-    @Test
-    public void skal_hente_alle_poststed() {
-        List<Poststed> poststed = kodeverkRepository.hentAlle(Poststed.class);
-        if (poststed.size() < 100) {
-            Assert.fail("Er ikke fler enn 100 poststeder i databasen..");
-        }
     }
 }

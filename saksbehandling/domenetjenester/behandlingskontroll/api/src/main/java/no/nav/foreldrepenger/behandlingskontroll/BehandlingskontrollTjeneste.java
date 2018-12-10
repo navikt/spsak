@@ -9,9 +9,10 @@ import java.util.function.Consumer;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.TransisjonIdentifikator;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingskontrollTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
@@ -19,6 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAkt�
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
+import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 
 public interface BehandlingskontrollTjeneste {
 
@@ -46,9 +48,9 @@ public interface BehandlingskontrollTjeneste {
      *
      * @param kontekst
      *            - kontekst for prosessering. Opprettes gjennom {@link #initBehandlingskontroll(Long)}
-     * @return BehandlingStegTilstand aktivt steg tilstand etter prosessering, eller null (hvis avsluttet).
+     * @return StegTilstand aktivt steg tilstand etter prosessering, eller null (hvis avsluttet).
      */
-    BehandlingStegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst);
+    StegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst);
 
     /**
      * Prosesser behandling enten fra akitvt steg eller steg angitt av aksjonspunktDefinsjonerKoder dersom noen er eldre
@@ -196,7 +198,7 @@ public interface BehandlingskontrollTjeneste {
 
     BehandlingStegKonfigurasjon getBehandlingStegKonfigurasjon();
 
-    Set<String> finnAksjonspunktDefinisjonerFraOgMed(Behandling behandling, BehandlingStegType steg, boolean medInngangOgså);
+    Set<String> finnAksjonspunktDefinisjonerFraOgMed(FagsakYtelseType ytelseType, BehandlingType behandlingType, BehandlingStegType steg, boolean medInngangOgså);
 
     /** Oppdaterer behandling. (lagrer) */
     void oppdaterBehandling(Behandling behandling, BehandlingskontrollKontekst kontekst);
@@ -221,4 +223,6 @@ public interface BehandlingskontrollTjeneste {
     void fremoverTransisjon(TransisjonIdentifikator transisjonId, BehandlingskontrollKontekst kontekst);
 
     boolean inneholderSteg(Behandling behandling, BehandlingStegType registrerSøknad);
+
+    BehandlingskontrollTilstand getBehandlingskontrollTilstand(Long behandlingId);
 }

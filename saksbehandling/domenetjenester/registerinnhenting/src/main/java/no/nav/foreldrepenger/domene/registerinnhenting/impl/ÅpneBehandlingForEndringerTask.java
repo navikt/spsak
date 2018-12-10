@@ -54,7 +54,7 @@ public class ÅpneBehandlingForEndringerTask extends BehandlingskontrollProsessT
 
     private void reaktiverAksjonspunkter(Behandling behandling, StartpunktType startpunkt) {
         Set<String> aksjonspunkterFraOgMedStartpunkt = behandlingskontrollTjeneste
-            .finnAksjonspunktDefinisjonerFraOgMed(behandling, startpunkt.getBehandlingSteg(), true);
+            .finnAksjonspunktDefinisjonerFraOgMed(behandling.getFagsakYtelseType(), behandling.getType(), startpunkt.getBehandlingSteg(), true);
 
         behandling.getAlleAksjonspunkterInklInaktive().stream()
             .filter(ap -> aksjonspunkterFraOgMedStartpunkt.contains(ap.getAksjonspunktDefinisjon().getKode()))

@@ -116,8 +116,7 @@ public class EndringskontrollerImpl implements Endringskontroller {
     }
 
     private void doSpolTilStartpunkt(Behandling behandling, StartpunktType startpunktType, List<AksjonspunktResultat> aksjonspunktResultater) {
-        // TODO (PK-49128): Tore, gi oss et API!!!
-        BehandlingStegType fraSteg = behandling.getAktivtBehandlingSteg();
+        BehandlingStegType fraSteg = behandlingskontrollTjeneste.getBehandlingskontrollTilstand(behandling.getId()).getStegType();
         BehandlingStegType tilSteg = startpunktType.getBehandlingSteg();
 
         reaktiverInaktiveAksjonspunkter(startpunktType, behandling);
@@ -230,7 +229,7 @@ public class EndringskontrollerImpl implements Endringskontroller {
     }
 
     private Set<String> hentFremtidigeAksjonspunkterDefinisjonerFraOgMed(Behandling behandling, BehandlingStegType målsteg) {
-        return behandlingskontrollTjeneste.finnAksjonspunktDefinisjonerFraOgMed(behandling, målsteg, true);
+        return behandlingskontrollTjeneste.finnAksjonspunktDefinisjonerFraOgMed(behandling.getFagsakYtelseType(), behandling.getType(), målsteg, true);
     }
 
 }

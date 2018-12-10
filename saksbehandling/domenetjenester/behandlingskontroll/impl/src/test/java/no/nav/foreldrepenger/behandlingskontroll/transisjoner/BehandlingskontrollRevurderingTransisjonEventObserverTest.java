@@ -16,9 +16,9 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTransisjonEvent;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -66,7 +66,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
 
         BehandlingLås låsEvent = behandlingRepository.taSkriveLås(revurdering);
         BehandlingskontrollKontekst kontekstEvent = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), låsEvent);
-        Optional<BehandlingStegTilstand> fraTilstand = Optional.of(new BehandlingStegTilstand(behandling, BehandlingStegType.REGISTRER_SØKNAD, BehandlingStegStatus.INNGANG));
+        Optional<StegTilstand> fraTilstand = Optional.of(new StegTilstand(BehandlingStegType.REGISTRER_SØKNAD, BehandlingStegStatus.INNGANG));
         BehandlingStegType tilSteg = BehandlingStegType.KONTROLLER_FAKTA;
 
         //act
@@ -102,7 +102,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
 
         BehandlingLås låsEvent = behandlingRepository.taSkriveLås(revurdering);
         BehandlingskontrollKontekst kontekstEvent = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), låsEvent);
-        Optional<BehandlingStegTilstand> fraTilstand = Optional.of(new BehandlingStegTilstand(behandling, BehandlingStegType.REGISTRER_SØKNAD, BehandlingStegStatus.INNGANG));
+        Optional<StegTilstand> fraTilstand = Optional.of(new StegTilstand(BehandlingStegType.REGISTRER_SØKNAD, BehandlingStegStatus.INNGANG));
         BehandlingStegType tilSteg = BehandlingStegType.KONTROLLER_FAKTA;
 
         //act

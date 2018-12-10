@@ -47,12 +47,12 @@ public class VurderLøpendeMedlemskapStegImplTest {
 
     @Rule
     public RepositoryRule repositoryRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider provider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
-    private BehandlingRepository behandlingRepository = provider.getBehandlingRepository();
-    private MedlemskapRepository medlemskapRepository = provider.getMedlemskapRepository();
-    private PersonopplysningRepository personopplysningRepository = provider.getPersonopplysningRepository();
-    private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = provider.getInntektArbeidYtelseRepository();
-    private FagsakRepository fagsakRepository = provider.getFagsakRepository();
+    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+    private MedlemskapRepository medlemskapRepository = repositoryProvider.getMedlemskapRepository();
+    private PersonopplysningRepository personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
+    private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
+    private FagsakRepository fagsakRepository = repositoryProvider.getFagsakRepository();
 
     private VurderLøpendeMedlemskapStegImpl steg;
 
@@ -62,7 +62,7 @@ public class VurderLøpendeMedlemskapStegImplTest {
 
     @Before
     public void setUp() {
-        steg = new VurderLøpendeMedlemskapStegImpl(unleash, vurdertLøpendeMedlemskapTjeneste, provider);
+        steg = new VurderLøpendeMedlemskapStegImpl(unleash, vurdertLøpendeMedlemskapTjeneste, repositoryProvider);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class VurderLøpendeMedlemskapStegImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(repositoryProvider);
         VilkårResultat vilkårResultat = VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .buildFor(behandling);
@@ -102,7 +102,7 @@ public class VurderLøpendeMedlemskapStegImplTest {
         // Arrange
         unleash.disableAll();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(repositoryProvider);
 
         Behandling revudering = opprettRevudering(behandling);
 
@@ -152,7 +152,7 @@ public class VurderLøpendeMedlemskapStegImplTest {
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
         behandlingRepository.lagre(behandling, lås);
 
-        behandling.avsluttBehandling();
+        repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandling.getId());
         behandlingRepository.lagre(behandling, lås);
         fagsakRepository.oppdaterFagsakStatus(behandling.getFagsakId(), FagsakStatus.AVSLUTTET);
     }

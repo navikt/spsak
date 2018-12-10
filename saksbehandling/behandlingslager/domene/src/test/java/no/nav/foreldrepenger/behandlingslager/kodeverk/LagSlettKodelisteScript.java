@@ -25,8 +25,10 @@ import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Poststed;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.arkiv.ArkivFilType;
+
 /**
- * Lager script for å slette kodeverk (fra kodeliste, kodeliste_relasjon, osv.) basert på deklarerte konstanter.  (hvis konstant er deklarert antas det at det må finnes i db, hvis ikke kan det slettes).
+ * Hjelpeverktøy til å lage script for å slette kodeverk (fra kodeliste, kodeliste_relasjon, osv.) basert på deklarerte konstanter. (hvis
+ * konstant er deklarert antas det at det må finnes i db, hvis ikke kan det slettes).
  * Håndterer ikke dersom andre referenasedata refereer tilbake til kodeliste (eks. AKSJONSPUNKT_DEF#SKJERMLENKE_TYPE)
  */
 public class LagSlettKodelisteScript {
@@ -37,9 +39,11 @@ public class LagSlettKodelisteScript {
 
         List<Class<?>> kodelister = index.getSubClassesOf(Kodeliste.class);
 
-        /** Klasser som synkes fra Kodeverkforvaltning og dermed ikke nødvendigvis har konstanter definert i klassen som representerer kodeverket. */
+        /**
+         * Klasser som synkes fra Kodeverkforvaltning og dermed ikke nødvendigvis har konstanter definert i klassen som representerer kodeverket.
+         */
         Set<Class<?>> exceptions = Set.of(NavBrukerKjønn.class, Landkoder.class, Poststed.class, Språkkode.class, Diskresjonskode.class, SivilstandType.class,
-            AdresseType.class, ArkivFilType.class, BehandlingTema.class, LandkodeISO2.class, Geopolitisk.class, 
+            AdresseType.class, ArkivFilType.class, BehandlingTema.class, LandkodeISO2.class, Geopolitisk.class,
             DokumentKategori.class, MottakKanal.class, VariantFormat.class, DokumentTypeId.class, PensjonTrygdType.class,
             OffentligYtelseType.class);
 

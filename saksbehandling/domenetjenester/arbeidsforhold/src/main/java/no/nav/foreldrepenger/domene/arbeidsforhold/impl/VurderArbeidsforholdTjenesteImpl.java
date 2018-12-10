@@ -40,6 +40,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektspostType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.OrganisasjonsNummerValidator;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -57,15 +58,18 @@ public class VurderArbeidsforholdTjenesteImpl implements VurderArbeidsforholdTje
 
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private VirksomhetTjeneste virksomhetTjeneste;
+    private BehandlingskontrollRepository behandlingskontrollRepository;
 
     VurderArbeidsforholdTjenesteImpl() {
     }
 
     @Inject
     public VurderArbeidsforholdTjenesteImpl(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                            VirksomhetTjeneste virksomhetTjeneste) {
+                                            VirksomhetTjeneste virksomhetTjeneste,
+                                            BehandlingskontrollRepository behandlingskontrollRepository) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.virksomhetTjeneste = virksomhetTjeneste;
+        this.behandlingskontrollRepository = behandlingskontrollRepository;
     }
 
     @Override
@@ -212,7 +216,7 @@ public class VurderArbeidsforholdTjenesteImpl implements VurderArbeidsforholdTje
     }
 
     private boolean harPassertKontrollerFakta(Behandling behandling) {
-        return behandling.getBehandlingStegTilstandHistorikk().anyMatch(steg -> Objects.equals(steg.getStegType(), KONTROLLER_FAKTA));
+        return behandlingskontrollRepository.getBehandlingStegTilstandHistorikk(behandling.getId()).stream().anyMatch(steg -> Objects.equals(steg.getStegType(), KONTROLLER_FAKTA));
     }
 
     private void endringIArbeidsforholdsId(Map<Arbeidsgiver, Set<ArbeidsforholdRef>> result,
