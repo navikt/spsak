@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.xml.bind.JAXBElement;
+
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.MottattDokumentWrapper;
 import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
 import no.seres.xsd.nav.inntektsmelding_m._201809.InntektsmeldingConstants;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsforhold;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.Arbeidsgiver;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.ArbeidsgiverperiodeListe;
-import no.seres.xsd.nav.inntektsmelding_m._20180924.AvtaltFerieListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.GjenopptakelseNaturalytelseListe;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.InntektsmeldingM;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.NaturalytelseDetaljer;
@@ -64,17 +64,9 @@ public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrappe
             .map(JAXBElement::getValue);
     }
 
-    public String getVirksomhetsNr() {
-        return getArbeidsgiver().getVirksomhetsnummer();
-    }
-
     public boolean getErNærRelasjon() {
         return getSkjema().getSkjemainnhold().isNaerRelasjon();
     }
-
-    /*public XMLGregorianCalendar getStartDatoPermisjon() {
-        return getSkjema().getSkjemainnhold().getStartdatoForeldrepengeperiode().getValue();
-    }*/
 
     public Optional<Refusjon> getRefusjon() {
         return Optional.ofNullable(getSkjema().getSkjemainnhold().getRefusjon()).map(JAXBElement::getValue);
@@ -86,27 +78,6 @@ public class MottattDokumentWrapperInntektsmelding extends MottattDokumentWrappe
             .map(ArbeidsgiverperiodeListe::getArbeidsgiverperiode)
             .orElse(Collections.emptyList());
     }
-
-    /*public List<GraderingIForeldrepenger> getGradering() {
-        return getArbeidsforhold().map(Arbeidsforhold::getGraderingIForeldrepengerListe)
-            .map(JAXBElement::getValue)
-            .map(GraderingIForeldrepengerListe::getGraderingIForeldrepenger)
-            .orElse(Collections.emptyList());
-    }*/
-
-    public List<Periode> getAvtaltFerie() {
-        return getArbeidsforhold().map(Arbeidsforhold::getAvtaltFerieListe)
-            .map(JAXBElement::getValue)
-            .map(AvtaltFerieListe::getAvtaltFerie)
-            .orElse(Collections.emptyList());
-    }
-
-    /*public List<UtsettelseAvForeldrepenger> getUtsettelser() {
-        return getArbeidsforhold().map(Arbeidsforhold::getUtsettelseAvForeldrepengerListe)
-            .map(JAXBElement::getValue)
-            .map(UtsettelseAvForeldrepengerListe::getUtsettelseAvForeldrepenger)
-            .orElse(Collections.emptyList());
-    }*/
 
     /**
      * Hvis inntektsmeldingen kommer fra Altinn (innsendingstidspunkt ikke oppgitt), bruker vi

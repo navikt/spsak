@@ -2,11 +2,9 @@ package no.nav.foreldrepenger.web.app.tjenester.kodeverk.app;
 
 import static java.util.stream.Collectors.toList;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -35,18 +33,9 @@ class HentKodeverkTjenesteImpl implements HentKodeverkTjeneste {
 
     @Override
     public Map<String, List<Kodeliste>> hentGruppertKodeliste() {
-        Map<String, List<Kodeliste>> klientKoder = new HashMap<>();
-        KODEVERK_SOM_BRUKES_PÅ_KLIENT.forEach(k -> {
-            //TODO (TOR) Kjører repository-kall for kvar kodeliste. Er nok ikkje naudsynt
-            List<Kodeliste> filtrertKodeliste = kodeverkRepository.hentAlle(k).stream()
-                .filter(this::filterArbeidType)
-                .filter(this::filtrerManuellVurderingType)
-                .filter(ads -> !"-".equals(ads.getKode()))
-                .collect(Collectors.toList());
-            klientKoder.put(k.getSimpleName(), filtrertKodeliste);
-        });
-
-        return klientKoder;
+        // FIXME SP - filter innhold.
+        Map<String, List<Kodeliste>> stringListMap = kodeverkRepository.hentAlle(KODEVERK_SOM_BRUKES_PÅ_KLIENT);
+        return stringListMap;
     }
 
     private boolean filterArbeidType(Kodeliste kode) {

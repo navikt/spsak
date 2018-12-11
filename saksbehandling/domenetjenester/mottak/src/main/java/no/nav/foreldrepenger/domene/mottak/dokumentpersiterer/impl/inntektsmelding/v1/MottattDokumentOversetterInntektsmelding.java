@@ -180,11 +180,4 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
         }
     }
 
-    /*private void mapGradering(MottattDokumentWrapperSøknad wrapper, InntektsmeldingBuilder builder) {
-        for (GraderingIForeldrepenger detaljer : wrapper.getGradering()) {
-            builder.leggTil(new GraderingEntitet(DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getFom().getValue()),
-                DateUtil.convertToLocalDate(detaljer.getPeriode().getValue().getTom().getValue()),
-                new BigDecimal(detaljer.getArbeidstidprosent().getValue())));
-        }
-    }*/
 }

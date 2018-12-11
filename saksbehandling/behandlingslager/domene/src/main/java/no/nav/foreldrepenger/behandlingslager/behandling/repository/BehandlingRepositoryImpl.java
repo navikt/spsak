@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.behandlingslager.behandling.repository;
 import static java.util.Arrays.asList;
 import static no.nav.vedtak.felles.jpa.HibernateVerktøy.hentEksaktResultat;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -330,7 +330,7 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
                 "WHERE exists (SELECT 1 FROM behandling WHERE (behandling.id = ?) AND (behandling.versjon = ?))");
         query.setParameter(1, behandlingId);
         query.setParameter(2, versjon);
-        return ((BigDecimal) query.getSingleResult()).intValue() == 1;
+        return ((BigInteger) query.getSingleResult()).intValue() == 1;
     }
 
     @Override

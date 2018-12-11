@@ -22,6 +22,7 @@ public class PersonopplysningDto extends PersonIdentDto {
     private LocalDate dodsdato;
     private LocalDate fodselsdato;
     private List<PersonadresseDto> adresser = new ArrayList<>();
+    private List<PersonopplysningDto> barn = new ArrayList<>();
 
     private Region region;
     private OpplysningsKilde opplysningsKilde = OpplysningsKilde.UDEFINERT;
@@ -73,6 +74,14 @@ public class PersonopplysningDto extends PersonIdentDto {
 
     void setNavn(String navn) {
         this.navn = navn;
+    }
+
+    public List<PersonopplysningDto> getBarn() {
+        return barn;
+    }
+
+    void setBarn(List<PersonopplysningDto> barn) {
+        this.barn = barn;
     }
 
     public LocalDate getDodsdato() {

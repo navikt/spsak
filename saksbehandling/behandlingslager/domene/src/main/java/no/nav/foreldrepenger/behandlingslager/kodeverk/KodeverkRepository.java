@@ -48,6 +48,8 @@ public interface KodeverkRepository extends BehandlingslagerRepository {
      */
     <V extends Kodeliste> List<V> hentAlle(Class<V> cls);
 
+    Map<String, List<Kodeliste>> hentAlle(List<Class<? extends Kodeliste>> cls);
+
     Map<String, String> hentLandkoderTilLandkodeISO2Map();
 
     Map<String, String> hentLandkodeISO2TilLandkoderMap();

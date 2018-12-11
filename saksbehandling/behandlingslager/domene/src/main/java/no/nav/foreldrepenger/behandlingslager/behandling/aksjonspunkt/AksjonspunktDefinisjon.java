@@ -97,6 +97,8 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     public static final AksjonspunktDefinisjon VURDER_PERIODER_MED_OPPTJENING = new AksjonspunktDefinisjon("5051"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VURDER_ARBEIDSFORHOLD = new AksjonspunktDefinisjon("5080"); //$NON-NLS-1$
 
+    // SP - Utenfor MVP - Ikke implementert enda
+    public static final AksjonspunktDefinisjon VURDER_ANDRE_YTELSER = new AksjonspunktDefinisjon("5081"); //$NON-NLS-1$
 
     @ManyToOne(optional = false)
     @JoinColumnsOrFormulas({

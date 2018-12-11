@@ -25,6 +25,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -188,6 +189,24 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
         return detachKodeverk(entityManager.createQuery(criteria)
             .setHint(QueryHints.HINT_READONLY, "true")
             .getResultList());
+    }
+
+    @Override
+    public  Map<String, List<Kodeliste>> hentAlle(List<Class<? extends Kodeliste>> classes) {
+        TypedQuery<Kodeliste> query = entityManager.createQuery("FROM Kodeliste WHERE kodeverk IN (:kodeverk) AND kode != '-'", Kodeliste.class);
+        query.setParameter("kodeverk", classes.stream().map(cls -> {
+            try {
+                return cls.getDeclaredConstructor().newInstance().getKodeverk();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                // FIXME FYSJ
+                return null;
+            }
+        }).collect(Collectors.toList()));
+
+        return query.setHint(QueryHints.HINT_READONLY, "true")
+            .getResultStream()
+            .peek(it -> entityManager.detach(it))
+            .collect(Collectors.groupingBy(en -> en.getClass().getSimpleName()));
     }
 
     @Override

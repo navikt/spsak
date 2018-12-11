@@ -69,18 +69,11 @@ import no.nav.vedtak.felles.jpa.Transaction;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessursResourceAttributt;
 
-@Api(tags = { "behandlinger" })
+@Api(tags = {"behandlinger"})
 @Path("/behandlinger")
 @RequestScoped
 @Transaction
 public class BehandlingRestTjeneste {
-
-    private interface BehandlingRestTjenesteFeil extends DeklarerteFeil {
-        BehandlingRestTjenesteFeil FACTORY = FeilFactory.create(BehandlingRestTjenesteFeil.class); // NOSONAR
-
-        @TekniskFeil(feilkode = "FP-760410", feilmelding = "Fant ikke fagsak med saksnummer %s", logLevel = ERROR, exceptionClass = TomtResultatException.class)
-        Feil fantIkkeFagsak(Saksnummer saksnummer);
-    }
 
     private BehandlingsutredningApplikasjonTjeneste behandlingutredningTjeneste;
     private BehandlingsprosessApplikasjonTjeneste behandlingsprosessTjeneste;
@@ -88,7 +81,6 @@ public class BehandlingRestTjeneste {
     private KodeverkRepository kodeverkRepository;
     private HenleggBehandlingTjeneste henleggBehandlingTjeneste;
     private BehandlingDtoTjeneste behandlingDtoTjeneste;
-
     public BehandlingRestTjeneste() {
         // for resteasy
     }
@@ -114,9 +106,9 @@ public class BehandlingRestTjeneste {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Init hent behandling")
     @ApiResponses(value = {
-            @ApiResponse(code = 202, message = "Hent behandling initiert, Returnerer link til å polle på fremdrift", responseHeaders = {
-                    @ResponseHeader(name = "Location") }),
-            @ApiResponse(code = 303, message = "Behandling tilgjenglig (prosesstasks avsluttet)", responseHeaders = { @ResponseHeader(name = "Location") })
+        @ApiResponse(code = 202, message = "Hent behandling initiert, Returnerer link til å polle på fremdrift", responseHeaders = {
+            @ResponseHeader(name = "Location")}),
+        @ApiResponse(code = 303, message = "Behandling tilgjenglig (prosesstasks avsluttet)", responseHeaders = {@ResponseHeader(name = "Location")})
     })
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
@@ -125,7 +117,7 @@ public class BehandlingRestTjeneste {
         Behandling behandling = behandlingsprosessTjeneste.hentBehandling(behandlingId);
 
         Optional<String> gruppeOpt = behandlingsprosessTjeneste.sjekkOgForberedAsynkInnhentingAvRegisteropplysningerOgKjørProsess(behandling);
-        
+
         // sender alltid til poll status slik at vi får sjekket på utestående prosess tasks også.
         return Redirect.tilBehandlingPollStatus(behandlingId, gruppeOpt);
 
@@ -135,16 +127,16 @@ public class BehandlingRestTjeneste {
     @Path("/status")
     @ApiOperation(value = "Url for å polle på behandling mens behandlingprosessen pågår i bakgrunnen(asynkront)", notes = ("Returnerer link til enten samme (hvis ikke ferdig) eller redirecter til /behandlinger dersom asynkrone operasjoner er ferdig."))
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returnerer Status", response = AsyncPollingStatus.class),
-            @ApiResponse(code = 418, message = "ProsessTasks har feilet", response = AsyncPollingStatus.class, responseHeaders = {
-                    @ResponseHeader(name = "Location") }),
-            @ApiResponse(code = 303, message = "Behandling tilgjenglig (prosesstasks avsluttet)", responseHeaders = { @ResponseHeader(name = "Location") })
+        @ApiResponse(code = 200, message = "Returnerer Status", response = AsyncPollingStatus.class),
+        @ApiResponse(code = 418, message = "ProsessTasks har feilet", response = AsyncPollingStatus.class, responseHeaders = {
+            @ResponseHeader(name = "Location")}),
+        @ApiResponse(code = 303, message = "Behandling tilgjenglig (prosesstasks avsluttet)", responseHeaders = {@ResponseHeader(name = "Location")})
     })
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
     public Response hentBehandlingMidlertidigStatus(@NotNull @QueryParam("behandlingId") @Valid BehandlingIdDto idDto,
                                                     @Nullable @QueryParam("gruppe") @Valid ProsessTaskGruppeIdDto gruppeDto)
-            throws URISyntaxException {
+        throws URISyntaxException {
         Long behandlingId = idDto.getBehandlingId();
         String gruppe = gruppeDto == null ? null : gruppeDto.getGruppe();
         Behandling behandling = behandlingsprosessTjeneste.hentBehandling(behandlingId);
@@ -156,7 +148,7 @@ public class BehandlingRestTjeneste {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Hent behandling gitt id", notes = ("Returnerer behandlingen som er tilknyttet id. Dette er resultat etter at asynkrone operasjoner er utført."))
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returnerer Behandling", response = UtvidetBehandlingDto.class),
+        @ApiResponse(code = 200, message = "Returnerer Behandling", response = UtvidetBehandlingDto.class),
     })
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
@@ -192,7 +184,7 @@ public class BehandlingRestTjeneste {
     @BeskyttetRessurs(action = UPDATE, ressurs = BeskyttetRessursResourceAttributt.VENTEFRIST)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
     public void endreFristForBehandlingPaVent(
-                                              @ApiParam("Frist for behandling på vent") @Valid SettBehandlingPaVentDto dto) {
+        @ApiParam("Frist for behandling på vent") @Valid SettBehandlingPaVentDto dto) {
         behandlingutredningTjeneste.kanEndreBehandling(dto.getBehandlingId(), dto.getBehandlingVersjon());
         behandlingutredningTjeneste.endreBehandlingPaVent(dto.getBehandlingId(), dto.getFrist(), dto.getVentearsak());
     }
@@ -215,13 +207,12 @@ public class BehandlingRestTjeneste {
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Gjenopptar behandling som er satt på vent")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Gjenoppta behandling påstartet i bakgrunnen", responseHeaders = { @ResponseHeader(name = "Location") }),
+        @ApiResponse(code = 200, message = "Gjenoppta behandling påstartet i bakgrunnen", responseHeaders = {@ResponseHeader(name = "Location")}),
     })
     @BeskyttetRessurs(action = UPDATE, ressurs = FAGSAK)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
-    public Response gjenopptaBehandling(
-                                        @ApiParam("BehandlingId for behandling som skal gjenopptas") @Valid GjenopptaBehandlingDto dto)
-            throws URISyntaxException {
+    public Response gjenopptaBehandling(@ApiParam("BehandlingId for behandling som skal gjenopptas") @Valid GjenopptaBehandlingDto dto)
+        throws URISyntaxException {
         Long behandlingId = dto.getBehandlingId();
         Long behandlingVersjon = dto.getBehandlingVersjon();
 
@@ -255,12 +246,12 @@ public class BehandlingRestTjeneste {
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Opprette ny behandling")
     @ApiResponses(value = {
-            @ApiResponse(code = 202, message = "Opprett ny behandling pågår", responseHeaders = { @ResponseHeader(name = "Location") }),
+        @ApiResponse(code = 202, message = "Opprett ny behandling pågår", responseHeaders = {@ResponseHeader(name = "Location")}),
     })
     @BeskyttetRessurs(action = CREATE, ressurs = FAGSAK)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
     public Response opprettNyBehandling(@ApiParam("Saksnummer og parametre for ny behandling") @Valid NyBehandlingDto dto)
-            throws URISyntaxException {
+        throws URISyntaxException {
         Saksnummer saksnummer = new Saksnummer(Long.toString(dto.getSaksnummer()));
         Optional<Fagsak> funnetFagsak = fagsakTjeneste.finnFagsakGittSaksnummer(saksnummer, true);
         String kode = dto.getBehandlingType().getKode();
@@ -302,10 +293,21 @@ public class BehandlingRestTjeneste {
     @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
     public List<BehandlingDto> hentBehandlinger(
-                                                @NotNull @QueryParam("saksnummer") @ApiParam("Saksnummer må være et eksisterende saksnummer") @Valid SaksnummerDto s) {
+        @NotNull @QueryParam("saksnummer") @ApiParam("Saksnummer må være et eksisterende saksnummer") @Valid SaksnummerDto s) {
         Saksnummer saksnummer = new Saksnummer(s.getVerdi());
         List<Behandling> behandlinger = behandlingutredningTjeneste.hentBehandlingerForSaksnummer(saksnummer);
         return behandlingDtoTjeneste.lagBehandlingDtoer(behandlinger);
+    }
+
+    @GET
+    @Path("/annen-part-behandling")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Søk etter behandlinger på saksnummer", notes = ("Returnerer alle behandlinger som er tilknyttet saksnummer."))
+    @BeskyttetRessurs(action = READ, ressurs = FAGSAK)
+    @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
+    public Response hentAnnenPart(@NotNull @QueryParam("saksnummer") @ApiParam("Saksnummer må være et eksisterende saksnummer") @Valid SaksnummerDto s) {
+        // FIXME : Fjern når GUI ikke dør på seg.
+        return Response.noContent().build();
     }
 
     @POST
@@ -313,7 +315,7 @@ public class BehandlingRestTjeneste {
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Åpner behandling for endringer")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Åpning av behandling for endringer påstartet i bakgrunnen", responseHeaders = { @ResponseHeader(name = "Location") }),
+        @ApiResponse(code = 200, message = "Åpning av behandling for endringer påstartet i bakgrunnen", responseHeaders = {@ResponseHeader(name = "Location")}),
     })
     @BeskyttetRessurs(action = UPDATE, ressurs = FAGSAK)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
@@ -327,6 +329,13 @@ public class BehandlingRestTjeneste {
         behandlingsprosessTjeneste.asynkTilbakestillOgÅpneBehandlingForEndringer(behandlingId);
 
         return Redirect.tilBehandlingPollStatus(behandlingId, Optional.empty());
+    }
+
+    private interface BehandlingRestTjenesteFeil extends DeklarerteFeil {
+        BehandlingRestTjenesteFeil FACTORY = FeilFactory.create(BehandlingRestTjenesteFeil.class); // NOSONAR
+
+        @TekniskFeil(feilkode = "FP-760410", feilmelding = "Fant ikke fagsak med saksnummer %s", logLevel = ERROR, exceptionClass = TomtResultatException.class)
+        Feil fantIkkeFagsak(Saksnummer saksnummer);
     }
 
 

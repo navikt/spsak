@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
@@ -57,7 +59,7 @@ public class KontrollerFaktaTjenesteProvider {
 
     private Optional<KontrollerFaktaTjeneste> hentKontrollerFaktaTjeneste(String fagsakYtelseType, String behandlingType, String startpunkt) {
 
-        var key = Set.of(fagsakYtelseType, behandlingType, startpunkt);
+        var key = Stream.of(fagsakYtelseType, behandlingType, startpunkt).collect(Collectors.toSet());
 
         if (!cachedInstans.containsKey(key)) {
             Instance<KontrollerFaktaTjeneste> nyInstans = nyInstans(fagsakYtelseType, behandlingType, startpunkt);

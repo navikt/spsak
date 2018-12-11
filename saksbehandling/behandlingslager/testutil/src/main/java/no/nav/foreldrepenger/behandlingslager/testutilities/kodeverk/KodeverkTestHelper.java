@@ -194,6 +194,11 @@ public class KodeverkTestHelper {
         }
 
         @Override
+        public Map<String, List<Kodeliste>> hentAlle(List<Class<? extends Kodeliste>> cls) {
+            return null;
+        }
+
+        @Override
         public Map<String, String> hentLandkoderTilLandkodeISO2Map() {
             // impl ved behov
             throw new UnsupportedOperationException();
