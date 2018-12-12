@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,7 @@ import no.nav.foreldrepenger.autotest.sykepenger.modell.SykepengesøknadWrapper;
 import no.nav.foreldrepenger.fpmock2.dokumentgenerator.inntektsmelding.erketyper.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.fpmock2.server.api.scenario.TestscenarioDto;
 import no.nav.foreldrepenger.fpmock2.testmodell.dokument.modell.koder.DokumenttypeId;
+import no.nav.foreldrepenger.fpmock2.testmodell.inntektytelse.arbeidsforhold.Arbeidsforhold;
 import no.nav.foreldrepenger.fpmock2.testmodell.util.JsonMapper;
 import no.nav.sykepenger.kontrakter.søknad.v1.SykepengesøknadV1;
 import no.nav.sykepenger.kontrakter.søknad.v1.fravær.FraværType;
@@ -30,6 +33,9 @@ import no.nav.sykepenger.spmock.kafka.LocalKafkaProducer;
 
 @Tag("eksempel")
 class SykepengesøknadTest extends SpsakTestBase {
+
+    private LocalKafkaProducer producer = new LocalKafkaProducer();
+    private JsonMapper jsonMapper = new JsonMapper();
 
     @Test
     public void testSykepengesøknadInnsending() throws Exception {
@@ -67,58 +73,94 @@ class SykepengesøknadTest extends SpsakTestBase {
 
         final Long saksnummer = fordel.opprettSakKnyttetTilJournalpostMenIkkeAndreVeien(journalpostId, "ab0061", aktørId);
 
-        var sykepengesøknadWrapper = new SykepengesøknadWrapper(journalpostId, aktørId, saksnummer,
+        var sykepengesøknadWrapper = new SykepengesøknadWrapper(journalpostId, aktørId, saksnummer.toString(),
                 Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))), søknadJson.length());
 
-        System.out.println(mapper.writeValueAsString(sykepengesøknadWrapper));
+        System.out.println("Opprettet sak: " + saksnummer);
 
-        new LocalKafkaProducer().sendSynkront("sykepengesoeknad",
+        producer.sendSynkront("sykepengesoeknad",
                 testscenario.getPersonopplysninger().getSøkerAktørIdent(),
                 new JsonMapper().lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
     }
 
     @Test
     public void testSykepengesøknadInnsendingMedInntektsmelding() throws Exception {
-
         TestscenarioDto testscenario = opprettScenario("40");
-
-        var søknad = new SykepengesøknadV1();
-        final String søknadId = UUID.randomUUID().toString();
-        søknad.setSøknadId(søknadId);
-        søknad.setBrukerAktørId(testscenario.getPersonopplysninger().getSøkerAktørIdent());
-        søknad.setArbeidsgiverId(testscenario.getScenariodata().getArbeidsforholdModell().getArbeidsforhold().get(0).getArbeidsgiverOrgnr());
-        final String sykemeldingId = UUID.randomUUID().toString();
-        søknad.setSykemeldingId(sykemeldingId);
-
         final LocalDate sykFom = LocalDate.now().minusMonths(1);
         final LocalDate sykTom = LocalDate.now().minusDays(1);
+        List<FraværsPeriode> fravær = List.of(new FraværsPeriode(sykFom.plusDays(7), sykFom.plusDays(8), FraværType.UTENLANDSOPPHOLD));
+        List<KorrigertArbeidstidPeriode> korrigertArbeidstid = List.of(new KorrigertArbeidstidPeriode(sykFom, sykTom, 100, 0, 0));
+        List<EgenmeldingPeriode> egenmeldinger = List.of(new EgenmeldingPeriode(sykFom, sykFom.plusDays(2)));
 
-        søknad.setKorrigertArbeidstid(List.of(new KorrigertArbeidstidPeriode(sykFom, sykTom, 100, 0, 0)));
+        sendInnSøknadFor(testscenario, fravær, korrigertArbeidstid, egenmeldinger);
+    }
 
-        søknad.setFravær(List.of(new FraværsPeriode(sykFom.plusDays(7), sykFom.plusDays(8), FraværType.UTENLANDSOPPHOLD)));
-        søknad.setSøktOmUtenlandsopphold(false);
-        søknad.setEgenmeldinger(List.of(new EgenmeldingPeriode(sykFom, sykFom.plusDays(2))));
+    @Test
+    public void scenario_50() throws Exception {
+        TestscenarioDto testscenario = opprettScenario("50");
+        final LocalDate sykFom = LocalDate.now().minusMonths(1);
+        final LocalDate sykTom = LocalDate.now().minusDays(1);
+        List<FraværsPeriode> fravær = List.of(new FraværsPeriode(sykFom.plusDays(7), sykFom.plusDays(8), FraværType.UTENLANDSOPPHOLD));
+        List<KorrigertArbeidstidPeriode> korrigertArbeidstid = List.of(new KorrigertArbeidstidPeriode(sykFom, sykTom, 100, 0, 0));
+        List<EgenmeldingPeriode> egenmeldinger = List.of(new EgenmeldingPeriode(sykFom, sykFom.plusDays(2)));
 
-        ObjectWriter mapper = new JsonMapper().lagObjectMapper().writerWithDefaultPrettyPrinter();
-        String søknadJson = mapper.writeValueAsString(søknad);
+        sendInnSøknadFor(testscenario, fravær, korrigertArbeidstid, egenmeldinger);
+    }
+
+    @Test
+    public void scenario_50_søkt_for_seint() throws Exception {
+        TestscenarioDto testscenario = opprettScenario("50");
+        final LocalDate sykFom = LocalDate.now().minusMonths(6);
+        final LocalDate sykTom = LocalDate.now().minusMonths(5).minusDays(1);
+        List<FraværsPeriode> fravær = List.of(new FraværsPeriode(sykFom.plusDays(7), sykFom.plusDays(8), FraværType.UTENLANDSOPPHOLD));
+        List<KorrigertArbeidstidPeriode> korrigertArbeidstid = List.of(new KorrigertArbeidstidPeriode(sykFom, sykTom, 100, 0, 0));
+        List<EgenmeldingPeriode> egenmeldinger = List.of(new EgenmeldingPeriode(sykFom, sykFom.plusDays(2)));
+
+        sendInnSøknadFor(testscenario, fravær, korrigertArbeidstid, egenmeldinger);
+    }
+
+    private void sendInnSøknadFor(TestscenarioDto testscenario, List<FraværsPeriode> fravær, List<KorrigertArbeidstidPeriode> korrigertArbeidstid, List<EgenmeldingPeriode> egenmeldinger) throws Exception {
+        final String sykemeldingId = UUID.randomUUID().toString();
         final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
-        fordel.erLoggetInnMedRolle(Aktoer.Rolle.SAKSBEHANDLER);
-        // ikkeAndreVeien fordi journalpostId er "fake"
-        String journalpostId = fordel.journalførSøknad(søknad, testscenario, DokumenttypeId.FOEDSELSSOKNAD_FORELDREPENGER, null);
+        Long saksnummer = null;
 
-        final Long saksnummer = fordel.opprettSakKnyttetTilJournalpostMenIkkeAndreVeien(journalpostId, "ab0061", aktørId);
+        Set<String> arbeidsgivere = testscenario.getScenariodata()
+                .getArbeidsforholdModell()
+                .getArbeidsforhold()
+                .stream()
+                .map(Arbeidsforhold::getArbeidsgiverOrgnr)
+                .collect(Collectors.toSet());
+        for (String arbeidsgiver : arbeidsgivere) {
 
-        var sykepengesøknadWrapper = new SykepengesøknadWrapper(journalpostId, aktørId, saksnummer,
-                Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))), søknadJson.length());
+            final String søknadId = UUID.randomUUID().toString();
+            var søknad = new SykepengesøknadV1();
+            søknad.setSøknadId(søknadId);
+            søknad.setBrukerAktørId(aktørId);
+            søknad.setArbeidsgiverId(arbeidsgiver);
+            søknad.setSykemeldingId(sykemeldingId);
+            søknad.setKorrigertArbeidstid(korrigertArbeidstid);
+            søknad.setFravær(fravær);
+            søknad.setSøktOmUtenlandsopphold(false);
+            søknad.setEgenmeldinger(egenmeldinger);
 
-        System.out.println(mapper.writeValueAsString(sykepengesøknadWrapper));
+            ObjectWriter mapper = jsonMapper.lagObjectMapper().writerWithDefaultPrettyPrinter();
+            String søknadJson = mapper.writeValueAsString(søknad);
+            fordel.erLoggetInnMedRolle(Aktoer.Rolle.SAKSBEHANDLER);
+            String journalpostId = fordel.journalførSøknad(søknad, testscenario, DokumenttypeId.FOEDSELSSOKNAD_FORELDREPENGER, saksnummer);
+            if (saksnummer == null) {
+                saksnummer = fordel.opprettSakKnyttetTilJournalpost(journalpostId, "ab0061", aktørId);
+                System.out.println("Opprettet sak: " + saksnummer);
+            }
+            var sykepengesøknadWrapper = new SykepengesøknadWrapper(journalpostId, aktørId, saksnummer.toString(),
+                    Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))), søknadJson.length());
 
-        new LocalKafkaProducer().sendSynkront("sykepengesoeknad",
-                testscenario.getPersonopplysninger().getSøkerAktørIdent(),
-                new JsonMapper().lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
+            producer.sendSynkront("sykepengesoeknad",
+                    testscenario.getPersonopplysninger().getSøkerAktørIdent(),
+                    jsonMapper.lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
+        }
+
         List<InntektsmeldingBuilder> inntektsmeldinger = makeInntektsmeldingFromTestscenario(testscenario, LocalDate.now());
-        InntektsmeldingBuilder inntektsmelding = inntektsmeldinger.get(0); // bruker en av inntektsrapporteringene fra skatt, som grunnlag for inntektsmelding
-
+        InntektsmeldingBuilder inntektsmelding = inntektsmeldinger.get(0);
         long beloep = inntektsmelding.getArbeidsforhold().getBeregnetInntekt().getValue().getBeloep().getValue().longValue();
 
         // ikke noe gradringsinfo for SP (?)
@@ -137,9 +179,8 @@ class SykepengesøknadTest extends SpsakTestBase {
         var inntektsmeldingWrapper = new InntektsmeldingWrapper(journalpostIdIm, aktørId, saksnummer,
                 Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))), xml.length());
 
-        String json = new JsonMapper().lagObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(inntektsmeldingWrapper);
-        System.out.println(json);
-        new LocalKafkaProducer().sendSynkront("inntektsmelding",
+        String json = jsonMapper.lagObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(inntektsmeldingWrapper);
+        producer.sendSynkront("inntektsmelding",
                 aktørId,
                 json);
     }
