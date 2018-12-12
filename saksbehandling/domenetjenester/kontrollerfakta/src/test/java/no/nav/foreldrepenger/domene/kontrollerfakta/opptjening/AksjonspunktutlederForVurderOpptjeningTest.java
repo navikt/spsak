@@ -100,7 +100,8 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
 
         LocalDate fraOgMed = LocalDate.now().minusMonths(1);
         LocalDate tilOgMed = LocalDate.now().plusMonths(1);
-        InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder();
+        InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder()
+            .medAktørId(aktørId1);
         builder.medYrkesaktivitetArbeidType(ArbeidType.FRILANSER_OPPDRAGSTAKER_MED_MER)
             .medYrkesaktivitetArbeidsforholdId("123")
             .medAktivitetsAvtaleProsentsats(BigDecimal.ONE)
@@ -274,7 +275,8 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         // Arrange
         AktørId aktørId1 = new AktørId("1");
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
-        InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder();
+        InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder()
+            .medAktørId(aktørId1);
         builder.medAktivitetsAvtaleProsentsats(BigDecimal.ZERO);
         builder.build();
 

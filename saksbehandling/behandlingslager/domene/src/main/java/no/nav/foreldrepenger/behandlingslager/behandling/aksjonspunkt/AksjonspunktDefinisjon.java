@@ -96,6 +96,8 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
 
     public static final AksjonspunktDefinisjon VURDER_PERIODER_MED_OPPTJENING = new AksjonspunktDefinisjon("5051"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VURDER_ARBEIDSFORHOLD = new AksjonspunktDefinisjon("5080"); //$NON-NLS-1$
+    public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_SØKNADSFRISTVILKÅRET = new AksjonspunktDefinisjon("5007"); //$NON-NLS-1$
+    public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_SØKNADSFRIST_FORELDREPENGER = new AksjonspunktDefinisjon("5043");
 
     // SP - Utenfor MVP - Ikke implementert enda
     public static final AksjonspunktDefinisjon VURDER_ANDRE_YTELSER = new AksjonspunktDefinisjon("5081"); //$NON-NLS-1$

@@ -13,23 +13,24 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
 
-
-// Steget sikrer at vilkårne blir vurdert samlet som inngangsvilkår
-@BehandlingStegRef(kode = "VURDERSAMLET")
+@BehandlingStegRef(kode = "VURDERSFV")
 @BehandlingTypeRef
 @FagsakYtelseTypeRef
 @ApplicationScoped
-public class SamletInngangsvilkårStegImpl extends InngangsvilkårStegImpl {
+public class SøknadsfristVilkårStegImpl extends InngangsvilkårStegImpl {
 
-    private static List<VilkårType> STØTTEDE_VILKÅR = List.of();
+    private static List<VilkårType> STØTTEDE_VILKÅR = List.of(
+        VilkårType.SØKNADSFRISTVILKÅRET
+    );
 
     @Inject
-    public SamletInngangsvilkårStegImpl(BehandlingRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer) {
-        super(repositoryProvider, regelOrkestrerer, BehandlingStegType.VURDER_SAMLET);
+    public SøknadsfristVilkårStegImpl(BehandlingRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer) {
+        super(repositoryProvider, regelOrkestrerer, BehandlingStegType.VURDER_SØKNADSFRISTVILKÅR);
     }
 
     @Override
     public List<VilkårType> vilkårHåndtertAvSteg() {
         return STØTTEDE_VILKÅR;
     }
+
 }

@@ -40,6 +40,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -80,7 +81,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
             return opprettListeForAksjonspunkt(AksjonspunktDefinisjon.VURDER_PERIODER_MED_OPPTJENING);
         }
 
-        if (finnesDetArbeidsforholdMedStillingsprosentHøyereEnn0(inntektArbeidYtelseGrunnlag, opptjeningPeriode) == JA) {
+        if (finnesDetArbeidsforholdMedStillingsprosentHøyereEnn0(inntektArbeidYtelseGrunnlag, opptjeningPeriode, behandling.getAktørId()) == JA) {
             return opprettListeForAksjonspunkt(AksjonspunktDefinisjon.VURDER_PERIODER_MED_OPPTJENING);
         }
 
@@ -89,7 +90,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
         }
 
         if (harBrukerOppgittPerioderMed(oppgittOpptjening, opptjeningPeriode, Collections.singletonList(ArbeidType.FRILANSER)) == JA
-            || finnesDetBekreftetFrilans(inntektArbeidYtelseGrunnlag, opptjeningPeriode) == JA) {
+            || finnesDetBekreftetFrilans(inntektArbeidYtelseGrunnlag, opptjeningPeriode, behandling.getAktørId()) == JA) {
             return opprettListeForAksjonspunkt(AksjonspunktDefinisjon.VURDER_PERIODER_MED_OPPTJENING);
         }
 
@@ -140,8 +141,10 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
         return NEI;
     }
 
-    private Utfall finnesDetArbeidsforholdMedStillingsprosentHøyereEnn0(InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag, DatoIntervallEntitet opptjeningPeriode) {
-        for (AktørArbeid aktørArbeid : inntektArbeidYtelseGrunnlag.getAktørArbeidFørStp()) {
+    private Utfall finnesDetArbeidsforholdMedStillingsprosentHøyereEnn0(InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag, DatoIntervallEntitet opptjeningPeriode, AktørId søker) {
+        Optional<AktørArbeid> aktørArbeidOpt = inntektArbeidYtelseGrunnlag.getAktørArbeidFørStp(søker);
+        if (aktørArbeidOpt.isPresent()) {
+            AktørArbeid aktørArbeid = aktørArbeidOpt.get();
             for (Yrkesaktivitet yrkesaktivitet : aktørArbeid.getYrkesaktiviteter().stream().filter(it -> it.getArbeidType().equals(ArbeidType.ORDINÆRT_ARBEIDSFORHOLD)).collect(Collectors.toList())) {
                 if (girAksjonspunkt(opptjeningPeriode, yrkesaktivitet)) {
                     return JA;
@@ -161,8 +164,10 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
         return false;
     }
 
-    private Utfall finnesDetBekreftetFrilans(InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag, DatoIntervallEntitet opptjeningPeriode) {
-        for (AktørArbeid aktørArbeid : inntektArbeidYtelseGrunnlag.getAktørArbeidFørStp()) {
+    private Utfall finnesDetBekreftetFrilans(InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag, DatoIntervallEntitet opptjeningPeriode, AktørId søker) {
+        Optional<AktørArbeid> aktørArbeidOpt = inntektArbeidYtelseGrunnlag.getAktørArbeidFørStp(søker);
+        if (aktørArbeidOpt.isPresent()) {
+            AktørArbeid aktørArbeid = aktørArbeidOpt.get();
             for (Yrkesaktivitet yrkesaktivitet : aktørArbeid.getFrilansOppdrag()) {
                 for (AktivitetsAvtale aktivitetsAvtale : yrkesaktivitet.getAktivitetsAvtaler()) {
                     if (opptjeningPeriode.overlapper(aktivitetsAvtale.getPeriode())) {
@@ -250,7 +255,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
 
     boolean girAksjonspunktForArbeidsforhold(Behandling behandling, Yrkesaktivitet registerAktivitet) {
         final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling);
-        if(!opptjening.isPresent() || registerAktivitet == null) {
+        if (!opptjening.isPresent() || registerAktivitet == null) {
             return false;
         }
         final DatoIntervallEntitet opptjeningPeriode = DatoIntervallEntitet.fraOgMedTilOgMed(opptjening.get().getFom(), opptjening.get().getTom());

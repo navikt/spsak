@@ -53,10 +53,9 @@ public class KodeverkRestTjeneste {
     @BeskyttetRessurs(action = READ, ressurs = APPLIKASJON, sporingslogg = false)
     @SuppressWarnings("findsecbugs:JAXRS_ENDPOINT")
     public Map<String, Object> hentGruppertKodeliste() {
-        Map<String, Object> kodelisterGruppertPåType = new HashMap<>();
 
         Map<String, List<Kodeliste>> grupperteKodelister = hentKodeverkTjeneste.hentGruppertKodeliste();
-        grupperteKodelister.entrySet().forEach(e -> kodelisterGruppertPåType.put(e.getKey(), e.getValue()));
+        Map<String, Object> kodelisterGruppertPåType = new HashMap<>(grupperteKodelister);
 
         Map<String, List<Avslagsårsak>> avslagårsakerGruppertPåVilkårType = vilkårKodeverkRepository.finnAvslagårsakerGruppertPåVilkårType()
             .entrySet().stream().collect(Collectors.toMap(e -> e.getKey().getKode(), Map.Entry::getValue));

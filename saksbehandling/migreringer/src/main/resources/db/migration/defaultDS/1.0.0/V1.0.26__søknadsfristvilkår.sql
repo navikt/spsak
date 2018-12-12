@@ -1,4 +1,14 @@
+Insert into BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, OPPRETTET_AV,
+                                       OPPRETTET_TID, ENDRET_AV, ENDRET_TID, FAGSAK_YTELSE_TYPE)
+values ('1000800', 'BT-004', 'VURDERSFV', '90', 'VL',
+        to_timestamp('09.11.2018 08.37.35,550000000', 'DD.MM.YYYY HH24.MI.SS'), null, null, 'FP');
+Insert into BEHANDLING_TYPE_STEG_SEKV (ID, BEHANDLING_TYPE, BEHANDLING_STEG_TYPE, SEKVENS_NR, OPPRETTET_AV,
+                                       OPPRETTET_TID, ENDRET_AV, ENDRET_TID, FAGSAK_YTELSE_TYPE)
+values ('1000300', 'BT-002', 'VURDERSFV', '90', 'VL',
+        to_timestamp('09.11.2018 08.37.34,998000000', 'DD.MM.YYYY HH24.MI.SS'), null, null, 'FP');
 
-INSERT INTO KODELISTE (id, kode, beskrivelse, gyldig_fom, kodeverk, ekstra_data)
-VALUES (nextval('seq_kodeliste'), 'SP_VK_5', 'Søknadsfristvilkåret §22-13', to_date('2000-01-01', 'YYYY-MM-DD'),
-        'VILKAR_TYPE', '{ "fagsakYtelseType" : {"SP" : { "kategori": "vilkår", "lovreferanse": "§ 22-13" } } }');
+Insert into KODELISTE (ID, KODEVERK, KODE, OFFISIELL_KODE, BESKRIVELSE, GYLDIG_FOM, GYLDIG_TOM, OPPRETTET_AV,
+                       OPPRETTET_TID, ENDRET_AV, ENDRET_TID, EKSTRA_DATA)
+values ('1277000', 'AVSLAGSARSAK', '1007', null, null, to_date('01.01.2000', 'DD.MM.YYYY'),
+        to_date('31.12.9999', 'DD.MM.YYYY'), 'VL',
+        to_timestamp('09.11.2018 08.37.45,795000000', 'DD.MM.YYYY HH24.MI.SS'), null, null, null);

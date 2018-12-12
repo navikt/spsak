@@ -11,7 +11,7 @@ public final class PeriodeCompareUtil {
         return tilDager(period) > tilDager(sammenligning);
     }
 
-    private static int tilDager(Period period) {
+    public static int tilDager(Period period) {
         return period.getDays() + (period.getMonths() * 30) + ((period.getYears() * 12) * 30);
     }
 }

@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.behandling.steg.inngangsvilkår;
 
-import static java.util.Collections.singletonList;
-
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -21,7 +19,7 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
 @ApplicationScoped
 public class SøkersopplysningspliktVilkårStegImpl extends InngangsvilkårStegImpl {
 
-    private static List<VilkårType> STØTTEDE_VILKÅR = singletonList(
+    private static List<VilkårType> STØTTEDE_VILKÅR = List.of(
         VilkårType.SØKERSOPPLYSNINGSPLIKT
     );
 

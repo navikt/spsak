@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,6 +24,10 @@ class HentKodeverkTjenesteImpl implements HentKodeverkTjeneste {
     private KodeverkRepository kodeverkRepository;
     private EnhetsTjeneste enhetsTjeneste;
 
+    HentKodeverkTjenesteImpl() {
+        // CDI
+    }
+
     @Inject
     public HentKodeverkTjenesteImpl(KodeverkRepository kodeverkRepository, EnhetsTjeneste enhetsTjeneste) {
         Objects.requireNonNull(kodeverkRepository, "kodeverkRepository"); //$NON-NLS-1$
@@ -33,24 +38,12 @@ class HentKodeverkTjenesteImpl implements HentKodeverkTjeneste {
 
     @Override
     public Map<String, List<Kodeliste>> hentGruppertKodeliste() {
-        // FIXME SP - filter innhold.
-        Map<String, List<Kodeliste>> stringListMap = kodeverkRepository.hentAlle(KODEVERK_SOM_BRUKES_PÅ_KLIENT);
-        return stringListMap;
-    }
-
-    private boolean filterArbeidType(Kodeliste kode) {
-        if (kode instanceof ArbeidType) {
-            ArbeidType arbeidType = (ArbeidType) kode;
-            return arbeidType.erAnnenOpptjening();
-        }
-        return true;
-    }
-
-    private boolean filtrerManuellVurderingType(Kodeliste kode) {
-        if (kode instanceof MedlemskapManuellVurderingType) {
-            return ((MedlemskapManuellVurderingType) kode).visesPåKlient();
-        }
-        return true;
+        Map<String, List<Kodeliste>> kodelistMap = kodeverkRepository.hentAlle(KODEVERK_SOM_BRUKES_PÅ_KLIENT);
+        Optional.ofNullable(kodelistMap.get(ArbeidType.class.getSimpleName()))
+            .ifPresent(it -> it.removeIf(at -> !((ArbeidType) at).erAnnenOpptjening()));
+        Optional.ofNullable(kodelistMap.get(MedlemskapManuellVurderingType.class.getSimpleName()))
+            .ifPresent(it -> it.removeIf(at -> !((MedlemskapManuellVurderingType) at).visesPåKlient()));
+        return kodelistMap;
     }
 
     @Override

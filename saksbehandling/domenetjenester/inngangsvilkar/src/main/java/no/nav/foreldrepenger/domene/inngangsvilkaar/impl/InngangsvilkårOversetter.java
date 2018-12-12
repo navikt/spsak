@@ -40,6 +40,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sy
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.Sykemelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.Sykemeldinger;
+import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
+import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
@@ -47,6 +49,7 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.PersonStatusType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.OpptjeningsperiodeGrunnlag;
+import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.SoeknadsfristvilkarGrunnlag;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.VilkårGrunnlag;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
@@ -63,6 +66,7 @@ public class InngangsvilkårOversetter {
     private BasisPersonopplysningTjeneste personopplysningTjeneste;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
     private SykefraværRepository sykefraværRepository;
+    private SøknadRepository søknadRepository;
 
     InngangsvilkårOversetter() {
         // for CDI proxy
@@ -77,6 +81,7 @@ public class InngangsvilkårOversetter {
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
         this.sykefraværRepository = repositoryProvider.getSykefraværRepository();
+        this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.medlemskapPerioderTjeneste = medlemskapPerioderTjeneste;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.personopplysningTjeneste = personopplysningTjeneste;
@@ -295,5 +300,22 @@ public class InngangsvilkårOversetter {
 
     public VilkårData tilVilkårData(VilkårType vilkårType, Evaluation evaluation, VilkårGrunnlag grunnlag) {
         return new VilkårUtfallOversetter(kodeverkRepository).oversett(vilkårType, evaluation, grunnlag);
+    }
+
+    public SoeknadsfristvilkarGrunnlag oversettTilRegelModellSøknadsfrist(Behandling behandling) {
+        final Søknad søknad = søknadRepository.hentSøknad(behandling);
+        Optional<SykefraværGrunnlag> sykefraværGrunnlag = sykefraværRepository.hentHvisEksistererFor(behandling.getId());
+        List<SykefraværPeriode> søknadsPerioder = sykefraværGrunnlag.map(SykefraværGrunnlag::getSykefravær)
+            .map(Sykefravær::getPerioder)
+            .orElse(Collections.emptyList());
+        LocalDate skjæringsdato = søknadsPerioder.stream()
+            .filter(sykemeldtPeriode())
+            .map(SykefraværPeriode::getPeriode)
+            .map(DatoIntervallEntitet::getFomDato)
+            .min(LocalDate::compareTo)
+            .orElseThrow(IllegalArgumentException::new);
+        return new SoeknadsfristvilkarGrunnlag(
+            skjæringsdato,
+            søknad.getMottattDato());
     }
 }

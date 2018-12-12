@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
@@ -17,7 +18,9 @@ import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 
-/** Provider som slår opp relevante KontrollerFaktaTjeneste basert på en behandling. */
+/**
+ * Provider som slår opp relevante KontrollerFaktaTjeneste basert på en behandling.
+ */
 @ApplicationScoped
 public class KontrollerFaktaTjenesteProvider {
 
@@ -30,7 +33,7 @@ public class KontrollerFaktaTjenesteProvider {
     }
 
     @Inject
-    KontrollerFaktaTjenesteProvider(Instance<KontrollerFaktaTjeneste> instans) {
+    KontrollerFaktaTjenesteProvider(@Any Instance<KontrollerFaktaTjeneste> instans) {
         this.instans = instans;
     }
 

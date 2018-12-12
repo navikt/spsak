@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.behandlingslager.kodeverk;
 import static java.util.stream.Collectors.joining;
 import static no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkFeil.FEILFACTORY;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
@@ -192,16 +193,20 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
     }
 
     @Override
-    public  Map<String, List<Kodeliste>> hentAlle(List<Class<? extends Kodeliste>> classes) {
+    public Map<String, List<Kodeliste>> hentAlle(List<Class<? extends Kodeliste>> classes) {
         TypedQuery<Kodeliste> query = entityManager.createQuery("FROM Kodeliste WHERE kodeverk IN (:kodeverk) AND kode != '-'", Kodeliste.class);
-        query.setParameter("kodeverk", classes.stream().map(cls -> {
+        List<String> kodeverk = classes.stream().map(cls -> {
             try {
-                return cls.getDeclaredConstructor().newInstance().getKodeverk();
+                Constructor<? extends Kodeliste> constructor = cls.getDeclaredConstructor();
+                constructor.setAccessible(true);
+                return constructor.newInstance().getKodeverk();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 // FIXME FYSJ
+                System.out.println("Feilet å instansisere kodeverk for " + cls.getSimpleName());
                 return null;
             }
-        }).collect(Collectors.toList()));
+        }).collect(Collectors.toList());
+        query.setParameter("kodeverk", kodeverk);
 
         return query.setHint(QueryHints.HINT_READONLY, "true")
             .getResultStream()

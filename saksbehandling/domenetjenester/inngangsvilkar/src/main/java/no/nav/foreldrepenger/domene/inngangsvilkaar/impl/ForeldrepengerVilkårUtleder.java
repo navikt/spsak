@@ -6,6 +6,7 @@ import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårT
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.OPPTJENINGSPERIODEVILKÅR;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.OPPTJENINGSVILKÅRET;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.SØKERSOPPLYSNINGSPLIKT;
+import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.SØKNADSFRISTVILKÅRET;
 import static no.nav.foreldrepenger.domene.inngangsvilkaar.impl.UtledeteVilkår.forAvklartRelasjonsvilkårTilBarn;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class ForeldrepengerVilkårUtleder implements VilkårUtleder {
         SØKERSOPPLYSNINGSPLIKT,
         OPPTJENINGSPERIODEVILKÅR,
         OPPTJENINGSVILKÅRET,
-        BEREGNINGSGRUNNLAGVILKÅR);
+        BEREGNINGSGRUNNLAGVILKÅR,
+        SØKNADSFRISTVILKÅRET);
 
     public ForeldrepengerVilkårUtleder() {
         // TODO midlertidig instansiering for å kunne ha forskjellige VilkårUtledere for FP og ES
