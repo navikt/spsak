@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
@@ -45,6 +46,7 @@ public class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
         // for CDI proxy
     }
 
+    @Inject
     FatteVedtakTjenesteImpl(VedtakTjeneste vedtakTjeneste,
                             OppgaveTjeneste oppgaveTjeneste,
                             TotrinnTjeneste totrinnTjeneste,
