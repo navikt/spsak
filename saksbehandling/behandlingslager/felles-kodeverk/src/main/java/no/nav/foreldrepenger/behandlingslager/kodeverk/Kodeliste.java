@@ -22,6 +22,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -43,6 +46,28 @@ import no.nav.vedtak.util.StringUtils;
  * Koder skal ikke gjenbrukes, i tråd med anbefalinger fra Kodeverkforvaltningen.Derfor vil kun en
  * gyldighetsperiode vedlikeholdes per kode.
  */
+@NamedEntityGraph(
+    name = "KodelistMedNavn",
+    attributeNodes = {
+        @NamedAttributeNode(value = "kode"),
+        @NamedAttributeNode(value = "kodeverk"),
+        @NamedAttributeNode(value = "offisiellKode"),
+        @NamedAttributeNode(value = "beskrivelse"),
+        @NamedAttributeNode(value = "ekstraData"),
+        @NamedAttributeNode(value = "kodelisteNavnI18NList", subgraph = "kodelistNavn")
+    },
+    subgraphs = {
+        @NamedSubgraph(
+            name = "kodelistNavn",
+            attributeNodes = {
+                @NamedAttributeNode(value = "id"),
+                @NamedAttributeNode(value = "kodeliste"),
+                @NamedAttributeNode(value = "navn"),
+                @NamedAttributeNode(value = "språk")
+            }
+        )
+    }
+)
 @MappedSuperclass
 @Table(name = "KODELISTE")
 @DiscriminatorColumn(name = "kodeverk")
@@ -108,7 +133,7 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
 
     @DiffIgnore
     @JsonBackReference
-    @BatchSize(size = 50)
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "kodeliste", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private List<KodelisteNavnI18N> kodelisteNavnI18NList;
 

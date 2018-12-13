@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -197,8 +198,9 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
             "WHERE kl.kodeverk IN (:kodeverk) " +
             "AND kl.kode != '-'", Kodeliste.class);
         query.setParameter("kodeverk", kodeverk);
-
+        EntityGraph entityGraph = entityManager.getEntityGraph("KodelistMedNavn");
         return query.setHint(QueryHints.HINT_READONLY, "true")
+            .setHint("javax.persistence.fetchgraph", entityGraph)
             .getResultStream()
             .peek(it -> entityManager.detach(it))
             .collect(Collectors.groupingBy(en -> en.getClass().getSimpleName()));
