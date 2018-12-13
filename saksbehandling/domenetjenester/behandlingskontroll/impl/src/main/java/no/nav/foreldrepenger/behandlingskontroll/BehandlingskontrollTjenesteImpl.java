@@ -105,6 +105,29 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         }
     }
 
+    private static void postconditionUtfallLagret(Long behandlingId, StegTilstand tilstand, BehandlingStegUtfall utfall, BehandlingModell modell) {
+        if (utfall == null) {
+            if (tilstand != null && erIkkeSisteSteg(tilstand, modell)) {
+                throw new IllegalStateException("Fant tilstand " + tilstand + ", men har utfall null, på behandlingId=" + behandlingId);
+            }
+        } else {
+            if (tilstand == null) {
+                throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand null, på behandlingId=" + behandlingId);
+            } else {
+                if (Objects.equals(tilstand.getStegType(), utfall.getStegType()) && Objects.equals(tilstand.getStatus(), utfall.getStatus())) {
+                    // OK
+                } else {
+                    throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand " + tilstand + ", på behandlingId=" + behandlingId);
+                }
+            }
+
+        }
+    }
+
+    private static boolean erIkkeSisteSteg(StegTilstand tilstand, BehandlingModell modell) {
+        return modell.finnNesteSteg(tilstand.getStegType()) != null;
+    }
+
     @Override
     public StegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst) {
         var behandling = hentBehandling(kontekst);
@@ -118,7 +141,8 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         // post-condition sjekk tilstand oppdatert
         var tilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
         var stegTilstand = StegTilstand.fra(tilstand).orElse(null);
-        postconditionUtfallLagret(behandlingId, stegTilstand, utfall);
+        BehandlingModell modell = behandlingModellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
+        postconditionUtfallLagret(behandlingId, stegTilstand, utfall, modell);
 
         return stegTilstand;
     }
@@ -591,7 +615,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     }
 
     protected void fireEventBehandlingStatus(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> forrigeTilstand,
-                                                   Optional<StegTilstand> nyTilstand) {
+                                             Optional<StegTilstand> nyTilstand) {
 
         BehandlingStatus gammelStatus = forrigeTilstand.map(StegTilstand::getStegType).map(BehandlingStegType::getDefinertBehandlingStatus).orElse(null);
         BehandlingStatus nyStatus = nyTilstand.map(StegTilstand::getStegType).map(BehandlingStegType::getDefinertBehandlingStatus).orElse(null);
@@ -777,24 +801,5 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         builder.build(historikkinnslag);
         historikkinnslag.setAktør(aktør);
         historikkRepository.lagre(historikkinnslag);
-    }
-
-    private static void postconditionUtfallLagret(Long behandlingId, StegTilstand tilstand, BehandlingStegUtfall utfall) {
-        if (utfall == null) {
-            if (tilstand != null) {
-                throw new IllegalStateException("Fant tilstand " + tilstand + ", men har utfall null, på behandlingId=" + behandlingId);
-            }
-        } else {
-            if (tilstand == null) {
-                throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand null, på behandlingId=" + behandlingId);
-            } else {
-                if (Objects.equals(tilstand.getStegType(), utfall.getStegType()) && Objects.equals(tilstand.getStatus(), utfall.getStatus())) {
-                    // OK
-                } else {
-                    throw new IllegalStateException("Fant utfall " + utfall + ", men har lagret tilstand " + tilstand + ", på behandlingId=" + behandlingId);
-                }
-            }
-
-        }
     }
 }
