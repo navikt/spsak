@@ -74,13 +74,13 @@ class SykepengesøknadTest extends SpsakTestBase {
         final Long saksnummer = fordel.opprettSakKnyttetTilJournalpostMenIkkeAndreVeien(journalpostId, "ab0061", aktørId);
 
         var sykepengesøknadWrapper = new SykepengesøknadWrapper(journalpostId, aktørId, saksnummer.toString(),
-                Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))), søknadJson.length());
+            Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))), søknadJson.length());
 
         System.out.println("Opprettet sak: " + saksnummer);
 
         producer.sendSynkront("sykepengesoeknad",
-                testscenario.getPersonopplysninger().getSøkerAktørIdent(),
-                new JsonMapper().lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
+            testscenario.getPersonopplysninger().getSøkerAktørIdent(),
+            new JsonMapper().lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
     }
 
     @Test
@@ -97,9 +97,9 @@ class SykepengesøknadTest extends SpsakTestBase {
 
     @Test
     public void scenario_50() throws Exception {
-        TestscenarioDto testscenario = opprettScenario("50");
-        final LocalDate sykFom = LocalDate.now().minusMonths(1);
-        final LocalDate sykTom = LocalDate.now().minusDays(1);
+        TestscenarioDto testscenario = opprettScenario("40");
+        final LocalDate sykFom = LocalDate.now().minusMonths(2);
+        final LocalDate sykTom = LocalDate.now().minusMonths(1).minusDays(1);
         List<FraværsPeriode> fravær = List.of(new FraværsPeriode(sykFom.plusDays(7), sykFom.plusDays(8), FraværType.UTENLANDSOPPHOLD));
         List<KorrigertArbeidstidPeriode> korrigertArbeidstid = List.of(new KorrigertArbeidstidPeriode(sykFom, sykTom, 100, 0, 0));
         List<EgenmeldingPeriode> egenmeldinger = List.of(new EgenmeldingPeriode(sykFom, sykFom.plusDays(2)));
@@ -109,7 +109,7 @@ class SykepengesøknadTest extends SpsakTestBase {
 
     @Test
     public void scenario_50_søkt_for_seint() throws Exception {
-        TestscenarioDto testscenario = opprettScenario("50");
+        TestscenarioDto testscenario = opprettScenario("40");
         final LocalDate sykFom = LocalDate.now().minusMonths(6);
         final LocalDate sykTom = LocalDate.now().minusMonths(5).minusDays(1);
         List<FraværsPeriode> fravær = List.of(new FraværsPeriode(sykFom.plusDays(7), sykFom.plusDays(8), FraværType.UTENLANDSOPPHOLD));
@@ -125,11 +125,11 @@ class SykepengesøknadTest extends SpsakTestBase {
         Long saksnummer = null;
 
         Set<String> arbeidsgivere = testscenario.getScenariodata()
-                .getArbeidsforholdModell()
-                .getArbeidsforhold()
-                .stream()
-                .map(Arbeidsforhold::getArbeidsgiverOrgnr)
-                .collect(Collectors.toSet());
+            .getArbeidsforholdModell()
+            .getArbeidsforhold()
+            .stream()
+            .map(Arbeidsforhold::getArbeidsgiverOrgnr)
+            .collect(Collectors.toSet());
         for (String arbeidsgiver : arbeidsgivere) {
 
             final String søknadId = UUID.randomUUID().toString();
@@ -152,11 +152,11 @@ class SykepengesøknadTest extends SpsakTestBase {
                 System.out.println("Opprettet sak: " + saksnummer);
             }
             var sykepengesøknadWrapper = new SykepengesøknadWrapper(journalpostId, aktørId, saksnummer.toString(),
-                    Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))), søknadJson.length());
+                Base64.getEncoder().encodeToString(søknadJson.getBytes(Charset.forName("UTF-8"))), søknadJson.length());
 
             producer.sendSynkront("sykepengesoeknad",
-                    testscenario.getPersonopplysninger().getSøkerAktørIdent(),
-                    jsonMapper.lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
+                testscenario.getPersonopplysninger().getSøkerAktørIdent(),
+                jsonMapper.lagObjectMapper().writeValueAsString(sykepengesøknadWrapper));
         }
 
         List<InntektsmeldingBuilder> inntektsmeldinger = makeInntektsmeldingFromTestscenario(testscenario, LocalDate.now());
@@ -169,20 +169,20 @@ class SykepengesøknadTest extends SpsakTestBase {
         inntektsmelding.setRefusjon(InntektsmeldingBuilder.createRefusjon(new BigDecimal(beloep), null, null));
 
         inntektsmelding.setSykepengerIArbeidsgiverperioden(
-                InntektsmeldingBuilder.createSykepengerIArbeidsgiverperioden(
-                        new BigDecimal(beloep / 31 * 16),
-                        Collections.singletonList(InntektsmeldingBuilder.createPeriode(LocalDate.now(), LocalDate.now().plusDays(16))),
-                        null) //request.getInntektsmeldingSykepengerIArbeidsgiverperiodenDTO().getBegrunnelseForReduksjon()
+            InntektsmeldingBuilder.createSykepengerIArbeidsgiverperioden(
+                new BigDecimal(beloep / 31 * 16),
+                Collections.singletonList(InntektsmeldingBuilder.createPeriode(LocalDate.now(), LocalDate.now().plusDays(16))),
+                null) //request.getInntektsmeldingSykepengerIArbeidsgiverperiodenDTO().getBegrunnelseForReduksjon()
         );
         final String journalpostIdIm = fordel.journalførInnektsmelding(inntektsmelding, testscenario, saksnummer);
         String xml = inntektsmelding.createInntektesmeldingXML();
         var inntektsmeldingWrapper = new InntektsmeldingWrapper(journalpostIdIm, aktørId, saksnummer,
-                Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))), xml.length());
+            Base64.getEncoder().encodeToString(xml.getBytes(Charset.forName("UTF-8"))), xml.length());
 
         String json = jsonMapper.lagObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(inntektsmeldingWrapper);
         producer.sendSynkront("inntektsmelding",
-                aktørId,
-                json);
+            aktørId,
+            json);
     }
 
 }
