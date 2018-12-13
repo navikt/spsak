@@ -36,6 +36,7 @@ import no.nav.foreldrepenger.fpmock2.server.rest.IsAliveImpl;
 import no.nav.foreldrepenger.fpmock2.server.rest.IsReadyImpl;
 import no.nav.foreldrepenger.fpmock2.server.rest.Oauth2RestService;
 import no.nav.foreldrepenger.fpmock2.server.rest.PdpRestTjeneste;
+import no.nav.infotrygdfeed.InfotrygdfeedMock;
 import no.nav.sigrun.SigrunMock;
 
 public class ApplicationConfig extends Application {
@@ -45,12 +46,23 @@ public class ApplicationConfig extends Application {
     public ApplicationConfig() {
         BeanConfig beanConfig = new BeanConfig();
         beanConfig.setVersion("1.0");
-        beanConfig.setSchemes(new String[] { "https", "http" });
+        beanConfig.setSchemes(new String[]{"https", "http"});
         beanConfig.setBasePath(API_URI);
         beanConfig.setResourcePackage("no.nav");
         beanConfig.setTitle("VLMock2 - Virtualiserte Tjenester");
         beanConfig.setDescription("REST grensesnitt for VTP.");
         beanConfig.setScan(true);
+    }
+
+    public static String getFullURL(HttpServletRequest request) {
+        StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
+        String queryString = request.getQueryString();
+
+        if (queryString == null) {
+            return requestURL.toString();
+        } else {
+            return requestURL.append('?').append(queryString).toString();
+        }
     }
 
     @Override
@@ -63,6 +75,7 @@ public class ApplicationConfig extends Application {
         classes.add(TestscenarioRestTjeneste.class);
         classes.add(JournalforingRestTjeneste.class);
         classes.add(SakRestTjeneste.class);
+        classes.add(InfotrygdfeedMock.class);
 
         // tester
         classes.add(AutotestRestService.class);
@@ -70,14 +83,14 @@ public class ApplicationConfig extends Application {
         // tekniske ting
         classes.add(Oauth2RestService.class);
         classes.add(PdpRestTjeneste.class);
-        
+
         classes.add(io.swagger.jaxrs.listing.ApiListingResource.class);
         classes.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
         classes.add(IsAliveImpl.class);
         classes.add(IsReadyImpl.class);
         classes.add(JacksonConfigResolver.class);
         classes.add(MyExceptionMapper.class);
-        
+
 
         return classes;
     }
@@ -102,14 +115,15 @@ public class ApplicationConfig extends Application {
 
     @Provider
     public static class MyExceptionMapper implements ExceptionMapper<NotFoundException> {
-        
+
         private static final Logger log = LoggerFactory.getLogger(MyExceptionMapper.class);
 
-        @Context HttpServletRequest req; 
+        @Context
+        HttpServletRequest req;
 
         @Override
         public Response toResponse(NotFoundException exception) {
-            
+
             String fullUrl = getFullURL(req);
 
             Response response = exception.getResponse();
@@ -125,25 +139,13 @@ public class ApplicationConfig extends Application {
             try (BufferedReader br = req.getReader()) {
                 br.lines().forEach(line -> logMsg.append("\n\t").append(line));
             } catch (IOException e) {
-               log.error("Kunne ikke lese request", e);
-               return response;
+                log.error("Kunne ikke lese request", e);
+                return response;
             }
 
             String logMessage = logMsg.toString();
             log.warn(logMessage);
             return Response.status(Response.Status.NOT_FOUND).type(MediaType.TEXT_PLAIN).entity(logMessage).build();
-        }
-    }
-    
-
-    public static String getFullURL(HttpServletRequest request) {
-        StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
-        String queryString = request.getQueryString();
-
-        if (queryString == null) {
-            return requestURL.toString();
-        } else {
-            return requestURL.append('?').append(queryString).toString();
         }
     }
 }

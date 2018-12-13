@@ -59,6 +59,10 @@
 			<groupId>no.nav.vedtak.fpmock2</groupId>
 			<artifactId>sigrun-mock</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>no.nav.vedtak.fpmock2</groupId>
+            <artifactId>infotrygdfeed-mock</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>no.nav.vedtak.fpmock2</groupId>
 			<artifactId>kodeverk-mock</artifactId>
