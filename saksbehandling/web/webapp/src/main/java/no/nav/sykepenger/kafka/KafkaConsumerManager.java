@@ -32,17 +32,6 @@ public class KafkaConsumerManager implements AppServiceHandler {
         LOGGER.info("La til {} consumers", consumerList.size());
     }
 
-    // Får inn (indirekte) liste over alle beans av type KafkaConsumer
-    @Inject
-    public void initConsumers(@Any Instance<KafkaConsumer> consumersInstance) { // NOSONAR Joda, kalles av CDI
-        consumerList = new ArrayList<>();
-        for (KafkaConsumer consumer : consumersInstance) {
-            consumerList.add(consumer);
-        }
-        LOGGER.info("La til {} consumers", consumerList.size());
-    }
-
-
     @Override
     public void start() {
         LOGGER.debug("Starter consumere ...");
