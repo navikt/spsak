@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,10 +19,10 @@ import no.nav.foreldrepenger.behandlingslager.diff.DiffIgnore;
 public class KodelisteNavnI18N extends KodeverkBaseEntitet {
 
     @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_KODELISTE_NAVN_I18N")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_KODELISTE_NAVN_I18N")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumns({
         @JoinColumn(name = "kl_kodeverk", insertable = false, updatable = false),
         @JoinColumn(name = "kl_kode", insertable = false, updatable = false)

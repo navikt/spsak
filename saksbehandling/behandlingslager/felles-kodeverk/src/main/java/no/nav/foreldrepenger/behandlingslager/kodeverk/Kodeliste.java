@@ -26,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.BatchSize;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -46,21 +47,88 @@ import no.nav.vedtak.util.StringUtils;
 @Table(name = "KODELISTE")
 @DiscriminatorColumn(name = "kodeverk")
 public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparable<Kodeliste>, IndexKey {
-    
+
+    public static final Comparator<Kodeliste> NULLSAFE_KODELISTE_COMPARATOR = Comparator.nullsFirst(Kodeliste::compareTo);
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Kodeliste.class);
     private static final String I18N_MELDINGER_KEY = "i18n.Meldinger"; //$NON-NLS-1$
-
     /**
      * Default fil er samme som property key navn.
      */
     private static final String I18N_MELDINGER = System.getProperty(I18N_MELDINGER_KEY, I18N_MELDINGER_KEY);
     private static final String I18N_KEYFORMAT = "Kodeverk.%s.%s";//$NON-NLS-1$
-
     /**
      * @deprecated flytt alle navn til db konfigurasjon. KodeverkNavnI18N tabell.
      */
     @Deprecated
     private static ResourceBundle BUNDLE;
+    @DiffIgnore // gitt av path
+    @Id
+    @Column(name = "kodeverk", nullable = false, updatable = false, insertable = false)
+    private String kodeverk;
+    @DiffIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "kodeverk", referencedColumnName = "kode", insertable = false, updatable = false, nullable = false)
+    private Kodeverk kodeverkEntitet;
+    @ChangeTracked
+    @Id
+    @Column(name = "kode", nullable = false, updatable = false, insertable = false)
+    private String kode;
+    /**
+     * Kode bestemt av kodeeier. Kan avvike fra intern kodebruk
+     */
+    @DiffIgnore
+    @Column(name = "offisiell_kode", updatable = false, insertable = false)
+    private String offisiellKode;
+    @DiffIgnore
+    @Column(name = "beskrivelse", updatable = false, insertable = false)
+    private String beskrivelse;
+    /**
+     * Når koden gjelder fra og med.
+     */
+    @DiffIgnore
+    @Column(name = "gyldig_fom", nullable = false, updatable = false, insertable = false)
+    private LocalDate gyldigFraOgMed = LocalDate.of(2000, 01, 01); // NOSONAR
+    /**
+     * Når koden gjelder til og med.
+     */
+    @DiffIgnore
+    @Column(name = "gyldig_tom", nullable = false, updatable = false, insertable = false)
+    private LocalDate gyldigTilOgMed = LocalDate.of(9999, 12, 31); // NOSONAR
+    /**
+     * Denne skal kun inneholde JSON data. Struktur på Json er opp til konkret subklasse å tolke (bruk {@link #getJsonField(String)}
+     */
+    @DiffIgnore
+    @Column(name = "ekstra_data", updatable = false, insertable = false)
+    private String ekstraData;
+    /**
+     * Skal ikke leses fra databasen, kun slås opp.
+     */
+    @Transient
+    private String displayNavn;
+
+    @DiffIgnore
+    @JsonBackReference
+    @BatchSize(size = 50)
+    @OneToMany(mappedBy = "kodeliste", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    private List<KodelisteNavnI18N> kodelisteNavnI18NList;
+
+    protected Kodeliste() {
+        // proxy for hibernate
+    }
+
+    public Kodeliste(String kode, String kodeverk) {
+        Objects.requireNonNull(kode, "kode"); //$NON-NLS-1$
+        Objects.requireNonNull(kodeverk, "kodeverk"); //$NON-NLS-1$
+        this.kode = kode;
+        this.kodeverk = kodeverk;
+    }
+
+    public Kodeliste(String kode, String kodeverk, String offisiellKode, LocalDate fom, LocalDate tom) {
+        this(kode, kodeverk);
+        this.offisiellKode = offisiellKode;
+        this.gyldigFraOgMed = fom;
+        this.gyldigTilOgMed = tom;
+    }
 
     /**
      * @deprecated flytt alle navn til db konfigurasjon. KodeverkNavnI18N tabell.
@@ -84,80 +152,20 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
         return BUNDLE;
     }
 
-    public static final Comparator<Kodeliste> NULLSAFE_KODELISTE_COMPARATOR = Comparator.nullsFirst(Kodeliste::compareTo);
-
-    @DiffIgnore // gitt av path
-    @Id
-    @Column(name = "kodeverk", nullable = false, updatable = false, insertable = false)
-    private String kodeverk;
-
-    @DiffIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "kodeverk", referencedColumnName = "kode", insertable = false, updatable = false, nullable = false)
-    private Kodeverk kodeverkEntitet;
-
-    @ChangeTracked
-    @Id
-    @Column(name = "kode", nullable = false, updatable = false, insertable = false)
-    private String kode;
-
-    /**
-     * Kode bestemt av kodeeier. Kan avvike fra intern kodebruk
-     */
-    @DiffIgnore
-    @Column(name = "offisiell_kode", updatable = false, insertable = false)
-    private String offisiellKode;
-
-    @DiffIgnore
-    @Column(name = "beskrivelse", updatable = false, insertable = false)
-    private String beskrivelse;
-
-    /**
-     * Når koden gjelder fra og med.
-     */
-    @DiffIgnore
-    @Column(name = "gyldig_fom", nullable = false, updatable = false, insertable = false)
-    private LocalDate gyldigFraOgMed = LocalDate.of(2000, 01, 01); // NOSONAR
-
-    /**
-     * Når koden gjelder til og med.
-     */
-    @DiffIgnore
-    @Column(name = "gyldig_tom", nullable = false, updatable = false, insertable = false)
-    private LocalDate gyldigTilOgMed = LocalDate.of(9999, 12, 31); // NOSONAR
-
-    /** Denne skal kun inneholde JSON data. Struktur på Json er opp til konkret subklasse å tolke (bruk {@link #getJsonField(String)} */
-    @DiffIgnore
-    @Column(name = "ekstra_data", updatable = false, insertable = false)
-    private String ekstraData;
-
-    /**
-     * Skal ikke leses fra databasen, kun slås opp.
-     */
-    @Transient
-    private String displayNavn;
-
-    @DiffIgnore
-    @JsonBackReference
-    @OneToMany(mappedBy = "kodeliste", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    private List<KodelisteNavnI18N> kodelisteNavnI18NList;
-
-    protected Kodeliste() {
-        // proxy for hibernate
+    static final String hentLoggedInBrukerSpråk() {
+        return "NB"; // TODO(HUMLE): må utvidere til å finne språk til bruker som er logged inn.
     }
 
-    public Kodeliste(String kode, String kodeverk) {
-        Objects.requireNonNull(kode, "kode"); //$NON-NLS-1$
-        Objects.requireNonNull(kodeverk, "kodeverk"); //$NON-NLS-1$
-        this.kode = kode;
-        this.kodeverk = kodeverk;
+    public static String getI18nMeldingerKey() {
+        return I18N_MELDINGER_KEY;
     }
 
-    public Kodeliste(String kode, String kodeverk, String offisiellKode, LocalDate fom, LocalDate tom) {
-        this(kode, kodeverk);
-        this.offisiellKode = offisiellKode;
-        this.gyldigFraOgMed = fom;
-        this.gyldigTilOgMed = tom;
+    public static List<String> kodeVerdier(Kodeliste... entries) {
+        return kodeVerdier(Arrays.asList(entries));
+    }
+
+    public static List<String> kodeVerdier(Collection<? extends Kodeliste> entries) {
+        return entries.stream().map(k -> k.getKode()).collect(Collectors.toList());
     }
 
     List<KodelisteNavnI18N> getKodelisteNavnI18NList() {
@@ -213,14 +221,6 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
             }
         }
         return displayNavn;
-    }
-
-    static final String hentLoggedInBrukerSpråk() {
-        return "NB"; // TODO(HUMLE): må utvidere til å finne språk til bruker som er logged inn.
-    }
-
-    public static String getI18nMeldingerKey() {
-        return I18N_MELDINGER_KEY;
     }
 
     public LocalDate getGyldigFraOgMed() {
@@ -301,13 +301,5 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
             }
         }
         return kodeverk;
-    }
-
-    public static List<String> kodeVerdier(Kodeliste... entries) {
-        return kodeVerdier(Arrays.asList(entries));
-    }
-
-    public static List<String> kodeVerdier(Collection<? extends Kodeliste> entries) {
-        return entries.stream().map(k -> k.getKode()).collect(Collectors.toList());
     }
 }

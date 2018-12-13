@@ -194,8 +194,8 @@ public class KodeverkTestHelper {
         }
 
         @Override
-        public Map<String, List<Kodeliste>> hentAlle(List<Class<? extends Kodeliste>> cls) {
-            return null;
+        public Map<String, List<Kodeliste>> hentAlle(List<String> cls) {
+            throw new UnsupportedOperationException();
         }
 
         @Override

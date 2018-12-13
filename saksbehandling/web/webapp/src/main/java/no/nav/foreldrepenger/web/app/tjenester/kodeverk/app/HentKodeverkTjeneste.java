@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.web.app.tjenester.kodeverk.app;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +34,7 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 
 public interface HentKodeverkTjeneste {
 
-    List<Class<? extends Kodeliste>> KODEVERK_SOM_BRUKES_PÅ_KLIENT = Collections.unmodifiableList(Arrays.asList(
+    List<Class<? extends Kodeliste>> KODEVERK_SOM_BRUKES_PÅ_KLIENT = List.of(
         RelatertYtelseTilstand.class,
         FagsakStatus.class,
         RelatertYtelseType.class,
@@ -63,7 +61,36 @@ public interface HentKodeverkTjeneste {
         SivilstandType.class,
         FaktaOmBeregningTilfelle.class,
         SkjermlenkeType.class
-    ));
+    );
+
+    List<String> KODEVERK_SOM_BRUKES_PÅ_KLIENT_DISCRIMINATORS = List.of(
+        RelatertYtelseTilstand.DISCRIMINATOR,
+        FagsakStatus.DISCRIMINATOR,
+        RelatertYtelseType.DISCRIMINATOR,
+        BehandlingÅrsakType.DISCRIMINATOR,
+        HistorikkBegrunnelseType.DISCRIMINATOR,
+        OppgaveÅrsak.DISCRIMINATOR,
+        MedlemskapManuellVurderingType.DISCRIMINATOR,
+        VergeType.DISCRIMINATOR,
+        VirksomhetType.DISCRIMINATOR,
+        Landkoder.DISCRIMINATOR,
+        PersonstatusType.DISCRIMINATOR,
+        FagsakYtelseType.DISCRIMINATOR,
+        Venteårsak.DISCRIMINATOR,
+        BehandlingType.DISCRIMINATOR,
+        ArbeidType.DISCRIMINATOR,
+        OpptjeningAktivitetType.DISCRIMINATOR,
+        Inntektskategori.DISCRIMINATOR,
+        DokumentTypeId.DISCRIMINATOR,
+        BeregningsgrunnlagAndeltype.DISCRIMINATOR,
+        AktivitetStatus.DISCRIMINATOR,
+        Arbeidskategori.DISCRIMINATOR,
+        Fagsystem.DISCRIMINATOR,
+        Region.DISCRIMINATOR,
+        SivilstandType.DISCRIMINATOR,
+        FaktaOmBeregningTilfelle.DISCRIMINATOR,
+        SkjermlenkeType.DISCRIMINATOR
+    );
 
     Map<String, List<Kodeliste>> hentGruppertKodeliste();
 

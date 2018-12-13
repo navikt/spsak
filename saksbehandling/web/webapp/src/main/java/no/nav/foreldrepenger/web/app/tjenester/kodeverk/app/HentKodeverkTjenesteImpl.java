@@ -38,7 +38,7 @@ class HentKodeverkTjenesteImpl implements HentKodeverkTjeneste {
 
     @Override
     public Map<String, List<Kodeliste>> hentGruppertKodeliste() {
-        Map<String, List<Kodeliste>> kodelistMap = kodeverkRepository.hentAlle(KODEVERK_SOM_BRUKES_PÅ_KLIENT);
+        Map<String, List<Kodeliste>> kodelistMap = kodeverkRepository.hentAlle(KODEVERK_SOM_BRUKES_PÅ_KLIENT_DISCRIMINATORS);
         Optional.ofNullable(kodelistMap.get(ArbeidType.class.getSimpleName()))
             .ifPresent(it -> it.removeIf(at -> !((ArbeidType) at).erAnnenOpptjening()));
         Optional.ofNullable(kodelistMap.get(MedlemskapManuellVurderingType.class.getSimpleName()))
