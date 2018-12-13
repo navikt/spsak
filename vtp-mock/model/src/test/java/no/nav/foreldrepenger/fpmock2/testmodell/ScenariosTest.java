@@ -41,7 +41,6 @@ public class ScenariosTest {
             Personopplysninger pers = testScenario.getPersonopplysninger();
             assertThat(pers).isNotNull();
             SøkerModell søker = pers.getSøker();
-            assertThat(pers.getFamilierelasjoner()).isNotEmpty();
             assertThat(søker.getGeografiskTilknytning()).isNotNull();
 
             if (sc.getTemplateNavn().equals(TEST_SCENARIO_NAVN)) {
