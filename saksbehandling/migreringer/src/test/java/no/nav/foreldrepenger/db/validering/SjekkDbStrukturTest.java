@@ -186,24 +186,26 @@ public class SjekkDbStrukturTest {
     }
 
     @Test
-    @Ignore // TODO
     public void skal_ha_KL_prefiks_for_kodeverk_kolonne_i_source_tabell() throws Exception {
-        String sql = "Select cola.table_name, cola.column_name From All_Constraints Uc  " +
-            "Inner Join All_Cons_Columns Cola On Cola.Constraint_Name=Uc.Constraint_Name And Cola.Owner=Uc.Owner " +
-            "Inner Join All_Cons_Columns Colb On Colb.Constraint_Name=Uc.r_Constraint_Name And Colb.Owner=Uc.Owner " +
-            " " +
-            "Where Uc.Constraint_Type='R' And Uc.Owner= upper(?) " +
-            "And Colb.Column_Name='KODEVERK' And Colb.Table_Name='KODELISTE' " +
-            "And Colb.Position=Cola.Position " +
-            "And Cola.Table_Name Not Like 'KODELI%' " +
-            "and cola.column_name not like 'KL_%' ";
+        String sql = "select t1.relname as tabname, cs1.column_name as tabcol from\n" +
+            "    pg_class t1, pg_class t2, information_schema.columns cs1, information_schema.columns cs2,\n" +
+            "    lateral (select c.conname, c.conrelid, unnest(c.conkey) as conkeypos, c.confrelid, unnest(c.confkey) as confkeypos from pg_constraint c where c.contype = 'f') as fk\n" +
+            "where fk.conrelid = t1.oid and fk.confrelid = t2.oid\n" +
+            "  and t1.relname = cs1.table_name\n" +
+            "  and t2.relname = cs2.table_name\n" +
+            "  and conkeypos = cs1.ordinal_position\n" +
+            "  and confkeypos = cs2.ordinal_position\n" +
+            "  and t2.relname = 'kodeliste'\n" +
+            "  and cs2.column_name = 'kodeverk'\n" +
+            "  and cs1.column_name not like 'kl_%'\n" +
+            "  and cs1.table_schema = current_schema\n" +
+            "  and cs2.table_schema = current_schema\n" +
+            "  and t1.relname not like 'kodeli%'";
 
         List<String> avvik = new ArrayList<>();
         StringBuilder tekst = new StringBuilder();
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-            stmt.setString(1, schema);
 
             try (ResultSet rs = stmt.executeQuery()) {
 
