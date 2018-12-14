@@ -7,7 +7,7 @@ def build(String mydir) {
     try {
 		dir(mydir) {
 			stage ('Build: ' + mydir) {
-				sh 'mvn -s ../mvn-settings.xml install -DskipTests' 
+				sh 'mvn -s ../mvn-settings.xml install' 
 			}
 		}
 		
