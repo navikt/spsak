@@ -1,19 +1,23 @@
 package no.nav.vedtak.sikkerhet.oidc;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.interfaces.RSAPublicKey;
+
 import org.jose4j.base64url.Base64Url;
 import org.jose4j.jwk.PublicJsonWebKey;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.lang.JoseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.interfaces.RSAPublicKey;
 
 public class KeyStoreTool {
 
@@ -26,10 +30,9 @@ public class KeyStoreTool {
         PublicKey myPublicKey;
         PrivateKey myPrivateKey;
         char[] keystorePassword = getKeyStoreAndKeyPassword();
-        String keystorePath = getDefaultKeyStorePath();
         String keyAndCertAlias = getKeyAndCertAlias();
 
-        try (FileInputStream keystoreFile = new FileInputStream(new File(keystorePath))) {
+        try (InputStream keystoreFile = KeyStoreTool.class.getResourceAsStream("/test-keystore.jks")) {
             KeyStore ks = KeyStore.getInstance("JKS");
             ks.load(keystoreFile, keystorePassword);
 
@@ -54,10 +57,6 @@ public class KeyStoreTool {
             throw new RuntimeException(e);
         }
 
-    }
-
-    public static String getDefaultKeyStorePath() {
-        return new File(System.getProperty("user.home")+"/spsak/keystore.jks").getAbsolutePath();
     }
 
     public static char[] getKeyStoreAndKeyPassword() {
