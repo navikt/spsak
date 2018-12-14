@@ -47,7 +47,8 @@ pipeline {
 					sh 'docker ps -f name=$DB_CONTAINER -q | xargs --no-run-if-empty docker container stop'
 					sh 'docker container ls -a -f name=$DB_CONTAINER -q | xargs -r docker container rm'
 					sh 'docker pull $POSTGRES_IMAGE'
-					sh 'docker run  -v "$(pwd)":/jenkins-workdir --name $DB_CONTAINER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_USER=$POSTGRES_USER -d $POSTGRES_IMAGE'
+					sh 'docker run -p 5432:5432 -v "$(pwd)":/jenkins-workdir --name $DB_CONTAINER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_USER=$POSTGRES_USER -d $POSTGRES_IMAGE'
+					sh 'until docker exec $DB_CONTAINER psql -v ON_ERROR_STOP=1 --username $POSTGRES_USER -c "select 1"; do sleep 1; done'
 					sh 'docker exec $DB_CONTAINER sh /jenkins-workdir/docker/localdev/initdb.sh'
 				}
 			}
