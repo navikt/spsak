@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +15,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -35,14 +33,10 @@ import org.hibernate.jpa.QueryHints;
 
 import no.nav.vedtak.exception.TekniskException;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
-import no.nav.vedtak.util.LRUCache;
-
 
 @ApplicationScoped
 public class KodeverkRepositoryImpl implements KodeverkRepository {
 
-    private static final long CACHE_ELEMENT_LIVE_TIME = TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES);
-    private LRUCache<String, Kodeliste> kodelisteCache = new LRUCache<>(5000, CACHE_ELEMENT_LIVE_TIME);
     private EntityManager entityManager;
     private KodeverkTabellRepositoryImpl kodeverkTabellRepository;
 
@@ -93,8 +87,10 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
     @Override
     public <V extends Kodeliste> Optional<V> finnOptional(Class<V> cls, String kode) {
         CriteriaQuery<V> criteria = createCriteria(cls, Collections.singletonList(kode));
+        EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
         List<V> list = entityManager.createQuery(criteria)
             .setHint(QueryHints.HINT_READONLY, "true")
+            .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
             .getResultList();
         if (list.isEmpty()) {
             return Optional.empty();
@@ -105,14 +101,7 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
 
     @Override
     public <V extends Kodeliste> V finn(Class<V> cls, String kode) {
-        final String cacheKey = cls.getName() + kode;
-        @SuppressWarnings("unchecked")
-        Optional<V> fraCache = Optional.ofNullable((V) kodelisteCache.get(cacheKey));
-        return fraCache.orElseGet(() -> {
-            V finnEM = finnFraEM(cls, kode);
-            kodelisteCache.put(cacheKey, finnEM);
-            return finnEM;
-        });
+        return finnFraEM(cls, kode);
     }
 
 
@@ -123,14 +112,7 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
 
     @Override
     public <V extends Kodeliste> V finnForKodeverkEiersKode(Class<V> cls, String offisiellKode) {
-        String cacheKey = cls.getName() + offisiellKode;
-        @SuppressWarnings("unchecked")
-        Optional<V> fraCache = Optional.ofNullable((V) kodelisteCache.get(cacheKey));
-        return fraCache.orElseGet(() -> {
-            V result = finnForKodeverkEiersKodeFraEM(cls, offisiellKode);
-            kodelisteCache.put(cacheKey, result);
-            return result;
-        });
+        return finnForKodeverkEiersKodeFraEM(cls, offisiellKode);
     }
 
     @Override
@@ -148,47 +130,24 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
 
     @Override
     public <V extends Kodeliste> List<V> finnForKodeverkEiersKoder(Class<V> cls, String... offisiellKoder) {
-        List<String> koderIkkeICache = new ArrayList<>();
-        List<V> result = new ArrayList<>();
+        List<String> koderIkkeICache = List.of(offisiellKoder);
         //Traverserer alle koder vi skal finne kodeverk for. Kodene som finnes i cache hentes derfra. De som ikke finnes i cache hentes fra DB.
-        Arrays.stream(offisiellKoder).forEach(kode -> {
-            //For hver kode
-            @SuppressWarnings("unchecked")
-            V kodeliste = (V) kodelisteCache.get(kode);
-            if (kodeliste == null) {
-                koderIkkeICache.add(kode);
-            } else {
-                result.add(kodeliste);
-            }
-        });
-        result.addAll(finnForKodeverkEiersKoderFraEm(cls, koderIkkeICache));
-        return result;
+        return finnForKodeverkEiersKoderFraEm(cls, koderIkkeICache);
     }
 
     @Override
     public <V extends Kodeliste> List<V> finnListe(Class<V> cls, List<String> koder) {
-        List<String> koderIkkeICache = new ArrayList<>();
-        List<V> result = new ArrayList<>();
-        koder.stream().forEach(kode -> {
-            //For hver kode
-            @SuppressWarnings("unchecked")
-            V kodeliste = (V) kodelisteCache.get(kode);
-            if (kodeliste == null) {
-                koderIkkeICache.add(kode);
-            } else {
-                result.add(kodeliste);
-            }
-        });
-        result.addAll(finnListeFraEm(cls, koderIkkeICache));
-        return result;
+        return finnListeFraEm(cls, koder);
     }
 
     @Override
     public <V extends Kodeliste> List<V> hentAlle(Class<V> cls) {
         CriteriaQuery<V> criteria = entityManager.getCriteriaBuilder().createQuery(cls);
         criteria.select(criteria.from(cls));
+        EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
         return detachKodeverk(entityManager.createQuery(criteria)
             .setHint(QueryHints.HINT_READONLY, "true")
+            .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
             .getResultList());
     }
 
@@ -198,9 +157,9 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
             "WHERE kl.kodeverk IN (:kodeverk) " +
             "AND kl.kode != '-'", Kodeliste.class);
         query.setParameter("kodeverk", kodeverk);
-        EntityGraph entityGraph = entityManager.getEntityGraph("KodelistMedNavn");
+        EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
         return query.setHint(QueryHints.HINT_READONLY, "true")
-            .setHint("javax.persistence.fetchgraph", entityGraph)
+            .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
             .getResultStream()
             .peek(it -> entityManager.detach(it))
             .collect(Collectors.groupingBy(en -> en.getClass().getSimpleName()));
@@ -267,8 +226,10 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
 
     private <V extends Kodeliste> List<V> finnListeFraEm(Class<V> cls, List<String> koder) {
         CriteriaQuery<V> criteria = createCriteria(cls, koder);
+        EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
         List<V> result = entityManager.createQuery(criteria)
             .setHint(QueryHints.HINT_READONLY, "true")
+            .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
             .getResultList();
         return detachKodeverk(result);
     }
@@ -276,8 +237,10 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
     private <V extends Kodeliste> List<V> finnForKodeverkEiersKoderFraEm(Class<V> cls, List<String> offisiellKoder) {
         try {
             CriteriaQuery<V> criteria = createCriteria(cls, "offisiellKode", offisiellKoder);
+            EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
             List<V> list = entityManager.createQuery(criteria)
                 .setHint(QueryHints.HINT_READONLY, "true")
+                .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
                 .getResultList();
             return detachKodeverk(list);
         } catch (NoResultException e) {
@@ -289,8 +252,10 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
     private <V extends Kodeliste> V finnFraEM(Class<V> cls, String kode) {
         CriteriaQuery<V> criteria = createCriteria(cls, Collections.singletonList(kode));
         try {
+            EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
             V result = entityManager.createQuery(criteria)
                 .setHint(QueryHints.HINT_READONLY, "true")
+                .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
                 .getSingleResult();
             return detachKodeverk(result);
         } catch (NoResultException e) {
@@ -301,8 +266,10 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
     private <V extends Kodeliste> V finnForKodeverkEiersKodeFraEM(Class<V> cls, String offisiellKode) {
         CriteriaQuery<V> criteria = createCriteria(cls, "offisiellKode", Collections.singletonList(offisiellKode));
         try {
+            EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
             V result = entityManager.createQuery(criteria)
                 .setHint(QueryHints.HINT_READONLY, "true")
+                .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
                 .getSingleResult();
             return detachKodeverk(result);
         } catch (NoResultException e) {

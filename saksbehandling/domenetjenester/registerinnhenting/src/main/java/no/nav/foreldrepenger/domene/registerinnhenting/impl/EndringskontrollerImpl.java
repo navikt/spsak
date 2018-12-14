@@ -21,7 +21,6 @@ import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
@@ -29,12 +28,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaTjenesteOrkestrerer;
 import no.nav.foreldrepenger.domene.kontrollerfakta.StartpunktTjeneste;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.Endringskontroller;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterinnhentingHistorikkinnslagTjeneste;
 
@@ -49,7 +46,6 @@ public class EndringskontrollerImpl implements Endringskontroller {
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private AksjonspunktRepository aksjonspunktRepository;
     private StartpunktTjeneste startpunktTjeneste;
-    private OppgaveTjeneste oppgaveTjeneste;
     private RegisterinnhentingHistorikkinnslagTjeneste historikkinnslagTjeneste;
     private KontrollerFaktaTjenesteOrkestrerer kontrollerFaktaTjenesteOrkestrerer;
 
@@ -61,13 +57,11 @@ public class EndringskontrollerImpl implements Endringskontroller {
     public EndringskontrollerImpl(BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                   BehandlingRepositoryProvider provider,
                                   StartpunktTjeneste startpunktTjeneste,
-                                  OppgaveTjeneste oppgaveTjeneste,
                                   RegisterinnhentingHistorikkinnslagTjeneste historikkinnslagTjeneste,
                                   KontrollerFaktaTjenesteOrkestrerer kontrollerFaktaTjenesteOrkestrerer) {
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.aksjonspunktRepository = provider.getAksjonspunktRepository();
         this.startpunktTjeneste = startpunktTjeneste;
-        this.oppgaveTjeneste = oppgaveTjeneste;
         this.historikkinnslagTjeneste = historikkinnslagTjeneste;
         this.kontrollerFaktaTjenesteOrkestrerer = kontrollerFaktaTjenesteOrkestrerer;
     }
@@ -105,8 +99,6 @@ public class EndringskontrollerImpl implements Endringskontroller {
 
     @Override
     public void spolTilStartpunkt(Behandling behandling, EndringsresultatDiff endringsresultat) {
-        avsluttOppgaverIGsak(behandling);
-
         StartpunktType startpunkt = startpunktTjeneste.utledStartpunktForDiffBehandlingsgrunnlag(behandling, endringsresultat);
         if (startpunkt.equals(StartpunktType.UDEFINERT)) {
             return; // Ingen detekterte endringer - ingen tilbakespoling
@@ -215,13 +207,6 @@ public class EndringskontrollerImpl implements Endringskontroller {
         });
 
         return reåpnedeAksjonspunkter;
-    }
-
-    private void avsluttOppgaverIGsak(Behandling behandling) {
-        boolean behandlingIFatteVedtak = BehandlingStatus.FATTER_VEDTAK.equals(behandling.getStatus());
-        if (behandlingIFatteVedtak) {
-            oppgaveTjeneste.avslutt(behandling.getId(), OppgaveÅrsak.GODKJENNE_VEDTAK);
-        }
     }
 
     private boolean erPåVent(Behandling behandling) {

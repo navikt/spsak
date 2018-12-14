@@ -17,7 +17,6 @@ import javax.persistence.TypedQuery;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
-import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 import no.nav.vedtak.util.Tuple;
 
@@ -35,13 +34,6 @@ public class VilkårKodeverkRepositoryImpl implements VilkårKodeverkRepository 
     public VilkårKodeverkRepositoryImpl(@VLPersistenceUnit EntityManager entityManager, KodeverkRepository kodeverkRepository) {
         this.entityManager = entityManager;
         this.kodeverkRepository = kodeverkRepository;
-    }
-
-    public VilkårKodeverkRepositoryImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        if (entityManager != null) {
-            this.kodeverkRepository = new KodeverkRepositoryImpl(entityManager);
-        }
     }
 
     @Override
@@ -99,7 +91,7 @@ public class VilkårKodeverkRepositoryImpl implements VilkårKodeverkRepository 
         List<Object[]> resultatListe = query.getResultList();
 
         Map<VilkårType, List<String>> avslagsårsakKoderGruppertPåVilkårType = resultatListe.stream()
-                .map(resultat -> new Tuple<VilkårType, String>(new VilkårType((String) resultat[0]), (String) resultat[1])) // NOSONAR
+                .map(resultat -> new Tuple<>(new VilkårType((String) resultat[0]), (String) resultat[1])) // NOSONAR
                 .distinct()
                 .collect(Collectors.groupingBy(Tuple::getElement1, Collectors.mapping(
                         Tuple::getElement2, Collectors.toList())));

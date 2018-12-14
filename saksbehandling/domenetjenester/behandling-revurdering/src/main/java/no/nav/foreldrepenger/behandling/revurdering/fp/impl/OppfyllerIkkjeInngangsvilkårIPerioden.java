@@ -5,26 +5,26 @@ import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 
 class OppfyllerIkkjeInngangsvilkårIPerioden {
 
-    private OppfyllerIkkjeInngangsvilkårIPerioden() {}
+    private OppfyllerIkkjeInngangsvilkårIPerioden() {
+    }
 
-    public static boolean vurder(Optional<MedlemskapsvilkårPeriodeGrunnlag> grunnlagOpt, LocalDate endringsdato) {
+    public static boolean vurder(Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt, LocalDate endringsdato) {
         return !grunnlagOpt.isPresent() || harIkkjeOppfyltMedlemskapsvilkårPåEndringstidspunktet(grunnlagOpt.get(), endringsdato);
     }
 
-    private static boolean harIkkjeOppfyltMedlemskapsvilkårPåEndringstidspunktet(MedlemskapsvilkårPeriodeGrunnlag grunnlag, LocalDate endringsdato) {
+    private static boolean harIkkjeOppfyltMedlemskapsvilkårPåEndringstidspunktet(MedlemskapVilkårPeriodeGrunnlag grunnlag, LocalDate endringsdato) {
         return grunnlag.getMedlemskapsvilkårPeriode().getPerioder().stream()
             .anyMatch(periode -> overlapperMedDatoOgErIkkjeOppfylt(endringsdato, periode));
     }
 
     private static boolean overlapperMedDatoOgErIkkjeOppfylt(LocalDate endringsdato, MedlemskapsvilkårPerioder periode) {
-        return !periode.getFom()
-            .isAfter(endringsdato) &&
+        return endringsdato != null && !periode.getFom().isAfter(endringsdato) &&
             !periode.getTom().isBefore(endringsdato) &&
             !periode.getVilkårUtfall().equals(VilkårUtfallType.OPPFYLT);
     }

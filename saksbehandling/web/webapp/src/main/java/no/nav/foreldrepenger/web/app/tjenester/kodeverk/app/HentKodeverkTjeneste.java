@@ -21,7 +21,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapManuellVurderingType;
-import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
@@ -40,7 +39,6 @@ public interface HentKodeverkTjeneste {
         RelatertYtelseType.class,
         BehandlingÅrsakType.class,
         HistorikkBegrunnelseType.class,
-        OppgaveÅrsak.class,
         MedlemskapManuellVurderingType.class,
         VergeType.class,
         VirksomhetType.class,
@@ -69,7 +67,6 @@ public interface HentKodeverkTjeneste {
         RelatertYtelseType.DISCRIMINATOR,
         BehandlingÅrsakType.DISCRIMINATOR,
         HistorikkBegrunnelseType.DISCRIMINATOR,
-        OppgaveÅrsak.DISCRIMINATOR,
         MedlemskapManuellVurderingType.DISCRIMINATOR,
         VergeType.DISCRIMINATOR,
         VirksomhetType.DISCRIMINATOR,

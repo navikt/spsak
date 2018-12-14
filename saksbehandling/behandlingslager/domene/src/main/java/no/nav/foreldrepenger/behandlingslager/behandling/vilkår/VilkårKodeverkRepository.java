@@ -22,7 +22,7 @@ public interface VilkårKodeverkRepository extends BehandlingslagerRepository {
 
     List<Avslagsårsak> finnAvslagÅrsakListe(String vilkårType);
 
-    public Map<VilkårType, List<Avslagsårsak>> finnAvslagårsakerGruppertPåVilkårType();
+    Map<VilkårType, List<Avslagsårsak>> finnAvslagårsakerGruppertPåVilkårType();
 
     Optional<Avslagsårsak> finnEnesteAvslagÅrsak(String vilkårType);
 

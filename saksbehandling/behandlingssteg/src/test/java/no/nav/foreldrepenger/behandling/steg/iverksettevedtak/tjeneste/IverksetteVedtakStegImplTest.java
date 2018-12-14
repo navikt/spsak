@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.behandling.steg.iverksettevedtak.tjeneste;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,7 +23,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEventPubliserer
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.FellesTransisjoner;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
@@ -34,8 +32,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStat
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.AvsluttOppgaveTaskProperties;
 import no.nav.foreldrepenger.domene.vedtak.KanVedtaketIverksettesTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
@@ -57,9 +53,6 @@ public class IverksetteVedtakStegImplTest {
     private BehandlingRepository behandlingRepository;
 
     private Behandling behandling;
-
-    @Mock
-    private OppgaveTjeneste oppgaveTjeneste;
 
     @Mock
     private IverksetteVedtakHistorikkTjeneste iverksetteVedtakHistorikkTjeneste;
@@ -84,17 +77,9 @@ public class IverksetteVedtakStegImplTest {
         repositoryProvider = scenario.mockBehandlingRepositoryProvider();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
-        mockOpprettTaskAvsluttOppgave();
         iverksetteVedtakSteg = new IverksetteVedtakStegImpl(repositoryProvider, prosessTaskRepository,
-            behandlingVedtakEventPubliserer, oppgaveTjeneste, iverksetteVedtakHistorikkTjeneste, kanVedtaketIverksettesTjeneste);
+            behandlingVedtakEventPubliserer, iverksetteVedtakHistorikkTjeneste, kanVedtaketIverksettesTjeneste);
 
-    }
-
-    private void mockOpprettTaskAvsluttOppgave() {
-        ProsessTaskData prosessTaskData = new ProsessTaskData(AvsluttOppgaveTaskProperties.TASKTYPE);
-        prosessTaskData.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());
-        prosessTaskData.setOppgaveId("1001");
-        when(oppgaveTjeneste.opprettTaskAvsluttOppgave(any(Behandling.class), any(OppgaveÅrsak.class), anyBoolean())).thenReturn(Optional.of(prosessTaskData));
     }
 
     @Test

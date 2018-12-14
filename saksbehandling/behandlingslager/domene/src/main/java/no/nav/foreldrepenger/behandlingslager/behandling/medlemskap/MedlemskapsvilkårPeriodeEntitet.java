@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,22 +20,25 @@ import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 
 @Entity(name = "MedlemskapsvilkårPeriode")
 @Table(name = "MEDLEMSKAP_VILKAR_PERIODE")
-class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements MedlemskapsvilkårPeriode {
+public class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements MedlemskapsvilkårPeriode {
 
     @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_VILKAR_PERIODE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_VILKAR_PERIODE")
     private Long id;
 
     @OneToMany(mappedBy = "rot")
     @ChangeTracked
     private Set<MedlemskapsvilkårPerioderEntitet> perioder = new HashSet<>();
 
-    public MedlemskapsvilkårPeriodeEntitet() {
+    MedlemskapsvilkårPeriodeEntitet() {
         // For Hibernate
     }
 
-    MedlemskapsvilkårPeriodeEntitet(Set<? extends MedlemskapsvilkårPerioder> perioder) {
-        this.perioder = perioder.stream().map(m -> new MedlemskapsvilkårPerioderEntitet(m)).collect(Collectors.toSet());
+    private MedlemskapsvilkårPeriodeEntitet(MedlemskapsvilkårPeriodeEntitet kladd) {
+        perioder = kladd.getPerioder().stream()
+            .map(MedlemskapsvilkårPerioderEntitet::new)
+            .peek(pr -> pr.setRot(this))
+            .collect(Collectors.toSet());
     }
 
     @Override
@@ -58,7 +60,6 @@ class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements Medlemskap
         return Objects.hash(perioder);
     }
 
-
     MedlemskapsvilkårPerioderEntitet.Builder getBuilderFor(LocalDate vurderingsdato) {
         Optional<MedlemskapsvilkårPerioderEntitet> medlemOpt = perioder.stream()
             .filter(medlem -> vurderingsdato.equals(medlem.getVurderingsdato()))
@@ -67,6 +68,42 @@ class MedlemskapsvilkårPeriodeEntitet extends BaseEntitet implements Medlemskap
     }
 
     void leggTil(MedlemskapsvilkårPerioderEntitet entitet) {
+        entitet.setRot(this);
         perioder.add(entitet);
+    }
+
+    public static class Builder {
+        private MedlemskapsvilkårPeriodeEntitet kladd;
+
+        private Builder() {
+            this.kladd = new MedlemskapsvilkårPeriodeEntitet();
+        }
+
+        private Builder(MedlemskapsvilkårPeriodeEntitet kladd) {
+            this.kladd = new MedlemskapsvilkårPeriodeEntitet(kladd);
+        }
+
+        private static MedlemskapsvilkårPeriodeEntitet.Builder oppdatere(MedlemskapsvilkårPeriodeEntitet aggregat) {
+            return new MedlemskapsvilkårPeriodeEntitet.Builder(aggregat);
+        }
+
+        public static MedlemskapsvilkårPeriodeEntitet.Builder oppdatere(Optional<MedlemskapsvilkårPeriodeEntitet> aggregat) {
+            return aggregat.map(MedlemskapsvilkårPeriodeEntitet.Builder::oppdatere).orElseGet(MedlemskapsvilkårPeriodeEntitet.Builder::new);
+        }
+
+        public MedlemskapsvilkårPeriodeEntitet.Builder leggTil(MedlemskapsvilkårPerioderEntitet.Builder builder) {
+            if (!builder.erOppdatering()) {
+                kladd.leggTil(builder.build());
+            }
+            return this;
+        }
+
+        public MedlemskapsvilkårPerioderEntitet.Builder getBuilderForVurderingsdato(LocalDate vurderingsdato) {
+            return kladd.getBuilderFor(vurderingsdato);
+        }
+
+        public MedlemskapsvilkårPeriodeEntitet build() {
+            return kladd;
+        }
     }
 }

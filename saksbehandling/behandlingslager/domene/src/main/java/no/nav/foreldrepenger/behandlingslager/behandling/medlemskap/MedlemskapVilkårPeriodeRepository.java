@@ -1,10 +1,13 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.medlemskap;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
+import no.nav.vedtak.util.Tuple;
 
 /**
  * Dette er et Repository for håndtering av alle persistente endringer i en søkers perioder for medlemskapvilkår
@@ -18,13 +21,15 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallTy
  */
 public interface MedlemskapVilkårPeriodeRepository extends BehandlingslagerRepository {
 
-    Optional<MedlemskapsvilkårPeriodeGrunnlag> hentAggregatHvisEksisterer(Behandling behandling);
+    Optional<MedlemskapVilkårPeriodeGrunnlag> hentAggregatHvisEksisterer(Behandling behandling);
 
     void kopierGrunnlagFraEksisterendeBehandling(Behandling eksisterendeBehandling, Behandling nyBehandling);
 
-    MedlemskapsvilkårPeriodeGrunnlag.Builder hentBuilderFor(Behandling behandling);
+    MedlemskapVilkårPeriodeGrunnlagEntitet.Builder hentBuilderFor(Behandling behandling);
 
-    void lagreMedlemskapsvilkår(Behandling behandling, MedlemskapsvilkårPeriodeGrunnlag.Builder builder);
+    void lagreMedlemskapsvilkår(Behandling behandling, MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder);
 
-    VilkårUtfallType utledeVilkårStatus(Behandling behandling);
+    Tuple<VilkårUtfallType, VilkårUtfallMerknad> utledeVilkårStatus(Behandling behandling);
+
+    Optional<LocalDate> hentOpphørsdatoHvisEksisterer(Behandling behandling);
 }

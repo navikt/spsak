@@ -18,6 +18,7 @@ import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
@@ -27,7 +28,7 @@ import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements MedlemskapsvilkårPerioder, IndexKey {
 
     @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_VILKAR_PERIODER")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_VILKAR_PERIODER")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -46,22 +47,32 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
     @ChangeTracked
     private LocalDate vurderingsdato;
 
+    @ChangeTracked
     @ManyToOne(optional = false)
     @JoinColumnsOrFormulas({
-            @JoinColumnOrFormula(column = @JoinColumn(name = "vilkar_utfall", referencedColumnName = "kode", nullable = false)),
-            @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + VilkårUtfallType.DISCRIMINATOR
-                + "'")) })
+        @JoinColumnOrFormula(column = @JoinColumn(name = "vilkar_utfall", referencedColumnName = "kode", nullable = false)),
+        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + VilkårUtfallType.DISCRIMINATOR
+            + "'"))})
     private VilkårUtfallType vilkårUtfall = VilkårUtfallType.UDEFINERT;
+
+    @ChangeTracked
+    @ManyToOne(optional = false)
+    @JoinColumnsOrFormulas({
+        @JoinColumnOrFormula(column = @JoinColumn(name = "vilkar_utfall_merknad", referencedColumnName = "kode", nullable = false)),
+        @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + VilkårUtfallMerknad.DISCRIMINATOR
+            + "'"))})
+    private VilkårUtfallMerknad vilkårUtfallMerknad = VilkårUtfallMerknad.UDEFINERT;
+
 
     public MedlemskapsvilkårPerioderEntitet() {
     }
 
-    // copy constructor
-    MedlemskapsvilkårPerioderEntitet(MedlemskapsvilkårPerioder m) {
-        this.fom = m.getFom();
-        this.tom = m.getTom();
-        this.vilkårUtfall = m.getVilkårUtfall();
-        this.vurderingsdato = m.getVurderingsdato();
+    MedlemskapsvilkårPerioderEntitet(MedlemskapsvilkårPerioder entitet) {
+        this.fom = entitet.getFom();
+        this.tom = entitet.getTom();
+        this.vurderingsdato = entitet.getVurderingsdato();
+        this.vilkårUtfall = entitet.getVilkårUtfall();
+        this.vilkårUtfallMerknad = entitet.getVilkårUtfallMerknad();
     }
 
     @Override
@@ -78,7 +89,7 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
         return fom;
     }
 
-    private void setFom(LocalDate fom) {
+    void setFom(LocalDate fom) {
         this.fom = fom;
     }
 
@@ -87,7 +98,7 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
         return tom;
     }
 
-    private void setTom(LocalDate tom) {
+    void setTom(LocalDate tom) {
         this.tom = tom;
     }
 
@@ -101,7 +112,16 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
         return vurderingsdato;
     }
 
-    private void setVilkårUtfall(VilkårUtfallType vilkårUtfall) {
+    @Override
+    public VilkårUtfallMerknad getVilkårUtfallMerknad() {
+        return vilkårUtfallMerknad;
+    }
+
+    public void setVilkårUtfallMerknad(VilkårUtfallMerknad vilkårUtfallMerknad) {
+        this.vilkårUtfallMerknad = vilkårUtfallMerknad;
+    }
+
+    void setVilkårUtfall(VilkårUtfallType vilkårUtfall) {
         this.vilkårUtfall = vilkårUtfall;
     }
 
@@ -112,17 +132,11 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
     void setRot(MedlemskapsvilkårPeriodeEntitet rot) {
         this.rot = rot;
     }
-    
-    private void setVurderingsdato(LocalDate vurderingsdato) {
-        this.vurderingsdato = vurderingsdato;
-    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         MedlemskapsvilkårPerioderEntitet that = (MedlemskapsvilkårPerioderEntitet) o;
         return Objects.equals(getFom(), that.getFom()) &&
             Objects.equals(getTom(), that.getTom());
@@ -135,6 +149,7 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
 
     public static class Builder {
         private MedlemskapsvilkårPerioderEntitet mal;
+        private boolean oppdatering = false;
 
         private Builder() {
             mal = new MedlemskapsvilkårPerioderEntitet();
@@ -142,9 +157,10 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
 
         private Builder(MedlemskapsvilkårPerioderEntitet mal) {
             this.mal = mal;
+            this.oppdatering = true;
         }
 
-        static Builder oppdater(Optional<MedlemskapsvilkårPerioderEntitet> entitet, LocalDate vurderingsdato) {
+        public static Builder oppdater(Optional<MedlemskapsvilkårPerioderEntitet> entitet, LocalDate vurderingsdato) {
             if (entitet.isPresent()) {
                 return new Builder(entitet.get());
             }
@@ -158,18 +174,30 @@ public class MedlemskapsvilkårPerioderEntitet extends BaseEntitet implements Me
             return this;
         }
 
+        public Builder medVilkårUtfallMerknad(VilkårUtfallMerknad vilkårUtfallMerknad) {
+            mal.setVilkårUtfallMerknad(vilkårUtfallMerknad);
+            return this;
+        }
+
         public Builder medVurderingsdato(LocalDate vurderingsdato) {
             mal.setVurderingsdato(vurderingsdato);
 
-            // fjernes når fom og tom ryddesvekk
+            //fjernes når fom og tom ryddesvekk
             mal.setFom(vurderingsdato);
             mal.setTom(vurderingsdato);
             return this;
         }
 
-        MedlemskapsvilkårPerioderEntitet build() {
+        public boolean erOppdatering() {
+            return oppdatering;
+        }
+
+        public MedlemskapsvilkårPerioderEntitet build() {
             return mal;
         }
     }
 
+    private void setVurderingsdato(LocalDate vurderingsdato) {
+        this.vurderingsdato = vurderingsdato;
+    }
 }

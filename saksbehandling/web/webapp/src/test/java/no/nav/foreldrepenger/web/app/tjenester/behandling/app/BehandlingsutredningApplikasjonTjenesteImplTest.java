@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.time.Period;
 
-import javax.inject.Inject;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,16 +26,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
-import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveBehandlingKobling;
-import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveBehandlingKoblingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
@@ -50,17 +44,11 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    @Inject
-    private OppgaveBehandlingKoblingRepository oppgaveBehandlingKoblingRepository;
-
     private BehandlingRepositoryProvider repositoryProvider;
     private BehandlingRepository behandlingRepository;
 
     @Mock
     private HistorikkTjenesteAdapter historikkApplikasjonTjenesteMock;
-
-    @Mock
-    private OppgaveTjeneste oppgaveTjenesteMock;
 
     @Mock
     private BehandlingModellRepository behandlingModellRepositoryMock;
@@ -96,7 +84,6 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
             Period.parse("P4W"),
             repositoryProvider,
             historikkApplikasjonTjenesteMock,
-            oppgaveTjenesteMock,
             behandlingskontrollTjenesteImpl,
             revurderingTjenesteProviderMock,
             saksbehandlingDokumentmottakTjenesteMock);
@@ -142,15 +129,11 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
     public void skal_sette_behandling_med_oppgave_pa_vent_og_opprette_task_avslutt_oppgave() {
         // Arrange
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-        OppgaveBehandlingKobling oppgave = new OppgaveBehandlingKobling(OppgaveÅrsak.BEHANDLE_SAK, "1",
-            behandling.getFagsak().getSaksnummer(), behandling);
-        oppgaveBehandlingKoblingRepository.lagre(oppgave);
 
         // Act
         behandlingsutredningApplikasjonTjeneste.settBehandlingPaVent(behandlingId, LocalDate.now(), Venteårsak.AVV_DOK);
 
         // Assert
-        verify(oppgaveTjenesteMock).opprettTaskAvsluttOppgave(any(Behandling.class));
         assertThat(behandling.isBehandlingPåVent()).isTrue();
         assertThat(behandling.getÅpneAksjonspunkter()).hasSize(1);
         assertThat(behandling.getÅpneAksjonspunkter().get(0)).isExactlyInstanceOf(Aksjonspunkt.class);

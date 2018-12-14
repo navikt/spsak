@@ -43,8 +43,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioderEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
@@ -66,19 +68,16 @@ import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
 
 @RunWith(CdiRunner.class)
 public class RevurderingBehandlingsresultatutlederTest {
-    private static final String ARBEIDSFORHOLD_ID = "987123987";
-    private static final LocalDate SKJÆRINGSTIDSPUNKT_BEREGNING = LocalDate.now();
     static final List<String> ARBEIDSFORHOLDLISTE = Arrays.asList("154", "265", "386", "412");
     static final BigDecimal TOTAL_ANDEL_NORMAL = BigDecimal.valueOf(300000);
     static final BigDecimal TOTAL_ANDEL_OPPJUSTERT = BigDecimal.valueOf(350000);
-
+    private static final String ARBEIDSFORHOLD_ID = "987123987";
+    private static final LocalDate SKJÆRINGSTIDSPUNKT_BEREGNING = LocalDate.now();
     @Rule
     public final RepositoryRule repoRule = new UnittestRepositoryRule();
-
+    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
     @Inject
     private RevurderingEndring revurderingEndring;
-
-    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
     private BehandlingRepository behandlingRepository;
     private HistorikkRepository historikkRepository;
     private RevurderingTjeneste revurderingTjeneste;
@@ -390,7 +389,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         settVilkårutfallMedlemskapPåDato(VilkårUtfallType.IKKE_OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapsvilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert
@@ -408,10 +407,12 @@ public class RevurderingBehandlingsresultatutlederTest {
             .orElse(VilkårResultat.builder().buildFor(revurdering));
         behandlingRepository.lagre(vilkårResultat, lås);
 
-        MedlemskapsvilkårPeriodeGrunnlag.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(revurdering);
-        MedlemskapsvilkårPerioderEntitet.Builder periode = builder.getBuilderForVurderingsdato(endringsdato);
+        MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(revurdering);
+        MedlemskapsvilkårPeriodeEntitet.Builder periodeBuilder = builder.getPeriodeBuilder();
+        MedlemskapsvilkårPerioderEntitet.Builder periode = periodeBuilder.getBuilderForVurderingsdato(endringsdato);
         periode.medVilkårUtfall(utfall);
-        builder.leggTilMedlemskapsvilkårPeriode(periode);
+        periodeBuilder.leggTil(periode);
+        builder.medMedlemskapsvilkårPeriode(periodeBuilder);
         medlemskapVilkårPeriodeRepository.lagreMedlemskapsvilkår(revurdering, builder);
 
         return vilkårResultat;
@@ -424,7 +425,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         settVilkårutfallMedlemskapPåDato(VilkårUtfallType.OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapsvilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert
@@ -443,7 +444,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         settVilkårutfallMedlemskapPåDato(VilkårUtfallType.OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapsvilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert

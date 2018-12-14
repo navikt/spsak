@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStat
 import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.KanVedtaketIverksettesTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskGruppe;
@@ -45,7 +44,6 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
     private BehandlingRepository behandlingRepository;
     private FagsakRepository fagsakRepository;
     private BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer;
-    private OppgaveTjeneste oppgaveTjeneste;
     private IverksetteVedtakHistorikkTjeneste iverksetteVedtakHistorikkTjeneste;
     private KanVedtaketIverksettesTjeneste kanVedtaketIverksettesTjeneste;
     private BehandlingVedtakRepository behandlingVedtakRepository;
@@ -56,7 +54,7 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
 
     @Inject
     IverksetteVedtakStegImpl(BehandlingRepositoryProvider repositoryProvider, ProsessTaskRepository prosessTaskRepository,
-                             BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer, OppgaveTjeneste oppgaveTjeneste,
+                             BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer,
                              IverksetteVedtakHistorikkTjeneste iverksetteVedtakHistorikkTjeneste,
                              KanVedtaketIverksettesTjeneste kanVedtaketIverksettesTjeneste) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
@@ -64,7 +62,6 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.behandlingVedtakEventPubliserer = behandlingVedtakEventPubliserer;
         this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
-        this.oppgaveTjeneste = oppgaveTjeneste;
         this.iverksetteVedtakHistorikkTjeneste = iverksetteVedtakHistorikkTjeneste;
         this.kanVedtaketIverksettesTjeneste = kanVedtaketIverksettesTjeneste;
     }
@@ -113,12 +110,8 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
     void opprettIverksettingstasker(Behandling behandling) {
         ProsessTaskGruppe taskData;
         ProsessTaskData avsluttBehandling = new ProsessTaskData(AvsluttBehandlingTask.TASKTYPE);
-        Optional<ProsessTaskData> avsluttOppgave = oppgaveTjeneste.opprettTaskAvsluttOppgave(behandling, behandling.getBehandleOppgaveÅrsak(), false);
 
         taskData = new ProsessTaskGruppe();
-        if (avsluttOppgave.isPresent()) {
-            taskData.addNesteParallell(avsluttOppgave.get());
-        }
         taskData.addNesteSekvensiell(avsluttBehandling);
         taskData.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());
 

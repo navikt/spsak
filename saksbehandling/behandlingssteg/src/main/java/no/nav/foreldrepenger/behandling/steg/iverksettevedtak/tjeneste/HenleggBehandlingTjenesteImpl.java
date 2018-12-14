@@ -16,8 +16,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.impl.OpprettOppgaveSendTilInfotrygdTask;
-import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 
 @ApplicationScoped
@@ -50,27 +48,18 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
     @Override
     public void henleggBehandling(Long behandlingId, BehandlingResultatType årsakKode, String begrunnelse) {
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-        BehandlingskontrollKontekst kontekst =  behandlingskontrollTjeneste.initBehandlingskontroll(behandling.getId());
+        BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(behandling.getId());
         håndterHenleggelseUtenOppgitteSøknadsopplysninger(behandling, kontekst);
         behandlingskontrollTjeneste.henleggBehandling(kontekst, årsakKode);
 
         if (BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET.equals(årsakKode)) {
             sendHenleggelsesbrev(behandlingId, HistorikkAktør.VEDTAKSLØSNINGEN);
-        } else if (BehandlingResultatType.MANGLER_BEREGNINGSREGLER.equals(årsakKode)) {
-            fagsakRepository.fagsakSkalBehandlesAvInfotrygd(behandling.getFagsakId());
-            opprettOppgaveTilInfotrygd(behandling);
         }
         behandlingskontrollTjeneste.lagHistorikkinnslagForHenleggelse(behandlingId, HistorikkinnslagType.AVBRUTT_BEH, årsakKode, begrunnelse, HistorikkAktør.SAKSBEHANDLER);
     }
 
     private void sendHenleggelsesbrev(Long behandlingId, HistorikkAktør vedtaksløsningen) {
         varselTjeneste.sendVarsel(behandlingId, "Henleggelse");
-    }
-
-    private void opprettOppgaveTilInfotrygd(Behandling behandling) {
-        ProsessTaskData data = new ProsessTaskData(OpprettOppgaveSendTilInfotrygdTask.TASKTYPE);
-        data.setBehandling(behandling.getFagsakId(), behandling.getId(), behandling.getAktørId().getId());
-        prosessTaskRepository.lagre(data);
     }
 
     private void håndterHenleggelseUtenOppgitteSøknadsopplysninger(Behandling behandling, BehandlingskontrollKontekst kontekst) {

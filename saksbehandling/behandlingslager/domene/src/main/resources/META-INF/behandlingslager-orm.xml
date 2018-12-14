@@ -27,8 +27,6 @@
     <sequence-generator name="SEQ_SATS" allocation-size="50" sequence-name="SEQ_SATS"/>
     <sequence-generator name="SEQ_DOKUMENT_ADRESSE" allocation-size="50" sequence-name="SEQ_DOKUMENT_ADRESSE"/>
     <sequence-generator name="SEQ_BEHANDLING_VEDTAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_VEDTAK"/>
-    <sequence-generator name="SEQ_OPPGAVE_BEHANDLING_KOBLING" allocation-size="50"
-                        sequence-name="SEQ_OPPGAVE_BEHANDLING_KOBLING"/>
     <sequence-generator name="SEQ_HISTORIKKINNSLAG" allocation-size="50" sequence-name="SEQ_HISTORIKKINNSLAG"/>
     <sequence-generator name="SEQ_HISTORIKKINNSLAG_DOK_LINK" allocation-size="50"
                         sequence-name="SEQ_HISTORIKKINNSLAG_DOK_LINK"/>
@@ -325,9 +323,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Region"/>
-
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveBehandlingKobling"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.oppgave.OppgaveÅrsak"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning"/>

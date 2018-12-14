@@ -47,13 +47,15 @@ import no.nav.vedtak.util.StringUtils;
  * gyldighetsperiode vedlikeholdes per kode.
  */
 @NamedEntityGraph(
-    name = "KodelistMedNavn",
+    name = Kodeliste.ENTITYGRAPH,
     attributeNodes = {
         @NamedAttributeNode(value = "kode"),
         @NamedAttributeNode(value = "kodeverk"),
         @NamedAttributeNode(value = "offisiellKode"),
         @NamedAttributeNode(value = "beskrivelse"),
         @NamedAttributeNode(value = "ekstraData"),
+        @NamedAttributeNode(value = "gyldigFraOgMed"),
+        @NamedAttributeNode(value = "gyldigTilOgMed"),
         @NamedAttributeNode(value = "kodelisteNavnI18NList", subgraph = "kodelistNavn")
     },
     subgraphs = {
@@ -81,6 +83,7 @@ public abstract class Kodeliste extends KodeverkBaseEntitet implements Comparabl
      */
     private static final String I18N_MELDINGER = System.getProperty(I18N_MELDINGER_KEY, I18N_MELDINGER_KEY);
     private static final String I18N_KEYFORMAT = "Kodeverk.%s.%s";//$NON-NLS-1$
+    public static final String ENTITYGRAPH = "KodelistMedNavn";
     /**
      * @deprecated flytt alle navn til db konfigurasjon. KodeverkNavnI18N tabell.
      */

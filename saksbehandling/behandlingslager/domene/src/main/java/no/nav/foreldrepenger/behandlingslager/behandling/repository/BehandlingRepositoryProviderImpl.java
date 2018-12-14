@@ -89,8 +89,8 @@ public class BehandlingRepositoryProviderImpl implements BehandlingRepositoryPro
         // først eller vurdere konsolidering.
 
         // kodeverk
-        this.vilkårKodeverkRepository = new VilkårKodeverkRepositoryImpl(entityManager);
         this.kodeverkRepository = new KodeverkRepositoryImpl(entityManager);
+        this.vilkårKodeverkRepository = new VilkårKodeverkRepositoryImpl(entityManager, kodeverkRepository);
         this.behandlingsgrunnlagKodeverkRepository = new BehandlingsgrunnlagKodeverkRepositoryImpl(entityManager);
 
         // behandling repositories

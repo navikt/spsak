@@ -38,7 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
-import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.OppgaveTjeneste;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
 import no.nav.vedtak.feil.Feil;
@@ -61,7 +60,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
     private BehandlingRepository behandlingRepository;
     private KodeverkRepository kodeverkRepository;
     private HistorikkTjenesteAdapter historikkApplikasjonTjeneste;
-    private OppgaveTjeneste oppgaveTjeneste;
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private RevurderingTjenesteProvider revurderingTjenesteProvider;
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste;
@@ -70,12 +68,10 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
         // for CDI proxy
     }
 
-    // FIXME (Termitt): Bryt opp denne klassen. Ctor her er spinnvill.
     @Inject
     public BehandlingsutredningApplikasjonTjenesteImpl(@KonfigVerdi(value = "behandling.default.ventefrist.periode") Period defaultVenteFrist,
                                                        BehandlingRepositoryProvider behandlingRepositoryProvider,
                                                        HistorikkTjenesteAdapter historikkApplikasjonTjeneste,
-                                                       OppgaveTjeneste oppgaveTjeneste,
                                                        BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                                        RevurderingTjenesteProvider revurderingTjenesteProvider,
                                                        SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste) {
@@ -84,7 +80,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
         this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
         this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
         this.historikkApplikasjonTjeneste = historikkApplikasjonTjeneste;
-        this.oppgaveTjeneste = oppgaveTjeneste;
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
         this.saksbehandlingDokumentmottakTjeneste = saksbehandlingDokumentmottakTjeneste;
@@ -109,7 +104,6 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
         LocalDateTime fristTid = bestemFristForBehandlingVent(frist);
 
         Behandling behandling = behandlingRepository.hentBehandling(behandlingsId);
-        oppgaveTjeneste.opprettTaskAvsluttOppgave(behandling);
         BehandlingStegType behandlingStegFunnet = behandling.getAksjonspunktMedDefinisjonOptional(apDef)
             .map(Aksjonspunkt::getBehandlingStegFunnet)
             .orElse(null); // Dersom autopunkt ikke allerede er opprettet, så er det ikke tilknyttet steg

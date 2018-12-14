@@ -13,7 +13,6 @@ import javax.ws.rs.core.Application;
 
 import io.swagger.jaxrs.listing.ApiListingResource;
 import no.nav.foreldrepenger.web.app.ApplicationConfig;
-import no.nav.foreldrepenger.web.app.oppgave.OppgaveRedirectApplication;
 
 public class RestApiTester {
 
@@ -32,14 +31,7 @@ public class RestApiTester {
     }
 
     static Collection<Class<?>> finnAlleRestTjenester() {
-
-
-        List<Class<?>> klasser = new ArrayList<>();
-
-        klasser.addAll(finnAlleRestTjenester(new ApplicationConfig()));
-        klasser.addAll(finnAlleRestTjenester(new OppgaveRedirectApplication()));
-
-        return klasser;
+        return new ArrayList<>(finnAlleRestTjenester(new ApplicationConfig()));
     }
 
     static Collection<Class<?>> finnAlleRestTjenester(Application config) {

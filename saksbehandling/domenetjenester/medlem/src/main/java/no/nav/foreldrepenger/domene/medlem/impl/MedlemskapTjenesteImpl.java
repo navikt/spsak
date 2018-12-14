@@ -22,8 +22,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapManuellVurderingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
@@ -242,8 +242,7 @@ public class MedlemskapTjenesteImpl implements MedlemTjeneste {
 
     private LocalDate finnStartdato(Behandling revurderingBehandling) {
 
-        Optional<MedlemskapsvilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag =
-            medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurderingBehandling.getOriginalBehandling().get());
+        Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurderingBehandling.getOriginalBehandling().get());
 
         LocalDate startDato = skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(revurderingBehandling);
         if (medlemskapsvilkårPeriodeGrunnlag.isPresent()) {

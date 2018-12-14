@@ -8,13 +8,16 @@ import java.util.Map;
 import org.junit.Rule;
 import org.junit.Test;
 
+import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
+import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 
 public class VilkårKodeverkRepositoryImplTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private VilkårKodeverkRepository repo = new VilkårKodeverkRepositoryImpl(repoRule.getEntityManager());
+    private KodeverkRepository kodeverkRepository = new KodeverkRepositoryImpl(repoRule.getEntityManager());
+    private VilkårKodeverkRepository repo = new VilkårKodeverkRepositoryImpl(repoRule.getEntityManager(), kodeverkRepository);
 
 
     @Test
@@ -35,6 +38,6 @@ public class VilkårKodeverkRepositoryImplTest {
         Map<VilkårType, List<Avslagsårsak>> map = repo.finnAvslagårsakerGruppertPåVilkårType();
         assertThat(map.get(VilkårType.SØKERSOPPLYSNINGSPLIKT)).containsOnly(Avslagsårsak.MANGLENDE_DOKUMENTASJON);
         assertThat(map.get(VilkårType.OPPTJENINGSPERIODEVILKÅR))
-                .containsOnly(Avslagsårsak.IKKE_TILSTREKKELIG_OPPTJENING);
+            .containsOnly(Avslagsårsak.IKKE_TILSTREKKELIG_OPPTJENING);
     }
 }

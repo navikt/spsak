@@ -14,17 +14,20 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioderEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
+import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.medlemskap.VurderLøpendeMedlemskap;
+import no.nav.vedtak.util.Tuple;
 
 @BehandlingStegRef(kode = "VULOMED")
 @BehandlingTypeRef("BT-004")
@@ -58,21 +61,21 @@ public class VurderLøpendeMedlemskapStegImpl implements VurderLøpendeMedlemska
             Map<LocalDate, VilkårData> localDateVilkårDataMap = vurderLøpendeMedlemskap.vurderLøpendeMedlemskap(behandlingId);
             Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
 
-            MedlemskapsvilkårPeriodeGrunnlag.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(behandling);
+            MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(behandling);
+            MedlemskapsvilkårPeriodeEntitet.Builder perioderBuilder = builder.getPeriodeBuilder();
 
-            localDateVilkårDataMap.entrySet().forEach(entry -> {
-                LocalDate vurderingsdato = entry.getKey();
-                MedlemskapsvilkårPerioderEntitet.Builder periodeBuilder = builder.getBuilderForVurderingsdato(vurderingsdato);
-                    periodeBuilder.medVurderingsdato(vurderingsdato);
-                    periodeBuilder.medVilkårUtfall(entry.getValue().getUtfallType());
-                    builder.leggTilMedlemskapsvilkårPeriode(periodeBuilder);
-                }
-            );
+            localDateVilkårDataMap.forEach((vurderingsdato, value) -> {
+                MedlemskapsvilkårPerioderEntitet.Builder periodeBuilder = perioderBuilder.getBuilderForVurderingsdato(vurderingsdato);
+                periodeBuilder.medVurderingsdato(vurderingsdato);
+                periodeBuilder.medVilkårUtfall(value.getUtfallType());
+                perioderBuilder.leggTil(periodeBuilder);
+            });
+            builder.medMedlemskapsvilkårPeriode(perioderBuilder);
             medlemskapVilkårPeriodeRepository.lagreMedlemskapsvilkår(behandling, builder);
 
-            VilkårUtfallType utfall = medlemskapVilkårPeriodeRepository.utledeVilkårStatus(behandling);
+            Tuple<VilkårUtfallType, VilkårUtfallMerknad> utfall = medlemskapVilkårPeriodeRepository.utledeVilkårStatus(behandling);
             VilkårResultat.Builder vilkårBuilder = VilkårResultat.builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat());
-            vilkårBuilder.leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, utfall);
+            vilkårBuilder.leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, utfall.getElement1());
 
             BehandlingLås lås = kontekst.getSkriveLås();
             behandlingRepository.lagre(vilkårBuilder.buildFor(behandling), lås);
