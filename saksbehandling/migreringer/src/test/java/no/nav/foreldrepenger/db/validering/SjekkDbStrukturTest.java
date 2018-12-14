@@ -422,35 +422,31 @@ public class SjekkDbStrukturTest {
     }
 
     @Test
-    @Ignore // TODO
     public void skal_ha_samme_data_type_for_begge_sider_av_en_FK() throws Exception {
-        String sql = "SELECT T.TABLE_NAME\n" +
-            ", TCC.COLUMN_NAME AS KOL_A\n" +
-            ", ATT.DATA_TYPE AS KOL_A_DATA_TYPE\n" +
-            ", ATT.CHAR_LENGTH AS KOL_A_CHAR_LENGTH\n" +
-            ", ATT.CHAR_USED AS KOL_A_CHAR_USED\n" +
-            ", RCC.COLUMN_NAME AS KOL_B \n" +
-            ", ATR.DATA_TYPE AS KOL_B_DATA_TYPE\n" +
-            ", ATR.CHAR_LENGTH AS KOL_B_CHAR_LENGTH\n" +
-            ", atr.CHAR_USED as KOL_B_CHAR_USED\n" +
-            "FROM ALL_CONSTRAINTS T \n" +
-            "INNER JOIN ALL_CONSTRAINTS R ON R.OWNER=T.OWNER AND R.CONSTRAINT_NAME = T.R_CONSTRAINT_NAME\n" +
-            "INNER JOIN ALL_CONS_COLUMNS TCC ON TCC.TABLE_NAME=T.TABLE_NAME AND TCC.OWNER=T.OWNER AND TCC.CONSTRAINT_NAME=T.CONSTRAINT_NAME \n" +
-            "INNER JOIN ALL_CONS_COLUMNS RCC ON RCC.TABLE_NAME = R.TABLE_NAME AND RCC.OWNER=R.OWNER AND RCC.CONSTRAINT_NAME=R.CONSTRAINT_NAME\n" +
-            "INNER JOIN ALL_TAB_COLS ATT ON ATT.COLUMN_NAME=TCC.COLUMN_NAME AND ATT.OWNER=TCC.OWNER AND Att.TABLE_NAME=TCC.TABLE_NAME\n" +
-            "inner join all_tab_cols atr on atr.column_name=rcc.column_name and atr.owner=rcc.owner and atr.table_name=rcc.table_name\n" +
-            "WHERE T.OWNER=upper(?) AND T.CONSTRAINT_TYPE='R'\n" +
-            "AND TCC.POSITION = RCC.POSITION\n" +
-            "AND TCC.POSITION IS NOT NULL AND RCC.POSITION IS NOT NULL\n" +
-            "AND ((ATT.DATA_TYPE!=ATR.DATA_TYPE) OR (ATT.CHAR_LENGTH!=ATR.CHAR_LENGTH OR ATT.CHAR_USED!=ATR.CHAR_USED) OR (ATT.DATA_TYPE NOT LIKE '%CHAR%' AND ATT.DATA_LENGTH!=ATR.DATA_LENGTH))\n" +
-            "ORDER BY T.TABLE_NAME, TCC.COLUMN_NAME";
+        String sql = "select t1.relname, cs1.column_name, cs1.data_type, cs1.character_maximum_length, cs1.character_octet_length,\n" +
+            "    cs2.column_name, cs2.data_type, cs2.character_maximum_length, cs2.character_octet_length from\n" +
+            "     pg_class t1, pg_class t2, information_schema.columns cs1, information_schema.columns cs2,\n" +
+            "     lateral (select c.conname, c.conrelid, unnest(c.conkey) as conkeypos, c.confrelid, unnest(c.confkey) as confkeypos from pg_constraint c where c.contype = 'f') as fk\n" +
+            "where fk.conrelid = t1.oid and fk.confrelid = t2.oid\n" +
+            "  and t1.relname = cs1.table_name\n" +
+            "  and t2.relname = cs2.table_name\n" +
+            "  and conkeypos = cs1.ordinal_position\n" +
+            "  and confkeypos = cs2.ordinal_position\n" +
+            "  and cs1.table_schema = current_schema\n" +
+            "  and cs2.table_schema = current_schema\n" +
+            "\n" +
+            "  and ((cs1.data_type != cs2.data_type)\n" +
+            "         OR (cs1.character_maximum_length != cs2.character_maximum_length)\n" +
+            "         OR (cs1.character_octet_length != cs2.character_octet_length)\n" +
+            "         OR (cs1.numeric_precision != cs2.numeric_precision)\n" +
+            "         OR (cs1.numeric_precision_radix != cs2.numeric_precision_radix)\n" +
+            "         OR (cs1.numeric_scale != cs2.numeric_scale)\n" +
+            "  )";
 
         List<String> avvik = new ArrayList<>();
         StringBuilder tekst = new StringBuilder();
         try (Connection conn = ds.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-            stmt.setString(1, schema);
 
             try (ResultSet rs = stmt.executeQuery()) {
 
@@ -464,7 +460,7 @@ public class SjekkDbStrukturTest {
         }
 
         int sz = avvik.size();
-        String feilTekst = "Forskjellig datatype for kolonne på hver side av en FK. Kan være deklarert feil (husk VARCHAR2(100 CHAR) og ikke VARCHAR2(100)). Antall feil=";
+        String feilTekst = "Forskjellig datatype for kolonne på hver side av en FK. Antall feil=";
         String cols = ".\n\nTABELL, KOL_A, KOL_A_DATA_TYPE, KOL_A_CHAR_LENGTH, KOL_A_CHAR_USED, KOL_B, KOL_B_DATA_TYPE, KOL_B_CHAR_LENGTH, KOL_B_CHAR_USED\n";
 
         assertThat(avvik).withFailMessage(feilTekst + +sz + cols + tekst).isEmpty();
