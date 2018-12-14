@@ -86,24 +86,6 @@ public class MetricRepository {
         return sisteVentendeBehandlinger;
     }
 
-    // Approksimer ved at antall behandlinger ikke er langt unna antall behandling_resultat
-    BigDecimal tellLettereAntallVentendeOppgaver() {
-        long naaMs = System.currentTimeMillis();
-        long alderMs = naaMs - sisteOppgaverTidspunktMs;
-        if (alderMs >= MAX_DATA_ALDER_MS) {
-            final Query query = entityManager.createNativeQuery("SELECT count(DISTINCT o.BEHANDLING_ID) " +
-                "FROM OPPGAVE_BEHANDLING_KOBLING o " +
-                "WHERE o.FERDIGSTILT = :ferdigstilt ");
-            query.setParameter("ferdigstilt", 'N');
-
-            sisteVentendeOppgaver = new BigDecimal((BigInteger) query.getSingleResult());
-            sisteOppgaverTidspunktMs = System.currentTimeMillis();
-        }
-        return sisteVentendeOppgaver;
-    }
-
-
-
     List<String> hentProsessTaskTyperMedPrefixer(List<String> prefixer) {
         Query query = entityManager.createNativeQuery("SELECT KODE FROM PROSESS_TASK_TYPE");
         @SuppressWarnings("unchecked")

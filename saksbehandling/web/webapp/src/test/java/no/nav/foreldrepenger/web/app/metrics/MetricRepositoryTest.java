@@ -32,13 +32,6 @@ public class MetricRepositoryTest {
     }
 
     @Test
-    public void skal_hente_ut_ventende_oppgaver() throws Exception {
-        final BigDecimal ventendeOppgaver = repository.tellLettereAntallVentendeOppgaver();
-
-        assertThat(ventendeOppgaver).isEqualTo(BigDecimal.ZERO);
-    }
-
-    @Test
     public void skal_hente_ut_ikke_avsluttet_behandling() throws Exception {
         final BigDecimal ikkeavsluttet = repository.tellLettereAntallBehandlingerSomIkkeHarBlittAvsluttet();
 
