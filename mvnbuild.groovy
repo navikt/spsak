@@ -3,11 +3,12 @@ import deploy
 
 def deployLib = new deploy()
 
-def build(String mydir) {
+def build(String mydir, String mvnOptions) {
     try {
 		dir(mydir) {
 			stage ('Build: ' + mydir) {
-				sh 'mvn -s ../mvn-settings.xml install' 
+				// bruker private m2 repo i workspace slik at fungerer også uavhengig for PR branches
+				sh 'mvn -B -s ../mvn-settings.xml -Dmaven.repo.local=../.m2 $mvnOptions install' 
 			}
 		}
 		

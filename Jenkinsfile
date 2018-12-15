@@ -6,6 +6,13 @@
 
 def dbImage = null;
 
+def mvnOptions(String projectPath, String prevCommit) {
+	 matches = sh(returnStatus:true, script: "git diff --diff-filter=acm --shortstat $prevCommit.. $projectPath | egrep -q '.*changed.*'")
+	 def opts = matches==0 ? "clean" : ""
+	 println "Options " + opts
+	 return opts
+}
+
 pipeline {
     agent any
 	
@@ -57,13 +64,13 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^felles'")
-					return !fileExists("felles/target") || !matches
+					return !fileExists("felles/target") || !fileExists(".m2") || !matches
                 }
             }
             steps {
 				script {
 					def module = load './mvnbuild.groovy'
-					module.build('felles')
+					module.build('felles', mvnOptions('felles', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
 				}
             }
         }
@@ -71,13 +78,13 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^kontrakter'")
-                    return !fileExists("kontrakter/target") || !matches
+                    return !fileExists("kontrakter/target") || !fileExists(".m2") || !matches
                 }
             }
             steps {
                 script {
 					def module = load './mvnbuild.groovy'
-					module.build('kontrakter')
+					module.build('kontrakter', mvnOptions('kontrakter', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
 				}
             }
         }
@@ -85,13 +92,13 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^saksbehandling'")
-                    return !fileExists("saksbehandling/target") || !matches
+                    return !fileExists("saksbehandling/target") || !fileExists(".m2") || !matches
                 }
             }
             steps {
                 script {
 					def module = load './mvnbuild.groovy'
-					module.build('saksbehandling')
+					module.build('saksbehandling', mvnOptions('saksbehandling', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
 				}
             }
         }
@@ -99,13 +106,13 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^vtp-mock'")
-                    return !fileExists("vtp-mock/target") || !matches
+                    return !fileExists("vtp-mock/target") || !fileExists(".m2") || !matches
                 }
             }
             steps {
                 script {
 					def module = load './mvnbuild.groovy'
-					module.build('vtp-mock')
+					module.build('vtp-mock', mvnOptions('vtp-mock', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
 				}
             }
         }
