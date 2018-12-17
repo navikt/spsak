@@ -7,7 +7,8 @@
 def dbImage = null;
 
 def mvnOptions(String projectPath, String prevCommit) {
-	 matches = sh(returnStatus:true, script: "git diff --diff-filter=acm --shortstat $prevCommit.. $projectPath | egrep -q '.*changed.*'")
+	 matches = sh(returnStatus:true, script: "git diff --diff-filter=acm --shortstat $prevCommit.. $projectPath | egrep '.*changed.*'")
+	 println "returnStatus" + matches
 	 def opts = matches==0 ? "clean" : ""
 	 println "Options " + opts
 	 return opts
@@ -64,7 +65,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^felles'")
-					return !fileExists("felles/target") || !fileExists(".m2") || !matches
+					return !fileExists("felles/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -78,7 +79,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^kontrakter'")
-                    return !fileExists("kontrakter/target") || !fileExists(".m2") || !matches
+                    return !fileExists("kontrakter/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -92,7 +93,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^saksbehandling'")
-                    return !fileExists("saksbehandling/target") || !fileExists(".m2") || !matches
+                    return !fileExists("saksbehandling/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -106,7 +107,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^vtp-mock'")
-                    return !fileExists("vtp-mock/target") || !fileExists(".m2") || !matches
+                    return !fileExists("vtp-mock/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
