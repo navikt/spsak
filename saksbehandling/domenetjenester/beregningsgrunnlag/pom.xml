@@ -58,6 +58,11 @@
             <artifactId>behandling-revurdering</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>beregningsgrunnlag-testutils</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 

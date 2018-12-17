@@ -24,6 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Akti
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
@@ -37,7 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjeneste;
 import no.nav.fpsak.tidsserie.LocalDateInterval;
 
 @ApplicationScoped
@@ -46,7 +46,6 @@ public class BeregningsgrunnlagTestUtil {
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
 
-    private HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste;
     private BeregningRepository beregningRepository;
     private BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil;
 
@@ -57,11 +56,9 @@ public class BeregningsgrunnlagTestUtil {
     @Inject
     public BeregningsgrunnlagTestUtil(BehandlingRepositoryProvider repositoryProvider,
                                       InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                      HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste,
                                       BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil) {
         Objects.requireNonNull(repositoryProvider);
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
-        this.hentGrunnlagsdataTjeneste = hentGrunnlagsdataTjeneste;
         this.beregningArbeidsgiverTestUtil = beregningArbeidsgiverTestUtil;
         this.beregningRepository = repositoryProvider.getBeregningRepository();
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
@@ -262,7 +259,7 @@ public class BeregningsgrunnlagTestUtil {
             .build();
         lagPerioder(behandling, skjæringstidspunktOpptjening, andelAvkortet, bruttoPrÅr, lagtTilAvSaksbehandlerPrAndelIArbeidsforhold, Collections.nCopies(perioder.size(), null), Collections.nCopies(perioder.size(), null),
             perioder, beregningsgrunnlag, periodePeriodeÅrsaker, inntektskategoriPrAndelIArbeidsforhold, refusjonPrÅr);
-        Optional<Beregningsgrunnlag> gjeldendeBg = hentGrunnlagsdataTjeneste.hentGjeldendeBeregningsgrunnlag(behandling);
+        Optional<Beregningsgrunnlag> gjeldendeBg = hentGjeldendeBeregningsgrunnlag(behandling);
         gjeldendeBg.ifPresent(bg -> Beregningsgrunnlag.builder(beregningsgrunnlag).medGjeldendeBeregningsgrunnlag(bg).build());
         beregningsgrunnlagRepository.lagre(behandling, beregningsgrunnlag, BeregningsgrunnlagTilstand.OPPRETTET);
         return beregningsgrunnlag;
@@ -355,5 +352,27 @@ public class BeregningsgrunnlagTestUtil {
     public BigDecimal getGrunnbeløp(LocalDate skjæringstidspunktOpptjening) {
         Sats sats = beregningRepository.finnEksaktSats(SatsType.GRUNNBELØP, skjæringstidspunktOpptjening);
         return BigDecimal.valueOf(sats.getVerdi());
+    }
+
+
+    private Optional<Beregningsgrunnlag> hentGjeldendeBeregningsgrunnlag(Behandling behandling) {
+        Optional<Behandling> forrigeBehandlingOpt = behandling.getOriginalBehandling();
+        Optional<Beregningsgrunnlag> fastsattBG = beregningsgrunnlagRepository.hentSisteBeregningsgrunnlagGrunnlagEntitet(behandling, BeregningsgrunnlagTilstand.FASTSATT)
+            .map(BeregningsgrunnlagGrunnlagEntitet::getBeregningsgrunnlag);
+        Optional<Beregningsgrunnlag> forrigeBGOpt = forrigeBehandlingOpt.flatMap(beregningsgrunnlagRepository::hentBeregningsgrunnlag);
+
+        return hentGjeldendeBeregningsgrunnlag(fastsattBG, forrigeBGOpt);
+    }
+
+    private Optional<Beregningsgrunnlag> hentGjeldendeBeregningsgrunnlag(Optional<Beregningsgrunnlag> nyttBG, Optional<Beregningsgrunnlag> forrigeBGOpt) {
+        if (nyttBG.filter(this::beregningsgrunnlagErGjeldende).isPresent()) {
+            return nyttBG;
+        }
+        return forrigeBGOpt.filter(this::beregningsgrunnlagErGjeldende);
+    }
+
+    private boolean beregningsgrunnlagErGjeldende(Beregningsgrunnlag beregningsgrunnlag) {
+        return beregningsgrunnlag.getBeregningsgrunnlagPerioder().stream()
+            .anyMatch(bgp -> bgp.getRedusertPrÅr() != null);
     }
 }

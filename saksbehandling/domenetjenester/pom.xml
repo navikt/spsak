@@ -32,6 +32,9 @@
         <module>bom</module>
 
         <module>behandlingskontroll</module>
+
+        <!-- Test utilities, bør strengt talt ikke være her. -->
+        <module>beregningsgrunnlag-testutils</module>
     </modules>
 
 </project>

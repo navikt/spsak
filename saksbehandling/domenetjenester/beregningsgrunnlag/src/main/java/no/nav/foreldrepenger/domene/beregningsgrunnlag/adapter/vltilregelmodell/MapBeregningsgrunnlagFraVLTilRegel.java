@@ -226,7 +226,7 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
     private static Arbeidsforhold lagNyttArbeidsforholdHosArbeidsgiver(Arbeidsgiver arbeidsgiver) {
         if (arbeidsgiver.getErVirksomhet()) {
             return Arbeidsforhold.nyttArbeidsforholdHosVirksomhet(arbeidsgiver.getIdentifikator());
-        } else if (arbeidsgiver.erAktørId()){
+        } else if (arbeidsgiver.erAktørId()) {
             return Arbeidsforhold.nyttArbeidsforholdHosPrivatperson(arbeidsgiver.getIdentifikator());
         }
         throw new IllegalStateException("Arbeidsgiver må være enten aktør eller virksomhet");
@@ -239,8 +239,121 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
         return Aktivitet.UDEFINERT;//TODO: Kast feil?
     }
 
+    private static void mapOppgittOpptjening(Inntektsgrunnlag inntektsgrunnlag, OppgittOpptjening oppgittOpptjening) {
+        oppgittOpptjening.getEgenNæring().stream()
+            .filter(en -> en.getNyoppstartet() || en.getVarigEndring())
+            .filter(en -> en.getBruttoInntekt() != null)
+            .forEach(en -> {
+                    BigDecimal månedsinntekt = en.getBruttoInntekt().divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_UP);
+                    inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
+                        .medInntektskilde(Inntektskilde.SØKNAD)
+                        .medMåned(en.getEndringDato())
+                        .medInntekt(månedsinntekt)
+                        .build());
+                }
+            );
+    }
+
+    private static void mapInntektsmelding(Inntektsgrunnlag inntektsgrunnlag, List<Inntektsmelding> inntektsmeldinger) {
+        inntektsmeldinger.forEach(im -> {
+            Arbeidsforhold arbeidsforhold = Arbeidsforhold.nyttArbeidsforholdHosVirksomhet(im.getVirksomhet().getOrgnr(), im.getArbeidsforholdRef() == null ? null : im.getArbeidsforholdRef().getReferanse());
+            LocalDate måned = im.getStartDatoPermisjon().minusMonths(1).withDayOfMonth(1);
+            BigDecimal inntekt = im.getInntektBeløp().getVerdi();
+            List<NaturalYtelse> naturalytelser = im.getNaturalYtelser().stream()
+                .map(ny -> new NaturalYtelse(ny.getBeloepPerMnd().getVerdi(), ny.getPeriode().getFomDato(), ny.getPeriode().getTomDato()))
+                .collect(Collectors.toList());
+            inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
+                .medInntektskilde(Inntektskilde.INNTEKTSMELDING)
+                .medArbeidsgiver(arbeidsforhold)
+                .medInntekt(inntekt)
+                .medMåned(måned)
+                .medNaturalYtelser(naturalytelser)
+                .build());
+        });
+    }
+
+    private static void mapTilstøtendeYtelserDagpengerOgAAP(Inntektsgrunnlag inntektsgrunnlag, AktørYtelse aktørYtelse, LocalDate skjæringstidspunkt) {
+        Optional<Ytelse> nyesteVedtak = aktørYtelse.getYtelser().stream()
+            .filter(ytelse -> RelatertYtelseType.DAGPENGER.equals(ytelse.getRelatertYtelseType())
+                || RelatertYtelseType.ARBEIDSAVKLARINGSPENGER.equals(ytelse.getRelatertYtelseType()))
+            .filter(ytelse -> ytelse.getPeriode() != null)
+            .filter(ytelse -> !skjæringstidspunkt.isBefore(ytelse.getPeriode().getFomDato()))
+            .filter(ytelse -> ytelse.getYtelseAnvist().stream().anyMatch(ya -> skjæringstidspunkt.isAfter(ya.getAnvistTOM())))
+            .max(Comparator.comparing(ytelse -> ytelse.getPeriode().getFomDato()));
+
+        if (!nyesteVedtak.isPresent()) {
+            return;
+        }
+        Optional<YtelseAnvist> ytelseAnvistOpt = nyesteVedtak.get().getYtelseAnvist().stream()
+            .filter(ya -> skjæringstidspunkt.isAfter(ya.getAnvistTOM()))
+            .max(Comparator.comparing(YtelseAnvist::getAnvistFOM));
+
+        ytelseAnvistOpt.ifPresent(ytelseAnvist -> {
+            BigDecimal dagsats = ytelseAnvist.getDagsats().orElse(BigDecimal.ZERO);
+            final BigDecimal toHundreSeksti = new BigDecimal("260");
+            final BigDecimal tolv = new BigDecimal("12");
+            BigDecimal månedsinntekt = dagsats.multiply(toHundreSeksti).divide(tolv, 10, RoundingMode.HALF_UP);
+            BigDecimal utbetalingsgradProsent = ytelseAnvist.getUtbetalingsgradProsent()
+                .orElseThrow(() -> new IllegalStateException("Utbetalingsgrad for ytelseanvist mangler"));
+
+            inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
+                .medInntektskilde(Inntektskilde.TILSTØTENDE_YTELSE_DP_AAP)
+                .medInntekt(månedsinntekt)
+                .medMåned(skjæringstidspunkt)
+                .medUtbetalingsgrad(utbetalingsgradProsent)
+                .build());
+        });
+    }
+
+    private static void lagInntektSammenligning(Inntektsgrunnlag inntektsgrunnlag, AktørInntekt aktørInntekt) {
+        Map<LocalDate, BigDecimal> månedsinntekter = aktørInntekt.getInntektSammenligningsgrunnlag().stream()
+            .filter(inntekt -> inntekt.getArbeidsgiver() != null)
+            .flatMap(i -> i.getInntektspost().stream())
+            .collect(Collectors.groupingBy(Inntektspost::getFraOgMed, Collectors.reducing(BigDecimal.ZERO,
+                ip -> ip.getBeløp().getVerdi(), BigDecimal::add)));
+
+        månedsinntekter.forEach((måned, inntekt) -> inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
+            .medInntektskilde(Inntektskilde.INNTEKTSKOMPONENTEN_SAMMENLIGNING)
+            .medMåned(måned)
+            .medInntekt(inntekt)
+            .build()));
+    }
+
+    private static void lagInntekterSN(Inntektsgrunnlag inntektsgrunnlag, AktørInntekt aktørInntekt) {
+        List<Inntekt> liste = aktørInntekt.getBeregnetSkatt();
+        liste.stream().flatMap(inntekt -> inntekt.getInntektspost().stream())
+            .forEach(inntektspost -> inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
+                .medInntektskilde(Inntektskilde.SIGRUN)
+                .medInntekt(inntektspost.getBeløp().getVerdi())
+                .medPeriode(Periode.of(inntektspost.getFraOgMed(), inntektspost.getTilOgMed()))
+                .build()
+            ));
+    }
+
+    private static List<no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.PeriodeÅrsak> mapPeriodeÅrsak(List<BeregningsgrunnlagPeriodeÅrsak> beregningsgrunnlagPeriodeÅrsaker) {
+        if (beregningsgrunnlagPeriodeÅrsaker.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.PeriodeÅrsak> periodeÅrsakerMapped = new ArrayList<>();
+        beregningsgrunnlagPeriodeÅrsaker.forEach(bgPeriodeÅrsak -> {
+            if (!PeriodeÅrsak.UDEFINERT.equals(bgPeriodeÅrsak.getPeriodeÅrsak())) {
+                periodeÅrsakerMapped.add(no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.PeriodeÅrsak.valueOf(bgPeriodeÅrsak.getPeriodeÅrsak().getKode()));
+            }
+        });
+        return periodeÅrsakerMapped;
+    }
+
+    static boolean harYrkesaktiviteterFørSkjæringstidspunktet(AktørArbeid aa, LocalDate skjæringstidspunkt, ArbeidsforholdRef arbeidsforholdRef) {
+        return aa.getYrkesaktiviteter().stream().anyMatch(ya -> ya.getArbeidsforholdRef().filter(ref -> ref.gjelderFor(arbeidsforholdRef)).isPresent() &&
+            harAktivitetsavtaleAktivFørSkjæringstidspunktet(ya, skjæringstidspunkt));
+    }
+
+    private static boolean harAktivitetsavtaleAktivFørSkjæringstidspunktet(Yrkesaktivitet ya, LocalDate skjæringstidspunkt) {
+        return ya.getAktivitetsAvtaler().stream().anyMatch(aa -> aa.getFraOgMed().isBefore(skjæringstidspunkt));
+    }
+
     public no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag map(Behandling behandling,
-                                                                                                Beregningsgrunnlag vlBeregningsgrunnlag) {
+                                                                                                       Beregningsgrunnlag vlBeregningsgrunnlag) {
         List<AktivitetStatusMedHjemmel> aktivitetStatuser = vlBeregningsgrunnlag.getAktivitetStatuser().stream()
             .map(MapBeregningsgrunnlagFraVLTilRegel::mapVLAktivitetStatusMedHjemmel)
             .sorted()
@@ -336,97 +449,6 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
         oppgittOpptjeningOpt.ifPresent(oppgittOpptjening -> mapOppgittOpptjening(inntektsgrunnlag, oppgittOpptjening));
     }
 
-    private static void mapOppgittOpptjening(Inntektsgrunnlag inntektsgrunnlag, OppgittOpptjening oppgittOpptjening) {
-        oppgittOpptjening.getEgenNæring().stream()
-            .filter(en -> en.getNyoppstartet() || en.getVarigEndring())
-            .filter(en -> en.getBruttoInntekt() != null)
-            .forEach(en -> {
-                    BigDecimal månedsinntekt = en.getBruttoInntekt().divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_UP);
-                    inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
-                        .medInntektskilde(Inntektskilde.SØKNAD)
-                        .medMåned(en.getEndringDato())
-                        .medInntekt(månedsinntekt)
-                        .build());
-                }
-            );
-    }
-
-    private static void mapInntektsmelding(Inntektsgrunnlag inntektsgrunnlag, List<Inntektsmelding> inntektsmeldinger) {
-        inntektsmeldinger.forEach(im -> {
-            Arbeidsforhold arbeidsforhold = Arbeidsforhold.nyttArbeidsforholdHosVirksomhet(im.getVirksomhet().getOrgnr(), im.getArbeidsforholdRef() == null ? null : im.getArbeidsforholdRef().getReferanse());
-            LocalDate måned = im.getStartDatoPermisjon().minusMonths(1).withDayOfMonth(1);
-            BigDecimal inntekt = im.getInntektBeløp().getVerdi();
-            List<NaturalYtelse> naturalytelser = im.getNaturalYtelser().stream()
-                .map(ny -> new NaturalYtelse(ny.getBeloepPerMnd().getVerdi(), ny.getPeriode().getFomDato(), ny.getPeriode().getTomDato()))
-                .collect(Collectors.toList());
-            inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
-                .medInntektskilde(Inntektskilde.INNTEKTSMELDING)
-                .medArbeidsgiver(arbeidsforhold)
-                .medInntekt(inntekt)
-                .medMåned(måned)
-                .medNaturalYtelser(naturalytelser)
-                .build());
-        });
-    }
-
-    private static void mapTilstøtendeYtelserDagpengerOgAAP(Inntektsgrunnlag inntektsgrunnlag, AktørYtelse aktørYtelse, LocalDate skjæringstidspunkt) {
-        Optional<Ytelse> nyesteVedtak = aktørYtelse.getYtelser().stream()
-            .filter(ytelse -> RelatertYtelseType.DAGPENGER.equals(ytelse.getRelatertYtelseType())
-                || RelatertYtelseType.ARBEIDSAVKLARINGSPENGER.equals(ytelse.getRelatertYtelseType()))
-            .filter(ytelse -> ytelse.getPeriode() != null)
-            .filter(ytelse -> !skjæringstidspunkt.isBefore(ytelse.getPeriode().getFomDato()))
-            .filter(ytelse -> ytelse.getYtelseAnvist().stream().anyMatch(ya -> skjæringstidspunkt.isAfter(ya.getAnvistTOM())))
-            .max(Comparator.comparing(ytelse -> ytelse.getPeriode().getFomDato()));
-
-        if (!nyesteVedtak.isPresent()) {
-            return;
-        }
-        Optional<YtelseAnvist> ytelseAnvistOpt = nyesteVedtak.get().getYtelseAnvist().stream()
-            .filter(ya -> skjæringstidspunkt.isAfter(ya.getAnvistTOM()))
-            .max(Comparator.comparing(YtelseAnvist::getAnvistFOM));
-
-        ytelseAnvistOpt.ifPresent(ytelseAnvist -> {
-            BigDecimal dagsats = ytelseAnvist.getDagsats().orElse(BigDecimal.ZERO);
-            final BigDecimal toHundreSeksti = new BigDecimal("260");
-            final BigDecimal tolv = new BigDecimal("12");
-            BigDecimal månedsinntekt = dagsats.multiply(toHundreSeksti).divide(tolv, 10, RoundingMode.HALF_UP);
-            BigDecimal utbetalingsgradProsent = ytelseAnvist.getUtbetalingsgradProsent()
-                .orElseThrow(() -> new IllegalStateException("Utbetalingsgrad for ytelseanvist mangler"));
-
-            inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
-                .medInntektskilde(Inntektskilde.TILSTØTENDE_YTELSE_DP_AAP)
-                .medInntekt(månedsinntekt)
-                .medMåned(skjæringstidspunkt)
-                .medUtbetalingsgrad(utbetalingsgradProsent)
-                .build());
-        });
-    }
-
-    private static void lagInntektSammenligning(Inntektsgrunnlag inntektsgrunnlag, AktørInntekt aktørInntekt) {
-        Map<LocalDate, BigDecimal> månedsinntekter = aktørInntekt.getInntektSammenligningsgrunnlag().stream()
-            .filter(inntekt -> inntekt.getArbeidsgiver() != null)
-            .flatMap(i -> i.getInntektspost().stream())
-            .collect(Collectors.groupingBy(Inntektspost::getFraOgMed, Collectors.reducing(BigDecimal.ZERO,
-                ip -> ip.getBeløp().getVerdi(), BigDecimal::add)));
-
-        månedsinntekter.forEach((måned, inntekt) -> inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
-            .medInntektskilde(Inntektskilde.INNTEKTSKOMPONENTEN_SAMMENLIGNING)
-            .medMåned(måned)
-            .medInntekt(inntekt)
-            .build()));
-    }
-
-    private static void lagInntekterSN(Inntektsgrunnlag inntektsgrunnlag, AktørInntekt aktørInntekt) {
-        List<Inntekt> liste = aktørInntekt.getBeregnetSkatt();
-        liste.stream().flatMap(inntekt -> inntekt.getInntektspost().stream())
-            .forEach(inntektspost -> inntektsgrunnlag.leggTilPeriodeinntekt(Periodeinntekt.builder()
-                .medInntektskilde(Inntektskilde.SIGRUN)
-                .medInntekt(inntektspost.getBeløp().getVerdi())
-                .medPeriode(Periode.of(inntektspost.getFraOgMed(), inntektspost.getTilOgMed()))
-                .build()
-            ));
-    }
-
     private SammenligningsGrunnlag mapEllerHentSammenligningsgrunnlag(Behandling behandling, Beregningsgrunnlag beregningsgrunnlag) {
         if (beregningsgrunnlag.getSammenligningsgrunnlag() != null) {
             return mapSammenligningsGrunnlag(beregningsgrunnlag);
@@ -478,19 +500,6 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
         });
 
         return perioder;
-    }
-
-    private static List<no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.PeriodeÅrsak> mapPeriodeÅrsak(List<BeregningsgrunnlagPeriodeÅrsak> beregningsgrunnlagPeriodeÅrsaker) {
-        if (beregningsgrunnlagPeriodeÅrsaker.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.PeriodeÅrsak> periodeÅrsakerMapped = new ArrayList<>();
-        beregningsgrunnlagPeriodeÅrsaker.forEach(bgPeriodeÅrsak -> {
-            if (!PeriodeÅrsak.UDEFINERT.equals(bgPeriodeÅrsak.getPeriodeÅrsak())) {
-                periodeÅrsakerMapped.add(no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.PeriodeÅrsak.valueOf(bgPeriodeÅrsak.getPeriodeÅrsak().getKode()));
-            }
-        });
-        return periodeÅrsakerMapped;
     }
 
     private List<BeregningsgrunnlagPrStatus> mapVLBGPrStatus(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGPeriode) {
@@ -596,7 +605,8 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
         String arbRef = arbeidsforholdRefFor(vlBGPStatus);
         if (arbeidsgiver.getErVirksomhet()) {
             return Arbeidsforhold.nyttArbeidsforholdHosVirksomhet(arbeidsgiver.getVirksomhet().getOrgnr(), arbRef);
-        } if (arbeidsgiver.erAktørId()) {
+        }
+        if (arbeidsgiver.erAktørId()) {
             return Arbeidsforhold.nyttArbeidsforholdHosPrivatperson(arbeidsgiver.getAktørId().getId(), arbRef);
         }
         throw new IllegalStateException("Arbeidsgiver må være enten aktør eller virksomhet");
@@ -617,7 +627,7 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
 
         if (aktivitet.isEmpty()) {  // For enklere feilsøking når det mangler aktiviteter
             Aktivitet aktivitetType = mapTilRegelmodell(OpptjeningAktivitetType.UDEFINERT);
-            AktivPeriode aktivPeriode = AktivPeriode.forAndre(aktivitetType,Periode.of(LocalDate.now().minusYears(1), LocalDate.now()));
+            AktivPeriode aktivPeriode = AktivPeriode.forAndre(aktivitetType, Periode.of(LocalDate.now().minusYears(1), LocalDate.now()));
             modell.leggTilAktivPeriode(aktivPeriode);
         } else {
             aktivitet.forEach(a -> lagAktivePerioder(behandling, a).forEach(modell::leggTilAktivPeriode));
@@ -644,7 +654,7 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
 
         if (ReferanseType.AKTØR_ID.equals(opptjeningAktivitet.getAktivitetReferanseType())) {
             return lagAktivePerioderForArbeidstakerHosPrivatperson(opptjeningAktivitet, gjeldendePeriode);
-        } else if (ReferanseType.ORG_NR.equals(opptjeningAktivitet.getAktivitetReferanseType())){
+        } else if (ReferanseType.ORG_NR.equals(opptjeningAktivitet.getAktivitetReferanseType())) {
             return lagAktivePerioderForArbeidstakerHosVirksomhet(behandling, opptjeningAktivitet, aktivitetType, gjeldendePeriode);
         }
         throw new IllegalStateException("Arbedisgiver må være enten aktør eller virksomhet");
@@ -654,7 +664,7 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
         String orgnr = mapTilRegelmodellForOrgnr(aktivitetType, opptjeningAktivitet);
         List<String> alleArbeidsforhold = finnArbeidsforholdHosVirksomhet(orgnr, behandling);
         if (alleArbeidsforhold.isEmpty()) {
-            return Collections.singletonList(AktivPeriode.forArbeidstakerHosVirksomhet(gjeldendePeriode, orgnr,null));
+            return Collections.singletonList(AktivPeriode.forArbeidstakerHosVirksomhet(gjeldendePeriode, orgnr, null));
         } else {
             return alleArbeidsforhold
                 .stream()
@@ -691,15 +701,6 @@ public class MapBeregningsgrunnlagFraVLTilRegel {
             }
         }
         return arbeidsforhold;
-    }
-
-    static boolean harYrkesaktiviteterFørSkjæringstidspunktet(AktørArbeid aa, LocalDate skjæringstidspunkt, ArbeidsforholdRef arbeidsforholdRef) {
-        return aa.getYrkesaktiviteter().stream().anyMatch(ya -> ya.getArbeidsforholdRef().filter(ref -> ref.gjelderFor(arbeidsforholdRef)).isPresent() &&
-            harAktivitetsavtaleAktivFørSkjæringstidspunktet(ya, skjæringstidspunkt));
-    }
-
-    private static boolean harAktivitetsavtaleAktivFørSkjæringstidspunktet(Yrkesaktivitet ya, LocalDate skjæringstidspunkt) {
-        return ya.getAktivitetsAvtaler().stream().anyMatch(aa -> aa.getFraOgMed().isBefore(skjæringstidspunkt));
     }
 
     private String mapTilRegelmodellForOrgnr(Aktivitet aktivitetType, OpptjeningAktivitet opptjeningAktivitet) {

@@ -328,6 +328,11 @@
 				<artifactId>behandlingslager-testutilities</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+            <dependency>
+				<groupId>no.nav.sykepenger</groupId>
+				<artifactId>beregningsgrunnlag-testutils</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>dokumentarkiv</artifactId>
