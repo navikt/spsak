@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.domene.arbeidsforhold;
+package no.nav.foreldrepenger.domene.arbeidsforhold.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
-public class YtelseTestHelper {
+class YtelseTestUtil {
 
     private static final String AREBIDSFORHOLD_ID = "1";
 
