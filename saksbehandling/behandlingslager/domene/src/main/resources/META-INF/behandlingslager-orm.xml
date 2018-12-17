@@ -214,7 +214,6 @@
 
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentGruppe"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Innsendingsvalg"/>

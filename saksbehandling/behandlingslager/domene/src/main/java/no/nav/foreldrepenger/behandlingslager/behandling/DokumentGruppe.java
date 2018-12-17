@@ -1,30 +1,21 @@
 package no.nav.foreldrepenger.behandlingslager.behandling;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+public enum DokumentGruppe {
 
-import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
+    SØKNAD("SØKNAD"),
+    INNTEKTSMELDING("INNTEKTSMELDING"),
+    ENDRINGSSØKNAD("ENDRINGSSØKNAD"), // TODO SP: Trenger vi denne lenger? Eller er dette korreksjon av søknad?
+    KLAGE("KLAGE"),
+    VEDLEGG("VEDLEGG"), // TODO SP : Trenger vi denne lenger?
+    UDEFINERT("-"); //$NON-NLS-1$
 
-
-@Entity(name = "DokumentGruppe")
-@DiscriminatorValue(DokumentGruppe.DISCRIMINATOR)
-public class DokumentGruppe extends Kodeliste {
-
-    public static final String DISCRIMINATOR = "DOKUMENT_GRUPPE";
-
-    public static final DokumentGruppe SØKNAD = new DokumentGruppe("SØKNAD"); //$NON-NLS-1$
-    public static final DokumentGruppe INNTEKTSMELDING = new DokumentGruppe("INNTEKTSMELDING"); //$NON-NLS-1$
-    public static final DokumentGruppe ENDRINGSSØKNAD = new DokumentGruppe("ENDRINGSSØKNAD"); //$NON-NLS-1$
-    public static final DokumentGruppe KLAGE = new DokumentGruppe("KLAGE"); //$NON-NLS-1$
-    public static final DokumentGruppe VEDLEGG = new DokumentGruppe("VEDLEGG"); //$NON-NLS-1$
-
-    public static final DokumentGruppe UDEFINERT = new DokumentGruppe("-"); //$NON-NLS-1$
-
-    DokumentGruppe() {
-        // Hibernate trenger en
-    }
+    private final String kode;
 
     DokumentGruppe(String kode) {
-        super(kode, DISCRIMINATOR);
+        this.kode = kode;
+    }
+
+    public String getKode() {
+        return kode;
     }
 }
