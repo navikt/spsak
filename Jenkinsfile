@@ -68,7 +68,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^felles'")
-					return !${params.incrementalBuild} || !fileExists("felles/target") || !fileExists(".m2") || matches==0
+					return !"${params.incrementalBuild}" || !fileExists("felles/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -82,7 +82,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^kontrakter'")
-                    return !${params.incrementalBuild} || !fileExists("kontrakter/.flattened") || !fileExists(".m2") || matches==0
+                    return !"${params.incrementalBuild}" || !fileExists("kontrakter/.flattened") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -96,7 +96,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^saksbehandling'")
-                    return !${params.incrementalBuild} || !fileExists("saksbehandling/target") || !fileExists(".m2") || matches==0
+                    return !"${params.incrementalBuild}" || !fileExists("saksbehandling/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -110,7 +110,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^vtp-mock'")
-                    return !${params.incrementalBuild} || !fileExists("vtp-mock/target") || !fileExists(".m2") || matches==0
+                    return !"${params.incrementalBuild}" || !fileExists("vtp-mock/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
