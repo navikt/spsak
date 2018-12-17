@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:soeknad xmlns:ns2="urn:no:nav:vedtak:felles:xml:soeknad:v1"
+             xmlns:ns5="urn:no:nav:vedtak:felles:xml:soeknad:felles:v1"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ns2:mottattDato>2018-08-15+02:00</ns2:mottattDato>
+    <ns2:omYtelse>
+        <engangsstønad>
+            <soekersRelasjonTilBarnet xsi:type="ns5:Termin">
+                <ns5:antallBarn>1</ns5:antallBarn>
+                <ns5:termindato>2018-08-22+02:00</ns5:termindato>
+                <ns5:utstedtdato>2018-08-08+02:00</ns5:utstedtdato>
+            </soekersRelasjonTilBarnet>
+            <medlemskap>
+                <oppholdNorge>
+                    <periode>
+                        <fom>2017-08-15+02:00</fom>
+                        <tom>2018-08-15+02:00</tom>
+                    </periode>
+                </oppholdNorge>
+                <oppholdNorge>
+                    <periode>
+                        <fom>2018-08-15+02:00</fom>
+                        <tom>2019-08-15+02:00</tom>
+                    </periode>
+                </oppholdNorge>
+                <iNorgeVedFoedselstidspunkt>true</iNorgeVedFoedselstidspunkt>
+            </medlemskap>
+            <annenForelder xsi:type="ns5:UkjentForelder"/>
+        </engangsstønad>
+    </ns2:omYtelse>
+    <ns2:soeker>
+        <ns5:aktoerId>9000000000002</ns5:aktoerId>
+        <ns5:soeknadsrolle kode="MOR"/>
+    </ns2:soeker>
+</ns2:soeknad>

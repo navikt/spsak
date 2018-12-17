@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>no.nav.sykepenger.fordel</groupId>
+		<artifactId>fpfordel</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>docs</artifactId>
+	<name>fordel :: Docs</name>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles</groupId>
+			<artifactId>felles-feil</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles</groupId>
+			<artifactId>felles-db</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles</groupId>
+			<artifactId>felles-testutilities</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger.fordel</groupId>
+            <artifactId>migreringer</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+			<artifactId>felles-integrasjon-webservice</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger.fordel</groupId>
+			<artifactId>domene</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger.fordel.web</groupId>
+			<artifactId>webapp</artifactId>
+			<classifier>classes</classifier>
+		</dependency>
+
+	</dependencies>
+
+</project>

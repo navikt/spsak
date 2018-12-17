@@ -1,0 +1,13 @@
+{
+  "schemas": [
+    {
+      "datasource": "defaultDS",
+      "schema": "public",
+      "user": "vl_fordeling_unit",
+      "password": "vl_fordeling_unit",
+      "url": "jdbc:postgresql://localhost:5432/vl_fordeling_unit",
+      "default": true,
+      "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
+    }
+  ]
+}

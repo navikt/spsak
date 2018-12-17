@@ -1,0 +1,195 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>no.nav.sykepenger.fordel</groupId>
+		<artifactId>web</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>no.nav.sykepenger.fordel.web</groupId>
+	<artifactId>server</artifactId>
+	<name>Fordel :: Web :: Jetty server</name>
+
+	<dependencies>
+
+		<!-- Foreldrepengeprosjektet -->
+		<dependency>
+			<groupId>no.nav.sykepenger.fordel</groupId>
+			<artifactId>migreringer</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+			<artifactId>felles-integrasjon-jms</artifactId>
+		</dependency>
+
+		<!-- Eksterne -->
+
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet-core</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId> org.jboss.spec.javax.el</groupId>
+					<artifactId>jboss-el-api_3.0_spec</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jandex</artifactId>
+		</dependency>
+        
+        <dependency>
+            <groupId>com.papertrailapp</groupId>
+            <artifactId>logback-syslog4j</artifactId>
+        </dependency>
+
+		<dependency>
+			<!-- kreves for start av server -->
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<!-- Andre JEE api'er -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>javax.jms-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+		</dependency>
+
+		<!-- trengs for å initialisere Resteasy (fra Resteasy 3.x) -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-servlet-initializer</artifactId>
+		</dependency>
+
+		<!-- Database -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jaas</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jaspi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-plus</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlets</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
+			<artifactId>felles-sikkerhet</artifactId>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.json</groupId>
+					<artifactId>javax.json-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.geronimo.components</groupId>
+			<artifactId>geronimo-jaspi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-osgi-locator</artifactId>
+		</dependency>
+		
+		<!--  ekskluder unødvendige avhengigheter fra pakking vha provided scope (vil ellers gi duplikate klasser) -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.interceptor</groupId>
+			<artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<!-- FIXME (u139158): PK-44270 Kun for lokal utvikling -->
+			<groupId>no.nav.modig</groupId>
+			<artifactId>modig-testcertificates</artifactId>
+			<version>1.2.5-vedfp-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Kun for å starte JettyDevServer uten å rebuilde WAR -->
+		<dependency>
+			<groupId>no.nav.sykepenger.fordel.web</groupId>
+			<artifactId>webapp</artifactId>
+            <classifier>classes</classifier>
+			<scope>test</scope>
+		</dependency>
+
+
+    </dependencies>
+
+	<properties>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/target/lib/</outputDirectory>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

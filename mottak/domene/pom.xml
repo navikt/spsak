@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>no.nav.sykepenger.fordel</groupId>
+        <artifactId>fpfordel</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>domene</artifactId>
+    <name>Fordel :: Domene</name>
+
+    <dependencies>
+        <!-- Reaktor -->
+        <dependency>
+            <groupId>no.nav.sykepenger.fordel</groupId>
+            <artifactId>kodeverk</artifactId>
+        </dependency>
+
+        <!-- Foreldrepengeprosjektet -->
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>felles-integrasjon-rest-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>aktoer-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>arbeidsfordeling-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>behandleinngaaendejournal-klient</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles</groupId>
+            <artifactId>felles-behandlingsprosess-prosesstask</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>felles-integrasjon-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles</groupId>
+            <artifactId>felles-bom</artifactId>
+            <scope>provided</scope>
+            </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>infotrygdsak-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>inngaaendejournal-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>journal-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>behandleoppgave-klient</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                    <artifactId>jaxb2-basics-runtime</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>person-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>sak-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <artifactId>fordel-v1</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>mottainngaaendeforsendelse-klient</artifactId>
+        </dependency>
+
+        <!-- NAV -->
+        <dependency>
+            <groupId>no.nav.meldinger.virksomhet</groupId>
+            <artifactId>nav-virksomhet-dokumentnotifikasjon-v1-meldingsdefinisjon</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <artifactId>inntektsmelding-v1</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <artifactId>soeknad-v1</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <artifactId>soeknad-v2</artifactId>
+            <classifier>jaxb</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+        </dependency>
+
+        <!-- Test avhengigheter -->
+        <dependency>
+            <groupId>no.nav.sykepenger.fordel</groupId>
+            <artifactId>kodeverk</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger.fordel</groupId>
+            <artifactId>migreringer</artifactId>
+            <type>test-jar</type>
+			<scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles</groupId>
+            <artifactId>felles-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
+            <artifactId>felles-sikkerhet-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>2.24.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

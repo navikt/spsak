@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<ns5:soeknad xmlns:ns5="urn:no:nav:vedtak:felles:xml:soeknad:v1"
+             xmlns:ns2="urn:no:nav:vedtak:felles:xml:soeknad:felles:v1"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ns5:mottattDato>2018-02-26+01:00</ns5:mottattDato>
+    <ns5:omYtelse>
+        <foreldrepenger>
+            <annenForelder xsi:type="ns2:UkjentForelder"/>
+            <rettigheter>
+                <harAnnenForelderRett>true</harAnnenForelderRett>
+                <harOmsorgForBarnetIPeriodene>true</harOmsorgForBarnetIPeriodene>
+                <harAleneomsorgForBarnet>false</harAleneomsorgForBarnet>
+            </rettigheter>
+            <relasjonTilBarnet xsi:type="ns2:Foedsel" xmlns="urn:no:nav:vedtak:felles:xml:soeknad:felles:v1">
+                <antallBarn>1</antallBarn>
+                <foedselsdato>2018-01-10+01:00</foedselsdato>
+            </relasjonTilBarnet>
+            <medlemskap>
+                <oppholdNorge>
+                    <periode>
+                        <fom>2017-02-26+01:00</fom>
+                        <tom>2018-02-26+01:00</tom>
+                    </periode>
+                </oppholdNorge>
+                <oppholdNorge>
+                    <periode>
+                        <fom>2018-02-26+01:00</fom>
+                        <tom>2019-02-26+01:00</tom>
+                    </periode>
+                </oppholdNorge>
+                <iNorgeVedFoedselstidspunkt>true</iNorgeVedFoedselstidspunkt>
+            </medlemskap>
+            <opptjening/>
+            <fordeling xmlns="urn:no:nav:vedtak:felles:xml:soeknad:uttak:v1">
+                <annenForelderErInformert>true</annenForelderErInformert>
+                <perioder xsi:type="Uttaksperiode">
+                    <fom>2018-01-01+01:00</fom>
+                    <tom>2018-01-10+01:00</tom>
+                    <type kode="FORELDREPENGER_FØR_FØDSEL"/>
+                </perioder>
+                <perioder xsi:type="Uttaksperiode">
+                    <fom>2018-01-11+01:00</fom>
+                    <tom>2018-04-30+02:00</tom>
+                    <type kode="MØDREKVOTE"/>
+                </perioder>
+            </fordeling>
+            <dekningsgrad>
+                <dekningsgrad kode="100"/>
+            </dekningsgrad>
+        </foreldrepenger>
+    </ns5:omYtelse>
+    <ns5:soeker>
+        <ns2:aktoerId>9000000000002</ns2:aktoerId>
+        <ns2:soeknadsrolle kode="MOR"/>
+    </ns5:soeker>
+</ns5:soeknad>
