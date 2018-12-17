@@ -24,6 +24,10 @@ pipeline {
         pollSCM "* * * * *"
     }
 	
+	parameters {
+        booleanParam(defaultValue: true, description: 'Incremental build', name: 'incrementalBuild')
+    }
+	
 	options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         timeout(time: 15, unit: 'MINUTES')
@@ -64,7 +68,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^felles'")
-					return !fileExists("felles/target") || !fileExists(".m2") || matches==0
+					return !${params.incrementalBuild} || !fileExists("felles/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -78,7 +82,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^kontrakter'")
-                    return !fileExists("kontrakter/.flattened") || !fileExists(".m2") || matches==0
+                    return !${params.incrementalBuild} || !fileExists("kontrakter/.flattened") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -92,7 +96,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^saksbehandling'")
-                    return !fileExists("saksbehandling/target") || !fileExists(".m2") || matches==0
+                    return !${params.incrementalBuild} || !fileExists("saksbehandling/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
@@ -106,7 +110,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^vtp-mock'")
-                    return !fileExists("vtp-mock/target") || !fileExists(".m2") || matches==0
+                    return !${params.incrementalBuild} || !fileExists("vtp-mock/target") || !fileExists(".m2") || matches==0
                 }
             }
             steps {
