@@ -7,9 +7,7 @@
 def dbImage = null;
 
 def mvnOptions(String projectPath, String prevCommit) {
-	 matches = sh(returnStdout: true, script: "git diff --diff-filter=DRBX --shortstat $prevCommit.. $projectPath")
-	 println matches
-	 return matches!=null && matches.length() >0 ? "clean" : ""
+	return "clean"
 }
 
 pipeline {
@@ -39,7 +37,7 @@ pipeline {
             steps {
                 script {
                     def scmVars = checkout scm
-                    env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT = scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT ?: ""
+                    env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT = scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT ?: "--"
 					env.LANG = "nb_NO.UTF-8"
 					env.POSTGRES_IMAGE="postgres:10-alpine"
 					env.DB_CONTAINER="spsak-postgres-" + "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9_-]", '_').toLowerCase()
