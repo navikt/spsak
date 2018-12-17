@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.domene.arbeidsforhold.impl;
 
-import static no.nav.foreldrepenger.domene.arbeidsforhold.impl.YtelserTestUtils.leggTilYtelse;
-import static no.nav.foreldrepenger.domene.arbeidsforhold.impl.YtelserTestUtils.opprettInntektArbeidYtelseAggregatForYrkesaktivitet;
+import static no.nav.foreldrepenger.domene.arbeidsforhold.impl.YtelseTestUtil.leggTilYtelse;
+import static no.nav.foreldrepenger.domene.arbeidsforhold.impl.YtelseTestUtil.opprettInntektArbeidYtelseAggregatForYrkesaktivitet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;

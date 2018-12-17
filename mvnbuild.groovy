@@ -8,7 +8,7 @@ def build(String mydir, String mvnOptions) {
 		dir(mydir) {
 			stage ('Build: ' + mydir) {
 				// bruker private m2 repo i workspace slik at fungerer også uavhengig for PR branches
-				sh 'mvn -B -s ../mvn-settings.xml -Dmaven.repo.local=../.m2 $mvnOptions install' 
+				sh 'mvn -B -s ../mvn-settings.xml --no-snapshot-updates -Dmaven.repo.local=../.m2 ' + mvnOptions + ' install' 
 			}
 		}
 		

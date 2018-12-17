@@ -7,11 +7,9 @@
 def dbImage = null;
 
 def mvnOptions(String projectPath, String prevCommit) {
-	 matches = sh(returnStatus:true, script: "git diff --diff-filter=acm --shortstat $prevCommit.. $projectPath | egrep '.*changed.*'")
-	 println "returnStatus" + matches
-	 def opts = matches==0 ? "clean" : ""
-	 println "Options " + opts
-	 return opts
+	 matches = sh(returnStdout: true, script: "git diff --diff-filter=DRBX --shortstat $prevCommit.. $projectPath")
+	 println matches
+	 return matches!=null && matches.length() >0 ? "clean" : ""
 }
 
 pipeline {
@@ -28,7 +26,8 @@ pipeline {
 	
 	options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
-        timeout(time: 30, unit: 'MINUTES')
+        timeout(time: 15, unit: 'MINUTES')
+		disableConcurrentBuilds()
     }
 
     stages {
@@ -79,7 +78,7 @@ pipeline {
             when {
                 expression {
                     matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^kontrakter'")
-                    return !fileExists("kontrakter/target") || !fileExists(".m2") || matches==0
+                    return !fileExists("kontrakter/.flattened") || !fileExists(".m2") || matches==0
                 }
             }
             steps {

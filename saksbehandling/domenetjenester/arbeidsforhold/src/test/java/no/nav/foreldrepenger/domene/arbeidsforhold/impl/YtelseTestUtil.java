@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
-class YtelserTestUtils {
+class YtelseTestUtil {
 
     private static final String AREBIDSFORHOLD_ID = "1";
 
