@@ -121,6 +121,10 @@
 					<groupId>javax.json</groupId>
 					<artifactId>javax.json-api</artifactId>
 				</exclusion>
+				<exclusion>
+					<artifactId>metrics-core</artifactId>
+					<groupId>io.dropwizard.metrics</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -145,14 +149,6 @@
 			<artifactId>logstash-logback-encoder</artifactId>
 		</dependency>
 
-		<!-- Test -->
-		<dependency>
-			<!-- FIXME (u139158): PK-44270 Kun for lokal utvikling -->
-			<groupId>no.nav.modig</groupId>
-			<artifactId>modig-testcertificates</artifactId>
-			<version>1.2.5-vedfp-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
 
 		<!-- Kun for å starte JettyDevServer uten å rebuilde WAR -->
 		<dependency>

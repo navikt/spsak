@@ -21,6 +21,12 @@
 		<dependency>
 			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-db</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>metrics-core</artifactId>
+					<groupId>io.dropwizard.metrics</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>no.nav.spvedtak.felles</groupId>
