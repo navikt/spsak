@@ -33,7 +33,6 @@ public class ProsesstaskMeldingsfordelerTest {
 
     @Rule
     public RepositoryRule repoRule = new UnittestRepositoryRule().disableCdi();
-    private MetricRegistry metricRegistry;
 
     @Before
     public void setup() throws SQLException {
@@ -66,8 +65,8 @@ public class ProsesstaskMeldingsfordelerTest {
         assertThat(prosessTaskData.getTaskType()).as("Forventer at prosesstask av korrekt type blir opprettet. ")
                 .isEqualToIgnoringCase("fordeling.hentFraJoark");
 
-        assertThat(metricRegistry.getMeters()).isNotEmpty();
-        assertThat(metricRegistry.getMeters().get("mottak.soknader." + input.getBehandlingstema().getValue()).getCount()).isEqualTo(1);
+        /*assertThat(metricRegistry.getMeters()).isNotEmpty();
+        assertThat(metricRegistry.getMeters().get("mottak.soknader." + input.getBehandlingstema().getValue()).getCount()).isEqualTo(1);*/
     }
 
     @Test
