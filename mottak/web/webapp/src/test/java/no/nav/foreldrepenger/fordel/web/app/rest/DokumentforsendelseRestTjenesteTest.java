@@ -68,7 +68,7 @@ public class DokumentforsendelseRestTjenesteTest {
         mockMeter = mock(Meter.class);
         metricsRegistry = mock(MetricRegistry.class);
         when(metricsRegistry.meter(Mockito.anyString())).thenReturn(mockMeter);
-        tjeneste = new DokumentforsendelseRestTjeneste(dokumentTjenesteMock, kodeverkRepo, new MetricRegistry(), null);
+        tjeneste = new DokumentforsendelseRestTjeneste(dokumentTjenesteMock, kodeverkRepo, null);
 
 
         //default mocking

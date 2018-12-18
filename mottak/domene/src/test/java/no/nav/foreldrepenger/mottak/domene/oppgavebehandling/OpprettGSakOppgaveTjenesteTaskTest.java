@@ -77,7 +77,7 @@ public class OpprettGSakOppgaveTjenesteTaskTest {
         tilJournalføringTjeneste = new TilJournalføringTjeneste(journalTjeneste, fagsakRestKlient, dokumentRepository);
         metricRegistry = new MetricRegistry();
         when(enhetsidTjeneste.hentFordelingEnhetId(any(), any(), any(), any())).thenReturn(fordelingsOppgaveEnhetsId);
-        task = new OpprettGSakOppgaveTask(mockService, metricRegistry, enhetsidTjeneste, kodeverkRepository, dokumentRepository, tilJournalføringTjeneste, aktørConsumer);
+        task = new OpprettGSakOppgaveTask(mockService, enhetsidTjeneste, kodeverkRepository, dokumentRepository, tilJournalføringTjeneste, aktørConsumer);
     }
 
     @Test

@@ -16,8 +16,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 
-import com.codahale.metrics.MetricRegistry;
-
 import no.nav.foreldrepenger.fordel.kodeverk.ArkivFilType;
 import no.nav.foreldrepenger.fordel.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.mottak.domene.MottattStrukturertDokument;
@@ -51,7 +49,6 @@ public class DokumentforsendelseTjenesteImpl implements DokumentforsendelseTjene
     private DokumentRepository repository;
     private KodeverkRepository kodeverkRepository;
     private ProsessTaskRepository prosessTaskRepository;
-    private MetricRegistry metricRegistry;
     private AktørConsumer aktørConsumer;
 
     public DokumentforsendelseTjenesteImpl() { // For CDI
@@ -59,11 +56,10 @@ public class DokumentforsendelseTjenesteImpl implements DokumentforsendelseTjene
 
     @Inject
     public DokumentforsendelseTjenesteImpl(DokumentRepository repository, KodeverkRepository kodeverkRepository,
-                                           ProsessTaskRepository prosessTaskRepository, MetricRegistry metricRegistry, AktørConsumer aktørConsumer) {
+                                           ProsessTaskRepository prosessTaskRepository, AktørConsumer aktørConsumer) {
         this.repository = repository;
         this.kodeverkRepository = kodeverkRepository;
         this.prosessTaskRepository = prosessTaskRepository;
-        this.metricRegistry = metricRegistry;
         this.aktørConsumer = aktørConsumer;
     }
 
@@ -80,9 +76,9 @@ public class DokumentforsendelseTjenesteImpl implements DokumentforsendelseTjene
             if (Søknad.class.isInstance(abstractDto)) {
                 ((Søknad)abstractDto).sjekkNødvendigeFeltEksisterer(dokument.getForsendelseId());
             }
-            if (no.nav.foreldrepenger.mottak.domene.v2.Søknad.class.isInstance(abstractDto)) {
+            /*if (no.nav.foreldrepenger.mottak.domene.v2.Søknad.class.isInstance(abstractDto)) {
                 ((no.nav.foreldrepenger.mottak.domene.v2.Søknad) abstractDto).sjekkNødvendigeFeltEksisterer(dokument.getForsendelseId());
-            }
+            }*/
         }
         repository.lagre(dokument);
     }
@@ -98,14 +94,14 @@ public class DokumentforsendelseTjenesteImpl implements DokumentforsendelseTjene
         if (hoveddokumenter.isEmpty()) {
             if (dokumentMetadata.getSaksnummer().isPresent()) {
                 opprettProsessTask(forsendelseId, avsenderId);
-                metricRegistry.meter(METRIC_KEY_UPLOAD + "ettersendelse").mark();
+                //metricRegistry.meter(METRIC_KEY_UPLOAD + "ettersendelse").mark();
                 return;
             }
             throw DokumentforsendelseTjenesteFeil.FACTORY.saksnummerPåkrevdVedEttersendelser().toException();
         }
         if (korrektAntallOgTyper(hoveddokumenter)) {
             opprettProsessTask(forsendelseId, avsenderId);
-            metricRegistry.meter(METRIC_KEY_UPLOAD + "søknad").mark();
+            //metricRegistry.meter(METRIC_KEY_UPLOAD + "søknad").mark();
             return;
         }
         throw DokumentforsendelseTjenesteFeil.FACTORY

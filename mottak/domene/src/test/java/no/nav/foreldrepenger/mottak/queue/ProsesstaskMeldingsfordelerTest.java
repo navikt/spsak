@@ -39,8 +39,7 @@ public class ProsesstaskMeldingsfordelerTest {
     public void setup() throws SQLException {
         prosessTaskRepository = new ProsessTaskRepositoryImpl(repoRule.getEntityManager(), null);
         kodeverkRepository = new KodeverkRepositoryImpl(repoRule.getEntityManager());
-        metricRegistry = new MetricRegistry();
-        meldingsFordeler = new ProsesstaskMeldingsfordeler(prosessTaskRepository, metricRegistry, kodeverkRepository);
+        meldingsFordeler = new ProsesstaskMeldingsfordeler(prosessTaskRepository, kodeverkRepository);
     }
 
     @Test

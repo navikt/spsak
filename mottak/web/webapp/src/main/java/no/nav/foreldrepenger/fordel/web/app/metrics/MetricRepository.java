@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.fordel.web.app.metrics;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -116,7 +117,7 @@ public class MetricRepository {
         query.setParameter("taskType", taskType);
         query.setParameter("dokTypeId", "%dokumentTypeId=" + dokumentTypeIdKode + "%");
         @SuppressWarnings("unchecked")
-        List<BigDecimal> alleSvar = query.getResultList();
+        List<BigInteger> alleSvar = query.getResultList();
         return alleSvar.get(0).longValue();
     }
 

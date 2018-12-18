@@ -2,8 +2,6 @@ package no.nav.foreldrepenger.mottak.task;
 
 import javax.inject.Inject;
 
-import com.codahale.metrics.MetricRegistry;
-
 import no.nav.foreldrepenger.fordel.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.mottak.domene.oppgavebehandling.OpprettGSakOppgaveTask;
 import no.nav.foreldrepenger.mottak.felles.MottakMeldingDataWrapper;
@@ -22,17 +20,11 @@ abstract class OverførTilGsakFeilhåndteringsalgoritme extends SimpelFeilhåndt
 
     private ProsessTaskRepository prosessTaskRepository;
     private final KodeverkRepository kodeverkRepository;
-    private MetricRegistry metricRegistry;
 
     public OverførTilGsakFeilhåndteringsalgoritme(ForsinkelseStrategi forsinkelseStrategi, ProsessTaskRepository prosessTaskRepository, KodeverkRepository kodeverkRepository) {
         super(forsinkelseStrategi);
         this.prosessTaskRepository = prosessTaskRepository;
         this.kodeverkRepository = kodeverkRepository;
-    }
-
-    @Inject
-    public void setMetricRegistry(MetricRegistry metricRegistry) {
-        this.metricRegistry = metricRegistry;
     }
 
     @Override
@@ -52,7 +44,7 @@ abstract class OverførTilGsakFeilhåndteringsalgoritme extends SimpelFeilhåndt
             prosessTaskRepository.lagre(nyProsessTaskData);
 
             String key = WrappedProsessTaskHandler.metricMeterNameForProsessTasksFraTil(prosessTaskData.getTaskType(), OpprettGSakOppgaveTask.TASKNAME);
-            metricRegistry.meter(key).mark();
+            //metricRegistry.meter(key).mark();
 
             return ((IntegrasjonException) exception).getFeil();
         }

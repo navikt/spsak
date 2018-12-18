@@ -28,9 +28,9 @@ public abstract class MottattStrukturertDokument<S> {
         if (skjema instanceof Soeknad) { // Dto plukker ut info for foreldrepenger, engangsstønad og endringssøknad
             return new Søknad((Soeknad) skjema);
         }
-        if (skjema instanceof no.nav.vedtak.felles.xml.soeknad.v2.Soeknad) { // Dto plukker ut info for foreldrepenger, engangsstønad og endringssøknad
+        /*if (skjema instanceof no.nav.vedtak.felles.xml.soeknad.v2.Soeknad) { // Dto plukker ut info for foreldrepenger, engangsstønad og endringssøknad
             return new no.nav.foreldrepenger.mottak.domene.v2.Søknad((no.nav.vedtak.felles.xml.soeknad.v2.Soeknad) skjema);
-        }
+        }*/
 
         throw MeldingKonverteringFeil.FACTORY.ukjentSkjemaType(skjema.getClass().getCanonicalName()).toException();
     }

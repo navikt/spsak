@@ -34,9 +34,9 @@ public final class MeldingXmlParser {
         map.put(SøknadConstants.NAMESPACE, (xml) -> JaxbHelper.unmarshalXMLWithStAX(SøknadConstants.JAXB_CLASS,
                 xml,
                 SøknadConstants.ADDITIONAL_CLASSES));
-        map.put(no.nav.foreldrepenger.søknad.v2.SøknadConstants.NAMESPACE, (xml) -> JaxbHelper.unmarshalXMLWithStAX(no.nav.foreldrepenger.søknad.v2.SøknadConstants.JAXB_CLASS,
+        /*map.put(no.nav.foreldrepenger.søknad.v2.SøknadConstants.NAMESPACE, (xml) -> JaxbHelper.unmarshalXMLWithStAX(no.nav.foreldrepenger.søknad.v2.SøknadConstants.JAXB_CLASS,
                 xml,
-                no.nav.foreldrepenger.søknad.v2.SøknadConstants.ADDITIONAL_CLASSES));
+                no.nav.foreldrepenger.søknad.v2.SøknadConstants.ADDITIONAL_CLASSES));*/
 
         map.put(SoeknadsskjemaEngangsstoenadContants.NAMESPACE,
                 (xml) -> JaxbHelper.unmarshalAndValidateXMLWithStAX(SoeknadsskjemaEngangsstoenadContants.JAXB_CLASS,

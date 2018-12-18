@@ -71,7 +71,6 @@ public class OpprettGSakOppgaveTask implements ProsessTaskHandler {
     private static final Logger log = LoggerFactory.getLogger(OpprettGSakOppgaveTask.class);
     public static final String JFR_OMS = "JFR_OMS";
     private BehandleoppgaveConsumer service;
-    private MetricRegistry metricRegistry;
 
     private EnhetsTjeneste enhetsidTjeneste;
     private KodeverkRepository kodeverkRepository;
@@ -81,14 +80,12 @@ public class OpprettGSakOppgaveTask implements ProsessTaskHandler {
 
     @Inject
     public OpprettGSakOppgaveTask(BehandleoppgaveConsumer service,
-                                  MetricRegistry metricRegistry,
                                   EnhetsTjeneste enhetsidTjeneste,
                                   KodeverkRepository kodeverkRepository,
                                   DokumentRepository dokumentRepository,
                                   TilJournalføringTjeneste tilJournalføringTjeneste,
                                   AktørConsumerMedCache aktørConsumer) {
         this.service = service;
-        this.metricRegistry = metricRegistry;
         this.enhetsidTjeneste = enhetsidTjeneste;
         this.kodeverkRepository = kodeverkRepository;
         this.dokumentRepository = dokumentRepository;
@@ -109,7 +106,7 @@ public class OpprettGSakOppgaveTask implements ProsessTaskHandler {
 
         WSOpprettOppgaveResponse oppgaveResponse = opprettOppgave(prosessTaskData, behandlingTema, dokumentTypeId, retrying);
 
-        metricRegistry.meter("mottak." + ( behandlingTema.getOffisiellKode() != null ? behandlingTema.getOffisiellKode() : "udefinert" ) + ".ny.gsak").mark();
+        //metricRegistry.meter("mottak." + ( behandlingTema.getOffisiellKode() != null ? behandlingTema.getOffisiellKode() : "udefinert" ) + ".ny.gsak").mark();
 
         String oppgaveId = oppgaveResponse.getOppgaveId();
         log.info("Oppgave opprettet i Gosys med nummer: {}", oppgaveId);

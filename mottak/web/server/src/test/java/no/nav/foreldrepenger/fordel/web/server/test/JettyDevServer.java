@@ -28,7 +28,6 @@ import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
 import no.nav.foreldrepenger.fordel.web.server.DatabaseScript;
 import no.nav.foreldrepenger.fordel.web.server.JettyServer;
-import no.nav.modig.testcertificates.TestCertificates;
 import no.nav.vedtak.isso.IssoApplication;
 
 /** Setter opp jetty automatisk lokalt med riktig konfig verdier. */
@@ -163,10 +162,21 @@ public class JettyDevServer extends JettyServer {
 
 	}
 
+	private static void konfigurerSikkerhet() {
+		System.setProperty("conf", "src/main/resources/jetty/");
+		//super.konfigurerSikkerhet();
+		System.setProperty("javax.net.ssl.trustStore", new File(System.getProperty("user.home")+"/spsak/truststore.jks").getAbsolutePath());
+		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+		System.setProperty("no.nav.modig.security.appcert.keystore", new File(System.getProperty("user.home")+"/spsak/keystore.jks").getAbsolutePath());
+		System.setProperty("no.nav.modig.security.appcert.password", "changeit");
+
+	}
+
 	private static void setupSikkerhetLokalt() throws IOException {
 		System.setProperty("app.confdir", "src/main/resources/jetty");
 		System.setProperty("develop-local", "true");
-		TestCertificates.setupKeyAndTrustStore();
+		//TestCertificates.setupKeyAndTrustStore();
+		konfigurerSikkerhet();
 
 		// Eksponer truststore for run-java-local.sh
 		File tempTrustStore = new File(System.getProperty("javax.net.ssl.trustStore"));

@@ -3,9 +3,6 @@ package no.nav.foreldrepenger.mottak.felles;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.annotation.Timed;
 
 import no.nav.foreldrepenger.fordel.kodeverk.KodeverkRepository;
@@ -20,16 +17,10 @@ public abstract class WrappedProsessTaskHandler implements ProsessTaskHandler {
 
     protected ProsessTaskRepository prosessTaskRepository;
     protected KodeverkRepository kodeverkRepository;
-    private MetricRegistry metricRegistry;
 
     public WrappedProsessTaskHandler(ProsessTaskRepository prosessTaskRepository, KodeverkRepository kodeverkRepository) {
         this.prosessTaskRepository = prosessTaskRepository;
         this.kodeverkRepository = kodeverkRepository;
-    }
-
-    @Inject
-    public void setMetricRegistry(MetricRegistry metricRegistry) {
-        this.metricRegistry = metricRegistry;
     }
 
     @Timed
@@ -41,10 +32,10 @@ public abstract class WrappedProsessTaskHandler implements ProsessTaskHandler {
         MottakMeldingDataWrapper prosessTaskDataNesteMedDataFraInput = doTask(dataWrapper);
 
         if (prosessTaskDataNesteMedDataFraInput != null) {
-            if (skalMåleForFag(prosessTaskDataNesteMedDataFraInput.getProsessTaskData().getTaskType())) {
+            /*if (skalMåleForFag(prosessTaskDataNesteMedDataFraInput.getProsessTaskData().getTaskType())) {
                 metricRegistry.meter(generateUniqueJointName(prosessTaskDataNesteMedDataFraInput)).mark();
             }
-            metricRegistry.meter(generateUniqueToFromKey(dataWrapper, prosessTaskDataNesteMedDataFraInput)).mark();
+            metricRegistry.meter(generateUniqueToFromKey(dataWrapper, prosessTaskDataNesteMedDataFraInput)).mark();*/
             postcondition(prosessTaskDataNesteMedDataFraInput);
             prosessTaskRepository.lagre(prosessTaskDataNesteMedDataFraInput.getProsessTaskData());
         }

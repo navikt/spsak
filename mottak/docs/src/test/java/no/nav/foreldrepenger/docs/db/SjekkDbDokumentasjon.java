@@ -27,7 +27,7 @@ public class SjekkDbDokumentasjon {
 
     @BeforeClass
     public static void setup() throws FileNotFoundException {
-        Databaseskjemainitialisering.settOppSkjemaer();
+        //Databaseskjemainitialisering.settOppSkjemaer();
         List<DBConnectionProperties> connectionProperties = DatasourceConfiguration.UNIT_TEST.get();
         DatabaseStøtte.settOppJndiForDefaultDataSource(connectionProperties);
         DatabaseStøtte.kjørFullMigreringFor(connectionProperties);

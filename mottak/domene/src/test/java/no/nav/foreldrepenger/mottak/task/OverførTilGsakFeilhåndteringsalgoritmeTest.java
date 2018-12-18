@@ -51,7 +51,6 @@ public class OverførTilGsakFeilhåndteringsalgoritmeTest {
     public void opprettAlgoritme() {
         algoritme = new OverførTilGsakMedBackoffFeilhåndteringsalgoritme(prosessTaskRepository, kodeverkRepository);
         mockMetricRegistry = mock(MetricRegistry.class);
-        algoritme.setMetricRegistry(mockMetricRegistry);
     }
 
     @Test

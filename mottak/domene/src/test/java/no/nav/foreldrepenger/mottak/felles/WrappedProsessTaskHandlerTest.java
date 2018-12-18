@@ -22,15 +22,12 @@ public class WrappedProsessTaskHandlerTest {
     private ProsessTaskRepository mockProsessTaskRepository;
     private ProsessTaskData prosessTaskData;
     private MottakMeldingDataWrapper returnedDataWrapper;
-    private MetricRegistry metricRegistry;
     private KodeverkRepository kodeverkRepository = mock(KodeverkRepository.class);
 
     @Before
     public void setup() {
         mockProsessTaskRepository = mock(ProsessTaskRepository.class);
         wrappedProsessTaskHandler = new MyWrappedProsessTaskHandler(mockProsessTaskRepository, kodeverkRepository);
-        metricRegistry = new MetricRegistry();
-        wrappedProsessTaskHandler.setMetricRegistry(metricRegistry);
         prosessTaskData = new ProsessTaskData("type");
         returnedDataWrapper = null;
     }
@@ -43,7 +40,6 @@ public class WrappedProsessTaskHandlerTest {
 
         verify(mockProsessTaskRepository).lagre(prosessTaskData);
 
-        assertThat(metricRegistry.getMeters()).isNotEmpty();
     }
 
     @Test
@@ -57,7 +53,6 @@ public class WrappedProsessTaskHandlerTest {
         wrappedProsessTaskHandler.doTask(prosessTaskData);
 
         verify(mockProsessTaskRepository, never()).lagre(any(ProsessTaskData.class));
-        assertThat(metricRegistry.getMeters()).isEmpty();
     }
 
     //-------

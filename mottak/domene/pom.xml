@@ -107,15 +107,21 @@
             <artifactId>soeknad-v1</artifactId>
             <classifier>jaxb</classifier>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>soeknad-v2</artifactId>
             <classifier>jaxb</classifier>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>org.jvnet.jaxb2_commons</groupId>
             <artifactId>jaxb2-basics-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-annotation</artifactId>
+            <version>3.2.2</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Test avhengigheter -->

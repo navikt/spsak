@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.mottak.queue;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.codahale.metrics.MetricRegistry;
-
 import no.nav.foreldrepenger.fordel.kodeverk.BehandlingTema;
 import no.nav.foreldrepenger.fordel.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.fordel.kodeverk.Tema;
@@ -21,18 +19,14 @@ public class ProsesstaskMeldingsfordeler implements MeldingsFordeler {
 
     private ProsessTaskRepository prosessTaskRepository;
     private KodeverkRepository kodeverkRepository;
-    private MetricRegistry metricRegistry;
-
     ProsesstaskMeldingsfordeler() {//NOSONAR.
         // for CDI proxy
     }
 
     @Inject
     public ProsesstaskMeldingsfordeler(ProsessTaskRepository prosessTaskRepository,
-                                       MetricRegistry metricRegistry,
                                        KodeverkRepository kodeverkRepository) {
         this.prosessTaskRepository = prosessTaskRepository;
-        this.metricRegistry = metricRegistry;
         this.kodeverkRepository = kodeverkRepository;
     }
 
@@ -58,7 +52,7 @@ public class ProsesstaskMeldingsfordeler implements MeldingsFordeler {
         prosessTaskData.setCallIdFraEksisterende();
         prosessTaskRepository.lagre(prosessTaskData);
 
-        metricRegistry.meter("mottak.soknader." + behandlingstemaOffisiellKode).mark();
+        //metricRegistry.meter("mottak.soknader." + behandlingstemaOffisiellKode).mark();
     }
 
     private void settForsendelseInformasjonPåWrapper(String arkivId,

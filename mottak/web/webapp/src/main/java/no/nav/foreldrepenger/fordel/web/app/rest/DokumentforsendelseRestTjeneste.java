@@ -43,7 +43,6 @@ import org.apache.http.HttpStatus;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
 
-import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -92,7 +91,6 @@ public class DokumentforsendelseRestTjeneste {
     private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
     private KodeverkRepository kodeverkRepository;
-    private MetricRegistry metricRegistry;
     private DokumentforsendelseTjeneste service;
 
     private static final String KEY_FP_STATUSINFORMASJON = "fp.statusinformasjon.url";
@@ -102,17 +100,15 @@ public class DokumentforsendelseRestTjeneste {
     }
 
     @Inject
-    public DokumentforsendelseRestTjeneste(DokumentforsendelseTjeneste service, KodeverkRepository kodeverkRepository,
-                                           MetricRegistry metricRegistry, @KonfigVerdi(KEY_FP_STATUSINFORMASJON) URI fpStatusUrl) {
-        this(kodeverkRepository, service, metricRegistry, fpStatusUrl);
+    public DokumentforsendelseRestTjeneste(DokumentforsendelseTjeneste service, KodeverkRepository kodeverkRepository, @KonfigVerdi(KEY_FP_STATUSINFORMASJON) URI fpStatusUrl) {
+        this(kodeverkRepository, service,  fpStatusUrl);
 
 
     }
 
-    DokumentforsendelseRestTjeneste(KodeverkRepository kodeverkRepository, DokumentforsendelseTjeneste service, MetricRegistry metricRegistry, URI fpStatusUrl) {
+    DokumentforsendelseRestTjeneste(KodeverkRepository kodeverkRepository, DokumentforsendelseTjeneste service, URI fpStatusUrl) {
         this.service = service;
         this.kodeverkRepository = kodeverkRepository;
-        this.metricRegistry = metricRegistry;
         this.fpStatusUrl = fpStatusUrl;
     }
 
@@ -162,7 +158,7 @@ public class DokumentforsendelseRestTjeneste {
                             .build();
             }
         } catch (Exception e) {
-             metricRegistry.meter(METRIC_KEY_UPLOAD_AVVIST).mark();
+             //metricRegistry.meter(METRIC_KEY_UPLOAD_AVVIST).mark();
             throw e;
         }
     }

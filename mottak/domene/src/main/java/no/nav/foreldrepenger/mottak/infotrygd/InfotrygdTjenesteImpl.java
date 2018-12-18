@@ -75,8 +75,8 @@ public class InfotrygdTjenesteImpl implements InfotrygdTjeneste {
             request.setPeriode(periode);
             request.setPersonident(fnr);
             return infotrygdSakConsumer.finnSakListe(request);
-        } catch (DatatypeConfigurationException e) {
-            throw InfotrygdFeil.FACTORY.tekniskFeil(TJENESTE, e).toException();
+        /*} catch (DatatypeConfigurationException e) {
+            throw InfotrygdFeil.FACTORY.tekniskFeil(TJENESTE, e).toException();*/
         } catch (FinnSakListePersonIkkeFunnet e) {
             throw InfotrygdFeil.FACTORY.personIkkeFunnet(TJENESTE, e).toException();
         } catch (FinnSakListeUgyldigInput e) {

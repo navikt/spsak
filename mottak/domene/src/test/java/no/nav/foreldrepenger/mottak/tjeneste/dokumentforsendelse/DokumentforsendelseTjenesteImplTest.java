@@ -64,8 +64,6 @@ public class DokumentforsendelseTjenesteImplTest {
     @Mock
     private ProsessTaskRepository prosessTaskRepositoryMock;
     @Mock
-    private MetricRegistry metricRegistryMock;
-    @Mock
     private AktørConsumer aktørConsumerMock;
 
 
@@ -83,8 +81,7 @@ public class DokumentforsendelseTjenesteImplTest {
 
     @Before
     public void setUp() {
-        tjeneste = new DokumentforsendelseTjenesteImpl(dokumentRepositoryMock, kodeverkRepository, prosessTaskRepositoryMock, metricRegistryMock, aktørConsumerMock);
-        when(metricRegistryMock.meter(anyString())).thenReturn(mock(Meter.class));
+        tjeneste = new DokumentforsendelseTjenesteImpl(dokumentRepositoryMock, kodeverkRepository, prosessTaskRepositoryMock, aktørConsumerMock);
 
         SubjectHandlerUtils.useSubjectHandler(StaticSubjectHandler.class);
     }
@@ -130,7 +127,6 @@ public class DokumentforsendelseTjenesteImplTest {
 
         tjeneste.validerDokumentforsendelse(forsendelseId);
 
-        verify(metricRegistryMock).meter(contains("ettersendelse"));
         verify(prosessTaskRepositoryMock).lagre(any(ProsessTaskData.class));
     }
 
@@ -148,7 +144,6 @@ public class DokumentforsendelseTjenesteImplTest {
 
         tjeneste.validerDokumentforsendelse(forsendelseId);
 
-        verify(metricRegistryMock).meter(contains("søknad"));
         ArgumentCaptor<ProsessTaskData> prosessTaskCaptor = ArgumentCaptor.forClass(ProsessTaskData.class);
         verify(prosessTaskRepositoryMock).lagre(prosessTaskCaptor.capture());
         ProsessTaskData capturedProssessTaskData = prosessTaskCaptor.getValue();
