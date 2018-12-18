@@ -73,6 +73,7 @@ pipeline {
 				script {
 					def module = load './mvnbuild.groovy'
 					module.build('felles', mvnOptions('felles', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+					params.incrementalBuild=false
 				}
             }
         }
@@ -87,6 +88,7 @@ pipeline {
                 script {
 					def module = load './mvnbuild.groovy'
 					module.build('kontrakter', mvnOptions('kontrakter', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+					params.incrementalBuild=false
 				}
             }
         }
