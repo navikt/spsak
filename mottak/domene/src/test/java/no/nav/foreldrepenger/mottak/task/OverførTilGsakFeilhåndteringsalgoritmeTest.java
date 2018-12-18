@@ -77,13 +77,9 @@ public class OverførTilGsakFeilhåndteringsalgoritmeTest {
         IntegrasjonException exception = new IntegrasjonException(mock(Feil.class));
 
         final String meterKey = "mottak.tasks.fra." + TilJournalføringTask.TASKNAME + ".til." + OpprettGSakOppgaveTask.TASKNAME;
-        Meter mockMeter = mock(Meter.class);
-        when(mockMetricRegistry.meter(meterKey)).thenReturn(mockMeter);
 
         Feil feil = algoritme.hendelserNårIkkeKjøresPåNytt(exception, originalTaskData);
         assertThat(feil).isSameAs(exception.getFeil());
-
-        verify(mockMeter).mark();
 
         //Flush gjøres normalt rett etter feilhåndteringsalgoritmen har kjørt
         ((ProsessTaskRepositoryImpl) prosessTaskRepository).getEntityManager().flush();
