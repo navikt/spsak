@@ -41,6 +41,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.foreldrepenger.domene.typer.Beløp;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -237,7 +238,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
 
     private Predicate<Inntektspost> harInntektI(int sistFerdiglignetÅr) {
         return inntektspost -> inntektspost.getTilOgMed().getYear() == sistFerdiglignetÅr &&
-            inntektspost.getBeløp().getVerdi().compareTo(BigDecimal.ZERO) != 0;
+            inntektspost.getBeløp().compareTo(Beløp.ZERO) > 0 ;
     }
 
     private Utfall erDetRegistrertNæringEtterSisteFerdiglignendeÅr(OppgittOpptjening oppgittOpptjening, int sistFerdiglignetÅr) {

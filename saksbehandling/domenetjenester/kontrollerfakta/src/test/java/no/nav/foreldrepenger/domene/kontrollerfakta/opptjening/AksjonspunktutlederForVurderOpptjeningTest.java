@@ -337,8 +337,8 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
             builder.medAktørId(aktørId)
                 .medInntektsKilde(InntektsKilde.SIGRUN)
                 .medInntektspostType(InntektspostType.SELVSTENDIG_NÆRINGSDRIVENDE)
-                .medInntektspostFom(LocalDate.now().minusYears(1L))
-                .medInntektspostTom(LocalDate.now().minusYears(1L).plusWeeks(2L))
+                .medInntektspostFom(LocalDate.now().minusYears(1).withMonth(1).withDayOfMonth(1))
+                .medInntektspostTom(LocalDate.now().minusYears(1).withMonth(12).withDayOfMonth(31))
                 .medInntektspostBeløp(BigDecimal.TEN)
                 .build();
         }
