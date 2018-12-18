@@ -18,7 +18,7 @@ import no.nav.foreldrepenger.mottak.tjeneste.dokumentforsendelse.dto.Forsendelse
 @Entity(name = "DokumentMetadata")
 @Table(name = "DOKUMENT_METADATA")
 public class DokumentMetadata {
-    public static final String UNIQUE_FORSENDELSE_ID_CONSTRAINT = "CHK_UNIQUE_FORS_DOKUMENT_MT";
+    public static final String UNIQUE_FORSENDELSE_ID_CONSTRAINT = "idx_dokument"; // CHK_UNIQUE_FORS_DOKUMENT_MT"; fordi: V2.0_08: ALTER INDEX CHK_UNIQUE_FORS_DOKUMENT_MT RENAME TO IDX_DOKUMENT;
 
     @Id
     @SequenceGenerator(name = "dokumentMetadataSekvens", sequenceName = "SEQ_DOKUMENT_METADATA")
