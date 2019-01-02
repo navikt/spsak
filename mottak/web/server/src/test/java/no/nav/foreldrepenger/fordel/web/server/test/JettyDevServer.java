@@ -33,6 +33,9 @@ import no.nav.vedtak.isso.IssoApplication;
 /** Setter opp jetty automatisk lokalt med riktig konfig verdier. */
 public class JettyDevServer extends JettyServer {
 
+	private static final String VTP_ARGUMENT = "--vtp";
+	private static boolean vtp;
+
 	private static final String WEBAPP_ROOT = "../webapp/";
 	private static final String WAR_CLASSES_ROOT_DIR = WEBAPP_ROOT + "target/classes/";
 	private static final String WEB_INF_ROOT_DIR = WEBAPP_ROOT + "src/main/webapp/";
@@ -43,6 +46,11 @@ public class JettyDevServer extends JettyServer {
 	}
 
 	public static void main(String[] args) throws Exception {
+		for (String arg : args) {
+			if (arg.equals(VTP_ARGUMENT)) {
+				vtp = true;
+			}
+		}
 		File webapproot = new File(WEBAPP_ROOT);
 		if(!webapproot.exists()){
 			throw new IllegalStateException("Har du satt working dir til server prosjekt? Finner ikke "+webapproot);
@@ -116,7 +124,7 @@ public class JettyDevServer extends JettyServer {
 	@Override
 	protected void konfigurer() throws Exception {
 		PropertiesUtils.lagPropertiesFilFraTemplate();
-		PropertiesUtils.initProperties();
+		PropertiesUtils.initProperties(JettyDevServer.vtp);
 		konfigurerLogback();
 		super.konfigurer();
 	}
