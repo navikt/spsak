@@ -1,18 +1,18 @@
 -- Nye dokumenttyper
 INSERT INTO KODELISTE (ID, KODEVERK, KODE, OFFISIELL_KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM)
-  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'MELDINGSONING', 'I000068', 'Melding til NAV om soning', NULL, 'NB', to_date('20.06.2018', 'DD.MM.RRRR'), to_date('31.12.9999', 'DD.MM.RRRR'));
+  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'MELDINGSONING', 'I000068', 'Melding til NAV om soning', NULL, 'NB', to_date('20.06.2018', 'DD.MM.YYYY'), to_date('31.12.9999', 'DD.MM.YYYY'));
 
 INSERT INTO KODELISTE (ID, KODEVERK, KODE, OFFISIELL_KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM)
-  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'MELDINGSTRAFFEUNNDRAGELSE', 'I000069', 'Melding til NAV om unndragelse av straff', NULL, 'NB', to_date('20.06.2018', 'DD.MM.RRRR'), to_date('31.12.9999', 'DD.MM.RRRR'));
+  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'MELDINGSTRAFFEUNNDRAGELSE', 'I000069', 'Melding til NAV om unndragelse av straff', NULL, 'NB', to_date('20.06.2018', 'DD.MM.YYYY'), to_date('31.12.9999', 'DD.MM.YYYY'));
 
 INSERT INTO KODELISTE (ID, KODEVERK, KODE, OFFISIELL_KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM)
-  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'MELDINGENDRINGINSTITUSJON', 'I000070', 'Melding om endring i institusjonsopphold', NULL, 'NB', to_date('20.06.2018', 'DD.MM.RRRR'), to_date('31.12.9999', 'DD.MM.RRRR'));
+  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'MELDINGENDRINGINSTITUSJON', 'I000070', 'Melding om endring i institusjonsopphold', NULL, 'NB', to_date('20.06.2018', 'DD.MM.YYYY'), to_date('31.12.9999', 'DD.MM.YYYY'));
 
 INSERT INTO KODELISTE (ID, KODEVERK, KODE, OFFISIELL_KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM)
-  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'MELDINGUTEBLITTINSTITUSJON', 'I000071', 'Melding om uteblivelse fra institusjon', NULL, 'NB', to_date('20.06.2018', 'DD.MM.RRRR'), to_date('31.12.9999', 'DD.MM.RRRR'));
+  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'MELDINGUTEBLITTINSTITUSJON', 'I000071', 'Melding om uteblivelse fra institusjon', NULL, 'NB', to_date('20.06.2018', 'DD.MM.YYYY'), to_date('31.12.9999', 'DD.MM.YYYY'));
 
 INSERT INTO KODELISTE (ID, KODEVERK, KODE, OFFISIELL_KODE, NAVN, BESKRIVELSE, SPRAK, GYLDIG_FOM, GYLDIG_TOM)
-  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'SØKNAD_KONTANTSTØTTE', 'I000072', 'Søknad om kontantstøtte til småbarnsforeldre', NULL, 'NB', to_date('20.06.2018', 'DD.MM.RRRR'), to_date('31.12.9999', 'DD.MM.RRRR'));
+  VALUES (nextval('seq_kodeliste'), 'DOKUMENT_TYPE_ID', 'SØKNAD_KONTANTSTØTTE', 'I000072', 'Søknad om kontantstøtte til småbarnsforeldre', NULL, 'NB', to_date('20.06.2018', 'DD.MM.YYYY'), to_date('31.12.9999', 'DD.MM.YYYY'));
 
 -- Oppdaterte termnavn januar 2018
 UPDATE KODELISTE SET navn='Søknad om foreldrepenger ved adopsjon' WHERE KODEVERK='DOKUMENT_TYPE_ID' AND KODE='SØKNAD_FORELDREPENGER_ADOPSJON';
