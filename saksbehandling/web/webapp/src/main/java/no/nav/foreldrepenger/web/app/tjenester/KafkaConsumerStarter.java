@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import no.nav.sykepenger.kafka.KafkaConsumerManager;
+import no.nav.vedtak.kafka.KafkaConsumerManager;
 
 /**
  * Triggers start of Kafka consumers.

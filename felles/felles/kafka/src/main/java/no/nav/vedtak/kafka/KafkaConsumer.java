@@ -1,4 +1,4 @@
-package no.nav.sykepenger.kafka;
+package no.nav.vedtak.kafka;
 
 import java.util.Properties;
 
@@ -19,13 +19,13 @@ public abstract class KafkaConsumer {
     private final String topic;
     private final KafkaStreams streams;
 
-    KafkaConsumer() {
+    protected KafkaConsumer() {
         // CDI
         topic = null;
         streams = null;
     }
 
-    KafkaConsumer(String topic) {
+    protected KafkaConsumer(String topic) {
         this.topic = topic;
 
         Properties props = new Properties();
@@ -49,7 +49,7 @@ public abstract class KafkaConsumer {
         streams.setUncaughtExceptionHandler((t, e) -> LOGGER.error("Feil ved consumering av kafka-topic " + topic, e));
     }
 
-    String getTopic() {
+    protected String getTopic() {
         return topic;
     }
 

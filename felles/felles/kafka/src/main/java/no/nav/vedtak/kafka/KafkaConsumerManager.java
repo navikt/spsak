@@ -1,4 +1,4 @@
-package no.nav.sykepenger.kafka;
+package no.nav.vedtak.kafka;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,6 +22,8 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokument
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.json.JacksonJsonConfig;
 import no.nav.foreldrepenger.web.app.tjenester.fordeling.JournalpostMottakDto;
 import no.nav.vedtak.felles.AktiverContextOgTransaksjon;
+import no.nav.vedtak.kafka.KafkaConsumer;
+import no.nav.vedtak.kafka.KafkaConsumerFeil;
 
 @ApplicationScoped
 @AktiverContextOgTransaksjon
