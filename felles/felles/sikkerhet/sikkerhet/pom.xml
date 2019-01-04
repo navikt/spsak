@@ -135,12 +135,6 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>no.nav.tjenester.fim</groupId>
-            <artifactId>nav-fim-virgo-v2-tjenestespesifikasjon</artifactId>
-            <classifier>jaxws</classifier>
-            <scope>test</scope>
-        </dependency>
 
     </dependencies>
 
