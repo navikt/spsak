@@ -50,7 +50,7 @@
 		<!-- NAV tjenestespesifikasjon versjoner -->
 
 		<kodeverk.version>2.0.0-alpha004</kodeverk.version>
-		<abac-attribute-constants.version>3.2.8</abac-attribute-constants.version>
+		<abac-attribute-constants.version>3.3.13</abac-attribute-constants.version>
 
 		<!-- Marker Junit Category interface for End2End tester -->
 		<additionalparam>-Xdoclint:none</additionalparam> <!-- TODO: Skru på doclint igjen... -->
