@@ -25,7 +25,7 @@
 	</modules>
 
 	<properties>
-		<java.version>10</java.version> <!--Brukes av jenkins -->
+		<java.version>11</java.version> <!--Brukes av jenkins -->
 		<argLine>-Xms256m -Dfile.encoding=UTF-8 -Dlog.level.no.nav=WARN</argLine> <!-- default argLine for surefire-plugin -->
 		<jacoco.skip>true</jacoco.skip> <!-- default skip coverage -->
 		
@@ -117,20 +117,8 @@
 		
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>behandlingsprosess-vedtak-v1</artifactId>
-				<classifier>jaxb</classifier>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>sykepengersoeknad</artifactId>
                 <classifier>jaxb</classifier>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>behandlingsprosess-vedtak-v2</artifactId>
-				<classifier>jaxb</classifier>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -138,18 +126,6 @@
 				<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
 				<version>${project.version}</version>
 				<classifier>jaxb</classifier>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
-				<version>${project.version}</version>
-				<classifier>jaxb</classifier>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>abonnent-v1</artifactId>
-				<classifier>jaxb</classifier>
-				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
@@ -307,19 +283,7 @@
 			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>okonomistotte-v1</artifactId>
-				<version>${project.version}</version>
-				<classifier>jaxb</classifier>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>inntektsmelding-v1</artifactId>
-				<version>${project.version}</version>
-				<classifier>jaxb</classifier>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>grensesnittavstemming-v1</artifactId>
 				<version>${project.version}</version>
 				<classifier>jaxb</classifier>
 			</dependency>

@@ -21,12 +21,12 @@
     </snapshotRepository>
   </distributionManagement>
   <properties>
-    <java.version>10</java.version>
-    <maven.compiler.source>10</maven.compiler.source>
+    <java.version>11</java.version>
+    <maven.compiler.source>11</maven.compiler.source>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <revision>0.0.1</revision>
     <sha1></sha1>
-    <maven.compiler.target>10</maven.compiler.target>
+    <maven.compiler.target>11</maven.compiler.target>
     <changelist>-SNAPSHOT</changelist>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <additionalparam>-Xdoclint:none</additionalparam>

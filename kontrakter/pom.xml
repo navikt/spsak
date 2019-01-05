@@ -13,68 +13,57 @@
 		<revision>0.0.1</revision>
 		<sha1></sha1>
 		<changelist>-SNAPSHOT</changelist>
-		<java.version>10</java.version>
+		<java.version>11</java.version>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
 	<modules>
-		<module>vl-kontrakt-abonnent</module>
-		<module>vl-kontrakt-behandlingsprosess-vedtak</module>
-		<module>vl-kontrakt-datavarehus-vedtak</module>
 		<module>vl-kontrakt-fp-feed</module>
-		<module>vl-kontrakt-grensesnittavstemming</module>
 		<module>vl-kontrakt-inntektsmelding</module>
-		<module>vl-kontrakt-okonomistotte</module>
 		<module>vl-kontrakt-soeknad</module>
 		<module>vl-kontrakt-sykepengersoeknad</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- test avhengigheter -->
 			<dependency>
-				<groupId>no.nav.spvedtak.felles</groupId>
-				<artifactId>felles</artifactId>
-				<version>${project.version}</version>
-				<scope>import</scope>
-				<type>pom</type>
+				<groupId>org.assertj</groupId>
+				<artifactId>assertj-core</artifactId>
+				<version>3.8.0</version>
 			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+			</dependency>
+			
+			<!-- eksterne avhengigheter -->
+			<dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>2.4.0-b180830.0438</version>
+            </dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>1.1.0.Final</version>
+			</dependency>
+			
+			<dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>2.9.7</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
 
 			<!-- Interne modul avhengigheter -->
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>abonnent-v1</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>behandlingsprosess-vedtak-v1</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>behandlingsprosess-vedtak-v2</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>datavarehus-vedtak-v1</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>fp-feed-v1</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>fpoppdrag-v1</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>grensesnittavstemming-v1</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -85,11 +74,6 @@
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>soeknad-v1</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>okonomistotte-v1</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

@@ -46,16 +46,6 @@
             <classifier>jaxb</classifier>
         </dependency>
         <dependency>
-            <groupId>no.nav.sykepenger.kontrakter</groupId>
-            <artifactId>fp-feed-vedtak-tjenestespesifikasjon</artifactId>
-            <classifier>jaxb</classifier>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger.kontrakter</groupId>
-            <artifactId>abonnent-v1</artifactId>
-            <classifier>jaxb</classifier>
-        </dependency>
-        <dependency>
             <groupId>no.nav.spvedtak.felles.sikkerhet</groupId>
             <artifactId>felles-sikkerhet</artifactId>
         </dependency>

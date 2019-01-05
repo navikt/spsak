@@ -13,7 +13,6 @@
 
     <modules>
 	    <module>fp-feed-felles-tjenestespesifikasjon</module>
-	    <module>fp-feed-vedtak-tjenestespesifikasjon</module>
 	    <module>infotrygd-hendelser-feed</module>
      </modules>
 

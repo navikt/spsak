@@ -94,11 +94,6 @@
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger.kontrakter</groupId>
-            <artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
-            <classifier>jaxb</classifier>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger.kontrakter</groupId>
             <artifactId>inntektsmelding-v1</artifactId>
             <classifier>jaxb</classifier>
         </dependency>
@@ -107,12 +102,6 @@
             <artifactId>soeknad-v1</artifactId>
             <classifier>jaxb</classifier>
         </dependency>
-        <!--dependency>
-            <groupId>no.nav.sykepenger.kontrakter</groupId>
-            <artifactId>soeknad-v2</artifactId>
-            <classifier>jaxb</classifier>
-        </dependency-->
-
         <dependency>
             <groupId>org.jvnet.jaxb2_commons</groupId>
             <artifactId>jaxb2-basics-runtime</artifactId>
