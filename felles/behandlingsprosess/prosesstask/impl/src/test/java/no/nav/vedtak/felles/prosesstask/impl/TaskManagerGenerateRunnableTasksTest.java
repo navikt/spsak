@@ -62,6 +62,8 @@ public class TaskManagerGenerateRunnableTasksTest {
         sut.run();
         
         logSniffer.assertHasWarnMessage("FP-876628");
+        logSniffer.assertNoErrors();
+        logSniffer.clearLog();
 
         assertThat(errorFuncException.get()).isInstanceOf(PersistenceException.class);
         

@@ -39,6 +39,7 @@ import no.nav.vedtak.felles.xml.soeknad.v1.Soeknad;
 
 public class ParseSoeknadTest {
 
+    @SuppressWarnings("cast")
     @Test
     public void skal_parse_soeknad_xml() throws Exception {
         final InputStream resourceAsStream = getClass().getResourceAsStream("/soeknad-v1.xml");
@@ -62,7 +63,7 @@ public class ParseSoeknadTest {
         assertThat(søknad.getOmYtelse().getAny()).isNotEmpty();
         assertThat(søknad.getOmYtelse().getAny().get(0)).isInstanceOf(JAXBElement.class);
         assertThat(søknad.getOmYtelse().getAny().get(0)).isInstanceOf(JAXBElement.class);
-        assertThat(textBuilder).isNotNull();
+        assertThat((CharSequence) textBuilder).isNotNull();
     }
 
     @Test

@@ -4,10 +4,19 @@
 // note that each layer needs to encode dependency info on previous layer's libs.
 // then do it using "parallel"
 
-def dbImage = null;
+def incrementalBuild = false
+def dbImage = null
 
 def mvnOptions(String projectPath, String prevCommit) {
 	return "clean"
+}
+
+def shouldRunStage(Boolean incrementalBuild, String projectPath, String checkFileExists) {
+	if(!incrementalBuild || !fileExists(checkFileExists) || !fileExists(".m2")){
+		return true
+	} else {
+		return 0==sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^" + projectPath + "'")
+	}
 }
 
 pipeline {
@@ -15,7 +24,7 @@ pipeline {
 	
 	 tools {
         maven "maven-3.6.0"
-		jdk "10"
+		jdk "11"
     }
 
     triggers {
@@ -39,13 +48,14 @@ pipeline {
                     def scmVars = checkout scm
                     env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT = scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT ?: "--"
 					env.LANG = "nb_NO.UTF-8"
-					env.POSTGRES_IMAGE="postgres:10-alpine"
+					env.POSTGRES_IMAGE="postgres:11-alpine"
 					env.DB_CONTAINER="spsak-postgres-" + "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9_-]", '_').toLowerCase()
 					env.POSTGRES_USER="spsak"
 					env.POSTGRES_PASSWORD="spsak"
 					sh "java -version"
 					sh "mvn --version"
 					sh "echo $PATH"
+					incrementalBuild = params.incrementalBuild
                 }
             }
         }
@@ -63,60 +73,44 @@ pipeline {
 			}
 		}
         stage('felles') {
-            when {
-                expression {
-                    matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^felles'")
-					return !params.incrementalBuild || !fileExists("felles/target") || !fileExists(".m2") || matches==0
-                }
-            }
             steps {
 				script {
-					def module = load './mvnbuild.groovy'
-					module.build('felles', mvnOptions('felles', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
-					params.incrementalBuild=false
+					if(shouldRunStage(incrementalBuild, "felles", "felles/target")) {
+						def module = load './mvnbuild.groovy'
+						module.build('felles', mvnOptions('felles', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+						incrementalBuild=false
+					}
 				}
             }
         }
 		stage('kontrakter') {
-            when {
-                expression {
-                    matches = sh(returnStatus:true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^kontrakter'")
-                    return !params.incrementalBuild || !fileExists("kontrakter/.flattened") || !fileExists(".m2") || matches==0
-                }
-            }
             steps {
                 script {
-					def module = load './mvnbuild.groovy'
-					module.build('kontrakter', mvnOptions('kontrakter', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
-					params.incrementalBuild=false
+					if(shouldRunStage(incrementalBuild, "kontrakter", "kontrakter/.flattened")) {
+						def module = load './mvnbuild.groovy'
+						module.build('kontrakter', mvnOptions('kontrakter', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+						incrementalBuild=false
+					}
 				}
             }
         }
         stage('saksbehandling') {
-            when {
-                expression {
-                    matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^saksbehandling'")
-                    return !params.incrementalBuild || !fileExists("saksbehandling/target") || !fileExists(".m2") || matches==0
-                }
-            }
             steps {
                 script {
-					def module = load './mvnbuild.groovy'
-					module.build('saksbehandling', mvnOptions('saksbehandling', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+					if(shouldRunStage(incrementalBuild, "saksbehandling", "saksbehandling/target")) {
+						def module = load './mvnbuild.groovy'
+						module.build('saksbehandling', mvnOptions('saksbehandling', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+					}
 				}
             }
         }
         stage('vtp-mock') {
-            when {
-                expression {
-                    matches = sh(returnStatus: true, script: "git diff --name-only $MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT|egrep -q '^vtp-mock'")
-                    return !params.incrementalBuild || !fileExists("vtp-mock/target") || !fileExists(".m2") || matches==0
-                }
-            }
             steps {
                 script {
-					def module = load './mvnbuild.groovy'
-					module.build('vtp-mock', mvnOptions('vtp-mock', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+					if(shouldRunStage(incrementalBuild, "vtp-mock", "vtp-mock/.flattened")) {
+						def module = load './mvnbuild.groovy'
+						module.build('vtp-mock', mvnOptions('vtp-mock', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+					}
 				}
             }
         }

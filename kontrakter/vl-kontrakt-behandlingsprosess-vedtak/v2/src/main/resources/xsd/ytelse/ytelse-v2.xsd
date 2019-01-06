@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2006 rel. 3 sp2 (http://www.altova.com) by XMLSPY 2006 Enterprise Ed. Release 3, Concurrent for 9 users (with SMP from 2006-06-21 to 2007-06-22) (Aetat Arbeidsdirektoratet) -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="urn:no:nav:vedtak:felles:xml:vedtak:ytelse:v2"
-            elementFormDefault="qualified">
-    <xsd:complexType name="Ytelse" abstract="true"/>
-</xsd:schema>

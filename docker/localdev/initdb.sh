@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
 export POSTGRES_USER=${POSTGRES_USER:-postgres}
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL

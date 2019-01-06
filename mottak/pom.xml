@@ -22,64 +22,29 @@
         <revision>2.0</revision>
         <sha1></sha1>
         <changelist>-SNAPSHOT</changelist>
-        <java.version>10</java.version>
+        <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-
-        <!-- Foreldrepengeprosjektet
-            Disse skal ALLTID være en RELEASE-avhengighet
-            UNNTAK: feature-brancher og lokalt.
-        -->
         <vl-felles.version>0.0.1-SNAPSHOT</vl-felles.version>
-        <vl-felles-behandlingsprosess.version>0.0.1-SNAPSHOT</vl-felles-behandlingsprosess.version>
-        <vl-felles-integration.version>0.0.1-SNAPSHOT</vl-felles-integration.version>
-
+        
         <vl-kontrakt-soeknad.version>0.0.1-SNAPSHOT</vl-kontrakt-soeknad.version>
         <vl-kontrakt-soeknad-v2.version>0.0.1-SNAPSHOT</vl-kontrakt-soeknad-v2.version>
 
-        <vl-kontrakt-soeknadsskjemaengangsstoenad.version>0.0.1-SNAPSHOT
-        </vl-kontrakt-soeknadsskjemaengangsstoenad.version>
         <vl-kontrakt-fordel.version>0.0.1-SNAPSHOT</vl-kontrakt-fordel.version>
         <vl-kontrakt-inntektsmelding.version>0.0.1-SNAPSHOT</vl-kontrakt-inntektsmelding.version>
 
-        <!-- NAV -->
-        <dokumentnotifikasjon-v1-meldingsdefinisjon.version>1.0.2</dokumentnotifikasjon-v1-meldingsdefinisjon.version>
-        <behandleDokumentforsendelse.tjenstespesifikasjon.versjon>1.0.0
-        </behandleDokumentforsendelse.tjenstespesifikasjon.versjon>
-
         <!-- Eksterne -->
-        <apache.httpcomponents.version>4.5.3</apache.httpcomponents.version>
-        <assertj.version>3.7.0</assertj.version>
+		<flyway.version>5.2.3</flyway.version>
         <cxf.version>3.2.1</cxf.version>
-        <flyway.version>5.2.3</flyway.version>
-        <geronimo.jaspi.version>2.0.0</geronimo.jaspi.version>
-        <geronimo.osgi.version>1.1</geronimo.osgi.version>
-        <hamcrest.version>1.3</hamcrest.version>
-        <jandex.version>2.0.4.Final</jandex.version>
-        <jetty.version>9.4.13.v20181111</jetty.version>
-        <junit.version>4.12</junit.version>
-        <logstash.version>4.10</logstash.version>
-        <mockito.version>2.12.0</mockito.version>
         <postgres.version>42.2.5</postgres.version>
         <prometheus.version>0.0.23</prometheus.version>
-        <resteasy.version>3.1.2.Final</resteasy.version>
-        <swagger.version>1.5.17</swagger.version>
-        <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
-
+        
         <!-- Transitive avh. versjoner for å sikre unikhet (enforcer dependencyConvergence).  Skal ikke benyttes direkte av vår egen kode. -->
-        <apache.ws.xmlschema.version>${wss4j-version}</apache.ws.xmlschema.version>
-        <joda-time.version>2.9.9</joda-time.version>
-        <ow2.asm.version>7.0</ow2.asm.version>
-        <owaspencoder.version>1.2.1</owaspencoder.version>
-        <sysdoc.version>1.0.8</sysdoc.version>
-        <javaslang.version>2.0.6</javaslang.version>
-        <swagger.spec-parser.version>1.0.28</swagger.spec-parser.version>
-        <swagger2markup.version>1.1.2</swagger2markup.version>
         <wss4j-version>2.2.2</wss4j-version>
-        <jaxb2-basics-runtime.version>1.11.1</jaxb2-basics-runtime.version>
+        <ow2.asm.version>7.0</ow2.asm.version>
     </properties>
 
     <dependencyManagement>
@@ -88,7 +53,7 @@
             <dependency>
                 <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
                 <artifactId>felles-integrasjon-jms</artifactId>
-                <version>${vl-felles-integration.version}</version>
+                <version>${vl-felles.version}</version>
             </dependency>
 
             <!-- Reaktor (TODO ikke komplett liste) -->
@@ -155,23 +120,10 @@
             </dependency>
             <dependency>
                 <groupId>no.nav.sykepenger.kontrakter</groupId>
-                <artifactId>soeknadsskjemaEngangsstoenad-v1</artifactId>
-                <version>${vl-kontrakt-soeknadsskjemaengangsstoenad.version}</version>
-                <classifier>jaxb</classifier>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.sykepenger.kontrakter</groupId>
                 <artifactId>soeknad-v1</artifactId>
                 <version>${vl-kontrakt-soeknad.version}</version>
                 <classifier>jaxb</classifier>
             </dependency>
-            <dependency>
-                <groupId>no.nav.sykepenger.kontrakter</groupId>
-                <artifactId>soeknad-v2</artifactId>
-                <version>${vl-kontrakt-soeknad-v2.version}</version>
-                <classifier>jaxb</classifier>
-            </dependency>
-
             <dependency>
                 <groupId>no.nav.spvedtak.felles</groupId>
                 <artifactId>felles</artifactId>
@@ -182,14 +134,14 @@
             <dependency>
                 <groupId>no.nav.spvedtak.felles</groupId>
                 <artifactId>felles-behandlingsprosess</artifactId>
-                <version>${vl-felles-behandlingsprosess.version}</version>
+                <version>${vl-felles.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
                 <artifactId>felles-integrasjon-pom</artifactId>
-                <version>${vl-felles-integration.version}</version>
+                <version>${vl-felles.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -198,13 +150,13 @@
             <dependency>
                 <groupId>no.nav.meldinger.virksomhet</groupId>
                 <artifactId>nav-virksomhet-dokumentnotifikasjon-v1-meldingsdefinisjon</artifactId>
-                <version>${dokumentnotifikasjon-v1-meldingsdefinisjon.version}</version>
+                <version>1.0.2</version>
                 <classifier>jaxb</classifier>
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenester</groupId>
                 <artifactId>nav-behandleDokumentforsendelse-v1-tjenestespesifikasjon</artifactId>
-                <version>${behandleDokumentforsendelse.tjenstespesifikasjon.versjon}</version>
+                <version>1.0.0</version>
                 <classifier>jaxws</classifier>
             </dependency>
 
@@ -212,33 +164,33 @@
             <dependency>
                 <groupId>org.jvnet.jaxb2_commons</groupId>
                 <artifactId>jaxb2-basics-runtime</artifactId>
-                <version>${jaxb2-basics-runtime.version}</version>
+                <version>1.11.1</version>
             </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>${assertj.version}</version>
+                <version>3.8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jandex</artifactId>
-                <version>${jandex.version}</version>
+                <version>2.0.5.Final</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-jaxrs</artifactId>
-                <version>${swagger.version}</version>
+                <version>1.5.17</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-core</artifactId>
-                <version>${swagger.version}</version>
+                <version>1.5.17</version>
             </dependency>
             <dependency>
                 <!-- Bør flyttes til no.nav.spvedtak.felles:felles?-->
                 <groupId>org.jboss.resteasy</groupId>
                 <artifactId>resteasy-multipart-provider</artifactId>
-                <version>${resteasy.version}</version>
+                <version>3.6.1.Final</version>
                 <exclusions>
                     <exclusion>
                         <groupId>commons-logging</groupId>
@@ -250,7 +202,7 @@
                 <!-- Bør flyttes til no.nav.spvedtak.felles:felles?-->
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpmime</artifactId>
-                <version>${apache.httpcomponents.version}</version>
+                <version>4.5.3</version>
             </dependency>
             <dependency>
                 <groupId>com.papertrailapp</groupId>
@@ -289,7 +241,7 @@
             <dependency>
                 <groupId>org.apache.ws.xmlschema</groupId>
                 <artifactId>xmlschema-core</artifactId>
-                <version>${apache.ws.xmlschema.version}</version>
+                <version>2.2.2</version>
             </dependency>
 
             <!-- Sikkerhet: Geronimo -->
@@ -297,91 +249,29 @@
             <dependency>
                 <groupId>org.apache.geronimo.components</groupId>
                 <artifactId>geronimo-jaspi</artifactId>
-                <version>${geronimo.jaspi.version}</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
                 <artifactId>geronimo-osgi-locator</artifactId>
-                <version>${geronimo.osgi.version}</version>
+                <version>1.1</version>
             </dependency>
 
-            <!-- Jetty -->
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-server</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-annotations</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-jaas</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-jaspi</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-plus</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-security</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlets</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-io</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-util</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-http</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-continuation</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlet</artifactId>
-                <version>${jetty.version}</version>
-            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
+                <version>4.12</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
+                <version>2.12.0</version>
             </dependency>
 
             <dependency>
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
-                <version>${logstash.version}</version>
+                <version>5.1</version>
             </dependency>
 
             <!-- Transitive avh. versjoner for å sikre unikhet (enforcer dependencyConvergence).
@@ -390,7 +280,7 @@
                 <!-- Transitive avhengighet resolution for å sikre bestemt versjon -->
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
-                <version>${joda-time.version}</version>
+                <version>2.9.9</version>
             </dependency>
             <dependency>
                 <!-- Transitive avhengighet resolution for å sikre bestemt versjon -->
@@ -408,17 +298,17 @@
                 <!-- Transitive avhengighet resolution for å sikre bestemt versjon -->
                 <groupId>org.owasp.encoder</groupId>
                 <artifactId>encoder</artifactId>
-                <version>${owaspencoder.version}</version>
+                <version>1.2.1</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-compat-spec-parser</artifactId>
-                <version>${swagger.spec-parser.version}</version>
+                <version>1.0.28</version>
             </dependency>
             <dependency>
                 <groupId>io.javaslang</groupId>
                 <artifactId>javaslang</artifactId>
-                <version>${javaslang.version}</version>
+                <version>2.0.6</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.wss4j</groupId>
@@ -458,23 +348,6 @@
                 <version>2.1.0-SNAPSHOT</version>
             </dependency>
 
-            <!-- Systemdokumentasjon -->
-            <dependency>
-                <groupId>no.nav.spvedtak.sysdoc</groupId>
-                <artifactId>sysdoclet</artifactId>
-                <version>${sysdoc.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>io.github.swagger2markup</groupId>
-                <artifactId>markup-document-builder</artifactId>
-                <version>${swagger2markup.version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.prometheus</groupId>
                 <artifactId>simpleclient_dropwizard</artifactId>
@@ -489,7 +362,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!--For Java 10-->
+        <!--For Java 10+-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -649,39 +522,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-versions</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[1.8,)</version>
-                                </requireJavaVersion>
-                                <requireMavenVersion>
-                                    <version>[3.3.9,)</version>
-                                </requireMavenVersion>
-                                <bannedDependencies>
-                                    <excludes>
-                                        <exclude>commons-logging:commons-logging</exclude>
-                                    </excludes>
-                                </bannedDependencies>
-                                <dependencyConvergence/>
-                                <!-- Ikke kommenter inn denne. Det brekker muligheten til å bygge bare deler av prosjektet
-                                https://issues.apache.org/jira/browse/MENFORCER-189 -> "ReactorModuleConvergence is not compatible with 'advanced' reactor options: -pl, -rf"
-                                                <reactorModuleConvergence />
-                                -->
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
+           
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
@@ -760,169 +601,20 @@
             </build>
         </profile>
 
-        <profile>
-            <id>sysdoc</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-
-            <build>
-                <plugins>
-                    <!-- Generer Asciidoc og modell fra kode -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <inherited>false</inherited>
-                        <configuration>
-                            <doclet>no.nav.spvedtak.sysdoc.Sysdoclet</doclet>
-                            <docletArtifacts>
-                                <docletArtifact>
-                                    <groupId>no.nav.spvedtak.sysdoc</groupId>
-                                    <artifactId>sysdoclet</artifactId>
-                                    <version>${sysdoc.version}</version>
-                                </docletArtifact>
-                                <docletArtifact>
-                                    <groupId>no.nav.spvedtak.sysdoc</groupId>
-                                    <artifactId>sysdoclet-plugins-jdbc</artifactId>
-                                    <version>${sysdoc.version}</version>
-                                </docletArtifact>
-                                <docletArtifact>
-                                    <groupId>no.nav.spvedtak.sysdoc</groupId>
-                                    <artifactId>sysdoclet-plugins-swagger</artifactId>
-                                    <version>${sysdoc.version}</version>
-                                </docletArtifact>
-                                <docletArtifact>
-                                    <groupId>no.nav.sykepenger.fordel</groupId>
-                                    <artifactId>docs</artifactId>
-                                    <version>${project.version}</version>
-                                </docletArtifact>
-                                <docletArtifact>
-                                    <groupId>org.postgresql</groupId>
-                                    <artifactId>postgresql</artifactId>
-                                    <version>${postgres.version}</version>
-                                </docletArtifact>
-
-                            </docletArtifacts>
-
-                            <excludePackageNames>*.fitnesse.*:no.nav.sykepenger.fordel.web.test
-                            </excludePackageNames>
-
-                            <additionalJOptions>
-                                <additionalJOption>-J-Ddoc.plugin.jdbc.dslist=defaultDS</additionalJOption>
-                                <additionalJOption>
-                                    -J-Ddoc.plugin.jdbc.db.migration.defaultDS=filesystem:${project.basedir}/migreringer/src/main/resources/db/migration/defaultDS
-                                </additionalJOption>
-                                <additionalJOption>-J-DdestDir=${project.basedir}/docs/generated</additionalJOption>
-                                <additionalJOption>-J-Ddoc.plugin.jdbc.url=jdbc:oracle:thin:@localhost:1521:XE
-                                </additionalJOption>
-                                <additionalJOption>-J-Ddoc.plugin.jdbc.username.defaultDS=fpfordel</additionalJOption>
-                            </additionalJOptions>
-
-                            <outputDirectory>${project.build.directory}/docs</outputDirectory>
-                            <reportOutputDirectory>${project.build.directory}/docs</reportOutputDirectory>
-
-                            <author>false</author>
-                            <!-- <quiet>true</quiet> -->
-                            <debug>true</debug>
-                            <useStandardDocletOptions>false</useStandardDocletOptions>
-                            <show>package</show>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>do-gen-docs</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>aggregate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-
-                    </plugin>
-
-                    <!-- Generer HTML output fra sysdoc -->
-                    <plugin>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctor-maven-plugin</artifactId>
-                        <inherited>false</inherited>
-                        <!-- Configure generic document generation settings -->
-                        <configuration>
-                            <sourceDirectory>${asciidoctor.input.directory}</sourceDirectory>
-                            <sourceDocumentName>index.adoc</sourceDocumentName>
-                            <attributes>
-                                <doctype>book</doctype>
-                                <toc>left</toc>
-                                <toclevels>3</toclevels>
-                                <sectnums>true</sectnums>
-                                <numbered/>
-                                <hardbreaks/>
-                                <sectlinks/>
-                                <sectanchors/>
-                                <generated>${generated.asciidoc.directory}</generated>
-                                <revnumber>${project.version}</revnumber>
-                                <revdate>${maven.build.timestamp}</revdate>
-                                <organization>${project.organization.name}</organization>
-                            </attributes>
-                        </configuration>
-                        <!-- Since each execution can only handle one backend, run separate executions
-                            for each desired output type -->
-                        <executions>
-                            <execution>
-                                <id>do-output-html</id>
-                                <phase>process-sources</phase>
-                                <goals>
-                                    <goal>process-asciidoc</goal>
-                                </goals>
-                                <configuration>
-                                    <backend>html5</backend>
-                                    <outputDirectory>${asciidoctor.html.output.directory}</outputDirectory>
-                                    <attributes>
-                                        <sectnums>true</sectnums>
-                                        <revnumber>${project.version}</revnumber>
-                                        <revdate>${maven.build.timestamp}</revdate>
-                                        <organization>${project.organization.name}</organization>
-                                    </attributes>
-                                </configuration>
-                            </execution>
-
-                        </executions>
-                    </plugin>
-
-
-                </plugins>
-
-            </build>
-
-            <properties>
-                <asciidoctor.input.directory>${project.basedir}/docs/asciidoc</asciidoctor.input.directory>
-                <generated.asciidoc.directory>${project.basedir}/docs/generated</generated.asciidoc.directory>
-                <asciidoctor.html.output.directory>${project.basedir}/docs/generated/html
-                </asciidoctor.html.output.directory>
-                <asciidoctor.pdf.output.directory>${project.basedir}/docs/generated/pdf
-                </asciidoctor.pdf.output.directory>
-            </properties>
-        </profile>
-
+        
     </profiles>
 
-    <scm>
-        <connection>scm:git:ssh://git@stash.devillo.no:7999/vedfp/vl-fordel.git</connection>
-        <developerConnection>scm:git:ssh://git@stash.devillo.no:7999/vedfp/vl-fordel.git
-        </developerConnection>
-        <url>http://stash.devillo.no/projects/VEDFP/repos/vl-fordel/browse</url>
-    </scm>
-
-    <distributionManagement>
-        <repository>
-            <id>m2internal</id>
-            <name>NAV Maven2 Internal Repository</name>
-            <url>http://maven.adeo.no/nexus/content/repositories/m2internal</url>
-        </repository>
-        <snapshotRepository>
-            <id>m2snapshot</id>
-            <name>NAV Maven2 Snapshot Repository</name>
-            <url>http://maven.adeo.no/nexus/content/repositories/m2snapshot</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-    </distributionManagement>
+	<distributionManagement>
+		<repository>
+			<id>m2internal</id>
+			<name>NAV Maven2 Internal Repository</name>
+			<url>https://repo.adeo.no/nexus/content/repositories/m2internal</url>
+		</repository>
+		<snapshotRepository>
+			<id>m2snapshot</id>
+			<name>NAV Maven2 Snapshot Repository</name>
+			<url>https://repo.adeo.no/nexus/content/repositories/m2snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
