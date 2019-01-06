@@ -7,8 +7,11 @@
 def incrementalBuild = false
 def dbImage = null
 
-def mvnOptions(String projectPath, String prevCommit) {
-	return "clean"
+def mvnBuild(String mydir) {
+	dir(mydir) {
+		// bruker private m2 repo i workspace slik at fungerer også uavhengig for PR branches
+		sh 'mvn -B -s ../mvn-settings.xml --no-snapshot-updates -Dmaven.repo.local=../.m2 clean install' 
+	}
 }
 
 def shouldRunStage(Boolean incrementalBuild, String projectPath, String checkFileExists) {
@@ -76,8 +79,7 @@ pipeline {
             steps {
 				script {
 					if(shouldRunStage(incrementalBuild, "felles", "felles/target")) {
-						def module = load './mvnbuild.groovy'
-						module.build('felles', mvnOptions('felles', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+						mvnBuild('felles')
 						incrementalBuild=false
 					}
 				}
@@ -87,8 +89,7 @@ pipeline {
             steps {
                 script {
 					if(shouldRunStage(incrementalBuild, "kontrakter", "kontrakter/.flattened")) {
-						def module = load './mvnbuild.groovy'
-						module.build('kontrakter', mvnOptions('kontrakter', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+						mvnBuild('kontrakter')
 						incrementalBuild=false
 					}
 				}
@@ -98,8 +99,7 @@ pipeline {
             steps {
                 script {
 					if(shouldRunStage(incrementalBuild, "saksbehandling", "saksbehandling/target")) {
-						def module = load './mvnbuild.groovy'
-						module.build('saksbehandling', mvnOptions('saksbehandling', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+						mvnBuild('saksbehandling')
 					}
 				}
             }
@@ -108,8 +108,7 @@ pipeline {
             steps {
                 script {
 					if(shouldRunStage(incrementalBuild, "vtp-mock", "vtp-mock/.flattened")) {
-						def module = load './mvnbuild.groovy'
-						module.build('vtp-mock', mvnOptions('vtp-mock', "${env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT}"))
+						mvnBuild('vtp-mock')
 					}
 				}
             }
