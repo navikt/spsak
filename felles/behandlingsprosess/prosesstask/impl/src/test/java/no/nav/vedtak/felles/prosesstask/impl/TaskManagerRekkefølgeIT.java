@@ -19,7 +19,7 @@ import no.nav.vedtak.felles.prosesstask.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
-public class TaskManagerRekkefølgeTest {
+public class TaskManagerRekkefølgeIT {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();

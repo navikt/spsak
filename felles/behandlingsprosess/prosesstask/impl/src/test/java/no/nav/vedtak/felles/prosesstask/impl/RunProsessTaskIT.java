@@ -24,7 +24,7 @@ import no.nav.vedtak.felles.prosesstask.spi.ProsessTaskFeilhåndteringAlgoritme;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
-public class RunProsessTaskTest {
+public class RunProsessTaskIT {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();

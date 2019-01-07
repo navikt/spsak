@@ -17,7 +17,7 @@ import no.nav.vedtak.felles.prosesstask.api.ProsessTaskStatus;
 import no.nav.vedtak.felles.prosesstask.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.db.Repository;
 
-public class ProsessTaskRepositoryImplTest {
+public class ProsessTaskRepositoryImplIT {
 
     private static final LocalDateTime NÅ = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     @Rule

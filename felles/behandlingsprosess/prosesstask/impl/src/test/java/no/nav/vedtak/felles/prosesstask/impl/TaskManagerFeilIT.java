@@ -13,7 +13,7 @@ import no.nav.vedtak.felles.prosesstask.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
-public class TaskManagerFeilTest {
+public class TaskManagerFeilIT {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();

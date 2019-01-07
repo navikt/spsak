@@ -12,7 +12,7 @@ import org.junit.Test;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.dbstoette.UnittestRepositoryRule;
 
-public class TaskManagerGenerateRunnableTasksTest {
+public class TaskManagerGenerateRunnableTasksIT {
 
     @Rule
     public final LogSniffer logSniffer = new LogSniffer();
