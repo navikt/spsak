@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 
 class RevurderingResultat {

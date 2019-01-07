@@ -10,10 +10,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAndeltype;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkBegrunnelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori;
@@ -21,8 +17,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapManuellVurderingType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAndeltype;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
@@ -59,34 +59,6 @@ public interface HentKodeverkTjeneste {
         SivilstandType.class,
         FaktaOmBeregningTilfelle.class,
         SkjermlenkeType.class
-    );
-
-    List<String> KODEVERK_SOM_BRUKES_PÅ_KLIENT_DISCRIMINATORS = List.of(
-        RelatertYtelseTilstand.DISCRIMINATOR,
-        FagsakStatus.DISCRIMINATOR,
-        RelatertYtelseType.DISCRIMINATOR,
-        BehandlingÅrsakType.DISCRIMINATOR,
-        HistorikkBegrunnelseType.DISCRIMINATOR,
-        MedlemskapManuellVurderingType.DISCRIMINATOR,
-        VergeType.DISCRIMINATOR,
-        VirksomhetType.DISCRIMINATOR,
-        Landkoder.DISCRIMINATOR,
-        PersonstatusType.DISCRIMINATOR,
-        FagsakYtelseType.DISCRIMINATOR,
-        Venteårsak.DISCRIMINATOR,
-        BehandlingType.DISCRIMINATOR,
-        ArbeidType.DISCRIMINATOR,
-        OpptjeningAktivitetType.DISCRIMINATOR,
-        Inntektskategori.DISCRIMINATOR,
-        DokumentTypeId.DISCRIMINATOR,
-        BeregningsgrunnlagAndeltype.DISCRIMINATOR,
-        AktivitetStatus.DISCRIMINATOR,
-        Arbeidskategori.DISCRIMINATOR,
-        Fagsystem.DISCRIMINATOR,
-        Region.DISCRIMINATOR,
-        SivilstandType.DISCRIMINATOR,
-        FaktaOmBeregningTilfelle.DISCRIMINATOR,
-        SkjermlenkeType.DISCRIMINATOR
     );
 
     Map<String, List<Kodeliste>> hentGruppertKodeliste();

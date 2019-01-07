@@ -6,11 +6,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 
 @ApplicationScoped
 public class OpprettBeregningsgrunnlagTjeneste {
@@ -27,7 +27,7 @@ public class OpprettBeregningsgrunnlagTjeneste {
 
 
     @Inject
-    public OpprettBeregningsgrunnlagTjeneste(BehandlingRepositoryProvider repositoryProvider,
+    public OpprettBeregningsgrunnlagTjeneste(ResultatRepositoryProvider repositoryProvider,
                                              FastsettSkjæringstidspunktOgStatuser fastsettSkjæringstidspunktOgStatuser,
                                              FastsettInntektskategoriFraSøknadTjeneste fastsettInntektskategoriFraSøknadTjeneste,
                                              BeregningsgrunnlagFraTilstøtendeYtelseTjeneste beregningsgrunnlagFraTilstøtendeYtelseTjeneste,

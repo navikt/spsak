@@ -54,11 +54,6 @@
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>sigrun-klient</artifactId>
         </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger.kontrakter</groupId>
-            <artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
-            <classifier>jaxb</classifier>
-        </dependency>
 
 		<!-- Test -->
 		<dependency>

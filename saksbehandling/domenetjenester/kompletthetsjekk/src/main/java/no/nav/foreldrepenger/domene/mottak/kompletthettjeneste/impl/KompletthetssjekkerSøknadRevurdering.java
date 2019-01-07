@@ -20,10 +20,11 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
 import no.nav.vedtak.konfig.KonfigVerdi;
@@ -43,14 +44,15 @@ public class KompletthetssjekkerSøknadRevurdering extends AbstractKompletthetss
 
     @Inject
     public KompletthetssjekkerSøknadRevurdering(DokumentArkivTjeneste dokumentArkivTjeneste,
-                                                BehandlingRepositoryProvider repositoryProvider,
+                                                GrunnlagRepositoryProvider repositoryProvider,
+                                                ResultatRepositoryProvider resultatRepositoryProvider,
                                                 SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                                 @KonfigVerdi("ventefrist.uker.ved.tidlig.fp.soeknad") Integer antallUkerVentefristVedForTidligSøknad) {
         super(repositoryProvider.getKodeverkRepository(),
             skjæringstidspunktTjeneste, antallUkerVentefristVedForTidligSøknad, repositoryProvider.getSøknadRepository());
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.dokumentArkivTjeneste = dokumentArkivTjeneste;
-        this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
+        this.behandlingVedtakRepository = resultatRepositoryProvider.getVedtakRepository();
     }
 
     /**
@@ -67,7 +69,7 @@ public class KompletthetssjekkerSøknadRevurdering extends AbstractKompletthetss
 
         final Optional<Søknad> søknad = søknadRepository.hentSøknadHvisEksisterer(behandling);
 
-        LocalDate vedtaksdato = behandlingVedtakRepository.hentBehandlingVedtakFraRevurderingensOriginaleBehandling(behandling).getVedtaksdato();
+        LocalDate vedtaksdato = behandlingVedtakRepository.hentVedtakFraRevurderingensOriginaleBehandling(behandling).getVedtaksdato();
 
         Set<DokumentTypeId> arkivDokumentTypeIds = dokumentArkivTjeneste.hentDokumentTypeIdForSak(behandling.getFagsak().getSaksnummer(), vedtaksdato, Collections.emptySet());
 

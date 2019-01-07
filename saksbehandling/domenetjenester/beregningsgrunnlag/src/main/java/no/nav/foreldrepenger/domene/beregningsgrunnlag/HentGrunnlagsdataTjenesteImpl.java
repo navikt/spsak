@@ -20,9 +20,6 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
@@ -32,11 +29,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet;
 import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
@@ -46,7 +45,6 @@ import no.nav.foreldrepenger.domene.typer.AktørId;
 public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste {
 
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
-    private OpptjeningRepository opptjeningRepository;
     private OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste;
@@ -56,10 +54,11 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
     }
 
     @Inject
-    public HentGrunnlagsdataTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste,
-                                         InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, @FagsakYtelseTypeRef("FP") IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste) {
+    public HentGrunnlagsdataTjenesteImpl(ResultatRepositoryProvider repositoryProvider,
+                                         OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste,
+                                         InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
+                                         @FagsakYtelseTypeRef("FP") IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste) {
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
         this.opptjeningInntektArbeidYtelseTjeneste = opptjeningInntektArbeidYtelseTjeneste;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.iayRegisterInnhentingTjeneste = iayRegisterInnhentingTjeneste;
@@ -78,7 +77,7 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
         }
         Beregningsgrunnlag gjeldendeBG = gjeldendeBeregningsgrunnlag.get();
         Opptjening nyOpptjening = opptjeningInntektArbeidYtelseTjeneste.hentOpptjening(behandling);
-        Optional<Opptjening> forrigeOpptjeningOpt = forrigeBehandlingOpt.flatMap(opptjeningRepository::finnOpptjening);
+        Optional<Opptjening> forrigeOpptjeningOpt = forrigeBehandlingOpt.flatMap(opptjeningInntektArbeidYtelseTjeneste::hentOpptjeningHvisEksisterer);
 
         if (erEndringIOpptjeningsAktiviteter(nyOpptjening, forrigeOpptjeningOpt)) {
             return true;

@@ -24,8 +24,10 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
@@ -37,22 +39,20 @@ import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResultat;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetssjekkerInntektsmelding;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
-import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl.KompletthetssjekkerInntektsmeldingImpl;
 
 public class KompletthetsjekkerFørstegangsbehandlingTest {
 
     private static final LocalDate STARTDATO_PERMISJON = LocalDate.now().plusWeeks(1);
     private static final String KODE_LEGEERKLÆRING = "I000023";
-
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
-
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private SøknadRepository søknadRepository = repositoryProvider.getSøknadRepository();
 
-    private KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider);
+    private KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider, resultatRepositoryProvider);
 
     @Mock
     private DokumentArkivTjeneste dokumentArkivTjeneste;
@@ -80,7 +80,7 @@ public class KompletthetsjekkerFørstegangsbehandlingTest {
     @Test
     public void skal_finne_at_kompletthet_er_oppfylt() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         KompletthetResultat kompletthetResultat = kompletthetsjekker.vurderForsendelseKomplett(behandling);
@@ -93,7 +93,7 @@ public class KompletthetsjekkerFørstegangsbehandlingTest {
     @Test
     public void skal_finne_at_kompletthet_ikke_er_oppfylt_når_inntektsmelding_mangler() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider, resultatRepositoryProvider);
         mockManglendeInntektsmelding();
         testUtil.lagreSøknad(behandling);
 
@@ -108,7 +108,7 @@ public class KompletthetsjekkerFørstegangsbehandlingTest {
     @Test
     public void skal_finne_at_kompletthet_ikke_er_oppfylt_når_vedlegg_til_søknad_mangler() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider, resultatRepositoryProvider);
         opprettSøknadMedPåkrevdVedlegg(behandling);
 
         // Act
@@ -122,7 +122,7 @@ public class KompletthetsjekkerFørstegangsbehandlingTest {
     @Test
     public void skal_finne_at_kompletthet_er_oppfylt_når_vedlegg_til_søknad_finnes_i_joark() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider, resultatRepositoryProvider);
 
         DokumentTypeId dokumentType = repositoryProvider.getKodeverkRepository().finnForKodeverkEiersKode(DokumentTypeId.class, KODE_LEGEERKLÆRING);
         Set<DokumentTypeId> dokumentTypeIds = singleton(dokumentType);
@@ -141,7 +141,7 @@ public class KompletthetsjekkerFørstegangsbehandlingTest {
     @Test
     public void skal_returnere_hvilke_vedlegg_som_mangler() {
         // Arrange
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider, resultatRepositoryProvider);
         mockManglendeInntektsmeldingGrunnlag();
         opprettSøknadMedPåkrevdVedlegg(behandling);
 
@@ -158,10 +158,10 @@ public class KompletthetsjekkerFørstegangsbehandlingTest {
         testUtil.lagreSøknad(behandling);
         Søknad søknad = new SøknadEntitet.Builder(søknadRepository.hentSøknad(behandling))
             .leggTilVedlegg(
-            new SøknadVedleggEntitet.Builder()
-                .medSkjemanummer(KODE_LEGEERKLÆRING)
-                .medErPåkrevdISøknadsdialog(true)
-                .build()).build();
+                new SøknadVedleggEntitet.Builder()
+                    .medSkjemanummer(KODE_LEGEERKLÆRING)
+                    .medErPåkrevdISøknadsdialog(true)
+                    .build()).build();
         søknadRepository.lagreOgFlush(behandling, søknad);
     }
 

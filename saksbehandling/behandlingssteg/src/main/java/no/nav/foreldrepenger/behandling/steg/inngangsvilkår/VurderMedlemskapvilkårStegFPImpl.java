@@ -16,11 +16,12 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioderEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPeriodeEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPerioderEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -42,9 +43,9 @@ public class VurderMedlemskapvilkårStegFPImpl extends InngangsvilkårStegImpl {
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
 
     @Inject
-    public VurderMedlemskapvilkårStegFPImpl(BehandlingRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
+    public VurderMedlemskapvilkårStegFPImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider, RegelOrkestrerer regelOrkestrerer, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
         super(repositoryProvider, regelOrkestrerer, BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR);
-        this.medlemskapVilkårPeriodeRepository = repositoryProvider.getMedlemskapVilkårPeriodeRepository();
+        this.medlemskapVilkårPeriodeRepository = resultatRepositoryProvider.getMedlemskapVilkårPeriodeRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
     }
 
@@ -60,7 +61,7 @@ public class VurderMedlemskapvilkårStegFPImpl extends InngangsvilkårStegImpl {
         Optional<Vilkår> medlemskapsvilkåret = behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().stream().filter(v -> VilkårType.MEDLEMSKAPSVILKÅRET.equals(v.getVilkårType())).findFirst();
         VilkårUtfallType utfall = medlemskapsvilkåret.orElseThrow(() -> new IllegalStateException("Finner ikke medlemskapsvikåret.")).getGjeldendeVilkårUtfall();
 
-        MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(behandling);
+        MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(behandling.getBehandlingsresultat());
         MedlemskapsvilkårPeriodeEntitet.Builder periodeBuilder = builder.getPeriodeBuilder();
         MedlemskapsvilkårPerioderEntitet.Builder periode = periodeBuilder.getBuilderForVurderingsdato(skjæringstidspunkt);
         periode.medVilkårUtfall(utfall);

@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
@@ -33,7 +33,7 @@ public class BehandlendeEnhetTjenesteImpl implements BehandlendeEnhetTjeneste {
     }
 
     @Inject
-    public BehandlendeEnhetTjenesteImpl(TpsTjeneste tpsTjeneste, EnhetsTjeneste enhetsTjeneste, BehandlingRepositoryProvider provider) {
+    public BehandlendeEnhetTjenesteImpl(TpsTjeneste tpsTjeneste, EnhetsTjeneste enhetsTjeneste, GrunnlagRepositoryProvider provider) {
         this.tpsTjeneste = tpsTjeneste;
         this.enhetsTjeneste = enhetsTjeneste;
         this.kodeverkRepository = provider.getKodeverkRepository();

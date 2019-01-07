@@ -36,7 +36,7 @@ public class BehandlingRevurderingRepositoryImpl implements BehandlingRevurderin
 
     @Inject
     public BehandlingRevurderingRepositoryImpl(@VLPersistenceUnit EntityManager entityManager,
-                                               BehandlingRepositoryProvider repositoryProvider) {
+                                               GrunnlagRepositoryProvider repositoryProvider) {
 
         Objects.requireNonNull(entityManager, "entityManager");
         Objects.requireNonNull(repositoryProvider, "repositoryProvider");

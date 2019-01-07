@@ -30,9 +30,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -57,7 +58,9 @@ public class DokumentmottakerEndringssøknadTest {
     private KodeverkRepository kodeverkRepository = new KodeverkRepositoryImpl(repoRule.getEntityManager());
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
     @Inject
     private BehandlingRepository behandlingRepository;
     @Inject
@@ -96,7 +99,7 @@ public class DokumentmottakerEndringssøknadTest {
             enhetsTjeneste, historikkinnslagTjeneste);
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
-        dokumentmottaker = new DokumentmottakerEndringssøknad(repositoryProvider, dokumentmottakerFelles,
+        dokumentmottaker = new DokumentmottakerEndringssøknad(repositoryProvider, resultatRepositoryProvider, dokumentmottakerFelles,
             mottatteDokumentTjeneste, behandlingsoppretter, kompletthetskontroller, køKontroller);
         dokumentmottaker = Mockito.spy(dokumentmottaker);
     }
@@ -121,12 +124,12 @@ public class DokumentmottakerEndringssøknadTest {
     public void skal_opprette_revurdering_for_endringssøknad_dersom_siste_behandling_er_avsluttet() {
         //Arrange
         Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
-            .lagre(repositoryProvider);
+            .lagre(repositoryProvider, resultatRepositoryProvider);
         BehandlingVedtak vedtak = DokumentmottakTestUtil.oppdaterVedtaksresultat(behandling, VedtakResultatType.INNVILGET);
         repoRule.getRepository().lagre(vedtak.getBehandlingsresultat());
 
         Behandling revurdering = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
-            .lagre(repositoryProvider);
+            .lagre(repositoryProvider, resultatRepositoryProvider);
         when(behandlingsoppretter.opprettRevurdering(behandling.getFagsak(), BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER)).thenReturn(revurdering);
 
         // simulere at den tidligere behandlingen er avsluttet
@@ -153,7 +156,7 @@ public class DokumentmottakerEndringssøknadTest {
     public void skal_dekøe_første_behandling_i_sakskompleks_dersom_endringssøknad_på_endringssøknad() {
         // Arrange - opprette køet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
         simulerKøetBehandling(behandling);
@@ -182,7 +185,7 @@ public class DokumentmottakerEndringssøknadTest {
     public void skal_henlegge_køet_behandling_dersom_endringssøknad_mottatt_tidligere() {
         // Arrange - opprette køet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
         simulerKøetBehandling(behandling);

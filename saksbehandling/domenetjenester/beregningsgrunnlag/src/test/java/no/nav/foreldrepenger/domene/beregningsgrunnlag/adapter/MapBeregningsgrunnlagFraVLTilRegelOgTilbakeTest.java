@@ -29,19 +29,21 @@ import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Hjemmel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.PeriodeÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Hjemmel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.PeriodeÅrsak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -57,6 +59,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.RegelResultat
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.ResultatBeregningType;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.verdikjede.VerdikjedeTestHjelper;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.vedtak.util.Tuple;
 
 public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
 
@@ -68,7 +71,8 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider realRepositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider realRepositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider realResultatProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     @Mock
     private PersonopplysningRepository personopplysningRepository;
@@ -81,7 +85,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
 
     private Behandling behandling;
 
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
 
     private VirksomhetEntitet virksomhet;
 
@@ -93,10 +97,11 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
     @Before
     public void setup() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
-        behandling = scenario.lagre(realRepositoryProvider);
-        repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        behandling = scenario.lagre(realRepositoryProvider, realResultatProvider);
+        Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> providerTuple = scenario.mockBehandlingRepositoryProvider();
+        repositoryProvider = providerTuple.getElement1();
         when(repositoryProvider.getPersonopplysningRepository()).thenReturn(personopplysningRepository);
-        when(repositoryProvider.getBeregningRepository()).thenReturn(realRepositoryProvider.getBeregningRepository());
+        when(repositoryProvider.getSatsRepository()).thenReturn(realRepositoryProvider.getSatsRepository());
         when(repositoryProvider.getVirksomhetRepository()).thenReturn(virksomhetRepository);
         when(hentGrunnlagsdataTjeneste.vurderOmNyesteGrunnlagsdataSkalHentes(behandling)).thenReturn(true);
 
@@ -106,23 +111,23 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
         BigDecimal refusjonskrav = BigDecimal.valueOf(19000);
         VerdikjedeTestHjelper.opprettInntektsmeldingMedRefusjonskrav(realRepositoryProvider, behandling, virksomhet, inntektInntektsmelding, refusjonskrav);
 
-        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
+        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, providerTuple.getElement2(), skjæringstidspunktTjeneste);
         inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
     }
 
     @Test
     public void skal_sjekke_mapping_er_konsistent_til_og_fra_regelmodell_for_ATFL() {
         //Arrange
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
         buildVLBGAktivitetStatus(beregningsgrunnlag);
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode bgPeriode = buildVLBGPeriode(beregningsgrunnlag);
-        buildVLBGPStatus(bgPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, MINUS_YEARS_2,
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode bgPeriode = buildVLBGPeriode(beregningsgrunnlag);
+        buildVLBGPStatus(bgPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, MINUS_YEARS_2,
             MINUS_YEARS_1, Arbeidsgiver.virksomhet(virksomhet), OpptjeningAktivitetType.ARBEID);
         buildVLBGPStatus(bgPeriode, AktivitetStatus.FRILANSER, Inntektskategori.FRILANSER, MINUS_YEARS_1, NOW, null, OpptjeningAktivitetType.FRILANS);
         //Act
-        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
+        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, realResultatProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
         List<RegelResultat> regelresultater = Collections.singletonList(new RegelResultat(ResultatBeregningType.BEREGNET, "sporing"));
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
         //Assert
         assertVLBGPRegelStatus(resultatBG2.getAktivitetStatuser().get(0));
         assertVLBGPStatusAT(resultatBG2.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList().get(0), OpptjeningAktivitetType.ARBEID,Arbeidsgiver.virksomhet(virksomhet));
@@ -133,15 +138,15 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
     public void skal_sjekke_mapping_er_konsistent_til_og_fra_regelmodell_for_AT_arbeidsgiver_privatperson() {
         //Arrange
         String aktørId = "123123123123";
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
         buildVLBGAktivitetStatus(beregningsgrunnlag);
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode bgPeriode = buildVLBGPeriode(beregningsgrunnlag);
-        buildVLBGPStatus(bgPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, MINUS_YEARS_1,
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode bgPeriode = buildVLBGPeriode(beregningsgrunnlag);
+        buildVLBGPStatus(bgPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, MINUS_YEARS_1,
             NOW, Arbeidsgiver.person(new AktørId(aktørId)), OpptjeningAktivitetType.ARBEID);
         //Act
-        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
+        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, realResultatProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
         List<RegelResultat> regelresultater = Collections.singletonList(new RegelResultat(ResultatBeregningType.BEREGNET, "sporing"));
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
         //Assert
         assertVLBGPRegelStatus(resultatBG2.getAktivitetStatuser().get(0));
         assertVLBGPStatusAT(resultatBG2.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList().get(0), OpptjeningAktivitetType.ARBEID, Arbeidsgiver.person(new AktørId(aktørId)));
@@ -151,15 +156,15 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
     @Test
     public void skal_sjekke_mapping_er_konsistent_til_og_fra_regelmodell_for_arbeidstaker_uten_arbeidsforhold() {
         //Arrange
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
         buildVLBGAktivitetStatus(beregningsgrunnlag);
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode bgPeriode = buildVLBGPeriode(beregningsgrunnlag);
-        buildVLBGPStatus(bgPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.FRILANSER, MINUS_YEARS_2,
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode bgPeriode = buildVLBGPeriode(beregningsgrunnlag);
+        buildVLBGPStatus(bgPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.FRILANSER, MINUS_YEARS_2,
             MINUS_YEARS_1, null, OpptjeningAktivitetType.VARTPENGER);
         //Act
-        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
+        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, realResultatProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
         List<RegelResultat> regelresultater = Collections.singletonList(new RegelResultat(ResultatBeregningType.BEREGNET, "sporing"));
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
         //Assert
         assertVLBGPRegelStatus(resultatBG2.getAktivitetStatuser().get(0));
         assertVLBGPStatusAT(resultatBG2.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList().get(0),
@@ -174,7 +179,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
     @Test
     public void skal_sjekke_mapping_for_periodeårsaker() {
         //Arrange
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
         buildVLBGAktivitetStatus(beregningsgrunnlag);
         final List<PeriodeÅrsak> årsaker = Arrays.asList(PeriodeÅrsak.UDEFINERT,PeriodeÅrsak.NATURALYTELSE_BORTFALT, PeriodeÅrsak.ARBEIDSFORHOLD_AVSLUTTET);
         for (int i = 0; i < årsaker.size(); i++) {
@@ -184,9 +189,9 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
                 .medBeregningsgrunnlagPeriode(LocalDate.now().plusMonths(i), LocalDate.now().plusMonths(i + 1).minusDays(1)).build(beregningsgrunnlag);
         }
         //Act
-        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
+        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, realResultatProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
         List<RegelResultat> regelresultater = årsaker.stream().map(a -> new RegelResultat(ResultatBeregningType.BEREGNET, "sporing")).collect(Collectors.toList());
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
         //Assert
         List<BeregningsgrunnlagPeriode> perioder = resultatBG2.getBeregningsgrunnlagPerioder();
         assertThat(perioder.size()).isEqualTo(årsaker.size());
@@ -204,7 +209,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
         VirksomhetEntitet virksomhetC = new VirksomhetEntitet.Builder().medNavn("OrgC").medOrgnr("123").oppdatertOpplysningerNå().build();
         List<VirksomhetEntitet> virksomheter = Arrays.asList(virksomhetA, virksomhetB, virksomhetC);
 
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = buildVLBeregningsgrunnlag();
         buildVLBGAktivitetStatus(beregningsgrunnlag);
         for (int i = 0; i < 3; i++) {
             BeregningsgrunnlagPeriode bgPeriode = buildVLBGPeriode(beregningsgrunnlag);
@@ -216,9 +221,9 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
                 .build(beregningsgrunnlag);
         }
         //Act
-        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
+        final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag resultatBG = new MapBeregningsgrunnlagFraVLTilRegel(repositoryProvider, realResultatProvider, opptjeningInntektArbeidYtelseTjeneste, skjæringstidspunktTjeneste, hentGrunnlagsdataTjeneste, 5).map(behandling, beregningsgrunnlag);
         List<RegelResultat> regelresultater = Stream.of(1,2,3).map(a -> new RegelResultat(ResultatBeregningType.BEREGNET, "sporing")).collect(Collectors.toList());
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag resultatBG2 = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatBG, "input", regelresultater, beregningsgrunnlag);
         //Assert
         List<BeregningsgrunnlagPeriode> perioder = resultatBG2.getBeregningsgrunnlagPerioder();
         assertThat(perioder.size()).isEqualTo(3);
@@ -229,7 +234,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
     }
 
     private void assertVLBGPStatusFL(BeregningsgrunnlagPrStatusOgAndel vlBGPStatus) {
-        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER);
+        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER);
         assertThat(vlBGPStatus.getBgAndelArbeidsforhold().flatMap(BGAndelArbeidsforhold::getVirksomhet)).isEmpty();
         assertThat(vlBGPStatus.getBgAndelArbeidsforhold().flatMap(BGAndelArbeidsforhold::getArbeidsforholdRef)).isEmpty();
         assertThat(vlBGPStatus.getArbeidsforholdType()).isEqualTo(OpptjeningAktivitetType.FRILANS);
@@ -239,7 +244,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {
     }
 
     private void assertVLBGPStatusAT(BeregningsgrunnlagPrStatusOgAndel vlBGPStatus, OpptjeningAktivitetType arbforholdType, Arbeidsgiver arbeidsgiver) {
-        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
+        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
         if (OpptjeningAktivitetType.ARBEID.equals(arbforholdType)) {
             assertThat(vlBGPStatus.getBgAndelArbeidsforhold().flatMap(BGAndelArbeidsforhold::getArbeidsgiver)).hasValueSatisfying(arb ->
                 assertThat(arb).isEqualTo(arbeidsgiver));

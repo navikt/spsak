@@ -21,10 +21,12 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.SatsType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.SatsRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.SatsType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -60,14 +62,15 @@ public class BeregningsgrunnlagDtoTest {
 
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private final SkjæringstidspunktTjeneste mock = mock(SkjæringstidspunktTjeneste.class);
-    private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, mock);
+    private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, mock);
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider,null, null, null, mock, apOpptjening);
-    private OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, repositoryProvider, null);
+    private OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, resultatRepositoryProvider, null);
     private final HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste = mock(HentGrunnlagsdataTjeneste.class);
     private KontrollerFaktaBeregningTjeneste kontrollerFaktaBeregningTjeneste;
-    private KontrollerFaktaBeregningFrilanserTjeneste kontrollerFaktaBeregningFrilanserTjeneste  = new KontrollerFaktaBeregningFrilanserTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
+    private KontrollerFaktaBeregningFrilanserTjeneste kontrollerFaktaBeregningFrilanserTjeneste  = new KontrollerFaktaBeregningFrilanserTjenesteImpl(resultatRepositoryProvider, inntektArbeidYtelseTjeneste);
 
     @Inject
     private FaktaOmBeregningTilfelleTjeneste faktaOmBeregningTilfelleTjeneste;
@@ -85,9 +88,9 @@ public class BeregningsgrunnlagDtoTest {
     @Before
     public void setup() {
         BeregningInntektsmeldingTjeneste beregningInntektsmeldingTjeneste = new BeregningInntektsmeldingTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
-        this.kontrollerFaktaBeregningTjeneste = new KontrollerFaktaBeregningTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste, hentGrunnlagsdataTjeneste, beregningInntektsmeldingTjeneste);
+        this.kontrollerFaktaBeregningTjeneste = new KontrollerFaktaBeregningTjenesteImpl(resultatRepositoryProvider, inntektArbeidYtelseTjeneste, hentGrunnlagsdataTjeneste, beregningInntektsmeldingTjeneste);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        BeregningRepository beregningRepository = repositoryProvider.getBeregningRepository();
+        SatsRepository beregningRepository = repositoryProvider.getSatsRepository();
         grunnbeløp = BigDecimal.valueOf(beregningRepository.finnEksaktSats(SatsType.GRUNNBELØP, SKJAERINGSTIDSPUNKT).getVerdi());
         scenario.medBeregningsgrunnlag().medSkjæringstidspunkt(SKJAERINGSTIDSPUNKT)
             .medDekningsgrad(100L)
@@ -96,21 +99,21 @@ public class BeregningsgrunnlagDtoTest {
             .medRedusertGrunnbeløp(grunnbeløp);
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.FASTSETT_BEREGNINGSGRUNNLAG_ARBEIDSTAKER_FRILANS,
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         leggTilOpptjening();
-        EndringBeregningsgrunnlagDtoTjeneste endringBeregningsgrunnlagDtoTjeneste = new EndringBeregningsgrunnlagDtoTjeneste(kontrollerFaktaBeregningTjeneste, repositoryProvider, dtoUtil);
+        EndringBeregningsgrunnlagDtoTjeneste endringBeregningsgrunnlagDtoTjeneste = new EndringBeregningsgrunnlagDtoTjeneste(kontrollerFaktaBeregningTjeneste, dtoUtil, resultatRepositoryProvider.getBeregningsgrunnlagRepository());
         TilstøtendeYtelseDtoTjeneste tilstøtendeYtelseDtoTjeneste = new TilstøtendeYtelseDtoTjenesteImpl(kontrollerFaktaBeregningTjeneste, opptjeningInntektArbeidYtelseTjeneste, dtoUtil);
-        FaktaOmBeregningAndelDtoTjeneste faktaOmBeregningAndelDtoTjeneste = new FaktaOmBeregningAndelDtoTjenesteImpl(repositoryProvider, kontrollerFaktaBeregningTjeneste, kontrollerFaktaBeregningFrilanserTjeneste, dtoUtil);
+        FaktaOmBeregningAndelDtoTjeneste faktaOmBeregningAndelDtoTjeneste = new FaktaOmBeregningAndelDtoTjenesteImpl(kontrollerFaktaBeregningTjeneste, kontrollerFaktaBeregningFrilanserTjeneste, dtoUtil, resultatRepositoryProvider.getBeregningsgrunnlagRepository());
         FaktaOmBeregningDtoTjenesteImpl faktaOmBeregningDtoTjeneste = new FaktaOmBeregningDtoTjenesteImpl(kontrollerFaktaBeregningTjeneste,
             faktaOmBeregningTilfelleTjeneste,
             endringBeregningsgrunnlagDtoTjeneste, tilstøtendeYtelseDtoTjeneste, faktaOmBeregningAndelDtoTjeneste, null);
-        beregningsgrunnlagDtoTjeneste = new BeregningsgrunnlagDtoTjenesteImpl(repositoryProvider, faktaOmBeregningDtoTjeneste, null);
+        beregningsgrunnlagDtoTjeneste = new BeregningsgrunnlagDtoTjenesteImpl(repositoryProvider, resultatRepositoryProvider, faktaOmBeregningDtoTjeneste, null);
     }
 
     private void leggTilOpptjening() {
         Map<String, Periode> periodeMap = new HashMap<>();
         periodeMap.put(ORGNR, new Periode(SKJAERINGSTIDSPUNKT.minusYears(1), SKJAERINGSTIDSPUNKT.minusDays(1)));
-        opptjeningTestUtil = new BeregningOpptjeningTestUtil(repositoryProvider, new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository()));
+        opptjeningTestUtil = new BeregningOpptjeningTestUtil(resultatRepositoryProvider, new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository()));
         opptjeningTestUtil.leggTilOpptjening(behandling, SKJAERINGSTIDSPUNKT, periodeMap);
     }
 

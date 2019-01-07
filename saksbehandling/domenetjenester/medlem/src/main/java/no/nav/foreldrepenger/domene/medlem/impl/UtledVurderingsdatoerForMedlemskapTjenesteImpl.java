@@ -37,7 +37,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.UtledVurderingsdatoerForMedlemskapTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.VurderingsÅrsak;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
@@ -51,7 +51,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 @ApplicationScoped
 public class UtledVurderingsdatoerForMedlemskapTjenesteImpl implements UtledVurderingsdatoerForMedlemskapTjeneste {
 
-    private BehandlingRepositoryProvider provider;
+    private GrunnlagRepositoryProvider provider;
     private MedlemEndringssjekkerProvider endringssjekkerProvider;
     private MedlemskapRepository medlemskapRepository;
     private MedlemEndringssjekker endringssjekker;
@@ -60,7 +60,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImpl implements UtledVurd
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
 
     @Inject
-    public UtledVurderingsdatoerForMedlemskapTjenesteImpl(BehandlingRepositoryProvider provider,
+    public UtledVurderingsdatoerForMedlemskapTjenesteImpl(GrunnlagRepositoryProvider provider,
                                                           MedlemEndringssjekkerProvider endringssjekkerProvider,
                                                           PersonopplysningTjeneste personopplysningTjeneste,
                                                           SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {

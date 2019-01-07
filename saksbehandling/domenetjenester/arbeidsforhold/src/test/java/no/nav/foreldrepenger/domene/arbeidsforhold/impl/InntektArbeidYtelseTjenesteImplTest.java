@@ -64,10 +64,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -95,8 +97,9 @@ public class InntektArbeidYtelseTjenesteImplTest {
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+    private ResultatRepositoryProvider resultatProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private FagsakRepository fagsakRepository = new FagsakRepositoryImpl(repoRule.getEntityManager());
     private InntektArbeidYtelseTjeneste tjeneste;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
@@ -129,7 +132,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(any())).thenReturn(I_DAG.toLocalDate());
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(any())).thenReturn(I_DAG.toLocalDate());
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any())).thenReturn(I_DAG.toLocalDate());
-        tjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, arbeidsforholTjenesteMock.getMock(), tpsTjeneste, virksomhetTjeneste, skjæringstidspunktTjeneste, new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste));
+        tjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, arbeidsforholTjenesteMock.getMock(), tpsTjeneste, virksomhetTjeneste, skjæringstidspunktTjeneste, new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatProvider, skjæringstidspunktTjeneste));
         arbeidsforholdTjeneste = new ArbeidsforholdAdministrasjonTjenesteImpl(repositoryProvider, vurderArbeidsforholdTjeneste, tpsTjeneste, skjæringstidspunktTjeneste);
     }
 
@@ -238,14 +241,14 @@ public class InntektArbeidYtelseTjenesteImplTest {
 
         Behandling revurdering = opprettRevurderingsbehandling(behandling);
         inntektArbeidYtelseRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revurdering);
-        lagreInntektsmelding(I_DAG.plusWeeks(2), revurdering,"1", "123");
+        lagreInntektsmelding(I_DAG.plusWeeks(2), revurdering, "1", "123");
         lagreInntektsmelding(I_DAG.plusWeeks(3), revurdering, "3", "1234");
 
 
         // Act+Assert
         List<Inntektsmelding> inntektsmeldingerEtterGjeldendeVedtak = tjeneste.hentAlleInntektsmeldingerMottattEtterGjeldendeVedtak(revurdering);
         assertThat(inntektsmeldingerEtterGjeldendeVedtak).hasSize(2);
-        assertThat(erDisjonkteListerAvInntektsmeldinger(inntektsmeldingerFørGjeldendeVedtak,inntektsmeldingerEtterGjeldendeVedtak)).isTrue();
+        assertThat(erDisjonkteListerAvInntektsmeldinger(inntektsmeldingerFørGjeldendeVedtak, inntektsmeldingerEtterGjeldendeVedtak)).isTrue();
     }
 
 
@@ -257,7 +260,7 @@ public class InntektArbeidYtelseTjenesteImplTest {
 
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.plusMonths(4), true, false);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatProvider);
 
         opprettAksjonspunkt(behandling, AksjonspunktDefinisjon.VURDER_ARBEIDSFORHOLD, LocalDateTime.now());
 
@@ -393,8 +396,8 @@ public class InntektArbeidYtelseTjenesteImplTest {
             .medAnsvarligSaksbehandler("Nav Navesen")
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .build();
-        repositoryProvider.getBehandlingVedtakRepository().lagre(behandlingVedtak, lås);
-        
+        resultatProvider.getVedtakRepository().lagre(behandlingVedtak, lås);
+
         repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandling.getId());
     }
 

@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTask;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
@@ -34,7 +34,7 @@ public class FortsettBehandlingTask implements ProsessTaskHandler {
     }
 
     @Inject
-    public FortsettBehandlingTask(BehandlingRepositoryProvider repositoryProvider) {
+    public FortsettBehandlingTask(GrunnlagRepositoryProvider repositoryProvider) {
         behandlingRepository = repositoryProvider.getBehandlingRepository();
         aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
     }

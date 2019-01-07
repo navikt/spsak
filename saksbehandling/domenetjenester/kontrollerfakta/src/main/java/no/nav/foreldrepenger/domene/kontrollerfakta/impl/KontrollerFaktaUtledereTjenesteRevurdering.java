@@ -10,7 +10,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 
 @ApplicationScoped
 @BehandlingTypeRef("BT-004") // Revurdering
@@ -19,7 +19,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 public class KontrollerFaktaUtledereTjenesteRevurdering extends AbstractKontrollerFaktaUtledereTjeneste {
 
     @Inject
-    public KontrollerFaktaUtledereTjenesteRevurdering(BehandlingRepositoryProvider repositoryProvider) {
+    public KontrollerFaktaUtledereTjenesteRevurdering(GrunnlagRepositoryProvider repositoryProvider) {
         super(repositoryProvider);
     }
 

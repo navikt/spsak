@@ -9,7 +9,8 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -25,12 +26,14 @@ class DokumentmottakerInntektsmelding extends DokumentmottakerYtelsesesrelatertD
                                            MottatteDokumentTjeneste mottatteDokumentTjeneste,
                                            Behandlingsoppretter behandlingsoppretter,
                                            Kompletthetskontroller kompletthetskontroller,
-                                           BehandlingRepositoryProvider repositoryProvider) {
+                                           GrunnlagRepositoryProvider repositoryProvider,
+                                           ResultatRepositoryProvider resultatRepositoryProvider) {
         super(dokumentmottakerFelles,
             mottatteDokumentTjeneste,
             behandlingsoppretter,
             kompletthetskontroller,
-            repositoryProvider);
+            repositoryProvider,
+            resultatRepositoryProvider);
     }
 
     @Override

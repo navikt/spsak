@@ -6,9 +6,9 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepenger;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepenger;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.feriepenger.BeregningsresultatFeriepengerRegelModell;
 import no.nav.foreldrepenger.domene.beregning.regler.feriepenger.RegelBeregnFeriepenger;
 import no.nav.foreldrepenger.domene.beregning.ytelse.adapter.MapBeregningsresultatFeriepengerFraRegelTilVL;
@@ -33,9 +33,9 @@ public class BeregnFeriepengerTjeneste {
         //NOSONAR
     }
 
-    public void beregnFeriepenger(Behandling behandling, BeregningsresultatFP beregningsresultatFP, Beregningsgrunnlag beregningsgrunnlag) {
+    public void beregnFeriepenger(Behandling behandling, BeregningsresultatPerioder beregningsresultat, Beregningsgrunnlag beregningsgrunnlag) {
 
-        BeregningsresultatFeriepengerRegelModell regelModell = MapBeregningsresultatFeriepengerFraVLTilRegel.mapFra(beregningsgrunnlag, behandling, beregningsresultatFP);
+        BeregningsresultatFeriepengerRegelModell regelModell = MapBeregningsresultatFeriepengerFraVLTilRegel.mapFra(beregningsgrunnlag, behandling, beregningsresultat);
         String regelInput = toJson(regelModell);
 
         RegelBeregnFeriepenger regelBeregnFeriepenger = new RegelBeregnFeriepenger();
@@ -45,9 +45,9 @@ public class BeregnFeriepengerTjeneste {
         BeregningsresultatFeriepenger beregningsresultatFeriepenger = BeregningsresultatFeriepenger.builder()
             .medFeriepengerRegelInput(regelInput)
             .medFeriepengerRegelSporing(regelResultat.getRegelSporing())
-            .build(beregningsresultatFP);
+            .build(beregningsresultat);
 
-        MapBeregningsresultatFeriepengerFraRegelTilVL.mapFra(beregningsresultatFP, regelModell, beregningsresultatFeriepenger);
+        MapBeregningsresultatFeriepengerFraRegelTilVL.mapFra(beregningsresultat, regelModell, beregningsresultatFeriepenger);
     }
 
     private String toJson(BeregningsresultatFeriepengerRegelModell grunnlag) {

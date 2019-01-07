@@ -10,7 +10,8 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InnhentingSamletTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
@@ -26,13 +27,15 @@ public class IAYRegisterInnhentingFPTjenesteImpl extends IAYRegisterInnhentingFe
 
     @Inject
     public IAYRegisterInnhentingFPTjenesteImpl(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                               BehandlingRepositoryProvider repositoryProvider,
+                                               GrunnlagRepositoryProvider repositoryProvider,
+                                               ResultatRepositoryProvider resultatProvider,
                                                VirksomhetTjeneste virksomhetTjeneste,
                                                SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                                InnhentingSamletTjeneste innhentingSamletTjeneste,
                                                OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste) {
         super(inntektArbeidYtelseTjeneste,
             repositoryProvider,
+            resultatProvider,
             virksomhetTjeneste,
             skjæringstidspunktTjeneste,
             innhentingSamletTjeneste,

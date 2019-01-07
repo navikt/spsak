@@ -38,10 +38,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.PermisjonsbeskrivelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.AnnenAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -67,17 +69,18 @@ public class OpptjeningsperioderTjenesteImplTest {
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
 
     private FagsakRepository fagsakRepository = new FagsakRepositoryImpl(repoRule.getEntityManager());
 
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
-    private final AksjonspunktutlederForVurderOpptjening aksjonspunktutlederForVurderOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
+    private final AksjonspunktutlederForVurderOpptjening aksjonspunktutlederForVurderOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
     private InntektArbeidYtelseTjeneste tjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null,
         skjæringstidspunktTjeneste, aksjonspunktutlederForVurderOpptjening);
-    private OpptjeningsperioderTjeneste forSaksbehandlingTjeneste = new OpptjeningsperioderTjenesteImpl(tjeneste, repositoryProvider, aksjonspunktutlederForVurderOpptjening);
+    private OpptjeningsperioderTjeneste forSaksbehandlingTjeneste = new OpptjeningsperioderTjenesteImpl(tjeneste, repositoryProvider, resultatRepositoryProvider, aksjonspunktutlederForVurderOpptjening);
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
 
     private String AREBIDSFORHOLD_ID = "1";

@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.domene.personopplysning.impl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,8 +15,10 @@ import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
@@ -31,7 +32,8 @@ public class PersonopplysningTjenesteImplTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private TpsAdapterImpl tpsAdapterImpl = Mockito.mock(TpsAdapterImpl.class);
 
@@ -42,7 +44,7 @@ public class PersonopplysningTjenesteImplTest {
     @Before
     public void before() {
         personopplysningTjeneste = new PersonopplysningTjenesteImpl(repositoryProvider,
-            tpsAdapterImpl, navBrukerRepository, new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0)));
+            tpsAdapterImpl, navBrukerRepository, new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider));
     }
 
     @Test
@@ -62,7 +64,7 @@ public class PersonopplysningTjenesteImplTest {
 
         scenario.medRegisterOpplysninger(personInformasjon);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         PersonopplysningerAggregat personopplysningerAggregat = personopplysningTjeneste.hentGjeldendePersoninformasjonPåTidspunkt(behandling, tidspunkt);

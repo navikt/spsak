@@ -12,8 +12,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
@@ -33,10 +34,10 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
     }
 
     @Inject
-    ForeslåVedtakTjenesteForeldrepengerImpl(BehandlingRepositoryProvider repositoryProvider, SjekkMotEksisterendeOppgaverTjeneste sjekkMotEksisterendeOppgaverTjeneste,
+    ForeslåVedtakTjenesteForeldrepengerImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider, SjekkMotEksisterendeOppgaverTjeneste sjekkMotEksisterendeOppgaverTjeneste,
                                             RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder) {
         super(repositoryProvider, sjekkMotEksisterendeOppgaverTjeneste);
-        this.uttakRepository = repositoryProvider.getUttakRepository();
+        this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
         this.revurderingFPBehandlingsresultatutleder = revurderingFPBehandlingsresultatutleder;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
     }

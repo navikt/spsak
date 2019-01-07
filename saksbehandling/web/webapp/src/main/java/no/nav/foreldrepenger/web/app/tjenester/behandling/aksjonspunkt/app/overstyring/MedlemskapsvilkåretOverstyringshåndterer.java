@@ -5,7 +5,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.InngangsvilkårTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
@@ -21,9 +21,9 @@ public class MedlemskapsvilkåretOverstyringshåndterer extends InngangsvilkårO
     }
 
     @Inject
-    public MedlemskapsvilkåretOverstyringshåndterer(BehandlingRepositoryProvider repositoryProvider,
-            HistorikkTjenesteAdapter historikkAdapter,
-            InngangsvilkårTjeneste inngangsvilkårTjeneste) {
+    public MedlemskapsvilkåretOverstyringshåndterer(GrunnlagRepositoryProvider repositoryProvider,
+                                                    HistorikkTjenesteAdapter historikkAdapter,
+                                                    InngangsvilkårTjeneste inngangsvilkårTjeneste) {
         super(repositoryProvider,
                 historikkAdapter,
                 AksjonspunktDefinisjon.OVERSTYRING_AV_MEDLEMSKAPSVILKÅRET,

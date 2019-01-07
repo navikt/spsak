@@ -152,17 +152,25 @@ public class KodeverkRepositoryImpl implements KodeverkRepository {
     }
 
     @Override
-    public Map<String, List<Kodeliste>> hentAlle(List<String> kodeverk) {
+    public Map<String, List<Kodeliste>> hentAlle(List<Class<? extends Kodeliste>> kodeverkClasses) {
+        List<String> kodeverk = mapTilKodeverk(kodeverkClasses);
+        EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
+
         TypedQuery<Kodeliste> query = entityManager.createQuery("FROM Kodeliste kl " +
             "WHERE kl.kodeverk IN (:kodeverk) " +
             "AND kl.kode != '-'", Kodeliste.class);
-        query.setParameter("kodeverk", kodeverk);
-        EntityGraph entityGraph = entityManager.getEntityGraph(Kodeliste.ENTITYGRAPH);
-        return query.setHint(QueryHints.HINT_READONLY, "true")
-            .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph)
+        query.setParameter("kodeverk", kodeverk)
+            .setHint(QueryHints.HINT_READONLY, "true")
+            .setHint(QueryHints.HINT_FETCHGRAPH, entityGraph);
+
+        return query
             .getResultStream()
             .peek(it -> entityManager.detach(it))
             .collect(Collectors.groupingBy(en -> en.getClass().getSimpleName()));
+    }
+
+    private List<String> mapTilKodeverk(List<Class<? extends Kodeliste>> kodeverkClasses) {
+        return kodeverkClasses.stream().map(cl -> cl.getAnnotation(DiscriminatorValue.class).value()).collect(Collectors.toList());
     }
 
     @Override

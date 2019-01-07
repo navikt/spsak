@@ -8,9 +8,10 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -23,8 +24,8 @@ class RyddOpptjening {
     private final InntektArbeidYtelseRepository arbeidYtelseRepository;
     private final BehandlingRepository behandlingRepository;
 
-    RyddOpptjening(BehandlingRepositoryProvider provider, Behandling behandling, BehandlingskontrollKontekst kontekst) {
-        this.opptjeningRepository = provider.getOpptjeningRepository();
+    RyddOpptjening(GrunnlagRepositoryProvider provider, ResultatRepositoryProvider resultatRepositoryProvider, Behandling behandling, BehandlingskontrollKontekst kontekst) {
+        this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
         this.arbeidYtelseRepository = provider.getInntektArbeidYtelseRepository();
         this.behandlingRepository = provider.getBehandlingRepository();
         this.behandling = behandling;
@@ -34,7 +35,7 @@ class RyddOpptjening {
     void ryddOpp() {
         Optional<Vilkår> vilkår = ryddOppVilkårsvurderinger();
         if (vilkår.isPresent()) {
-            opptjeningRepository.deaktiverOpptjening(behandling);
+            opptjeningRepository.deaktiverOpptjening(behandling.getBehandlingsresultat());
             arbeidYtelseRepository.tilbakestillOverstyring(behandling);
             tilbakestillOpptjenigsperiodevilkår();
         }

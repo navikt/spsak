@@ -16,8 +16,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInnslagTekstBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
@@ -35,7 +37,8 @@ public class AvklarFortsattMedlemskapOppdatererTest {
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private LocalDate now = LocalDate.now();
     private HistorikkInnslagTekstBuilder tekstBuilder = new HistorikkInnslagTekstBuilder();
     private PersonopplysningTjeneste personopplysningTjeneste = mock(PersonopplysningTjeneste.class);
@@ -49,13 +52,13 @@ public class AvklarFortsattMedlemskapOppdatererTest {
 
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FORTSATT_MEDLEMSKAP, BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         AvklarFortsattMedlemskapDto dto = new AvklarFortsattMedlemskapDto("test", now);
 
         // Act
         final MedlemTjeneste medlemskapTjeneste = new MedlemskapTjenesteImpl(mock(MedlemEndringssjekkerProvider.class),
-            repositoryProvider, mock(HentMedlemskapFraRegister.class), repositoryProvider.getMedlemskapVilkårPeriodeRepository(), mock(SkjæringstidspunktTjeneste.class), personopplysningTjeneste
+            repositoryProvider, mock(HentMedlemskapFraRegister.class), resultatRepositoryProvider.getMedlemskapVilkårPeriodeRepository(), mock(SkjæringstidspunktTjeneste.class), personopplysningTjeneste
             , mock(UtledVurderingsdatoerForMedlemskapTjeneste.class), mock(VurderMedlemskapTjeneste.class));
         new AvklarFortsattMedlemskapOppdaterer(medlemskapTjeneste , repositoryProvider.getAksjonspunktRepository(), lagMockHistory(), lagMockYtelseSkjæringstidspunktTjeneste(now))
             .oppdater(dto, behandling, null);
@@ -72,10 +75,10 @@ public class AvklarFortsattMedlemskapOppdatererTest {
 
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FORTSATT_MEDLEMSKAP, BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         final MedlemTjeneste medlemskapTjeneste = new MedlemskapTjenesteImpl(mock(MedlemEndringssjekkerProvider.class),
-            repositoryProvider, mock(HentMedlemskapFraRegister.class), repositoryProvider.getMedlemskapVilkårPeriodeRepository(), mock(SkjæringstidspunktTjeneste.class), personopplysningTjeneste
+            repositoryProvider, mock(HentMedlemskapFraRegister.class), resultatRepositoryProvider.getMedlemskapVilkårPeriodeRepository(), mock(SkjæringstidspunktTjeneste.class), personopplysningTjeneste
             , mock(UtledVurderingsdatoerForMedlemskapTjeneste.class), mock(VurderMedlemskapTjeneste.class));
 
         AvklarFortsattMedlemskapDto dto = new AvklarFortsattMedlemskapDto("test", now);
@@ -92,7 +95,7 @@ public class AvklarFortsattMedlemskapOppdatererTest {
         getVurdertMedlemskap(behandling, repositoryProvider);
     }
 
-    private VurdertMedlemskap getVurdertMedlemskap(Behandling behandling, BehandlingRepositoryProvider repositoryProvider) {
+    private VurdertMedlemskap getVurdertMedlemskap(Behandling behandling, GrunnlagRepositoryProvider repositoryProvider) {
         MedlemskapRepository medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         Optional<VurdertMedlemskap> vurdertMedlemskap = medlemskapRepository.hentVurdertMedlemskap(behandling);
         return vurdertMedlemskap.orElse(null);

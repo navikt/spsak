@@ -22,8 +22,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
@@ -34,7 +36,8 @@ public class AvklarGyldigPeriodeTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider provider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider provider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     @Inject
     private MedlemskapPerioderTjeneste medlemskapPerioderTjeneste;
@@ -59,7 +62,7 @@ public class AvklarGyldigPeriodeTest {
         medlemskapPerioder.add(gyldigPeriodeUnderFødsel);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         medlemskapPerioder.forEach(scenario::leggTilMedlemskapPeriode);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> medlemResultat = avklarGyldigPeriode.utled(behandling, fødselsdato);
@@ -73,7 +76,7 @@ public class AvklarGyldigPeriodeTest {
         // Arrange
         LocalDate fødselsdato = LocalDate.now();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> medlemResultat = avklarGyldigPeriode.utled(behandling, fødselsdato);
@@ -95,7 +98,7 @@ public class AvklarGyldigPeriodeTest {
         medlemskapPerioder.add(lukketPeriodeFørFødselsdato);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         medlemskapPerioder.forEach(scenario::leggTilMedlemskapPeriode);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> medlemResultat = avklarGyldigPeriode.utled(behandling, fødselsdato);
@@ -117,7 +120,7 @@ public class AvklarGyldigPeriodeTest {
         medlemskapPerioder.add(medlemskapPeriodeUnderAvklaring);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         medlemskapPerioder.forEach(scenario::leggTilMedlemskapPeriode);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> medlemResultat = avklarGyldigPeriode.utled(behandling, fødselsdato);
@@ -139,7 +142,7 @@ public class AvklarGyldigPeriodeTest {
         medlemskapPerioder.add(åpenPeriode);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         medlemskapPerioder.forEach(scenario::leggTilMedlemskapPeriode);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> medlemResultat = avklarGyldigPeriode.utled(behandling, fødselsdato);

@@ -12,9 +12,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
@@ -26,7 +26,7 @@ import no.nav.foreldrepenger.domene.typer.Saksnummer;
 
 public class DokumentmottakTestUtil {
 
-    public static BehandlingskontrollTjeneste lagBehandlingskontrollTjenesteMock(BehandlingRepositoryProvider repositoryProvider, BehandlingModellRepository behandlingModellRepository) {
+    public static BehandlingskontrollTjeneste lagBehandlingskontrollTjenesteMock(GrunnlagRepositoryProvider repositoryProvider, BehandlingModellRepository behandlingModellRepository) {
         BehandlingskontrollTjeneste behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository,
             null) {
             @Override

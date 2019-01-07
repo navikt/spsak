@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -38,8 +37,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilkn
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
@@ -65,14 +66,15 @@ public class InngangsvilkårOversetterTest {
 
     private InngangsvilkårOversetter oversetter;
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private KodeverkRepository kodeverkRepository = new KodeverkRepositoryImpl(repoRule.getEntityManager());
     private YrkesaktivitetBuilder yrkesaktivitetBuilder;
 
     @Before
     public void oppsett() {
-        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
+        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
         BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
         oversetter = new InngangsvilkårOversetter(repositoryProvider, new MedlemskapPerioderTjenesteImpl(12, 6, skjæringstidspunktTjeneste), skjæringstidspunktTjeneste, personopplysningTjeneste);
     }
@@ -87,7 +89,7 @@ public class InngangsvilkårOversetterTest {
 
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.plusMonths(4), true);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         VurdertMedlemskap vurdertMedlemskap = new VurdertMedlemskapBuilder()
             .medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.MEDLEM)
@@ -120,7 +122,7 @@ public class InngangsvilkårOversetterTest {
         LocalDate skjæringstidspunkt = LocalDate.now();
         ScenarioMorSøkerEngangsstønad scenario = oppsett(skjæringstidspunkt);
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.minusDays(1), true);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         MedlemskapsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellMedlemskap(behandling);
@@ -136,7 +138,7 @@ public class InngangsvilkårOversetterTest {
         LocalDate skjæringstidspunkt = LocalDate.now();
         ScenarioMorSøkerEngangsstønad scenario = oppsett(skjæringstidspunkt);
         opprettArbeidOgInntektForBehandling(scenario, skjæringstidspunkt.minusMonths(5), skjæringstidspunkt.plusDays(10), false);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         // Act
         MedlemskapsvilkårGrunnlag grunnlag = oversetter.oversettTilRegelModellMedlemskap(behandling);
 

@@ -15,7 +15,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørYtelseEndring;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -43,7 +43,7 @@ class StartpunktUtlederInntektArbeidYtelse implements StartpunktUtleder {
     @Inject
     StartpunktUtlederInntektArbeidYtelse(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, // NOSONAR - ingen enkel måte å unngå mange parametere her
                                          KodeverkTabellRepository kodeverkTabellRepository,
-                                         BehandlingRepositoryProvider repositoryProvider,
+                                         GrunnlagRepositoryProvider repositoryProvider,
                                          StartpunktUtlederInntektsmelding startpunktUtlederInntektsmelding, StartpunktUtlederAktørArbeid startpunktUtlederAktørArbeid,
                                          StartpunktUtlederAktørInntekt startpunktUtlederAktørInntekt, StartpunktUtlederAktørYtelse startpunktUtlederAktørYtelse,
                                          VurderArbeidsforholdTjeneste vurderArbeidsforholdTjeneste) {

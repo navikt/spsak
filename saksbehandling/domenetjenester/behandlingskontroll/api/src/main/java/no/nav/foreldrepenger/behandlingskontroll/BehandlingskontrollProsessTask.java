@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.behandlingskontroll;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskHandler;
 
@@ -16,10 +16,10 @@ public abstract class BehandlingskontrollProsessTask implements ProsessTaskHandl
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste;
 
-    protected BehandlingskontrollProsessTask(BehandlingRepositoryProvider behandlingRepositoryProvider,
+    protected BehandlingskontrollProsessTask(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                                              BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                              BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste) {
-        this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.behandlingskontrollTaskTjeneste = behandlingskontrollTaskTjeneste;
     }

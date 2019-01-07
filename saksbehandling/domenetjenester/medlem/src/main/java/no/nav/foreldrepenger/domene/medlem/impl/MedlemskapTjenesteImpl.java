@@ -22,14 +22,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapManuellVurderingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPerioder;
 import no.nav.foreldrepenger.behandlingslager.diff.DiffResult;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
@@ -67,7 +67,7 @@ public class MedlemskapTjenesteImpl implements MedlemTjeneste {
     private MedlemskapRepository medlemskapRepository;
     private KodeverkTabellRepository kodeverkTabellRepository;
     private HentMedlemskapFraRegister hentMedlemskapFraRegister;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private MedlemskapVilkårPeriodeRepository medlemskapVilkårPeriodeRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private PersonopplysningTjeneste personopplysningTjeneste;
@@ -79,7 +79,7 @@ public class MedlemskapTjenesteImpl implements MedlemTjeneste {
     }
 
     @Inject
-    public MedlemskapTjenesteImpl(MedlemEndringssjekkerProvider endringssjekkerProvider, BehandlingRepositoryProvider repositoryProvider,
+    public MedlemskapTjenesteImpl(MedlemEndringssjekkerProvider endringssjekkerProvider, GrunnlagRepositoryProvider repositoryProvider,
                                   HentMedlemskapFraRegister hentMedlemskapFraRegister, MedlemskapVilkårPeriodeRepository medlemskapVilkårPeriodeRepository,
                                   SkjæringstidspunktTjeneste skjæringstidspunktTjeneste, PersonopplysningTjeneste personopplysningTjeneste,
                                   UtledVurderingsdatoerForMedlemskapTjeneste utledVurderingsdatoerForMedlemskapTjeneste, VurderMedlemskapTjeneste vurderMedlemskapTjeneste) {
@@ -242,7 +242,7 @@ public class MedlemskapTjenesteImpl implements MedlemTjeneste {
 
     private LocalDate finnStartdato(Behandling revurderingBehandling) {
 
-        Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurderingBehandling.getOriginalBehandling().get());
+        Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurderingBehandling.getOriginalBehandling().get().getBehandlingsresultat());
 
         LocalDate startDato = skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(revurderingBehandling);
         if (medlemskapsvilkårPeriodeGrunnlag.isPresent()) {

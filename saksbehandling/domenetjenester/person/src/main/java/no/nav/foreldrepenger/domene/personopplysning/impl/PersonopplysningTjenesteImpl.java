@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.diff.DiffResult;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
@@ -23,7 +23,7 @@ import no.nav.foreldrepenger.domene.personopplysning.VergeAksjonpunktDto;
 @ApplicationScoped
 public class PersonopplysningTjenesteImpl extends AbstractPersonopplysningTjenesteImpl implements PersonopplysningTjeneste {
 
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private TpsAdapter tpsAdapter;
     private NavBrukerRepository navBrukerRepository;
 
@@ -33,7 +33,7 @@ public class PersonopplysningTjenesteImpl extends AbstractPersonopplysningTjenes
     }
 
     @Inject
-    public PersonopplysningTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public PersonopplysningTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                                         TpsAdapter tpsAdapter,
                                         NavBrukerRepository navBrukerRepository,
                                         SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {

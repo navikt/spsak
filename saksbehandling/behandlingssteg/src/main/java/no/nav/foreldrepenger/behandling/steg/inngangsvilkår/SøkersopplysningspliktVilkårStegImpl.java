@@ -9,7 +9,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegRef;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
 
@@ -24,7 +24,7 @@ public class SøkersopplysningspliktVilkårStegImpl extends InngangsvilkårStegI
     );
 
     @Inject
-    public SøkersopplysningspliktVilkårStegImpl(BehandlingRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer) {
+    public SøkersopplysningspliktVilkårStegImpl(GrunnlagRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer) {
         super(repositoryProvider, regelOrkestrerer, BehandlingStegType.KONTROLLERER_SØKERS_OPPLYSNINGSPLIKT);
     }
 

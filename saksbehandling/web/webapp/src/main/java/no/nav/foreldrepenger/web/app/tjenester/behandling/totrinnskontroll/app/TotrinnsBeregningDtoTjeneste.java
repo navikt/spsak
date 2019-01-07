@@ -8,11 +8,11 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurdering;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.FaktaOmBeregningTilfelleTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.dto.TotrinnsBeregningDto;
@@ -28,7 +28,7 @@ public class TotrinnsBeregningDtoTjeneste {
     }
 
     @Inject
-    public TotrinnsBeregningDtoTjeneste(BehandlingRepositoryProvider repositoryProvider,
+    public TotrinnsBeregningDtoTjeneste(ResultatRepositoryProvider repositoryProvider,
                                         FaktaOmBeregningTilfelleTjeneste faktaOmBeregningTilfelleTjeneste) {
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
         this.faktaOmBeregningTilfelleTjeneste = faktaOmBeregningTilfelleTjeneste;

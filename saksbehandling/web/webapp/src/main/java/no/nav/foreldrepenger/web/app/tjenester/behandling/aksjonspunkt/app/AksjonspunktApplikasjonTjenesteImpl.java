@@ -34,7 +34,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat.Builder;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
@@ -70,7 +70,7 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
     }
 
     @Inject
-    public AksjonspunktApplikasjonTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public AksjonspunktApplikasjonTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                                                BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                                BehandlingsprosessApplikasjonTjeneste behandlingsprosessApplikasjonTjeneste,
                                                HistorikkTjenesteAdapter historikkTjenesteAdapter,

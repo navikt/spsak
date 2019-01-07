@@ -14,8 +14,10 @@ import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -33,20 +35,19 @@ import no.nav.vedtak.felles.prosesstask.impl.ProsessTaskRepositoryImpl;
 @SuppressWarnings("deprecation")
 public class OpprettNyFørstegangsbehandlingTest {
 
+    private final AbstractTestScenario<?> scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-
     private Behandling behandling;
-
-    private BehandlingRepositoryProvider repositoryProvider;
-
+    private GrunnlagRepositoryProvider repositoryProvider;
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private ProsessTaskRepository prosessTaskRepository;
     private SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste;
     private BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste;
     private KodeverkRepository kodeverkRepository;
-    private final AbstractTestScenario<?> scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
+
     private Behandling opprettOgLagreBehandling() {
-        return scenario.lagre(repositoryProvider);
+        return scenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     @Before
@@ -55,7 +56,7 @@ public class OpprettNyFørstegangsbehandlingTest {
         Mockito.doNothing().when(prosessTaskEventPubliserer).fireEvent(Mockito.any(ProsessTaskData.class), Mockito.any(), Mockito.any(), Mockito.any());
         prosessTaskRepository = Mockito.spy(new ProsessTaskRepositoryImpl(repoRule.getEntityManager(), prosessTaskEventPubliserer));
 
-        repositoryProvider = Mockito.spy(new BehandlingRepositoryProviderImpl(repoRule.getEntityManager()));
+        repositoryProvider = Mockito.spy(new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager()));
         kodeverkRepository = repositoryProvider.getKodeverkRepository();
         behandling = opprettOgLagreBehandling();
 

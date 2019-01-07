@@ -43,8 +43,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -66,7 +66,7 @@ public class HenleggBehandlingTjenesteImplTest {
     private InternalManipulerBehandling manipulerInternBehandling;
 
     @Mock
-    private BehandlingRepositoryProvider repositoryProviderMock;
+    private GrunnlagRepositoryProvider repositoryProviderMock;
 
     @Mock
     private HistorikkRepository historikkRepositoryMock;
@@ -111,7 +111,7 @@ public class HenleggBehandlingTjenesteImplTest {
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagMocked();
-        repositoryProviderMock = scenario.mockBehandlingRepositoryProvider();
+        repositoryProviderMock = scenario.mockBehandlingRepositoryProvider().getElement1();
 
         simulerAktivtSteg(behandling, stegType);
         when(repositoryProviderMock.getBehandlingskontrollRepository()).thenReturn(behandlingskontrollRepository);

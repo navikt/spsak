@@ -23,8 +23,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlagBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningVersjonType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -37,7 +39,8 @@ public class PersonAdresseEndringIdentifisererTest {
     private AktørId AKTØRID = new AktørId("1");
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private PersonAdresseEndringIdentifiserer personAdresseEndringIdentifiserer;
     private Behandling behandling;
@@ -45,7 +48,7 @@ public class PersonAdresseEndringIdentifisererTest {
     @Before
     public void setup() {
         personAdresseEndringIdentifiserer = new PersonAdresseEndringIdentifiserer();
-        behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
+        behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     @Test

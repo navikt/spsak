@@ -8,10 +8,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 
@@ -28,10 +29,10 @@ public class TotrinnTjenesteImpl implements TotrinnTjeneste {
     }
 
     @Inject
-    public TotrinnTjenesteImpl(BehandlingRepositoryProvider repositoryProvider, TotrinnRepository totrinnRepository) {
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+    public TotrinnTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider, TotrinnRepository totrinnRepository) {
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        this.uttakRepository = repositoryProvider.getUttakRepository();
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
+        this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
         this.totrinnRepository = totrinnRepository;
     }
 

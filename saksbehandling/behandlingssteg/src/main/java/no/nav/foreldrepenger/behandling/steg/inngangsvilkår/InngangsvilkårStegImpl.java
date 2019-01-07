@@ -15,7 +15,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -26,10 +26,10 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
 public abstract class InngangsvilkårStegImpl implements InngangsvilkårSteg {
     private BehandlingRepository behandlingRepository;
     private RegelOrkestrerer regelOrkestrerer;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private BehandlingStegType  behandlingStegType;
 
-    public InngangsvilkårStegImpl(BehandlingRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer, BehandlingStegType behandlingStegType) {
+    public InngangsvilkårStegImpl(GrunnlagRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer, BehandlingStegType behandlingStegType) {
         this.repositoryProvider = repositoryProvider;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.regelOrkestrerer = regelOrkestrerer;

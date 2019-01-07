@@ -21,7 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.RefusjonEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentParserRef;
@@ -63,7 +63,7 @@ public class MottattDokumentOversetterInntektsmelding implements MottattDokument
     }
 
     @Inject
-    public MottattDokumentOversetterInntektsmelding(BehandlingRepositoryProvider repositoryProvider, VirksomhetTjeneste virksomhetTjeneste) {
+    public MottattDokumentOversetterInntektsmelding(GrunnlagRepositoryProvider repositoryProvider, VirksomhetTjeneste virksomhetTjeneste) {
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.virksomhetTjeneste = virksomhetTjeneste;

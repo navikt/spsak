@@ -7,14 +7,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAg
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.BekreftOppholdVurderingAksjonspunktDto;
 
 class BekreftOppholdsrettVurderingAksjonspunkt {
 
     private MedlemskapRepository medlemskapRepository;
 
-    BekreftOppholdsrettVurderingAksjonspunkt(BehandlingRepositoryProvider repositoryProvider) {
+    BekreftOppholdsrettVurderingAksjonspunkt(GrunnlagRepositoryProvider repositoryProvider) {
         medlemskapRepository = repositoryProvider.getMedlemskapRepository();
     }
 

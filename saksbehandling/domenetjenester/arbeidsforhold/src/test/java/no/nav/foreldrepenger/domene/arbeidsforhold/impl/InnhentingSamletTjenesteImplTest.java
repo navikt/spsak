@@ -28,7 +28,8 @@ import no.nav.foreldrepenger.behandlingslager.IntervallUtil;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -92,7 +93,10 @@ public class InnhentingSamletTjenesteImplTest {
     @Inject
     private MeldekortUtbetalingsgrunnlagConsumerMock meldekortUtbetalingsgrunnlagConsumer;
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+
+    @Inject
+    private ResultatRepositoryProvider resultatProvider;
 
     @Mock
     private TpsTjeneste tpsTjeneste;
@@ -131,7 +135,7 @@ public class InnhentingSamletTjenesteImplTest {
         førstegangsscenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBruker(KVINNE_MEDL_EØSBORGER_BOSATT_NOR_AKTØRID, NavBrukerKjønn.KVINNE);
 
-        behandling = førstegangsscenario.lagre(repositoryProvider);
+        behandling = førstegangsscenario.lagre(repositoryProvider, resultatProvider);
         LocalDate fomDato = LocalDate.now().minusDays(120);
         LocalDate tomDato = LocalDate.now();
         interval = IntervallUtil.byggIntervall(fomDato, tomDato);

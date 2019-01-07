@@ -6,9 +6,9 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatRegelmodell;
 import no.nav.foreldrepenger.domene.beregning.regler.RegelFastsettBeregningsresultat;
@@ -29,7 +29,7 @@ public class FastsettBeregningsresultatTjeneste {
 
     private JacksonJsonConfig jacksonJsonConfig = new JacksonJsonConfig();
     private MapBeregningsresultatFraVLTilRegel mapBeregningsresultatFraVLTilRegel;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
 
     FastsettBeregningsresultatTjeneste() {
         //NOSONAR
@@ -37,12 +37,12 @@ public class FastsettBeregningsresultatTjeneste {
 
     @Inject
     public FastsettBeregningsresultatTjeneste(MapBeregningsresultatFraVLTilRegel mapBeregningsresultatFraVLTilRegel,
-            BehandlingRepositoryProvider repositoryProvider) {
+            GrunnlagRepositoryProvider repositoryProvider) {
         this.mapBeregningsresultatFraVLTilRegel = mapBeregningsresultatFraVLTilRegel;
         this.repositoryProvider = repositoryProvider;
     }
 
-    public BeregningsresultatFP fastsettBeregningsresultat(Beregningsgrunnlag beregningsgrunnlag, UttakResultatEntitet uttakResultat, Behandling behandling) {
+    public BeregningsresultatPerioder fastsettBeregningsresultat(Beregningsgrunnlag beregningsgrunnlag, UttakResultatEntitet uttakResultat, Behandling behandling) {
         // Map til regelmodell
         BeregningsresultatRegelmodell regelmodell = mapBeregningsresultatFraVLTilRegel.mapFra(beregningsgrunnlag, uttakResultat, behandling);
         // Kalle regel
@@ -52,14 +52,14 @@ public class FastsettBeregningsresultatTjeneste {
         RegelResultat regelResultat = RegelmodellOversetter.getRegelResultat(evaluation);
 
         // Map tilbake til domenemodell fra regelmodell
-        BeregningsresultatFP beregningsresultatFP = BeregningsresultatFP.builder()
+        BeregningsresultatPerioder beregningsresultat = BeregningsresultatPerioder.builder()
             .medRegelInput(toJson(regelmodell))
             .medRegelSporing(regelResultat.getRegelSporing())
             .build();
 
-        MapBeregningsresultatFraRegelTilVL.mapFra(outputContainer, beregningsresultatFP, repositoryProvider.getVirksomhetRepository());
+        MapBeregningsresultatFraRegelTilVL.mapFra(outputContainer, beregningsresultat, repositoryProvider.getVirksomhetRepository());
 
-        return beregningsresultatFP;
+        return beregningsresultat;
     }
 
     private String toJson(BeregningsresultatRegelmodell grunnlag) {

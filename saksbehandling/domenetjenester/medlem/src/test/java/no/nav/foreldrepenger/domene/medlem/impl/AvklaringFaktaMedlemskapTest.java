@@ -21,8 +21,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
@@ -41,7 +43,8 @@ public class AvklaringFaktaMedlemskapTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider provider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider provider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     @Inject
     private MedlemskapPerioderTjeneste medlemskapPerioderTjeneste;
@@ -73,7 +76,7 @@ public class AvklaringFaktaMedlemskapTest {
         scenario.leggTilMedlemskapPeriode(gyldigPeriode);
 
         leggTilSøker(scenario);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -96,7 +99,7 @@ public class AvklaringFaktaMedlemskapTest {
         scenario.leggTilMedlemskapPeriode(gyldigPeriode);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -120,7 +123,7 @@ public class AvklaringFaktaMedlemskapTest {
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
 
         leggTilSøker(scenario);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -143,7 +146,7 @@ public class AvklaringFaktaMedlemskapTest {
         scenario.leggTilMedlemskapPeriode(medlemskapPeriodeForUnntak);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -166,7 +169,7 @@ public class AvklaringFaktaMedlemskapTest {
         scenario.leggTilMedlemskapPeriode(medlemskapPeriodeForUnntak);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.USA, Region.UDEFINERT, PersonstatusType.UTVA);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -189,7 +192,7 @@ public class AvklaringFaktaMedlemskapTest {
         scenario.leggTilMedlemskapPeriode(medlemskapPeriodeForUnntak);
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.USA, Region.UDEFINERT, PersonstatusType.BOSA);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -204,7 +207,7 @@ public class AvklaringFaktaMedlemskapTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.NOR, Region.NORDEN, PersonstatusType.UTVA);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -219,7 +222,7 @@ public class AvklaringFaktaMedlemskapTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.SWE, Region.UDEFINERT, PersonstatusType.BOSA);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -233,9 +236,9 @@ public class AvklaringFaktaMedlemskapTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
-        final SøknadRepository søknadRepository = scenario.mockBehandlingRepositoryProvider().getSøknadRepository();
+        final SøknadRepository søknadRepository = scenario.mockBehandlingRepositoryProvider().getElement1().getSøknadRepository();
         leggTilSøker(scenario, Landkoder.BEL, Region.UDEFINERT, PersonstatusType.BOSA);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
         søknadRepository.hentSøknad(behandling);
 
         InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder builder = scenario.getInntektArbeidYtelseScenarioTestBuilder();
@@ -255,7 +258,7 @@ public class AvklaringFaktaMedlemskapTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.BEL, Region.UDEFINERT, PersonstatusType.BOSA);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);
@@ -270,7 +273,7 @@ public class AvklaringFaktaMedlemskapTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         scenario.medSøknad().medMottattDato(SKJÆRINGSDATO_FØDSEL);
         leggTilSøker(scenario, Landkoder.UDEFINERT, Region.UDEFINERT, PersonstatusType.BOSA);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = tjeneste.utled(behandling, SKJÆRINGSDATO_FØDSEL);

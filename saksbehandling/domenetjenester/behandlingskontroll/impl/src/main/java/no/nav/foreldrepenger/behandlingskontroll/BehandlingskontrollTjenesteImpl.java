@@ -46,8 +46,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
@@ -60,7 +60,7 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjeneste {
 
     private AksjonspunktRepository aksjonspunktRepository;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private BehandlingRepository behandlingRepository;
     private BehandlingModellRepository behandlingModellRepository;
     private InternalManipulerBehandling manipulerInternBehandling;
@@ -86,7 +86,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
      * SE KOMMENTAR ØVERST
      */
     @Inject
-    public BehandlingskontrollTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public BehandlingskontrollTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                                            BehandlingModellRepository behandlingModellRepository,
                                            BehandlingskontrollEventPubliserer eventPubliserer) {
 

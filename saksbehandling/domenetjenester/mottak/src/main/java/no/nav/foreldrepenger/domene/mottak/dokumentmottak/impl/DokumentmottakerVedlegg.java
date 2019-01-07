@@ -12,8 +12,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
@@ -32,7 +32,7 @@ class DokumentmottakerVedlegg implements Dokumentmottaker {
     private MottatteDokumentTjeneste mottatteDokumentTjeneste;
 
     @Inject
-    public DokumentmottakerVedlegg(BehandlingRepositoryProvider repositoryProvider,
+    public DokumentmottakerVedlegg(GrunnlagRepositoryProvider repositoryProvider,
                                    DokumentmottakerFelles dokumentmottakerFelles,
                                    Behandlingsoppretter behandlingsoppretter,
                                    Kompletthetskontroller kompletthetskontroller, MottatteDokumentTjeneste mottatteDokumentTjeneste) {

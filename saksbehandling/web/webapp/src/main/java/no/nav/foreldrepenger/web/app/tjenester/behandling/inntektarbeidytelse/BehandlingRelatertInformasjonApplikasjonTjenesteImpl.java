@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.inntektarbeidytelse;
 
-import no.nav.foreldrepenger.domene.typer.AktørId;
 import static java.util.stream.Collectors.toList;
 
 import java.time.LocalDate;
@@ -15,16 +14,17 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.util.FPDateUtil;
 
 @ApplicationScoped
 public class BehandlingRelatertInformasjonApplikasjonTjenesteImpl implements BehandlingRelatertInformasjonApplikasjonTjeneste {
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private Period relaterteYtelserVLPeriode;
 
     BehandlingRelatertInformasjonApplikasjonTjenesteImpl() {
@@ -32,7 +32,7 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImpl implements Beh
     }
 
     @Inject
-    public BehandlingRelatertInformasjonApplikasjonTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public BehandlingRelatertInformasjonApplikasjonTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                                                                 @KonfigVerdi("relaterte.ytelser.vl.periode.start") Instance<Period> periode) {
         this.repositoryProvider = repositoryProvider;
         this.relaterteYtelserVLPeriode = periode.get();

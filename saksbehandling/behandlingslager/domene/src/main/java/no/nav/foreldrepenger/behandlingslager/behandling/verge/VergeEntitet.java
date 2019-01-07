@@ -21,13 +21,13 @@ import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
-import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
+import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @Entity(name = "Verge")
-@Table(name = "VERGE")
+@Table(name = "VE_VERGE")
 public class VergeEntitet extends BaseEntitet implements Verge {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)

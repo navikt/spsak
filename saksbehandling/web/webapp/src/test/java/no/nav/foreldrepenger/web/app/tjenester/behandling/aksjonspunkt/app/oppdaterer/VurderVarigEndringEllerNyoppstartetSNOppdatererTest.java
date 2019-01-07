@@ -15,11 +15,6 @@ import org.mockito.Mockito;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltVerdiType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInnslagTekstBuilder;
@@ -27,10 +22,17 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepositoryImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.VurderVarigEndringEllerNyoppstartetSNDto;
@@ -43,7 +45,8 @@ public class VurderVarigEndringEllerNyoppstartetSNOppdatererTest {
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private final HistorikkInnslagTekstBuilder tekstBuilder = new HistorikkInnslagTekstBuilder();
 
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository = new BeregningsgrunnlagRepositoryImpl(repositoryRule.getEntityManager(), repositoryProvider.getBehandlingLåsRepository());
@@ -69,7 +72,7 @@ public class VurderVarigEndringEllerNyoppstartetSNOppdatererTest {
         VurderVarigEndringEllerNyoppstartetSNDto dto = new VurderVarigEndringEllerNyoppstartetSNDto("begrunnelse", varigEndring);
 
         // Act
-        new VurderVarigEndringEllerNyoppstartetSNOppdaterer(repositoryProvider, lagMockHistory())
+        new VurderVarigEndringEllerNyoppstartetSNOppdaterer(repositoryProvider, resultatRepositoryProvider, lagMockHistory())
             .oppdater(dto, behandling);
         Historikkinnslag historikkinnslag = new Historikkinnslag();
         historikkinnslag.setType(HistorikkinnslagType.FAKTA_ENDRET);
@@ -95,7 +98,7 @@ public class VurderVarigEndringEllerNyoppstartetSNOppdatererTest {
         VurderVarigEndringEllerNyoppstartetSNDto dto = new VurderVarigEndringEllerNyoppstartetSNDto("begrunnelse", varigEndring);
 
         // Act
-        new VurderVarigEndringEllerNyoppstartetSNOppdaterer(repositoryProvider, lagMockHistory())
+        new VurderVarigEndringEllerNyoppstartetSNOppdaterer(repositoryProvider, resultatRepositoryProvider, lagMockHistory())
             .oppdater(dto, behandling);
 
         // Assert
@@ -144,7 +147,7 @@ public class VurderVarigEndringEllerNyoppstartetSNOppdatererTest {
             BeregningsgrunnlagPeriode.Builder bgPeriodeBuilder = lagBeregningsgrunnlagPeriodeBuilder(fom, fom.plusDays(5));
             grunnlagBuilder.leggTilBeregningsgrunnlagPeriode(bgPeriodeBuilder);
         }
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     private BeregningsgrunnlagPeriode.Builder lagBeregningsgrunnlagPeriodeBuilder(LocalDate fom, LocalDate tom) {

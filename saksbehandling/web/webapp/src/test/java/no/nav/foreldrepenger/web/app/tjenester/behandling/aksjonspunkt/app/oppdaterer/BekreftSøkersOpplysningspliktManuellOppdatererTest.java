@@ -21,7 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -44,7 +44,7 @@ public class BekreftSøkersOpplysningspliktManuellOppdatererTest {
 
         Behandling behandling = scenario.getBehandling();
 
-        BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
         BekreftSøkersOpplysningspliktManuellOppdaterer oppdaterer = new BekreftSøkersOpplysningspliktManuellOppdaterer(repositoryProvider, lagMockHistory());
 
         // Dto

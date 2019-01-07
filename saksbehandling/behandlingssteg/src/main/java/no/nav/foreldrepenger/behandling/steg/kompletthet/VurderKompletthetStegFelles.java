@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResultat;
 
 /**
@@ -27,7 +27,7 @@ public class VurderKompletthetStegFelles {
     private AksjonspunktRepository aksjonspunktRepository;
 
     @Inject
-    public VurderKompletthetStegFelles(BehandlingRepositoryProvider provider) {
+    public VurderKompletthetStegFelles(GrunnlagRepositoryProvider provider) {
         this.aksjonspunktRepository = provider.getAksjonspunktRepository();
     }
 

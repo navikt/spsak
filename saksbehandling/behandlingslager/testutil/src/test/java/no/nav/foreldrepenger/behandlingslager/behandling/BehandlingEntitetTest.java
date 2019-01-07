@@ -10,8 +10,10 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -23,7 +25,8 @@ public class BehandlingEntitetTest {
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private Repository repository = repoRule.getRepository();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     @Before
     public void setup() {
@@ -45,7 +48,7 @@ public class BehandlingEntitetTest {
 
     private Behandling opprettOgLagreBehandling() {
         final ScenarioMorSøkerEngangsstønad scenarioMorSøkerEngangsstønad = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        return scenarioMorSøkerEngangsstønad.lagre(repositoryProvider);
+        return scenarioMorSøkerEngangsstønad.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     @Test
@@ -75,7 +78,7 @@ public class BehandlingEntitetTest {
     public void skal_opprette_ny_behandling_med_søknad() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
-        scenario.lagre(repositoryProvider);
+        scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         List<Behandling> alle = repository.hentAlle(Behandling.class);
 
@@ -90,7 +93,7 @@ public class BehandlingEntitetTest {
     @Test
     public void skal_ikke_opprette_nytt_behandlingsgrunnlag_når_endring_skjer_på_samme_behandling_som_originalt_lagd_for() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         lagreBehandling(behandling);
 

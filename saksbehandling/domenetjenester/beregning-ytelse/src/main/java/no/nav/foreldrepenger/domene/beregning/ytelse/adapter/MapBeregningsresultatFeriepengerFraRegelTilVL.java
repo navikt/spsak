@@ -3,12 +3,12 @@ package no.nav.foreldrepenger.domene.beregning.ytelse.adapter;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepenger;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepengerPrÅr;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepenger;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepengerPrÅr;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.feriepenger.BeregningsresultatFeriepengerRegelModell;
 
 public class MapBeregningsresultatFeriepengerFraRegelTilVL {
@@ -16,7 +16,7 @@ public class MapBeregningsresultatFeriepengerFraRegelTilVL {
         // unused
     }
 
-    public static void mapFra(BeregningsresultatFP resultat, BeregningsresultatFeriepengerRegelModell regelModell, BeregningsresultatFeriepenger beregningsresultatFeriepenger) {
+    public static void mapFra(BeregningsresultatPerioder resultat, BeregningsresultatFeriepengerRegelModell regelModell, BeregningsresultatFeriepenger beregningsresultatFeriepenger) {
 
         if (regelModell.getFeriepengerPeriode() == null) {
             return;
@@ -31,7 +31,7 @@ public class MapBeregningsresultatFeriepengerFraRegelTilVL {
             mapPeriode(resultat, beregningsresultatFeriepenger, regelBeregningsresultatPeriode));
     }
 
-    private static void mapPeriode(BeregningsresultatFP resultat, BeregningsresultatFeriepenger beregningsresultatFeriepenger, no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatPeriode regelBeregningsresultatPeriode) {
+    private static void mapPeriode(BeregningsresultatPerioder resultat, BeregningsresultatFeriepenger beregningsresultatFeriepenger, no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatPeriode regelBeregningsresultatPeriode) {
         BeregningsresultatPeriode vlBeregningsresultatPeriode = resultat.getBeregningsresultatPerioder().stream()
             .filter(periode -> periode.getBeregningsresultatPeriodeFom().equals(regelBeregningsresultatPeriode.getFom()))
             .findFirst()

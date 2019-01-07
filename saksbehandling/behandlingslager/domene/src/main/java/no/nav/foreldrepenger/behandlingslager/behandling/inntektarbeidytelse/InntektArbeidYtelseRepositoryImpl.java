@@ -568,7 +568,7 @@ public class InntektArbeidYtelseRepositoryImpl implements InntektArbeidYtelseRep
             "order by gr.opprettetTidspunkt, gr.id", InntektArbeidYtelseGrunnlagEntitet.class);
         query.setParameter("behandlingId", behandling.getId()); // NOSONAR $NON-NLS-1$
 
-        final Optional<InntektArbeidYtelseGrunnlagEntitet> grunnlag = query.getResultList().stream().findFirst();
+        final Optional<InntektArbeidYtelseGrunnlagEntitet> grunnlag = query.getResultStream().findFirst();
         grunnlag.ifPresent(InntektArbeidYtelseGrunnlagEntitet::taHensynTilBetraktninger);
         grunnlag.ifPresent(gr -> gr.setSkjæringstidspunkt(skjæringstidspunkt));
         return grunnlag;

@@ -25,8 +25,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 
 /**
@@ -56,7 +56,7 @@ class BehandlingStegVisitor {
 
     private KodeverkRepository kodeverkRepository;
 
-    BehandlingStegVisitor(BehandlingRepositoryProvider repositoryProvider, Behandling behandling,
+    BehandlingStegVisitor(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling,
                           BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                           BehandlingModell behandlingModell, BehandlingskontrollKontekst kontekst,
                           BehandlingskontrollEventPubliserer eventPubliserer,

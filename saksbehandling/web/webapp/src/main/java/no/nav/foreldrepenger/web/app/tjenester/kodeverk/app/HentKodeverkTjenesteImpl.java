@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -38,12 +37,18 @@ class HentKodeverkTjenesteImpl implements HentKodeverkTjeneste {
 
     @Override
     public Map<String, List<Kodeliste>> hentGruppertKodeliste() {
-        Map<String, List<Kodeliste>> kodelistMap = kodeverkRepository.hentAlle(KODEVERK_SOM_BRUKES_PÅ_KLIENT_DISCRIMINATORS);
-        Optional.ofNullable(kodelistMap.get(ArbeidType.class.getSimpleName()))
-            .ifPresent(it -> it.removeIf(at -> !((ArbeidType) at).erAnnenOpptjening()));
-        Optional.ofNullable(kodelistMap.get(MedlemskapManuellVurderingType.class.getSimpleName()))
-            .ifPresent(it -> it.removeIf(at -> !((MedlemskapManuellVurderingType) at).visesPåKlient()));
+        Map<String, List<Kodeliste>> kodelistMap = kodeverkRepository.hentAlle(KODEVERK_SOM_BRUKES_PÅ_KLIENT);
+        filtrerAnnetEnnAnnenOpptjeningFraArbeidType(kodelistMap);
+        filtrerMedlemskapVurderingstyperSomIkkeSkalVisesIGui(kodelistMap);
         return kodelistMap;
+    }
+
+    private void filtrerMedlemskapVurderingstyperSomIkkeSkalVisesIGui(Map<String, List<Kodeliste>> kodelistMap) {
+        kodelistMap.getOrDefault(MedlemskapManuellVurderingType.class.getSimpleName(), List.of()).removeIf(at -> !((MedlemskapManuellVurderingType) at).visesPåKlient());
+    }
+
+    private void filtrerAnnetEnnAnnenOpptjeningFraArbeidType(Map<String, List<Kodeliste>> kodelistMap) {
+        kodelistMap.getOrDefault(ArbeidType.class.getSimpleName(), List.of()).removeIf(at -> !((ArbeidType) at).erAnnenOpptjening());
     }
 
     @Override

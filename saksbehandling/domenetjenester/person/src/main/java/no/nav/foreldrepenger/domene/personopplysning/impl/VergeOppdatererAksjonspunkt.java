@@ -1,19 +1,19 @@
 package no.nav.foreldrepenger.domene.personopplysning.impl;
 
-import no.nav.foreldrepenger.domene.typer.AktørId;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerRepository;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.person.TpsAdapter;
 import no.nav.foreldrepenger.domene.personopplysning.VergeAksjonpunktDto;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 
 class VergeOppdatererAksjonspunkt {
@@ -22,7 +22,7 @@ class VergeOppdatererAksjonspunkt {
     private NavBrukerRepository navBrukerRepository;
     private VergeRepository vergeRepository;
 
-    VergeOppdatererAksjonspunkt(BehandlingRepositoryProvider repositoryProvider, TpsAdapter tpsAdapter, NavBrukerRepository navBrukerRepository) {
+    VergeOppdatererAksjonspunkt(GrunnlagRepositoryProvider repositoryProvider, TpsAdapter tpsAdapter, NavBrukerRepository navBrukerRepository) {
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.tpsAdapter = tpsAdapter;
         this.navBrukerRepository = navBrukerRepository;

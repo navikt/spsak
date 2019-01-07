@@ -7,7 +7,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapMa
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
 import no.nav.foreldrepenger.domene.medlem.api.BekreftErMedlemVurderingAksjonspunktDto;
 
@@ -16,7 +16,7 @@ class BekreftErMedlemVurderingAksjonspunkt {
     private KodeverkTabellRepository kodeverkRepository;
     private MedlemskapRepository medlemskapRepository;
 
-    BekreftErMedlemVurderingAksjonspunkt(BehandlingRepositoryProvider repositoryProvider) {
+    BekreftErMedlemVurderingAksjonspunkt(GrunnlagRepositoryProvider repositoryProvider) {
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository().getKodeverkTabellRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
     }

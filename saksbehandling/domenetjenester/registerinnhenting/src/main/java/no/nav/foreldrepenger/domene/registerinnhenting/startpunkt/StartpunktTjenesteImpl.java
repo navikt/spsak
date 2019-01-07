@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
 import no.nav.foreldrepenger.domene.kontrollerfakta.StartpunktTjeneste;
@@ -32,7 +32,7 @@ public class StartpunktTjenesteImpl implements StartpunktTjeneste {
     }
 
     @Inject
-    StartpunktTjenesteImpl(@Any Instance<StartpunktUtleder> utledere, BehandlingRepositoryProvider repositoryProvider, EndringsresultatSjekker endringsresultatSjekker) {
+    StartpunktTjenesteImpl(@Any Instance<StartpunktUtleder> utledere, GrunnlagRepositoryProvider repositoryProvider, EndringsresultatSjekker endringsresultatSjekker) {
         this.utledere = utledere;
         this.kodeverkTabellRepository = repositoryProvider.getKodeverkRepository().getKodeverkTabellRepository();
         this.endringsresultatSjekker = endringsresultatSjekker;

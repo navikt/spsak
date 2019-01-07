@@ -8,10 +8,11 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.InngangsvilkårTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
@@ -29,14 +30,15 @@ public class OpptjeningsvilkåretOverstyringshåndterer extends InngangsvilkårO
     }
 
     @Inject
-    public OpptjeningsvilkåretOverstyringshåndterer(BehandlingRepositoryProvider repositoryProvider,
+    public OpptjeningsvilkåretOverstyringshåndterer(GrunnlagRepositoryProvider repositoryProvider,
+                                                    ResultatRepositoryProvider resultatRepositoryProvider,
                                                     HistorikkTjenesteAdapter historikkAdapter,
                                                     InngangsvilkårTjeneste inngangsvilkårTjeneste) {
         super(repositoryProvider, historikkAdapter,
             AksjonspunktDefinisjon.OVERSTYRING_AV_OPPTJENINGSVILKÅRET,
             VilkårType.OPPTJENINGSVILKÅRET,
             inngangsvilkårTjeneste);
-        this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+        this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
     }
 
     @Override
@@ -47,7 +49,7 @@ public class OpptjeningsvilkåretOverstyringshåndterer extends InngangsvilkårO
     @Override
     protected void precondition(Behandling behandling, OverstyringOpptjeningsvilkåretDto dto) {
         if (dto.getErVilkarOk()) {
-            final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling);
+            final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
             if (opptjening.isPresent()) {
                 final long antall = opptjening.get().getOpptjeningAktivitet().stream()
                     .filter(oa -> !oa.getAktivitetType().equals(OpptjeningAktivitetType.UTENLANDSK_ARBEIDSFORHOLD)).count();

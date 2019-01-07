@@ -20,9 +20,10 @@ import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -47,7 +48,9 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
     private Repository repository = repoRule.getRepository();
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
     @Mock
     private ProsessTaskRepository prosessTaskRepository;
@@ -74,7 +77,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
 
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
-        dokumentmottaker = new DokumentmottakerSøknad(repositoryProvider, dokumentmottakerFelles, mottatteDokumentTjeneste,
+        dokumentmottaker = new DokumentmottakerSøknad(repositoryProvider, resultatRepositoryProvider, dokumentmottakerFelles, mottatteDokumentTjeneste,
             behandlingsoppretter, kompletthetskontroller);
 
         dokumentmottaker = Mockito.spy(dokumentmottaker);
@@ -89,7 +92,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
         // Arrange - opprette avsluttet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medVilkårResultatType(VilkårResultatType.AVSLÅTT);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandling);
 
         BehandlingVedtak vedtak = DokumentmottakTestUtil.oppdaterVedtaksresultat(behandling, VedtakResultatType.AVSLAG);
@@ -114,7 +117,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medVilkårResultatType(VilkårResultatType.AVSLÅTT)
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.IKKE_OPPFYLT);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandling);
         
         BehandlingVedtak vedtak = DokumentmottakTestUtil.oppdaterVedtaksresultat(behandling, VedtakResultatType.AVSLAG);
@@ -127,7 +130,7 @@ public class DokumentmottakerYtelsesesrelatertDokumentTest {
 
         ScenarioMorSøkerForeldrepenger morSøkerForeldrepenger = ScenarioMorSøkerForeldrepenger.forAktør(behandling.getAktørId());
         morSøkerForeldrepenger.medFagsakId(behandling.getFagsakId());
-        Behandling nyBehandling = morSøkerForeldrepenger.lagre(repositoryProvider);
+        Behandling nyBehandling = morSøkerForeldrepenger.lagre(repositoryProvider, resultatRepositoryProvider);
         doReturn(nyBehandling).when(behandlingsoppretter).finnEllerOpprettFørstegangsbehandling(behandling.getFagsak());
 
         // Act

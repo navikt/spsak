@@ -34,28 +34,30 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.KonsekvensForYtelsen;
 import no.nav.foreldrepenger.behandlingslager.behandling.RettenTil;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioderEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPeriodeEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPerioderEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -75,14 +77,15 @@ public class RevurderingBehandlingsresultatutlederTest {
     private static final LocalDate SKJÆRINGSTIDSPUNKT_BEREGNING = LocalDate.now();
     @Rule
     public final RepositoryRule repoRule = new UnittestRepositoryRule();
-    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     @Inject
     private RevurderingEndring revurderingEndring;
     private BehandlingRepository behandlingRepository;
     private HistorikkRepository historikkRepository;
     private RevurderingTjeneste revurderingTjeneste;
-    private BeregningsresultatFPRepository beregningsresultatFPRepository;
-    private BeregningsgrunnlagRepository beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+    private BeregningsresultatRepository beregningsresultatFPRepository;
+    private BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
     private EndringsdatoRevurderingUtleder endringsdatoRevurderingUtleder = mock(EndringsdatoRevurderingUtleder.class);
     private RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder;
     private boolean erVarselOmRevurderingSendt = true;
@@ -96,20 +99,20 @@ public class RevurderingBehandlingsresultatutlederTest {
 
     @Before
     public void setUp() {
-        medlemskapVilkårPeriodeRepository = repositoryProvider.getMedlemskapVilkårPeriodeRepository();
+        medlemskapVilkårPeriodeRepository = resultatRepositoryProvider.getMedlemskapVilkårPeriodeRepository();
         behandlingRepository = repositoryProvider.getBehandlingRepository();
-        beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatFPRepository();
+        beregningsresultatFPRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
         historikkRepository = repositoryProvider.getHistorikkRepository();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, BehandlingStegType.KONTROLLER_FAKTA);
-        behandlingSomSkalRevurderes = scenario.lagre(repositoryProvider);
+        behandlingSomSkalRevurderes = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandlingSomSkalRevurderes);
-        revurderingFPBehandlingsresultatutleder = new RevurderingFPBehandlingsresultatutleder(repositoryProvider, endringsdatoRevurderingUtleder);
+        revurderingFPBehandlingsresultatutleder = new RevurderingFPBehandlingsresultatutleder(resultatRepositoryProvider, endringsdatoRevurderingUtleder);
         BehandlingModellRepository mock = mock(BehandlingModellRepository.class);
         when(mock.getModell(any(), any())).thenReturn(mock(BehandlingModell.class));
         BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             mock, mock(BehandlingskontrollEventPubliserer.class));
-        revurderingTjeneste = new RevurderingTjenesteImpl(repositoryProvider, behandlingskontrollTjeneste, historikkRepository, revurderingEndring);
+        revurderingTjeneste = new RevurderingTjenesteImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingEndring);
         revurdering = revurderingTjeneste
             .opprettAutomatiskRevurdering(behandlingSomSkalRevurderes.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         virksomhet = new VirksomhetEntitet.Builder().medOrgnr(ARBEIDSFORHOLD_ID).medNavn("Virksomheten").oppdatertOpplysningerNå().build();
@@ -389,7 +392,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         settVilkårutfallMedlemskapPåDato(VilkårUtfallType.IKKE_OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering.getBehandlingsresultat());
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert
@@ -402,12 +405,12 @@ public class RevurderingBehandlingsresultatutlederTest {
 
     private VilkårResultat settVilkårutfallMedlemskapPåDato(VilkårUtfallType utfall, LocalDate endringsdato) {
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
-        VilkårResultat vilkårResultat = repositoryProvider.getBehandlingVedtakRepository().hentBehandlingvedtakForBehandlingId(revurdering.getId())
+        VilkårResultat vilkårResultat = resultatRepositoryProvider.getVedtakRepository().hentVedtakFor(revurdering.getBehandlingsresultat().getId())
             .stream().map(vedtak -> vedtak.getBehandlingsresultat().getVilkårResultat()).findFirst()
             .orElse(VilkårResultat.builder().buildFor(revurdering));
         behandlingRepository.lagre(vilkårResultat, lås);
 
-        MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(revurdering);
+        MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(revurdering.getBehandlingsresultat());
         MedlemskapsvilkårPeriodeEntitet.Builder periodeBuilder = builder.getPeriodeBuilder();
         MedlemskapsvilkårPerioderEntitet.Builder periode = periodeBuilder.getBuilderForVurderingsdato(endringsdato);
         periode.medVilkårUtfall(utfall);
@@ -425,7 +428,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         settVilkårutfallMedlemskapPåDato(VilkårUtfallType.OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering.getBehandlingsresultat());
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert
@@ -444,7 +447,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         settVilkårutfallMedlemskapPåDato(VilkårUtfallType.OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering.getBehandlingsresultat());
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert
@@ -452,7 +455,7 @@ public class RevurderingBehandlingsresultatutlederTest {
     }
 
     private void lagBeregningsresultatperiodeMedEndringstidspunkt(LocalDate endringsdato) {
-        BeregningsresultatFP brFPOriginal = BeregningsresultatFP.builder()
+        BeregningsresultatPerioder brFPOriginal = BeregningsresultatPerioder.builder()
             .medRegelInput("clob1")
             .medRegelSporing("clob2")
             .build();
@@ -464,7 +467,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         buildBeregningsresultatAndel(originalPeriode, true, 1500);
         buildBeregningsresultatAndel(originalPeriode, false, 500);
 
-        BeregningsresultatFP nyttResultat = BeregningsresultatFP.builder()
+        BeregningsresultatPerioder nyttResultat = BeregningsresultatPerioder.builder()
             .medRegelInput("clob1")
             .medRegelSporing("clob2")
             .build();
@@ -476,8 +479,8 @@ public class RevurderingBehandlingsresultatutlederTest {
         buildBeregningsresultatAndel(nyPeriode, true, 1500);
         buildBeregningsresultatAndel(nyPeriode, false, 500);
 
-        beregningsresultatFPRepository.lagre(revurdering, nyttResultat);
-        beregningsresultatFPRepository.lagre(behandlingSomSkalRevurderes, brFPOriginal);
+        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), nyttResultat);
+        beregningsresultatFPRepository.lagre(behandlingSomSkalRevurderes.getBehandlingsresultat(), brFPOriginal);
     }
 
     private void buildBeregningsresultatAndel(BeregningsresultatPeriode beregningsresultatPeriode, Boolean brukerErMottaker, int dagsats) {

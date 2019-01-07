@@ -12,17 +12,16 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Yrkesaktivitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningFrilanserTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.KontrollerFaktaBeregningTjeneste;
@@ -42,12 +41,11 @@ public class FaktaOmBeregningAndelDtoTjenesteImpl implements FaktaOmBeregningAnd
     }
 
     @Inject
-    public FaktaOmBeregningAndelDtoTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
-                                                KontrollerFaktaBeregningTjeneste kontrollerFaktaBeregningTjeneste,
+    public FaktaOmBeregningAndelDtoTjenesteImpl(KontrollerFaktaBeregningTjeneste kontrollerFaktaBeregningTjeneste,
                                                 KontrollerFaktaBeregningFrilanserTjeneste kontrollerFaktaBeregningFrilanserTjeneste,
-                                                BeregningsgrunnlagDtoUtil dtoUtil) {
+                                                BeregningsgrunnlagDtoUtil dtoUtil, BeregningsgrunnlagRepository beregningsgrunnlagRepository) {
         this.kontrollerFaktaBeregningTjeneste = kontrollerFaktaBeregningTjeneste;
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+        this.beregningsgrunnlagRepository = beregningsgrunnlagRepository;
         this.kontrollerFaktaBeregningFrilanserTjeneste = kontrollerFaktaBeregningFrilanserTjeneste;
         this.dtoUtil = dtoUtil;
     }

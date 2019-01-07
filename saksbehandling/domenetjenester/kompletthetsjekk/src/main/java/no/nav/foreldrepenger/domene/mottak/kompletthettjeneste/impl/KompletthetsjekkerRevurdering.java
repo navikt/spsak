@@ -17,9 +17,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResultat;
@@ -47,16 +48,17 @@ public class KompletthetsjekkerRevurdering implements Kompletthetsjekker {
 
     @Inject
     public KompletthetsjekkerRevurdering(@FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") KompletthetssjekkerSøknad kompletthetssjekkerSøknad,
-                                           @FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding,
-                                           KompletthetsjekkerFelles fellesUtil,
-                                           InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                           BehandlingRepositoryProvider repositoryProvider) {
+                                         @FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding,
+                                         KompletthetsjekkerFelles fellesUtil,
+                                         InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
+                                         GrunnlagRepositoryProvider repositoryProvider,
+                                         ResultatRepositoryProvider resultatRepositoryProvider) {
         this.kompletthetssjekkerSøknad = kompletthetssjekkerSøknad;
         this.kompletthetssjekkerInntektsmelding = kompletthetssjekkerInntektsmelding;
         this.fellesUtil = fellesUtil;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.søknadRepository = repositoryProvider.getSøknadRepository();
-        this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
+        this.behandlingVedtakRepository = resultatRepositoryProvider.getVedtakRepository();
     }
 
     @Override

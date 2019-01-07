@@ -33,8 +33,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMe
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -57,7 +59,8 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
     @Rule
     public RepositoryRule repositoryRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     private MedlemskapRepository medlemskapRepository = repositoryProvider.getMedlemskapRepository();
     private VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
@@ -84,7 +87,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         avslutterBehandlingOgFagsak(behandling);
 
         Behandling revudering = opprettRevudering(behandling);
@@ -110,7 +113,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         avslutterBehandlingOgFagsak(behandling);
 
         Behandling revudering = opprettRevudering(behandling);
@@ -168,7 +171,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
 
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
         behandlingRepository.lagre(behandling, lås);
-        repositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
+        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
 
         repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandling.getId());
     }

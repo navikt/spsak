@@ -26,8 +26,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.ReaktiveringStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -39,16 +41,17 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final EntityManager entityManager = repoRule.getEntityManager();
 
-    BehandlingRepositoryProvider behandlingRepositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
-    AksjonspunktRepository aksjonspunktRepository = behandlingRepositoryProvider.getAksjonspunktRepository();
-    BehandlingRepository behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
+    GrunnlagRepositoryProvider grunnlagRepositoryProvider = new GrunnlagRepositoryProviderImpl(entityManager);
+    ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(entityManager);
+    AksjonspunktRepository aksjonspunktRepository = grunnlagRepositoryProvider.getAksjonspunktRepository();
+    BehandlingRepository behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
     BehandlingModellRepositoryImpl behandlingModellRepository = new BehandlingModellRepositoryImpl(entityManager);
 
     BehandlingskontrollRevurderingTransisjonEventObserver transisjonEventObserver = new BehandlingskontrollRevurderingTransisjonEventObserver(aksjonspunktRepository, behandlingRepository, behandlingModellRepository);
 
     @Test
     public void skal_slette_aksjonspunkt_som_ikke_er_manuelt_opprettet_og_som_er_i_eller_etter_steget_det_hoppes_til() {
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(behandlingRepositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(grunnlagRepositoryProvider, resultatRepositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         Aksjonspunkt ap1 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
         Aksjonspunkt ap3 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.FORESLÅ_VEDTAK);
@@ -82,7 +85,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
 
     @Test
     public void skal_reaktiver_og_gjenåpne_aksjonspunkt_som_er_manuelt_opprettet_og_som_er_i_eller_etter_steget_det_hoppes_til() {
-        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(behandlingRepositoryProvider);
+        Behandling behandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(grunnlagRepositoryProvider, resultatRepositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         Aksjonspunkt ap1 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
         Aksjonspunkt ap3 = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.FORESLÅ_VEDTAK_MANUELT);

@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 
 class RyddRegisterData {
     private final BehandlingStegModell modell;
@@ -22,7 +22,7 @@ class RyddRegisterData {
     private final AksjonspunktRepository aksjonspunktRepository;
     private MedlemskapRepository medlemskapRepository;
 
-    RyddRegisterData(BehandlingStegModell modell, BehandlingRepositoryProvider repositoryProvider, Behandling behandling, BehandlingskontrollKontekst kontekst) {
+    RyddRegisterData(BehandlingStegModell modell, GrunnlagRepositoryProvider repositoryProvider, Behandling behandling, BehandlingskontrollKontekst kontekst) {
         this.modell = modell;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
@@ -43,7 +43,6 @@ class RyddRegisterData {
     private void nullstillRegisterdata() {
         // Sletter avklarte data, men ikke Fødsel/Adopsjon/Omsorg, da dette må ivaretas hvis registerdata re-innhentes
         medlemskapRepository.slettAvklarteMedlemskapsdata(behandling, kontekst.getSkriveLås());
-        behandlingRepository.slettTidligereBeregninger(behandling, kontekst.getSkriveLås());
         behandling.nullstillToTrinnsBehandling();
     }
 

@@ -16,10 +16,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktivitetsAvtale;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Yrkesaktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.KopierBeregningsgrunnlagUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraVLTilRegel;
@@ -58,7 +58,7 @@ public class ForeslåBeregningsgrunnlag {
     @Inject
     public ForeslåBeregningsgrunnlag(MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel,
                                      MapBeregningsgrunnlagFraRegelTilVL oversetterFraRegel,
-                                     BehandlingRepositoryProvider repositoryProvider, KontrollerFaktaBeregningTjeneste kontrollerFaktaBeregningTjeneste,
+                                     GrunnlagRepositoryProvider repositoryProvider, KontrollerFaktaBeregningTjeneste kontrollerFaktaBeregningTjeneste,
                                      HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste) {
         this.oversetterTilRegel = oversetterTilRegel;
         this.oversetterFraRegel = oversetterFraRegel;
@@ -67,7 +67,7 @@ public class ForeslåBeregningsgrunnlag {
         this.hentGrunnlagsdataTjeneste = hentGrunnlagsdataTjeneste;
     }
 
-    public BeregningsgrunnlagRegelResultat foreslåBeregningsgrunnlag(Behandling behandling, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag) {
+    public BeregningsgrunnlagRegelResultat foreslåBeregningsgrunnlag(Behandling behandling, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag) {
         // Innhent grunnlagsdata
         if (hentGrunnlagsdataTjeneste.vurderOmNyesteGrunnlagsdataSkalHentes(behandling)) {
             hentGrunnlagsdataTjeneste.innhentInntektsInformasjonBeregningOgSammenligning(behandling);
@@ -86,7 +86,7 @@ public class ForeslåBeregningsgrunnlag {
         }
 
         // Oversett endelig resultat av regelmodell til foreslått Beregningsgrunnlag  (+ spore input -> evaluation)
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag foreslåttBeregningsgrunnlag =
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag foreslåttBeregningsgrunnlag =
             oversetterFraRegel.mapForeslåBeregningsgrunnlag(regelmodellBeregningsgrunnlag, input, regelResultater, beregningsgrunnlag);
         List<AksjonspunktDefinisjon> aksjonspunkter = aksjonspunkterSomSkalOpprettes(regelResultater);
         return new BeregningsgrunnlagRegelResultat(foreslåttBeregningsgrunnlag, aksjonspunkter);

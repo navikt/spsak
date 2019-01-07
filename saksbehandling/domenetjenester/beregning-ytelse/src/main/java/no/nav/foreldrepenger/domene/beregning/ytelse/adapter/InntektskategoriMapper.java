@@ -5,7 +5,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
 
 public final class InntektskategoriMapper {
 

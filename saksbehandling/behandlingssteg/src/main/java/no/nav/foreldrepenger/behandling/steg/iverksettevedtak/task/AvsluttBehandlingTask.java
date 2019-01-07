@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.AvsluttBehandling;
 import no.nav.foreldrepenger.behandlingskontroll.task.BehandlingProsessTask;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTask;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
@@ -27,7 +27,7 @@ public class AvsluttBehandlingTask extends BehandlingProsessTask {
     }
 
     @Inject
-    public AvsluttBehandlingTask(AvsluttBehandling tjeneste, BehandlingRepositoryProvider repositoryProvider) {
+    public AvsluttBehandlingTask(AvsluttBehandling tjeneste, GrunnlagRepositoryProvider repositoryProvider) {
         super(repositoryProvider);
         this.tjeneste = tjeneste;
     }

@@ -18,7 +18,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.ForeldrepengerVilkårUtleder;
@@ -33,7 +33,7 @@ import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaTjeneste;
 public class KontrollerFaktaStegForeldrepengerImpl implements KontrollerFaktaSteg {
 
     private KontrollerFaktaTjeneste tjeneste;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private BehandlingRepository behandlingRepository;
 
     KontrollerFaktaStegForeldrepengerImpl() {
@@ -41,7 +41,7 @@ public class KontrollerFaktaStegForeldrepengerImpl implements KontrollerFaktaSte
     }
 
     @Inject
-    KontrollerFaktaStegForeldrepengerImpl(BehandlingRepositoryProvider repositoryProvider,
+    KontrollerFaktaStegForeldrepengerImpl(GrunnlagRepositoryProvider repositoryProvider,
                                           @FagsakYtelseTypeRef("FP") @BehandlingTypeRef @StartpunktRef KontrollerFaktaTjeneste tjeneste) {
         this.repositoryProvider = repositoryProvider;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();

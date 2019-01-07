@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -38,8 +37,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -70,9 +71,10 @@ public class MedlemskapsvilkårTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
-    private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
+    private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
     private BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
     private InngangsvilkårOversetter oversetter = new InngangsvilkårOversetter(repositoryProvider,
         new MedlemskapPerioderTjenesteImpl(12, 6, skjæringstidspunktTjeneste), skjæringstidspunktTjeneste, personopplysningTjeneste);
@@ -99,7 +101,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -126,7 +128,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -153,7 +155,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -186,7 +188,7 @@ public class MedlemskapsvilkårTest {
         scenario.medSykefravær(builderb);
         scenario.medMedlemskap().medMedlemsperiodeManuellVurdering(MedlemskapManuellVurderingType.MEDLEM);
         leggTilSøker(scenario, PersonstatusType.BOSA, Region.UDEFINERT, Landkoder.SWE);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -223,7 +225,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -254,7 +256,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -286,7 +288,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -318,7 +320,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -353,7 +355,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -389,7 +391,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -425,7 +427,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -463,7 +465,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -500,7 +502,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         VilkårData vilkårData = vurderMedlemskapsvilkarEngangsstonad.vurderVilkår(behandling);
@@ -527,7 +529,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         final PersonInformasjonBuilder personInformasjonBuilder = repositoryProvider.getPersonopplysningRepository().opprettBuilderForOverstyring(behandling);
         LocalDate utvandretDato = LocalDate.now().minusYears(10);
@@ -561,7 +563,7 @@ public class MedlemskapsvilkårTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         final PersonInformasjonBuilder personInformasjonBuilder = repositoryProvider.getPersonopplysningRepository().opprettBuilderForOverstyring(behandling);
         LocalDate utvandretDato = LocalDate.now().minusYears(10);

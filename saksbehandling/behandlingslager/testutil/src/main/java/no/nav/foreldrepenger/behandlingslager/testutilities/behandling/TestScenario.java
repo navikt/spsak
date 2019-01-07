@@ -5,6 +5,6 @@ public interface TestScenario<S> extends
         SykefraværTestScenario<S>,
         MedlemskapTestScenario<S> {
 
-    S leggTilScenario(TestScenarioTillegg testScenarioTillegg);
+    S leggTilScenario(TestScenarioResultatTillegg testScenarioResultatTillegg);
 
 }

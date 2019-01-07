@@ -26,8 +26,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -57,7 +58,9 @@ public class BehandlingModellTest {
     private BehandlingskontrollTjeneste kontrollTjeneste;
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
     @Inject
     private BehandlingskontrollRepository behandlingskontrollRepository;
@@ -350,7 +353,7 @@ public class BehandlingModellTest {
     }
 
     private BehandlingStegVisitorUtenLagring lagVisitor(ScenarioMorSøkerEngangsstønad scenario, BehandlingModellImpl modell) {
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         BehandlingskontrollKontekst kontekst = kontrollTjeneste.initBehandlingskontroll(behandling);
         return new BehandlingStegVisitorUtenLagring(repositoryProvider, kontrollTjeneste, kontekst, modell,
             BehandlingskontrollEventPubliserer.NULL_EVENT_PUB, behandling);
@@ -359,7 +362,7 @@ public class BehandlingModellTest {
     static class BehandlingStegVisitorUtenLagring extends BehandlingStegVisitor implements BehandlingModellVisitor {
         List<BehandlingStegType> kjørteSteg = new ArrayList<>();
 
-        BehandlingStegVisitorUtenLagring(BehandlingRepositoryProvider repositoryProvider,
+        BehandlingStegVisitorUtenLagring(GrunnlagRepositoryProvider repositoryProvider,
                                          BehandlingskontrollTjeneste tjeneste, BehandlingskontrollKontekst kontekst, BehandlingModellImpl behandlingModell,
                                          BehandlingskontrollEventPubliserer eventPubliserer,
                                          Behandling behandling) {

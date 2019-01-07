@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.VurderMedlemskapTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
@@ -28,7 +28,7 @@ public class VurderMedlemskapTjenesteImpl implements VurderMedlemskapTjeneste {
     }
 
     @Inject
-    public VurderMedlemskapTjenesteImpl(BehandlingRepositoryProvider provider,
+    public VurderMedlemskapTjenesteImpl(GrunnlagRepositoryProvider provider,
                                         MedlemskapPerioderTjeneste medlemskapPerioderTjeneste,
                                         PersonopplysningTjeneste personopplysningTjeneste) {
         this.behandlingRepository = provider.getBehandlingRepository();

@@ -27,8 +27,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAg
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsResultat;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
@@ -47,7 +50,8 @@ public class KontrollerFaktaStegImplTest {
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
     private Behandling behandling;
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
 
     @Inject
@@ -75,7 +79,7 @@ public class KontrollerFaktaStegImplTest {
     public void oppsett() {
         ScenarioMorSøkerForeldrepenger scenario = byggBehandlingMedFarSøkerType();
         scenario.medBruker(new AktørId("123"), NavBrukerKjønn.MANN);
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     @Test
@@ -97,8 +101,9 @@ public class KontrollerFaktaStegImplTest {
         assertThat(medlemskapAggregat).isPresent();
         assertThat(medlemskapAggregat.flatMap(MedlemskapAggregat::getVurdertMedlemskap)).isNotPresent();
         behandling = behandlingRepository.hentBehandling(behandling.getId());
+        Optional<BeregningsResultat> beregningsResultat = resultatRepositoryProvider.getBeregningsresultatRepository().hentHvisEksistererFor(behandling.getBehandlingsresultat());
 
-        assertThat(behandling.getBehandlingsresultat().getBeregningResultat()).isNull();
+        assertThat(beregningsResultat).isNotPresent();
     }
 
     private void leggTilSøker(AbstractTestScenario<?> scenario, NavBrukerKjønn kjønn) {

@@ -17,7 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.app.BeregningsgrunnlagDtoTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.BeregningsgrunnlagDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingIdDto;
@@ -41,10 +41,10 @@ public class BeregningsgrunnlagRestTjeneste {
     }
 
     @Inject
-    public BeregningsgrunnlagRestTjeneste(BehandlingRepositoryProvider behandlingRepositoryProvider,
+    public BeregningsgrunnlagRestTjeneste(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                                           BeregningsgrunnlagDtoTjeneste beregningsgrunnlagTjeneste) {
         this.beregningsgrunnlagTjeneste = beregningsgrunnlagTjeneste;
-        this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
     }
 
     @POST

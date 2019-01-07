@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
@@ -36,7 +36,7 @@ public class ÅpneBehandlingForEndringerTask extends BehandlingskontrollProsessT
     @Inject
     public ÅpneBehandlingForEndringerTask(BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                           BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste,
-                                          BehandlingRepositoryProvider repositoryProvider) {
+                                          GrunnlagRepositoryProvider repositoryProvider) {
         super(repositoryProvider, behandlingskontrollTjeneste, behandlingskontrollTaskTjeneste);
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.kodeverkTabellRepository = repositoryProvider.getKodeverkRepository().getKodeverkTabellRepository();

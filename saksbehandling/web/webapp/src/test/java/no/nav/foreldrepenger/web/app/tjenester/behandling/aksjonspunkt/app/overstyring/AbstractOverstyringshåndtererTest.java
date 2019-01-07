@@ -14,8 +14,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OppdateringResultat;
@@ -29,14 +31,15 @@ public class AbstractOverstyringshåndtererTest {
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private EntityManager em = repoRule.getEntityManager();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(em);
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(em);
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private AksjonspunktRepository aksjonspunktRepository = new AksjonspunktRepositoryImpl(em);
 
     @SuppressWarnings("unchecked")
     @Test
     public void skal_reaktivere_inaktivt_aksjonspunkt() throws Exception {
-        Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider);
+        Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider, resultatRepositoryProvider);
         Aksjonspunkt ap = aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.OVERSTYRING_AV_OPPTJENINGSVILKÅRET);
         aksjonspunktRepository.setTilUtført(ap, "OK");
         aksjonspunktRepository.deaktiver(ap);

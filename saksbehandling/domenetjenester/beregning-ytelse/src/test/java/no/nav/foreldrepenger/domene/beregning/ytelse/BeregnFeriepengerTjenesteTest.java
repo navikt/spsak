@@ -13,19 +13,20 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepenger;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepengerPrÅr;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepenger;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepengerPrÅr;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.beregning.ytelse.BeregnFeriepengerTjeneste;
 
 public class BeregnFeriepengerTjenesteTest {
 
@@ -36,7 +37,8 @@ public class BeregnFeriepengerTjenesteTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final EntityManager entityManager = repoRule.getEntityManager();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(entityManager);
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(entityManager);
 
     private BeregnFeriepengerTjeneste tjeneste;
 
@@ -54,14 +56,14 @@ public class BeregnFeriepengerTjenesteTest {
             .medGrunnbeløp(GRUNNBELØP)
             .medRedusertGrunnbeløp(GRUNNBELØP)
             .build();
-        Behandling morsBehandling = scenario.lagre(repositoryProvider);
-        BeregningsresultatFP morsBeregningsresultatFP = lagBeregningsresultatFP(SKJÆRINGSTIDSPUNKT_MOR, SKJÆRINGSTIDSPUNKT_FAR, Inntektskategori.ARBEIDSTAKER);
+        Behandling morsBehandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
+        BeregningsresultatPerioder morsBeregningsresultat = lagBeregningsresultatFP(SKJÆRINGSTIDSPUNKT_MOR, SKJÆRINGSTIDSPUNKT_FAR, Inntektskategori.ARBEIDSTAKER);
 
         // Act
-        tjeneste.beregnFeriepenger(morsBehandling, morsBeregningsresultatFP, beregningsgrunnlag);
+        tjeneste.beregnFeriepenger(morsBehandling, morsBeregningsresultat, beregningsgrunnlag);
 
         // Assert
-        assertThat(morsBeregningsresultatFP.getBeregningsresultatFeriepenger()).hasValueSatisfying(this::assertBeregningsresultatFeriepenger);
+        assertThat(morsBeregningsresultat.getBeregningsresultatFeriepenger()).hasValueSatisfying(this::assertBeregningsresultatFeriepenger);
     }
 
     @Test
@@ -73,14 +75,14 @@ public class BeregnFeriepengerTjenesteTest {
             .medGrunnbeløp(GRUNNBELØP)
             .medRedusertGrunnbeløp(GRUNNBELØP)
             .build();
-        Behandling morsBehandling = scenario.lagre(repositoryProvider);
-        BeregningsresultatFP morsBeregningsresultatFP = lagBeregningsresultatFP(SKJÆRINGSTIDSPUNKT_MOR, SKJÆRINGSTIDSPUNKT_MOR.plusMonths(6), Inntektskategori.ARBEIDSTAKER_UTEN_FERIEPENGER);
+        Behandling morsBehandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
+        BeregningsresultatPerioder morsBeregningsresultat = lagBeregningsresultatFP(SKJÆRINGSTIDSPUNKT_MOR, SKJÆRINGSTIDSPUNKT_MOR.plusMonths(6), Inntektskategori.ARBEIDSTAKER_UTEN_FERIEPENGER);
 
         // Act
-        tjeneste.beregnFeriepenger(morsBehandling, morsBeregningsresultatFP, beregningsgrunnlag);
+        tjeneste.beregnFeriepenger(morsBehandling, morsBeregningsresultat, beregningsgrunnlag);
 
         //Assert
-        assertThat(morsBeregningsresultatFP.getBeregningsresultatFeriepenger()).hasValueSatisfying(resultat -> {
+        assertThat(morsBeregningsresultat.getBeregningsresultatFeriepenger()).hasValueSatisfying(resultat -> {
             assertThat(resultat.getBeregningsresultatFeriepengerPrÅrListe()).isEmpty();
             assertThat(resultat.getFeriepengerPeriodeFom()).isNull();
             assertThat(resultat.getFeriepengerPeriodeTom()).isNull();
@@ -108,11 +110,11 @@ public class BeregnFeriepengerTjenesteTest {
         assertThat(andelÅr2.getBeregningsresultatFeriepengerPrÅrListe()).hasSize(2);
     }
 
-    private BeregningsresultatFP lagBeregningsresultatFP(LocalDate periodeFom, LocalDate periodeTom, Inntektskategori inntektskategori) {
-        BeregningsresultatFP beregningsresultatFP = BeregningsresultatFP.builder().medRegelInput("input").medRegelSporing("sporing").build();
+    private BeregningsresultatPerioder lagBeregningsresultatFP(LocalDate periodeFom, LocalDate periodeTom, Inntektskategori inntektskategori) {
+        BeregningsresultatPerioder beregningsresultat = BeregningsresultatPerioder.builder().medRegelInput("input").medRegelSporing("sporing").build();
         BeregningsresultatPeriode beregningsresultatPeriode = BeregningsresultatPeriode.builder()
             .medBeregningsresultatPeriodeFomOgTom(periodeFom, periodeTom)
-            .build(beregningsresultatFP);
+            .build(beregningsresultat);
         BeregningsresultatAndel.builder()
             .medInntektskategori(inntektskategori)
             .medAktivitetstatus(AktivitetStatus.ARBEIDSTAKER)
@@ -122,6 +124,6 @@ public class BeregnFeriepengerTjenesteTest {
             .medUtbetalingsgrad(BigDecimal.valueOf(100))
             .medStillingsprosent(BigDecimal.valueOf(100))
             .build(beregningsresultatPeriode);
-        return beregningsresultatFP;
+        return beregningsresultat;
     }
 }

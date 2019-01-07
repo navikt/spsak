@@ -20,11 +20,8 @@ import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YtelseBuilder;
@@ -36,10 +33,15 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektPeriodeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -58,6 +60,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.T
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.TilstøtendeYtelseAndel;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
+import no.nav.vedtak.util.Tuple;
 
 public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegelTest {
 
@@ -79,14 +82,14 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegelTest {
     private ScenarioMorSøkerForeldrepenger scenario;
     private Behandling behandling;
     private Beregningsgrunnlag beregningsgrunnlag;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
     private OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
-    private BehandlingRepositoryProvider realRepositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider realRepositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
 
     private MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel mapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel =
-        new MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel(realRepositoryProvider.getBeregningRepository());
+        new MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel(realRepositoryProvider.getSatsRepository());
 
     @Before
     public void setUp() {
@@ -181,14 +184,16 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegelTest {
             .leggTilBeregningsgrunnlagPeriode(BeregningsgrunnlagPeriode.builder()
                 .medBeregningsgrunnlagPeriode(LocalDate.now(), null));
         beregningsgrunnlag = beregningsgrunnlagBuilder.build();
-        repositoryProvider = scenario.mockBehandlingRepositoryProvider();
-        when(repositoryProvider.getVirksomhetRepository()).thenReturn(realRepositoryProvider.getVirksomhetRepository());
-        mockOpptjeningRepository(repositoryProvider, SKJÆRINGSTIDSPUNKT);
+        Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> providerTuple = scenario.mockBehandlingRepositoryProvider();
+        this.repositoryProvider = providerTuple.getElement1();
+        when(this.repositoryProvider.getVirksomhetRepository()).thenReturn(realRepositoryProvider.getVirksomhetRepository());
+        ResultatRepositoryProvider resultatRepositoryProvider = providerTuple.getElement2();
+        mockOpptjeningRepository(resultatRepositoryProvider, SKJÆRINGSTIDSPUNKT);
         behandling = scenario.lagMocked();
-        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
-        inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
+        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(this.repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
+        inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(this.repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         OpptjeningsperioderTjeneste periodeTjeneste = mock(OpptjeningsperioderTjeneste.class);
-        opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, repositoryProvider, periodeTjeneste);
+        opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, resultatRepositoryProvider, periodeTjeneste);
     }
 
     private void mockTidligereYtelse(ScenarioMorSøkerForeldrepenger scenario, RelatertYtelseType relatertYtelseType,
@@ -230,11 +235,11 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegelTest {
         );
     }
 
-    private void mockOpptjeningRepository(BehandlingRepositoryProvider repositoryProvider, LocalDate opptjeningTom) {
+    private void mockOpptjeningRepository(ResultatRepositoryProvider repositoryProvider, LocalDate opptjeningTom) {
         OpptjeningRepository opptjeningRepository = mock(OpptjeningRepository.class);
         Opptjening opptjening = mock(Opptjening.class);
         when(opptjening.getTom()).thenReturn(opptjeningTom);
-        when(opptjeningRepository.finnOpptjening(any(Behandling.class))).thenReturn(Optional.of(opptjening));
+        when(opptjeningRepository.finnOpptjening(any(Behandlingsresultat.class))).thenReturn(Optional.of(opptjening));
         when(repositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
     }
 }

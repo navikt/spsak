@@ -10,7 +10,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 
 @BehandlingStegRef(kode = "FVEDSTEG")
 @BehandlingTypeRef
@@ -26,7 +26,7 @@ public class FatteVedtakStegImpl implements FatteVedtakSteg {
     }
 
     @Inject
-    FatteVedtakStegImpl(BehandlingRepositoryProvider repositoryProvider, @FagsakYtelseTypeRef("FP") FatteVedtakTjeneste fatteVedtakTjeneste) {
+    FatteVedtakStegImpl(GrunnlagRepositoryProvider repositoryProvider, @FagsakYtelseTypeRef("FP") FatteVedtakTjeneste fatteVedtakTjeneste) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.fatteVedtakTjeneste = fatteVedtakTjeneste;
     }

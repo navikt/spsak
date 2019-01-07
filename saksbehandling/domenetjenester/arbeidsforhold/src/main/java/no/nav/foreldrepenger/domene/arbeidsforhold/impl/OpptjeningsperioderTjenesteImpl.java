@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.domene.arbeidsforhold.impl;
 
-import static no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType.NÆRING;
-import static no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType.UTDANNINGSPERMISJON;
+import static no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType.NÆRING;
+import static no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType.UTDANNINGSPERMISJON;
 import static no.nav.foreldrepenger.domene.arbeidsforhold.impl.OpptjeningsUtils.hentUtDatoIntervall;
 import static no.nav.foreldrepenger.domene.arbeidsforhold.impl.OpptjeningsUtils.lagOpptjeningsnøkkel;
 
@@ -47,10 +47,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.EgenNæring;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittArbeidsforhold;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -76,11 +77,11 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
 
     @Inject
     public OpptjeningsperioderTjenesteImpl(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                           BehandlingRepositoryProvider provider,
+                                           GrunnlagRepositoryProvider provider, ResultatRepositoryProvider resultatRepositoryProvider,
                                            AksjonspunktutlederForVurderOpptjening vurderOpptjening) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.kodeverkRepository = provider.getKodeverkRepository();
-        this.opptjeningRepository = provider.getOpptjeningRepository();
+        this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
         this.vurderForSaksbehandling = new OpptjeningAktivitetVurderingAksjonspunkt(vurderOpptjening);
         this.vurderForVilkår = new OpptjeningAktivitetVurderingVilkår(vurderOpptjening);
     }
@@ -342,7 +343,7 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
 
     @Override
     public Optional<Opptjening> hentOpptjeningHvisFinnes(Behandling behandling) {
-        return opptjeningRepository.finnOpptjening(behandling);
+        return opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
     }
 
     private void mapAnnenAktivitet(List<OpptjeningsperiodeForSaksbehandling> perioder, Map.Entry<ArbeidType, List<AnnenAktivitet>> annenAktivitet,
@@ -509,7 +510,7 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
             perioder.stream().anyMatch(oaa -> OpptjeningAktivitetType.FRILANS.equals(oaa.getOpptjeningAktivitetType()))) {
             return Optional.empty();
         }
-        Optional<Opptjening> opptjeningOptional = opptjeningRepository.finnOpptjening(behandling);
+        Optional<Opptjening> opptjeningOptional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
         if (!opptjeningOptional.isPresent()) {
             return Optional.empty();
         }

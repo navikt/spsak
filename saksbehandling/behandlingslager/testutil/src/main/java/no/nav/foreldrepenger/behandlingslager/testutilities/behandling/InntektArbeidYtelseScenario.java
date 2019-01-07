@@ -43,7 +43,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.EgenNæring;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittArbeidsforhold;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -84,7 +84,7 @@ public class InntektArbeidYtelseScenario {
         return InntektArbeidYtelseScenarioTestBuilder.ny(inntektArbeidYtelseAggregatBuilder);
     }
 
-    void lagreVirksomhet(BehandlingRepositoryProvider repositoryProvider) {
+    void lagreVirksomhet(GrunnlagRepositoryProvider repositoryProvider) {
         InntektArbeidYtelseAggregatBuilder kladd = getInntektArbeidYtelseScenarioTestBuilder().getKladd();
         if (kladd != null) {
             InntektArbeidYtelseAggregat build = kladd.build();
@@ -109,7 +109,7 @@ public class InntektArbeidYtelseScenario {
         }
     }
 
-    void lagreOpptjening(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+    void lagreOpptjening(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling) {
         InntektArbeidYtelseAggregatBuilder kladd = getInntektArbeidYtelseScenarioTestBuilder().getKladd();
         if (kladd != null) {
             repositoryProvider.getInntektArbeidYtelseRepository().lagre(behandling, kladd);
@@ -121,7 +121,7 @@ public class InntektArbeidYtelseScenario {
         return oppgittOpptjeningBuilder;
     }
 
-    void lagreOppgittOpptjening(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+    void lagreOppgittOpptjening(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling) {
         if (oppgittOpptjeningBuilder != null) {
             OppgittOpptjening oppgittOpptjening = oppgittOpptjeningBuilder.build();
             oppgittOpptjening.getOppgittArbeidsforhold().stream()

@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
 
 class StartpunktutlederHjelper {
 
-    static boolean finnesAktivitetHvorAlleHarDagsatsNull(BeregningsresultatFP beregningsresultat) {
+    static boolean finnesAktivitetHvorAlleHarDagsatsNull(BeregningsresultatPerioder beregningsresultat) {
         List<BeregningsresultatPeriode> perioder = beregningsresultat.getBeregningsresultatPerioder();
         for (BeregningsresultatPeriode periode : perioder) {
             // ArbeidforholdNøkkel er synonym for "aktivitet" i domene

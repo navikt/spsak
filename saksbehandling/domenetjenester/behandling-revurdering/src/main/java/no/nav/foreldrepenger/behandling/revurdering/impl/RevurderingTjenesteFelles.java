@@ -6,7 +6,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 
@@ -20,7 +20,7 @@ public class RevurderingTjenesteFelles {
     }
 
     @Inject
-    public RevurderingTjenesteFelles(BehandlingRepositoryProvider repositoryProvider) {
+    public RevurderingTjenesteFelles(GrunnlagRepositoryProvider repositoryProvider) {
         this.fagsakRevurdering = new FagsakRevurdering(repositoryProvider.getBehandlingRepository());
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
     }

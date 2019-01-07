@@ -18,7 +18,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
@@ -39,7 +39,7 @@ public class KompletthetssjekkerSøknadFørstegangsbehandling extends AbstractKo
 
     @Inject
     public KompletthetssjekkerSøknadFørstegangsbehandling(DokumentArkivTjeneste dokumentArkivTjeneste,
-                                                            BehandlingRepositoryProvider repositoryProvider,
+                                                            GrunnlagRepositoryProvider repositoryProvider,
                                                             SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                                             @KonfigVerdi("ventefrist.uker.ved.tidlig.fp.soeknad") Integer antallUkerVentefristVedForTidligSøknad) {
         super(repositoryProvider.getKodeverkRepository(),

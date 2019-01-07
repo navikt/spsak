@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.behandling.steg.foreslåvedtak;
 
 
-import static no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand.FASTSATT;
+import static no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand.FASTSATT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -24,13 +24,15 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -49,9 +51,10 @@ public class ForeslåVedtakRevurderingStegForeldrepengerImplTest {
     private BehandleStegResultat behandleStegResultat;
 
     private final EntityManager entityManager = repoRule.getEntityManager();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(entityManager);
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
-    private BeregningsgrunnlagRepository beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+    private BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
     private ForeslåVedtakRevurderingStegForeldrepengerImpl foreslåVedtakRevurderingStegForeldrepenger;
 
     private Behandling orginalBehandling;
@@ -61,13 +64,13 @@ public class ForeslåVedtakRevurderingStegForeldrepengerImplTest {
     @Before
     public void before() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        orginalBehandling = scenario.lagre(repositoryProvider);
+        orginalBehandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, orginalBehandling);
         
         revurdering = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.REVURDERING)
             .medOriginalBehandling(orginalBehandling, BehandlingÅrsakType.UDEFINERT)
-            .lagre(repositoryProvider);
+            .lagre(repositoryProvider, resultatRepositoryProvider);
 
         BehandlingLås låsRevurdering = behandlingRepository.taSkriveLås(revurdering);
         Fagsak fagsak = revurdering.getFagsak();

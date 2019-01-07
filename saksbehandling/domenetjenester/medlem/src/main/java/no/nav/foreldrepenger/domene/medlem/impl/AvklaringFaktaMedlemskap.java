@@ -20,7 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
@@ -36,9 +36,9 @@ class AvklaringFaktaMedlemskap {
     private final InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
 
 
-    AvklaringFaktaMedlemskap(BehandlingRepositoryProvider repositoryProvider,
-                                    MedlemskapPerioderTjeneste medlemskapPerioderTjeneste,
-                                    PersonopplysningTjeneste personopplysningTjeneste) {
+    AvklaringFaktaMedlemskap(GrunnlagRepositoryProvider repositoryProvider,
+                             MedlemskapPerioderTjeneste medlemskapPerioderTjeneste,
+                             PersonopplysningTjeneste personopplysningTjeneste) {
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.medlemskapPerioderTjeneste = medlemskapPerioderTjeneste;

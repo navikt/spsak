@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 
 interface LagAndelTjeneste {
 

@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollAsynkTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
@@ -39,7 +39,7 @@ public class FagsakApplikasjonTjenesteImpl implements FagsakApplikasjonTjeneste 
     }
 
     @Inject
-    public FagsakApplikasjonTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public FagsakApplikasjonTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                                          BehandlingskontrollAsynkTjeneste behandlingskontrollAsynkTjeneste,
                                          TpsTjeneste tpsTjeneste) {
 

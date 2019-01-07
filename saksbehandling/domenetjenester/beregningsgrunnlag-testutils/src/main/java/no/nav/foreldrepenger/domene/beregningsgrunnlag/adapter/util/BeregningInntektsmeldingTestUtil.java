@@ -18,7 +18,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Refusjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.vedtak.konfig.Tid;
 
@@ -34,7 +34,7 @@ public class BeregningInntektsmeldingTestUtil {
     }
 
     @Inject
-    public BeregningInntektsmeldingTestUtil(BehandlingRepositoryProvider repositoryProvider, BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil) {
+    public BeregningInntektsmeldingTestUtil(GrunnlagRepositoryProvider repositoryProvider, BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil) {
         inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
         this.beregningArbeidsgiverTestUtil = beregningArbeidsgiverTestUtil;
     }

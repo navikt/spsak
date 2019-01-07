@@ -24,7 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 
 /**
  * Håndtere opprydding i Aksjonspunkt og Vilkår ved overhopp framover eller tilbakeføring.
@@ -38,7 +38,7 @@ public class BehandlingskontrollTransisjonTilbakeføringEventObserver {
     private BehandlingskontrollEventPubliserer eventPubliserer = BehandlingskontrollEventPubliserer.NULL_EVENT_PUB;
 
     @Inject
-    public BehandlingskontrollTransisjonTilbakeføringEventObserver(BehandlingRepositoryProvider repositoryProvider,
+    public BehandlingskontrollTransisjonTilbakeføringEventObserver(GrunnlagRepositoryProvider repositoryProvider,
                                                                    BehandlingModellRepository modellRepository, BehandlingskontrollEventPubliserer eventPubliserer) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.modellRepository = modellRepository;

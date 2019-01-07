@@ -90,15 +90,6 @@ public interface BehandlingRepository extends BehandlingslagerRepository {
 
     Optional<Behandling> finnSisteAvsluttedeIkkeHenlagteBehandling(Long fagsakId);
 
-    /**
-     * Slette tidligere beregning på en Behandling. Sørger for at samtidige oppdateringer på samme Behandling,
-     * eller andre Behandlinger
-     * på samme Fagsak ikke kan gjøres samtidig.
-     *
-     * @see BehandlingLås
-     */
-    void slettTidligereBeregninger(Behandling behandling, BehandlingLås lås);
-
     BehandlingStegType finnBehandlingStegType(String kode);
 
     Boolean erVersjonUendret(Long behandlingId, Long versjon);
@@ -106,7 +97,7 @@ public interface BehandlingRepository extends BehandlingslagerRepository {
     /**
      * Lager en ny Behandling basert på en gammel, med samme grunnlag strukturer.
      */
-    Behandling opprettNyBehandlingBasertPåTidligere(Behandling gammelBehandling, BehandlingType behandlingType, BehandlingRepositoryProvider repositoryProvider);
+    Behandling opprettNyBehandlingBasertPåTidligere(Behandling gammelBehandling, BehandlingType behandlingType, GrunnlagRepositoryProvider repositoryProvider);
 
     void verifiserBehandlingLås(BehandlingLås lås);
 

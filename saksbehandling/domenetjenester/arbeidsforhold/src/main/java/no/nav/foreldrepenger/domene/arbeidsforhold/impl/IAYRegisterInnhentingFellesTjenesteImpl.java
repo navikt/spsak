@@ -19,9 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.IntervallUtil;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørInntektEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
@@ -46,9 +43,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.PermisjonsbeskrivelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.OrganisasjonsNummerValidator;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -81,26 +82,29 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInnhentingTjeneste {
 
+    private ResultatRepositoryProvider resultatProvider;
     protected VirksomhetTjeneste virksomhetTjeneste;
     protected SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private InnhentingSamletTjeneste innhentingSamletTjeneste;
     private OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste;
     private KodeverkRepository kodeverkRepository;
-    private BehandlingRepositoryProvider behandlingRepositoryProvider;
+    private GrunnlagRepositoryProvider grunnlagRepositoryProvider;
 
     public IAYRegisterInnhentingFellesTjenesteImpl(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                                   BehandlingRepositoryProvider repositoryProvider,
+                                                   GrunnlagRepositoryProvider repositoryProvider,
+                                                   ResultatRepositoryProvider resultatProvider,
                                                    VirksomhetTjeneste virksomhetTjeneste,
                                                    SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                                    InnhentingSamletTjeneste innhentingSamletTjeneste,
                                                    OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
+        this.resultatProvider = resultatProvider;
         this.virksomhetTjeneste = virksomhetTjeneste;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.innhentingSamletTjeneste = innhentingSamletTjeneste;
-        this.behandlingRepositoryProvider = repositoryProvider;
+        this.grunnlagRepositoryProvider = repositoryProvider;
         this.opplysningsPeriodeTjeneste = opplysningsPeriodeTjeneste;
     }
 
@@ -486,14 +490,14 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
                                                            Interval opplysningsPeriode,
                                                            InntektArbeidYtelseAggregatBuilder.AktørYtelseBuilder aktørYtelseBuilder,
                                                            boolean medDenneFagsaken) {
-        final List<Fagsak> fagsakListe = behandlingRepositoryProvider.getFagsakRepository().hentForBruker(aktørId);
+        final List<Fagsak> fagsakListe = grunnlagRepositoryProvider.getFagsakRepository().hentForBruker(aktørId);
 
         for (Fagsak fagsak : fagsakListe) {
             if (!medDenneFagsaken && fagsak.equals(behandling.getFagsak())) {
                 continue;
             }
             // TODO (DIAMANT): Avklar hvilke(n) behandling man skal ta med. For FP siste revurdering. OBS: Ikke avsluttet behandling - for 5031!
-            behandlingRepositoryProvider.getBehandlingRepository().finnSisteAvsluttedeIkkeHenlagteBehandling(fagsak.getId())
+            grunnlagRepositoryProvider.getBehandlingRepository().finnSisteAvsluttedeIkkeHenlagteBehandling(fagsak.getId())
                 .map(Behandling::getBehandlingsresultat)
                 .map(Behandlingsresultat::getBehandlingVedtak)
                 .filter(behandlingVedtak -> behandlingVedtak.getVedtakResultatType().equals(VedtakResultatType.INNVILGET))
@@ -504,7 +508,7 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
     }
 
     private void mapFraUttakTilYtelseAnvist(Behandling behandling, YtelseBuilder ytelseBuilder) {
-        Optional<UttakResultatEntitet> uttakResultat = behandlingRepositoryProvider.getUttakRepository().hentUttakResultatHvisEksisterer(behandling);
+        Optional<UttakResultatEntitet> uttakResultat = resultatProvider.getUttakRepository().hentUttakResultatHvisEksisterer(behandling);
         ytelseBuilder.tilbakestillAnvisteYtelser();
         if (uttakResultat.isPresent()) {
             List<YtelseAnvistBuilder> ytelseAnvistBuilderList = uttakResultat.get().getGjeldendePerioder().getPerioder().stream()
@@ -524,7 +528,7 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         YtelseBuilder ytelseBuilder = aktørYtelseBuilder.getYtelselseBuilderForType(Fagsystem.FPSAK, map(fagsak.getYtelseType()), fagsak.getSaksnummer())
             .medStatus(map(fagsak.getStatus()));
 
-        Optional<UttakResultatEntitet> uttakResultat = behandlingRepositoryProvider.getUttakRepository().hentUttakResultatHvisEksisterer(behandling);
+        Optional<UttakResultatEntitet> uttakResultat = resultatProvider.getUttakRepository().hentUttakResultatHvisEksisterer(behandling);
         if (uttakResultat.isPresent()) {
             ytelseBuilder.medPeriode(hentPeriodeFraUttak(uttakResultat.get()));
         } else {
@@ -541,7 +545,7 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
     }
 
     private void mapFraBeregning(Behandling behandling, YtelseBuilder ytelseBuilder) {
-        BeregningsgrunnlagRepository beregningsgrunnlagRepository = behandlingRepositoryProvider.getBeregningsgrunnlagRepository();
+        BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatProvider.getBeregningsgrunnlagRepository();
         Optional<Beregningsgrunnlag> beregningsgrunnlag = beregningsgrunnlagRepository.hentBeregningsgrunnlag(behandling);
 
         if (beregningsgrunnlag.isPresent() && !beregningsgrunnlag.get().getBeregningsgrunnlagPerioder().isEmpty()) {

@@ -10,7 +10,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 
 @ApplicationScoped
 @BehandlingTypeRef
@@ -19,7 +19,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 public class KontrollerFaktaUtledereTjenesteFørstegangsbehandling extends AbstractKontrollerFaktaUtledereTjeneste {
 
     @Inject
-    public KontrollerFaktaUtledereTjenesteFørstegangsbehandling(BehandlingRepositoryProvider repositoryProvider) {
+    public KontrollerFaktaUtledereTjenesteFørstegangsbehandling(GrunnlagRepositoryProvider repositoryProvider) {
         super(repositoryProvider);
     }
 

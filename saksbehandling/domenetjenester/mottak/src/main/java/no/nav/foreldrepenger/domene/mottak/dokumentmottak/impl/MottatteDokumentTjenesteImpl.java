@@ -8,8 +8,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -24,22 +27,26 @@ public class MottatteDokumentTjenesteImpl implements MottatteDokumentTjeneste {
     private Integer fristForInnsendingAvDokumentasjon;
 
     private DokumentPersistererTjeneste dokumentPersistererTjeneste;
-    private BehandlingRepositoryProvider behandlingRepositoryProvider;
+    private BehandlingRepository behandlingRepository;
+    private BehandlingVedtakRepository vedtakRepository;
 
     MottatteDokumentTjenesteImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public MottatteDokumentTjenesteImpl(@KonfigVerdi("sak.frist.innsending.dok.uker") Integer fristForInnsendingAvDokumentasjon, DokumentPersistererTjeneste dokumentPersistererTjeneste,
-                                        BehandlingRepositoryProvider behandlingRepositoryProvider) {
+    public MottatteDokumentTjenesteImpl(@KonfigVerdi("sak.frist.innsending.dok.uker") Integer fristForInnsendingAvDokumentasjon,
+                                        DokumentPersistererTjeneste dokumentPersistererTjeneste,
+                                        GrunnlagRepositoryProvider grunnlagRepositoryProvider,
+                                        ResultatRepositoryProvider resultatRepositoryProvider) {
         this.fristForInnsendingAvDokumentasjon = fristForInnsendingAvDokumentasjon;
         this.dokumentPersistererTjeneste = dokumentPersistererTjeneste;
-        this.behandlingRepositoryProvider = behandlingRepositoryProvider;
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
+        this.vedtakRepository = resultatRepositoryProvider.getVedtakRepository();
     }
 
     @Override
-    public void persisterDokumentinnhold(Behandling behandling, InngåendeSaksdokument dokument, Optional<LocalDate> gjelderFra){
+    public void persisterDokumentinnhold(Behandling behandling, InngåendeSaksdokument dokument, Optional<LocalDate> gjelderFra) {
         if (dokument.getPayload() != null) {
             @SuppressWarnings("rawtypes")
             MottattDokumentWrapper dokumentWrapper = dokumentPersistererTjeneste.payloadTilWrapper(dokument);
@@ -50,7 +57,8 @@ public class MottatteDokumentTjenesteImpl implements MottatteDokumentTjeneste {
     @Override
     public boolean erSisteYtelsesbehandlingAvslåttPgaManglendeDokumentasjon(Fagsak sak) {
         Objects.requireNonNull(sak, "Fagsak");
-        Optional<Behandling> behandling = behandlingRepositoryProvider.getBehandlingRepository().finnSisteAvsluttedeIkkeHenlagteBehandling(sak.getId());
+
+        Optional<Behandling> behandling = behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(sak.getId());
         if (behandling.isPresent()) {
             return erAvsluttetPgaManglendeDokumentasjon(behandling.get());
         }
@@ -63,9 +71,9 @@ public class MottatteDokumentTjenesteImpl implements MottatteDokumentTjeneste {
     @Override
     public boolean harFristForInnsendingAvDokGåttUt(Fagsak sak) {
         Objects.requireNonNull(sak, "Fagsak");
-        Optional<Behandling> behandlingOptional = behandlingRepositoryProvider.getBehandlingRepository().finnSisteAvsluttedeIkkeHenlagteBehandling(sak.getId());
+        Optional<Behandling> behandlingOptional = behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(sak.getId());
         Behandling behandling = behandlingOptional.get(); // NOSONAR
-        Optional<BehandlingVedtak> behandlingVedtak = behandlingRepositoryProvider.getBehandlingVedtakRepository().hentBehandlingvedtakForBehandlingId(behandling.getId());
+        Optional<BehandlingVedtak> behandlingVedtak = vedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
         if (behandlingVedtak.isPresent()) {
             return behandlingVedtak.get().getVedtaksdato().isBefore(LocalDate.now().minusWeeks(fristForInnsendingAvDokumentasjon));
         }
@@ -74,7 +82,7 @@ public class MottatteDokumentTjenesteImpl implements MottatteDokumentTjeneste {
 
     private boolean erAvsluttetPgaManglendeDokumentasjon(Behandling behandling) {
         Objects.requireNonNull(behandling, "Behandling");
-        Optional<BehandlingVedtak> behandlingVedtak = behandlingRepositoryProvider.getBehandlingVedtakRepository().hentBehandlingvedtakForBehandlingId(behandling.getId());
+        Optional<BehandlingVedtak> behandlingVedtak = vedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
         if (behandlingVedtak.isPresent()) {
             return Avslagsårsak.MANGLENDE_DOKUMENTASJON.equals(behandlingVedtak.get().getBehandlingsresultat().getAvslagsårsak());
         }

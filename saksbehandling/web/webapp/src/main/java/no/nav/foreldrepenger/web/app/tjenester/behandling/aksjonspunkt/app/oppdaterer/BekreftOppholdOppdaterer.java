@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndr
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltVerdiType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.BekreftOppholdVurderingAksjonspunktDto;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktOppdaterer;
@@ -34,8 +34,8 @@ abstract class BekreftOppholdOppdaterer implements AksjonspunktOppdaterer<Bekref
         // for CDI proxy
     }
 
-    protected BekreftOppholdOppdaterer(BehandlingRepositoryProvider repositoryProvider, HistorikkTjenesteAdapter historikkAdapter,
-            MedlemTjeneste medlemTjeneste) {
+    protected BekreftOppholdOppdaterer(GrunnlagRepositoryProvider repositoryProvider, HistorikkTjenesteAdapter historikkAdapter,
+                                       MedlemTjeneste medlemTjeneste) {
         this.historikkAdapter = historikkAdapter;
         this.medlemTjeneste = medlemTjeneste;
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
@@ -108,8 +108,8 @@ abstract class BekreftOppholdOppdaterer implements AksjonspunktOppdaterer<Bekref
         }
 
         @Inject
-        public BekreftLovligOppholdVurderingOppdaterer(BehandlingRepositoryProvider repositoryProvider,
-                HistorikkTjenesteAdapter historikkAdapter, MedlemTjeneste medlemTjeneste) {
+        public BekreftLovligOppholdVurderingOppdaterer(GrunnlagRepositoryProvider repositoryProvider,
+                                                       HistorikkTjenesteAdapter historikkAdapter, MedlemTjeneste medlemTjeneste) {
             super(repositoryProvider, historikkAdapter, medlemTjeneste);
         }
     }
@@ -123,8 +123,8 @@ abstract class BekreftOppholdOppdaterer implements AksjonspunktOppdaterer<Bekref
         }
 
         @Inject
-        public BekreftOppholdsrettVurderingOppdaterer(BehandlingRepositoryProvider repositoryProvider,
-                HistorikkTjenesteAdapter historikkAdapter, MedlemTjeneste medlemTjeneste) {
+        public BekreftOppholdsrettVurderingOppdaterer(GrunnlagRepositoryProvider repositoryProvider,
+                                                      HistorikkTjenesteAdapter historikkAdapter, MedlemTjeneste medlemTjeneste) {
             super(repositoryProvider, historikkAdapter, medlemTjeneste);
         }
     }

@@ -29,8 +29,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arb
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -58,7 +60,8 @@ public class KontrollerFaktaRevurderingStegImplTest {
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
     private Behandling behandling;
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     private PersonInformasjon.Builder personopplysningBuilder;
 
@@ -125,7 +128,7 @@ public class KontrollerFaktaRevurderingStegImplTest {
 
         førstegangScenario.medRegisterOpplysninger(personopplysningBuilder.build());
 
-        Behandling originalBehandling = førstegangScenario.lagre(repositoryProvider);
+        Behandling originalBehandling = førstegangScenario.lagre(repositoryProvider, resultatRepositoryProvider);
         // Legg til Uttaksperiodegrense -> dessverre ikke tilgjengelig i scenariobygger
         BehandlingLås lås = behandlingRepository.taSkriveLås(originalBehandling);
         behandlingRepository.lagre(originalBehandling, lås);
@@ -133,9 +136,9 @@ public class KontrollerFaktaRevurderingStegImplTest {
             .medFørsteLovligeUttaksdag(LocalDate.now())
             .medMottattDato(LocalDate.now())
             .build();
-        repositoryProvider.getUttakRepository().lagreUttaksperiodegrense(originalBehandling, uttaksperiodegrense);
+        resultatRepositoryProvider.getUttakRepository().lagreUttaksperiodegrense(originalBehandling, uttaksperiodegrense);
         // Legg til Opptjeningsperidoe -> dessverre ikke tilgjengelig i scenariobygger
-        repositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(originalBehandling, LocalDate.now().minusYears(1), LocalDate.now());
+        resultatRepositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(originalBehandling.getBehandlingsresultat(), LocalDate.now().minusYears(1), LocalDate.now());
         //Legg til fordelingsperiode
 
         ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
@@ -151,7 +154,7 @@ public class KontrollerFaktaRevurderingStegImplTest {
         builder.medSykemelding(sykemeldingBuilder);
         revurderingScenario.medSykemeldinger(builder);
 
-        behandling = revurderingScenario.lagre(repositoryProvider);
+        behandling = revurderingScenario.lagre(repositoryProvider, resultatRepositoryProvider);
         //kopierer ytelsefordeling grunnlag
 
         // Nødvendig å sette aktivt steg for KOFAK revurdering

@@ -42,8 +42,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningVersjonType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
@@ -74,7 +76,8 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     private MedlemskapRepository medlemskapRepository = repositoryProvider.getMedlemskapRepository();
     private VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
@@ -100,7 +103,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
             .medArbeidsgiver(Arbeidsgiver.person(new AktørId("1234")));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         avslutterBehandlingOgFagsak(scenario, behandling);
 
         Behandling revudering = opprettRevudering(behandling);
@@ -131,7 +134,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
             .medArbeidsgiver(Arbeidsgiver.person(søkerAktørId));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
 
         PersonInformasjonBuilder personInformasjonBuilder = PersonInformasjonBuilder.oppdater(Optional.of(personopplysningGrunnlag.getRegisterVersjon()), PersonopplysningVersjonType.REGISTRERT);
@@ -166,7 +169,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
             .medArbeidsgiver(Arbeidsgiver.person(søkerAktørId));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
 
         PersonInformasjonBuilder personInformasjonBuilder = PersonInformasjonBuilder.oppdater(Optional.of(personopplysningGrunnlag.getRegisterVersjon()), PersonopplysningVersjonType.REGISTRERT);
@@ -201,7 +204,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
         DatoIntervallEntitet tredjeÅr = DatoIntervallEntitet.fraOgMedTilOgMed(iDag.plusYears(2), iDag.plusYears(3));
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         PersonopplysningGrunnlag personopplysningGrunnlag = personopplysningRepository.hentPersonopplysninger(behandling);
 
         PersonInformasjonBuilder personInformasjonBuilder = PersonInformasjonBuilder.oppdater(Optional.of(personopplysningGrunnlag.getRegisterVersjon()), PersonopplysningVersjonType.REGISTRERT);
@@ -228,7 +231,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Virksomhet virksomhet = opprettVirksomhet();
         opprettInntekt(scenario.getDefaultBrukerAktørId(), scenario, virksomhet, idag, false);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         avslutterBehandlingOgFagsak(scenario, behandling);
 
         Behandling revudering = opprettRevudering(behandling);
@@ -252,7 +255,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         //tester overlapp
         opprettInntekt(scenario.getDefaultBrukerAktørId(), scenario, virksomhet, idag, true);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         avslutterBehandlingOgFagsak(scenario, behandling);
 
         Behandling revudering = opprettRevudering(behandling);
@@ -299,7 +302,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
 
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
         behandlingRepository.lagre(behandling, lås);
-        repositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
+        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
 
         scenario.avsluttBehandling(repositoryProvider, behandling);
     }

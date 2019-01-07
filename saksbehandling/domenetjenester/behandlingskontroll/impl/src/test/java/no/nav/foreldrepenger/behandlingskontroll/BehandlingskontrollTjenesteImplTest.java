@@ -32,8 +32,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehand
 import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderingspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -109,7 +110,9 @@ public class BehandlingskontrollTjenesteImplTest {
     private InternalManipulerBehandling manipulerInternBehandling;
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
     @Inject
     private BehandlingskontrollRepository behandlingskontrollRepository;
@@ -117,7 +120,7 @@ public class BehandlingskontrollTjenesteImplTest {
     @Before
     public void setup() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, STEG_2);
 

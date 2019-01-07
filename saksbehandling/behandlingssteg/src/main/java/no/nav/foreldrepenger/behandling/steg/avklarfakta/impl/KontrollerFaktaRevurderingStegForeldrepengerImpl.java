@@ -29,11 +29,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -61,7 +62,7 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
 
     private KontrollerFaktaTjeneste tjeneste;
 
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
 
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
 
@@ -83,17 +84,18 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
     }
 
     @Inject
-    KontrollerFaktaRevurderingStegForeldrepengerImpl(BehandlingRepositoryProvider repositoryProvider,
+    KontrollerFaktaRevurderingStegForeldrepengerImpl(GrunnlagRepositoryProvider repositoryProvider,
+                                                     ResultatRepositoryProvider resultatRepositoryProvider,
                                                      @FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") @StartpunktRef KontrollerFaktaTjeneste tjeneste,
                                                      StartpunktTjeneste startpunktTjeneste, BehandlingÅrsakTjeneste behandlingÅrsakTjeneste,
                                                      BehandlingskontrollTjeneste behandlingskontrollTjeneste) {
         this.repositoryProvider = repositoryProvider;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.tjeneste = tjeneste;
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
         this.kodeverkTabellRepository = repositoryProvider.getKodeverkRepository().getKodeverkTabellRepository();
-        this.uttakRepository = repositoryProvider.getUttakRepository();
-        this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+        this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
+        this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
         this.startpunktTjeneste = startpunktTjeneste;
         this.behandlingÅrsakTjeneste = behandlingÅrsakTjeneste;
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;

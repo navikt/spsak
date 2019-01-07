@@ -6,20 +6,20 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 
 @ApplicationScoped
 public class SøknadDtoTjenesteImpl implements SøknadDtoTjeneste {
 
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
 
     SøknadDtoTjenesteImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public SøknadDtoTjenesteImpl(BehandlingRepositoryProvider repositoryProvider) {
+    public SøknadDtoTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider) {
         this.repositoryProvider = repositoryProvider;
     }
 

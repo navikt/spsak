@@ -14,7 +14,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltVerdiType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -43,7 +43,7 @@ public class AvklarSaksopplysningerOppdaterer implements AksjonspunktOppdaterer<
     }
 
     @Inject
-    public AvklarSaksopplysningerOppdaterer(BehandlingRepositoryProvider repositoryProvider, HistorikkTjenesteAdapter historikkAdapter, PersonopplysningTjeneste personopplysningTjeneste) {
+    public AvklarSaksopplysningerOppdaterer(GrunnlagRepositoryProvider repositoryProvider, HistorikkTjenesteAdapter historikkAdapter, PersonopplysningTjeneste personopplysningTjeneste) {
         this.historikkAdapter = historikkAdapter;
         this.personopplysningTjeneste = personopplysningTjeneste;
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();

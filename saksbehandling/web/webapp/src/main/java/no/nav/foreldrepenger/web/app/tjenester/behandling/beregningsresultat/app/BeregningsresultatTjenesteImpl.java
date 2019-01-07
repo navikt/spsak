@@ -7,12 +7,10 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.dto.BeregningsresultatEngangsstønadDto;
@@ -22,7 +20,7 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.dto
 public class BeregningsresultatTjenesteImpl implements BeregningsresultatTjeneste {
 
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
-    private BeregningsresultatFPRepository beregningsresultatFPRepository;
+    private BeregningsresultatRepository beregningsresultatFPRepository;
     private UttakRepository uttakRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
 
@@ -31,10 +29,12 @@ public class BeregningsresultatTjenesteImpl implements BeregningsresultatTjenest
     }
 
     @Inject
-    public BeregningsresultatTjenesteImpl(BehandlingRepositoryProvider behandlingRepositoryProvider, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
-        this.inntektArbeidYtelseRepository = behandlingRepositoryProvider.getInntektArbeidYtelseRepository();
-        this.beregningsresultatFPRepository = behandlingRepositoryProvider.getBeregningsresultatFPRepository();
-        this.uttakRepository = behandlingRepositoryProvider.getUttakRepository();
+    public BeregningsresultatTjenesteImpl(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
+                                          ResultatRepositoryProvider resultatRepositoryProvider,
+                                          SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
+        this.inntektArbeidYtelseRepository = grunnlagRepositoryProvider.getInntektArbeidYtelseRepository();
+        this.beregningsresultatFPRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
+        this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
     }
 
@@ -42,28 +42,13 @@ public class BeregningsresultatTjenesteImpl implements BeregningsresultatTjenest
     public Optional<BeregningsresultatMedUttaksplanDto> lagBeregningsresultatMedUttaksplan(Behandling behandling) {
         Optional<UttakResultatEntitet> uttakResultat = uttakRepository.hentUttakResultatHvisEksisterer(behandling);
         return uttakResultat
-            .flatMap(uttakResultatPlan -> beregningsresultatFPRepository.hentBeregningsresultatFP(behandling)
+            .flatMap(uttakResultatPlan -> beregningsresultatFPRepository.hentHvisEksisterer(behandling)
                 .flatMap(beregningsresultatFP -> inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling, skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling))
                     .map(inntektArbeidYtelseGrunnlag -> BeregningsresultatMedUttaksplanMapper.lagBeregningsresultatMedUttaksplan(behandling, beregningsresultatFP))));
     }
 
     @Override
     public Optional<BeregningsresultatEngangsstønadDto> lagBeregningsresultatEnkel(Behandling behandling) {
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
-        if (behandlingsresultat != null) {
-            BeregningResultat beregningResultat = behandlingsresultat.getBeregningResultat();
-            if (beregningResultat != null) {
-                Optional<Beregning> sisteBeregningOpt = beregningResultat.getSisteBeregning();
-                if (sisteBeregningOpt.isPresent()) {
-                    BeregningsresultatEngangsstønadDto dto = new BeregningsresultatEngangsstønadDto();
-                    Beregning beregning = sisteBeregningOpt.get();
-                    dto.setBeregnetTilkjentYtelse(beregning.getBeregnetTilkjentYtelse());
-                    dto.setAntallBarn((int) beregning.getAntallBarn());
-                    dto.setSatsVerdi(beregning.getSatsVerdi());
-                    return Optional.of(dto);
-                }
-            }
-        }
         return Optional.empty();
     }
 }

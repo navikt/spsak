@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fa
 import java.time.LocalDate;
 import java.util.List;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
 
 public class BeregningsgrunnlagDto {
     private LocalDate skjaeringstidspunktBeregning;

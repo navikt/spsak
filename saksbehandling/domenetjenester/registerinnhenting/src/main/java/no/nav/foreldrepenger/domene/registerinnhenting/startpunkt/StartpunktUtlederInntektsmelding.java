@@ -14,14 +14,14 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -30,7 +30,7 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 class StartpunktUtlederInntektsmelding {
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private FørstePermisjonsdagTjeneste førstePermisjonsdagTjeneste;
-    private BeregningsresultatFPRepository beregningsresultatFPRepository;
+    private BeregningsresultatRepository beregningsresultatFPRepository;
 
     StartpunktUtlederInntektsmelding() {
         // For CDI
@@ -39,7 +39,7 @@ class StartpunktUtlederInntektsmelding {
     @Inject
     StartpunktUtlederInntektsmelding(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
                                      FørstePermisjonsdagTjeneste førstePermisjonsdagTjeneste,
-                                     BeregningsresultatFPRepository beregningsresultatFPRepository) {
+                                     BeregningsresultatRepository beregningsresultatFPRepository) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.førstePermisjonsdagTjeneste = førstePermisjonsdagTjeneste;
         this.beregningsresultatFPRepository = beregningsresultatFPRepository;
@@ -155,7 +155,7 @@ class StartpunktUtlederInntektsmelding {
             return false;
         }
 
-        Optional<BeregningsresultatFP> origBeregningsresultatFP = beregningsresultatFPRepository.hentBeregningsresultatFP(orgigBehandling);
+        Optional<BeregningsresultatPerioder> origBeregningsresultatFP = beregningsresultatFPRepository.hentHvisEksisterer(orgigBehandling);
 
         if (!origBeregningsresultatFP.isPresent()) {
             return false;

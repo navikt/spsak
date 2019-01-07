@@ -16,11 +16,11 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.ForeslåBeregningsgrunnlag;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.wrapper.BeregningsgrunnlagRegelResultat;
 
@@ -34,16 +34,14 @@ public class ForeslåBeregningsgrunnlagStegImpl implements BeregningsgrunnlagSte
     private BehandlingRepository behandlingRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private ForeslåBeregningsgrunnlag foreslåBeregningsgrunnlag;
-    private BehandlingRepositoryProvider repositoryProvider;
 
     public ForeslåBeregningsgrunnlagStegImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public ForeslåBeregningsgrunnlagStegImpl(BehandlingRepositoryProvider repositoryProvider,
+    public ForeslåBeregningsgrunnlagStegImpl(ResultatRepositoryProvider repositoryProvider,
                                              ForeslåBeregningsgrunnlag foreslåBeregningsgrunnlag) {
-        this.repositoryProvider = repositoryProvider;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
         this.foreslåBeregningsgrunnlag = foreslåBeregningsgrunnlag;
@@ -65,7 +63,7 @@ public class ForeslåBeregningsgrunnlagStegImpl implements BeregningsgrunnlagSte
 
     @Override
     public void vedHoppOverBakover(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, BehandlingStegType tilSteg, BehandlingStegType fraSteg) {
-        RyddBeregningsgrunnlag ryddBeregningsgrunnlag = new RyddBeregningsgrunnlag(repositoryProvider, behandling, kontekst);
+        RyddBeregningsgrunnlag ryddBeregningsgrunnlag = new RyddBeregningsgrunnlag(behandlingRepository, beregningsgrunnlagRepository, behandling, kontekst);
         ryddBeregningsgrunnlag.ryddForeslåBeregningsgrunnlagVedTilbakeføring();
     }
 }

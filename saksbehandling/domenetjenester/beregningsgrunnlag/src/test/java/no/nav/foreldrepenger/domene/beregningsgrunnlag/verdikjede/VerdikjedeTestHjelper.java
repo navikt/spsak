@@ -17,14 +17,6 @@ import java.util.stream.Stream;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.ReferanseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Hjemmel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Sammenligningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.AktørInntektEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
@@ -41,11 +33,20 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektspostType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetKlassifisering;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Hjemmel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Sammenligningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -420,18 +421,18 @@ public class VerdikjedeTestHjelper {
         inntektArbeidYtelseRepository.lagre(behandling, inntektsmeldingBuilder.build());
     }
 
-    public static Behandling lagBehandlingForSN(BehandlingRepositoryProvider repositoryProvider,
-                                                ScenarioMorSøkerForeldrepenger scenario,
+    public static Behandling lagBehandlingForSN(GrunnlagRepositoryProvider repositoryProvider,
+                                                ResultatRepositoryProvider resultatRepositoryProvider, ScenarioMorSøkerForeldrepenger scenario,
                                                 BigDecimal skattbarInntekt, int førsteÅr) {
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseBuilder = scenario.getInntektArbeidYtelseScenarioTestBuilder().getKladd();
         for (LocalDate året = LocalDate.of(førsteÅr, Month.JANUARY, 1); året.getYear() < førsteÅr + 3; året = året.plusYears(1)) {
             lagInntektForSN(inntektArbeidYtelseBuilder, AKTØR_ID, året, skattbarInntekt);
         }
-        return scenario.lagre(repositoryProvider);
+        return scenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
-    public static Behandling lagBehandlingFor_AT_SN(BehandlingRepositoryProvider repositoryProvider,
-                                                    ScenarioMorSøkerForeldrepenger scenario,
+    public static Behandling lagBehandlingFor_AT_SN(GrunnlagRepositoryProvider repositoryProvider,
+                                                    ResultatRepositoryProvider resultatRepositoryProvider, ScenarioMorSøkerForeldrepenger scenario,
                                                     BigDecimal skattbarInntekt, int førsteÅr, LocalDate skjæringstidspunkt,
                                                     VirksomhetEntitet beregningVirksomhet,
                                                     BigDecimal inntektSammenligningsgrunnlag, BigDecimal inntektBeregningsgrunnlag) {
@@ -446,7 +447,7 @@ public class VerdikjedeTestHjelper {
             inntektSammenligningsgrunnlag, beregningVirksomhet);
         VerdikjedeTestHjelper.lagInntektForArbeidsforhold(inntektArbeidYtelseBuilder, AKTØR_ID, perioder,
             List.of(inntektBeregningsgrunnlag), beregningVirksomhet);
-        return scenario.lagre(repositoryProvider);
+        return scenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     public static void lagInntektForSN(InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder, AktørId aktørId,
@@ -462,7 +463,7 @@ public class VerdikjedeTestHjelper {
         inntektArbeidYtelseAggregatBuilder.leggTilAktørInntekt(aktørInntektBuilder);
     }
 
-    public static Behandling lagBehandlingFL(BehandlingRepositoryProvider repositoryProvider, ScenarioMorSøkerForeldrepenger scenario,
+    public static Behandling lagBehandlingFL(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider, ScenarioMorSøkerForeldrepenger scenario,
                                              BigDecimal inntektSammenligningsgrunnlag,
                                              BigDecimal inntektFrilans, VirksomhetEntitet beregningVirksomhet, LocalDate fraOgMed, LocalDate tilOgMed) {
 
@@ -475,7 +476,7 @@ public class VerdikjedeTestHjelper {
         VerdikjedeTestHjelper.lagInntektForSammenligning(inntektArbeidYtelseBuilder, AKTØR_ID, perioder,
             inntektSammenligningsgrunnlag, beregningVirksomhet);
 
-        return scenario.lagre(repositoryProvider);
+        return scenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     public static List<DatoIntervallEntitet> utledPerioderMellomFomTom(LocalDate fraOgMed, LocalDate tilOgMed) {
@@ -554,28 +555,28 @@ public class VerdikjedeTestHjelper {
         inntektArbeidYtelseAggregatBuilder.leggTilAktørInntekt(aktørInntektBuilder);
     }
 
-    public static void opprettInntektsmelding(BehandlingRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding) {
+    public static void opprettInntektsmelding(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding) {
         opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet, inntektInntektsmelding, null);
     }
 
-    public static void opprettInntektsmeldingMedRefusjonskrav(BehandlingRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet,
+    public static void opprettInntektsmeldingMedRefusjonskrav(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet,
                                                               BigDecimal inntektInntektsmelding, BigDecimal refusjonskrav) {
         opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet, inntektInntektsmelding, null, refusjonskrav);
     }
 
-    public static void opprettInntektsmeldingNaturalytelseBortfaller(BehandlingRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding,
+    public static void opprettInntektsmeldingNaturalytelseBortfaller(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding,
                                                                      BigDecimal naturalytelseBortfaller, LocalDate naturalytelseBortfallerDato) {
         opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet, inntektInntektsmelding,
             new NaturalYtelseEntitet(TIDENES_BEGYNNELSE, naturalytelseBortfallerDato, naturalytelseBortfaller, NaturalYtelseType.ANNET), null);
     }
 
-    public static void opprettInntektsmeldingNaturalytelseTilkommer(BehandlingRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding,
+    public static void opprettInntektsmeldingNaturalytelseTilkommer(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding,
                                                                     BigDecimal naturalytelseTilkommer, LocalDate naturalytelseTilkommerDato) {
         opprettInntektsmeldingMedRefusjonskrav(repositoryProvider, behandling, beregningVirksomhet, inntektInntektsmelding,
             new NaturalYtelseEntitet(naturalytelseTilkommerDato, Tid.TIDENES_ENDE, naturalytelseTilkommer, NaturalYtelseType.ANNET), null);
     }
 
-    public static void opprettInntektsmeldingMedRefusjonskrav(BehandlingRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding,
+    public static void opprettInntektsmeldingMedRefusjonskrav(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling, VirksomhetEntitet beregningVirksomhet, BigDecimal inntektInntektsmelding,
                                                               NaturalYtelseEntitet naturalYtelse, BigDecimal refusjonskrav) {
         lagreInntektsmelding(inntektInntektsmelding, behandling,
             repositoryProvider.getVirksomhetRepository(),

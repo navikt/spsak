@@ -7,14 +7,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapMa
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.AvklarFortsattMedlemskapAksjonspunktDto;
 
 class AvklarFortsattMedlemskapAksjonspunkt {
 
     private MedlemskapRepository medlemskapRepository;
 
-    AvklarFortsattMedlemskapAksjonspunkt(BehandlingRepositoryProvider repositoryProvider) {
+    AvklarFortsattMedlemskapAksjonspunkt(GrunnlagRepositoryProvider repositoryProvider) {
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
     }
 

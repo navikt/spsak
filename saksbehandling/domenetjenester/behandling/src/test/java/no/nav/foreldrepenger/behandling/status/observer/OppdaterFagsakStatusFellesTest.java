@@ -9,11 +9,10 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import no.nav.foreldrepenger.behandling.status.observer.OppdaterFagsakStatusFelles;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatusEventPubliserer;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.vedtak.felles.testutilities.Whitebox;
@@ -52,7 +51,7 @@ public class OppdaterFagsakStatusFellesTest {
         Whitebox.setInternalState(behandling.getBehandlingsresultat(), "behandlingVedtak", behandlingVedtak);
 
         int foreldelsesfristAntallÅr = 100; // Kun for teset
-        BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
 
 
         fagsakStatusFelles = new OppdaterFagsakStatusFelles(repositoryProvider, fagsakStatusEventPubliserer, foreldelsesfristAntallÅr);
@@ -66,7 +65,7 @@ public class OppdaterFagsakStatusFellesTest {
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
-        BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
 
         fagsakStatusFelles = new OppdaterFagsakStatusFelles(repositoryProvider, fagsakStatusEventPubliserer, foreldelsesfristAntallÅr);
 

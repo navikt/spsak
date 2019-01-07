@@ -11,7 +11,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltVerdiType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInnslagTekstBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.InngangsvilkårTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
@@ -32,7 +32,7 @@ public class SøkersOpplysningspliktOverstyringshåndterer extends AbstractOvers
     }
 
     @Inject
-    public SøkersOpplysningspliktOverstyringshåndterer(BehandlingRepositoryProvider repositoryProvider,
+    public SøkersOpplysningspliktOverstyringshåndterer(GrunnlagRepositoryProvider repositoryProvider,
                                                        HistorikkTjenesteAdapter historikkAdapter,
                                                        InngangsvilkårTjeneste inngangsvilkårTjeneste) {
         super(repositoryProvider, historikkAdapter, AksjonspunktDefinisjon.SØKERS_OPPLYSNINGSPLIKT_OVST);

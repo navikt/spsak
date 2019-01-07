@@ -42,8 +42,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderingspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
@@ -63,7 +65,8 @@ public class FremoverhoppTest {
     private EntityManager em = repoRule.getEntityManager();
     private KodeverkRepository kodeverkRepository = new KodeverkRepositoryImpl(em);
     private AksjonspunktRepository aksjonspunktRepository = new AksjonspunktRepositoryImpl(em, kodeverkRepository);
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(em);
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(em);
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(em);
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
 
     private BehandlingModellRepository behandlingModellRepository = new BehandlingModellRepositoryImpl(em);
@@ -207,7 +210,7 @@ public class FremoverhoppTest {
         AksjonspunktDefinisjon ad = aksjonspunktRepository.finnAksjonspunktDefinisjon(apKode);
         BehandlingStegType idSteg = behandlingRepository.finnBehandlingStegType(identifisertI.getKode());
 
-        Behandling ytelseBehandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider);
+        Behandling ytelseBehandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør().lagre(repositoryProvider, resultatRepositoryProvider);
         behandling = Behandling.nyBehandlingFor(ytelseBehandling.getFagsak(), TestBehandlingType.TEST).build();
         behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);

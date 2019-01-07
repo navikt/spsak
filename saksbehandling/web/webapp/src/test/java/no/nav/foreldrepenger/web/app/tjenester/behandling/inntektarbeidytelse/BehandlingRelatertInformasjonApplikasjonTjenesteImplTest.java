@@ -23,11 +23,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.IverksettingStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -41,7 +42,8 @@ import no.nav.vedtak.felles.testutilities.cdi.UnitTestInstanceImpl;
 @SuppressWarnings("deprecation")
 public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
     private static final Instance<Period> RELATERTE_YTELSER_VL_PERIODE_START = new UnitTestInstanceImpl<>(Period.parse("P36M"));
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    private ResultatRepositoryProvider resultatRepositoryProvider;
     private FagsakRepository fagsakRepositoryMock;
     private BehandlingRelatertInformasjonApplikasjonTjeneste behandlingRelatertInformasjonApplikasjonTjeneste;
     private BehandlingVedtakRepository behandlingVedtakRepositoryMock;
@@ -50,13 +52,14 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
 
     @Before
     public void setUp() throws Exception {
-        repositoryProvider = mock(BehandlingRepositoryProvider.class);
+        repositoryProvider = mock(GrunnlagRepositoryProvider.class);
+        resultatRepositoryProvider = mock(ResultatRepositoryProvider.class);
         behandlingRepository = mock(BehandlingRepository.class);
         when(repositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
         fagsakRepositoryMock = mock(FagsakRepository.class);
         behandlingVedtakRepositoryMock = mock(BehandlingVedtakRepository.class);
         when(repositoryProvider.getFagsakRepository()).thenReturn(fagsakRepositoryMock);
-        when(repositoryProvider.getBehandlingVedtakRepository()).thenReturn(behandlingVedtakRepositoryMock);
+        when(resultatRepositoryProvider.getVedtakRepository()).thenReturn(behandlingVedtakRepositoryMock);
         behandlingRelatertInformasjonApplikasjonTjeneste = new BehandlingRelatertInformasjonApplikasjonTjenesteImpl(repositoryProvider, RELATERTE_YTELSER_VL_PERIODE_START);
     }
 
@@ -108,7 +111,7 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
 
         when(fagsakRepositoryMock.hentForBruker(Mockito.any(AktørId.class))).thenReturn(asList(fagsakFødsel, lagFagsak(66L)));
         when(behandlingRepository.hentSisteBehandlingForFagsakId(anyLong())).thenReturn(Optional.of(lagBehandling(fagsakFødsel)));
-        when(behandlingVedtakRepositoryMock.hentBehandlingvedtakForBehandlingId(anyLong())).thenReturn(Optional.of(lagBehandlingVedtak(LocalDate.now().minusYears(4))));
+        when(behandlingVedtakRepositoryMock.hentVedtakFor(anyLong())).thenReturn(Optional.of(lagBehandlingVedtak(LocalDate.now().minusYears(4))));
 
         final List<TilgrensendeYtelserDto> resultatListe = behandlingRelatertInformasjonApplikasjonTjeneste.hentRelaterteYtelser(lagBehandling(fagsakFødsel), AKTØR_ID_99, false);
 

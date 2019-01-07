@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.SendVedtaksbrev;
 import no.nav.foreldrepenger.behandlingskontroll.task.BehandlingProsessTask;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTask;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
@@ -29,7 +29,7 @@ public class SendVedtaksbrevTask extends BehandlingProsessTask {
     }
 
     @Inject
-    public SendVedtaksbrevTask(SendVedtaksbrev tjeneste, BehandlingRepositoryProvider repositoryProvider) {
+    public SendVedtaksbrevTask(SendVedtaksbrev tjeneste, GrunnlagRepositoryProvider repositoryProvider) {
         super(repositoryProvider);
         this.tjeneste = tjeneste;
     }

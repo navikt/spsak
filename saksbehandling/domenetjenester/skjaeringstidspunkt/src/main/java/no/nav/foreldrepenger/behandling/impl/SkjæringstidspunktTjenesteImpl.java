@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.behandling.impl;
 import static no.nav.foreldrepenger.behandlingslager.uttak.IkkeOppfyltÅrsak.SØKNADSFRIST;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
@@ -14,9 +13,10 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sykefravær;
@@ -30,7 +30,6 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
-import no.nav.vedtak.konfig.KonfigVerdi;
 import no.nav.vedtak.konfig.Tid;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -40,8 +39,6 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
     private UttakRepository uttakRepository;
     private OpptjeningRepository opptjeningRepository;
     private SøknadRepository søknadRepository;
-    @SuppressWarnings("unused")
-    private Period antallMånederOpptjeningsperiode;
     private SykefraværRepository sykefraværRepository;
 
     SkjæringstidspunktTjenesteImpl() {
@@ -49,18 +46,16 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
     }
 
     @Inject
-    public SkjæringstidspunktTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
-                                          @KonfigVerdi(value = "opptjeningsperiode.lengde") Period antallMånederOpptjeningsperiode) {
-        this.uttakRepository = repositoryProvider.getUttakRepository();
-        this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+    public SkjæringstidspunktTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider) {
+        this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
+        this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
         this.sykefraværRepository = repositoryProvider.getSykefraværRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();
-        this.antallMånederOpptjeningsperiode = antallMånederOpptjeningsperiode;
     }
 
     @Override
     public LocalDate utledSkjæringstidspunktForForeldrepenger(Behandling behandling) {
-        final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling);
+        final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
         if (opptjening.isPresent()) {
             return opptjening.get().getTom().plusDays(1);
         }

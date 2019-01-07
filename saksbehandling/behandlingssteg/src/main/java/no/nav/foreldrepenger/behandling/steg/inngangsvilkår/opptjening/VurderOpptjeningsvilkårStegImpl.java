@@ -27,10 +27,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetKlassifisering;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -47,16 +48,18 @@ public class VurderOpptjeningsvilkårStegImpl extends InngangsvilkårStegImpl {
 
     private static final VilkårType OPPTJENINGSVILKÅRET = VilkårType.OPPTJENINGSVILKÅRET;
     private static List<VilkårType> STØTTEDE_VILKÅR = singletonList(OPPTJENINGSVILKÅRET);
-    private final BehandlingRepositoryProvider repositoryProvider;
+    private final GrunnlagRepositoryProvider repositoryProvider;
     private final OpptjeningRepository opptjeningRepository;
     private final AksjonspunktRepository aksjonspunktRepository;
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
     @Inject
-    public VurderOpptjeningsvilkårStegImpl(BehandlingRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer) {
+    public VurderOpptjeningsvilkårStegImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider, RegelOrkestrerer regelOrkestrerer) {
         super(repositoryProvider, regelOrkestrerer, BehandlingStegType.VURDER_OPPTJENINGSVILKÅR);
         this.repositoryProvider = repositoryProvider;
-        this.opptjeningRepository = this.repositoryProvider.getOpptjeningRepository();
-        aksjonspunktRepository = this.repositoryProvider.getAksjonspunktRepository();
+        this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
+        this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
+        this.resultatRepositoryProvider = resultatRepositoryProvider;
     }
 
     @Override
@@ -74,15 +77,17 @@ public class VurderOpptjeningsvilkårStegImpl extends InngangsvilkårStegImpl {
 
             aktiviteter.addAll(mapper.map(opres.getAkseptertMellomliggendePerioder(), OpptjeningAktivitetKlassifisering.MELLOMLIGGENDE_PERIODE));
 
-            opptjeningRepository.lagreOpptjeningResultat(behandling, totalOpptjeningResultat, aktiviteter);
+            opptjeningRepository.lagreOpptjeningResultat(behandling.getBehandlingsresultat(), totalOpptjeningResultat, aktiviteter);
 
         } else {
             // rydd bort tidligere aktiviteter
-            opptjeningRepository.lagreOpptjeningResultat(behandling, null, Collections.emptyList());
+            opptjeningRepository.lagreOpptjeningResultat(behandling.getBehandlingsresultat(), null, Collections.emptyList());
         }
     }
 
-    /** Overstyr stegresultat og sett en frist dersom vi må vente på opptjeningsopplysninger. */
+    /**
+     * Overstyr stegresultat og sett en frist dersom vi må vente på opptjeningsopplysninger.
+     */
     @Override
     protected BehandleStegResultat stegResultat(RegelResultat regelResultat) {
         BehandleStegResultat stegResultat = super.stegResultat(regelResultat);
@@ -111,7 +116,7 @@ public class VurderOpptjeningsvilkårStegImpl extends InngangsvilkårStegImpl {
     public void vedTransisjon(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, TransisjonType transisjonType, BehandlingStegType førsteSteg, BehandlingStegType sisteSteg, TransisjonType skalTil) {
         if (transisjonType.equals(TransisjonType.HOPP_OVER_BAKOVER)) {
             if (!(BehandlingStegType.VURDER_OPPTJENINGSVILKÅR.equals(førsteSteg) && skalTil.equals(TransisjonType.ETTER_UTGANG))) {
-                new RyddOpptjening(repositoryProvider, behandling, kontekst).ryddOppAktiviteter();
+                new RyddOpptjening(repositoryProvider, resultatRepositoryProvider, behandling, kontekst).ryddOppAktiviteter();
             }
         }
     }
@@ -136,7 +141,7 @@ public class VurderOpptjeningsvilkårStegImpl extends InngangsvilkårStegImpl {
 
     @Override
     public void vedHoppOverBakover(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, BehandlingStegType tilSteg, BehandlingStegType fraSteg) {
-        new RyddOpptjening(repositoryProvider, behandling, kontekst).ryddOppAktiviteter();
+        new RyddOpptjening(repositoryProvider, resultatRepositoryProvider, behandling, kontekst).ryddOppAktiviteter();
     }
 
     @Override

@@ -26,8 +26,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektspostType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -54,7 +56,8 @@ public class VurderOpptjeningsvilkårStegImplTest {
     @Rule
     public final RepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
 
@@ -108,17 +111,17 @@ public class VurderOpptjeningsvilkårStegImplTest {
             .medGrad(new Prosentsats(100));
         builder.medSykemelding(sykemeldingBuilder);
         scenario.medSykemeldinger(builder);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(),behandlingRepository.taSkriveLås(behandling));
 
         // Act
         // opprett opptjening
-        new FastsettOpptjeningsperiodeStegImpl(repositoryProvider, regelOrkestrerer)
+        new FastsettOpptjeningsperiodeStegImpl(repositoryProvider, resultatRepositoryProvider, regelOrkestrerer)
                 .utførSteg(kontekst);
 
         // vurder vilkåret
-        new VurderOpptjeningsvilkårStegImpl(repositoryProvider, regelOrkestrerer)
+        new VurderOpptjeningsvilkårStegImpl(repositoryProvider, resultatRepositoryProvider, regelOrkestrerer)
                 .utførSteg(kontekst);
     }
 

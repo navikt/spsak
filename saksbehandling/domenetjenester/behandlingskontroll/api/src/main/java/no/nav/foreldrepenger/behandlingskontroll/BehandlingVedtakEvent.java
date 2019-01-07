@@ -1,9 +1,9 @@
 package no.nav.foreldrepenger.behandlingskontroll;
 
-import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingEvent;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.domene.typer.AktørId;
 
 public class BehandlingVedtakEvent implements BehandlingEvent {
     private BehandlingVedtak vedtak;

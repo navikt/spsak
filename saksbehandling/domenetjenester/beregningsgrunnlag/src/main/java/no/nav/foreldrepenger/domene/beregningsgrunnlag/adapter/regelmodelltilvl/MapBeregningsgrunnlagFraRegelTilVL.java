@@ -16,22 +16,22 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.SatsType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Hjemmel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.PeriodeÅrsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Sammenligningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktivitetsAvtale;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Yrkesaktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.SatsRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.SatsType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Hjemmel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.PeriodeÅrsak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Sammenligningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.BeregningsperiodeTjeneste;
@@ -93,7 +93,7 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
 
     }
 
-    private BeregningRepository beregningRepository;
+    private SatsRepository satsRepository;
     private VirksomhetRepository virksomhetRepository;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
 
@@ -102,23 +102,23 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
     }
 
     @Inject
-    public MapBeregningsgrunnlagFraRegelTilVL(BehandlingRepositoryProvider repositoryProvider, InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste) {
-        this.beregningRepository = repositoryProvider.getBeregningRepository();
+    public MapBeregningsgrunnlagFraRegelTilVL(GrunnlagRepositoryProvider repositoryProvider, InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste) {
+        this.satsRepository = repositoryProvider.getSatsRepository();
         this.virksomhetRepository = repositoryProvider.getVirksomhetRepository();
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
     }
 
-    public no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag mapForeslåBeregningsgrunnlag(Beregningsgrunnlag resultatGrunnlag, String regelInput, List<RegelResultat> regelResultater, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag) {
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag nyttVLGrunnlag = eksisterendeVLGrunnlag.dypKopi();
+    public no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag mapForeslåBeregningsgrunnlag(Beregningsgrunnlag resultatGrunnlag, String regelInput, List<RegelResultat> regelResultater, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag) {
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag nyttVLGrunnlag = eksisterendeVLGrunnlag.dypKopi();
         return map(resultatGrunnlag, regelInput, regelResultater, nyttVLGrunnlag, true);
     }
 
-    public no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag mapFastsettBeregningsgrunnlag(Beregningsgrunnlag resultatGrunnlag, String regelInput, List<RegelResultat> regelResultater, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag) {
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag nyttVLGrunnlag = eksisterendeVLGrunnlag.dypKopi();
+    public no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag mapFastsettBeregningsgrunnlag(Beregningsgrunnlag resultatGrunnlag, String regelInput, List<RegelResultat> regelResultater, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag) {
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag nyttVLGrunnlag = eksisterendeVLGrunnlag.dypKopi();
         return map(resultatGrunnlag, regelInput, regelResultater, nyttVLGrunnlag, false);
     }
 
-    private no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag map(Beregningsgrunnlag resultatGrunnlag, String regelInput, List<RegelResultat> regelResultater, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag, boolean foreslå) {
+    private no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag map(Beregningsgrunnlag resultatGrunnlag, String regelInput, List<RegelResultat> regelResultater, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag, boolean foreslå) {
         mapSammenligningsgrunnlag(resultatGrunnlag.getSammenligningsGrunnlag(), eksisterendeVLGrunnlag);
 
         Objects.requireNonNull(resultatGrunnlag, "resultatGrunnlag");
@@ -172,7 +172,7 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
     }
 
     private void mapAktivitetStatuser(List<no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.AktivitetStatusMedHjemmel> aktivitetStatuser,
-                                      no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag, no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode beregningsgrunnlagPeriode) {
+                                      no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag, no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode beregningsgrunnlagPeriode) {
         for (no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.AktivitetStatusMedHjemmel regelStatus : aktivitetStatuser) {
             AktivitetStatus modellStatus = fraRegel(regelStatus.getAktivitetStatus(), beregningsgrunnlagPeriode);
             Hjemmel hjemmel = mapFraRegel(regelStatus.getHjemmel());
@@ -230,7 +230,7 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
         }
     }
 
-    private void fastsettAgreggerteVerdier(BeregningsgrunnlagPeriode periode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag) {
+    private void fastsettAgreggerteVerdier(BeregningsgrunnlagPeriode periode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag) {
         Optional<BigDecimal> bruttoPrÅr = periode.getBeregningsgrunnlagPrStatusOgAndelList().stream()
             .filter(bgpsa -> bgpsa.getBruttoPrÅr() != null)
             .map(BeregningsgrunnlagPrStatusOgAndel::getBruttoPrÅr)
@@ -372,7 +372,7 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
     }
 
     private BeregningsgrunnlagPeriode mapBeregningsgrunnlagPeriode(final no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode resultatGrunnlagPeriode,
-                                                                   String regelInput, RegelResultat regelResultat, final BeregningsgrunnlagPeriode vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag, boolean foreslå) {
+                                                                   String regelInput, RegelResultat regelResultat, final BeregningsgrunnlagPeriode vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag, boolean foreslå) {
         if (vlBGPeriode == null) {
             BeregningsgrunnlagPeriode periode = BeregningsgrunnlagPeriode.builder()
                 .medBeregningsgrunnlagPeriode(
@@ -420,7 +420,7 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
         return arbeidsforholdRef == null ? null : arbeidsforholdRef.getReferanse();
     }
 
-    private void mapSammenligningsgrunnlag(final SammenligningsGrunnlag resultatSammenligningsGrunnlag, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag) {
+    private void mapSammenligningsgrunnlag(final SammenligningsGrunnlag resultatSammenligningsGrunnlag, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag eksisterendeVLGrunnlag) {
         if (resultatSammenligningsGrunnlag != null) {
             Sammenligningsgrunnlag.builder()
                 .medSammenligningsperiode(
@@ -433,7 +433,7 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
         }
     }
 
-    public no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag mapForSkjæringstidspunktOgStatuser(Behandling behandling, AktivitetStatusModell regelmodell, Dekningsgrad dekningsgrad, List<String> regelInput, List<RegelResultat> regelresultater) {
+    public no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag mapForSkjæringstidspunktOgStatuser(Behandling behandling, AktivitetStatusModell regelmodell, Dekningsgrad dekningsgrad, List<String> regelInput, List<RegelResultat> regelresultater) {
         Objects.requireNonNull(regelmodell, "regelmodell");
         // Regelinput og regelresultat brukes kun til logging
         Objects.requireNonNull(regelInput, "regelInput");
@@ -447,9 +447,9 @@ public class MapBeregningsgrunnlagFraRegelTilVL {
             throw new IllegalStateException("Ugyldig kombinasjon av statuser: Kan ikke både ha status AAP og DP samtidig");
         }
 
-        BigDecimal grunnbeløp = BigDecimal.valueOf(beregningRepository.finnEksaktSats(SatsType.GRUNNBELØP, regelmodell.getSkjæringstidspunktForBeregning()).getVerdi());
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag =
-            no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag.builder()
+        BigDecimal grunnbeløp = BigDecimal.valueOf(satsRepository.finnEksaktSats(SatsType.GRUNNBELØP, regelmodell.getSkjæringstidspunktForBeregning()).getVerdi());
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag =
+            no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag.builder()
                 .medSkjæringstidspunkt(regelmodell.getSkjæringstidspunktForBeregning())
                 .medDekningsgrad(getDekningsdrad(dekningsgrad))
                 .medOpprinneligSkjæringstidspunkt(regelmodell.getSkjæringstidspunktForBeregning())

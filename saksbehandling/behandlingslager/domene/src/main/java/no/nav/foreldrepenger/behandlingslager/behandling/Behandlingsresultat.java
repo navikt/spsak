@@ -29,20 +29,21 @@ import org.hibernate.annotations.JoinFormula;
 import org.hibernate.annotations.Type;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense;
+
+// TODO: Flytt inn i resultat pakken når kun kan hentes fra eget repository
 
 @Entity(name = "Behandlingsresultat")
 @Table(name = "BEHANDLING_RESULTAT")
 public class Behandlingsresultat extends BaseEntitet {
 
     @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_RESULTAT")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING_RESULTAT")
     private Long id;
 
     @Version
@@ -55,13 +56,6 @@ public class Behandlingsresultat extends BaseEntitet {
         /* , nullable=false // kan være null, men når den er satt kan ikke oppdateres */
     )
     private VilkårResultat vilkårResultat;
-
-    @ManyToOne()
-    @JoinColumn(name = "beregning_resultat_id"
-        /* , updatable = false // får ikke satt denne til false, men skal aldri kunne endres dersom satt tidligere */
-        /* , nullable=false // kan være null, men når den er satt kan ikke oppdateres */
-    )
-    private BeregningResultat beregningResultat;
 
     /* bruker @ManyToOne siden JPA ikke støtter OneToOne join på non-PK column. */
     @ManyToOne(optional = false)
@@ -126,17 +120,6 @@ public class Behandlingsresultat extends BaseEntitet {
         return this.vilkårResultat;
     }
 
-    public BeregningResultat medOppdatertBeregningResultat(BeregningResultat nyttResultat) {
-        if (nyttResultat != null && beregningResultat != null && nyttResultat != beregningResultat) {
-            if (!nyttResultat.erLik(beregningResultat)) {
-                this.beregningResultat = nyttResultat;
-            }
-        } else {
-            this.beregningResultat = nyttResultat;
-        }
-        return this.beregningResultat;
-    }
-
     public Long getId() {
         return id;
     }
@@ -147,10 +130,6 @@ public class Behandlingsresultat extends BaseEntitet {
 
     public VilkårResultat getVilkårResultat() {
         return vilkårResultat;
-    }
-
-    public BeregningResultat getBeregningResultat() {
-        return beregningResultat;
     }
 
     /**
@@ -233,10 +212,6 @@ public class Behandlingsresultat extends BaseEntitet {
         return new Builder();
     }
 
-    public static Builder builderForBeregningResultat() {
-        return new Builder(BeregningResultat.builder());
-    }
-
     public static Builder builderFraEksisterende(Behandlingsresultat behandlingsresultat) {
         return new Builder(behandlingsresultat, false);
     }
@@ -268,15 +243,10 @@ public class Behandlingsresultat extends BaseEntitet {
     public static class Builder {
 
         private Behandlingsresultat behandlingsresultat = new Behandlingsresultat();
-        private BeregningResultat.Builder beregningResultatBuilder;
         private VilkårResultat.Builder vilkårResultatBuilder;
 
         Builder(VilkårResultat.Builder builder) {
             this.vilkårResultatBuilder = builder;
-        }
-
-        Builder(BeregningResultat.Builder builder) {
-            this.beregningResultatBuilder = builder;
         }
 
         Builder(Behandlingsresultat gammeltResultat, boolean endreEksisterende) {
@@ -286,10 +256,6 @@ public class Behandlingsresultat extends BaseEntitet {
             if (gammeltResultat != null && gammeltResultat.getVilkårResultat() != null) {
                 this.vilkårResultatBuilder = VilkårResultat
                     .builderFraEksisterende(gammeltResultat.getVilkårResultat());
-            }
-            if (gammeltResultat != null && gammeltResultat.getBeregningResultat() != null) {
-                this.beregningResultatBuilder = BeregningResultat
-                    .builderFraEksisterende(gammeltResultat.getBeregningResultat());
             }
         }
 
@@ -349,10 +315,6 @@ public class Behandlingsresultat extends BaseEntitet {
             if (vilkårResultatBuilder != null) {
                 VilkårResultat vilkårResultat = vilkårResultatBuilder.buildFor(behandlingsresultat);
                 behandlingsresultat.medOppdatertVilkårResultat(vilkårResultat);
-            }
-            if (beregningResultatBuilder != null) {
-                BeregningResultat beregningResultat = beregningResultatBuilder.buildFor(behandling);
-                behandlingsresultat.medOppdatertBeregningResultat(beregningResultat);
             }
             return behandlingsresultat;
         }

@@ -17,11 +17,11 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.web.app.rest.ResourceLink;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.AsyncPollingStatus;
@@ -40,19 +40,19 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private Unleash unleash;
 
-    private BeregningsresultatFPRepository beregningsresultatRepository;
+    private BeregningsresultatRepository beregningsresultatRepository;
 
     BehandlingDtoTjenesteImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public BehandlingDtoTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public BehandlingDtoTjenesteImpl(ResultatRepositoryProvider resultatRepositoryProvider,
                                      SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                      Unleash unleash) {
 
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        this.beregningsresultatRepository = repositoryProvider.getBeregningsresultatFPRepository();
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
+        this.beregningsresultatRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.unleash = unleash;
     }
@@ -187,7 +187,7 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
             dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsgrunnlag", "beregningsgrunnlag", idDto));
         }
 
-        Optional<BeregningsresultatFP> beregningsresultat = beregningsresultatRepository.hentBeregningsresultatFP(behandling);
+        Optional<BeregningsresultatPerioder> beregningsresultat = beregningsresultatRepository.hentHvisEksisterer(behandling);
         if (beregningsresultat.isPresent()) {
             dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsresultat/foreldrepenger", "beregningsresultat-foreldrepenger", idDto));
         }

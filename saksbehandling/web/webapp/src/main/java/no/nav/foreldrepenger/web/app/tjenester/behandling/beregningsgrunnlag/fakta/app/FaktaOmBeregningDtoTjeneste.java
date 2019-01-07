@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fa
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.FaktaOmBeregningDto;
 
 public interface FaktaOmBeregningDtoTjeneste {

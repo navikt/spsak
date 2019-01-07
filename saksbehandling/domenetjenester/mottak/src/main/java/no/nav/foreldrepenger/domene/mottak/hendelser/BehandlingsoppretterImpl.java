@@ -28,12 +28,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -70,7 +71,8 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
     }
 
     @Inject
-    public BehandlingsoppretterImpl(BehandlingRepositoryProvider behandlingRepositoryProvider,
+    public BehandlingsoppretterImpl(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
+                                    ResultatRepositoryProvider resultatRepositoryProvider,
                                     BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                     RevurderingTjenesteProvider revurderingTjenesteProvider,
                                     DokumentPersistererTjeneste dokumentPersistererTjeneste,
@@ -83,14 +85,14 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
         this.dokumentPersistererTjeneste = dokumentPersistererTjeneste;
         this.prosessTaskRepository = prosessTaskRepository;
-        this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
         this.mottatteDokumentTjeneste = mottatteDokumentTjeneste;
-        this.aksjonspunktRepository = behandlingRepositoryProvider.getAksjonspunktRepository();
-        this.søknadRepository = behandlingRepositoryProvider.getSøknadRepository();
-        this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
+        this.aksjonspunktRepository = grunnlagRepositoryProvider.getAksjonspunktRepository();
+        this.søknadRepository = grunnlagRepositoryProvider.getSøknadRepository();
+        this.kodeverkRepository = grunnlagRepositoryProvider.getKodeverkRepository();
         this.behandlendeEnhetTjeneste = behandlendeEnhetTjeneste;
-        this.revurderingRepository = behandlingRepositoryProvider.getBehandlingRevurderingRepository();
-        this.behandlingVedtakRepository = behandlingRepositoryProvider.getBehandlingVedtakRepository();
+        this.revurderingRepository = grunnlagRepositoryProvider.getBehandlingRevurderingRepository();
+        this.behandlingVedtakRepository = resultatRepositoryProvider.getVedtakRepository();
         this.historikkinnslagTjeneste = historikkinnslagTjeneste;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
     }
@@ -233,7 +235,7 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
 
     @Override
     public boolean erAvslåttFørstegangsbehandling(Behandling behandling) {
-        Boolean erVedtakAvslag = behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(behandling.getId())
+        Boolean erVedtakAvslag = behandlingVedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId())
             .map(BehandlingVedtak::getVedtakResultatType)
             .map(vrt -> VedtakResultatType.AVSLAG.equals(vrt)).orElse(Boolean.FALSE);
         return erVedtakAvslag && behandling.getType().equals(BehandlingType.FØRSTEGANGSSØKNAD);

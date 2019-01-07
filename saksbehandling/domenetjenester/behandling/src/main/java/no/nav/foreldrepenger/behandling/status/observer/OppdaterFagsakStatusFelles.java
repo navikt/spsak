@@ -9,8 +9,8 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
@@ -29,7 +29,7 @@ public class OppdaterFagsakStatusFelles {
     }
 
     @Inject
-    public OppdaterFagsakStatusFelles(BehandlingRepositoryProvider provider,
+    public OppdaterFagsakStatusFelles(GrunnlagRepositoryProvider provider,
                                       FagsakStatusEventPubliserer fagsakStatusEventPubliserer,
                                       @KonfigVerdi("foreldelsesfrist.foreldrenger.år") Integer foreldelsesfristFP) {
         this.fagsakRepository = provider.getFagsakRepository();

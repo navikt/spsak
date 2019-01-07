@@ -1,5 +1,7 @@
 package no.nav.vedtak.kafka;
 
+import static org.apache.kafka.common.requests.DeleteAclsResponse.log;
+
 import java.util.Properties;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -46,7 +48,16 @@ public abstract class KafkaConsumer {
 
         final Topology topology = builder.build();
         streams = new KafkaStreams(topology, props);
-        streams.setUncaughtExceptionHandler((t, e) -> LOGGER.error("Feil ved consumering av kafka-topic " + topic, e));
+        streams.setUncaughtExceptionHandler((t, e) -> LOGGER.warn("Feil ved consumering av kafka-topic " + topic, e));
+
+        streams.setStateListener((newState, oldState) -> {
+            LOGGER.info("Stream changed state from {} to {}", oldState, newState);
+            if (newState == KafkaStreams.State.ERROR) {
+                // if the stream has died there is no reason to keep spinning
+                log.warn("No reason to keep living, closing stream");
+                streams.close();
+            }
+        });
     }
 
     protected String getTopic() {
@@ -57,10 +68,19 @@ public abstract class KafkaConsumer {
 
     public void start() {
         streams.start();
+        log.info("Starter konsumering av {}, tilstand={}", topic, getTilstand());
     }
 
     public void stop() {
         streams.close();
+    }
+
+    public KafkaStreams.State getTilstand() {
+        return streams.state();
+    }
+
+    public boolean isAlive() {
+        return streams.state().isRunning();
     }
 
 }

@@ -22,8 +22,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
@@ -66,7 +66,7 @@ public class YtelseForretningshendelseHåndterer implements ForretningshendelseH
     }
 
     @Inject
-    public YtelseForretningshendelseHåndterer(BehandlingRepositoryProvider provider,
+    public YtelseForretningshendelseHåndterer(GrunnlagRepositoryProvider provider,
                                               Behandlingsoppretter behandlingsoppretter,
                                               Kompletthetskontroller kompletthetskontroller,
                                               Endringskontroller endringskontroller,

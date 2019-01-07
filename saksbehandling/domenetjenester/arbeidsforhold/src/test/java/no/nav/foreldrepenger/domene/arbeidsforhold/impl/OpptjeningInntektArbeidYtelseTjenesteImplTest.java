@@ -40,11 +40,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
@@ -72,16 +74,17 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final LocalDate skjæring = LocalDate.now();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     private FagsakRepository fagsakRepository = new FagsakRepositoryImpl(repoRule.getEntityManager());
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
-    private final AksjonspunktutlederForVurderOpptjening aksjonspunktutlederForVurderOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
+    private final AksjonspunktutlederForVurderOpptjening aksjonspunktutlederForVurderOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
     private InntektArbeidYtelseTjeneste tjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, aksjonspunktutlederForVurderOpptjening);
-    private OpptjeningsperioderTjeneste asdf = new OpptjeningsperioderTjenesteImpl(tjeneste, repositoryProvider, aksjonspunktutlederForVurderOpptjening);
-    private OpptjeningInntektArbeidYtelseTjeneste opptjeningTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(tjeneste, repositoryProvider, asdf);
+    private OpptjeningsperioderTjeneste asdf = new OpptjeningsperioderTjenesteImpl(tjeneste, repositoryProvider, resultatRepositoryProvider, aksjonspunktutlederForVurderOpptjening);
+    private OpptjeningInntektArbeidYtelseTjeneste opptjeningTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(tjeneste, resultatRepositoryProvider, asdf);
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-    private OpptjeningRepository opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+    private OpptjeningRepository opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
     private String AREBIDSFORHOLD_ID = "1";
     private AktørId AKTØRID = new AktørId("1");
 
@@ -199,7 +202,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
 
         scenario.medRegisterOpplysninger(personInformasjon);
 
-        final Behandling behandling = scenario.lagre(repositoryProvider);
+        final Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(skjæring.minusMonths(3), skjæring);
 
         final Virksomhet virksomhet = opprettVirksomhet();
@@ -213,7 +216,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             RelatertYtelseTilstand.LØPENDE, "1222433", RelatertYtelseType.SYKEPENGER));
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling, skjæring.minusDays(30), skjæring);
+        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
 
         // Act
         Optional<Ytelse> sisteYtelseOpt = opptjeningTjeneste.hentSisteInfotrygdYtelseFørSkjæringstidspunktForOpptjening(behandling);
@@ -237,7 +240,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
 
         scenario.medRegisterOpplysninger(personInformasjon);
 
-        final Behandling behandling = scenario.lagre(repositoryProvider);
+        final Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(skjæring.minusMonths(3), skjæring);
 
         final Virksomhet virksomhet = opprettVirksomhet();
@@ -255,7 +258,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             RelatertYtelseTilstand.AVSLUTTET, "123253254", RelatertYtelseType.SYKEPENGER));
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling, skjæring.minusDays(30), skjæring);
+        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -280,7 +283,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
 
         scenario.medRegisterOpplysninger(personInformasjon);
 
-        final Behandling behandling = scenario.lagre(repositoryProvider);
+        final Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(skjæring.minusMonths(3), skjæring);
 
         final Virksomhet virksomhet = opprettVirksomhet();
@@ -298,7 +301,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             leggTilYtelse(builder.getAktørYtelseBuilder(søkerAktørId), skjæring.minusDays(9), skjæring.minusDays(1), RelatertYtelseTilstand.AVSLUTTET, "123253254", RelatertYtelseType.SYKEPENGER));
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling, skjæring.minusDays(30), skjæring);
+        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -322,7 +325,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             .build();
 
         scenario.medRegisterOpplysninger(personInformasjon);
-        final Behandling behandling = scenario.lagre(repositoryProvider);
+        final Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(skjæring.minusMonths(3), skjæring);
 
         final Virksomhet virksomhet = opprettVirksomhet();
@@ -336,7 +339,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             leggTilYtelse(builder.getAktørYtelseBuilder(søkerAktørId), skjæring.minusDays(20), skjæring.minusDays(10), RelatertYtelseTilstand.AVSLUTTET, "1222433", RelatertYtelseType.SYKEPENGER));
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling, skjæring.minusDays(30), skjæring);
+        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -359,7 +362,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             .build();
 
         scenario.medRegisterOpplysninger(personInformasjon);
-        final Behandling behandling = scenario.lagre(repositoryProvider);
+        final Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(skjæring.minusMonths(3), skjæring);
 
         final Virksomhet virksomhet = opprettVirksomhet();
@@ -373,7 +376,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             leggTilYtelse(builder.getAktørYtelseBuilder(søkerAktørId), skjæring.minusDays(20), skjæring.minusDays(12), RelatertYtelseTilstand.AVSLUTTET, "1222433", RelatertYtelseType.SYKEPENGER));
 
         tjeneste.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling, skjæring.minusDays(30), skjæring);
+        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -396,7 +399,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             .build();
 
         scenario.medRegisterOpplysninger(personInformasjon);
-        final Behandling behandling = scenario.lagre(repositoryProvider);
+        final Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         DatoIntervallEntitet periode = DatoIntervallEntitet.fraOgMedTilOgMed(skjæring.minusMonths(3), skjæring);
 
         InntektArbeidYtelseAggregatBuilder builder = InntektArbeidYtelseAggregatBuilder
@@ -415,7 +418,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
         tjeneste.lagre(behandling, saksbehandling);
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling, skjæring.minusDays(30), skjæring);
+        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -463,7 +466,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
         final VilkårResultat nyttResultat = VilkårResultat.builder().buildFor(behandling);
         behandlingRepository.lagre(nyttResultat, behandlingRepository.taSkriveLås(behandling));
 
-        repositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(behandling, skjæring.minusMonths(10), skjæring);
+        resultatRepositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusMonths(10), skjæring);
         return behandling;
     }
 }

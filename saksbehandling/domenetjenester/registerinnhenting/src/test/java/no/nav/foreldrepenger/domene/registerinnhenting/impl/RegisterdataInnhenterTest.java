@@ -23,7 +23,7 @@ import no.nav.foreldrepenger.behandling.impl.OpplysningsPeriodeTjenesteImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
@@ -158,11 +158,11 @@ public class RegisterdataInnhenterTest {
     }
 
     private RegisterdataEndringshåndtererImpl lagRegisterdataInnhenter(AbstractTestScenario<?> scenario, Instance<String> durationInstance) {
-        BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
         return lagRegisterdataOppdaterer(repositoryProvider, durationInstance);
     }
 
-    private RegisterdataEndringshåndtererImpl lagRegisterdataOppdaterer(BehandlingRepositoryProvider repositoryProvider,
+    private RegisterdataEndringshåndtererImpl lagRegisterdataOppdaterer(GrunnlagRepositoryProvider repositoryProvider,
                                                                         Instance<String> durationInstance) {
 
         RegisterdataInnhenter innhenter = lagRegisterdataInnhenter(repositoryProvider);
@@ -171,7 +171,7 @@ public class RegisterdataInnhenterTest {
         return oppdaterer;
     }
 
-    private RegisterdataEndringshåndtererImpl lagRegisterdataOppdaterer(BehandlingRepositoryProvider repositoryProvider,
+    private RegisterdataEndringshåndtererImpl lagRegisterdataOppdaterer(GrunnlagRepositoryProvider repositoryProvider,
                                                                         Instance<String> durationInstance, RegisterdataInnhenter innhenter) {
 
         RegisterdataEndringshåndtererImpl oppdaterer = new RegisterdataEndringshåndtererImpl(
@@ -179,7 +179,7 @@ public class RegisterdataInnhenterTest {
         return oppdaterer;
     }
 
-    private RegisterdataInnhenterImpl lagRegisterdataInnhenter(BehandlingRepositoryProvider repositoryProvider) {
+    private RegisterdataInnhenterImpl lagRegisterdataInnhenter(GrunnlagRepositoryProvider repositoryProvider) {
         SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
         PersoninfoAdapter personinfoAdapter = mock(PersoninfoAdapter.class);
         MedlemTjeneste medlemTjeneste = mock(MedlemTjeneste.class);

@@ -7,7 +7,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaUtledereTjeneste;
 
 @FagsakYtelseTypeRef("FP")
@@ -21,9 +21,9 @@ public class DefaultKontrollerFaktaTjeneste extends KontrollerFaktaTjenesteImpl 
     }
 
     @Inject
-    public DefaultKontrollerFaktaTjeneste(BehandlingRepositoryProvider repositoryProvider,
-                                                 @FagsakYtelseTypeRef("FP") @BehandlingTypeRef KontrollerFaktaUtledereTjeneste utlederTjeneste,
-                                                 BehandlingskontrollTjeneste behandlingskontrollTjeneste) {
+    public DefaultKontrollerFaktaTjeneste(GrunnlagRepositoryProvider repositoryProvider,
+                                          @FagsakYtelseTypeRef("FP") @BehandlingTypeRef KontrollerFaktaUtledereTjeneste utlederTjeneste,
+                                          BehandlingskontrollTjeneste behandlingskontrollTjeneste) {
         super(repositoryProvider.getBehandlingRepository(), utlederTjeneste, behandlingskontrollTjeneste);
     }
 }

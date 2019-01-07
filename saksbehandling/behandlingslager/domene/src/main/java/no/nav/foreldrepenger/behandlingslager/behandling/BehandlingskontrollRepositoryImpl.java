@@ -13,8 +13,8 @@ import javax.persistence.EntityManager;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 
@@ -46,7 +46,7 @@ public class BehandlingskontrollRepositoryImpl implements BehandlingskontrollRep
         this.entityManager = Objects.requireNonNull(entityManager, "entityManager");
     }
     
-    public BehandlingskontrollRepositoryImpl(BehandlingRepositoryProvider repositoryProvider, EntityManager entityManager) {
+    public BehandlingskontrollRepositoryImpl(GrunnlagRepositoryProvider repositoryProvider, EntityManager entityManager) {
         this(repositoryProvider.getBehandlingRepository(), repositoryProvider.getBehandlingLåsRepository(), repositoryProvider.getKodeverkRepository(), entityManager);
     }
 

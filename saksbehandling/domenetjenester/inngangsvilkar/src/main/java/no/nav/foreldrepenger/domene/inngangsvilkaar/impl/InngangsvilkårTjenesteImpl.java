@@ -15,10 +15,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -39,7 +39,7 @@ public class InngangsvilkårTjenesteImpl implements InngangsvilkårTjeneste {
     }
 
     @Inject
-    public InngangsvilkårTjenesteImpl(@Any Instance<Inngangsvilkår> alleInngangsvilkår, BehandlingRepositoryProvider repositoryProvider) {
+    public InngangsvilkårTjenesteImpl(@Any Instance<Inngangsvilkår> alleInngangsvilkår, GrunnlagRepositoryProvider repositoryProvider) {
         this.alleInngangsvilkår = alleInngangsvilkår;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();

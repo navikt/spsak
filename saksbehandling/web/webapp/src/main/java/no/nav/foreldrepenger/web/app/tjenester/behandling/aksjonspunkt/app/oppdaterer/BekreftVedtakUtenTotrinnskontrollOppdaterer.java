@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.FellesTransisjoner;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktOppdaterer;
@@ -24,7 +24,7 @@ class BekreftVedtakUtenTotrinnskontrollOppdaterer extends AbstractVedtaksbrevOve
     }
 
     @Inject
-    public BekreftVedtakUtenTotrinnskontrollOppdaterer(BehandlingRepositoryProvider repositoryProvider,
+    public BekreftVedtakUtenTotrinnskontrollOppdaterer(GrunnlagRepositoryProvider repositoryProvider,
                                                        HistorikkTjenesteAdapter historikkApplikasjonTjeneste,
                                                        TotrinnTjeneste totrinnTjeneste,
                                                        VedtakTjeneste vedtakTjeneste) {

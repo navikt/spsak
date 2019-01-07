@@ -21,12 +21,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.PeriodeÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Gradering;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.GraderingEntitet;
@@ -36,8 +30,16 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Refusjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.RefusjonEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.PeriodeÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
@@ -65,7 +67,8 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     private final EntityManager entityManager = repoRule.getEntityManager();
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(entityManager);
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     @Inject
     private FastsettBeregningsgrunnlagPerioderTjenesteImpl tjeneste;
 
@@ -91,7 +94,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
             .medArbeidsgiver(Arbeidsgiver.person(AKTØR_ID));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT);
     }
 
@@ -100,7 +103,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BigDecimal inntekt = BigDecimal.valueOf(23987);
         inntektsmeldingTestUtil.opprettInntektsmelding(behandling, ORG_NUMMER, SKJÆRINGSTIDSPUNKT, inntekt, inntekt);
@@ -119,7 +122,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BigDecimal inntekt = BigDecimal.valueOf(40000);
         NaturalYtelse naturalYtelseTilkommer = new NaturalYtelseEntitet(SKJÆRINGSTIDSPUNKT.plusDays(30), Tid.TIDENES_ENDE, BigDecimal.valueOf(350), NaturalYtelseType.ELEKTRISK_KOMMUNIKASJON);
@@ -140,7 +143,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BigDecimal inntekt = BigDecimal.valueOf(40000);
         NaturalYtelse naturalYtelseBortfall = new NaturalYtelseEntitet(SKJÆRINGSTIDSPUNKT.minusYears(2), SKJÆRINGSTIDSPUNKT.plusDays(30), BigDecimal.valueOf(350), NaturalYtelseType.ELEKTRISK_KOMMUNIKASJON);
@@ -161,7 +164,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BigDecimal inntekt = BigDecimal.valueOf(40000);
         NaturalYtelse naturalYtelseBortfalt = new NaturalYtelseEntitet(SKJÆRINGSTIDSPUNKT.minusYears(2), SKJÆRINGSTIDSPUNKT.plusDays(30), BigDecimal.valueOf(350), NaturalYtelseType.ELEKTRISK_KOMMUNIKASJON);
@@ -184,7 +187,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BigDecimal inntekt = BigDecimal.valueOf(40000);
         inntektsmeldingTestUtil.opprettInntektsmelding(behandling, ORG_NUMMER, SKJÆRINGSTIDSPUNKT, inntekt, inntekt, SKJÆRINGSTIDSPUNKT.plusDays(100));
@@ -204,7 +207,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT);
 
         BigDecimal inntekt1 = BigDecimal.valueOf(90000);
@@ -297,7 +300,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT);
 
         BigDecimal inntekt1 = BigDecimal.valueOf(90000);
@@ -448,7 +451,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
         Beregningsgrunnlag beregningsgrunnlag = lagBeregningsgrunnlag();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         BigDecimal inntekt = BigDecimal.valueOf(40000);
         List<Refusjon> refusjonsListe = Arrays.asList(
             new RefusjonEntitet(BigDecimal.valueOf(20000), SKJÆRINGSTIDSPUNKT.plusMonths(3)),
@@ -501,7 +504,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
             .leggTilBeregningsgrunnlagPeriode(periode1)
             .leggTilBeregningsgrunnlagPeriode(periode2)
             .build();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Assert
         expectedException.expect(TekniskException.class);

@@ -19,10 +19,11 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryFeil;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.IverksettingStatus;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
@@ -45,13 +46,14 @@ public class AvsluttBehandlingImpl implements AvsluttBehandling {
     }
 
     @Inject
-    public AvsluttBehandlingImpl(BehandlingRepositoryProvider repositoryProvider,
+    public AvsluttBehandlingImpl(GrunnlagRepositoryProvider repositoryProvider,
+                                 ResultatRepositoryProvider resultatRepositoryProvider,
                                  BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                  BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer, ProsessTaskRepository prosessTaskRepository) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
-        this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
+        this.behandlingVedtakRepository = resultatRepositoryProvider.getVedtakRepository();
         this.behandlingVedtakEventPubliserer = behandlingVedtakEventPubliserer;
         this.prosessTaskRepository = prosessTaskRepository;
     }
@@ -62,7 +64,7 @@ public class AvsluttBehandlingImpl implements AvsluttBehandling {
         BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(behandlingId);
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
 
-        BehandlingVedtak vedtak = behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(behandling.getId())
+        BehandlingVedtak vedtak = behandlingVedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId())
             .orElseThrow(() -> BehandlingRepositoryFeil.FACTORY.fantIkkeBehandlingVedtak(behandlingId).toException());
         vedtak.setIverksettingStatus(IverksettingStatus.IVERKSATT);
 
@@ -107,7 +109,7 @@ public class AvsluttBehandlingImpl implements AvsluttBehandling {
         }
         // Hvis finnes vedtak i status IKKE_IVERKSATT, returner eldste av disse
         Optional<BehandlingVedtak> vedtak = medVedtak.stream()
-            .map(b -> behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(b.getId()))
+            .map(b -> behandlingVedtakRepository.hentVedtakFor(b.getBehandlingsresultat().getId()))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .filter(v -> IverksettingStatus.IKKE_IVERKSATT.equals(v.getIverksettingStatus()))

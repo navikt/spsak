@@ -173,6 +173,9 @@
                         sequence-name="SEQ_SF_SYKEFRAVAER_PERIODE"/>
     <sequence-generator name="SEQ_SF_SYKEMELDINGER" allocation-size="50" sequence-name="SEQ_SF_SYKEMELDINGER"/>
     <sequence-generator name="SEQ_SF_SYKEMELDING" allocation-size="50" sequence-name="SEQ_SF_SYKEMELDING"/>
+    <sequence-generator name="SEQ_FR_FRAVAER_PERIODER" allocation-size="50" sequence-name="SEQ_FR_FRAVAER_PERIODER"/>
+    <sequence-generator name="SEQ_FR_FRAVAER_PERIODE" allocation-size="50" sequence-name="SEQ_FR_FRAVAER_PERIODE"/>
+    <sequence-generator name="SEQ_RES_FRAVAER" allocation-size="50" sequence-name="SEQ_RES_FRAVAER"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.Behandling"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType"/>
@@ -199,10 +202,10 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalRestriksjon" />
     
     <!-- Opptjening -->
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetKlassifisering"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering"/>
 
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadGrunnlagEntitet"/>
@@ -220,6 +223,11 @@
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak"/>
 
+    <!-- Sykefravær resultat -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.fravær.FraværResultatEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.fravær.FraværPerioderEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.fravær.FraværPeriodeEntitet"/>
+
     <!-- Medlemskap aggregat og grunnlag -->
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapPeriodeEntitet"/>
@@ -233,9 +241,9 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittTilknytningEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOppholdEntitet"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapBehandlingsgrunnlagEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioderEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPerioderEntitet"/>
 
     <!-- Personopplysning aggregat og grunnlag -->
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType"/>
@@ -323,11 +331,9 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Region"/>
 
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.Sats"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.SatsType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.Sats"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.SatsType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktType"/>
@@ -345,10 +351,10 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad"/>
 
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vedtak.Vedtaksbrev"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.IverksettingStatus"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkBegrunnelseType"/>
@@ -371,29 +377,29 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.kodeverk.KodelisteNavnI18N"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAndeltype"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.PeriodeÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriodeÅrsak"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Hjemmel"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Sammenligningsgrunnlag"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagFaktaOmBeregningTilfelle"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAndeltype"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.PeriodeÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriodeÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Hjemmel"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Sammenligningsgrunnlag"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagFaktaOmBeregningTilfelle"/>
 
 
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFPKobling"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepenger"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFeriepengerPrÅr"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsResultat"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepenger"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepengerPrÅr"/>
 
     <!-- Uttak av stønad -->
     <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType"/>

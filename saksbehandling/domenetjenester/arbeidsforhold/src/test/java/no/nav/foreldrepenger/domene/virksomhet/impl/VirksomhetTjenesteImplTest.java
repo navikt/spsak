@@ -12,8 +12,10 @@ import java.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepositoryImpl;
@@ -38,13 +40,14 @@ public class VirksomhetTjenesteImplTest {
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
     private VirksomhetRepository virksomhetRepository = new VirksomhetRepositoryImpl(repositoryRule.getEntityManager());
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
 
     @Test
     public void skal_hente_og_lagre_virksomhet_på_behandlingen() throws Exception {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        scenario.lagre(repositoryProvider);
+        scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         HentOrganisasjonResponse response = opprettResponse();
         OrganisasjonConsumer organisasjonConsumer = mock(OrganisasjonConsumer.class);
@@ -72,7 +75,7 @@ public class VirksomhetTjenesteImplTest {
     public void skal_håndtere_exceptions_fra_tjenesten() throws Exception {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        scenario.lagre(repositoryProvider);
+        scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         HentOrganisasjonResponse response = opprettResponse();
         OrganisasjonConsumer organisasjonConsumer = mock(OrganisasjonConsumer.class);

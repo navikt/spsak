@@ -13,13 +13,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsResultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
@@ -38,6 +39,7 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     private OpptjeningRepository opptjeningRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private UttakRepository uttakRepository;
+    private BeregningsresultatRepository beregningsresultatRepository;
 
     EndringsresultatSjekkerImpl() {
         // For CDI
@@ -47,13 +49,14 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     public EndringsresultatSjekkerImpl(PersonopplysningTjeneste personopplysningTjeneste,
                                        MedlemTjeneste medlemTjeneste,
                                        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                       BehandlingRepositoryProvider provider) {
+                                       ResultatRepositoryProvider resultatProvider) {
         this.personopplysningTjeneste = personopplysningTjeneste;
         this.medlemTjeneste = medlemTjeneste;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
-        this.opptjeningRepository = provider.getOpptjeningRepository();
-        this.beregningsgrunnlagRepository = provider.getBeregningsgrunnlagRepository();
-        this.uttakRepository = provider.getUttakRepository();
+        this.opptjeningRepository = resultatProvider.getOpptjeningRepository();
+        this.beregningsgrunnlagRepository = resultatProvider.getBeregningsgrunnlagRepository();
+        this.uttakRepository = resultatProvider.getUttakRepository();
+        this.beregningsresultatRepository = resultatProvider.getBeregningsresultatRepository();
     }
 
     static Long mapFraLocalDateTimeTilLong(LocalDateTime ldt) {
@@ -124,11 +127,10 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     }
 
     private EndringsresultatSnapshot lagBeregningResultatIdSnapshotAvTidsstempel(Behandling behandling) {
-        return Optional.ofNullable(behandling.getBehandlingsresultat())
-            .map(Behandlingsresultat::getBeregningResultat)
+        return beregningsresultatRepository.hentHvisEksistererFor(behandling.getBehandlingsresultat())
             .map(beregningResultat ->
-                EndringsresultatSnapshot.medSnapshot(BeregningResultat.class, hentLongVerdiAvEndretTid(beregningResultat)))
-            .orElse(EndringsresultatSnapshot.utenSnapshot(BeregningResultat.class));
+                EndringsresultatSnapshot.medSnapshot(BeregningsResultat.class, hentLongVerdiAvEndretTid(beregningResultat)))
+            .orElse(EndringsresultatSnapshot.utenSnapshot(BeregningsResultat.class));
     }
 
     private Long hentLongVerdiAvEndretTid(BaseEntitet entitet) {

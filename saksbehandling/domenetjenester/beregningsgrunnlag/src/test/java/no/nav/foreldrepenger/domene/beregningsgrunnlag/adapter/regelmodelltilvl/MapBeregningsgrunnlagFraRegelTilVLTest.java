@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.within;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.Period;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,13 +32,15 @@ import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
@@ -76,7 +77,8 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
     private VirksomhetEntitet virksomhet;
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     @Inject
     private MapBeregningsgrunnlagFraRegelTilVL mapBeregningsgrunnlagFraRegelTilVL;
     @Inject
@@ -91,7 +93,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
             .medArbeidsgiver(Arbeidsgiver.person(AKTØR_ID));
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         virksomhet = new VirksomhetEntitet.Builder()
                 .medOrgnr("42L")
                 .medNavn("VirksomhetNavn")
@@ -104,35 +106,35 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
 
     @Test
     public void testMappingBGForSN() {
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag vlBG = buildVLBG();
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag vlBG = buildVLBG();
 
         List<RegelResultat> regelresultater = Arrays.asList(new RegelResultat(ResultatBeregningType.BEREGNET, "sporing"));
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag mappedBG = new MapBeregningsgrunnlagFraRegelTilVL().mapFastsettBeregningsgrunnlag(buildRegelBGForSN(), "input", regelresultater, vlBG);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag mappedBG = new MapBeregningsgrunnlagFraRegelTilVL().mapFastsettBeregningsgrunnlag(buildRegelBGForSN(), "input", regelresultater, vlBG);
 
         assertThat(mappedBG).isNotSameAs(vlBG);
         assertThat(mappedBG.getSammenligningsgrunnlag().getSammenligningsperiodeFom()).isEqualTo(MINUS_YEARS_1);
         assertThat(mappedBG.getSammenligningsgrunnlag().getSammenligningsperiodeTom()).isEqualTo(MINUS_DAYS_20);
         assertThat(mappedBG.getSammenligningsgrunnlag().getRapportertPrÅr().doubleValue()).isEqualTo(42.0);
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGP = mappedBG.getBeregningsgrunnlagPerioder().get(0);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGP = mappedBG.getBeregningsgrunnlagPerioder().get(0);
         assertThat(vlBGP.getBruttoPrÅr().doubleValue()).isEqualTo(400000.42, within(0.01));
         assertThat(vlBGP.getBeregningsgrunnlagPrStatusOgAndelList()).hasSize(1);
         final BeregningsgrunnlagPrStatusOgAndel vlBGPStatus = vlBGP.getBeregningsgrunnlagPrStatusOgAndelList().get(0);
-        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE);
+        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE);
         assertVLBGPStatusSN(vlBGPStatus);
     }
 
     @Test
     public void testMappingBGForArbeidstaker() {
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag vlBG = buildVLBGForAT();
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag vlBG = buildVLBGForAT();
         List<RegelResultat> regelresultater = Arrays.asList(new RegelResultat(ResultatBeregningType.BEREGNET, "sporing"));
 
-        final SkjæringstidspunktTjenesteImpl skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
-        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
+        final SkjæringstidspunktTjenesteImpl skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
+        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
         InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         Beregningsgrunnlag resultatGrunnlag = buildRegelBGForAT();
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag mappedBG = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatGrunnlag, "input", regelresultater, vlBG);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag mappedBG = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatGrunnlag, "input", regelresultater, vlBG);
 
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGP = mappedBG.getBeregningsgrunnlagPerioder().get(0);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGP = mappedBG.getBeregningsgrunnlagPerioder().get(0);
 
         assertThat(vlBGP.getBeregningsgrunnlagPrStatusOgAndelList()).hasSize(2);
         final BeregningsgrunnlagPrStatusOgAndel vlBGPStatus1 = vlBGP.getBeregningsgrunnlagPrStatusOgAndelList().get(0);
@@ -143,21 +145,21 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
 
     @Test
     public void testMappingBGForATFLogSN() {
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag vlBG = buildVLBGForATFLogSN();
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag vlBG = buildVLBGForATFLogSN();
         List<RegelResultat> regelresultater = Arrays.asList(new RegelResultat(ResultatBeregningType.BEREGNET, "sporing"));
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag mappedBG = new MapBeregningsgrunnlagFraRegelTilVL().mapFastsettBeregningsgrunnlag(buildRegelBGForATFLogSN(), "input", regelresultater, vlBG);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag mappedBG = new MapBeregningsgrunnlagFraRegelTilVL().mapFastsettBeregningsgrunnlag(buildRegelBGForATFLogSN(), "input", regelresultater, vlBG);
 
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGP = mappedBG.getBeregningsgrunnlagPerioder().get(0);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGP = mappedBG.getBeregningsgrunnlagPerioder().get(0);
 
         assertThat(vlBGP.getBeregningsgrunnlagPrStatusOgAndelList()).hasSize(3);
         final BeregningsgrunnlagPrStatusOgAndel vlBGPStatus = vlBGP.getBeregningsgrunnlagPrStatusOgAndelList().get(0);
-        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE);
+        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE);
         assertVLBGPStatusSN(vlBGPStatus);
         final BeregningsgrunnlagPrStatusOgAndel vlBGPStatus1 = vlBGP.getBeregningsgrunnlagPrStatusOgAndelList().get(1);
-        assertThat(vlBGPStatus1.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
+        assertThat(vlBGPStatus1.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
         assertVLBGPStatusAT(vlBGPStatus1);
         final BeregningsgrunnlagPrStatusOgAndel vlBGPStatus2 = vlBGP.getBeregningsgrunnlagPrStatusOgAndelList().get(2);
-        assertThat(vlBGPStatus2.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER);
+        assertThat(vlBGPStatus2.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER);
         assertVLBGPStatusFL(vlBGPStatus2);
     }
 
@@ -172,7 +174,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
         iayTestUtil.byggArbeidForBehandling(behandling, skjæringstidspunkt, skjæringstidspunkt.minusYears(1), skjæringstidspunkt, null, Arbeidsgiver.person(new AktørId(aktørId)));
 
         // Act
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = mapBeregningsgrunnlagFraRegelTilVL
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = mapBeregningsgrunnlagFraRegelTilVL
             .mapForSkjæringstidspunktOgStatuser(behandling, regelmodell, Dekningsgrad.DEKNINGSGRAD_100, Arrays.asList(inputSkjæringstidspunkt, inputSkjæringstidspunkt), regelresultater);
 
         // Assert
@@ -180,7 +182,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
         assertThat(beregningsgrunnlag.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList()).hasSize(1);
         BeregningsgrunnlagPrStatusOgAndel andel = beregningsgrunnlag.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList().get(0);
         // Andel asserts
-        assertThat(andel.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
+        assertThat(andel.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
         // Arbeidsforhold asserts
         assertThat(andel.getBgAndelArbeidsforhold()).isPresent();
         BGAndelArbeidsforhold bga = andel.getBgAndelArbeidsforhold().get();
@@ -199,7 +201,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
         iayTestUtil.byggArbeidForBehandling(behandling, skjæringstidspunkt, skjæringstidspunkt.minusYears(1), skjæringstidspunkt, null, Arbeidsgiver.virksomhet(virksomhet));
 
         // Act
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = mapBeregningsgrunnlagFraRegelTilVL
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = mapBeregningsgrunnlagFraRegelTilVL
             .mapForSkjæringstidspunktOgStatuser(behandling, regelmodell, Dekningsgrad.DEKNINGSGRAD_100, Arrays.asList(inputSkjæringstidspunkt, inputSkjæringstidspunkt), regelresultater);
 
         // Assert
@@ -207,7 +209,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
         assertThat(beregningsgrunnlag.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList()).hasSize(1);
         BeregningsgrunnlagPrStatusOgAndel andel = beregningsgrunnlag.getBeregningsgrunnlagPerioder().get(0).getBeregningsgrunnlagPrStatusOgAndelList().get(0);
         // Andel asserts
-        assertThat(andel.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
+        assertThat(andel.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
         // Arbeidsforhold asserts
         assertThat(andel.getBgAndelArbeidsforhold()).isPresent();
         BGAndelArbeidsforhold bga = andel.getBgAndelArbeidsforhold().get();
@@ -217,7 +219,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
     }
 
     private void assertVLBGPStatusSN(BeregningsgrunnlagPrStatusOgAndel vlBGPStatus) {
-        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE);
+        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE);
         assertThat(vlBGPStatus.getInntektskategori()).isEqualTo(Inntektskategori.SELVSTENDIG_NÆRINGSDRIVENDE);
         assertThat(vlBGPStatus.getBeregnetPrÅr().doubleValue()).isEqualTo(400000.42, within(0.01));
         assertThat(vlBGPStatus.getBruttoPrÅr().doubleValue()).isEqualTo(400000.42, within(0.01));
@@ -229,7 +231,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
     }
 
     private void assertVLBGPStatusFL(BeregningsgrunnlagPrStatusOgAndel vlBGPStatus) {
-        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER);
+        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER);
         assertThat(vlBGPStatus.getInntektskategori()).isEqualTo(Inntektskategori.FRILANSER);
         assertThat(vlBGPStatus.getBgAndelArbeidsforhold().flatMap(BGAndelArbeidsforhold::getVirksomhet)).isEmpty();
         assertThat(vlBGPStatus.getBgAndelArbeidsforhold().flatMap(BGAndelArbeidsforhold::getArbeidsforholdRef)).isEmpty();
@@ -244,7 +246,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
     }
 
     private void assertVLBGPStatusAT(BeregningsgrunnlagPrStatusOgAndel vlBGPStatus) {
-        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
+        assertThat(vlBGPStatus.getAktivitetStatus()).isEqualTo(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER);
         assertThat(vlBGPStatus.getInntektskategori()).isEqualTo(Inntektskategori.ARBEIDSTAKER);
         assertThat(vlBGPStatus.getBgAndelArbeidsforhold().flatMap(BGAndelArbeidsforhold::getVirksomhet)).hasValueSatisfying(virksomhet ->
             assertThat(virksomhet.getOrgnr()).isEqualTo("42L"));
@@ -259,31 +261,31 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
         assertThat(vlBGPStatus.getDagsatsArbeidsgiver()).isEqualTo(10L);
     }
 
-    private no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag buildVLBG() {
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag vlBG = RegelMapperTestDataHelper.buildVLBeregningsgrunnlag();
+    private no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag buildVLBG() {
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag vlBG = RegelMapperTestDataHelper.buildVLBeregningsgrunnlag();
         buildVLBGAktivitetStatus(vlBG);
         buildVLBGPStatusForSN(buildVLBGPeriode(vlBG));
         return vlBG;
     }
 
-    private no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag buildVLBGForAT() {
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag vlBG = RegelMapperTestDataHelper.buildVLBeregningsgrunnlag();
+    private no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag buildVLBGForAT() {
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag vlBG = RegelMapperTestDataHelper.buildVLBeregningsgrunnlag();
         buildVLBGAktivitetStatus(vlBG);
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGPeriode = buildVLBGPeriode(vlBG);
-        buildVLBGPStatus(vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, MINUS_YEARS_2,
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGPeriode = buildVLBGPeriode(vlBG);
+        buildVLBGPStatus(vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, MINUS_YEARS_2,
             MINUS_YEARS_1, Arbeidsgiver.virksomhet(virksomhet), OpptjeningAktivitetType.ARBEID);
-        buildVLBGPStatus(vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER, Inntektskategori.FRILANSER, MINUS_YEARS_3, MINUS_YEARS_2);
+        buildVLBGPStatus(vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER, Inntektskategori.FRILANSER, MINUS_YEARS_3, MINUS_YEARS_2);
         return vlBG;
     }
 
-    private no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag buildVLBGForATFLogSN() {
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag vlBG = RegelMapperTestDataHelper.buildVLBeregningsgrunnlag();
+    private no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag buildVLBGForATFLogSN() {
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag vlBG = RegelMapperTestDataHelper.buildVLBeregningsgrunnlag();
         buildVLBGAktivitetStatus(vlBG);
-        final no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGPeriode = buildVLBGPeriode(vlBG);
+        final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode vlBGPeriode = buildVLBGPeriode(vlBG);
         buildVLBGPStatusForSN(vlBGPeriode);
-        buildVLBGPStatus(vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, MINUS_YEARS_2,
+        buildVLBGPStatus(vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, MINUS_YEARS_2,
             MINUS_YEARS_1, Arbeidsgiver.virksomhet(virksomhet), OpptjeningAktivitetType.ARBEID);
-        buildVLBGPStatus(vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER, Inntektskategori.FRILANSER, MINUS_YEARS_3, MINUS_YEARS_2);
+        buildVLBGPStatus(vlBGPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER, Inntektskategori.FRILANSER, MINUS_YEARS_3, MINUS_YEARS_2);
         return vlBG;
     }
 

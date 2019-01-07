@@ -12,11 +12,11 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
 import no.nav.foreldrepenger.domene.beregning.ytelse.FinnEndringsdatoBeregningsresultatFPTjeneste;
 import no.nav.foreldrepenger.domene.beregning.ytelse.FinnEndringsdatoFeil;
 import no.nav.fpsak.tidsserie.LocalDateSegment;
@@ -26,19 +26,19 @@ import no.nav.vedtak.feil.FeilFactory;
 @ApplicationScoped
 public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEndringsdatoBeregningsresultatFPTjeneste {
 
-    private BeregningsresultatFPRepository beregningsresultatFPRepository;
+    private BeregningsresultatRepository beregningsresultatFPRepository;
 
     FinnEndringsdatoBeregningsresultatFPTjenesteImpl() {
         //NOSONAR
     }
 
     @Inject
-    public FinnEndringsdatoBeregningsresultatFPTjenesteImpl(BehandlingRepositoryProvider repositoryProvider){
-        this.beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatFPRepository();
+    public FinnEndringsdatoBeregningsresultatFPTjenesteImpl(ResultatRepositoryProvider repositoryProvider) {
+        this.beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatRepository();
     }
 
     @Override
-    public Optional<LocalDate> finnEndringsdato(Behandling behandling, BeregningsresultatFP revurderingBeregningsresultat) {
+    public Optional<LocalDate> finnEndringsdato(Behandling behandling, BeregningsresultatPerioder revurderingBeregningsresultat) {
         if (behandling.getType().equals(BehandlingType.REVURDERING)) {
             return finnEndringsdatoForRevurdering(behandling, revurderingBeregningsresultat);
         } else {
@@ -46,10 +46,10 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEnd
         }
     }
 
-    private Optional<LocalDate> finnEndringsdatoForRevurdering(Behandling revurdering, BeregningsresultatFP revurderingBeregningsresultat){
+    private Optional<LocalDate> finnEndringsdatoForRevurdering(Behandling revurdering, BeregningsresultatPerioder revurderingBeregningsresultat) {
         Behandling originalBehandling = revurdering.getOriginalBehandling()
             .orElseThrow(() -> FeilFactory.create(FinnEndringsdatoFeil.class).manglendeOriginalBehandling(revurdering.getId()).toException());
-        BeregningsresultatFP beregningsresultatForOriginalBehandling = beregningsresultatFPRepository.hentBeregningsresultatFP(originalBehandling)
+        BeregningsresultatPerioder beregningsresultatForOriginalBehandling = beregningsresultatFPRepository.hentHvisEksisterer(originalBehandling)
             .orElseThrow(() -> FeilFactory.create(FinnEndringsdatoFeil.class).manglendeBeregningsresultat(originalBehandling.getId()).toException());
         List<BeregningsresultatPeriode> originalePerioder = beregningsresultatForOriginalBehandling.getBeregningsresultatPerioder();
         if (originalePerioder.isEmpty()) {
@@ -63,7 +63,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEnd
         return sjekkForEndringAvPerioderIBeregninsgsresultater(revurderingPerioder, originalePerioder);
     }
 
-    private Optional<LocalDate> sjekkForEndringAvPerioderIBeregninsgsresultater(List<BeregningsresultatPeriode> revurderingPerioder, List<BeregningsresultatPeriode>  originalePerioder) {
+    private Optional<LocalDate> sjekkForEndringAvPerioderIBeregninsgsresultater(List<BeregningsresultatPeriode> revurderingPerioder, List<BeregningsresultatPeriode> originalePerioder) {
         LocalDateTimeline<TidslinjePeriodeWrapper> union = opprettTidslinjeUnion(revurderingPerioder, originalePerioder);
         Optional<LocalDateSegment<TidslinjePeriodeWrapper>> first = union.toSegments().stream()
             .sorted(Comparator.comparing(LocalDateSegment::getFom))
@@ -101,7 +101,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEnd
 
     private boolean finnKorresponderendeAndel(BeregningsresultatAndel nyAndel, List<BeregningsresultatAndel> gamleAndeler) {
         long antallAndelerSomKorresponderer = gamleAndeler.stream().filter(gammelAndel ->
-                Objects.equals(nyAndel.erBrukerMottaker(), gammelAndel.erBrukerMottaker()) &&
+            Objects.equals(nyAndel.erBrukerMottaker(), gammelAndel.erBrukerMottaker()) &&
                 Objects.equals(nyAndel.getVirksomhet(), gammelAndel.getVirksomhet()) &&
                 Objects.equals(nyAndel.getArbeidsforholdRef(), gammelAndel.getArbeidsforholdRef()) &&
                 Objects.equals(nyAndel.getAktivitetStatus(), gammelAndel.getAktivitetStatus()) &&
@@ -113,7 +113,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEnd
         return antallAndelerSomKorresponderer == 1;
     }
 
-    private LocalDateTimeline<TidslinjePeriodeWrapper> opprettTidslinjeUnion(List<BeregningsresultatPeriode> revurderingPerioder, List<BeregningsresultatPeriode>  originalePerioder) {
+    private LocalDateTimeline<TidslinjePeriodeWrapper> opprettTidslinjeUnion(List<BeregningsresultatPeriode> revurderingPerioder, List<BeregningsresultatPeriode> originalePerioder) {
         LocalDateTimeline<BeregningsresultatPeriode> revurderingTidslinje = new LocalDateTimeline<>(revurderingPerioder.stream()
             .sorted(Comparator.comparing(BeregningsresultatPeriode::getBeregningsresultatPeriodeFom))
             .map(p -> new LocalDateSegment<>(p.getBeregningsresultatPeriodeFom(), p.getBeregningsresultatPeriodeTom(), p))
@@ -135,7 +135,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEnd
         private BeregningsresultatPeriode revurderingPeriode;
         private BeregningsresultatPeriode originalPeriode;
 
-        TidslinjePeriodeWrapper(BeregningsresultatPeriode revurderingPeriode, BeregningsresultatPeriode originalPeriode){
+        TidslinjePeriodeWrapper(BeregningsresultatPeriode revurderingPeriode, BeregningsresultatPeriode originalPeriode) {
             this.revurderingPeriode = revurderingPeriode;
             this.originalPeriode = originalPeriode;
         }

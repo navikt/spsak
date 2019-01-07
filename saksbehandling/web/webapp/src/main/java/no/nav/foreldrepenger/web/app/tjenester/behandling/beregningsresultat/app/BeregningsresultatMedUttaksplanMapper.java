@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandlingslager.Kopimaskin;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.dto.BeregningsresultatMedUttaksplanDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.dto.BeregningsresultatPeriodeAndelDto;
@@ -28,17 +28,17 @@ class BeregningsresultatMedUttaksplanMapper {
     }
 
     static BeregningsresultatMedUttaksplanDto lagBeregningsresultatMedUttaksplan(Behandling behandling,
-                                                                                 BeregningsresultatFP beregningsresultatFP) {
+                                                                                 BeregningsresultatPerioder beregningsresultat) {
         LocalDate opphørsdato = null; // FIXME SP: trenger opphørsdato og uttak modell
         return BeregningsresultatMedUttaksplanDto.build()
             .medOpphoersdato(opphørsdato)
-            .medPerioder(lagPerioder(beregningsresultatFP))
+            .medPerioder(lagPerioder(beregningsresultat))
             .create();
     }
 
-    static List<BeregningsresultatPeriodeDto> lagPerioder(BeregningsresultatFP beregningsresultatFP) {
+    static List<BeregningsresultatPeriodeDto> lagPerioder(BeregningsresultatPerioder beregningsresultat) {
         // FIXME SP: håndter resultat ifht. uttak andeler (her fjernet gammel foreldrepenger modell).
-        List<BeregningsresultatPeriode> beregningsresultatPerioder = beregningsresultatFP.getBeregningsresultatPerioder();
+        List<BeregningsresultatPeriode> beregningsresultatPerioder = beregningsresultat.getBeregningsresultatPerioder();
         Map<Tuple<AktivitetStatus, Optional<String>>, Optional<LocalDate>> andelTilSisteUtbetalingsdatoMap = finnSisteUtbetalingdatoForAlleAndeler(beregningsresultatPerioder);
         return beregningsresultatPerioder.stream()
             .sorted(Comparator.comparing(BeregningsresultatPeriode::getBeregningsresultatPeriodeFom))

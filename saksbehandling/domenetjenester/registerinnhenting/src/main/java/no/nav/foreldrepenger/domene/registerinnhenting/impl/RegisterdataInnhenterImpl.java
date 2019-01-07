@@ -35,8 +35,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMe
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -78,7 +78,7 @@ public class RegisterdataInnhenterImpl implements RegisterdataInnhenter {
                                      MedlemTjeneste medlemTjeneste,
                                      SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                      BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste,
-                                     BehandlingRepositoryProvider repositoryProvider,
+                                     GrunnlagRepositoryProvider repositoryProvider,
                                      SigrunTjeneste sigrunTjeneste,
                                      InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
                                      OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste) {

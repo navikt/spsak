@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
@@ -33,7 +33,7 @@ public class HenleggBehandlingTjenesteImpl implements HenleggBehandlingTjeneste 
     }
 
     @Inject
-    public HenleggBehandlingTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public HenleggBehandlingTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                                          BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                          ProsessTaskRepository prosessTaskRepository,
                                          SendVarselTjeneste varselTjeneste) {

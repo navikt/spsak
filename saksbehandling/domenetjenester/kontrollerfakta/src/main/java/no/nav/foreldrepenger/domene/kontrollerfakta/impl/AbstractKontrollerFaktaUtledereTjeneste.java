@@ -5,7 +5,7 @@ import java.util.List;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktUtleder;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktUtlederHolder;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaUtledereTjeneste;
 import no.nav.foreldrepenger.domene.kontrollerfakta.andreytelser.AksjonspunktUtlederForAndreYtelser;
 import no.nav.foreldrepenger.domene.kontrollerfakta.medlemskap.AksjonspunktutlederForMedlemskapSkjæringstidspunkt;
@@ -15,7 +15,7 @@ import no.nav.foreldrepenger.domene.kontrollerfakta.søknad.AksjonspunktUtlederF
 public abstract class AbstractKontrollerFaktaUtledereTjeneste implements KontrollerFaktaUtledereTjeneste {
 
 
-    AbstractKontrollerFaktaUtledereTjeneste(BehandlingRepositoryProvider repositoryProvider) {
+    AbstractKontrollerFaktaUtledereTjeneste(GrunnlagRepositoryProvider repositoryProvider) {
     }
 
     // Legg til aksjonspunktutledere som er felles for Førstegangsbehandling og Revurdering

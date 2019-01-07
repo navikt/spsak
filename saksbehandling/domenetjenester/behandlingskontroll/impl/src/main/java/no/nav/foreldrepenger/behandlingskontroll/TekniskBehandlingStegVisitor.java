@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.behandlingskontroll;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.TekniskRepository;
 import no.nav.vedtak.felles.jpa.savepoint.Work;
 import no.nav.vedtak.util.MdcExtendedLogContext;
@@ -20,7 +20,7 @@ public class TekniskBehandlingStegVisitor implements BehandlingModellVisitor {
     private final BehandlingStegVisitor stegVisitor;
     private final BehandlingskontrollKontekst kontekst;
 
-    public TekniskBehandlingStegVisitor(BehandlingRepositoryProvider repositoryProvider, BehandlingStegVisitor stegVisitor,
+    public TekniskBehandlingStegVisitor(GrunnlagRepositoryProvider repositoryProvider, BehandlingStegVisitor stegVisitor,
                                         BehandlingskontrollKontekst kontekst) {
         this.stegVisitor = stegVisitor;
         this.kontekst = kontekst;

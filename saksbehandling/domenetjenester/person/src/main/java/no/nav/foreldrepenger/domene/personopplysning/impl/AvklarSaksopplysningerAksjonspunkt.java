@@ -8,8 +8,8 @@ import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningAksjonspunktDto;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
@@ -17,7 +17,7 @@ class AvklarSaksopplysningerAksjonspunkt {
     private BehandlingsgrunnlagKodeverkRepository kodeverkRepository;
     private PersonopplysningRepository personopplysningRepository;
 
-    AvklarSaksopplysningerAksjonspunkt(BehandlingRepositoryProvider repositoryProvider) {
+    AvklarSaksopplysningerAksjonspunkt(GrunnlagRepositoryProvider repositoryProvider) {
         this.kodeverkRepository = repositoryProvider.getBehandlingsgrunnlagKodeverkRepository();
         this.personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
     }

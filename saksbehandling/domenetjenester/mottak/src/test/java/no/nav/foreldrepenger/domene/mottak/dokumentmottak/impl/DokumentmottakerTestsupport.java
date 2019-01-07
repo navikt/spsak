@@ -15,10 +15,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -52,7 +53,9 @@ public abstract class DokumentmottakerTestsupport {
     @Inject
     protected Kompletthetskontroller kompletthetskontroller;
     @Inject
-    protected BehandlingRepositoryProvider repositoryProvider;
+    protected GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    protected ResultatRepositoryProvider resultatRepositoryProvider;
     
     @Inject 
     protected BehandlingskontrollRepository behandlingskontrollRepository;
@@ -68,7 +71,7 @@ public abstract class DokumentmottakerTestsupport {
 
     private Behandling opprettBehandling(AbstractTestScenario<?> scenario, BehandlingType behandlingType, BehandlingResultatType behandlingResultatType, Avslagsårsak avslagsårsak, VedtakResultatType vedtakResultatType, LocalDate vedtaksdato) {
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()
             .medBehandlingResultatType(behandlingResultatType)
@@ -86,7 +89,7 @@ public abstract class DokumentmottakerTestsupport {
             .build();
 
         
-        repositoryProvider.getBehandlingVedtakRepository().lagre(originalVedtak, behandlingLås);
+        resultatRepositoryProvider.getVedtakRepository().lagre(originalVedtak, behandlingLås);
 
         VilkårResultat vilkårResultat = VilkårResultat.builder()
             .leggTilVilkår(VilkårType.SØKERSOPPLYSNINGSPLIKT, VilkårUtfallType.IKKE_OPPFYLT)

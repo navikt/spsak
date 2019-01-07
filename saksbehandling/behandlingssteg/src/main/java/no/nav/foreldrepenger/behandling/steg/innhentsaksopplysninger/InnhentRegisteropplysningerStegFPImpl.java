@@ -18,7 +18,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataInnhenter;
 
 @BehandlingStegRef(kode = "INREG")
@@ -36,7 +36,7 @@ public class InnhentRegisteropplysningerStegFPImpl implements InnhentRegisteropp
     }
 
     @Inject
-    public InnhentRegisteropplysningerStegFPImpl(BehandlingRepositoryProvider repositoryProvider,
+    public InnhentRegisteropplysningerStegFPImpl(GrunnlagRepositoryProvider repositoryProvider,
                                                  RegisterdataInnhenter registerdataInnhenter) {
 
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();

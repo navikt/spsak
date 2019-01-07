@@ -22,8 +22,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlagBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningVersjonType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -38,14 +40,15 @@ public class StatsborgerskapEndringIdentifisererTest {
     private AktørId AKTØRID = new AktørId("1");
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private StatsborgerskapEndringIdentifiserer statsborgerskapEndringIdentifiserer;
 
     @Before
     public void setup() {
         statsborgerskapEndringIdentifiserer = new StatsborgerskapEndringIdentifiserer();
-        ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider);
+        ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(AKTØRID, NavBrukerKjønn.KVINNE).medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD).lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     @Test

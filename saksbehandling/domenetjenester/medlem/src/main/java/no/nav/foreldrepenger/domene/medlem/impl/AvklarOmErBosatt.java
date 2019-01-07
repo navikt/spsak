@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
@@ -27,7 +27,7 @@ class AvklarOmErBosatt {
     private MedlemskapRepository medlemskapRepository;
     private MedlemskapPerioderTjeneste medlemskapPerioderTjeneste;
 
-    AvklarOmErBosatt(BehandlingRepositoryProvider repositoryProvider,
+    AvklarOmErBosatt(GrunnlagRepositoryProvider repositoryProvider,
                      MedlemskapPerioderTjeneste medlemskapPerioderTjeneste,
                      PersonopplysningTjeneste personopplysningTjeneste) {
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();

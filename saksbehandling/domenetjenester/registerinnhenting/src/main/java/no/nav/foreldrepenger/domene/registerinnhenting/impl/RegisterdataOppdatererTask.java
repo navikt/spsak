@@ -11,7 +11,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.task.BehandlingProsessTask;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataEndringshåndterer;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTask;
@@ -38,13 +38,13 @@ public class RegisterdataOppdatererTask extends BehandlingProsessTask {
     }
     
     @Inject
-    public RegisterdataOppdatererTask(BehandlingRepositoryProvider behandlingRepositoryProvider,
+    public RegisterdataOppdatererTask(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                                       BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                       RegisterdataEndringshåndterer registerdataOppdaterer) {
-        super(behandlingRepositoryProvider);
+        super(grunnlagRepositoryProvider);
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.registerdataOppdaterer = registerdataOppdaterer;
-        this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
     }
 
     @Override

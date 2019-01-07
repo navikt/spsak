@@ -24,22 +24,24 @@ import org.threeten.extra.Interval;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.OpplysningsPeriodeTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -66,10 +68,11 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider behandlingRepositoryProvider;
+    private GrunnlagRepositoryProvider grunnlagRepositoryProvider;
     private final Repository repository = repoRule.getRepository();
 
-    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     @Mock
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
@@ -82,13 +85,14 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
     public void before() {
         initMocks(this);
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(any())).thenReturn(LocalDate.now());
-        behandlingRepositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+        grunnlagRepositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
         when(innhentingSamletTjeneste.getSammenstiltSakOgGrunnlag(any(), any(), any(), anyBoolean())).thenReturn(Collections.emptyList());
         when(innhentingSamletTjeneste.hentYtelserTjenester(any(), any(), any())).thenReturn(Collections.emptyList());
-        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(behandlingRepositoryProvider, null, null, null, skjæringstidspunktTjeneste,
-            new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste));
+        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(grunnlagRepositoryProvider, null, null, null, skjæringstidspunktTjeneste,
+            new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste));
         iayRegisterInnhentingTjeneste = new IAYRegisterInnhentingFPTjenesteImpl(inntektArbeidYtelseTjeneste,
-            behandlingRepositoryProvider,
+            grunnlagRepositoryProvider,
+            resultatRepositoryProvider,
             null,
             skjæringstidspunktTjeneste,
             innhentingSamletTjeneste,
@@ -137,7 +141,7 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
         scenarioMorSøkerForeldrepenger1.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider);
+        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider, resultatRepositoryProvider);
 
         Interval periode = iayRegisterInnhentingTjeneste.beregnOpplysningsPeriode(nyBehandling);
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = iayRegisterInnhentingTjeneste.innhentYtelserForInvolverteParter(nyBehandling, periode);
@@ -159,7 +163,7 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
         scenarioMorSøkerForeldrepenger1.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider);
+        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider, resultatRepositoryProvider);
 
         Interval periode = iayRegisterInnhentingTjeneste.beregnOpplysningsPeriode(nyBehandling);
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = iayRegisterInnhentingTjeneste.innhentYtelserForInvolverteParter(nyBehandling, periode);
@@ -189,7 +193,7 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         Behandling behandling2 = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(andreYtelseHjelper);
 
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository().hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider);
+        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider, resultatRepositoryProvider);
 
         utførKallForÅHenteYtelse(ytelseHjelperTesterList, nyBehandling, 2);
     }
@@ -209,7 +213,7 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
         scenarioMorSøkerForeldrepenger1.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider);
+        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider, resultatRepositoryProvider);
 
         Interval periode = iayRegisterInnhentingTjeneste.beregnOpplysningsPeriode(nyBehandling);
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = iayRegisterInnhentingTjeneste.innhentYtelserForInvolverteParter(nyBehandling, periode);
@@ -223,17 +227,17 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
     private Behandling opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(YtelseHjelperTester ytelseHjelper) {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(ytelseHjelper.aktørId).medSaksnummer(ytelseHjelper.saksnummer);
         scenario.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         opprettVedtakForBehandling(behandling);
 
         Beregningsgrunnlag beregningsgrunnlag = buildBeregningsgrunnlag(ytelseHjelper);
-        repositoryProvider.getBeregningsgrunnlagRepository().lagre(behandling, beregningsgrunnlag, BeregningsgrunnlagTilstand.OPPRETTET);
+        resultatRepositoryProvider.getBeregningsgrunnlagRepository().lagre(behandling, beregningsgrunnlag, BeregningsgrunnlagTilstand.OPPRETTET);
 
         Virksomhet virksomhet = opprettOgLagreVirksomhet(ytelseHjelper);
 
         UttakResultatEntitet uttakResultatEntitet = opprettUttak(true, behandling, ytelseHjelper.uttakFom, ytelseHjelper.uttakTom, virksomhet);
-        repositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, uttakResultatEntitet.getGjeldendePerioder());
+        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, uttakResultatEntitet.getGjeldendePerioder());
         
         scenario.avsluttBehandling(repositoryProvider, behandling);
         

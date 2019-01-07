@@ -36,9 +36,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.EgenNæring;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittArbeidsforhold;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Beløp;
@@ -59,9 +60,10 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     }
 
     @Inject
-    public AksjonspunktutlederForVurderOpptjening(BehandlingRepositoryProvider repositoryProvider, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
+    public AksjonspunktutlederForVurderOpptjening(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider,
+                                                  SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
         inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+        opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
         kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
     }
@@ -70,7 +72,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     public List<AksjonspunktResultat> utledAksjonspunkterFor(Behandling behandling) {
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling,
             skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling));
-        Optional<Opptjening> fastsattOpptjeningOptional = opptjeningRepository.finnOpptjening(behandling);
+        Optional<Opptjening> fastsattOpptjeningOptional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
         if (!inntektArbeidYtelseGrunnlagOptional.isPresent() || !fastsattOpptjeningOptional.isPresent()) {
             return INGEN_AKSJONSPUNKTER;
         }
@@ -183,7 +185,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     boolean girAksjonspunktForOppgittNæring(Behandling behandling) {
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling,
             skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling));
-        Optional<Opptjening> fastsattOpptjeningOptional = opptjeningRepository.finnOpptjening(behandling);
+        Optional<Opptjening> fastsattOpptjeningOptional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
         if (!inntektArbeidYtelseGrunnlagOptional.isPresent() || !fastsattOpptjeningOptional.isPresent()) {
             return false;
         }
@@ -255,7 +257,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     }
 
     boolean girAksjonspunktForArbeidsforhold(Behandling behandling, Yrkesaktivitet registerAktivitet) {
-        final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling);
+        final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
         if (!opptjening.isPresent() || registerAktivitet == null) {
             return false;
         }

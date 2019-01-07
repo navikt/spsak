@@ -30,7 +30,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
@@ -70,7 +70,7 @@ public class InngangsvilkårStegImplTest {
             .leggTilVilkår(sutVilkårType, VilkårUtfallType.IKKE_OPPFYLT);
         Behandling behandling = scenario.lagMocked();
 
-        BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
         Behandlingsresultat.builderEndreEksisterende(behandling.getBehandlingsresultat()).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
         when(kontekst.getBehandlingId()).thenReturn(behandling.getId());
 
@@ -97,7 +97,7 @@ public class InngangsvilkårStegImplTest {
             .medVilkårResultatType(VilkårResultatType.INNVILGET)
             .leggTilVilkår(sutVilkårType, VilkårUtfallType.OPPFYLT);
         Behandling behandling = scenario.lagMocked();
-        BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
         Behandlingsresultat.builderEndreEksisterende(behandling.getBehandlingsresultat()).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
 
         // Act
@@ -123,7 +123,7 @@ public class InngangsvilkårStegImplTest {
         Behandling behandling = scenario.lagMocked();
         Whitebox.setInternalState(behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().get(0),
             "vilkårUtfallOverstyrt", VilkårUtfallType.IKKE_VURDERT);
-        BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
         MedlemskapRepository mockMedlemskapRepository = scenario.mockMedlemskapRepository();
 
         // Act
@@ -142,7 +142,7 @@ public class InngangsvilkårStegImplTest {
     // ***** Testklasser *****
     class SutInngangsvilkårSteg extends InngangsvilkårStegImpl {
 
-        SutInngangsvilkårSteg(BehandlingRepositoryProvider repositoryProvider) {
+        SutInngangsvilkårSteg(GrunnlagRepositoryProvider repositoryProvider) {
             super(repositoryProvider, regelOrkestrerer, BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR);
         }
 

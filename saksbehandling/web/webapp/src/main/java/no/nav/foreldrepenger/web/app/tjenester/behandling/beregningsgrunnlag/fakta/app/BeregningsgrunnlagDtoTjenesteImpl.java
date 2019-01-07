@@ -13,17 +13,18 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.SatsType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Sammenligningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.SatsRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.SatsType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Sammenligningsgrunnlag;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.BeregningsgrunnlagDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.BeregningsgrunnlagPeriodeDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto.BeregningsgrunnlagPrStatusOgAndelATDto;
@@ -37,7 +38,7 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fak
 public class BeregningsgrunnlagDtoTjenesteImpl implements BeregningsgrunnlagDtoTjeneste {
 
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
-    private BeregningRepository beregningRepository;
+    private SatsRepository beregningRepository;
     private FaktaOmBeregningDtoTjeneste faktaOmBeregningDtoTjeneste;
     private BeregningsgrunnlagDtoUtil dtoUtil;
     BeregningsgrunnlagDtoTjenesteImpl() {
@@ -46,10 +47,11 @@ public class BeregningsgrunnlagDtoTjenesteImpl implements BeregningsgrunnlagDtoT
 
 
     @Inject
-    public BeregningsgrunnlagDtoTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public BeregningsgrunnlagDtoTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
+                                             ResultatRepositoryProvider resultatRepositoryProvider,
                                              FaktaOmBeregningDtoTjeneste faktaOmBeregningDtoTjeneste, BeregningsgrunnlagDtoUtil dtoUtil) {
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        this.beregningRepository = repositoryProvider.getBeregningRepository();
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
+        this.beregningRepository = repositoryProvider.getSatsRepository();
         this.faktaOmBeregningDtoTjeneste = faktaOmBeregningDtoTjeneste;
         this.dtoUtil = dtoUtil;
     }

@@ -24,7 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 import no.nav.vedtak.util.FPDateUtil;
 
@@ -43,7 +43,7 @@ public class InnhentRegisteropplysningerResterendeOppgaverStegImpl implements Be
     }
 
     @Inject
-    public InnhentRegisteropplysningerResterendeOppgaverStegImpl(BehandlingRepositoryProvider repositoryProvider,
+    public InnhentRegisteropplysningerResterendeOppgaverStegImpl(GrunnlagRepositoryProvider repositoryProvider,
                                                                  FagsakTjeneste fagsakTjeneste,
                                                                  PersonopplysningTjeneste personopplysningTjeneste) {
 

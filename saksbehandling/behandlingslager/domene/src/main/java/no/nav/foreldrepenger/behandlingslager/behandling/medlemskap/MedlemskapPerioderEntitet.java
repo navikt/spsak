@@ -17,10 +17,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinFormula;
 
+import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 import no.nav.foreldrepenger.behandlingslager.diff.IndexKey;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
-import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
@@ -39,7 +39,7 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 class MedlemskapPerioderEntitet extends BaseEntitet implements RegistrertMedlemskapPerioder, IndexKey {
 
     @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_PERIODER")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEDLEMSKAP_PERIODER")
     private Long id;
 
     @Embedded
@@ -105,7 +105,7 @@ class MedlemskapPerioderEntitet extends BaseEntitet implements RegistrertMedlems
         this.setKildeType(medlemskapPerioderMal.getKildeType());
         this.setMedlId(medlemskapPerioderMal.getMedlId());
     }
-    
+
     @Override
     public String getIndexKey() {
         //redusert fra equals

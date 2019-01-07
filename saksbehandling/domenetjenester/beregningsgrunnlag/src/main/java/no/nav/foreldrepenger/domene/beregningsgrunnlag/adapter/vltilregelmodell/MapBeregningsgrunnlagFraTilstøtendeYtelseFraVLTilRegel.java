@@ -17,9 +17,6 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktivitetsAvtale;
@@ -31,7 +28,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektPeriodeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.SatsRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.AktivitetStatus;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Dekningsgrad;
@@ -46,38 +46,38 @@ import no.nav.foreldrepenger.domene.typer.Stillingsprosent;
 public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel {
 
     private static final BigDecimal BIGDECIMAL_100 = BigDecimal.valueOf(100);
-    private BeregningRepository beregningRepository;
+    private SatsRepository satsRepository;
 
     private static final Map<Arbeidskategori, List<Inntektskategori>> ARBEIDSKATEGORI_MAP;
     private static final Map<InntektPeriodeType, no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.InntektPeriodeType> INNTEKT_PERIODE_TYPE_MAP;
     private static final Map<RelatertYtelseType, no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.RelatertYtelseType> RELATERT_YTELSE_TYPE_MAP;
-    private static final Map<no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori, Inntektskategori > INNTEKTSKATEGORI_MAP;
-    private static final Map<no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus, AktivitetStatus > AKTIVITETSTATUS_MAP;
+    private static final Map<no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori, Inntektskategori > INNTEKTSKATEGORI_MAP;
+    private static final Map<no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus, AktivitetStatus > AKTIVITETSTATUS_MAP;
 
 
     static {
-        Map<no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori, Inntektskategori> map = new HashMap<>();
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FRILANSER, Inntektskategori.FRILANSER);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.SELVSTENDIG_NÆRINGSDRIVENDE, Inntektskategori.SELVSTENDIG_NÆRINGSDRIVENDE);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.DAGPENGER, Inntektskategori.DAGPENGER);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.ARBEIDSAVKLARINGSPENGER, Inntektskategori.ARBEIDSAVKLARINGSPENGER);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.SJØMANN, Inntektskategori.SJØMANN);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.DAGMAMMA, Inntektskategori.DAGMAMMA);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.JORDBRUKER, Inntektskategori.JORDBRUKER);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER, Inntektskategori.FISKER);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.ARBEIDSTAKER_UTEN_FERIEPENGER, Inntektskategori.ARBEIDSTAKER_UTEN_FERIEPENGER);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.UDEFINERT, Inntektskategori.UDEFINERT);
+        Map<no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori, Inntektskategori> map = new HashMap<>();
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FRILANSER, Inntektskategori.FRILANSER);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.SELVSTENDIG_NÆRINGSDRIVENDE, Inntektskategori.SELVSTENDIG_NÆRINGSDRIVENDE);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.DAGPENGER, Inntektskategori.DAGPENGER);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.ARBEIDSAVKLARINGSPENGER, Inntektskategori.ARBEIDSAVKLARINGSPENGER);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.SJØMANN, Inntektskategori.SJØMANN);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.DAGMAMMA, Inntektskategori.DAGMAMMA);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.JORDBRUKER, Inntektskategori.JORDBRUKER);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER, Inntektskategori.FISKER);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.ARBEIDSTAKER_UTEN_FERIEPENGER, Inntektskategori.ARBEIDSTAKER_UTEN_FERIEPENGER);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.UDEFINERT, Inntektskategori.UDEFINERT);
         INNTEKTSKATEGORI_MAP = map;
     }
     static {
-        Map<no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus, AktivitetStatus> map = new HashMap<>();
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, AktivitetStatus.ATFL);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER, AktivitetStatus.ATFL);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE, AktivitetStatus.SN);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.DAGPENGER, AktivitetStatus.DP);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.ARBEIDSAVKLARINGSPENGER, AktivitetStatus.AAP);
-        map.put(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.UDEFINERT, AktivitetStatus.UDEFINERT);
+        Map<no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus, AktivitetStatus> map = new HashMap<>();
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSTAKER, AktivitetStatus.ATFL);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER, AktivitetStatus.ATFL);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE, AktivitetStatus.SN);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.DAGPENGER, AktivitetStatus.DP);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.ARBEIDSAVKLARINGSPENGER, AktivitetStatus.AAP);
+        map.put(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.UDEFINERT, AktivitetStatus.UDEFINERT);
         AKTIVITETSTATUS_MAP = map;
     }
 
@@ -134,8 +134,8 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel {
     }
 
     @Inject
-    public MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel(BeregningRepository beregningRepository) {
-        this.beregningRepository = beregningRepository;
+    public MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel(SatsRepository satsRepository) {
+        this.satsRepository = satsRepository;
     }
 
     public BeregningsgrunnlagFraTilstøtendeYtelse map(Behandling behandling, Beregningsgrunnlag beregningsgrunnlag,
@@ -145,7 +145,7 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel {
             .orElse(Collections.emptyList());
         TilstøtendeYtelse tilstøtendeYtelse = mapFraYtelse(sammenhengendeYtelser, yrkesaktiviteter);
         BeregningsgrunnlagFraTilstøtendeYtelse.Builder builder = BeregningsgrunnlagFraTilstøtendeYtelse.builder()
-            .medGrunnbeløpSatser(MapBeregningsgrunnlagFraVLTilRegel.mapGrunnbeløpSatser(beregningRepository))
+            .medGrunnbeløpSatser(MapBeregningsgrunnlagFraVLTilRegel.mapGrunnbeløpSatser(satsRepository))
             .medYtelse(tilstøtendeYtelse);
         mapAlleredeOpprettetAndeler(beregningsgrunnlag, builder);
         return builder.build();

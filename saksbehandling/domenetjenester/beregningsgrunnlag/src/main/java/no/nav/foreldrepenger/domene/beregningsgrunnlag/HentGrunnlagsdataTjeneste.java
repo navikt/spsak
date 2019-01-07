@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.domene.beregningsgrunnlag;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 
 public interface HentGrunnlagsdataTjeneste {
 

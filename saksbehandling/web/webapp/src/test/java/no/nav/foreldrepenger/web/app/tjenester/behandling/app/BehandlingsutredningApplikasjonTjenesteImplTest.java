@@ -27,8 +27,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsa
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.SaksbehandlingDokumentmottakTjeneste;
@@ -44,7 +46,8 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private BehandlingRepository behandlingRepository;
 
     @Mock
@@ -68,11 +71,10 @@ public class BehandlingsutredningApplikasjonTjenesteImplTest {
 
     @Before
     public void setUp() {
-        repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
         behandlingRepository = repositoryProvider.getBehandlingRepository();
         Behandling behandling = ScenarioMorSøkerEngangsstønad
             .forDefaultAktør()
-            .lagre(repositoryProvider);
+            .lagre(repositoryProvider, resultatRepositoryProvider);
         behandlingId = behandling.getId();
 
         BehandlingskontrollTjenesteImpl behandlingskontrollTjenesteImpl = new BehandlingskontrollTjenesteImpl(repositoryProvider,

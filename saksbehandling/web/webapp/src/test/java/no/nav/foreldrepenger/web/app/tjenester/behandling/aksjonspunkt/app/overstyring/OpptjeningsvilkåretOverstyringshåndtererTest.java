@@ -23,9 +23,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepositoryImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -45,7 +47,8 @@ public class OpptjeningsvilkåretOverstyringshåndtererTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private HistorikkTjenesteAdapter historikkAdapter = new HistorikkTjenesteAdapterImpl(
         new HistorikkRepositoryImpl(repoRule.getEntityManager()), new HistorikkInnslagKonverter(
         repositoryProvider.getKodeverkRepository(), repositoryProvider.getAksjonspunktRepository()));
@@ -61,7 +64,7 @@ public class OpptjeningsvilkåretOverstyringshåndtererTest {
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.VURDER_PERIODER_MED_OPPTJENING,
             BehandlingStegType.VURDER_OPPTJENINGSVILKÅR);
         scenario.leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT);
-        scenario.lagre(repositoryProvider);
+        scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         Behandling behandling = scenario.getBehandling();
         Fagsak fagsak = behandling.getFagsak();
@@ -71,7 +74,7 @@ public class OpptjeningsvilkåretOverstyringshåndtererTest {
         assertThat(behandling.getAksjonspunkter()).hasSize(1);
 
         // Act
-        OpptjeningsvilkåretOverstyringshåndterer overstyringshåndterer = new OpptjeningsvilkåretOverstyringshåndterer(repositoryProvider, historikkAdapter, inngangsvilkårTjeneste);
+        OpptjeningsvilkåretOverstyringshåndterer overstyringshåndterer = new OpptjeningsvilkåretOverstyringshåndterer(repositoryProvider, resultatRepositoryProvider, historikkAdapter, inngangsvilkårTjeneste);
         overstyringshåndterer.håndterOverstyring(overstyringspunktDto, behandling, new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), repositoryProvider.getBehandlingRepository().taSkriveLås(behandling)));
         overstyringshåndterer.håndterAksjonspunktForOverstyring(overstyringspunktDto, behandling);
 
@@ -93,7 +96,7 @@ public class OpptjeningsvilkåretOverstyringshåndtererTest {
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.VURDER_PERIODER_MED_OPPTJENING,
             BehandlingStegType.VURDER_OPPTJENINGSVILKÅR);
         scenario.leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT);
-        scenario.lagre(repositoryProvider);
+        scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         Behandling behandling = scenario.getBehandling();
         Fagsak fagsak = behandling.getFagsak();
@@ -102,7 +105,7 @@ public class OpptjeningsvilkåretOverstyringshåndtererTest {
             "test av overstyring opptjeningsvilkåret", "1035");
 
         // Act
-        OpptjeningsvilkåretOverstyringshåndterer overstyringshåndterer = new OpptjeningsvilkåretOverstyringshåndterer(repositoryProvider, historikkAdapter, inngangsvilkårTjeneste);
+        OpptjeningsvilkåretOverstyringshåndterer overstyringshåndterer = new OpptjeningsvilkåretOverstyringshåndterer(repositoryProvider, resultatRepositoryProvider, historikkAdapter, inngangsvilkårTjeneste);
         overstyringshåndterer.håndterOverstyring(overstyringspunktDto, behandling, new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), behandlingRepository.taSkriveLås(behandling)));
         overstyringshåndterer.håndterAksjonspunktForOverstyring(overstyringspunktDto, behandling);
         Historikkinnslag historikkinnslag = new Historikkinnslag();
@@ -127,7 +130,7 @@ public class OpptjeningsvilkåretOverstyringshåndtererTest {
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.VURDER_PERIODER_MED_OPPTJENING,
             BehandlingStegType.VURDER_OPPTJENINGSVILKÅR);
         scenario.leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT);
-        scenario.lagre(repositoryProvider);
+        scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         Behandling behandling = scenario.getBehandling();
         Fagsak fagsak = behandling.getFagsak();
@@ -136,7 +139,7 @@ public class OpptjeningsvilkåretOverstyringshåndtererTest {
             "test av overstyring opptjeningsvilkåret", "1035");
 
         // Act
-        OpptjeningsvilkåretOverstyringshåndterer overstyringshåndterer = new OpptjeningsvilkåretOverstyringshåndterer(repositoryProvider, historikkAdapter, inngangsvilkårTjeneste);
+        OpptjeningsvilkåretOverstyringshåndterer overstyringshåndterer = new OpptjeningsvilkåretOverstyringshåndterer(repositoryProvider, resultatRepositoryProvider, historikkAdapter, inngangsvilkårTjeneste);
         overstyringshåndterer.håndterOverstyring(overstyringspunktDto, behandling, new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), behandlingRepository.taSkriveLås(behandling)));
         try {
             overstyringshåndterer.håndterAksjonspunktForOverstyring(overstyringspunktDto, behandling);

@@ -20,11 +20,12 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.IverksettingStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.domene.vedtak.KanVedtaketIverksettesTjeneste;
@@ -53,7 +54,8 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
     }
 
     @Inject
-    IverksetteVedtakStegImpl(BehandlingRepositoryProvider repositoryProvider, ProsessTaskRepository prosessTaskRepository,
+    IverksetteVedtakStegImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider,
+                             ProsessTaskRepository prosessTaskRepository,
                              BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer,
                              IverksetteVedtakHistorikkTjeneste iverksetteVedtakHistorikkTjeneste,
                              KanVedtaketIverksettesTjeneste kanVedtaketIverksettesTjeneste) {
@@ -61,7 +63,7 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
         this.prosessTaskRepository = prosessTaskRepository;
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.behandlingVedtakEventPubliserer = behandlingVedtakEventPubliserer;
-        this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
+        this.behandlingVedtakRepository = resultatRepositoryProvider.getVedtakRepository();
         this.iverksetteVedtakHistorikkTjeneste = iverksetteVedtakHistorikkTjeneste;
         this.kanVedtaketIverksettesTjeneste = kanVedtaketIverksettesTjeneste;
     }
@@ -69,13 +71,13 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
     @Override
     public BehandleStegResultat utførSteg(BehandlingskontrollKontekst kontekst) {
         long behandlingId = kontekst.getBehandlingId();
-        Optional<BehandlingVedtak> fantVedtak = behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(behandlingId);
+        Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
+        Optional<BehandlingVedtak> fantVedtak = behandlingVedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
         if (!fantVedtak.isPresent()) {
             log.info("Behandling {}: Kan ikke iverksette, behandling mangler vedtak", behandlingId);
             return BehandleStegResultat.utførtUtenAksjonspunkter();
         }
         BehandlingVedtak vedtak = fantVedtak.get();
-        Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
 
         if (IverksettingStatus.IKKE_IVERKSATT.equals(vedtak.getIverksettingStatus())) {
             boolean kanIverksettes = true;
@@ -129,7 +131,7 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
         Fagsak fagsak = fagsakRepository.finnEksaktFagsak(behandling.getFagsakId());
         List<Behandling> behandlinger = behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(fagsak.getSaksnummer());
         return behandlinger.stream()
-            .map(b -> behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(b.getId()))
+            .map(b -> behandlingVedtakRepository.hentVedtakFor(b.getBehandlingsresultat().getId()))
             .anyMatch(v -> v.isPresent() && IverksettingStatus.UNDER_IVERKSETTING.equals(v.get().getIverksettingStatus()));
     }
 

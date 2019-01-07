@@ -18,6 +18,7 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
@@ -26,9 +27,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.UtenlandskVirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
@@ -43,16 +46,17 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private OpptjeningRepository opptjeningRepository;
     @Spy
-    private AksjonspunktutlederForVurderOpptjening utleder = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, mock(SkjæringstidspunktTjeneste.class));
+    private AksjonspunktutlederForVurderOpptjening utleder = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, mock(SkjæringstidspunktTjeneste.class));
 
     @Before
     public void oppsett() {
         initMocks(this);
-        opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+        opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
     }
 
     @Test
@@ -60,7 +64,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -112,9 +116,9 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
             .medInntektspostBeløp(BigDecimal.TEN);
         builder.build();
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
-        lagreOpptjeningsPeriode(behandling, tilOgMed);
+        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
 
         // Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -235,7 +239,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         builder.medVirksomhetRegistrert(LocalDate.now());
         builder.build();
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         //Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
 
@@ -261,7 +265,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         // Arrange
         AktørId aktørId1 = new AktørId("1");
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -280,10 +284,10 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         builder.medAktivitetsAvtaleProsentsats(BigDecimal.ZERO);
         builder.build();
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         LocalDate tilOgMed = LocalDate.now().plusMonths(1);
-        lagreOpptjeningsPeriode(behandling, tilOgMed);
+        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
 
         // Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -293,7 +297,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         assertThat(aksjonspunktResultater.get(0).getAksjonspunktDefinisjon()).isEqualTo(AksjonspunktDefinisjon.VURDER_PERIODER_MED_OPPTJENING);
     }
 
-    private Behandling opprettUtenlandskArbeidsforhold(AktørId aktørId){
+    private Behandling opprettUtenlandskArbeidsforhold(AktørId aktørId) {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId, NavBrukerKjønn.KVINNE);
 
         LocalDate fraOgMed = LocalDate.now().minusMonths(1);
@@ -305,8 +309,8 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
             .leggTilOppgittArbeidsforhold(OppgittOpptjeningBuilder.OppgittArbeidsforholdBuilder.ny().medUtenlandskVirksomhet(svenska_stat).medPeriode(periode).medErUtenlandskInntekt(true).medArbeidType(ArbeidType.UTENLANDSK_ARBEIDSFORHOLD));
         scenario.medOppgittOpptjening(oppgittOpptjeningBuilder);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        lagreOpptjeningsPeriode(behandling, tilOgMed);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
+        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
         return behandling;
     }
 
@@ -343,8 +347,8 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
                 .build();
         }
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        lagreOpptjeningsPeriode(behandling, tilOgMed);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
+        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
         return behandling;
     }
 
@@ -361,12 +365,12 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
 
         scenario.medOppgittOpptjening(oppgittOpptjeningBuilder);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
-        lagreOpptjeningsPeriode(behandling, tilOgMed);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
+        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
         return behandling;
     }
 
-    private void lagreOpptjeningsPeriode(Behandling behandling, LocalDate opptjeningTom) {
-        opptjeningRepository.lagreOpptjeningsperiode(behandling, opptjeningTom.minusMonths(10), opptjeningTom);
+    private void lagreOpptjeningsPeriode(LocalDate opptjeningTom, Behandlingsresultat behandlingsresultat) {
+        opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, opptjeningTom.minusMonths(10), opptjeningTom);
     }
 }

@@ -23,13 +23,15 @@ import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataInnhenter;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
+import no.nav.vedtak.util.Tuple;
 
 @RunWith(CdiRunner.class)
 public class InnhentRelaterteYtelserTaskTest {
@@ -40,7 +42,7 @@ public class InnhentRelaterteYtelserTaskTest {
     public MockitoRule mockitoRule = MockitoJUnit.rule().silent();
 
     private InnhentRelaterteYtelserTask task;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private BehandlingRepository behandlingRepository;
     private ProsessTaskRepository prosessTaskRepository;
 
@@ -74,8 +76,9 @@ public class InnhentRelaterteYtelserTaskTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         Behandling behandling = scenario.lagMocked();
-        repositoryProvider = scenario.mockBehandlingRepositoryProvider();
-        behandlingRepository = repositoryProvider.getBehandlingRepository();
+        Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        this.repositoryProvider = repositoryProvider.getElement1();
+        behandlingRepository = this.repositoryProvider.getBehandlingRepository();
         setupMocks();
 
         ProsessTaskData prosessTask = new ProsessTaskData(InnhentRelaterteYtelserTask.TASKTYPE);
@@ -95,7 +98,7 @@ public class InnhentRelaterteYtelserTaskTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         final Behandling behandling = scenario.lagMocked();
-        repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
         behandlingRepository = repositoryProvider.getBehandlingRepository();
         setupMocks();
 
@@ -113,7 +116,7 @@ public class InnhentRelaterteYtelserTaskTest {
 
     private class TestInnhentRelaterteYtelserTask extends InnhentRelaterteYtelserTask {
 
-        public TestInnhentRelaterteYtelserTask(BehandlingRepositoryProvider bepositoryProvider, BehandlingskontrollTjeneste behandlingskontrollTjeneste,
+        public TestInnhentRelaterteYtelserTask(GrunnlagRepositoryProvider bepositoryProvider, BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                                BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste, RegisterdataInnhenter registerdataInnhenter) {
             super(bepositoryProvider, behandlingskontrollTjeneste, behandlingskontrollTaskTjeneste, registerdataInnhenter);
         }

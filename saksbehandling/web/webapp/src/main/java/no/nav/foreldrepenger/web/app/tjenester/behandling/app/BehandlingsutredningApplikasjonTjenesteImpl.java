@@ -33,7 +33,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -70,15 +70,15 @@ public class BehandlingsutredningApplikasjonTjenesteImpl implements Behandlingsu
 
     @Inject
     public BehandlingsutredningApplikasjonTjenesteImpl(@KonfigVerdi(value = "behandling.default.ventefrist.periode") Period defaultVenteFrist,
-                                                       BehandlingRepositoryProvider behandlingRepositoryProvider,
+                                                       GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                                                        HistorikkTjenesteAdapter historikkApplikasjonTjeneste,
                                                        BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                                        RevurderingTjenesteProvider revurderingTjenesteProvider,
                                                        SaksbehandlingDokumentmottakTjeneste saksbehandlingDokumentmottakTjeneste) {
-        Objects.requireNonNull(behandlingRepositoryProvider, "behandlingRepositoryProvider");
+        Objects.requireNonNull(grunnlagRepositoryProvider, "grunnlagRepositoryProvider");
         this.defaultVenteFrist = defaultVenteFrist;
-        this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
-        this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
+        this.kodeverkRepository = grunnlagRepositoryProvider.getKodeverkRepository();
         this.historikkApplikasjonTjeneste = historikkApplikasjonTjeneste;
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;

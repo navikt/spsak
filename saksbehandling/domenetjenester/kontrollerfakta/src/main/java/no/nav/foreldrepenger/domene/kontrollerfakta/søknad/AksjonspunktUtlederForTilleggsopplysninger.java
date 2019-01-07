@@ -1,20 +1,21 @@
 package no.nav.foreldrepenger.domene.kontrollerfakta.søknad;
 
+import static java.util.Collections.emptyList;
+import static no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat.opprettListeForAksjonspunkt;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktUtleder;
 import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.List;
-import java.util.Optional;
-
-import static java.util.Collections.emptyList;
-import static no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat.opprettListeForAksjonspunkt;
 
 /**
  * Aksjonspunkt for avklaring v tilleggopplysninger som oppgis i søknad.
@@ -29,7 +30,7 @@ public class AksjonspunktUtlederForTilleggsopplysninger implements AksjonspunktU
     }
 
     @Inject
-    public AksjonspunktUtlederForTilleggsopplysninger(BehandlingRepositoryProvider repositoryProvider) {
+    public AksjonspunktUtlederForTilleggsopplysninger(GrunnlagRepositoryProvider repositoryProvider) {
         this.søknadRepository = repositoryProvider.getSøknadRepository();
     }
 

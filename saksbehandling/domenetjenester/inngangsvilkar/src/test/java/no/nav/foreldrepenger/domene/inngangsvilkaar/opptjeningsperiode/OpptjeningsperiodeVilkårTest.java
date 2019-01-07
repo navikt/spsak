@@ -12,8 +12,10 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -33,9 +35,10 @@ public class OpptjeningsperiodeVilkårTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
-    private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
+    private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
     private BasisPersonopplysningTjeneste personopplysningTjeneste = new BasisPersonopplysningTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste);
     private InngangsvilkårOversetter oversetter = new InngangsvilkårOversetter(repositoryProvider,
         new MedlemskapPerioderTjenesteImpl(12, 6, skjæringstidspunktTjeneste), skjæringstidspunktTjeneste, personopplysningTjeneste);
@@ -50,7 +53,7 @@ public class OpptjeningsperiodeVilkårTest {
             .medGrad(new Prosentsats(100));
         builder.medSykemelding(sykemeldingBuilder);
         scenario.medSykemeldinger(builder);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         VilkårData data = new InngangsvilkårOpptjeningsperiode(oversetter, Period.parse("P10M")).vurderVilkår(behandling);
 
@@ -69,7 +72,7 @@ public class OpptjeningsperiodeVilkårTest {
             .medGrad(new Prosentsats(100));
         builder.medSykemelding(sykemeldingBuilder);
         scenario.medSykemeldinger(builder);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         VilkårData data = new InngangsvilkårOpptjeningsperiode(oversetter, Period.parse("P10M")).vurderVilkår(behandling);
 
@@ -88,7 +91,7 @@ public class OpptjeningsperiodeVilkårTest {
             .medGrad(new Prosentsats(100));
         builder.medSykemelding(sykemeldingBuilder);
         scenario.medSykemeldinger(builder);
-        Behandling behandling = scenario.lagre(this.repositoryProvider);
+        Behandling behandling = scenario.lagre(this.repositoryProvider, resultatRepositoryProvider);
 
         VilkårData data = new InngangsvilkårOpptjeningsperiode(oversetter, Period.parse("P10M")).vurderVilkår(behandling);
 

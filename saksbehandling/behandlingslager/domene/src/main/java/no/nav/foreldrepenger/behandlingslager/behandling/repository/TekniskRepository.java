@@ -5,11 +5,11 @@ import no.nav.vedtak.felles.jpa.savepoint.Work;
 
 public class TekniskRepository {
 
-    private BehandlingRepositoryProviderImpl repositoryProvider;
+    private GrunnlagRepositoryProviderImpl repositoryProvider;
 
-    public TekniskRepository(BehandlingRepositoryProvider repositoryProvider) {
+    public TekniskRepository(GrunnlagRepositoryProvider repositoryProvider) {
         // tar en cast
-        this.repositoryProvider = (BehandlingRepositoryProviderImpl) repositoryProvider;  // NOSONAR
+        this.repositoryProvider = (GrunnlagRepositoryProviderImpl) repositoryProvider;  // NOSONAR
         
     }
     

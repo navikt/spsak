@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 
-@Entity()
+@Entity
 @DiscriminatorValue(UttakPeriodeVurderingType.DISCRIMINATOR)
 public class UttakPeriodeVurderingType extends Kodeliste {
 

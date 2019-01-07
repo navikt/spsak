@@ -16,7 +16,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAg
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapDekningType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
 
 class AvklarGyldigPeriode {
@@ -24,7 +24,7 @@ class AvklarGyldigPeriode {
     private MedlemskapRepository medlemskapRepository;
     private MedlemskapPerioderTjeneste medlemskapPerioderTjeneste;
 
-    AvklarGyldigPeriode(BehandlingRepositoryProvider repositoryProvider,
+    AvklarGyldigPeriode(GrunnlagRepositoryProvider repositoryProvider,
                         MedlemskapPerioderTjeneste medlemskapPerioderTjeneste) {
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
         this.medlemskapPerioderTjeneste = medlemskapPerioderTjeneste;

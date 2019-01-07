@@ -21,7 +21,7 @@ import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaTjeneste;
 
@@ -42,7 +42,7 @@ public class KontrollerArbeidsforholdTjenesteImpl implements KontrollerFaktaTjen
     }
 
     @Inject
-    public KontrollerArbeidsforholdTjenesteImpl(BehandlingRepositoryProvider repository,
+    public KontrollerArbeidsforholdTjenesteImpl(GrunnlagRepositoryProvider repository,
                                                 @FagsakYtelseTypeRef("FP") @BehandlingTypeRef @StartpunktRef("KONTROLLER_ARBEIDSFORHOLD") KontrollerArbeidsforholdUtledereTjeneste utlederTjeneste,
                                                 BehandlingskontrollTjeneste behandlingskontrollTjeneste) {
 

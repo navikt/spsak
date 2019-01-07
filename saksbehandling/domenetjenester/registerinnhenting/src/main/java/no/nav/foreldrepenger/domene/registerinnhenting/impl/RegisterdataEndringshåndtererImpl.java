@@ -23,7 +23,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.kontrollerfakta.BehandlingÅrsakTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.Endringskontroller;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
@@ -57,7 +57,7 @@ public class RegisterdataEndringshåndtererImpl implements RegisterdataEndringsh
 
     @Inject
     public RegisterdataEndringshåndtererImpl( // NOSONAR - ingen umiddelbar mulighet for å redusere denne til >= 7 parametere
-                                              BehandlingRepositoryProvider repositoryProvider,
+                                              GrunnlagRepositoryProvider repositoryProvider,
                                               RegisterdataInnhenter registerdataInnhenter,
                                               @KonfigVerdi("oppdatere.registerdata.tidspunkt") Instance<String> periode,
                                               Endringskontroller endringskontroller,

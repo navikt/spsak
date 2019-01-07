@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.domene.arbeidsforhold.aksjonspunkt;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 
 public class BekreftOpptjeningPeriodeDto {
     private OpptjeningAktivitetType aktivitetType;

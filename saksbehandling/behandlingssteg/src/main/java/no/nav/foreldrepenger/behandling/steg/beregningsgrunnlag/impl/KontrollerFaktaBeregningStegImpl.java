@@ -17,7 +17,8 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.AksjonspunktUtlederForBeregning;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.OpprettBeregningsgrunnlagTjeneste;
 
@@ -27,22 +28,22 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.OpprettBeregningsgrunnlag
 @ApplicationScoped
 @Named("KontrollerFaktaBeregning")
 public class KontrollerFaktaBeregningStegImpl implements BeregningsgrunnlagSteg {
-    private BehandlingRepositoryProvider repositoryProvider;
     private OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste;
     private BehandlingRepository behandlingRepository;
     private AksjonspunktUtlederForBeregning aksjonspunktUtlederForBeregning;
+    private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
 
     protected KontrollerFaktaBeregningStegImpl() {
         // for CDI proxy
     }
 
     @Inject
-    public KontrollerFaktaBeregningStegImpl(BehandlingRepositoryProvider repositoryProvider,
+    public KontrollerFaktaBeregningStegImpl(ResultatRepositoryProvider repositoryProvider,
                                             AksjonspunktUtlederForBeregning aksjonspunktUtlederForBeregning,
                                             OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste) {
-        this.repositoryProvider = repositoryProvider;
         this.opprettBeregningsgrunnlagTjeneste = opprettBeregningsgrunnlagTjeneste;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
+        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
         this.aksjonspunktUtlederForBeregning = aksjonspunktUtlederForBeregning;
     }
 
@@ -60,7 +61,7 @@ public class KontrollerFaktaBeregningStegImpl implements BeregningsgrunnlagSteg 
 
     @Override
     public void vedHoppOverBakover(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, BehandlingStegType tilSteg, BehandlingStegType fraSteg) {
-        RyddBeregningsgrunnlag ryddBeregningsgrunnlag = new RyddBeregningsgrunnlag(repositoryProvider, behandling, kontekst);
+        RyddBeregningsgrunnlag ryddBeregningsgrunnlag = new RyddBeregningsgrunnlag(behandlingRepository, beregningsgrunnlagRepository, behandling, kontekst);
         if (BehandlingStegType.KONTROLLER_FAKTA_BEREGNING.equals(tilSteg)) {
             ryddBeregningsgrunnlag.gjenopprettFørsteBeregningsgrunnlag();
         } else {

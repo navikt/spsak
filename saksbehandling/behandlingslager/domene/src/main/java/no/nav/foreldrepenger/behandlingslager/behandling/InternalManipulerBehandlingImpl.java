@@ -4,7 +4,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 
@@ -18,7 +18,7 @@ public class InternalManipulerBehandlingImpl implements InternalManipulerBehandl
     }
 
     @Inject
-    public InternalManipulerBehandlingImpl(BehandlingRepositoryProvider repositoryProvider) {
+    public InternalManipulerBehandlingImpl(GrunnlagRepositoryProvider repositoryProvider) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
     }

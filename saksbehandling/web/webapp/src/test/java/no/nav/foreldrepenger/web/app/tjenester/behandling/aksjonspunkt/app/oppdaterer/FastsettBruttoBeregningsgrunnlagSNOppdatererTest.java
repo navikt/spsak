@@ -15,10 +15,6 @@ import org.mockito.Mockito;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltVerdiType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInnslagTekstBuilder;
@@ -26,9 +22,15 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -43,10 +45,11 @@ public class FastsettBruttoBeregningsgrunnlagSNOppdatererTest {
     @Rule
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private final HistorikkInnslagTekstBuilder tekstBuilder = new HistorikkInnslagTekstBuilder();
 
-    private BeregningsgrunnlagRepository beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+    private BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
 
     private static final int BRUTTO_BG = 200000;
     private VurderVarigEndringEllerNyoppstartetSNOppdaterer vurderVarigEndringEllerNyoppstartetSNOppdaterer;
@@ -55,8 +58,8 @@ public class FastsettBruttoBeregningsgrunnlagSNOppdatererTest {
 
     @Before
     public void setup() {
-        fastsettBruttoBeregningsgrunnlagSNOppdaterer = new FastsettBruttoBeregningsgrunnlagSNOppdaterer(repositoryProvider, lagMockHistory());
-        vurderVarigEndringEllerNyoppstartetSNOppdaterer = new VurderVarigEndringEllerNyoppstartetSNOppdaterer(repositoryProvider, lagMockHistory());
+        fastsettBruttoBeregningsgrunnlagSNOppdaterer = new FastsettBruttoBeregningsgrunnlagSNOppdaterer(repositoryProvider, resultatRepositoryProvider, lagMockHistory());
+        vurderVarigEndringEllerNyoppstartetSNOppdaterer = new VurderVarigEndringEllerNyoppstartetSNOppdaterer(repositoryProvider, resultatRepositoryProvider, lagMockHistory());
     }
 
     @Test
@@ -160,21 +163,21 @@ public class FastsettBruttoBeregningsgrunnlagSNOppdatererTest {
         return mockHistory;
     }
 
-    private void buildBgPrStatusOgAndel(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode beregningsgrunnlagPeriode) {
+    private void buildBgPrStatusOgAndel(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode beregningsgrunnlagPeriode) {
         BGAndelArbeidsforhold.Builder bga = BGAndelArbeidsforhold
             .builder()
             .medArbeidsperiodeFom(LocalDate.now().minusYears(1))
             .medArbeidsperiodeTom(LocalDate.now().plusYears(2));
         BeregningsgrunnlagPrStatusOgAndel.builder()
             .medBGAndelArbeidsforhold(bga)
-            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE)
+            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE)
             .build(beregningsgrunnlagPeriode);
     }
 
-    private no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode buildBeregningsgrunnlagPeriode(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag,
-                                                                                                                                          LocalDate fom,
-                                                                                                                                          LocalDate tom) {
-        return no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode.builder()
+    private no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode buildBeregningsgrunnlagPeriode(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag,
+                                                                                                                                                   LocalDate fom,
+                                                                                                                                                   LocalDate tom) {
+        return no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode.builder()
             .medBeregningsgrunnlagPeriode(fom, tom)
             .build(beregningsgrunnlag);
     }
@@ -185,7 +188,7 @@ public class FastsettBruttoBeregningsgrunnlagSNOppdatererTest {
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.FASTSETT_BEREGNINGSGRUNNLAG_SELVSTENDIG_NÆRINGSDRIVENDE,
             BehandlingStegType.FORESLÅ_BEREGNINGSGRUNNLAG);
 
-        no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = scenario.medBeregningsgrunnlag()
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag beregningsgrunnlag = scenario.medBeregningsgrunnlag()
             .medSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT)
             .medDekningsgrad(100L)
             .medOpprinneligSkjæringstidspunkt(SKJÆRINGSTIDSPUNKT)
@@ -195,10 +198,10 @@ public class FastsettBruttoBeregningsgrunnlagSNOppdatererTest {
 
         for (int i = 0; i < antallPerioder; i++) {
             LocalDate fom = LocalDate.now().minusDays(20).plusDays(i*5).plusDays(i==0 ? 0 : 1);
-            no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode bgPeriode = buildBeregningsgrunnlagPeriode(beregningsgrunnlag,
+            no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode bgPeriode = buildBeregningsgrunnlagPeriode(beregningsgrunnlag,
                 fom, fom.plusDays(5));
             buildBgPrStatusOgAndel(bgPeriode);
         }
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 }

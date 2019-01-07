@@ -11,11 +11,11 @@ import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingFeil;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeGrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeRepository;
 import no.nav.vedtak.feil.FeilFactory;
 
 @Dependent
@@ -26,11 +26,11 @@ public class RevurderingFPBehandlingsresultatutleder {
     private MedlemskapVilkårPeriodeRepository medlemskapVilkårPeriodeRepository;
 
     @Inject
-    public RevurderingFPBehandlingsresultatutleder(BehandlingRepositoryProvider repositoryProvider,
+    public RevurderingFPBehandlingsresultatutleder(ResultatRepositoryProvider resultatRepositoryProvider,
                                                    EndringsdatoRevurderingUtleder endringsdatoRevurderingUtleder) {
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
         this.endringsdatoRevurderingUtleder = endringsdatoRevurderingUtleder;
-        this.medlemskapVilkårPeriodeRepository = repositoryProvider.getMedlemskapVilkårPeriodeRepository();
+        this.medlemskapVilkårPeriodeRepository = resultatRepositoryProvider.getMedlemskapVilkårPeriodeRepository();
     }
 
     public Behandlingsresultat bestemBehandlingsresultatForRevurdering(Behandling revurdering, boolean erVarselOmRevurderingSendt) {
@@ -49,7 +49,7 @@ public class RevurderingFPBehandlingsresultatutleder {
             return OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.fastsett(revurdering);
         }
 
-        Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering);
+        Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering.getBehandlingsresultat());
         if (OppfyllerIkkjeInngangsvilkårIPerioden.vurder(medlemskapsvilkårPeriodeGrunnlag, endringsdato)) {
             return OppfyllerIkkjeInngangsvilkårIPerioden.fastsett(revurdering);
         }

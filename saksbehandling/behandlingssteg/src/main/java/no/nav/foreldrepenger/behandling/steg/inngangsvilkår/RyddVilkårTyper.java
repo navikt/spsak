@@ -21,7 +21,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -42,7 +42,7 @@ class RyddVilkårTyper {
         OPPRYDDER_FOR_AVKLARTE_DATA.put(MEDLEMSKAPSVILKÅRET, r -> r.medlemskapRepository.slettAvklarteMedlemskapsdata(r.behandling, r.kontekst.getSkriveLås()));
     }
 
-    public RyddVilkårTyper(BehandlingStegModell modell, BehandlingRepositoryProvider repositoryProvider, Behandling behandling, BehandlingskontrollKontekst kontekst) {
+    public RyddVilkårTyper(BehandlingStegModell modell, GrunnlagRepositoryProvider repositoryProvider, Behandling behandling, BehandlingskontrollKontekst kontekst) {
         this.modell = modell;
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();

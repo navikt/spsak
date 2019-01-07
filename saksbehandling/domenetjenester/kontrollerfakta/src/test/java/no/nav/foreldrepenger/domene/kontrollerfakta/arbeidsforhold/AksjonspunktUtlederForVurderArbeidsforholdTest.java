@@ -35,9 +35,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektspostType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -61,10 +63,11 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     private final SkjæringstidspunktTjeneste mock = mock(SkjæringstidspunktTjeneste.class);
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
     private VirksomhetTjeneste virksomhetTjeneste = new VirksomhetTjenesteImpl(null, repositoryProvider.getVirksomhetRepository());
-    private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, mock);
+    private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, mock);
     private InntektArbeidYtelseTjeneste iayTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, virksomhetTjeneste, mock, apOpptjening);
     private BehandlingskontrollRepository behandlingskontrollRepository = new BehandlingskontrollRepositoryImpl(repositoryProvider, repoRule.getEntityManager());
     private VurderArbeidsforholdTjeneste tjeneste = new VurderArbeidsforholdTjenesteImpl(iayTjeneste, virksomhetTjeneste, behandlingskontrollRepository);
@@ -78,7 +81,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         opprettInntekt(aktørId1, behandling, opprettVirksomhet(), "99999");
 
@@ -95,7 +98,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
         // Arrange
         AktørId aktørId1 = new AktørId("123");
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         // Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
 
@@ -109,7 +112,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
         AktørId aktørId1 = new AktørId("123");
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Virksomhet virksomhet = opprettVirksomhet();
         sendInnInntektsmeldingPå(behandling, virksomhet, "123");
 
@@ -126,7 +129,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
         AktørId aktørId1 = new AktørId("123");
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medBehandlingStegStart(BehandlingStegType.KONTROLLER_FAKTA);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Virksomhet virksomhet = opprettVirksomhet();
         final String arbeidsforholdId = "1234";
 
@@ -149,7 +152,7 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
         AktørId aktørId1 = new AktørId("123");
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør().medBruker(aktørId1, NavBrukerKjønn.KVINNE);
         scenario.medBehandlingStegStart(BehandlingStegType.KONTROLLER_FAKTA);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Virksomhet virksomhet = opprettVirksomhet();
         final String arbeidsforholdId = "1234";
 

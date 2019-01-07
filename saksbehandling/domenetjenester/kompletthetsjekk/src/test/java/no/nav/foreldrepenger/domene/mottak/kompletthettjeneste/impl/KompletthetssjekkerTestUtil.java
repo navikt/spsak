@@ -6,10 +6,11 @@ import java.util.UUID;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -20,10 +21,12 @@ public class KompletthetssjekkerTestUtil {
     public static final String ARBGIVER1 = "123456789";
     public static final String ARBGIVER2 = "234567890";
 
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
-    public KompletthetssjekkerTestUtil(BehandlingRepositoryProvider repositoryProvider) {
+    public KompletthetssjekkerTestUtil(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider) {
         this.repositoryProvider = repositoryProvider;
+        this.resultatRepositoryProvider = resultatRepositoryProvider;
     }
 
     public ScenarioMorSøkerForeldrepenger opprettRevurderingsscenario() {
@@ -41,7 +44,7 @@ public class KompletthetssjekkerTestUtil {
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .medAnsvarligSaksbehandler("Nav Navsdotter")
             .build();
-        Behandling førstegangsbehandling = scenario.lagre(repositoryProvider);
+        Behandling førstegangsbehandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, førstegangsbehandling);
         return førstegangsbehandling;
     }

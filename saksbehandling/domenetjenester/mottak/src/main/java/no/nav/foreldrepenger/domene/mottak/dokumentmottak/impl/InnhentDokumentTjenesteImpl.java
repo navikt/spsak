@@ -14,8 +14,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentGruppe;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -46,7 +46,7 @@ public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
     private BehandlingRevurderingRepository revurderingRepository;
 
     @Inject
-    public InnhentDokumentTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public InnhentDokumentTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                                        @Any Instance<Dokumentmottaker> mottakere,
                                        BehandlingRevurderingRepository revurderingRepository) {
         this.fagsakRepository = repositoryProvider.getFagsakRepository();

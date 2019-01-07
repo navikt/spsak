@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeAggregat;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
@@ -26,13 +26,13 @@ import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
 public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjeneste {
 
     private PersonopplysningTjeneste personopplysningTjeneste;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
 
     PersonopplysningDtoTjenesteImpl() {
     }
 
     @Inject
-    public PersonopplysningDtoTjenesteImpl(PersonopplysningTjeneste personopplysningTjeneste, BehandlingRepositoryProvider repositoryProvider) {
+    public PersonopplysningDtoTjenesteImpl(PersonopplysningTjeneste personopplysningTjeneste, GrunnlagRepositoryProvider repositoryProvider) {
         this.personopplysningTjeneste = personopplysningTjeneste;
         this.repositoryProvider = repositoryProvider;
     }
@@ -81,7 +81,7 @@ public class PersonopplysningDtoTjenesteImpl implements PersonopplysningDtoTjene
         return new String(tegn);
     }
 
-    private static boolean harVerge(Long behandlingId, BehandlingRepositoryProvider provider) {
+    private static boolean harVerge(Long behandlingId, GrunnlagRepositoryProvider provider) {
         Optional<VergeAggregat> verge = provider.getVergeGrunnlagRepository().hentAggregat(behandlingId);
         return verge.isPresent();
     }

@@ -114,18 +114,12 @@
 				<artifactId>behandle-dokumentforsendelse-tjeneste</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-		
+
 			<dependency>
 				<groupId>no.nav.sykepenger.kontrakter</groupId>
 				<artifactId>sykepengersoeknad</artifactId>
                 <classifier>jaxb</classifier>
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger.kontrakter</groupId>
-				<artifactId>fp-feed-felles-tjenestespesifikasjon</artifactId>
-				<version>${project.version}</version>
-				<classifier>jaxb</classifier>
 			</dependency>
 
 			<dependency>

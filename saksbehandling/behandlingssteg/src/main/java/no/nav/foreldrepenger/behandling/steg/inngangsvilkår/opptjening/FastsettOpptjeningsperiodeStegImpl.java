@@ -15,9 +15,10 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelOrkestrerer;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
@@ -33,15 +34,18 @@ public class FastsettOpptjeningsperiodeStegImpl extends InngangsvilkårStegImpl 
     private static List<VilkårType> STØTTEDE_VILKÅR = singletonList(
         VilkårType.OPPTJENINGSPERIODEVILKÅR
     );
-    private final BehandlingRepositoryProvider repositoryProvider;
+    private final GrunnlagRepositoryProvider repositoryProvider;
 
     private OpptjeningRepository opptjeningRepository;
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
     @Inject
-    public FastsettOpptjeningsperiodeStegImpl(BehandlingRepositoryProvider repositoryProvider, RegelOrkestrerer regelOrkestrerer) {
+    public FastsettOpptjeningsperiodeStegImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider,
+                                              RegelOrkestrerer regelOrkestrerer) {
         super(repositoryProvider, regelOrkestrerer, BehandlingStegType.FASTSETT_OPPTJENINGSPERIODE);
         this.repositoryProvider = repositoryProvider;
-        this.opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+        this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
+        this.resultatRepositoryProvider = resultatRepositoryProvider;
     }
 
     @Override
@@ -51,7 +55,7 @@ public class FastsettOpptjeningsperiodeStegImpl extends InngangsvilkårStegImpl 
             throw new IllegalArgumentException(
                 "Utvikler-feil: finner ikke resultat etter evaluering av Inngangsvilkår/Opptjening:" + behandling.getId());
         }
-        Opptjening opptjening = opptjeningRepository.lagreOpptjeningsperiode(behandling, op.getOpptjeningsperiodeFom(), op.getOpptjeningsperiodeTom());
+        Opptjening opptjening = opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), op.getOpptjeningsperiodeFom(), op.getOpptjeningsperiodeTom());
         if (opptjening == null) {
             throw new IllegalArgumentException(
                 "Utvikler-feil: får ikke persistert ny opptjeningsperiode:" + behandling.getId());
@@ -62,14 +66,14 @@ public class FastsettOpptjeningsperiodeStegImpl extends InngangsvilkårStegImpl 
     public void vedTransisjon(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, TransisjonType transisjonType, BehandlingStegType førsteSteg, BehandlingStegType sisteSteg, TransisjonType skalTil) {
         if (transisjonType.equals(TransisjonType.HOPP_OVER_BAKOVER)) {
             if (!(førsteSteg!= null && førsteSteg.equals(BehandlingStegType.FASTSETT_OPPTJENINGSPERIODE) && skalTil.equals(TransisjonType.ETTER_UTGANG))) {
-                new RyddOpptjening(repositoryProvider, behandling, kontekst).ryddOpp();
+                new RyddOpptjening(repositoryProvider, resultatRepositoryProvider, behandling, kontekst).ryddOpp();
             }
         }
     }
 
     @Override
     public void vedHoppOverBakover(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, BehandlingStegType tilSteg, BehandlingStegType fraSteg) {
-        new RyddOpptjening(repositoryProvider, behandling, kontekst).ryddOpp();
+        new RyddOpptjening(repositoryProvider, resultatRepositoryProvider, behandling, kontekst).ryddOpp();
     }
 
     @Override

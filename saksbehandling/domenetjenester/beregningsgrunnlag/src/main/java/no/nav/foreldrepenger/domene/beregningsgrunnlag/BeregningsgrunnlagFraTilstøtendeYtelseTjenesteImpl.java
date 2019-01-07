@@ -9,11 +9,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel;
@@ -42,11 +42,11 @@ public class BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImpl implements Bere
     }
 
     @Inject
-    public BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImpl(BehandlingRepositoryProvider behandlingRepositoryProvider, OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste,
+    public BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImpl(GrunnlagRepositoryProvider grunnlagRepositoryProvider, OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste,
                                                               MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel mapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel,
                                                               MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL mapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL,
                                                               SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
-        this.inntektArbeidYtelseRepository = behandlingRepositoryProvider.getInntektArbeidYtelseRepository();
+        this.inntektArbeidYtelseRepository = grunnlagRepositoryProvider.getInntektArbeidYtelseRepository();
         this.opptjeningInntektArbeidYtelseTjeneste = opptjeningInntektArbeidYtelseTjeneste;
         this.mapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel = mapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel;
         this.mapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL = mapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL;

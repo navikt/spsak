@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
@@ -56,7 +56,7 @@ public class FordelRestTjeneste {
     public FordelRestTjeneste(SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste,
                               DokumentArkivTjeneste dokumentArkivTjeneste,
                               FagsakTjeneste fagsakTjeneste,
-                              BehandlingRepositoryProvider repositoryProvider,
+                              GrunnlagRepositoryProvider repositoryProvider,
                               OpprettSakOrchestrator opprettSakOrchestrator) {
         this.dokumentmottakTjeneste = dokumentmottakTjeneste;
         this.dokumentArkivTjeneste = dokumentArkivTjeneste;

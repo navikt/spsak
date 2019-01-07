@@ -51,7 +51,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektspostType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.domene.arbeidsforhold.ArbeidsforholdAdministrasjonTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.VurderArbeidsforholdTjeneste;
@@ -78,7 +78,7 @@ public class ArbeidsforholdAdministrasjonTjenesteImpl implements ArbeidsforholdA
     }
 
     @Inject
-    public ArbeidsforholdAdministrasjonTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public ArbeidsforholdAdministrasjonTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                                                     VurderArbeidsforholdTjeneste vurderArbeidsforholdTjeneste,
                                                     TpsTjeneste tpsTjeneste,
                                                     SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {

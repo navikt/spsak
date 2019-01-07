@@ -10,19 +10,19 @@ import no.finn.unleash.FakeUnleash;
 import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.FellesTransisjoner;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 
 public class SimulerOppdragStegImplTest {
 
     private SimulerOppdragSteg steg;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
 
     @Before
     public void setup() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.lagMocked();
-        repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
     }
 
     @Test

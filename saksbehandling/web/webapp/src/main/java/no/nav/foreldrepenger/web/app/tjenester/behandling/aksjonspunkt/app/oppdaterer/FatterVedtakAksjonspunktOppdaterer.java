@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderÅrsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 import no.nav.foreldrepenger.domene.vedtak.VedtakAksjonspunktData;
 import no.nav.foreldrepenger.domene.vedtak.impl.FatterVedtakAksjonspunkt;
@@ -34,7 +34,7 @@ public class FatterVedtakAksjonspunktOppdaterer implements AksjonspunktOppdatere
     }
 
     @Inject
-    public FatterVedtakAksjonspunktOppdaterer(BehandlingRepositoryProvider repositoryProvider, FatterVedtakAksjonspunkt fatterVedtakAksjonspunkt) {
+    public FatterVedtakAksjonspunktOppdaterer(GrunnlagRepositoryProvider repositoryProvider, FatterVedtakAksjonspunkt fatterVedtakAksjonspunkt) {
         this.fatterVedtakAksjonspunkt = fatterVedtakAksjonspunkt;
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
     }

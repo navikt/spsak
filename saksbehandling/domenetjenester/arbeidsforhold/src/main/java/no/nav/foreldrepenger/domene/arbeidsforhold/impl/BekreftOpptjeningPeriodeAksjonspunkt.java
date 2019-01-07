@@ -18,8 +18,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Yrk
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YrkesaktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørArbeid;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.OrganisasjonsNummerValidator;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -35,7 +35,7 @@ class BekreftOpptjeningPeriodeAksjonspunkt {
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private AksjonspunktutlederForVurderOpptjening vurderOpptjening;
 
-    BekreftOpptjeningPeriodeAksjonspunkt(BehandlingRepositoryProvider provider, VirksomhetTjeneste virksomhetTjeneste,
+    BekreftOpptjeningPeriodeAksjonspunkt(GrunnlagRepositoryProvider provider, VirksomhetTjeneste virksomhetTjeneste,
                                          InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, AksjonspunktutlederForVurderOpptjening vurderOpptjening) {
         this.kodeverkRepository = provider.getKodeverkRepository();
         this.virksomhetTjeneste = virksomhetTjeneste;

@@ -18,8 +18,8 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
@@ -41,7 +41,7 @@ public class PipRepositoryTest {
     private static final String ANSVARLIG_SAKSBEHANDLER = "Z123455";
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     private final PipRepository pipRepository = new PipRepository(repoRule.getEntityManager());
     private final FagsakRepository fagsakRepository = new FagsakRepositoryImpl(repoRule.getEntityManager());
@@ -49,7 +49,7 @@ public class PipRepositoryTest {
     private Map<AktørId, NavBruker> aktørMap = new HashMap<>();
 
     private static Behandling byggForElektroniskSøknadOmFødsel(Fagsak fagsak, LocalDate mottattDato, String ansvarligSaksbehandler,
-                                                               BehandlingRepositoryProvider repositoryProvider) {
+                                                               GrunnlagRepositoryProvider repositoryProvider) {
         BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
         Behandling.Builder behandlingBuilder = Behandling.forFørstegangssøknad(fagsak);
         Behandling behandling = behandlingBuilder.build();

@@ -20,7 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 /**
@@ -37,7 +37,7 @@ public class AksjonspunktUtlederForAndreYtelser implements AksjonspunktUtleder {
     }
 
     @Inject
-    public AksjonspunktUtlederForAndreYtelser(BehandlingRepositoryProvider repositoryProvider, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
+    public AksjonspunktUtlederForAndreYtelser(GrunnlagRepositoryProvider repositoryProvider, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
         this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
     }

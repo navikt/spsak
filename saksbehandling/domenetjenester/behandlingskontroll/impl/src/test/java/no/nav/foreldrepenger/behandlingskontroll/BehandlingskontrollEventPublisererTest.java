@@ -22,8 +22,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -47,7 +48,9 @@ public class BehandlingskontrollEventPublisererTest {
     BehandlingskontrollEventPubliserer eventPubliserer;
 
     @Inject
-    BehandlingRepositoryProvider repositoryProvider;
+    GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    ResultatRepositoryProvider resultatRepositoryProvider;
 
     @Inject
     BehandlingModellRepository behandlingModellRepository;
@@ -86,7 +89,7 @@ public class BehandlingskontrollEventPublisererTest {
     @Test
     public void skal_fyre_event_for_aksjonspunkt_funnet_ved_prosessering() throws Exception {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BehandlingskontrollKontekst kontekst = kontrollTjeneste.initBehandlingskontroll(behandling.getId());
 
@@ -104,7 +107,7 @@ public class BehandlingskontrollEventPublisererTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = nyttScenario(STEG_1);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BehandlingskontrollKontekst kontekst = kontrollTjeneste.initBehandlingskontroll(behandling.getId());
 
@@ -126,7 +129,7 @@ public class BehandlingskontrollEventPublisererTest {
         ScenarioMorSøkerEngangsstønad scenario = nyttScenario(STEG_3);
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_GYLDIG_MEDLEMSKAPSPERIODE, STEG_4);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BehandlingskontrollKontekst kontekst = kontrollTjeneste.initBehandlingskontroll(behandling.getId());
 
@@ -145,7 +148,7 @@ public class BehandlingskontrollEventPublisererTest {
         // Arrange
         ScenarioMorSøkerEngangsstønad scenario = nyttScenario(STEG_1);
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         BehandlingskontrollKontekst kontekst = kontrollTjeneste.initBehandlingskontroll(behandling.getId());
 

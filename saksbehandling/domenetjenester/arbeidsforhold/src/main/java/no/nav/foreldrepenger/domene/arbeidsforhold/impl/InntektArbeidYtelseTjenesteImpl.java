@@ -45,7 +45,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingSomIkkeKommer;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.diff.DiffResult;
@@ -78,7 +78,7 @@ public class InntektArbeidYtelseTjenesteImpl implements InntektArbeidYtelseTjene
     private ArbeidsforholdTjeneste arbeidsforholdTjeneste;
     private TpsTjeneste tpsTjeneste;
     private SøknadRepository søknadRepository;
-    private BehandlingRepositoryProvider provider;
+    private GrunnlagRepositoryProvider provider;
     private VirksomhetTjeneste virksomhetTjeneste;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
     private AksjonspunktutlederForVurderOpptjening aksjonspunktutlederForVurderOpptjening;
@@ -89,7 +89,7 @@ public class InntektArbeidYtelseTjenesteImpl implements InntektArbeidYtelseTjene
     }
 
     @Inject
-    public InntektArbeidYtelseTjenesteImpl(BehandlingRepositoryProvider provider,
+    public InntektArbeidYtelseTjenesteImpl(GrunnlagRepositoryProvider provider,
                                            ArbeidsforholdTjeneste arbeidsforholdTjeneste,
                                            TpsTjeneste tpsTjeneste,
                                            VirksomhetTjeneste virksomhetTjeneste,

@@ -15,7 +15,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
@@ -37,7 +37,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImpl implements Komple
 
     @Inject
     public KompletthetssjekkerInntektsmeldingRevurderingImpl(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                                             BehandlingRepositoryProvider repositoryProvider) {
+                                                             GrunnlagRepositoryProvider repositoryProvider) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.søknadRepository = repositoryProvider.getSøknadRepository();
     }

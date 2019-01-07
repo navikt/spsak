@@ -34,7 +34,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -59,7 +60,9 @@ public class DokumentmottakerInntektsmeldingTest {
     private KodeverkRepository kodeverkRepository = new KodeverkRepositoryImpl(repoRule.getEntityManager());
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
     @Inject
     private BehandlingRepository behandlingRepository;
     @Inject
@@ -93,7 +96,7 @@ public class DokumentmottakerInntektsmeldingTest {
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
         dokumentmottaker = new DokumentmottakerInntektsmelding(dokumentmottakerFelles, mottatteDokumentTjeneste, behandlingsoppretter,
-            kompletthetskontroller, repositoryProvider);
+            kompletthetskontroller, repositoryProvider, resultatRepositoryProvider);
         dokumentmottaker = Mockito.spy(dokumentmottaker);
 
         OrganisasjonsEnhet enhet = new OrganisasjonsEnhet("0312", "enhetNavn");
@@ -107,7 +110,7 @@ public class DokumentmottakerInntektsmeldingTest {
     public void skal_oppdatere_behandling_vurdere_kompletthet_og_spole_til_nytt_startpunkt_dersom_fagsak_har_avsluttet_behandling_har_åpen_behandling_og_kompletthet_passert() {
         // Arrange - opprette avsluttet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandling);
         
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
@@ -118,7 +121,7 @@ public class DokumentmottakerInntektsmeldingTest {
             .medFagsakId(behandling.getFagsakId())
                 .medBehandlingStegStart(BehandlingStegType.FORESLÅ_VEDTAK)
             .medOriginalBehandling(behandling, BehandlingÅrsakType.RE_ENDRING_FRA_BRUKER);
-        Behandling revurderingBehandling = revurderingScenario.lagre(repositoryProvider);
+        Behandling revurderingBehandling = revurderingScenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Arrange - bygg inntektsmelding
         DokumentTypeId dokumentTypeId = DokumentTypeId.INNTEKTSMELDING;
@@ -138,7 +141,7 @@ public class DokumentmottakerInntektsmeldingTest {
         // Arrange - opprette åpen behandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingStegStart(BehandlingStegType.VURDER_KOMPLETTHET);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         opprettAksjonspunkt(behandling, AksjonspunktDefinisjon.AUTO_VENTER_PÅ_KOMPLETT_SØKNAD, LocalDateTime.now());
 
         // Arrange - bygg inntektsmelding
@@ -157,7 +160,7 @@ public class DokumentmottakerInntektsmeldingTest {
     public void skal_opprette_revurdering_dersom_inntektsmelding_på_avsluttet_behandling() {
         // Arrange - opprette avsluttet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandling);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
@@ -199,7 +202,7 @@ public class DokumentmottakerInntektsmeldingTest {
     public void skal_opprette_køet_revurdering_og_kjøre_kompletthet_dersom_køet_behandling_ikke_finnes() {
         // Arrange - opprette avsluttet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandling);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
@@ -247,7 +250,7 @@ public class DokumentmottakerInntektsmeldingTest {
     public void skal_oppdatere_køet_behandling_og_kjøre_kompletthet_dersom_køet_behandling_finnes() {
         // Arrange - opprette køet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
         simulerKøetBehandling(behandling);

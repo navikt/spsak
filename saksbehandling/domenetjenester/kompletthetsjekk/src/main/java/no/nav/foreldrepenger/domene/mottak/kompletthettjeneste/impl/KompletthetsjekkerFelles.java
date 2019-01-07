@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.vedtak.util.FPDateUtil;
@@ -39,7 +39,7 @@ public class KompletthetsjekkerFelles {
     }
 
     @Inject
-    public KompletthetsjekkerFelles(BehandlingRepositoryProvider provider, SendVarselTjeneste sendVarselTjeneste) {
+    public KompletthetsjekkerFelles(GrunnlagRepositoryProvider provider, SendVarselTjeneste sendVarselTjeneste) {
         this.søknadRepository = provider.getSøknadRepository();
         this.sendVarselTjeneste = sendVarselTjeneste;
     }

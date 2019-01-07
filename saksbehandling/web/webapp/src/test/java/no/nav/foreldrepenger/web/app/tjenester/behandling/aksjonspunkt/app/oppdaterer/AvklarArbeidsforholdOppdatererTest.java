@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -25,18 +25,18 @@ public class AvklarArbeidsforholdOppdatererTest {
 
     private AvklarArbeidsforholdOppdaterer avklarArbeidsforholdOppdaterer;
     private VirksomhetRepository virksomhetRepositoryMock;
-    private BehandlingRepositoryProvider behandlingRepositoryProvider;
+    private GrunnlagRepositoryProvider grunnlagRepositoryProvider;
     private TpsTjeneste tpsTjenesteMock;
 
     @Before
     public void oppsett() {
         this.virksomhetRepositoryMock = Mockito.mock(VirksomhetRepository.class);
-        this.behandlingRepositoryProvider = Mockito.mock(BehandlingRepositoryProvider.class);
+        this.grunnlagRepositoryProvider = Mockito.mock(GrunnlagRepositoryProvider.class);
         this.tpsTjenesteMock = Mockito.mock(TpsTjeneste.class);
-        Mockito.when(behandlingRepositoryProvider.getVirksomhetRepository()).thenReturn(virksomhetRepositoryMock);
+        Mockito.when(grunnlagRepositoryProvider.getVirksomhetRepository()).thenReturn(virksomhetRepositoryMock);
 
         this.avklarArbeidsforholdOppdaterer = new AvklarArbeidsforholdOppdaterer(
-            null, tpsTjenesteMock, null, null, behandlingRepositoryProvider);
+            null, tpsTjenesteMock, null, null, grunnlagRepositoryProvider);
     }
 
     @Test

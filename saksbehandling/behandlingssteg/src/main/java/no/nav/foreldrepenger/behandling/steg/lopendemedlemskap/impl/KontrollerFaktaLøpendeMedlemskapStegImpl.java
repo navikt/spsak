@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.UtledVurderingsdatoerForMedlemskapTjeneste;
 
 @BehandlingStegRef(kode = "KOFAK_LOP_MEDL")
@@ -39,7 +39,7 @@ public class KontrollerFaktaLøpendeMedlemskapStegImpl implements KontrollerFakt
     @Inject
     public KontrollerFaktaLøpendeMedlemskapStegImpl(Unleash unleash,
                                                     UtledVurderingsdatoerForMedlemskapTjeneste vurderingsdatoer,
-                                                    BehandlingRepositoryProvider provider) {
+                                                    GrunnlagRepositoryProvider provider) {
         this.unleash = unleash;
         this.tjeneste = vurderingsdatoer;
         this.behandlingRepository = provider.getBehandlingRepository();

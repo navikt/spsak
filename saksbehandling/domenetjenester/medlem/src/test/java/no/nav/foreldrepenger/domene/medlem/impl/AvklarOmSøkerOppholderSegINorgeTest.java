@@ -20,8 +20,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriodeBuilder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
@@ -42,7 +44,8 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider provider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider provider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     @Inject
     private PersonopplysningTjeneste personopplysningTjeneste;
@@ -66,7 +69,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.FIN);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, fødselsdato);
@@ -91,7 +94,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.FIN);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
@@ -116,7 +119,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.CAN);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
@@ -150,7 +153,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         builder.medInntektspostFom(fom);
         builder.medInntektspostTom(tom);
         builder.build();
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
 
@@ -174,7 +177,7 @@ public class AvklarOmSøkerOppholderSegINorgeTest {
         builderb.leggTil(sykemeldingBuilder);
         scenario.medSykefravær(builderb);
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.ESP);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
         // Act
         Optional<MedlemResultat> medlemResultat = tjeneste.utled(behandling, termindato);
 

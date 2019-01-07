@@ -76,7 +76,7 @@ public class Behandling extends BaseEntitet {
         });
 
     @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BEHANDLING")
     private Long id;
 
     @ManyToOne(optional = false)

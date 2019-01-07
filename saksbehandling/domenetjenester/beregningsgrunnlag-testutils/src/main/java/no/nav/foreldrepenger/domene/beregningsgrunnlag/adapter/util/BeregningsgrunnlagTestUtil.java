@@ -18,25 +18,26 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.Kopimaskin;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Sats;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.SatsType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.PeriodeÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørArbeid;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Yrkesaktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.SatsRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.Sats;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.SatsType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.PeriodeÅrsak;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.fpsak.tidsserie.LocalDateInterval;
 
@@ -46,7 +47,7 @@ public class BeregningsgrunnlagTestUtil {
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
 
-    private BeregningRepository beregningRepository;
+    private SatsRepository satsRepository;
     private BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil;
 
     public BeregningsgrunnlagTestUtil() {
@@ -54,14 +55,15 @@ public class BeregningsgrunnlagTestUtil {
     }
 
     @Inject
-    public BeregningsgrunnlagTestUtil(BehandlingRepositoryProvider repositoryProvider,
+    public BeregningsgrunnlagTestUtil(GrunnlagRepositoryProvider repositoryProvider,
+                                      ResultatRepositoryProvider resultatRepositoryProvider,
                                       InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
                                       BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil) {
         Objects.requireNonNull(repositoryProvider);
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.beregningArbeidsgiverTestUtil = beregningArbeidsgiverTestUtil;
-        this.beregningRepository = repositoryProvider.getBeregningRepository();
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+        this.satsRepository = repositoryProvider.getSatsRepository();
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
     }
 
     public void leggTilFLTilknyttetOrganisasjon(Behandling behandling, String orgNr, String arbId) {
@@ -350,7 +352,7 @@ public class BeregningsgrunnlagTestUtil {
     }
 
     public BigDecimal getGrunnbeløp(LocalDate skjæringstidspunktOpptjening) {
-        Sats sats = beregningRepository.finnEksaktSats(SatsType.GRUNNBELØP, skjæringstidspunktOpptjening);
+        Sats sats = satsRepository.finnEksaktSats(SatsType.GRUNNBELØP, skjæringstidspunktOpptjening);
         return BigDecimal.valueOf(sats.getVerdi());
     }
 

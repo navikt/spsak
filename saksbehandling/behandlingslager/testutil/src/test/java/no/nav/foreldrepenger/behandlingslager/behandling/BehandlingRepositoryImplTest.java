@@ -23,22 +23,20 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderÅrsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingKandidaterRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingKandidaterRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepositoryImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.IverksettingStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.IverksettingStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
@@ -63,15 +61,15 @@ public class BehandlingRepositoryImplTest {
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final Repository repository = repoRule.getRepository();
     private final EntityManager entityManager = repoRule.getEntityManager();
-    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(entityManager);
+    private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(entityManager);
+    private final ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     private final BehandlingKandidaterRepository behandlingKandidaterRepository = new BehandlingKandidaterRepositoryImpl(entityManager);
-    private final BehandlingVedtakRepository behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
+    private final BehandlingVedtakRepository behandlingVedtakRepository = resultatRepositoryProvider.getVedtakRepository();
     private final FagsakRepository fagsakRepository = new FagsakRepositoryImpl(entityManager);
     private final AksjonspunktRepository aksjonspunktRepository = new AksjonspunktRepositoryImpl(entityManager);
     private final Saksnummer saksnummer = new Saksnummer("2");
     private final Fagsak fagsak = FagsakBuilder.nyFagsak().medBruker(NavBruker.opprettNy(new AktørId("909"))).medSaksnummer(saksnummer).build();
-    private BeregningRepository beregningRepository = new BeregningRepositoryImpl(entityManager);
     private Behandling behandling;
 
     private LocalDateTime imorgen = LocalDateTime.now().plusDays(1);
@@ -356,7 +354,7 @@ public class BehandlingRepositoryImplTest {
         LocalDate tidsfrist = LocalDate.now().minusDays(1);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør()
             .medBehandlingstidFrist(tidsfrist);
-        scenario.lagre(repositoryProvider);
+        scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Act
         List<Behandling> liste = behandlingKandidaterRepository.finnBehandlingerMedUtløptBehandlingsfrist();
@@ -387,7 +385,7 @@ public class BehandlingRepositoryImplTest {
 
         // Lagre Personopplysning
         AbstractTestScenario<?> scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
-        scenario.lagre(repositoryProvider);
+        scenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     @Test
@@ -461,7 +459,7 @@ public class BehandlingRepositoryImplTest {
         LocalDate.now().plusDays(5);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         return behandling;
     }
 
@@ -515,7 +513,7 @@ public class BehandlingRepositoryImplTest {
 
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         return behandling;
     }
 
@@ -524,7 +522,7 @@ public class BehandlingRepositoryImplTest {
         LocalDate.now().minusDays(dagerTilbake);
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
         final BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder().medVedtaksdato(LocalDate.now()).medBehandlingsresultat(behandlingsresultat)
@@ -544,11 +542,6 @@ public class BehandlingRepositoryImplTest {
                 null, new Properties(), null, false, false, null, null)
             .medVilkårResultatType(innvilget ? VilkårResultatType.INNVILGET : VilkårResultatType.AVSLÅTT)
             .buildFor(behandling);
-        if (innvilget) {
-            BeregningResultat.builder()
-                .medBeregning(new Beregning(48500L, 1L, 48500L, LocalDateTime.now()))
-                .buildFor(behandling);
-        }
 
         Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
         if (henlegg) {
@@ -559,9 +552,6 @@ public class BehandlingRepositoryImplTest {
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
-        if (innvilget) {
-            beregningRepository.lagre(behandlingsresultat.getBeregningResultat(), lås);
-        }
         return behandlingsresultat;
     }
 

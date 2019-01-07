@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
 
 class MapInntektskategoriRegelTilVL {
     private static final Map<no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Inntektskategori, Inntektskategori> INNTEKTSKATEGORI_MAP;
@@ -12,7 +12,7 @@ class MapInntektskategoriRegelTilVL {
     private MapInntektskategoriRegelTilVL() {}
 
     static {
-        Map<no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Inntektskategori, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori> map = new EnumMap<>(no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Inntektskategori.class);
+        Map<no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Inntektskategori, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori> map = new EnumMap<>(no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Inntektskategori.class);
         map.put(no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Inntektskategori.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER);
         map.put(no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Inntektskategori.FRILANSER, Inntektskategori.FRILANSER);
         map.put(no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Inntektskategori.SELVSTENDIG_NÆRINGSDRIVENDE, Inntektskategori.SELVSTENDIG_NÆRINGSDRIVENDE);

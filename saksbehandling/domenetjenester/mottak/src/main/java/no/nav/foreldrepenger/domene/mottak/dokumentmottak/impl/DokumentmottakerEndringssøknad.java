@@ -8,7 +8,8 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -21,7 +22,8 @@ class DokumentmottakerEndringssøknad extends DokumentmottakerYtelsesesrelatertD
     private KøKontroller køKontroller;
 
     @Inject
-    public DokumentmottakerEndringssøknad(BehandlingRepositoryProvider repositoryProvider,
+    public DokumentmottakerEndringssøknad(GrunnlagRepositoryProvider repositoryProvider,
+                                          ResultatRepositoryProvider resultatRepositoryProvider,
                                           DokumentmottakerFelles dokumentmottakerFelles,
                                           MottatteDokumentTjeneste mottatteDokumentTjeneste,
                                           Behandlingsoppretter behandlingsoppretter,
@@ -31,7 +33,7 @@ class DokumentmottakerEndringssøknad extends DokumentmottakerYtelsesesrelatertD
             mottatteDokumentTjeneste,
             behandlingsoppretter,
             kompletthetskontroller,
-            repositoryProvider);
+            repositoryProvider, resultatRepositoryProvider);
         this.køKontroller = køKontroller;
     }
 

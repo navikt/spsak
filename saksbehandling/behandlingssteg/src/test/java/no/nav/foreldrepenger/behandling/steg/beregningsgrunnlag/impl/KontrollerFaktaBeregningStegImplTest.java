@@ -30,12 +30,6 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.ReferanseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.YtelseStørrelseBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.YtelseStørrelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Gradering;
@@ -47,9 +41,17 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
@@ -87,7 +89,8 @@ public class KontrollerFaktaBeregningStegImplTest {
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
 
     private Behandling behandling;
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
 
 
     private KontrollerFaktaBeregningStegImpl steg;
@@ -131,15 +134,17 @@ public class KontrollerFaktaBeregningStegImplTest {
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(any())).thenReturn(LocalDate.now());
         opplysningsPeriodeTjeneste = new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(1, 0, 0), Period.of(0, 4, 0));
         virksomhetTestUtil = new BeregningArbeidsgiverTestUtil(repositoryProvider.getVirksomhetRepository());
-        opptjeningTestUtil = new BeregningOpptjeningTestUtil(repositoryProvider, virksomhetTestUtil);
+        opptjeningTestUtil = new BeregningOpptjeningTestUtil(resultatRepositoryProvider, virksomhetTestUtil);
         iayTestUtil = new BeregningIAYTestUtil(repositoryProvider, inntektArbeidYtelseTjeneste);
         inntektsmeldingTestUtil = new BeregningInntektsmeldingTestUtil(repositoryProvider, virksomhetTestUtil);
         HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste = lagHentGrunnlagsdataTjeneste();
-        OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste = new OpprettBeregningsgrunnlagTjeneste(repositoryProvider, fastsettSkjæringstidspunktOgStatuser, fastsettInntektskategoriFraSøknadTjeneste, beregningsgrunnlagFraTilstøtendeYtelseTjeneste, fastsettBeregningsgrunnlagPerioderTjeneste, hentGrunnlagsdataTjeneste);
-        steg = new KontrollerFaktaBeregningStegImpl(repositoryProvider, aksjonspunktUtlederForBeregning, opprettBeregningsgrunnlagTjeneste);
+        OpprettBeregningsgrunnlagTjeneste opprettBeregningsgrunnlagTjeneste = new OpprettBeregningsgrunnlagTjeneste(resultatRepositoryProvider,
+            fastsettSkjæringstidspunktOgStatuser, fastsettInntektskategoriFraSøknadTjeneste,
+            beregningsgrunnlagFraTilstøtendeYtelseTjeneste, fastsettBeregningsgrunnlagPerioderTjeneste, hentGrunnlagsdataTjeneste);
+        steg = new KontrollerFaktaBeregningStegImpl(resultatRepositoryProvider, aksjonspunktUtlederForBeregning, opprettBeregningsgrunnlagTjeneste);
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger
-                .forAktør(AKTØR_ID);
-        behandling = scenario.lagre(repositoryProvider);
+            .forAktør(AKTØR_ID);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         when(kontekst.getBehandlingId()).thenReturn(behandling.getId());
 
         //setter til feil verdi, slik at testen går på nye regler
@@ -154,14 +159,14 @@ public class KontrollerFaktaBeregningStegImplTest {
 
     private HentGrunnlagsdataTjeneste lagHentGrunnlagsdataTjeneste() {
         IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste = lagIAYRegisterInnhentingTjeneste();
-        return new HentGrunnlagsdataTjenesteImpl(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste,
+        return new HentGrunnlagsdataTjenesteImpl(resultatRepositoryProvider, opptjeningInntektArbeidYtelseTjeneste,
             inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);
     }
 
     private IAYRegisterInnhentingTjeneste lagIAYRegisterInnhentingTjeneste() {
         InnhentingSamletTjeneste innhentingSamletTjeneste = mockInnhentingSamletTjeneste();
         return new IAYRegisterInnhentingFPTjenesteImpl(inntektArbeidYtelseTjeneste,
-            repositoryProvider, virksomhetTjeneste, skjæringstidspunktTjeneste, innhentingSamletTjeneste, opplysningsPeriodeTjeneste);
+            repositoryProvider, resultatRepositoryProvider, virksomhetTjeneste, skjæringstidspunktTjeneste, innhentingSamletTjeneste, opplysningsPeriodeTjeneste);
     }
 
     private InnhentingSamletTjeneste mockInnhentingSamletTjeneste() {
@@ -195,7 +200,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4, OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
         String ref5 = "5";
         leggTilOpptjening(orgnr3, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref5, OpptjeningAktivitetType.ARBEID, ReferanseType.ORG_NR);
-        opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap);
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
         iayTestUtil.leggTilOppgittOpptjeningForFL(behandling, true);
         leggTilAT(arbId, orgnr);
         leggTilTidsbegrenset(arbId2, orgnr2);
@@ -213,7 +218,7 @@ public class KontrollerFaktaBeregningStegImplTest {
 
         // Assert
         assertThat(resultat.getAksjonspunktListe()).containsExactly(AksjonspunktDefinisjon.VURDER_FAKTA_FOR_ATFL_SN);
-        Beregningsgrunnlag bg = repositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
+        Beregningsgrunnlag bg = resultatRepositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
         assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(FaktaOmBeregningTilfelle.VURDER_AT_OG_FL_I_SAMME_ORGANISASJON,
             FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE,
             FaktaOmBeregningTilfelle.VURDER_TIDSBEGRENSET_ARBEIDSFORHOLD,
@@ -242,7 +247,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         leggTilOpptjening(orgnr, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref1, OpptjeningAktivitetType.ARBEID, ReferanseType.ORG_NR);
         String ref4 = "4";
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4, OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
-        opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap);
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
         leggTilAT(arbId, orgnr);
         List<YtelseStørrelse> ytelseStørrelseList = Arrays.asList(lagYtelseStørrelseForVirksomhet(BigDecimal.valueOf(23131), orgnr2));
         leggTilTilstøtendeYtelse(ytelseStørrelseList, behandling, Arbeidskategori.ARBEIDSTAKER);
@@ -252,7 +257,7 @@ public class KontrollerFaktaBeregningStegImplTest {
 
         // Assert
         assertThat(resultat.getAksjonspunktListe()).containsExactly(AksjonspunktDefinisjon.VURDER_FAKTA_FOR_ATFL_SN);
-        Beregningsgrunnlag bg = repositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
+        Beregningsgrunnlag bg = resultatRepositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
         assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(
             FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE);
         assertThat(bg.getBeregningsgrunnlagPerioder().size()).isEqualTo(1);
@@ -277,7 +282,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         String ref4 = "4";
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4,
             OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
-        opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap);
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
         leggTilAT(arbId, orgnr);
         List<YtelseStørrelse> ytelseStørrelseList = Arrays.asList(lagYtelseStørrelseUtenVirksomhet(BigDecimal.valueOf(23131)));
         leggTilTilstøtendeYtelse(ytelseStørrelseList, behandling, Arbeidskategori.JORDBRUKER);
@@ -287,7 +292,7 @@ public class KontrollerFaktaBeregningStegImplTest {
 
         // Assert
         assertThat(resultat.getAksjonspunktListe()).containsExactly(AksjonspunktDefinisjon.VURDER_FAKTA_FOR_ATFL_SN);
-        Beregningsgrunnlag bg = repositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
+        Beregningsgrunnlag bg = resultatRepositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
         assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(
             FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE);
         assertThat(bg.getBeregningsgrunnlagPerioder().size()).isEqualTo(1);
@@ -321,7 +326,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         String ref4 = "4";
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4,
             OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
-        opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap);
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
         leggTilAT(arbId, orgnr);
         iayTestUtil.leggTilOppgittOpptjeningForFLOgSN(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, true, true);
         List<YtelseStørrelse> ytelseStørrelseList = Arrays.asList(lagYtelseStørrelseUtenVirksomhet(BigDecimal.valueOf(23131)));
@@ -332,7 +337,7 @@ public class KontrollerFaktaBeregningStegImplTest {
 
         // Assert
         assertThat(resultat.getAksjonspunktListe()).containsExactly(AksjonspunktDefinisjon.VURDER_FAKTA_FOR_ATFL_SN);
-        Beregningsgrunnlag bg = repositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
+        Beregningsgrunnlag bg = resultatRepositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
         assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(
             FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE, FaktaOmBeregningTilfelle.VURDER_NYOPPSTARTET_FL, FaktaOmBeregningTilfelle.VURDER_SN_NY_I_ARBEIDSLIVET);
         assertThat(bg.getBeregningsgrunnlagPerioder().size()).isEqualTo(1);
@@ -357,7 +362,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         String ref4 = "4";
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4,
             OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
-        opptjeningTestUtil.leggTilOpptjening(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap);
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
         iayTestUtil.lagOppgittOpptjeningForSN(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, true, VirksomhetType.FISKE);
         List<YtelseStørrelse> ytelseStørrelseList = Arrays.asList(lagYtelseStørrelseUtenVirksomhet(BigDecimal.valueOf(23131)));
         leggTilTilstøtendeYtelse(ytelseStørrelseList, behandling, Arbeidskategori.JORDBRUKER);
@@ -367,7 +372,7 @@ public class KontrollerFaktaBeregningStegImplTest {
 
         // Assert
         assertThat(resultat.getAksjonspunktListe()).containsExactly(AksjonspunktDefinisjon.VURDER_FAKTA_FOR_ATFL_SN);
-        Beregningsgrunnlag bg = repositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
+        Beregningsgrunnlag bg = resultatRepositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling);
         assertThat(bg.getFaktaOmBeregningTilfeller()).containsExactlyInAnyOrder(
             FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE, FaktaOmBeregningTilfelle.VURDER_SN_NY_I_ARBEIDSLIVET);
         assertThat(bg.getBeregningsgrunnlagPerioder().size()).isEqualTo(1);

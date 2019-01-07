@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 import org.junit.Before;
@@ -23,8 +22,10 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
@@ -44,7 +45,8 @@ public class BehandlingRestTjenesteTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private BehandlingRestTjeneste behandlingRestTjeneste;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
 
     private BehandlingsutredningApplikasjonTjeneste behandlingutredningTjeneste = mock(BehandlingsutredningApplikasjonTjeneste.class);
@@ -54,10 +56,10 @@ public class BehandlingRestTjenesteTest {
     @Before
     public void setUp() {
         unleash.disableAll();
-        repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+
         FagsakTjenesteImpl fagsakTjeneste = new FagsakTjenesteImpl(repositoryProvider, null);
-        skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
-        BehandlingDtoTjenesteImpl behandlingDtoTjeneste = new BehandlingDtoTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste, unleash);
+        skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
+        BehandlingDtoTjenesteImpl behandlingDtoTjeneste = new BehandlingDtoTjenesteImpl(resultatRepositoryProvider, skjæringstidspunktTjeneste, unleash);
 
         behandlingRestTjeneste = new BehandlingRestTjeneste(repositoryProvider,
             behandlingutredningTjeneste,
@@ -92,7 +94,7 @@ public class BehandlingRestTjenesteTest {
 
 
         scenario.medRegisterOpplysninger(personInformasjon);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Saksnummer saksnummer = behandling.getFagsak().getSaksnummer();
 
         when(behandlingutredningTjeneste.hentBehandlingerForSaksnummer(saksnummer)).thenReturn(singletonList(behandling));

@@ -12,10 +12,11 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -46,14 +47,15 @@ abstract class DokumentmottakerYtelsesesrelatertDokument implements Dokumentmott
                                                      MottatteDokumentTjeneste mottatteDokumentTjeneste,
                                                      Behandlingsoppretter behandlingsoppretter,
                                                      Kompletthetskontroller kompletthetskontroller,
-                                                     BehandlingRepositoryProvider repositoryProvider) {
+                                                     GrunnlagRepositoryProvider repositoryProvider,
+                                                     ResultatRepositoryProvider resultatRepositoryProvider) {
         this.dokumentmottakerFelles = dokumentmottakerFelles;
         this.mottatteDokumentTjeneste = mottatteDokumentTjeneste;
         this.behandlingsoppretter = behandlingsoppretter;
         this.kompletthetskontroller = kompletthetskontroller;
         this.revurderingRepository = repositoryProvider.getBehandlingRevurderingRepository();
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
+        this.behandlingVedtakRepository = resultatRepositoryProvider.getVedtakRepository();
     }
 
     /* TEMPLATE-metoder som må håndteres spesifikt for hver type av ytelsesdokumenter - START */
@@ -133,6 +135,6 @@ abstract class DokumentmottakerYtelsesesrelatertDokument implements Dokumentmott
     }
 
     private Optional<BehandlingVedtak> hentBehandlingsvedtak(Behandling behandling) {
-        return behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(behandling.getId());
+        return behandlingVedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
     }
 }

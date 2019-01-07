@@ -1,16 +1,17 @@
 package no.nav.foreldrepenger.domene.registerinnhenting.startpunkt;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
-import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
+import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 
 @ApplicationScoped
 public class FørstePermisjonsdagTjeneste {
@@ -22,7 +23,7 @@ public class FørstePermisjonsdagTjeneste {
     }
 
     @Inject
-    public FørstePermisjonsdagTjeneste(BehandlingRepositoryProvider repositoryProvider) {
+    public FørstePermisjonsdagTjeneste(ResultatRepositoryProvider repositoryProvider) {
         this.uttakRepository = repositoryProvider.getUttakRepository();
     }
 

@@ -32,7 +32,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedle
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sykefravær;
@@ -73,7 +73,7 @@ public class InngangsvilkårOversetter {
     }
 
     @Inject
-    public InngangsvilkårOversetter(BehandlingRepositoryProvider repositoryProvider,
+    public InngangsvilkårOversetter(GrunnlagRepositoryProvider repositoryProvider,
                                     MedlemskapPerioderTjeneste medlemskapPerioderTjeneste,
                                     SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                     BasisPersonopplysningTjeneste personopplysningTjeneste) {

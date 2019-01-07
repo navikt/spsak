@@ -25,13 +25,15 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.FellesTransisjoner;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
@@ -59,9 +61,10 @@ public class BeregneYtelseForeldrepengerStegImplTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
-    private final BeregningsresultatFPRepository beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatFPRepository();
-    private final UttakRepository uttakRepository = repositoryProvider.getUttakRepository();
+    private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private final ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
+    private final BeregningsresultatRepository beregningsresultatFPRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
+    private final UttakRepository uttakRepository = resultatRepositoryProvider.getUttakRepository();
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
     @Inject
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
@@ -72,15 +75,15 @@ public class BeregneYtelseForeldrepengerStegImplTest {
     private FinnEndringsdatoBeregningsresultatFPTjeneste finnEndringsdatoBeregningsresultatFPTjeneste;
 
     private BeregneYtelseForeldrepengerStegImpl steg;
-    private BeregningsresultatFP beregningsresultatFP;
+    private BeregningsresultatPerioder beregningsresultat;
 
     @Before
     public void setup() {
-        beregningsresultatFP = BeregningsresultatFP.builder()
+        beregningsresultat = BeregningsresultatPerioder.builder()
             .medRegelInput("regelInput")
             .medRegelSporing("regelSporing")
             .build();
-        steg = new BeregneYtelseForeldrepengerStegImpl(repositoryProvider, fastsettBeregningsresultatTjeneste, beregnFeriepengerTjeneste, finnEndringsdatoBeregningsresultatFPTjeneste);
+        steg = new BeregneYtelseForeldrepengerStegImpl(repositoryProvider, resultatRepositoryProvider, fastsettBeregningsresultatTjeneste, beregnFeriepengerTjeneste, finnEndringsdatoBeregningsresultatFPTjeneste);
     }
 
     @Test
@@ -89,7 +92,7 @@ public class BeregneYtelseForeldrepengerStegImplTest {
         ArgumentCaptor<Beregningsgrunnlag> beregningsgrunnlagCaptor = ArgumentCaptor.forClass(Beregningsgrunnlag.class);
         ArgumentCaptor<UttakResultatEntitet> uttakResultatPlanCaptor = ArgumentCaptor.forClass(UttakResultatEntitet.class);
         ArgumentCaptor<Behandling> behandlingCaptor = ArgumentCaptor.forClass(Behandling.class);
-        when(fastsettBeregningsresultatTjeneste.fastsettBeregningsresultat(beregningsgrunnlagCaptor.capture(), uttakResultatPlanCaptor.capture(), behandlingCaptor.capture())).thenReturn(beregningsresultatFP);
+        when(fastsettBeregningsresultatTjeneste.fastsettBeregningsresultat(beregningsgrunnlagCaptor.capture(), uttakResultatPlanCaptor.capture(), behandlingCaptor.capture())).thenReturn(beregningsresultat);
 
         Tuple<Behandling, BehandlingskontrollKontekst> behandlingKontekst = byggGrunnlag(true, true);
         Behandling behandling = behandlingKontekst.getElement1();
@@ -103,7 +106,7 @@ public class BeregneYtelseForeldrepengerStegImplTest {
         assertThat(beregningsgrunnlagCaptor.getValue()).isNotNull();
         assertThat(uttakResultatPlanCaptor.getValue()).isNotNull();
 
-        Optional<BeregningsresultatFP> beregningsresultatFP = beregningsresultatFPRepository.hentBeregningsresultatFP(behandling);
+        Optional<BeregningsresultatPerioder> beregningsresultatFP = beregningsresultatFPRepository.hentHvisEksisterer(behandling);
         assertThat(beregningsresultatFP).hasValueSatisfying(resultat -> {
             assertThat(resultat).isNotNull();
             assertThat(resultat.getRegelInput()).as("regelInput").isEqualTo("regelInput");
@@ -117,13 +120,13 @@ public class BeregneYtelseForeldrepengerStegImplTest {
         Tuple<Behandling, BehandlingskontrollKontekst> behandlingKontekst = byggGrunnlag(true, true);
         Behandling behandling = behandlingKontekst.getElement1();
         BehandlingskontrollKontekst kontekst = behandlingKontekst.getElement2();
-        beregningsresultatFPRepository.lagre(behandling, beregningsresultatFP);
+        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
 
         // Act
         steg.vedHoppOverBakover(kontekst, behandling, null, null, null);
 
         // Assert
-        Optional<BeregningsresultatFP> resultat = beregningsresultatFPRepository.hentBeregningsresultatFP(behandling);
+        Optional<BeregningsresultatPerioder> resultat = beregningsresultatFPRepository.hentHvisEksisterer(behandling);
         assertThat(resultat).isNotPresent();
     }
 
@@ -167,7 +170,7 @@ public class BeregneYtelseForeldrepengerStegImplTest {
                 .medGrunnbeløp(BigDecimal.valueOf(90000))
                 .medRedusertGrunnbeløp(BigDecimal.valueOf(90000));
         }
-        Behandling behandling = scenarioMorSøkerForeldrepenger.lagre(repositoryProvider);
+        Behandling behandling = scenarioMorSøkerForeldrepenger.lagre(repositoryProvider, resultatRepositoryProvider);
         BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(behandling);
         behandlingRepository.lagre(behandling, kontekst.getSkriveLås());
         if (medUttaksPlanResultat) {

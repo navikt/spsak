@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BGAndelArbeidsforhold;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.BeregningsperiodeTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettInntektskategoriFraSøknadTjeneste;
@@ -82,15 +82,15 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL {
 
     void mapAndeler(BeregningsgrunnlagFraTilstøtendeYtelse beregningsgrunnlagFraTilstøtendeYtelse, BeregningsgrunnlagPeriode beregningsgrunnlagPeriode) {
         DatoIntervallEntitet beregningsperiode = BeregningsperiodeTjeneste.fastsettBeregningsperiodeForATFLAndeler(beregningsgrunnlagPeriode.getBeregningsgrunnlag().getSkjæringstidspunkt());
-        List<no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori> innntektskategorierSN = beregningsgrunnlagFraTilstøtendeYtelse.getBeregningsgrunnlagAndeler().stream()
+        List<no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori> innntektskategorierSN = beregningsgrunnlagFraTilstøtendeYtelse.getBeregningsgrunnlagAndeler().stream()
             .filter(andel -> AktivitetStatus.erSelvstendigNæringsdrivende(andel.getAktivitetStatus()))
             .map(andel -> mapFraInntektskategori(andel.getInntektskategori())).collect(Collectors.toList());
-        Optional<no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori> prioritertInntektskategori = fastsettInntektskategoriFraSøknadTjeneste.finnHøgastPrioriterteInntektskategoriForSN(innntektskategorierSN);
+        Optional<no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori> prioritertInntektskategori = fastsettInntektskategoriFraSøknadTjeneste.finnHøgastPrioriterteInntektskategoriForSN(innntektskategorierSN);
         boolean skalBrukeInformasjonOmFordeling = skalBrukeInformasjonOmFordelingVedTY(beregningsgrunnlagFraTilstøtendeYtelse, prioritertInntektskategori);
         beregningsgrunnlagFraTilstøtendeYtelse.getBeregningsgrunnlagAndeler()
             .forEach(andel -> {
-                no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel = mapFraInntektskategori(andel.getInntektskategori());
-                no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel = mapFraAktivitetStatus(andel.getAktivitetStatus(), andel.getInntektskategori());
+                no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel = mapFraInntektskategori(andel.getInntektskategori());
+                no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel = mapFraAktivitetStatus(andel.getAktivitetStatus(), andel.getInntektskategori());
                 if (AktivitetStatus.erSelvstendigNæringsdrivende(andel.getAktivitetStatus()) && prioritertInntektskategori.isPresent() && !prioritertInntektskategori.get().equals(mapFraInntektskategori(andel.getInntektskategori()))) {
                     slettAndel(beregningsgrunnlagPeriode, inntektskategoriForAndel, aktivitetStatusForAndel);
                 } else {
@@ -101,8 +101,8 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL {
 
     private void byggEllerOppdaterBGAndel(BeregningsgrunnlagFraTilstøtendeYtelse beregningsgrunnlagFraTilstøtendeYtelse, BeregningsgrunnlagPeriode beregningsgrunnlagPeriode,
                                           DatoIntervallEntitet beregningsperiode, boolean skalBrukeInformasjonOmFordeling, BeregningsgrunnlagAndelTilstøtendeYtelse andel,
-                                          no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel,
-                                          no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel) {
+                                          no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel,
+                                          no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel) {
         BeregningsgrunnlagPrStatusOgAndel.Builder builder = hentAndelBuilder(beregningsgrunnlagPeriode, inntektskategoriForAndel, aktivitetStatusForAndel, andel);
         BigDecimal refusjonskravPrÅr = andel.getRefusjonskrav().map(d -> d.multiply(BigDecimal.valueOf(12))).orElse(null);
 
@@ -145,7 +145,7 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL {
             || andel.getArbeidsperiodeTom() != null;
     }
 
-    boolean skalBrukeInformasjonOmFordelingVedTY(BeregningsgrunnlagFraTilstøtendeYtelse beregningsgrunnlagFraTilstøtendeYtelse, Optional<no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori> prioritertInntektskategori) {
+    boolean skalBrukeInformasjonOmFordelingVedTY(BeregningsgrunnlagFraTilstøtendeYtelse beregningsgrunnlagFraTilstøtendeYtelse, Optional<no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori> prioritertInntektskategori) {
         return !(prioritertInntektskategori.isPresent() && beregningsgrunnlagFraTilstøtendeYtelse.getBeregningsgrunnlagAndeler().stream()
             .anyMatch(andel -> AktivitetStatus.erSelvstendigNæringsdrivende(andel.getAktivitetStatus()) &&
             !prioritertInntektskategori.get().equals(mapFraInntektskategori(andel.getInntektskategori())) &&
@@ -153,8 +153,8 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL {
     }
 
     private BeregningsgrunnlagPrStatusOgAndel.Builder hentAndelBuilder(BeregningsgrunnlagPeriode beregningsgrunnlagPeriode,
-                                                                       no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel,
-                                                                       no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel,
+                                                                       no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel,
+                                                                       no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel,
                                                                        BeregningsgrunnlagAndelTilstøtendeYtelse andel) {
         Optional<BeregningsgrunnlagPrStatusOgAndel> oppdatereAndel = finnAndelSomSkalOppdateres(beregningsgrunnlagPeriode, inntektskategoriForAndel, aktivitetStatusForAndel, andel);
         if (oppdatereAndel.isPresent()) {
@@ -164,7 +164,7 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL {
         }
     }
 
-    private Optional<BeregningsgrunnlagPrStatusOgAndel> finnAndelSomSkalOppdateres(BeregningsgrunnlagPeriode beregningsgrunnlagPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel, BeregningsgrunnlagAndelTilstøtendeYtelse andel) {
+    private Optional<BeregningsgrunnlagPrStatusOgAndel> finnAndelSomSkalOppdateres(BeregningsgrunnlagPeriode beregningsgrunnlagPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel, BeregningsgrunnlagAndelTilstøtendeYtelse andel) {
         return !aktivitetStatusForAndel.erArbeidstaker() ?
                 matchForFLOgSN(beregningsgrunnlagPeriode, aktivitetStatusForAndel, inntektskategoriForAndel) :
                 matchBeregningsgrunnlagTjeneste.matchPåTilgjengeligAndelsinformasjon(beregningsgrunnlagPeriode, aktivitetStatusForAndel, inntektskategoriForAndel,
@@ -172,13 +172,13 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL {
     }
 
     private Optional<BeregningsgrunnlagPrStatusOgAndel> matchForFLOgSN(BeregningsgrunnlagPeriode beregningsgrunnlagPeriode,
-                                                                       no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel,
-                                                                       no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel) {
+                                                                       no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel,
+                                                                       no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel) {
             List<BeregningsgrunnlagPrStatusOgAndel> matchendeAndeler = matchBeregningsgrunnlagTjeneste.matchPåAktivitetstatusOgInntektskategori(beregningsgrunnlagPeriode, aktivitetStatusForAndel, inntektskategoriForAndel);
             return matchendeAndeler.isEmpty() ? Optional.empty() : Optional.of(matchendeAndeler.get(0));
     }
 
-    private void slettAndel(BeregningsgrunnlagPeriode beregningsgrunnlagPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel, no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel) {
+    private void slettAndel(BeregningsgrunnlagPeriode beregningsgrunnlagPeriode, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori inntektskategoriForAndel, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus aktivitetStatusForAndel) {
         Optional<BeregningsgrunnlagPrStatusOgAndel> fjernAndel = beregningsgrunnlagPeriode.getBeregningsgrunnlagPrStatusOgAndelList().stream()
             .filter(a -> a.getInntektskategori().equals(inntektskategoriForAndel)
                 && a.getAktivitetStatus().equals(aktivitetStatusForAndel)).findFirst();
@@ -189,14 +189,14 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL {
         return RELATERT_YTELSE_TYPE_MAP.get(beregningsgrunnlagFraTilstøtendeYtelse.getTilstøtendeYtelse().getRelatertYtelseType());
     }
 
-    private no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus mapFraAktivitetStatus(AktivitetStatus aktivitetStatus, Inntektskategori inntektskategori) {
+    private no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus mapFraAktivitetStatus(AktivitetStatus aktivitetStatus, Inntektskategori inntektskategori) {
         if (Inntektskategori.FRILANSER.equals(inntektskategori)) {
-            return no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER;
+            return no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER;
         }
         return MapAktivitetStatusFraRegelTilVL.map(aktivitetStatus);
     }
 
-    private no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori mapFraInntektskategori(Inntektskategori inntektskategori) {
+    private no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori mapFraInntektskategori(Inntektskategori inntektskategori) {
         return MapInntektskategoriRegelTilVL.map(inntektskategori);
     }
 }

@@ -38,7 +38,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.FrilansEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Periode;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -58,7 +58,7 @@ public class BeregningIAYTestUtil {
     }
 
     @Inject
-    public BeregningIAYTestUtil(BehandlingRepositoryProvider repositoryProvider,
+    public BeregningIAYTestUtil(GrunnlagRepositoryProvider repositoryProvider,
                                 InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste) {
         inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;

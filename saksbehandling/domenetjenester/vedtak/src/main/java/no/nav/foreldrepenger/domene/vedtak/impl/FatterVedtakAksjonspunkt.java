@@ -11,7 +11,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderÅrsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurdering;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
@@ -31,7 +31,7 @@ public class FatterVedtakAksjonspunkt {
     }
 
     @Inject
-    public FatterVedtakAksjonspunkt(BehandlingRepositoryProvider repositoryProvider, VedtakTjeneste vedtakTjeneste, TotrinnTjeneste totrinnTjeneste) {
+    public FatterVedtakAksjonspunkt(GrunnlagRepositoryProvider repositoryProvider, VedtakTjeneste vedtakTjeneste, TotrinnTjeneste totrinnTjeneste) {
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
         this.kodeverkTabellRepository = repositoryProvider.getKodeverkRepository().getKodeverkTabellRepository();
         this.vedtakTjeneste = vedtakTjeneste;

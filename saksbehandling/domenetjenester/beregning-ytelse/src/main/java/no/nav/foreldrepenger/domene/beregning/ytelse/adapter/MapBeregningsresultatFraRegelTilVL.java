@@ -2,7 +2,8 @@ package no.nav.foreldrepenger.domene.beregning.ytelse.adapter;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatFP;
@@ -16,7 +17,7 @@ public class MapBeregningsresultatFraRegelTilVL {
         // default constructor
     }
 
-    public static no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP mapFra(BeregningsresultatFP resultat, no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP eksisterendeResultat, VirksomhetRepository virksomhetRepository) {
+    public static BeregningsresultatPerioder mapFra(BeregningsresultatFP resultat, BeregningsresultatPerioder eksisterendeResultat, VirksomhetRepository virksomhetRepository) {
         if (eksisterendeResultat.getBeregningsresultatPerioder().isEmpty()) {
             resultat.getBeregningsresultatPerioder().forEach(p -> mapFraPeriode(p, eksisterendeResultat, virksomhetRepository));
         } else {
@@ -25,15 +26,15 @@ public class MapBeregningsresultatFraRegelTilVL {
         return eksisterendeResultat;
     }
 
-    private static no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode mapFraPeriode(BeregningsresultatPeriode resultatPeriode, no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP eksisterendeResultat, VirksomhetRepository virksomhetRepository) {
-        no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode nyPeriode = no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode.builder()
+    private static no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode mapFraPeriode(BeregningsresultatPeriode resultatPeriode, BeregningsresultatPerioder eksisterendeResultat, VirksomhetRepository virksomhetRepository) {
+        no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode nyPeriode = no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode.builder()
             .medBeregningsresultatPeriodeFomOgTom(resultatPeriode.getFom(), resultatPeriode.getTom())
             .build(eksisterendeResultat);
         resultatPeriode.getBeregningsresultatAndelList().forEach(bra -> mapFraAndel(bra, nyPeriode, virksomhetRepository));
         return nyPeriode;
     }
 
-    private static BeregningsresultatAndel mapFraAndel(no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatAndel bra, no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode brp, VirksomhetRepository virksomhetRepository) {
+    private static BeregningsresultatAndel mapFraAndel(no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatAndel bra, no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode brp, VirksomhetRepository virksomhetRepository) {
         int dagsats = BeregningsgrunnlagUtil.nullSafeLong(bra.getDagsats()).intValue();
         int dagsatsFraBg = BeregningsgrunnlagUtil.nullSafeLong(bra.getDagsatsFraBg()).intValue();
         return BeregningsresultatAndel.builder()

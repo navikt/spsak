@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.behandling.steg.vedtak;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 
 class UtledVedtakResultatType {
     private UtledVedtakResultatType() {

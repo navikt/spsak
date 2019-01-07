@@ -14,11 +14,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.AktivitetStatus;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagAndelTilstøtendeYtelse;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagFraTilstøtendeYtelse;
@@ -45,12 +44,12 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
             .medBeregningsgrunnlagPeriode(LocalDate.now(), LocalDate.now().plusMonths(10))
             .build(bg);
         BeregningsgrunnlagPrStatusOgAndel.builder()
-            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE)
-            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.DAGMAMMA)
+            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE)
+            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.DAGMAMMA)
             .build(periode);
         BeregningsgrunnlagPrStatusOgAndel.builder()
-            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER)
-            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FRILANSER)
+            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER)
+            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FRILANSER)
             .build(periode);
         BeregningsgrunnlagFraTilstøtendeYtelse.Builder tyGrunnlagBuilder = BeregningsgrunnlagFraTilstøtendeYtelse.builder();
         tyGrunnlagBuilder.leggTilBeregningsgrunnlagAndel(lagAndel(AktivitetStatus.SN, Inntektskategori.FISKER, BigDecimal.TEN));
@@ -64,8 +63,8 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
 
         // Assert
         assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().size()).isEqualTo(3);
-        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.DAGMAMMA.equals(andel.getInntektskategori())).count()).isEqualTo(0);
-        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).count()).isEqualTo(1);
+        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.DAGMAMMA.equals(andel.getInntektskategori())).count()).isEqualTo(0);
+        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).count()).isEqualTo(1);
     }
 
     @Test
@@ -76,12 +75,12 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
             .medBeregningsgrunnlagPeriode(LocalDate.now(), LocalDate.now().plusMonths(10))
             .build(bg);
         BeregningsgrunnlagPrStatusOgAndel.builder()
-            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE)
-            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER)
+            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE)
+            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER)
             .build(periode);
         BeregningsgrunnlagPrStatusOgAndel.builder()
-            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER)
-            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FRILANSER)
+            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER)
+            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FRILANSER)
             .build(periode);
         BeregningsgrunnlagFraTilstøtendeYtelse.Builder tyGrunnlagBuilder = BeregningsgrunnlagFraTilstøtendeYtelse.builder();
         tyGrunnlagBuilder.leggTilBeregningsgrunnlagAndel(lagAndel(AktivitetStatus.SN, Inntektskategori.FISKER, BigDecimal.valueOf(100)));
@@ -94,9 +93,9 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
 
         // Assert
         assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().size()).isEqualTo(3);
-        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).count()).isEqualTo(1);
+        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).count()).isEqualTo(1);
         BeregningsgrunnlagPrStatusOgAndel fiskerAndel = periode.getBeregningsgrunnlagPrStatusOgAndelList().stream()
-            .filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).findFirst().get();
+            .filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).findFirst().get();
         assertThat(fiskerAndel.getÅrsbeløpFraTilstøtendeYtelseVerdi())
             .isEqualByComparingTo(BigDecimal.valueOf(100));
 
@@ -110,12 +109,12 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
             .medBeregningsgrunnlagPeriode(LocalDate.now(), LocalDate.now().plusMonths(10))
             .build(bg);
         BeregningsgrunnlagPrStatusOgAndel.builder()
-            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE)
-            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER)
+            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE)
+            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER)
             .build(periode);
         BeregningsgrunnlagPrStatusOgAndel.builder()
-            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus.FRILANSER)
-            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FRILANSER)
+            .medAktivitetStatus(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus.FRILANSER)
+            .medInntektskategori(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FRILANSER)
             .build(periode);
         BeregningsgrunnlagFraTilstøtendeYtelse.Builder tyGrunnlagBuilder = BeregningsgrunnlagFraTilstøtendeYtelse.builder();
         tyGrunnlagBuilder.leggTilBeregningsgrunnlagAndel(lagAndel(AktivitetStatus.SN, Inntektskategori.FISKER, null));
@@ -129,12 +128,12 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
 
         // Assert
         assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().size()).isEqualTo(3);
-        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.DAGMAMMA.equals(andel.getInntektskategori())).count()).isEqualTo(0);
-        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).count()).isEqualTo(1);
-        BeregningsgrunnlagPrStatusOgAndel fiskerAndel = periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).findFirst().get();
+        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.DAGMAMMA.equals(andel.getInntektskategori())).count()).isEqualTo(0);
+        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).count()).isEqualTo(1);
+        BeregningsgrunnlagPrStatusOgAndel fiskerAndel = periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER.equals(andel.getInntektskategori())).findFirst().get();
         assertThat(fiskerAndel.getÅrsbeløpFraTilstøtendeYtelseVerdi()).isEqualByComparingTo(BigDecimal.ZERO);
-        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.ARBEIDSTAKER.equals(andel.getInntektskategori())).count()).isEqualTo(1);
-        BeregningsgrunnlagPrStatusOgAndel atflAndel = periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.ARBEIDSTAKER.equals(andel.getInntektskategori())).findFirst().get();
+        assertThat(periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.ARBEIDSTAKER.equals(andel.getInntektskategori())).count()).isEqualTo(1);
+        BeregningsgrunnlagPrStatusOgAndel atflAndel = periode.getBeregningsgrunnlagPrStatusOgAndelList().stream().filter(andel -> no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.ARBEIDSTAKER.equals(andel.getInntektskategori())).findFirst().get();
         assertThat(atflAndel.getÅrsbeløpFraTilstøtendeYtelseVerdi()).isEqualByComparingTo(BigDecimal.ZERO);
     }
 
@@ -165,7 +164,7 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
         tyGrunnlagBuilder.medYtelse(TilstøtendeYtelse.builder().medRelatertYtelseType(RelatertYtelseType.SYKEPENGER).build());
 
         // Act
-        boolean skalBrukeInformasjonOmFordelingVedTY = mapper.skalBrukeInformasjonOmFordelingVedTY(tyGrunnlagBuilder.build(), Optional.of(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER));
+        boolean skalBrukeInformasjonOmFordelingVedTY = mapper.skalBrukeInformasjonOmFordelingVedTY(tyGrunnlagBuilder.build(), Optional.of(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER));
 
         // Assert
         assertThat(skalBrukeInformasjonOmFordelingVedTY).isTrue();
@@ -183,7 +182,7 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
         tyGrunnlagBuilder.medYtelse(TilstøtendeYtelse.builder().medRelatertYtelseType(RelatertYtelseType.SYKEPENGER).build());
 
         // Act
-        boolean skalBrukeInformasjonOmFordelingVedTY = mapper.skalBrukeInformasjonOmFordelingVedTY(tyGrunnlagBuilder.build(), Optional.of(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER));
+        boolean skalBrukeInformasjonOmFordelingVedTY = mapper.skalBrukeInformasjonOmFordelingVedTY(tyGrunnlagBuilder.build(), Optional.of(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER));
 
         // Assert
         assertThat(skalBrukeInformasjonOmFordelingVedTY).isFalse();
@@ -201,7 +200,7 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVLTest {
         tyGrunnlagBuilder.medYtelse(TilstøtendeYtelse.builder().medRelatertYtelseType(RelatertYtelseType.SYKEPENGER).build());
 
         // Act
-        boolean skalBrukeInformasjonOmFordelingVedTY = mapper.skalBrukeInformasjonOmFordelingVedTY(tyGrunnlagBuilder.build(), Optional.of(no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori.FISKER));
+        boolean skalBrukeInformasjonOmFordelingVedTY = mapper.skalBrukeInformasjonOmFordelingVedTY(tyGrunnlagBuilder.build(), Optional.of(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori.FISKER));
 
         // Assert
         assertThat(skalBrukeInformasjonOmFordelingVedTY).isTrue();

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.OpptjeningsperiodeForSaksbehandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
 
 public interface OpptjeningsperioderTjeneste {
 

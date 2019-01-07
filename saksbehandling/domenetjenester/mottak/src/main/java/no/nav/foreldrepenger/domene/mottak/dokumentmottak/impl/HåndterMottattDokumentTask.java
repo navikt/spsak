@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import no.nav.foreldrepenger.behandlingskontroll.task.FagsakProsessTask;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -34,7 +34,7 @@ public class HåndterMottattDokumentTask extends FagsakProsessTask {
     }
 
     @Inject
-    public HåndterMottattDokumentTask(InnhentDokumentTjeneste innhentDokumentTjeneste, BehandlingRepositoryProvider repositoryProvider) {
+    public HåndterMottattDokumentTask(InnhentDokumentTjeneste innhentDokumentTjeneste, GrunnlagRepositoryProvider repositoryProvider) {
         super(repositoryProvider);
         this.innhentDokumentTjeneste = innhentDokumentTjeneste;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();

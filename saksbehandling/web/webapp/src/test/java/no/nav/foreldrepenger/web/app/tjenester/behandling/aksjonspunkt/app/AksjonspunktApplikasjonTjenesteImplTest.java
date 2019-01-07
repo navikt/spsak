@@ -17,7 +17,8 @@ import org.junit.runner.RunWith;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -37,7 +38,10 @@ public class AksjonspunktApplikasjonTjenesteImplTest {
     private AksjonspunktApplikasjonTjeneste aksjonspunktApplikasjonTjeneste;
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
     private AbstractTestScenario<?> lagScenarioMedAksjonspunkt(AksjonspunktDefinisjon aksjonspunktDefinisjon) {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
@@ -51,7 +55,7 @@ public class AksjonspunktApplikasjonTjenesteImplTest {
         // Bruker BekreftTerminbekreftelseAksjonspunktDto som konkret case
         AksjonspunktApplikasjonTjenesteImpl aksjonspunktApplikasjonTjenesteImpl = (AksjonspunktApplikasjonTjenesteImpl) aksjonspunktApplikasjonTjeneste;
         AbstractTestScenario<?> scenario = lagScenarioMedAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Behandling behandlingSpy = spy(behandling);
 
         FatterVedtakAksjonspunktDto dto = new FatterVedtakAksjonspunktDto(BEGRUNNELSE, Collections.emptyList());

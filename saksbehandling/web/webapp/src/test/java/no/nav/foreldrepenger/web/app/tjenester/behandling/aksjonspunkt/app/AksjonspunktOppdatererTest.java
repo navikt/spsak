@@ -23,10 +23,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.VurderÅrsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepositoryImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste;
@@ -56,7 +58,8 @@ public class AksjonspunktOppdatererTest {
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private AksjonspunktRepository aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
     private LagretVedtakRepository lagretVedtakRepository = new LagretVedtakRepositoryImpl(repoRule.getEntityManager());
@@ -76,7 +79,7 @@ public class AksjonspunktOppdatererTest {
         RevurderingTjenesteProvider revurderingTjenesteProvider = new RevurderingTjenesteProvider();
         totrinnRepository = new TotrinnRepositoryImpl(repoRule.getEntityManager());
 
-        TotrinnTjeneste totrinnTjeneste = new TotrinnTjenesteImpl(repositoryProvider, totrinnRepository);
+        TotrinnTjeneste totrinnTjeneste = new TotrinnTjenesteImpl(repositoryProvider, resultatRepositoryProvider, totrinnRepository);
 
         VedtakTjeneste vedtakTjeneste = new VedtakTjenesteImpl(lagretVedtakRepository, historikkRepository, revurderingTjenesteProvider, totrinnTjeneste);
         fatterVedtakAksjonspunkt = new FatterVedtakAksjonspunkt(repositoryProvider, vedtakTjeneste, totrinnTjeneste);
@@ -86,12 +89,12 @@ public class AksjonspunktOppdatererTest {
     public void bekreft_foreslå_vedtak_aksjonspkt_setter_ansvarlig_saksbehandler() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         ForeslaVedtakAksjonspunktDto dto = new ForeslaVedtakAksjonspunktDto("begrunnelse", null, null, false) {
         };
         ForeslåVedtakAksjonspunktOppdaterer foreslaVedtakAksjonspunktOppdaterer = new ForeslåVedtakAksjonspunktOppdaterer(
-            repositoryProvider, mock(HistorikkTjenesteAdapter.class), new TotrinnTjenesteImpl(repositoryProvider, totrinnRepository), vedtakTjeneste) {
+            repositoryProvider, mock(HistorikkTjenesteAdapter.class), new TotrinnTjenesteImpl(repositoryProvider, resultatRepositoryProvider, totrinnRepository), vedtakTjeneste) {
             @Override
             protected String getCurrentUserId() {
                 // return test verdi
@@ -108,7 +111,7 @@ public class AksjonspunktOppdatererTest {
 
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
 
@@ -138,7 +141,7 @@ public class AksjonspunktOppdatererTest {
     @Test
     public void oppdaterer_aksjonspunkt_med_godkjent_totrinnskontroll() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.AVKLAR_OM_ER_BOSATT);
 

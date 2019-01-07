@@ -14,7 +14,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResultat;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.Kompletthetsjekker;
 
@@ -33,7 +33,7 @@ public class VurderKompletthetRevurderingStegFPImpl implements VurderKompletthet
 
     @Inject
     public VurderKompletthetRevurderingStegFPImpl(@FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-004") Kompletthetsjekker kompletthetsjekker,
-                                                  BehandlingRepositoryProvider provider, VurderKompletthetStegFelles vurderKompletthetStegFelles) {
+                                                  GrunnlagRepositoryProvider provider, VurderKompletthetStegFelles vurderKompletthetStegFelles) {
         this.kompletthetsjekker = kompletthetsjekker;
         this.behandlingRepository = provider.getBehandlingRepository();
         this.vurderKompletthetStegFelles = vurderKompletthetStegFelles;

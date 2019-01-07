@@ -6,24 +6,26 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsResultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
@@ -37,44 +39,43 @@ import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 @RunWith(CdiRunner.class)
 public class EndringsresultatSjekkerImplTest {
 
-    private EndringsresultatSjekker endringsresultatSjekker;
-
-    @Mock
-    private PersonopplysningTjeneste personopplysningTjeneste;
-    @Mock
-    private MedlemTjeneste medlemTjeneste;
-    @Mock
-    private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
-    @Mock
-    private BehandlingRepositoryProvider behandlingRepositoryProvider;
-
-    @Mock
-    private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
-    @Mock
-    private OpptjeningRepository opptjeningRepository;
-    @Mock
-    private UttakRepository uttakRepository;
-    @Mock
-    private Behandling behandling;
-    @Mock
-    private Behandlingsresultat behandlingsresultat;
-    @Mock
-    private VilkårResultat vilkårResultat;
-    @Mock
-    private BeregningResultat beregningResultat;
-
     private static final LocalDateTime nå = LocalDateTime.now();
-
     private static final Long personGrunnlagID = 1L;
     private static final Long medlemGrunnlagID = 3L;
     private static final Long iayGrunnlagID = 4L;
-
     private static final Long opptjeningGrunnlagID = 6L;
     private static final Long beregningsGrunnlagID = 7L;
     private static final Long uttakGrunnlagID = 8L;
     private static final Long uttakPeriodeGrenseGrunnlagID = 9L;
     private static final Long vilkårGrunnlagID = EndringsresultatSjekkerImpl.mapFraLocalDateTimeTilLong(nå);
     private static final Long beregningsResultatGrunnlagID = EndringsresultatSjekkerImpl.mapFraLocalDateTimeTilLong(nå);
+    private EndringsresultatSjekker endringsresultatSjekker;
+
+    private PersonopplysningTjeneste personopplysningTjeneste;
+
+    private MedlemTjeneste medlemTjeneste;
+
+    private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
+
+    private GrunnlagRepositoryProvider grunnlagRepositoryProvider;
+
+    private ResultatRepositoryProvider resultatRepositoryProvider;
+
+    private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
+
+    private BeregningsresultatRepository beregningsresultatRepository;
+
+    private OpptjeningRepository opptjeningRepository;
+
+    private UttakRepository uttakRepository;
+
+    private Behandling behandling;
+
+    private Behandlingsresultat behandlingsresultat;
+
+    private VilkårResultat vilkårResultat;
+
+    private BeregningsResultat beregningResultat;
 
     @Before
     public void setup() {
@@ -84,22 +85,25 @@ public class EndringsresultatSjekkerImplTest {
 
         opptjeningRepository = mock(OpptjeningRepository.class);
         beregningsgrunnlagRepository = mock(BeregningsgrunnlagRepository.class);
+        beregningsresultatRepository = mock(BeregningsresultatRepository.class);
         uttakRepository = mock(UttakRepository.class);
 
         behandling = mock(Behandling.class);
 
         behandlingsresultat = mock(Behandlingsresultat.class);
         vilkårResultat = mock(VilkårResultat.class);
-        beregningResultat = mock(BeregningResultat.class);
+        beregningResultat = mock(BeregningsResultat.class);
 
 
-        behandlingRepositoryProvider = mock(BehandlingRepositoryProvider.class);
-        when(behandlingRepositoryProvider.getBeregningsgrunnlagRepository()).thenReturn(beregningsgrunnlagRepository);
-        when(behandlingRepositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
-        when(behandlingRepositoryProvider.getUttakRepository()).thenReturn(uttakRepository);
+        resultatRepositoryProvider = mock(ResultatRepositoryProvider.class);
+        grunnlagRepositoryProvider = mock(GrunnlagRepositoryProvider.class);
+        when(resultatRepositoryProvider.getBeregningsgrunnlagRepository()).thenReturn(beregningsgrunnlagRepository);
+        when(resultatRepositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
+        when(resultatRepositoryProvider.getUttakRepository()).thenReturn(uttakRepository);
+        when(resultatRepositoryProvider.getBeregningsresultatRepository()).thenReturn(beregningsresultatRepository);
 
 
-        endringsresultatSjekker = new EndringsresultatSjekkerImpl(personopplysningTjeneste, medlemTjeneste, inntektArbeidYtelseTjeneste, behandlingRepositoryProvider);
+        endringsresultatSjekker = new EndringsresultatSjekkerImpl(personopplysningTjeneste, medlemTjeneste, inntektArbeidYtelseTjeneste, resultatRepositoryProvider);
         opprettMockTjenesteResponse();
     }
 
@@ -115,7 +119,8 @@ public class EndringsresultatSjekkerImplTest {
 
         when(behandling.getBehandlingsresultat()).thenReturn(behandlingsresultat);
         when(behandlingsresultat.getVilkårResultat()).thenReturn(vilkårResultat);
-        when(behandlingsresultat.getBeregningResultat()).thenReturn(beregningResultat);
+
+        when(beregningsresultatRepository.hentHvisEksistererFor(any(Behandlingsresultat.class))).thenReturn(Optional.of(beregningResultat));
 
         when(vilkårResultat.getOpprettetTidspunkt()).thenReturn(nå);
         when(beregningResultat.getOpprettetTidspunkt()).thenReturn(nå);
@@ -135,6 +140,6 @@ public class EndringsresultatSjekkerImplTest {
         assertThat(uttakPeriodeGrenseGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(Uttaksperiodegrense.class).get().getGrunnlagId());
 
         assertThat(vilkårGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(VilkårResultat.class).get().getGrunnlagId());
-        assertThat(beregningsResultatGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(BeregningResultat.class).get().getGrunnlagId());
+        assertThat(beregningsResultatGrunnlagID).isEqualTo(endringsresultatSnapshot.hentDelresultat(BeregningsResultat.class).get().getGrunnlagId());
     }
 }

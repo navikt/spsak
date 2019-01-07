@@ -26,10 +26,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFeltType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.hendelser.ForretningshendelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -52,7 +54,8 @@ public class YtelseForretningshendelseHåndtererTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private YtelseForretningshendelseHåndterer håndterer;
     private Kompletthetskontroller kompletthetskontroller = mock(Kompletthetskontroller.class);
@@ -83,7 +86,7 @@ public class YtelseForretningshendelseHåndtererTest {
     @Before
     public void setUp() {
         BehandlingskontrollTjeneste behandlingskontrollTjeneste = DokumentmottakTestUtil.lagBehandlingskontrollTjenesteMock(repositoryProvider, behandlingModellRepository);
-        Behandlingsoppretter behandlingsoppretter = new BehandlingsoppretterImpl(repositoryProvider, behandlingskontrollTjeneste, revurderingTjenesteProvider, null, prosessTaskRepository, mottatteDokumentTjeneste, behandlendeEnhetTjeneste, historikkinnslagTjeneste, iayTjeneste);
+        Behandlingsoppretter behandlingsoppretter = new BehandlingsoppretterImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingTjenesteProvider, null, prosessTaskRepository, mottatteDokumentTjeneste, behandlendeEnhetTjeneste, historikkinnslagTjeneste, iayTjeneste);
         håndterer = new YtelseForretningshendelseHåndterer(repositoryProvider, behandlingsoppretter, kompletthetskontroller, endringskontroller, behandlingskontrollTjeneste, historikkinnslagTjeneste);
     }
 
@@ -91,7 +94,7 @@ public class YtelseForretningshendelseHåndtererTest {
     public void skal_oppdatere_fagsak_med_registeropplysninger_når_sak_er_under_behandling() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Fagsak fagsak = behandling.getFagsak();
         YtelseForretningshendelse ytelseForretningshendelse = new YtelseForretningshendelse(ForretningshendelseType.YTELSE_ENDRET, fagsak.getAktørId().getId(), FPDateUtil.iDag());
 
@@ -113,7 +116,7 @@ public class YtelseForretningshendelseHåndtererTest {
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .medAnsvarligSaksbehandler("Nav Navesen")
             .build();
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
 
@@ -140,7 +143,7 @@ public class YtelseForretningshendelseHåndtererTest {
     public void skal_opprette_revurdering_når_hendelse_er_innvilget_og_behandling_er_avsluttet() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandling);
 
         // Act

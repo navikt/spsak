@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sykefravær;
@@ -49,7 +49,7 @@ public class MottattDokumentOversetterSøknad implements MottattDokumentOversett
     }
 
     @Inject
-    public MottattDokumentOversetterSøknad(BehandlingRepositoryProvider repositoryProvider, VirksomhetTjeneste virksomhetTjeneste) {
+    public MottattDokumentOversetterSøknad(GrunnlagRepositoryProvider repositoryProvider, VirksomhetTjeneste virksomhetTjeneste) {
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();
         this.sykefraværRepository = repositoryProvider.getSykefraværRepository();

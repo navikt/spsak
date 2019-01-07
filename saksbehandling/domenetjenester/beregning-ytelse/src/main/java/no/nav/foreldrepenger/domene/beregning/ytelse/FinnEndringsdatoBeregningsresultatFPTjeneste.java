@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
 
 public interface FinnEndringsdatoBeregningsresultatFPTjeneste {
 
@@ -17,6 +17,6 @@ public interface FinnEndringsdatoBeregningsresultatFPTjeneste {
      * @return En tom Optional hvis ingen endring funnet.
      *         En Optional med endringsdatoen hvis en endring blir funnet.
      */
-    Optional<LocalDate> finnEndringsdato(Behandling behandling, BeregningsresultatFP revurderingBeregningsresultat);
+    Optional<LocalDate> finnEndringsdato(Behandling behandling, BeregningsresultatPerioder revurderingBeregningsresultat);
 
 }

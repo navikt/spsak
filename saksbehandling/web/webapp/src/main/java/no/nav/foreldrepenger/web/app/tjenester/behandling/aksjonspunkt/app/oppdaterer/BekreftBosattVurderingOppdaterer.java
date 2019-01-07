@@ -14,7 +14,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndr
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.BekreftBosattVurderingAksjonspunktDto;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktOppdaterer;
@@ -37,7 +37,7 @@ public class BekreftBosattVurderingOppdaterer implements AksjonspunktOppdaterer<
     }
 
     @Inject
-    public BekreftBosattVurderingOppdaterer(BehandlingRepositoryProvider repositoryProvider, HistorikkTjenesteAdapter historikkAdapter, MedlemTjeneste medlemTjeneste) {
+    public BekreftBosattVurderingOppdaterer(GrunnlagRepositoryProvider repositoryProvider, HistorikkTjenesteAdapter historikkAdapter, MedlemTjeneste medlemTjeneste) {
         this.historikkAdapter = historikkAdapter;
         this.medlemTjeneste = medlemTjeneste;
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();

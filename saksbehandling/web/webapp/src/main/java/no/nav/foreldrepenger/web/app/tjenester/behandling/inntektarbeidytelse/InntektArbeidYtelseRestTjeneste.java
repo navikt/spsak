@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingIdDto;
 import no.nav.vedtak.felles.jpa.Transaction;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
@@ -39,9 +39,9 @@ public class InntektArbeidYtelseRestTjeneste {
     }
 
     @Inject
-    public InntektArbeidYtelseRestTjeneste(BehandlingRepositoryProvider behandlingRepositoryProvider,
+    public InntektArbeidYtelseRestTjeneste(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                                            InntektArbeidYtelseDtoMapper dtoMapper) {
-        this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
         this.dtoMapper = dtoMapper;
 
     }

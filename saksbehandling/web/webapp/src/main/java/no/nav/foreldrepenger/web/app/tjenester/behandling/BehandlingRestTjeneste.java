@@ -40,7 +40,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
@@ -86,7 +86,7 @@ public class BehandlingRestTjeneste {
     }
 
     @Inject
-    public BehandlingRestTjeneste(BehandlingRepositoryProvider repositoryProvider,
+    public BehandlingRestTjeneste(GrunnlagRepositoryProvider repositoryProvider,
                                   BehandlingsutredningApplikasjonTjeneste behandlingsutredningApplikasjonTjeneste,
                                   BehandlingsprosessApplikasjonTjeneste behandlingsprosessTjeneste,
                                   FagsakTjeneste fagsakTjeneste,

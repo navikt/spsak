@@ -9,7 +9,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltVerdiType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.overstyring.OverstyringAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
 
@@ -23,7 +23,7 @@ abstract class AbstractOverstyringshåndterer<T extends OverstyringAksjonspunktD
         // for CDI proxy
     }
 
-    protected AbstractOverstyringshåndterer(BehandlingRepositoryProvider repositoryProvider,
+    protected AbstractOverstyringshåndterer(GrunnlagRepositoryProvider repositoryProvider,
                                             HistorikkTjenesteAdapter historikkAdapter,
                                             AksjonspunktDefinisjon aksjonspunktDefinisjon) {
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();

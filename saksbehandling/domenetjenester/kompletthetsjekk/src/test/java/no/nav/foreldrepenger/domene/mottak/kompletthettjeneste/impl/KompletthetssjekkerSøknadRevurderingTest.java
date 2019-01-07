@@ -19,8 +19,10 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
@@ -34,12 +36,13 @@ public class KompletthetssjekkerSøknadRevurderingTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
-    private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider);
+    private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider, resultatRepositoryProvider);
 
     private final DokumentArkivTjeneste dokumentArkivTjeneste = mock(DokumentArkivTjeneste.class);
-    private final KompletthetssjekkerSøknadRevurdering kompletthetssjekker = new KompletthetssjekkerSøknadRevurdering(dokumentArkivTjeneste, repositoryProvider,
+    private final KompletthetssjekkerSøknadRevurdering kompletthetssjekker = new KompletthetssjekkerSøknadRevurdering(dokumentArkivTjeneste, repositoryProvider, resultatRepositoryProvider,
         mock(SkjæringstidspunktTjeneste.class), 3);
 
     @Test
@@ -52,7 +55,7 @@ public class KompletthetssjekkerSøknadRevurderingTest {
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(LEGEERKLÆRING_KODE).medErPåkrevdISøknadsdialog(true).build())
             .build();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Matcher med søknad:
         Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.LEGEERKLÆRING);
@@ -75,7 +78,7 @@ public class KompletthetssjekkerSøknadRevurderingTest {
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(LEGEERKLÆRING_KODE).medErPåkrevdISøknadsdialog(true).build())
             .build();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Matcher ikke med søknad:
         Set<DokumentTypeId> dokumentListe = singleton(DokumentTypeId.ANNET);
@@ -99,7 +102,7 @@ public class KompletthetssjekkerSøknadRevurderingTest {
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(LEGEERKLÆRING_KODE).medErPåkrevdISøknadsdialog(true).build())
             .build();
-        Behandling revurdering = scenario.lagre(repositoryProvider);
+        Behandling revurdering = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Matcher med søknad, men er mottatt ifbm førstegangsbehandlingen:
         Set<DokumentTypeId> dokumentListe = new HashSet<>();
@@ -124,7 +127,7 @@ public class KompletthetssjekkerSøknadRevurderingTest {
             .medSøknadsdato(LocalDate.now())
             .leggTilVedlegg(new SøknadVedleggEntitet.Builder().medSkjemanummer(LEGEERKLÆRING_KODE).medErPåkrevdISøknadsdialog(true).build())
             .build();
-        Behandling revurdering = scenario.lagre(repositoryProvider);
+        Behandling revurdering = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         // Matcher med søknad, men mangler mottatt dato:
         Set<DokumentTypeId> dokumentListe = new HashSet<>();
@@ -143,7 +146,7 @@ public class KompletthetssjekkerSøknadRevurderingTest {
     public void skal_utlede_at_et_dokument_som_er_påkrevd_som_følger_av_utsettelse_finnes_i_journal() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         testUtil.lagreSøknad(behandling);
 
         // Matcher med utsettelse:

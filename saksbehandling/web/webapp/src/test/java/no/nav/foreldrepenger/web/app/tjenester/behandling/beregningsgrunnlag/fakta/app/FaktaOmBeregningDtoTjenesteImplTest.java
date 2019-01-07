@@ -17,11 +17,13 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.Arbeidskategori;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.FaktaOmBeregningTilfelleTjeneste;
@@ -33,7 +35,8 @@ public class FaktaOmBeregningDtoTjenesteImplTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private FaktaOmBeregningDtoTjeneste faktaOmBeregningDtoTjeneste;
     private FaktaOmBeregningTilfelleTjeneste faktaOmBeregningTilfelleTjeneste = mock(FaktaOmBeregningTilfelleTjeneste.class);
     private TilstøtendeYtelseDtoTjeneste tilstøtendeYtelseDtoTjeneste = mock(TilstøtendeYtelseDtoTjeneste.class);
@@ -47,7 +50,7 @@ public class FaktaOmBeregningDtoTjenesteImplTest {
         aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(BeregningIAYTestUtil.AKTØR_ID);
         Beregningsgrunnlag bg = lagBeregningsgrunnlag(scenario);
-        behandling = scenario.lagre(repositoryProvider);
+        behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         List<FaktaOmBeregningTilfelle> tilfeller = Collections.singletonList(FaktaOmBeregningTilfelle.TILSTØTENDE_YTELSE);
         when(faktaOmBeregningTilfelleTjeneste.finnTilfellerForFellesAksjonspunkt(behandling)).thenReturn(tilfeller);
         TilstøtendeYtelseDto tyDto = new TilstøtendeYtelseDto();
@@ -60,14 +63,14 @@ public class FaktaOmBeregningDtoTjenesteImplTest {
     @Test
     public void skal_ikkje_lage_fakta_om_beregning_dto_når_man_ikkje_har_aksjonspunkt_i_fakta_om_beregning() {
         aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.VURDER_ARBEIDSFORHOLD);
-        Optional<FaktaOmBeregningDto> dto = faktaOmBeregningDtoTjeneste.lagFaktaOmBeregningDto(behandling, repositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling));
+        Optional<FaktaOmBeregningDto> dto = faktaOmBeregningDtoTjeneste.lagFaktaOmBeregningDto(behandling, resultatRepositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling));
         assertThat(dto.isPresent()).isFalse();
     }
 
     @Test
     public void skal_lage_fakta_om_beregning_dto_når_man_har_aksjonspunkt_i_fakta_om_beregning() {
         aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.VURDER_FAKTA_FOR_ATFL_SN);
-        Optional<FaktaOmBeregningDto> dto = faktaOmBeregningDtoTjeneste.lagFaktaOmBeregningDto(behandling, repositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling));
+        Optional<FaktaOmBeregningDto> dto = faktaOmBeregningDtoTjeneste.lagFaktaOmBeregningDto(behandling, resultatRepositoryProvider.getBeregningsgrunnlagRepository().hentAggregat(behandling));
         assertThat(dto.isPresent()).isTrue();
     }
 

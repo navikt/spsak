@@ -19,11 +19,6 @@ import org.mockito.Mock;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.GraderingEntitet;
@@ -31,11 +26,18 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
@@ -53,11 +55,12 @@ public class StartpunktUtlederInntektsmeldingTest {
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
-    private BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
 
-    private BeregningsresultatFPRepository beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatFPRepository();
+    private BeregningsresultatRepository beregningsresultatFPRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
 
     private VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
 
@@ -206,11 +209,11 @@ public class StartpunktUtlederInntektsmeldingTest {
         // Arrange - opprette avsluttet førstegangsbehandling
         Behandling behandling = opprettFørstegangsbehandling();
 
-        BeregningsresultatFP beregningsresultatFP = lagBeregningsresultatFP();
-        BeregningsresultatPeriode brPeriode = lagBeregningsresultatPeriode(beregningsresultatFP);
+        BeregningsresultatPerioder beregningsresultat = lagBeregningsresultatFP();
+        BeregningsresultatPeriode brPeriode = lagBeregningsresultatPeriode(beregningsresultat);
         buildBeregningsresultatAndel(brPeriode,lagVirksomhet("123")  ,1000);
         buildBeregningsresultatAndel(brPeriode,lagVirksomhet("345"),  0);
-        beregningsresultatFPRepository.lagre(behandling,beregningsresultatFP);
+        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
 
         LocalDate førsteUttaksdato = LocalDate.now();
         when(førstePermisjonsdagTjeneste.henteFørstePermisjonsdag(behandling)).thenReturn(Optional.of(førsteUttaksdato));
@@ -237,10 +240,10 @@ public class StartpunktUtlederInntektsmeldingTest {
         // Arrange - opprette avsluttet førstegangsbehandling
         Behandling behandling = opprettFørstegangsbehandling();
 
-        BeregningsresultatFP beregningsresultatFP = lagBeregningsresultatFP();
-        BeregningsresultatPeriode brPeriode = lagBeregningsresultatPeriode(beregningsresultatFP);
+        BeregningsresultatPerioder beregningsresultat = lagBeregningsresultatFP();
+        BeregningsresultatPeriode brPeriode = lagBeregningsresultatPeriode(beregningsresultat);
         buildBeregningsresultatAndel(brPeriode,lagVirksomhet("123")  ,1000);
-        beregningsresultatFPRepository.lagre(behandling,beregningsresultatFP);
+        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
 
         LocalDate førsteUttaksdato = LocalDate.now();
         when(førstePermisjonsdagTjeneste.henteFørstePermisjonsdag(behandling)).thenReturn(Optional.of(førsteUttaksdato));
@@ -266,12 +269,12 @@ public class StartpunktUtlederInntektsmeldingTest {
         ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.REVURDERING)
             .medOriginalBehandling(førstegangsbehandling, BehandlingÅrsakType.UDEFINERT);
-        return revurderingScenario.lagre(repositoryProvider);
+        return revurderingScenario.lagre(repositoryProvider, resultatRepositoryProvider);
     }
 
     private Behandling opprettFørstegangsbehandling() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandling);
         return behandling;
     }
@@ -337,10 +340,10 @@ public class StartpunktUtlederInntektsmeldingTest {
             .build(beregningsresultatPeriode);
     }
 
-    private BeregningsresultatPeriode lagBeregningsresultatPeriode(BeregningsresultatFP beregningsresultatFP) {
+    private BeregningsresultatPeriode lagBeregningsresultatPeriode(BeregningsresultatPerioder beregningsresultat) {
         return BeregningsresultatPeriode.builder()
             .medBeregningsresultatPeriodeFomOgTom(LocalDate.now().minusDays(20), LocalDate.now().minusDays(15))
-            .build(beregningsresultatFP);
+            .build(beregningsresultat);
     }
 
     private VirksomhetEntitet lagVirksomhet(String orgnr) {
@@ -357,11 +360,11 @@ public class StartpunktUtlederInntektsmeldingTest {
             return (VirksomhetEntitet) virksomhetOpt.get();
         }
     }
-    private BeregningsresultatFP lagBeregningsresultatFP() {
-        BeregningsresultatFP beregningsresultatFP = BeregningsresultatFP.builder()
+    private BeregningsresultatPerioder lagBeregningsresultatFP() {
+        BeregningsresultatPerioder beregningsresultat = BeregningsresultatPerioder.builder()
             .medRegelInput("clob1")
             .medRegelSporing("clob2")
             .build();
-        return beregningsresultatFP;
+        return beregningsresultat;
     }
 }

@@ -14,11 +14,12 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.FullføreBeregningsgrunnlag;
@@ -32,17 +33,15 @@ public class FastsettBeregningsgrunnlagStegImpl implements BeregningsgrunnlagSte
     private BehandlingRepository behandlingRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private FullføreBeregningsgrunnlag fullføreBeregningsgrunnlag;
-    private BehandlingRepositoryProvider repositoryProvider;
 
     FastsettBeregningsgrunnlagStegImpl() {
         // CDI Proxy
     }
 
     @Inject
-    public FastsettBeregningsgrunnlagStegImpl(BehandlingRepositoryProvider repositoryProvider, FullføreBeregningsgrunnlag fullføreBeregningsgrunnlag) {
-        this.repositoryProvider = repositoryProvider;
+    public FastsettBeregningsgrunnlagStegImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider, FullføreBeregningsgrunnlag fullføreBeregningsgrunnlag) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
         this.fullføreBeregningsgrunnlag = fullføreBeregningsgrunnlag;
     }
 
@@ -67,13 +66,13 @@ public class FastsettBeregningsgrunnlagStegImpl implements BeregningsgrunnlagSte
     @Override
     public void vedTransisjon(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, TransisjonType transisjonType, BehandlingStegType førsteSteg, BehandlingStegType sisteSteg, TransisjonType skalTil) {
         if (transisjonType.equals(TransisjonType.HOPP_OVER_BAKOVER)) {
-            RyddBeregningsgrunnlag ryddBeregningsgrunnlag = new RyddBeregningsgrunnlag(repositoryProvider, behandling, kontekst);
+            RyddBeregningsgrunnlag ryddBeregningsgrunnlag = new RyddBeregningsgrunnlag(behandlingRepository, beregningsgrunnlagRepository, behandling, kontekst);
             ryddBeregningsgrunnlag.ryddFastsettBeregningsgrunnlagVedTilbakeføring();
         }
 
         if (transisjonType.equals(TransisjonType.HOPP_OVER_FRAMOVER)) {
             // FIXME SP - var tidligere sjekk på at sisteSteg == SØKNADSFRIST_FORELDREPENGER.  Trengs det lenger?
-            
+
             if (behandling.erRevurdering()) {
                 // Kopier beregningsgrunnlag fra original, da uttaksresultat avhenger av denne
                 behandling.getOriginalBehandling()

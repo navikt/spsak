@@ -27,7 +27,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
@@ -54,7 +55,9 @@ public class KompletthetskontrollerTest {
     private KodeverkTabellRepository kodeverkTabellRepository = kodeverkRepository.getKodeverkTabellRepository();
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
     @Mock
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
@@ -109,7 +112,7 @@ public class KompletthetskontrollerTest {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AUTO_VENTER_PÅ_KOMPLETT_SØKNAD, BehandlingStegType.VURDER_KOMPLETTHET);
-        Behandling behandling = scenario.lagre(repositoryProvider); // Skulle gjerne mocket, men da funker ikke AP_DEF
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider); // Skulle gjerne mocket, men da funker ikke AP_DEF
         LocalDateTime ventefrist = LocalDateTime.now().plusDays(1);
 
         when(kompletthetsjekkerProvider.finnKompletthetsjekkerFor(behandling)).thenReturn(kompletthetsjekker);

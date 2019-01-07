@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.domene.beregningsgrunnlag;
 import java.util.List;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 
 public class BeregningsgrunnlagRegelResultat {
     private Beregningsgrunnlag beregningsgrunnlag;

@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import no.finn.unleash.Unleash;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeRepository;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingIdDto;
@@ -50,7 +50,7 @@ public class PersonRestTjeneste {
     }
 
     @Inject
-    public PersonRestTjeneste(BehandlingRepositoryProvider repositoryProvider,
+    public PersonRestTjeneste(GrunnlagRepositoryProvider repositoryProvider,
                               VergeDtoTjeneste vergeTjeneste,
                               MedlemDtoTjeneste medlemTjeneste,
                               PersonopplysningDtoTjeneste personopplysningTjeneste,

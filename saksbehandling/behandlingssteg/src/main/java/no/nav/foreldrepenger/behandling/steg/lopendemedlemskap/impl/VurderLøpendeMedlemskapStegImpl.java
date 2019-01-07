@@ -14,13 +14,14 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapVilkårPeriodeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPeriodeEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapsvilkårPerioderEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeGrunnlagEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapVilkårPeriodeRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPeriodeEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPerioderEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
@@ -43,10 +44,10 @@ public class VurderLøpendeMedlemskapStegImpl implements VurderLøpendeMedlemska
 
     @Inject
     public VurderLøpendeMedlemskapStegImpl(Unleash unleash, VurderLøpendeMedlemskap vurderLøpendeMedlemskap,
-                                           BehandlingRepositoryProvider provider) {
+                                           GrunnlagRepositoryProvider provider, ResultatRepositoryProvider resultatRepositoryProvider) {
         this.unleash = unleash;
         this.vurderLøpendeMedlemskap = vurderLøpendeMedlemskap;
-        this.medlemskapVilkårPeriodeRepository = provider.getMedlemskapVilkårPeriodeRepository();
+        this.medlemskapVilkårPeriodeRepository = resultatRepositoryProvider.getMedlemskapVilkårPeriodeRepository();
         this.behandlingRepository = provider.getBehandlingRepository();
     }
 
@@ -61,7 +62,7 @@ public class VurderLøpendeMedlemskapStegImpl implements VurderLøpendeMedlemska
             Map<LocalDate, VilkårData> localDateVilkårDataMap = vurderLøpendeMedlemskap.vurderLøpendeMedlemskap(behandlingId);
             Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
 
-            MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(behandling);
+            MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(behandling.getBehandlingsresultat());
             MedlemskapsvilkårPeriodeEntitet.Builder perioderBuilder = builder.getPeriodeBuilder();
 
             localDateVilkårDataMap.forEach((vurderingsdato, value) -> {
@@ -73,7 +74,7 @@ public class VurderLøpendeMedlemskapStegImpl implements VurderLøpendeMedlemska
             builder.medMedlemskapsvilkårPeriode(perioderBuilder);
             medlemskapVilkårPeriodeRepository.lagreMedlemskapsvilkår(behandling, builder);
 
-            Tuple<VilkårUtfallType, VilkårUtfallMerknad> utfall = medlemskapVilkårPeriodeRepository.utledeVilkårStatus(behandling);
+            Tuple<VilkårUtfallType, VilkårUtfallMerknad> utfall = medlemskapVilkårPeriodeRepository.utledeVilkårStatus(behandling.getBehandlingsresultat());
             VilkårResultat.Builder vilkårBuilder = VilkårResultat.builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat());
             vilkårBuilder.leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, utfall.getElement1());
 

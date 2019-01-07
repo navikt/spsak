@@ -31,13 +31,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.PersonStatusType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.InngangsvilkårOversetter;
-import no.nav.foreldrepenger.domene.inngangsvilkaar.medlemskap.Medlemskapsvilkår;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.fpsak.nare.evaluation.Evaluation;
@@ -56,7 +55,7 @@ public class VurderLøpendeMedlemskap {
     }
 
     @Inject
-    public VurderLøpendeMedlemskap(BasisPersonopplysningTjeneste personopplysningTjeneste, BehandlingRepositoryProvider repositoryProvider,
+    public VurderLøpendeMedlemskap(BasisPersonopplysningTjeneste personopplysningTjeneste, GrunnlagRepositoryProvider repositoryProvider,
                                    InngangsvilkårOversetter inngangsvilkårOversetter) {
         this.personopplysningTjeneste = personopplysningTjeneste;
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();

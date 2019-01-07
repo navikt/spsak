@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
 import no.nav.foreldrepenger.domene.personopplysning.identifiserer.PersonAdresseEndringIdentifiserer;
@@ -38,7 +38,7 @@ class StartpunktUtlederPersonopplysning implements StartpunktUtleder {
     }
 
     @Inject
-    StartpunktUtlederPersonopplysning(BehandlingRepositoryProvider repositoryProvider, // NOSONAR - ingen enkel måte å unngå mange parametere (endringsidentifiserere) her
+    StartpunktUtlederPersonopplysning(GrunnlagRepositoryProvider repositoryProvider, // NOSONAR - ingen enkel måte å unngå mange parametere (endringsidentifiserere) her
                                       SivilstandEndringIdentifiserer sivilstandEndringIdentifiserer,
                                       PersonstatusEndringIdentifiserer personstatusEndringIdentifiserer, StatsborgerskapEndringIdentifiserer statsborgerskapEndringIdentifiserer,
                                       PersonAdresseEndringIdentifiserer adresseEndringIdentifiserer, SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {

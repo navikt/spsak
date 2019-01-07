@@ -11,10 +11,10 @@ import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProv
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEventPubliserer;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.VedtakResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.vedtak.util.FPDateUtil;
 
 @ApplicationScoped
@@ -29,10 +29,10 @@ public class BehandlingVedtakTjenesteImpl implements BehandlingVedtakTjeneste {
     }
 
     @Inject
-    public BehandlingVedtakTjenesteImpl(RevurderingTjenesteProvider revurderingTjenesteProvider, BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer, BehandlingRepositoryProvider repositoryProvider) {
+    public BehandlingVedtakTjenesteImpl(RevurderingTjenesteProvider revurderingTjenesteProvider, BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer, ResultatRepositoryProvider repositoryProvider) {
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
         this.behandlingVedtakEventPubliserer = behandlingVedtakEventPubliserer;
-        this.behandlingVedtakRepository = repositoryProvider.getBehandlingVedtakRepository();
+        this.behandlingVedtakRepository = repositoryProvider.getVedtakRepository();
     }
 
     @Override

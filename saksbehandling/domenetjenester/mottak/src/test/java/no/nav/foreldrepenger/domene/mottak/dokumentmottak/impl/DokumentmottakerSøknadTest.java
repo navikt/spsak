@@ -30,7 +30,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
@@ -56,7 +57,9 @@ public class DokumentmottakerSøknadTest {
     private KodeverkRepository kodeverkRepository = new KodeverkRepositoryImpl(repoRule.getEntityManager());
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
     @Inject
     private FagsakRepository fagsakRepository;
     @Inject
@@ -91,7 +94,7 @@ public class DokumentmottakerSøknadTest {
         dokumentmottakerFelles = new DokumentmottakerFelles(prosessTaskRepository, enhetsTjeneste, historikkinnslagTjeneste);
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
-        dokumentmottaker = new DokumentmottakerSøknad(repositoryProvider, dokumentmottakerFelles, mottatteDokumentTjeneste, behandlingsoppretter, kompletthetskontroller);
+        dokumentmottaker = new DokumentmottakerSøknad(repositoryProvider, resultatRepositoryProvider, dokumentmottakerFelles, mottatteDokumentTjeneste, behandlingsoppretter, kompletthetskontroller);
         dokumentmottaker = Mockito.spy(dokumentmottaker);
     }
 
@@ -100,7 +103,7 @@ public class DokumentmottakerSøknadTest {
         //Arrange
         Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
             .medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD)
-            .lagre(repositoryProvider);
+            .lagre(repositoryProvider, resultatRepositoryProvider);
 
         Long fagsakId = behandling.getFagsakId();
         DokumentTypeId dokumentTypeId = DokumentTypeId.SØKNAD_FORELDREPENGER_FØDSEL;
@@ -146,13 +149,13 @@ public class DokumentmottakerSøknadTest {
     public void skal_henlegge_køet_behandling_dersom_søknad_mottatt_tidligere() {
         // Arrange - opprette køet førstegangsbehandling
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, behandlingLås);
         simulerKøetBehandling(behandling);
 
         // Arrange - mock tjenestekall
-        Behandling nyKøetBehandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider);
+        Behandling nyKøetBehandling = ScenarioMorSøkerForeldrepenger.forDefaultAktør().lagre(repositoryProvider, resultatRepositoryProvider);
         when(behandlingsoppretter.henleggOgOpprettNyFørstegangsbehandling(behandling.getFagsak(), behandling, null))
             .thenReturn(nyKøetBehandling);
 

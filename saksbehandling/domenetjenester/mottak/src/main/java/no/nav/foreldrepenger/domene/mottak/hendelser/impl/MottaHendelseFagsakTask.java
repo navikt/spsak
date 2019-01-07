@@ -6,7 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingskontroll.task.FagsakProsessTask;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
 import no.nav.foreldrepenger.domene.mottak.hendelser.ForretningshendelseMottak;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTask;
@@ -27,7 +27,7 @@ public class MottaHendelseFagsakTask extends FagsakProsessTask {
     }
 
     @Inject
-    public MottaHendelseFagsakTask(ForretningshendelseMottak forretningshendelseMottak, BehandlingRepositoryProvider repositoryProvider) {
+    public MottaHendelseFagsakTask(ForretningshendelseMottak forretningshendelseMottak, GrunnlagRepositoryProvider repositoryProvider) {
         super(repositoryProvider);
         this.forretningshendelseMottak = forretningshendelseMottak;
     }

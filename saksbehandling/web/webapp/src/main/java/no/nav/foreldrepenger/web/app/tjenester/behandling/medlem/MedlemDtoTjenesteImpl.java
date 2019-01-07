@@ -31,7 +31,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedle
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabell;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.medlem.api.EndringsresultatPersonopplysningerForMedlemskap;
@@ -60,14 +60,14 @@ public class MedlemDtoTjenesteImpl implements MedlemDtoTjeneste {
     private PersonopplysningDtoTjeneste personopplysningDtoTjeneste;
 
     @Inject
-    public MedlemDtoTjenesteImpl(BehandlingRepositoryProvider behandlingRepositoryProvider,
+    public MedlemDtoTjenesteImpl(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                                  TpsTjeneste tpsTjeneste,
                                  SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
                                  InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, BehandlingRepository behandlingRepository,
                                  MedlemTjeneste medlemTjeneste, PersonopplysningTjeneste personopplysningTjeneste,
                                  PersonopplysningDtoTjeneste personopplysningDtoTjeneste) {
 
-        this.medlemskapRepository = behandlingRepositoryProvider.getMedlemskapRepository();
+        this.medlemskapRepository = grunnlagRepositoryProvider.getMedlemskapRepository();
         this.tpsTjeneste = tpsTjeneste;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;

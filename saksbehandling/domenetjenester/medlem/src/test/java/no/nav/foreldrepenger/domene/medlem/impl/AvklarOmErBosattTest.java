@@ -24,8 +24,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandO
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.OppgittLandOppholdEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMedlemskapPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
@@ -45,7 +47,8 @@ public class AvklarOmErBosattTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private BehandlingRepositoryProvider provider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private GrunnlagRepositoryProvider provider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     @Inject
     private MedlemskapPerioderTjeneste medlemskapPerioderTjeneste;
@@ -66,7 +69,7 @@ public class AvklarOmErBosattTest {
         LocalDate fødselsDato = LocalDate.now();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         leggTilSøker(scenario, AdresseType.POSTADRESSE_UTLAND, Landkoder.SWE);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
@@ -82,7 +85,7 @@ public class AvklarOmErBosattTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
@@ -104,7 +107,7 @@ public class AvklarOmErBosattTest {
             .build();
 
         scenario.leggTilMedlemskapPeriode(gyldigPeriodeUnderFødsel);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
@@ -126,7 +129,7 @@ public class AvklarOmErBosattTest {
             .build();
 
         scenario.leggTilMedlemskapPeriode(gyldigPeriodeUnderFødsel);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
@@ -176,7 +179,7 @@ public class AvklarOmErBosattTest {
         scenario.medOppgittTilknytning()
             .medOpphold(Arrays.asList(oppholdINorge, swe, usa, bel, png))
             .medOppholdNå(true);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
@@ -207,7 +210,7 @@ public class AvklarOmErBosattTest {
         scenario.medOppgittTilknytning()
             .medOpphold(Arrays.asList(oppholdINorge, fremtidigOppholdISverige))
             .medOppholdNå(true);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
@@ -239,7 +242,7 @@ public class AvklarOmErBosattTest {
         scenario.medOppgittTilknytning()
             .medOpphold(Arrays.asList(oppholdINorge, fremtidigOppholdISverige))
             .medOppholdNå(true);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);
@@ -259,7 +262,7 @@ public class AvklarOmErBosattTest {
             .build();
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         leggTilSøker(scenario, AdresseType.BOSTEDSADRESSE, Landkoder.NOR);
-        Behandling behandling = scenario.lagre(provider);
+        Behandling behandling = scenario.lagre(provider, resultatRepositoryProvider);
 
         // Act
         Optional<MedlemResultat> resultat = avklarOmErBosatt.utled(behandling, fødselsDato);

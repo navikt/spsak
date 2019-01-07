@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -30,7 +29,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapManuellVurderingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapPerioderBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapType;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
@@ -49,6 +49,7 @@ import no.nav.foreldrepenger.domene.typer.Prosentsats;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.InntektDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.MedlemDtoTjenesteImpl;
+import no.nav.vedtak.util.Tuple;
 
 public class MedlemDtoTest {
 
@@ -84,9 +85,10 @@ public class MedlemDtoTest {
         smBuilder.medSykemelding(sykemeldingBuilder);
         scenario.medSykemeldinger(smBuilder);
 
-        final BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
-
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagMocked();
+        Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> providerTuple = scenario.mockBehandlingRepositoryProvider();
+        final GrunnlagRepositoryProvider repositoryProvider = providerTuple.getElement1();
+        final ResultatRepositoryProvider resultatRepositoryProvider = providerTuple.getElement2();
         InntektEntitet.InntektspostBuilder builder = InntektEntitet.InntektspostBuilder.ny();
 
         InntektEntitet.InntektspostBuilder inntektspost = builder
@@ -96,8 +98,8 @@ public class MedlemDtoTest {
 
         lagreOpptjening(scenario, behandling, søkerAktørId, inntektspost);
 
-        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
-        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
+        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
+        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
         InntektArbeidYtelseTjenesteImpl opptjeningTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         TpsTjenesteImpl tpsTjeneste = mock(TpsTjenesteImpl.class);
 
@@ -169,17 +171,19 @@ public class MedlemDtoTest {
         smBuilder.medSykemelding(sykemeldingBuilder);
         scenario.medSykemeldinger(smBuilder);
 
-        final BehandlingRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider();
+        Behandling behandling = scenario.lagMocked();
+        Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> providerTuple = scenario.mockBehandlingRepositoryProvider();
+        final GrunnlagRepositoryProvider repositoryProvider = providerTuple.getElement1();
+        final ResultatRepositoryProvider resultatRepositoryProvider = providerTuple.getElement2();
 
-        Behandling behandling = scenario.lagre(repositoryProvider);
         InntektEntitet.InntektspostBuilder inntektspost = InntektEntitet.InntektspostBuilder.ny()
             .medBeløp(BigDecimal.TEN)
             .medPeriode(LocalDate.now(), LocalDate.now().plusMonths(1))
             .medInntektspostType(InntektspostType.UDEFINERT);
 
         lagreOpptjening(scenario, behandling, aktørIdAnnenPart, inntektspost);
-        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, Period.of(0, 10, 0));
-        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, skjæringstidspunktTjeneste);
+        SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
+        AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
         InntektArbeidYtelseTjenesteImpl opptjeningTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         TpsTjenesteImpl tpsTjeneste = mock(TpsTjenesteImpl.class);
 

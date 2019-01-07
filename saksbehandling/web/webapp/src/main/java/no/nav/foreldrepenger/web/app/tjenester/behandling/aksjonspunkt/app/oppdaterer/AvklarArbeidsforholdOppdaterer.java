@@ -19,7 +19,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arb
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdHandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdInformasjonBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdOverstyringBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.OrganisasjonsNummerValidator;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
@@ -56,13 +56,13 @@ public class AvklarArbeidsforholdOppdaterer implements AksjonspunktOppdaterer<Av
                                           TpsTjeneste tpsTjeneste,
                                           VirksomhetTjeneste virksomhetTjeneste,
                                           HistorikkTjenesteAdapter historikkAdapter,
-                                          BehandlingRepositoryProvider behandlingRepositoryProvider) {
+                                          GrunnlagRepositoryProvider grunnlagRepositoryProvider) {
         this.arbeidsforholdTjeneste = arbeidsforholdTjeneste;
         this.tpsTjeneste = tpsTjeneste;
         this.virksomhetTjeneste = virksomhetTjeneste;
         this.historikkAdapter = historikkAdapter;
-        this.kodeverkRepository = behandlingRepositoryProvider.getKodeverkRepository();
-        this.virksomhetRepository = behandlingRepositoryProvider.getVirksomhetRepository();
+        this.kodeverkRepository = grunnlagRepositoryProvider.getKodeverkRepository();
+        this.virksomhetRepository = grunnlagRepositoryProvider.getVirksomhetRepository();
     }
 
     @Override

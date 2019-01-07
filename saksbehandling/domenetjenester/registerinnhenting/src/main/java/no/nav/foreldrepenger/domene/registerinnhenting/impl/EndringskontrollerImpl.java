@@ -28,7 +28,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaTjenesteOrkestrerer;
 import no.nav.foreldrepenger.domene.kontrollerfakta.StartpunktTjeneste;
@@ -55,7 +55,7 @@ public class EndringskontrollerImpl implements Endringskontroller {
 
     @Inject
     public EndringskontrollerImpl(BehandlingskontrollTjeneste behandlingskontrollTjeneste,
-                                  BehandlingRepositoryProvider provider,
+                                  GrunnlagRepositoryProvider provider,
                                   StartpunktTjeneste startpunktTjeneste,
                                   RegisterinnhentingHistorikkinnslagTjeneste historikkinnslagTjeneste,
                                   KontrollerFaktaTjenesteOrkestrerer kontrollerFaktaTjenesteOrkestrerer) {

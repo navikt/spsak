@@ -10,7 +10,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
 
 /**
@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVu
 @ApplicationScoped
 public class OpptjeningFaktaStegImpl implements BehandlingSteg {
 
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
     private AksjonspunktutlederForVurderOpptjening aksjonspunktutleder;
 
     OpptjeningFaktaStegImpl() {
@@ -30,7 +30,7 @@ public class OpptjeningFaktaStegImpl implements BehandlingSteg {
     }
 
     @Inject
-    public OpptjeningFaktaStegImpl(BehandlingRepositoryProvider repositoryProvider, AksjonspunktutlederForVurderOpptjening aksjonspunktutleder) {
+    public OpptjeningFaktaStegImpl(GrunnlagRepositoryProvider repositoryProvider, AksjonspunktutlederForVurderOpptjening aksjonspunktutleder) {
         this.repositoryProvider = repositoryProvider;
         this.aksjonspunktutleder = aksjonspunktutleder;
     }

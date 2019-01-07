@@ -18,7 +18,8 @@ import no.finn.unleash.FakeUnleash;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -35,7 +36,10 @@ public class BehandlingDtoTjenesteImplTest {
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
 
     @Inject
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+
+    @Inject
+    private ResultatRepositoryProvider resultatRepositoryProvider;
 
     @Inject
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
@@ -47,7 +51,7 @@ public class BehandlingDtoTjenesteImplTest {
     @Before
     public void setUp() {
         System.setProperty("fpoppdrag.url", "https://foo/bar");
-        tjeneste = new BehandlingDtoTjenesteImpl(repositoryProvider, skjæringstidspunktTjeneste, unleash);
+        tjeneste = new BehandlingDtoTjenesteImpl(resultatRepositoryProvider, skjæringstidspunktTjeneste, unleash);
     }
 
     @After
@@ -88,6 +92,6 @@ public class BehandlingDtoTjenesteImplTest {
         smBuilder.medSykemelding(sykemeldingBuilder);
         scenario.medSykemeldinger(smBuilder);
         return scenario
-            .lagre(repositoryProvider);
+            .lagre(repositoryProvider, resultatRepositoryProvider);
     }
 }

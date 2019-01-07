@@ -20,14 +20,16 @@ import no.nav.foreldrepenger.behandlingskontroll.transisjoner.FellesTransisjoner
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.ForeslåBeregningsgrunnlag;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.wrapper.BeregningsgrunnlagRegelResultat;
+import no.nav.vedtak.util.Tuple;
 
 public class ForeslåBeregningsgrunnlagStegImplTest {
 
@@ -40,7 +42,7 @@ public class ForeslåBeregningsgrunnlagStegImplTest {
     @Mock
     private BehandlingskontrollKontekst kontekst;
 
-    private BehandlingRepositoryProvider behandlingRepositoryProvider;
+    private GrunnlagRepositoryProvider grunnlagRepositoryProvider;
     private Behandling behandling;
     private ForeslåBeregningsgrunnlagStegImpl steg;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
@@ -49,13 +51,15 @@ public class ForeslåBeregningsgrunnlagStegImplTest {
     public void setUp() {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         behandling = scenario.lagMocked();
-        behandlingRepositoryProvider = scenario.mockBehandlingRepositoryProvider();
-        beregningsgrunnlagRepository = behandlingRepositoryProvider.getBeregningsgrunnlagRepository();
+        Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> providerTuple = scenario.mockBehandlingRepositoryProvider();
+        grunnlagRepositoryProvider = providerTuple.getElement1();
+        ResultatRepositoryProvider resultatRepositoryProvider = providerTuple.getElement2();
+        beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
         Beregningsgrunnlag beregningsgrunnlag = Beregningsgrunnlag.builder().medSkjæringstidspunkt(LocalDate.now()).build();
         beregningsgrunnlagRepository.lagre(behandling, beregningsgrunnlag, null);
         when(kontekst.getBehandlingId()).thenReturn(behandling.getId());
         when(foreslåBeregningsgrunnlag.foreslåBeregningsgrunnlag(behandling, beregningsgrunnlag)).thenReturn(beregningsgrunnlagRegelResultat);
-        steg = new ForeslåBeregningsgrunnlagStegImpl(behandlingRepositoryProvider, foreslåBeregningsgrunnlag);
+        steg = new ForeslåBeregningsgrunnlagStegImpl(resultatRepositoryProvider, foreslåBeregningsgrunnlag);
     }
 
     @Test

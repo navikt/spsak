@@ -29,12 +29,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Inntekt;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.Opptjening;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetKlassifisering;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningAktivitetType;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningsperioderTjeneste;
@@ -58,7 +58,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
 
     @Inject
     public OpptjeningInntektArbeidYtelseTjenesteImpl(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                                     BehandlingRepositoryProvider provider, OpptjeningsperioderTjeneste opptjeningsperioderTjeneste) {
+                                                     ResultatRepositoryProvider provider, OpptjeningsperioderTjeneste opptjeningsperioderTjeneste) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.opptjeningRepository = provider.getOpptjeningRepository();
         this.opptjeningsperioderTjeneste = opptjeningsperioderTjeneste;
@@ -66,9 +66,14 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
 
     @Override
     public Opptjening hentOpptjening(Behandling behandling) {
-        Optional<Opptjening> optional = opptjeningRepository.finnOpptjening(behandling);
+        Optional<Opptjening> optional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
         return optional
             .orElseThrow(() -> new IllegalStateException("Utvikler-feil: Mangler Opptjening for Behandling: " + behandling.getId()));
+    }
+
+    @Override
+    public Optional<Opptjening> hentOpptjeningHvisEksisterer(Behandling behandling) {
+        return opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
     }
 
     @Override
@@ -97,7 +102,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
         if (!grunnlagOpt.isPresent()) {
             return Optional.empty();
         }
-        Optional<Opptjening> opptjeningOpt = opptjeningRepository.finnOpptjening(behandling);
+        Optional<Opptjening> opptjeningOpt = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
         if (!opptjeningOpt.isPresent()) {
             return Optional.empty();
         }
@@ -119,7 +124,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
         if (!grunnlagOpt.isPresent()) {
             return Collections.emptyList();
         }
-        Optional<Opptjening> opptjeningOpt = opptjeningRepository.finnOpptjening(behandling);
+        Optional<Opptjening> opptjeningOpt = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
         if (!opptjeningOpt.isPresent()) {
             return Collections.emptyList();
         }
@@ -163,7 +168,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
 
     @Override
     public List<OpptjeningAktivitet> hentGodkjentAktivitetTyper(Behandling behandling, LocalDate dato) {
-        Optional<Opptjening> optional = opptjeningRepository.finnOpptjening(behandling);
+        Optional<Opptjening> optional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
 
         if (!optional.isPresent()) {
             return Collections.emptyList();

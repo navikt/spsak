@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
@@ -29,7 +29,7 @@ public class FagsakTjenesteImpl implements FagsakTjeneste {
     }
 
     @Inject
-    public FagsakTjenesteImpl(BehandlingRepositoryProvider repositoryProvider,
+    public FagsakTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
                               FagsakStatusEventPubliserer fagsakStatusEventPubliserer) {
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.fagsakStatusEventPubliserer = fagsakStatusEventPubliserer;

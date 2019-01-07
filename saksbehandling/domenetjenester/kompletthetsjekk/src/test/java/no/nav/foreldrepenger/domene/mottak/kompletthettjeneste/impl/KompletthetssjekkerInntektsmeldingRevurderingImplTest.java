@@ -22,8 +22,10 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
@@ -36,9 +38,10 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private final BehandlingRepositoryProvider repositoryProvider = new BehandlingRepositoryProviderImpl(repoRule.getEntityManager());
+    private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
-    private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider);
+    private final KompletthetssjekkerTestUtil testUtil = new KompletthetssjekkerTestUtil(repositoryProvider, resultatRepositoryProvider);
 
     private final InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = mockIayTjenesteMedToArbeidsgivere();
 
@@ -50,7 +53,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
     public void skal_bare_utlede_manglende_inntektsmelding_for_arbeidsforholdet_som_er_berørt_av_gradering() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         testUtil.lagreSøknad(behandling);
 
         // Act
@@ -66,7 +69,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
     public void skal_bare_utlede_manglende_inntektsmeldinger_for_arbeidstakere() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         testUtil.lagreSøknad(behandling);
 
         // Act
@@ -80,7 +83,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
     public void skal_ikke_utlede_manglende_inntektsmelding_for_arbeidsforhold_berørt_av_gradering_når_den_er_mottatt() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         testUtil.lagreSøknad(behandling);
 
         Virksomhet virksomhet = new VirksomhetEntitet.Builder().medOrgnr(ARBGIVER1).build();
@@ -99,7 +102,7 @@ public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {
     public void skal_benytte_grunnlagstjenesten_til_å_utlede_manglende_inntektsmelding_ved_ferie() {
         // Arrange
         ScenarioMorSøkerForeldrepenger scenario = testUtil.opprettRevurderingsscenario();
-        Behandling behandling = scenario.lagre(repositoryProvider);
+        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         testUtil.lagreSøknad(behandling);
 
         // Act

@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataInnhenter;
 import no.nav.foreldrepenger.domene.registerinnhenting.impl.SaksopplysningerFeil;
 
@@ -30,7 +30,7 @@ public class InnhentPersonopplysningStegImpl implements InnhentRegisteropplysnin
     }
 
     @Inject
-    public InnhentPersonopplysningStegImpl(BehandlingRepositoryProvider repositoryProvider,
+    public InnhentPersonopplysningStegImpl(GrunnlagRepositoryProvider repositoryProvider,
                                            RegisterdataInnhenter registerdataInnhenter) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.registerdataInnhenter = registerdataInnhenter;

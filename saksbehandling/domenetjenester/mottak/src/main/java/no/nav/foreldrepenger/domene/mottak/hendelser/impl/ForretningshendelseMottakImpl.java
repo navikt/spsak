@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.hendelser.Forretningshendelse;
@@ -53,7 +53,7 @@ public class ForretningshendelseMottakImpl implements ForretningshendelseMottak 
     public ForretningshendelseMottakImpl(@Any Instance<ForretningshendelseOversetter<? extends Forretningshendelse>> oversettere,
                                          ForretningshendelseHåndtererProvider forretningshendelseHåndtererProvider,
                                          KodeverkRepository kodeverkRepository,
-                                         BehandlingRepositoryProvider repositoryProvider,
+                                         GrunnlagRepositoryProvider repositoryProvider,
                                          ProsessTaskRepository prosessTaskRepository) {
         this.oversettere = oversettere;
         this.fagsakRepository = repositoryProvider.getFagsakRepository();

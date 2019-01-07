@@ -5,8 +5,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatAndel;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatPeriode;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Arbeidsforhold;
@@ -22,11 +22,11 @@ public class MapBeregningsresultatFeriepengerFraVLTilRegel {
         //Skal ikke instansieres
     }
 
-    public static BeregningsresultatFeriepengerRegelModell mapFra(Beregningsgrunnlag beregningsgrunnlag, Behandling behandling, BeregningsresultatFP beregningsresultatFP) {
+    public static BeregningsresultatFeriepengerRegelModell mapFra(Beregningsgrunnlag beregningsgrunnlag, Behandling behandling, BeregningsresultatPerioder beregningsresultat) {
 
-        List<BeregningsresultatPeriode> beregningsresultatPerioder = beregningsresultatFP.getBeregningsresultatPerioder().stream()
+        List<BeregningsresultatPeriode> beregningsresultatPerioder = beregningsresultat.getBeregningsresultatPerioder().stream()
             .map(MapBeregningsresultatFeriepengerFraVLTilRegel::mapBeregningsresultatPerioder).collect(Collectors.toList());
-        Set<Inntektskategori> inntektskategorier = mapInntektskategorier(beregningsresultatFP);
+        Set<Inntektskategori> inntektskategorier = mapInntektskategorier(beregningsresultat);
         Dekningsgrad dekningsgrad = beregningsgrunnlag.getDekningsgrad() == 100 ? Dekningsgrad.DEKNINGSGRAD_100 : Dekningsgrad.DEKNINGSGRAD_80;
 
         return BeregningsresultatFeriepengerRegelModell.builder()
@@ -36,16 +36,16 @@ public class MapBeregningsresultatFeriepengerFraVLTilRegel {
             .build();
     }
 
-    private static Set<Inntektskategori> mapInntektskategorier(BeregningsresultatFP beregningsresultatFP) {
-        return beregningsresultatFP.getBeregningsresultatPerioder().stream()
+    private static Set<Inntektskategori> mapInntektskategorier(BeregningsresultatPerioder beregningsresultat) {
+        return beregningsresultat.getBeregningsresultatPerioder().stream()
             .flatMap(periode -> periode.getBeregningsresultatAndelList().stream())
-            .map(no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel::getInntektskategori)
+            .map(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel::getInntektskategori)
             .map(InntektskategoriMapper::fraVLTilRegel)
             .distinct()
             .collect(Collectors.toSet());
     }
 
-    private static BeregningsresultatPeriode mapBeregningsresultatPerioder(no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatPeriode beregningsresultatPerioder) {
+    private static BeregningsresultatPeriode mapBeregningsresultatPerioder(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode beregningsresultatPerioder) {
         BeregningsresultatPeriode periode = BeregningsresultatPeriode.builder()
             .medPeriode(new LocalDateInterval(beregningsresultatPerioder.getBeregningsresultatPeriodeFom(), beregningsresultatPerioder.getBeregningsresultatPeriodeTom()))
             .build();
@@ -53,7 +53,7 @@ public class MapBeregningsresultatFeriepengerFraVLTilRegel {
         return periode;
     }
 
-    private static void mapBeregningsresultatAndel(no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel andel, BeregningsresultatPeriode periode) {
+    private static void mapBeregningsresultatAndel(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel andel, BeregningsresultatPeriode periode) {
         BeregningsresultatAndel.builder()
             .medBrukerErMottaker(andel.erBrukerMottaker())
             .medDagsats((long) andel.getDagsats())
@@ -64,7 +64,7 @@ public class MapBeregningsresultatFeriepengerFraVLTilRegel {
             .build(periode);
     }
 
-    private static Arbeidsforhold mapArbeidsforhold(no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel andel) {
+    private static Arbeidsforhold mapArbeidsforhold(no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel andel) {
         if (andel.getAktivitetStatus().erFrilanser()) {
             return Arbeidsforhold.frilansArbeidsforhold();
         } else if (andel.getVirksomhet() == null) {

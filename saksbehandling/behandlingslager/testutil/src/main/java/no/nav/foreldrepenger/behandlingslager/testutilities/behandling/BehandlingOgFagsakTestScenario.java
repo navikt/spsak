@@ -9,17 +9,19 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.vedtak.util.Tuple;
 
 public interface BehandlingOgFagsakTestScenario<S> {
 
-    Fagsak lagreFagsak(BehandlingRepositoryProvider repositoryProvider);
+    Fagsak lagreFagsak(GrunnlagRepositoryProvider repositoryProvider);
 
-    Behandling lagre(BehandlingRepositoryProvider repositoryProvider);
+    Behandling lagre(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider);
 
     Behandling lagMocked();
 
@@ -37,7 +39,7 @@ public interface BehandlingOgFagsakTestScenario<S> {
 
     void avsluttBehandling();
 
-    void avsluttBehandling(BehandlingRepositoryProvider repositoryProvider, Behandling behandling);
+    void avsluttBehandling(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling);
 
     ArgumentCaptor<Behandling> getBehandlingCaptor();
 
@@ -53,6 +55,6 @@ public interface BehandlingOgFagsakTestScenario<S> {
 
     BehandlingRepository mockBehandlingRepository();
 
-    BehandlingRepositoryProvider mockBehandlingRepositoryProvider();
+    Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> mockBehandlingRepositoryProvider();
 
 }

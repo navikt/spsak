@@ -19,7 +19,7 @@ import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProviderImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
@@ -51,7 +51,7 @@ public class FagsakTjenesteTest {
 
     @Before
     public void oppsett() {
-        tjeneste = new FagsakTjenesteImpl(new BehandlingRepositoryProviderImpl(entityManager), null);
+        tjeneste = new FagsakTjenesteImpl(new GrunnlagRepositoryProviderImpl(entityManager), null);
 
         brukerTjeneste = new BrukerTjeneste(new NavBrukerRepositoryImpl(entityManager));
 

@@ -41,8 +41,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehand
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.Beregning;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapBehandlingsgrunnlagEntitet;
@@ -56,7 +54,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.RegistrertMe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjonBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningGrunnlagBuilder;
@@ -67,12 +64,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Sivils
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepositoryStub;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlagBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlagEntitet;
@@ -84,8 +83,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.vedtak.BehandlingVedtakRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.BrevMottaker;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.Verge;
 import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeAggregat;
@@ -115,6 +112,7 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavBrukerBuil
 import no.nav.foreldrepenger.behandlingslager.testutilities.aktør.NavPersoninfoBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.repositorystub.BeregningsgrunnlagRepositoryStub;
+import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.repositorystub.BeregningsresultatFPRepositoryStub;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
 import no.nav.foreldrepenger.behandlingslager.testutilities.kodeverk.KodeverkFraJson;
 import no.nav.foreldrepenger.behandlingslager.testutilities.kodeverk.KodeverkTestHelper;
@@ -123,6 +121,7 @@ import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.vedtak.felles.testutilities.Whitebox;
 import no.nav.vedtak.util.FPDateUtil;
+import no.nav.vedtak.util.Tuple;
 
 /**
  * Default test scenario builder for å definere opp testdata med enkle defaults.
@@ -142,7 +141,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
     private final Map<Long, SykefraværGrunnlagEntitet> sykefraværGrunnlagMap = new IdentityHashMap<>();
     private final Map<Behandling, Verge> vergeMap = new IdentityHashMap<>();
     private final Map<Long, MedlemskapBehandlingsgrunnlagEntitet> medlemskapgrunnlag = new HashMap<>();
-    private List<TestScenarioTillegg> testScenarioTilleggListe = new ArrayList<>();
+    private List<TestScenarioResultatTillegg> testScenarioResultatTilleggListe = new ArrayList<>();
     private ArgumentCaptor<Behandling> behandlingCaptor = ArgumentCaptor.forClass(Behandling.class);
     private ArgumentCaptor<Fagsak> fagsakCaptor = ArgumentCaptor.forClass(Fagsak.class);
     private InntektArbeidYtelseScenario iayScenario;
@@ -162,7 +161,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
     private Map<AksjonspunktDefinisjon, BehandlingStegType> aksjonspunktDefinisjoner = new HashMap<>();
     private VilkårResultatType vilkårResultatType = VilkårResultatType.IKKE_FASTSATT;
     private Map<VilkårType, VilkårUtfallType> vilkårTyper = new HashMap<>();
-    private Beregning beregning;
     private List<RegistrertMedlemskapPerioder> medlemskapPerioder = new ArrayList<>();
     private Long fagsakId = nyId();
     private LocalDate behandlingstidFrist;
@@ -182,7 +180,8 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
 
     private Behandling originalBehandling;
     private BehandlingÅrsakType behandlingÅrsakType;
-    private BehandlingRepositoryProvider repositoryProvider;
+    private GrunnlagRepositoryProvider repositoryProvider;
+    private ResultatRepositoryProvider resultatRepositoryProvider;
     private no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon.Builder personInformasjonBuilder;
 
     protected AbstractTestScenario(NavBrukerKjønn kjønn, AktørId aktørId) {
@@ -203,7 +202,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         return FAKE_ID.getAndIncrement();
     }
 
-    private BehandlingRepository lagBasicMockBehandlingRepository(BehandlingRepositoryProvider repositoryProvider) {
+    private BehandlingRepository lagBasicMockBehandlingRepository(GrunnlagRepositoryProvider repositoryProvider) {
         BehandlingRepository behandlingRepository = mock(BehandlingRepository.class);
 
         when(repositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
@@ -236,15 +235,11 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         SøknadRepository søknadRepository = mockSøknadRepository();
         InntektArbeidYtelseRepository inntektArbeidYtelseRepository = getIayScenario().mockInntektArbeidYtelseRepository();
         VirksomhetRepository virksomhetRepository = InntektArbeidYtelseScenario.mockVirksomhetRepository();
-        BeregningsgrunnlagRepository beregningsgrunnlagRepository = mockBeregningsgrunnlagRepository();
-        BeregningRepository beregningRepository = mockBeregningRepository();
-        OpptjeningRepository opptjeningRepository = Mockito.mock(OpptjeningRepository.class);
-        BeregningsresultatFPRepository beregningsresultatFPRepository = mockBeregningsresultatFPRepository();
         FagsakLåsRepository fagsakLåsRepository = mockFagsakLåsRepository();
 
         BehandlingLåsRepository behandlingLåsReposiory = mockBehandlingLåsRepository();
 
-        BehandlingVedtakRepository behandlingVedtakRepository = mockBehandlingVedtakRepository();
+
         // ikke ideelt å la mocks returnere mocks, men forenkler enormt mye test kode, forhindrer feil oppsett, så det
         // blir enklere å refactorere
 
@@ -259,17 +254,11 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         when(repositoryProvider.getMedlemskapRepository()).thenReturn(mockMedlemskapRepository);
         when(repositoryProvider.getSøknadRepository()).thenReturn(søknadRepository);
         when(repositoryProvider.getVergeGrunnlagRepository()).thenReturn(mockVergeRepository);
-        when(repositoryProvider.getBeregningRepository()).thenReturn(beregningRepository);
-        when(repositoryProvider.getBehandlingVedtakRepository()).thenReturn(behandlingVedtakRepository);
         when(repositoryProvider.getInntektArbeidYtelseRepository()).thenReturn(inntektArbeidYtelseRepository);
         when(repositoryProvider.getVirksomhetRepository()).thenReturn(virksomhetRepository);
-        when(repositoryProvider.getBeregningsgrunnlagRepository()).thenReturn(beregningsgrunnlagRepository);
-        when(repositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
         when(repositoryProvider.getFagsakLåsRepository()).thenReturn(fagsakLåsRepository);
         when(repositoryProvider.getBehandlingLåsRepository()).thenReturn(behandlingLåsReposiory);
-        when(repositoryProvider.getBeregningsresultatFPRepository()).thenReturn(beregningsresultatFPRepository);
         when(repositoryProvider.getSykefraværRepository()).thenReturn(mockSykefraværRepository());
-        lagreTilleggsScenarier(repositoryProvider);
 
         return behandlingRepository;
     }
@@ -364,14 +353,14 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         return new BeregningsgrunnlagRepositoryStub();
     }
 
-    private BeregningsresultatFPRepository mockBeregningsresultatFPRepository() {
+    private BeregningsresultatRepository mockBeregningsresultatFPRepository() {
         return new BeregningsresultatFPRepositoryStub();
     }
 
     private BehandlingVedtakRepository mockBehandlingVedtakRepository() {
         BehandlingVedtakRepository behandlingVedtakRepository = mock(BehandlingVedtakRepository.class);
         BehandlingVedtak behandlingVedtak = mockBehandlingVedtak();
-        when(behandlingVedtakRepository.hentBehandlingvedtakForBehandlingId(Mockito.any())).thenReturn(Optional.of(behandlingVedtak));
+        when(behandlingVedtakRepository.hentVedtakFor(Mockito.any())).thenReturn(Optional.of(behandlingVedtak));
 
         return behandlingVedtakRepository;
     }
@@ -381,10 +370,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
             behandlingVedtak = Mockito.mock(BehandlingVedtak.class);
         }
         return behandlingVedtak;
-    }
-
-    private BeregningRepository mockBeregningRepository() {
-        return mock(BeregningRepository.class);
     }
 
     private SøknadRepository mockSøknadRepository() {
@@ -435,10 +420,21 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
      */
     @Override
     public BehandlingRepository mockBehandlingRepository() {
+        if (resultatRepositoryProvider == null && mockBehandlingRepository != null) {
+            resultatRepositoryProvider = mock(ResultatRepositoryProvider.class);
+            lagBasicMockResultatProvider(resultatRepositoryProvider);
+        }
         if (mockBehandlingRepository != null) {
             return mockBehandlingRepository;
         }
-        repositoryProvider = mock(BehandlingRepositoryProvider.class);
+        repositoryProvider = mock(GrunnlagRepositoryProvider.class);
+        BehandlingRepository behandlingRepository = lagMockBehandlingRepository();
+        resultatRepositoryProvider = mock(ResultatRepositoryProvider.class);
+        lagBasicMockResultatProvider(resultatRepositoryProvider);
+        return behandlingRepository;
+    }
+
+    private BehandlingRepository lagMockBehandlingRepository() {
         BehandlingRepository behandlingRepository = lagBasicMockBehandlingRepository(repositoryProvider);
 
         when(behandlingRepository.hentBehandling(Mockito.any())).thenAnswer(a -> {
@@ -479,10 +475,23 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         return behandlingRepository;
     }
 
+    private void lagBasicMockResultatProvider(ResultatRepositoryProvider resultatRepositoryProvider) {
+        OpptjeningRepository opptjeningRepository = Mockito.mock(OpptjeningRepository.class);
+        BeregningsresultatRepository beregningsresultatFPRepository = mockBeregningsresultatFPRepository();
+        BehandlingVedtakRepository behandlingVedtakRepository = mockBehandlingVedtakRepository();
+        BeregningsgrunnlagRepository beregningsgrunnlagRepository = mockBeregningsgrunnlagRepository();
+        when(resultatRepositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
+        when(resultatRepositoryProvider.getBeregningsresultatRepository()).thenReturn(beregningsresultatFPRepository);
+        when(resultatRepositoryProvider.getVedtakRepository()).thenReturn(behandlingVedtakRepository);
+        when(resultatRepositoryProvider.getBeregningsgrunnlagRepository()).thenReturn(beregningsgrunnlagRepository);
+        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+        when(resultatRepositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
+    }
+
     @Override
-    public BehandlingRepositoryProvider mockBehandlingRepositoryProvider() {
+    public Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> mockBehandlingRepositoryProvider() {
         mockBehandlingRepository();
-        return repositoryProvider;
+        return new Tuple<>(repositoryProvider, resultatRepositoryProvider);
     }
 
     private VilkårKodeverkRepository mockVilkårKodeverkRepository(KodeverkRepository kodeverkRepository) {
@@ -500,16 +509,16 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
     }
 
     public PersonopplysningRepository mockPersonopplysningRepository() {
-        return mockBehandlingRepositoryProvider().getPersonopplysningRepository();
+        return mockBehandlingRepositoryProvider().getElement1().getPersonopplysningRepository();
     }
 
     public InntektArbeidYtelseRepository getMockInntektArbeidYtelseRepository() {
-        return mockBehandlingRepositoryProvider().getInntektArbeidYtelseRepository();
+        return mockBehandlingRepositoryProvider().getElement1().getInntektArbeidYtelseRepository();
     }
 
     @Override
     public MedlemskapRepository mockMedlemskapRepository() {
-        return mockBehandlingRepositoryProvider().getMedlemskapRepository();
+        return mockBehandlingRepositoryProvider().getElement1().getMedlemskapRepository();
     }
 
     private MedlemskapRepository lagMockMedlemskapRepository() {
@@ -632,14 +641,14 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
     }
 
     @Override
-    public Fagsak lagreFagsak(BehandlingRepositoryProvider repositoryProvider) {
+    public Fagsak lagreFagsak(GrunnlagRepositoryProvider repositoryProvider) {
         lagFagsak(repositoryProvider.getFagsakRepository());
         return fagsak;
     }
 
     @Override
-    public Behandling lagre(BehandlingRepositoryProvider repositoryProvider) {
-        build(repositoryProvider.getBehandlingRepository(), repositoryProvider);
+    public Behandling lagre(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider) {
+        build(repositoryProvider, resultatRepositoryProvider);
         return behandling;
     }
 
@@ -651,7 +660,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
 
         mockBehandlingRepository = mockBehandlingRepository();
 
-        lagre(repositoryProvider); // NOSONAR //$NON-NLS-1$
+        lagre(repositoryProvider, resultatRepositoryProvider); // NOSONAR //$NON-NLS-1$
         Whitebox.setInternalState(behandling.getType(), "ekstraData", "{ \"behandlingstidFristUker\" : 6, \"behandlingstidVarselbrev\" : \"N\" }");
         return mockBehandlingRepository;
     }
@@ -662,7 +671,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         return behandling;
     }
 
-    private void lagrePersonopplysning(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+    private void lagrePersonopplysning(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling) {
         PersonopplysningRepository personopplysningRepository = repositoryProvider.getPersonopplysningRepository();
 
         if (personer != null && !personer.isEmpty()) {
@@ -671,12 +680,12 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
 
             personer.stream().filter(a -> a.getType().equals(PersonopplysningVersjonType.OVERSTYRT))
                 .findFirst().ifPresent(b -> {
-                    if (personer.stream().noneMatch(c -> c.getType().equals(PersonopplysningVersjonType.REGISTRERT))) {
-                        // Sjekker om overstyring er ok, mao om registeropplysninger finnes
-                        personopplysningRepository.opprettBuilderForOverstyring(behandling);
-                    }
-                    lagrePersoninfo(behandling, b, personopplysningRepository);
-                });
+                if (personer.stream().noneMatch(c -> c.getType().equals(PersonopplysningVersjonType.REGISTRERT))) {
+                    // Sjekker om overstyring er ok, mao om registeropplysninger finnes
+                    personopplysningRepository.opprettBuilderForOverstyring(behandling);
+                }
+                lagrePersoninfo(behandling, b, personopplysningRepository);
+            });
 
         } else {
             PersonInformasjon registerInformasjon = PersonInformasjon.builder(PersonopplysningVersjonType.REGISTRERT)
@@ -756,7 +765,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         repository.lagre(behandling, personInformasjonBuilder);
     }
 
-    private void lagreVerge(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+    private void lagreVerge(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling) {
         if (vergeBuilder != null) {
             VergeRepository vergeRepo = repositoryProvider.getVergeGrunnlagRepository();
             vergeRepo.lagreOgFlush(behandling, vergeBuilder);
@@ -779,7 +788,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         return (S) this;
     }
 
-    private void build(BehandlingRepository behandlingRepo, BehandlingRepositoryProvider repositoryProvider) {
+    private void build(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider) {
         if (behandling != null) {
             throw new IllegalStateException("build allerede kalt.  Hent Behandling via getBehandling eller opprett nytt scenario.");
         }
@@ -793,6 +802,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
 
         leggTilAksjonspunkter(behandling, repositoryProvider);
 
+        BehandlingRepository behandlingRepo = repositoryProvider.getBehandlingRepository();
         BehandlingLås lås = behandlingRepo.taSkriveLås(behandling);
         behandlingRepo.lagre(behandling, lås);
 
@@ -807,16 +817,16 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         }
         lagreSøknad(repositoryProvider);
         // opprett og lagre resulater på behandling
-        lagreBehandlingsresultatOgVilkårResultat(repositoryProvider, lås);
-        lagreBeregningsresultat(repositoryProvider.getBeregningRepository(), lås);
-        lagreTilleggsScenarier(repositoryProvider);
+        lagreBehandlingsresultatOgVilkårResultat(resultatRepositoryProvider, lås);
+        lagreTilleggsScenarier(resultatRepositoryProvider);
+        behandlingRepo.lagre(behandling, lås);
 
         if (this.opplysningerOppdatertTidspunkt != null) {
             behandlingRepo.oppdaterSistOppdatertTidspunkt(this.behandling, this.opplysningerOppdatertTidspunkt);
         }
     }
 
-    private void lagreSykefravær(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+    private void lagreSykefravær(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling) {
         if (sykefravær != null || sykemeldinger != null) {
             SykefraværRepository repository = repositoryProvider.getSykefraværRepository();
             if (sykefravær != null) {
@@ -852,7 +862,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         return (S) this;
     }
 
-    private void leggTilAksjonspunkter(Behandling behandling, BehandlingRepositoryProvider repositoryProvider) {
+    private void leggTilAksjonspunkter(Behandling behandling, GrunnlagRepositoryProvider repositoryProvider) {
         aksjonspunktDefinisjoner.forEach(
             (apDef, stegType) -> {
                 if (stegType != null) {
@@ -863,21 +873,21 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
             });
     }
 
-    private void lagreSøknad(BehandlingRepositoryProvider repositoryProvider) {
+    private void lagreSøknad(GrunnlagRepositoryProvider repositoryProvider) {
         if (søknadBuilder != null) {
             final SøknadRepository søknadRepository = repositoryProvider.getSøknadRepository();
             søknadRepository.lagreOgFlush(behandling, søknadBuilder.build());
         }
     }
 
-    private void lagreMedlemskapOpplysninger(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+    private void lagreMedlemskapOpplysninger(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling) {
         repositoryProvider.getMedlemskapRepository().lagreMedlemskapRegisterOpplysninger(behandling, medlemskapPerioder);
 
         VurdertMedlemskap vurdertMedlemskap = medMedlemskap().build();
         repositoryProvider.getMedlemskapRepository().lagreMedlemskapVurdering(behandling, vurdertMedlemskap);
     }
 
-    private Builder grunnBuild(BehandlingRepositoryProvider repositoryProvider) {
+    private Builder grunnBuild(GrunnlagRepositoryProvider repositoryProvider) {
         FagsakRepository fagsakRepo = repositoryProvider.getFagsakRepository();
 
         lagFagsak(fagsakRepo);
@@ -928,7 +938,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         fagsak.setId(fagsakId);
     }
 
-    private void lagreBehandlingsresultatOgVilkårResultat(BehandlingRepositoryProvider repoProvider, BehandlingLås lås) {
+    private void lagreBehandlingsresultatOgVilkårResultat(ResultatRepositoryProvider repoProvider, BehandlingLås lås) {
         // opprett og lagre behandlingsresultat med VilkårResultat og BehandlingVedtak
         Behandlingsresultat behandlingsresultat = (behandlingresultatBuilder == null ? Behandlingsresultat.builderForInngangsvilkår()
             : behandlingresultatBuilder).buildFor(behandling);
@@ -937,30 +947,17 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
             .builderFraEksisterende(behandlingsresultat.getVilkårResultat())
             .medVilkårResultatType(vilkårResultatType);
 
-        vilkårTyper.forEach((vilkårType, vilkårUtfallType) -> {
-            inngangsvilkårBuilder.leggTilVilkår(vilkårType, vilkårUtfallType);
-            inngangsvilkårBuilder.buildFor(behandling);
-        });
+        vilkårTyper.forEach(inngangsvilkårBuilder::leggTilVilkår);
+        inngangsvilkårBuilder.buildFor(behandling.getBehandlingsresultat());
 
-        repoProvider.getBehandlingRepository().lagre(behandlingsresultat.getVilkårResultat(), lås);
+        repoProvider.getBehandlingRepository().lagre(behandling.getBehandlingsresultat().getVilkårResultat(), lås);
 
         if (behandlingVedtakBuilder != null) {
             // Må lagre Behandling for at Behandlingsresultat ikke skal være transient når BehandlingVedtak blir lagret:
             repoProvider.getBehandlingRepository().lagre(behandling, lås);
             behandlingVedtak = behandlingVedtakBuilder.medBehandlingsresultat(behandlingsresultat).build();
-            repoProvider.getBehandlingVedtakRepository().lagre(behandlingVedtak, lås);
+            repoProvider.getVedtakRepository().lagre(behandlingVedtak, lås);
         }
-    }
-
-    private void lagreBeregningsresultat(BeregningRepository beregningRepo, BehandlingLås lås) {
-        if (beregning == null) {
-            return;
-        }
-
-        BeregningResultat beregningResultat = BeregningResultat.builder()
-            .medBeregning(beregning)
-            .buildFor(behandling);
-        beregningRepo.lagre(beregningResultat, lås);
     }
 
     @Override
@@ -1066,7 +1063,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
         }
         return vurdertMedlemskapBuilder;
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public S medBehandlingType(BehandlingType behandlingType) {
@@ -1083,12 +1080,6 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
     @SuppressWarnings("unchecked")
     public S medVilkårResultatType(VilkårResultatType vilkårResultatType) {
         this.vilkårResultatType = vilkårResultatType;
-        return (S) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public S medBeregning(Beregning beregning) {
-        this.beregning = beregning;
         return (S) this;
     }
 
@@ -1195,13 +1186,13 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
 
     @SuppressWarnings("unchecked")
     @Override
-    public S leggTilScenario(TestScenarioTillegg testScenarioTillegg) {
-        testScenarioTilleggListe.add(testScenarioTillegg);
+    public S leggTilScenario(TestScenarioResultatTillegg testScenarioResultatTillegg) {
+        testScenarioResultatTilleggListe.add(testScenarioResultatTillegg);
         return (S) this;
     }
 
-    private void lagreTilleggsScenarier(BehandlingRepositoryProvider repositoryProvider) {
-        testScenarioTilleggListe.forEach(tillegg -> tillegg.lagre(behandling, repositoryProvider));
+    private void lagreTilleggsScenarier(ResultatRepositoryProvider repositoryProvider) {
+        testScenarioResultatTilleggListe.forEach(tillegg -> tillegg.lagre(behandling, repositoryProvider));
     }
 
     public InntektArbeidYtelseScenario.InntektArbeidYtelseScenarioTestBuilder getInntektArbeidYtelseScenarioTestBuilder() {
@@ -1216,11 +1207,11 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
 
     @Override
     public void avsluttBehandling() {
-        avsluttBehandling(mockBehandlingRepositoryProvider(), getBehandling());
+        avsluttBehandling(mockBehandlingRepositoryProvider().getElement1(), getBehandling());
     }
 
     @Override
-    public void avsluttBehandling(BehandlingRepositoryProvider repositoryProvider, Behandling behandling) {
+    public void avsluttBehandling(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling) {
         Long behandlingId = behandling.getId();
         repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandlingId);
     }

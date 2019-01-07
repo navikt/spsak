@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import no.nav.foreldrepenger.behandling.FagsakTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -41,7 +41,7 @@ public class InntektsmeldingConsumer extends KafkaConsumer {
     }
 
     @Inject
-    public InntektsmeldingConsumer(BehandlingRepositoryProvider repositoryProvider, SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste,
+    public InntektsmeldingConsumer(GrunnlagRepositoryProvider repositoryProvider, SaksbehandlingDokumentmottakTjeneste dokumentmottakTjeneste,
                                    DokumentArkivTjeneste dokumentArkivTjeneste,
                                    FagsakTjeneste fagsakTjeneste) {
         super("inntektsmelding");

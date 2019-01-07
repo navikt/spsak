@@ -15,8 +15,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Inntektspost;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningerAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Statsborgerskap;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingsgrunnlagKodeverkRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
@@ -32,7 +32,7 @@ class AvklarOmSøkerOppholderSegINorge {
     private BehandlingsgrunnlagKodeverkRepository behandlingsgrunnlagKodeverkRepository;
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
 
-    AvklarOmSøkerOppholderSegINorge(BehandlingRepositoryProvider repositoryProvider,
+    AvklarOmSøkerOppholderSegINorge(GrunnlagRepositoryProvider repositoryProvider,
                                     PersonopplysningTjeneste personopplysningTjeneste) {
         this.behandlingsgrunnlagKodeverkRepository = repositoryProvider.getBehandlingsgrunnlagKodeverkRepository();
         this.søknadRepository = repositoryProvider.getSøknadRepository();

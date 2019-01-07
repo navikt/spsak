@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTema;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.produksjonsstyring.sakogbehandling.task.SakOgBehandlingTask;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
@@ -32,7 +32,7 @@ public class OppdaterSakOgBehandlingEventObserver {
     static final String FORELDREPENGER_SAKSTEMA = "FOR";
 
     @Inject
-    public OppdaterSakOgBehandlingEventObserver(BehandlingRepositoryProvider repositoryProvider,
+    public OppdaterSakOgBehandlingEventObserver(GrunnlagRepositoryProvider repositoryProvider,
                                                 ProsessTaskRepository prosessTaskRepository) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.prosessTaskRepository = prosessTaskRepository;

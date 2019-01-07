@@ -2,15 +2,15 @@ package no.nav.foreldrepenger.domene.registerinnhenting.startpunkt;
 
 import java.util.Objects;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatAndel;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 
 // Aktivitetsnøkkel er en gjengivelse av hvordan BeregningsresultatAndel identifiserer en unik godkjent aktivitet
 // Er først og fremst knyttet til arbeidsforhold.
-// Kompenserer for at det ikke finnes noen slik abstraksjon tilgjengelig i Beregningsresultat sin kodebase
+// Kompenserer for at det ikke finnes noen slik abstraksjon tilgjengelig i BeregningsresultatPerioder sin kodebase
 class Aktivitetsnøkkel {
     private final Virksomhet virksomhet;
     private final ArbeidsforholdRef arbeidsforholdRef;

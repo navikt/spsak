@@ -29,7 +29,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
@@ -193,24 +192,6 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
         return getEntityManager().find(BehandlingStegType.class, kode);
     }
 
-    @Override
-    public void slettTidligereBeregninger(Behandling behandling, BehandlingLås lås) {
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
-        if (behandlingsresultat != null
-            && behandlingsresultat.getBeregningResultat() != null
-            && !behandlingsresultat.getBeregningResultat().getBeregninger().isEmpty()) {
-            behandlingsresultat.getBeregningResultat().getBeregninger()
-                .forEach(beregning -> {
-                    Query query = getEntityManager().createQuery(
-                        "DELETE FROM Beregning b WHERE b.id=:beregningId");
-                    query.setParameter("beregningId", beregning.getId()); //$NON-NLS-1$
-                    query.executeUpdate();
-                });
-            verifiserBehandlingLås(lås);
-            getEntityManager().flush();
-        }
-    }
-
     private Optional<Behandling> finnSisteBehandlingEkskluderBehandlingType(Long fagsakId, List<BehandlingType> behandlingType,
                                                                             boolean readOnly) {
         Objects.requireNonNull(fagsakId, "fagsakId"); // NOSONAR //$NON-NLS-1$
@@ -310,10 +291,6 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
             if (vilkårResultat != null && vilkårResultat.getId() == null) {
                 throw flereAggregatOpprettelserISammeLagringException(VilkårResultat.class);
             }
-            BeregningResultat beregningResultat = behandlingsresultat.getBeregningResultat();
-            if (beregningResultat != null && beregningResultat.getId() == null) {
-                throw flereAggregatOpprettelserISammeLagringException(BeregningResultat.class);
-            }
         }
         List<BehandlingÅrsak> behandlingÅrsak = behandling.getBehandlingÅrsaker();
         behandlingÅrsak.forEach(getEntityManager()::persist);
@@ -335,7 +312,7 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
 
     @Override
     public Behandling opprettNyBehandlingBasertPåTidligere(Behandling gammelBehandling, BehandlingType behandlingType,
-                                                           BehandlingRepositoryProvider repositoryProvider) {
+                                                           GrunnlagRepositoryProvider repositoryProvider) {
         // ta lås på gammel behandling først
         taSkriveLås(gammelBehandling);
 

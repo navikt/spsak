@@ -5,7 +5,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.AktivitetStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatAndel;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Arbeidsforhold;
 

@@ -10,7 +10,6 @@ import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.domene.kontrollerfakta.søknad.AksjonspunktUtlederForTilleggsopplysninger;
 
 public class AksjonspunktUtlederForTilleggsopplysningerTest {
 
@@ -26,7 +25,7 @@ public class AksjonspunktUtlederForTilleggsopplysningerTest {
         Behandling behandling = scenarioMedTillegsopplysningerPåSøknad.lagMocked();
 
         // Act
-        AksjonspunktUtlederForTilleggsopplysninger aksjonspunktUtleder = new AksjonspunktUtlederForTilleggsopplysninger(scenarioMedTillegsopplysningerPåSøknad.mockBehandlingRepositoryProvider());
+        AksjonspunktUtlederForTilleggsopplysninger aksjonspunktUtleder = new AksjonspunktUtlederForTilleggsopplysninger(scenarioMedTillegsopplysningerPåSøknad.mockBehandlingRepositoryProvider().getElement1());
         List<AksjonspunktResultat> apResultater = aksjonspunktUtleder.utledAksjonspunkterFor(behandling);
 
         // Assert
@@ -43,7 +42,7 @@ public class AksjonspunktUtlederForTilleggsopplysningerTest {
         Behandling behandling = scenarioUtenTillegsopplysningerPåSøknad.lagMocked();
 
         // Act
-        AksjonspunktUtlederForTilleggsopplysninger aksjonspunktUtleder = new AksjonspunktUtlederForTilleggsopplysninger(scenarioUtenTillegsopplysningerPåSøknad.mockBehandlingRepositoryProvider());
+        AksjonspunktUtlederForTilleggsopplysninger aksjonspunktUtleder = new AksjonspunktUtlederForTilleggsopplysninger(scenarioUtenTillegsopplysningerPåSøknad.mockBehandlingRepositoryProvider().getElement1());
         List<AksjonspunktResultat> apResultater = aksjonspunktUtleder.utledAksjonspunkterFor(behandling);
 
         // Assert

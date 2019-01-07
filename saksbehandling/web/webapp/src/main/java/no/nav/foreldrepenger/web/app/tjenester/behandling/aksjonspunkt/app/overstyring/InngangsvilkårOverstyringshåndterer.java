@@ -4,7 +4,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.FellesTransisjoner;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakYtelseType;
@@ -22,11 +22,11 @@ public abstract class InngangsvilkårOverstyringshåndterer<T extends Overstyrin
         // for CDI proxy
     }
 
-    public InngangsvilkårOverstyringshåndterer(BehandlingRepositoryProvider repositoryProvider,
-            HistorikkTjenesteAdapter historikkAdapter,
-            AksjonspunktDefinisjon aksjonspunktDefinisjon,
-            VilkårType vilkårType,
-            InngangsvilkårTjeneste inngangsvilkårTjeneste) {
+    public InngangsvilkårOverstyringshåndterer(GrunnlagRepositoryProvider repositoryProvider,
+                                               HistorikkTjenesteAdapter historikkAdapter,
+                                               AksjonspunktDefinisjon aksjonspunktDefinisjon,
+                                               VilkårType vilkårType,
+                                               InngangsvilkårTjeneste inngangsvilkårTjeneste) {
         super(repositoryProvider, historikkAdapter, aksjonspunktDefinisjon);
         this.vilkårType = vilkårType;
         this.inngangsvilkårTjeneste = inngangsvilkårTjeneste;

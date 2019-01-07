@@ -8,12 +8,13 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.FaktaOmBeregningTilfelle;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsgiverHistorikkinnslagTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktOppdaterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
@@ -42,9 +43,10 @@ public class VurderFaktaOmBeregningOppdaterer implements AksjonspunktOppdaterer<
 
     @Inject
     public VurderFaktaOmBeregningOppdaterer(HistorikkTjenesteAdapter historikkAdapter,
-                                            BehandlingRepositoryProvider repositoryProvider,
+                                            GrunnlagRepositoryProvider repositoryProvider,
+                                            ResultatRepositoryProvider resultatRepositoryProvider,
                                             ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste) {
-        this.fastsettEndretBeregningsgrunnlagOppdaterer = new FastsettEndretBeregningsgrunnlagOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
+        this.fastsettEndretBeregningsgrunnlagOppdaterer = new FastsettEndretBeregningsgrunnlagOppdaterer(repositoryProvider, resultatRepositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
         this.vurderTidsbegrensetArbeidsforholdOppdaterer = new VurderTidsbegrensetArbeidsforholdOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
         this.vurderSelvstendigNæringsdrivendeNyIArbeidslivetOppdaterer = new VurderSelvstendigNæringsdrivendeNyIArbeidslivetOppdaterer(repositoryProvider, historikkAdapter);
         this.fastsettBruttoBeregningsgrunnlagFLOppdaterer = new FastsettBruttoBeregningsgrunnlagFLOppdaterer(repositoryProvider, historikkAdapter);
@@ -52,11 +54,11 @@ public class VurderFaktaOmBeregningOppdaterer implements AksjonspunktOppdaterer<
         this.fastsettMånedsinntektUtenInntektsmeldingOppdaterer = new FastsettMånedsinntektUtenInntektsmeldingOppdaterer(historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
         this.vurderLønnsendringOppdaterer = new VurderLønnsendringOppdaterer(repositoryProvider, historikkAdapter);
         this.fastsettMånedsinntektATogFLiSammeOrganisasjonOppdaterer = new FastsettMånedsinntektATogFLiSammeOrganisasjonOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
-        this.fastsettBGTilstøtendeYtelseOppdaterer = new FastsettBGTilstøtendeYtelseOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
+        this.fastsettBGTilstøtendeYtelseOppdaterer = new FastsettBGTilstøtendeYtelseOppdaterer(repositoryProvider, resultatRepositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
         this.historikkAdapter = historikkAdapter;
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        this.vurderTilstøtendeYtelseOgEndretBeregningsgrunnlagOppdaterer = new VurderTilstøtendeYtelseOgEndretBeregninsgrunnlagOppdaterer(repositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
+        this.vurderTilstøtendeYtelseOgEndretBeregningsgrunnlagOppdaterer = new VurderTilstøtendeYtelseOgEndretBeregninsgrunnlagOppdaterer(repositoryProvider, resultatRepositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
     }
 
     @Override

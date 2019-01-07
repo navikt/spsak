@@ -9,10 +9,9 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
@@ -24,9 +23,9 @@ class RyddBeregningsgrunnlag {
     private final BehandlingskontrollKontekst kontekst;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
 
-    RyddBeregningsgrunnlag(BehandlingRepositoryProvider repositoryProvider, Behandling behandling, BehandlingskontrollKontekst kontekst) {
-        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
+    RyddBeregningsgrunnlag(BehandlingRepository behandlingRepository, BeregningsgrunnlagRepository beregningsgrunnlagRepository, Behandling behandling, BehandlingskontrollKontekst kontekst) {
+        this.behandlingRepository = behandlingRepository;
+        this.beregningsgrunnlagRepository = beregningsgrunnlagRepository;
         this.behandling = behandling;
         this.kontekst = kontekst;
     }

@@ -17,13 +17,14 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregning.BeregningsresultatFP;
-import no.nav.foreldrepenger.behandlingslager.behandling.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatFPRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.SykefraværPeriode;
@@ -55,7 +56,7 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
 
     private BehandlingRepository behandlingRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
-    private BeregningsresultatFPRepository beregningsresultatFPRepository;
+    private BeregningsresultatRepository beregningsresultatFPRepository;
     private FastsettBeregningsresultatTjeneste fastsettBeregningsresultatTjeneste;
     private UttakRepository uttakRepository;
     private BeregnFeriepengerTjeneste beregnFeriepengerTjeneste;
@@ -67,16 +68,17 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
     }
 
     @Inject
-    BeregneYtelseForeldrepengerStegImpl(BehandlingRepositoryProvider repositoryProvider,
+    BeregneYtelseForeldrepengerStegImpl(GrunnlagRepositoryProvider repositoryProvider,
+                                        ResultatRepositoryProvider resultatRepositoryProvider,
                                         FastsettBeregningsresultatTjeneste fastsettBeregningsresultatTjeneste,
                                         BeregnFeriepengerTjeneste beregnFeriepengerTjeneste,
                                         FinnEndringsdatoBeregningsresultatFPTjeneste finnEndringsdatoBeregningsresultatFPTjeneste) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
-        this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
-        this.beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatFPRepository();
+        this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
+        this.beregningsresultatFPRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
         this.fastsettBeregningsresultatTjeneste = fastsettBeregningsresultatTjeneste;
         this.finnEndringsdatoBeregningsresultatFPTjeneste = finnEndringsdatoBeregningsresultatFPTjeneste;
-        this.uttakRepository = repositoryProvider.getUttakRepository();
+        this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
         this.sykefraværRepository = repositoryProvider.getSykefraværRepository();
         this.beregnFeriepengerTjeneste = beregnFeriepengerTjeneste;
     }
@@ -93,7 +95,7 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
         UttakResultatEntitet uttakResultat = uttakRepository.hentUttakResultat(behandling);
 
         // Kalle regeltjeneste
-        BeregningsresultatFP beregningsresultat = fastsettBeregningsresultatTjeneste.fastsettBeregningsresultat(beregningsgrunnlag, uttakResultat, behandling);
+        BeregningsresultatPerioder beregningsresultat = fastsettBeregningsresultatTjeneste.fastsettBeregningsresultat(beregningsgrunnlag, uttakResultat, behandling);
 
         // Beregn feriepenger
         beregnFeriepengerTjeneste.beregnFeriepenger(behandling, beregningsresultat, beregningsgrunnlag);
@@ -101,11 +103,11 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
         // Sett endringsdato
         if (behandling.erRevurdering()) {
             Optional<LocalDate> endringsDato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(behandling, beregningsresultat);
-            endringsDato.ifPresent(endringsdato -> BeregningsresultatFP.builder(beregningsresultat).medEndringsdato(endringsdato));
+            endringsDato.ifPresent(endringsdato -> BeregningsresultatPerioder.builder(beregningsresultat).medEndringsdato(endringsdato));
         }
 
         // Lagre beregningsresultat
-        beregningsresultatFPRepository.lagre(behandling, beregningsresultat);
+        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
 
         return BehandleStegResultat.utførtUtenAksjonspunkter();
     }
@@ -148,8 +150,6 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
 
     @Override
     public void vedHoppOverBakover(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, BehandlingStegType tilSteg, BehandlingStegType fraSteg) {
-        beregningsresultatFPRepository.deaktiverBeregningsresultatFP(behandling, kontekst.getSkriveLås());
+        beregningsresultatFPRepository.deaktiverBeregningsresultat(behandling, kontekst.getSkriveLås());
     }
-
-
 }

@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingIdDto;
 import no.nav.vedtak.felles.jpa.Transaction;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
@@ -42,8 +42,8 @@ public class VilkårRestTjeneste {
     }
 
     @Inject
-    public VilkårRestTjeneste(BehandlingRepositoryProvider behandlingRepositoryProvider) {
-        this.behandlingRepository = behandlingRepositoryProvider.getBehandlingRepository();
+    public VilkårRestTjeneste(GrunnlagRepositoryProvider grunnlagRepositoryProvider) {
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
     }
 
     @GET

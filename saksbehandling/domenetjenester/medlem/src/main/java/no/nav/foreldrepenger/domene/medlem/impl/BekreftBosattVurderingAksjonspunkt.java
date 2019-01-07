@@ -6,14 +6,14 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskap;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.VurdertMedlemskapBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.domene.medlem.api.BekreftBosattVurderingAksjonspunktDto;
 
 class BekreftBosattVurderingAksjonspunkt {
 
     private MedlemskapRepository medlemskapRepository;
 
-    BekreftBosattVurderingAksjonspunkt(BehandlingRepositoryProvider repositoryProvider) {
+    BekreftBosattVurderingAksjonspunkt(GrunnlagRepositoryProvider repositoryProvider) {
         this.medlemskapRepository = repositoryProvider.getMedlemskapRepository();
     }
 

@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 
 @ApplicationScoped
@@ -24,8 +24,8 @@ public class DefaultOppdaterFagsakStatus implements OppdaterFagsakStatus {
     }
 
     @Inject
-    public DefaultOppdaterFagsakStatus(BehandlingRepositoryProvider repositoryProvider,
-                                  OppdaterFagsakStatusFelles oppdaterFagsakStatusFelles) {
+    public DefaultOppdaterFagsakStatus(GrunnlagRepositoryProvider repositoryProvider,
+                                       OppdaterFagsakStatusFelles oppdaterFagsakStatusFelles) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.oppdaterFagsakStatusFelles = oppdaterFagsakStatusFelles;
     }
