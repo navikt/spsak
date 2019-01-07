@@ -24,7 +24,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "BehandlingVedtak")
-@Table(name = "BEHANDLING_VEDTAK")
+@Table(name = "RES_VEDTAK")
 public class BehandlingVedtak extends BaseEntitet {
 
     @Id

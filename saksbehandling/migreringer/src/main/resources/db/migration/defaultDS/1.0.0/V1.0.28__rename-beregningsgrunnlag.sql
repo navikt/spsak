@@ -31,6 +31,9 @@ ALTER TABLE opptjening
 ALTER TABLE opptjening_aktivitet
   RENAME TO op_opptjening_aktivitet;
 
+ALTER TABLE behandling_vedtak
+  RENAME TO res_vedtak;
+
 ALTER TABLE RES_BEREGNINGSRESULTAT
   DROP COLUMN behandling_id CASCADE;
 ALTER TABLE RES_BEREGNINGSRESULTAT
