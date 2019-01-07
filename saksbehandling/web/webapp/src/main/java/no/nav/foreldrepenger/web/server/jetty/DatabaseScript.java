@@ -11,12 +11,10 @@ class DatabaseScript {
     private static final Logger log = LoggerFactory.getLogger(DatabaseScript.class);
 
     private final DataSource dataSource;
-    private final boolean cleanOnException;
     private final String locations;
 
-    DatabaseScript(DataSource dataSource, boolean cleanOnException, String locations) {
+    DatabaseScript(DataSource dataSource, String locations) {
         this.dataSource = dataSource;
-        this.cleanOnException = cleanOnException;
         this.locations = locations;
     }
 
@@ -26,18 +24,6 @@ class DatabaseScript {
         flyway.setLocations(locations);
         flyway.setBaselineOnMigrate(true);
 
-        try {
-            flyway.migrate();
-        } catch (FlywayException e) {  // NOSONAR
-            // prøv en gang til
-            if(cleanOnException) {
-                log.warn("Failed migration. Cleaning and retrying", e);
-                flyway.clean();
-                flyway.migrate();
-            } else {
-                throw e;
-            }
-        }
-
+        flyway.migrate();
     }
 }

@@ -150,13 +150,7 @@ public class JettyDevDbKonfigurasjon {
         }
         flyway.configure(flywayKonfig.lesFlywayPlaceholders());
 
-        try {
-            flyway.migrate();
-        } catch (FlywayException e) {
-            e.printStackTrace();
-            flyway.clean();
-            flyway.migrate();
-        }
+        flyway.migrate();
     }
 
     /** Håndter oppsett av datasource. */

@@ -24,11 +24,6 @@ public final class DatabaseStøtte {
     private DatabaseStøtte() {
     }
 
-    public static void kjørFullMigreringFor(List<DBConnectionProperties> connectionProperties) {
-        DatabaseStøtte.nullstill(connectionProperties);
-        DatabaseStøtte.kjørMigreringFor(connectionProperties);
-    }
-
     /**
      * Migrering kjøres i vilkårlig rekkefølge. Hvis bruker/skjema angitt i {@link DBConnectionProperties}
      * ikke finnes, opprettes den
@@ -114,11 +109,5 @@ public final class DatabaseStøtte {
         return "filesystem:" + location.getPath();
     }
 
-    private static void nullstill(List<DBConnectionProperties> connectionProperties) {
-        for (DBConnectionProperties connectionProperty : connectionProperties) {
-            DataSource dataSource = ConnectionHandler.opprettFra(connectionProperty);
-            FlywayKonfig.lagKonfig(dataSource).nullstill();
-        }
-    }
 
 }

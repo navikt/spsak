@@ -95,7 +95,7 @@ public class JettyServer extends AbstractJettyServer {
     @Override
     protected void migrerDatabaser() throws IOException {
         for (DBConnProp dbConnProp : dataSourceKonfig.getDataSources()) {
-            new DatabaseScript(dbConnProp.getDatasource(), false, dbConnProp.getMigrationScripts()).migrate();
+            new DatabaseScript(dbConnProp.getDatasource(), dbConnProp.getMigrationScripts()).migrate();
         }
     }
     

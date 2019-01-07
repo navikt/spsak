@@ -97,14 +97,4 @@ public class FlywayKonfig {
         return placeholders;
     }
 
-    public void nullstill() {
-        Flyway flyway = new Flyway();
-        flyway.setBaselineOnMigrate(true);
-        flyway.setDataSource(dataSource);
-
-        if (tabellnavn != null) {
-            flyway.setTable(tabellnavn);
-        }
-        flyway.clean();
-    }
 }
