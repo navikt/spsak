@@ -55,6 +55,8 @@ pipeline {
 					env.DB_CONTAINER="spsak-postgres-" + "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9_-]", '_').toLowerCase()
 					env.POSTGRES_USER="spsak"
 					env.POSTGRES_PASSWORD="spsak"
+					env.DOCKER_REGISTRY_URL='https://repo.adeo.no:5443'
+					env.NEXUS_CREDENTIAL_ID='NEXUS'
 					sh "java -version"
 					sh "mvn --version"
 					sh "echo $PATH"
@@ -100,6 +102,12 @@ pipeline {
                 script {
 					if(shouldRunStage(incrementalBuild, "saksbehandling", "saksbehandling/target")) {
 						mvnBuild('saksbehandling')
+						
+						docker.withRegistry(env.DOCKER_REGISTRY_URL, env.NEXUS_CREDENTIAL_ID) {
+							def appImage = docker.build("helse/spsak:${env.GIT_COMMIT_SHORT}", "./saksbehandling")
+							appImage.push()
+							appImage.push('latest')
+						}
 					}
 				}
             }
