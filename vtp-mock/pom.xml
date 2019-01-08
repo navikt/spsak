@@ -32,7 +32,7 @@
         <cxf.version>3.2.5</cxf.version>
         <jetty.version>9.4.13.v20181111</jetty.version>
 
-        <tjenestespesifikasjoner.version>1.2019.01.07-15.51-a1bba42f33fc</tjenestespesifikasjoner.version>
+        <tjenestespesifikasjoner.version>1.2019.01.08-11.12-8f0e87a6bdb3</tjenestespesifikasjoner.version>
 
     </properties>
 
@@ -351,7 +351,7 @@
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenestespesifikasjoner</groupId>
-                <artifactId>nav-arbeidsfordeling-v1-tjenestespesifikasjon</artifactId>
+                <artifactId>arbeidsfordeling-v1-tjenestespesifikasjon</artifactId>
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
             <dependency>

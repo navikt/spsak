@@ -17,7 +17,7 @@
 		<!-- 3dje parts NAV felleskomponenter -->
 		<dependency>
 			<groupId>no.nav.tjenestespesifikasjoner</groupId>
-			<artifactId>nav-arbeidsfordeling-v1-tjenestespesifikasjon</artifactId>
+			<artifactId>arbeidsfordeling-v1-tjenestespesifikasjon</artifactId>
 		</dependency>
 
 		<!-- 3dje parts biblioteker -->
