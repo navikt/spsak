@@ -16,15 +16,13 @@
 
 		<!-- Eksterne avhengigheter -->
 		<dependency>
-			<groupId>no.nav.tjenester</groupId>
+			<groupId>no.nav.tjenestespesifikasjoner</groupId>
 			<artifactId>nav-meldekortUtbetalingsgrunnlag-v1-tjenestespesifikasjon</artifactId>
-			<classifier>jaxws</classifier>
 		</dependency>
 
 		<dependency>
-			<groupId>no.nav.tjenester.fim</groupId>
-			<artifactId>nav-fim-ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
-			<classifier>jaxws</classifier>
+			<groupId>no.nav.tjenestespesifikasjoner</groupId>
+			<artifactId>ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
 		</dependency>
 
 		<!-- 3dje parts biblioteker -->

@@ -32,9 +32,8 @@
 			<artifactId>threeten-extra</artifactId>
 		</dependency>
         <dependency>
-            <groupId>no.nav.tjenester.fim</groupId>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
             <artifactId>nav-fim-kodeverk-v2-tjenestespesifikasjon</artifactId>
-            <classifier>jaxws</classifier>
         </dependency>
 
     </dependencies>

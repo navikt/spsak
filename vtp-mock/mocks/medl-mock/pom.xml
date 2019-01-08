@@ -17,10 +17,10 @@
             <groupId>no.nav.vedtak.fpmock2</groupId>
             <artifactId>core</artifactId>
         </dependency>
-        
+
         <!-- 3dje parts NAV felleskomponenter -->
         <dependency>
-            <groupId>no.nav.tjenester</groupId>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
             <artifactId>nav-medlemskap-v2-tjenestespesifikasjon</artifactId>
             </dependency>
 
@@ -29,7 +29,7 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-http-spi</artifactId>
         </dependency>
-   
+
     </dependencies>
-   
+
 </project>

@@ -276,7 +276,7 @@
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenestespesifikasjoner</groupId>
-                <artifactId>nav-person-v3-tjenestespesifikasjon</artifactId>
+                <artifactId>person-v3-tjenestespesifikasjon</artifactId>
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
             <dependency>
@@ -296,12 +296,12 @@
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenestespesifikasjoner</groupId>
-                <artifactId>nav-fim-ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
+                <artifactId>ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenestespesifikasjoner</groupId>
-                <artifactId>nav-fim-oppgavebehandling-v3-tjenestespesifikasjon</artifactId>
+                <artifactId>oppgavebehandling-v3-tjenestespesifikasjon</artifactId>
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
             <dependency>
@@ -341,7 +341,7 @@
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenestespesifikasjoner</groupId>
-                <artifactId>nav-fim-ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
+                <artifactId>ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
             <dependency>
@@ -376,7 +376,7 @@
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenestespesifikasjoner</groupId>
-                <artifactId>nav-fim-dokumentproduksjon-v2-tjenestespesifikasjon</artifactId>
+                <artifactId>dokumentproduksjon-v2-tjenestespesifikasjon</artifactId>
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
             <dependency>
