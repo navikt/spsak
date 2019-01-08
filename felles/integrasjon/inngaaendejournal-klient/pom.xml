@@ -18,9 +18,8 @@
             <artifactId>felles-integrasjon-webservice</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.tjenester</groupId>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
             <artifactId>nav-inngaaendeJournal-v1-tjenestespesifikasjon</artifactId>
-            <classifier>jaxws</classifier>
         </dependency>
 
     </dependencies>

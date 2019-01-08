@@ -15,9 +15,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>no.nav.tjenester</groupId>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
             <artifactId>nav-meldekortUtbetalingsgrunnlag-v1-tjenestespesifikasjon</artifactId>
-            <classifier>jaxws</classifier>
         </dependency>
         <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
