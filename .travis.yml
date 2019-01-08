@@ -2,15 +2,27 @@ sudo: required
 language: java
 jdk:
 - openjdk11
+services:
+- postgresql
 before_install:
 - export COMMIT_SHORT=$(git rev-parse --short HEAD)
+before_script:
+- psql -c 'CREATE DATABASE fpsak_unit;' -U postgres
+- psql -c 'CREATE USER fpsak_unit PASSWORD fpsak_unit;' -U postgres
+- psql -c 'GRANT ALL PRIVILEGES ON DATABASE fpsak_unit TO fpsak_unit;' -U postgres
+- psql -c 'CREATE DATABASE felles_behandlingsprosess_unit;' -U postgres
+- psql -c 'CREATE USER felles_behandlingsprosess_unit PASSWORD felles_behandlingsprosess_unit;' -U postgres
+- psql -c 'GRANT ALL PRIVILEGES ON DATABASE felles_behandlingsprosess_unit TO felles_behandlingsprosess_unit;' -U postgres
+- psql -c 'CREATE DATABASE fpsak;' -U postgres
+- psql -c 'CREATE USER fpsak PASSWORD fpsak;' -U postgres
+- psql -c 'GRANT ALL PRIVILEGES ON DATABASE fpsak TO fpsak;' -U postgres
+- psql -c 'CREATE DATABASE vl_fordeling_unit;' -U postgres
+- psql -c 'CREATE USER vl_fordeling_unit PASSWORD vl_fordeling_unit;' -U postgres
+- psql -c 'GRANT ALL PRIVILEGES ON DATABASE vl_fordeling_unit TO vl_fordeling_unit;' -U postgres
+- psql -c 'CREATE DATABASE fpfordel;' -U postgres
+- psql -c 'CREATE USER fpfordel PASSWORD fpfordel;' -U postgres
+- psql -c 'GRANT ALL PRIVILEGES ON DATABASE fpfordel TO fpfordel;' -U postgres
 script:
-- docker pull postgres:11-alpine
-- docker run -p 5432:5432 -v `pwd`:/usr/src --name postgres -e POSTGRES_PASSWORD=spsak
-  -e POSTGRES_USER=spsak -d postgres:11-alpine
-- until docker exec postgres psql -v ON_ERROR_STOP=1 --username spsak -c "select 1";
-  do sleep 1; done
-- docker exec postgres sh /usr/src/docker/localdev/initdb.sh
 - cd felles && mvn install && cd ..
 - cd kontrakter && mvn install && cd ..
 - cd saksbehandling && mvn install
