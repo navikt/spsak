@@ -50,6 +50,10 @@ pipeline {
                 script {
                     def scmVars = checkout scm
                     env.MY_GIT_PREVIOUS_SUCCESSFUL_COMMIT = scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT ?: "--"
+					env.GIT_COMMIT_SHORT = sh(
+							script: "printf \$(git rev-parse --short ${scmVars.GIT_COMMIT})",
+							returnStdout: true
+					)
 					env.LANG = "nb_NO.UTF-8"
 					env.POSTGRES_IMAGE="postgres:11-alpine"
 					env.DB_CONTAINER="spsak-postgres-" + "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9_-]", '_').toLowerCase()
