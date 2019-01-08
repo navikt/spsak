@@ -29,11 +29,11 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <executions>
-                    <execution>
+                    <!--<execution>
                         <id>migrering</id>
                         <phase>test-compile</phase>
                         <goals><goal>java</goal></goals>
-                    </execution>
+                    </execution>-->
                 </executions>
                 <configuration>
                     <mainClass>no.nav.foreldrepenger.dbstoette.Databaseskjemainitialisering</mainClass>

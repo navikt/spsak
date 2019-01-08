@@ -18,9 +18,8 @@
         </dependency>
 
         <dependency>
-            <groupId>no.nav.tjenester.fim</groupId>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
             <artifactId>nav-fim-organisasjon-v4-tjenestespesifikasjon</artifactId>
-            <classifier>jaxws</classifier>
         </dependency>
 
     </dependencies>

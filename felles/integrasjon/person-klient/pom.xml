@@ -18,8 +18,8 @@
             <artifactId>felles-integrasjon-webservice</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.tjenester</groupId>
-            <artifactId>nav-person-v3-tjenestespesifikasjon</artifactId>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
+            <artifactId>person-v3-tjenestespesifikasjon</artifactId>
         </dependency>
 
     </dependencies>
