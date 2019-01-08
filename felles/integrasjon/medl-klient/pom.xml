@@ -18,7 +18,7 @@
             <artifactId>felles-integrasjon-webservice</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.tjenester</groupId>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
             <artifactId>nav-medlemskap-v2-tjenestespesifikasjon</artifactId>
         </dependency>
 

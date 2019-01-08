@@ -29,7 +29,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <vl-felles.version>0.0.1-SNAPSHOT</vl-felles.version>
-        
+
         <vl-kontrakt-soeknad.version>0.0.1-SNAPSHOT</vl-kontrakt-soeknad.version>
         <vl-kontrakt-soeknad-v2.version>0.0.1-SNAPSHOT</vl-kontrakt-soeknad-v2.version>
 
@@ -37,11 +37,13 @@
         <vl-kontrakt-inntektsmelding.version>0.0.1-SNAPSHOT</vl-kontrakt-inntektsmelding.version>
 
         <!-- Eksterne -->
-		<flyway.version>5.2.3</flyway.version>
+        <flyway.version>5.2.3</flyway.version>
         <cxf.version>3.2.1</cxf.version>
         <postgres.version>42.2.5</postgres.version>
         <prometheus.version>0.0.23</prometheus.version>
-        
+
+        <tjenestespesifikasjoner.version>1.2019.01.08-11.12-8f0e87a6bdb3</tjenestespesifikasjoner.version>
+
         <!-- Transitive avh. versjoner for å sikre unikhet (enforcer dependencyConvergence).  Skal ikke benyttes direkte av vår egen kode. -->
         <wss4j-version>2.2.2</wss4j-version>
         <ow2.asm.version>7.0</ow2.asm.version>
@@ -154,10 +156,9 @@
                 <classifier>jaxb</classifier>
             </dependency>
             <dependency>
-                <groupId>no.nav.tjenester</groupId>
+                <groupId>no.nav.tjenestespesifikasjoner</groupId>
                 <artifactId>nav-behandleDokumentforsendelse-v1-tjenestespesifikasjon</artifactId>
-                <version>1.0.0</version>
-                <classifier>jaxws</classifier>
+                <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
 
             <!-- Eksterne -->
@@ -522,7 +523,7 @@
                     </execution>
                 </executions>
             </plugin>
-           
+
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
@@ -601,7 +602,7 @@
             </build>
         </profile>
 
-        
+
     </profiles>
 
 	<distributionManagement>

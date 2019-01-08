@@ -21,7 +21,7 @@
             <artifactId>felles-integrasjon-rest-klient</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.tjenester.fim</groupId>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
             <artifactId>no-nav-dok-tjenester-mottainngaaendeforsendelse</artifactId>
         </dependency>
     </dependencies>

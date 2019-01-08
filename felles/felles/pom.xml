@@ -6,7 +6,7 @@
 		<artifactId>felles-root</artifactId>
 		<version>${revision}${sha1}${changelist}</version>
 	</parent>
-	
+
 	<artifactId>felles</artifactId>
 	<packaging>pom</packaging>
 	<name>Felles</name>
@@ -39,17 +39,15 @@
 		<javax.security.auth.message.version>1.1</javax.security.auth.message.version>
 		<javax.ws.rs.version>2.1.1</javax.ws.rs.version>
 		<jms-api.version>2.0.1</jms-api.version>
-		
+
 		<logback.version>1.2.3</logback.version>
 		<resteasy.version>3.6.1.SP2</resteasy.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<swagger.version>1.5.13</swagger.version>
 
-		<nav.fim.virgo.v2.version>0.0.1-alpha007</nav.fim.virgo.v2.version>
-
 		<!-- NAV tjenestespesifikasjon versjoner -->
+		<tjenestespesifikasjoner.version>1.2019.01.08-11.12-8f0e87a6bdb3</tjenestespesifikasjoner.version>
 
-		<kodeverk.version>2.0.0-alpha004</kodeverk.version>
 		<abac-attribute-constants.version>3.3.13</abac-attribute-constants.version>
 
 		<!-- Marker Junit Category interface for End2End tester -->
@@ -169,20 +167,21 @@
 				<artifactId>abac-attribute-constants</artifactId>
 				<version>${abac-attribute-constants.version}</version>
 			</dependency>
-			<!--<dependency> <groupId>no.nav.tjenester</groupId> <artifactId>nav-kodeverk-v3-tjenestespesifikasjon</artifactId> <version>${kodeverk.version}</version> 
-				<classifier>jaxws</classifier> </dependency> -->
 			<dependency>
-				<groupId>no.nav.tjenester.fim</groupId>
+				<groupId>no.nav.tjenestespesifikasjoner</groupId>
+				<artifactId>nav-kodeverk-v3-tjenestespesifikasjon</artifactId>
+				<version>${tjenestespesifikasjoner.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenestespesifikasjoner</groupId>
 				<artifactId>nav-fim-kodeverk-v2-tjenestespesifikasjon</artifactId>
-				<version>${kodeverk.version}</version>
-				<classifier>jaxws</classifier>
+				<version>${tjenestespesifikasjoner.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>no.nav.tjenester.fim</groupId>
+				<groupId>no.nav.tjenestespesifikasjoner</groupId>
 				<artifactId>nav-fim-virgo-v2-tjenestespesifikasjon</artifactId>
-				<version>${nav.fim.virgo.v2.version}</version>
-				<classifier>jaxws</classifier>
+				<version>${tjenestespesifikasjoner.version}</version>
 			</dependency>
 
 			<!-- Logging -->
