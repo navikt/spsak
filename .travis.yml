@@ -27,8 +27,10 @@ before_script:
 - psql -c "CREATE USER fpfordel PASSWORD 'fpfordel';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE fpfordel TO fpfordel;" -U postgres
 script:
-- cd felles; mvn install; cd ..
-- cd kontrakter; mvn install; cd ..
+- cd felles; mvn install
+- cd ..
+- cd kontrakter; mvn install
+- cd ..
 - cd saksbehandling; mvn install
 - docker build --pull -t navikt/spsak:$COMMIT_SHORT .
 - cd ..
