@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Arb
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Dekningsgrad;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.feriepenger.BeregningsresultatFeriepengerRegelModell;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 public class MapBeregningsresultatFeriepengerFraVLTilRegel {
 

@@ -23,8 +23,8 @@ import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Ber
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.BeregningsgrunnlagPrStatus;
 import no.nav.fpsak.nare.evaluation.Evaluation;
 import no.nav.fpsak.nare.specification.LeafSpecification;
-import no.nav.fpsak.tidsserie.LocalDateSegment;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateSegment;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 import no.nav.vedtak.util.Tuple;
 
 class FinnOverlappendeBeregningsgrunnlagOgUttaksPerioder extends LeafSpecification<BeregningsresultatRegelmodellMellomregning> {

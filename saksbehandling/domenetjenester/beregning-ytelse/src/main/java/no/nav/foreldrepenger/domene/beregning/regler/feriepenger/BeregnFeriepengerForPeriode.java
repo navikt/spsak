@@ -8,7 +8,7 @@ import java.util.Map;
 
 import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatPeriode;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.feriepenger.BeregningsresultatFeriepengerPrÅr;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 class BeregnFeriepengerForPeriode {
     private static final BigDecimal FERIEPENGER_SATS_PROSENT = BigDecimal.valueOf(0.102);

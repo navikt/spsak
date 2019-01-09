@@ -18,8 +18,8 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.VilkårUtfallOversetter
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Opptjeningsgrunnlag;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsvilkårResultat;
 import no.nav.fpsak.nare.evaluation.Evaluation;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 
 public class InngangsvilkårForeldrepengerOpptjeningTest {
 

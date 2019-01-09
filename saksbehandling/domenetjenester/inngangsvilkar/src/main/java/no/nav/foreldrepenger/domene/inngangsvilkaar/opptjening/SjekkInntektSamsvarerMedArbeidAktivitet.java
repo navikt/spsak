@@ -16,11 +16,11 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Opptj
 import no.nav.fpsak.nare.doc.RuleDocumentation;
 import no.nav.fpsak.nare.evaluation.Evaluation;
 import no.nav.fpsak.nare.specification.LeafSpecification;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
-import no.nav.fpsak.tidsserie.LocalDateSegment;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
-import no.nav.fpsak.tidsserie.LocalDateTimeline.JoinStyle;
-import no.nav.fpsak.tidsserie.StandardCombinators;
+import no.nav.spsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateSegment;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateTimeline.JoinStyle;
+import no.nav.spsak.tidsserie.StandardCombinators;
 
 /**
  * Regel som sjekker om det finnes registrerte inntekter for de periodene arbeid er innrapportert, for samme

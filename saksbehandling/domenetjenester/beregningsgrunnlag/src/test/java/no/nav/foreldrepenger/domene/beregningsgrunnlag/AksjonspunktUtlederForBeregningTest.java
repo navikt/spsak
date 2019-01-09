@@ -52,7 +52,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningInn
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningOpptjeningTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningsgrunnlagTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Periode;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)

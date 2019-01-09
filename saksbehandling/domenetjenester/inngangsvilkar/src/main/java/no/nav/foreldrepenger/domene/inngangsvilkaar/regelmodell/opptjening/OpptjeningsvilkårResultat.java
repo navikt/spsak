@@ -5,7 +5,7 @@ import java.time.Period;
 import java.util.Collections;
 import java.util.Map;
 
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 
 /** Output container benyttet i evaluering av Opptjeningsvilkår. */
 public class OpptjeningsvilkårResultat {

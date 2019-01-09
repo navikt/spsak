@@ -19,8 +19,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.Bere
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
 import no.nav.foreldrepenger.domene.beregning.ytelse.FinnEndringsdatoBeregningsresultatFPTjeneste;
 import no.nav.foreldrepenger.domene.beregning.ytelse.FinnEndringsdatoFeil;
-import no.nav.fpsak.tidsserie.LocalDateSegment;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateSegment;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 import no.nav.vedtak.feil.FeilFactory;
 
 @ApplicationScoped

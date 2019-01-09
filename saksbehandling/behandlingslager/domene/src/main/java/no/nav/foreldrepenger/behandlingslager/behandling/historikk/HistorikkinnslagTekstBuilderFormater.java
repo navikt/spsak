@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.behandlingslager.behandling.historikk;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 public final class HistorikkinnslagTekstBuilderFormater {
 
