@@ -6,7 +6,7 @@ services:
 - postgresql
 before_install:
 - sudo apt-get update
-- sudo apt-get install language-pack-no
+- sudo apt-get install language-pack-nb
 - sudo /etc/init.d/postgresql stop
 - sudo /etc/init.d/postgresql start 9.5
 - export COMMIT_SHORT=$(git rev-parse --short HEAD)
