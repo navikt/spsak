@@ -3,27 +3,39 @@ package no.nav.foreldrepenger.web.server.jetty;
 import javax.sql.DataSource;
 
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.FlywayException;
+import org.flywaydb.core.api.configuration.ClassicConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 class DatabaseScript {
     private static final Logger log = LoggerFactory.getLogger(DatabaseScript.class);
 
-    private final DataSource dataSource;
+    private final MigrationDataSource migrationDataSource;
     private final String locations;
 
-    DatabaseScript(DataSource dataSource, String locations) {
-        this.dataSource = dataSource;
+    DatabaseScript(MigrationDataSource migrationDataSource, String locations) {
+        this.migrationDataSource = migrationDataSource;
         this.locations = locations;
     }
 
     void migrate() {
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(dataSource);
-        flyway.setLocations(locations);
-        flyway.setBaselineOnMigrate(true);
-
+        ClassicConfiguration conf = new ClassicConfiguration();
+        conf.setDataSource(migrationDataSource.dataSource);
+        conf.setLocationsAsStrings(locations);
+        conf.setBaselineOnMigrate(true);
+        if (migrationDataSource.initSql != null) {
+            conf.setInitSql(migrationDataSource.initSql);
+        }
+        Flyway flyway = new Flyway(conf);
         flyway.migrate();
+    }
+
+    static class MigrationDataSource {
+        private final DataSource dataSource;
+        private final String initSql;
+        MigrationDataSource(DataSource dataSource, String initSql) {
+            this.dataSource = dataSource;
+            this.initSql = initSql;
+        }
     }
 }

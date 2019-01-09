@@ -73,6 +73,17 @@ public class JettyDevServer extends JettyServer {
         System.setProperty("develop-local", "true");
         PropertiesUtils.lagPropertiesFilFraTemplate();
         PropertiesUtils.initProperties(JettyDevServer.vtp);
+
+        /*
+
+        // Kommenter INN dette, og UT override'ne av konfigurerJndi() og migrerDatabaser() for å teste mot vault+postgres test-oppsettet fra database-iac-repoet
+
+        System.setProperty("defaultDS.url", "jdbc:postgresql://localhost:5432/eksempeldatabase-q1");
+        System.setProperty("defaultDS.vault.enable", "true");
+        System.setProperty("defaultDS.vault.roleprefix", "eksempeldatabase-q1");
+        System.setProperty("defaultDS.vault.mountpath", "database/integrationtest"); //"postgresql/preprod");
+        konfigurerDataSourceKonfig();
+        */
     }
 
     @Override
