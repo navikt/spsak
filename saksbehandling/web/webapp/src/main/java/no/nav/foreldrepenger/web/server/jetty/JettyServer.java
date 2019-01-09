@@ -12,7 +12,6 @@ import org.eclipse.jetty.webapp.MetaData;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import no.nav.foreldrepenger.web.app.ApplicationConfig;
-import no.nav.foreldrepenger.web.server.jetty.DataSourceKonfig.DBConnProp;
 import no.nav.vedtak.isso.IssoApplication;
 
 public class JettyServer extends AbstractJettyServer {
@@ -44,8 +43,12 @@ public class JettyServer extends AbstractJettyServer {
 
     @Override
     protected void konfigurerMiljø() throws Exception {
-        dataSourceKonfig = new DataSourceKonfig();
+        konfigurerDataSourceKonfig();
         hacks4Nais();
+    }
+
+    protected void konfigurerDataSourceKonfig() {
+        dataSourceKonfig = new DataSourceKonfig();
     }
 
     private void hacks4Nais() {
@@ -89,14 +92,12 @@ public class JettyServer extends AbstractJettyServer {
 
     @Override
     protected void konfigurerJndi() throws Exception {
-        new EnvEntry("jdbc/defaultDS", dataSourceKonfig.getDefaultDatasource().getDatasource());
+        new EnvEntry("jdbc/defaultDS", dataSourceKonfig.getDefaultDatasource());
     }
 
     @Override
     protected void migrerDatabaser() throws IOException {
-        for (DBConnProp dbConnProp : dataSourceKonfig.getDataSources()) {
-            new DatabaseScript(dbConnProp.getDatasource(), dbConnProp.getMigrationScripts()).migrate();
-        }
+        new DatabaseScript(dataSourceKonfig.getMigrationDatasource(), dataSourceKonfig.getMigrationScripts()).migrate();
     }
     
     @Override
