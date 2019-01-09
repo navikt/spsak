@@ -42,6 +42,9 @@ script:
     echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
     docker push navikt/spsak:$COMMIT_SHORT
   fi
+cache:
+  directories:
+  - $HOME/.m2
 env:
   global:
   - secure: oZ1T6ORhEahJC4GEKUMrhkpqHpafIG2zSIpK1dF92DT+iQ8bqkD1ZoznPlqZHLDsusiEaY+YU6KlMqiwG7Xz8DH3m6bM8jpxWjTsyB2NhLYMFi8jMiqc+xmBSqFV6NgUeXGRdpJGVxpK6hPkfWOWRVLW6/9vhRdYlTu4qGq1JxX1gUgUC+1Z6xfPdC7zHnd8hjWCckr+xAsv6y4IDd15RkhNjX9Oq4dw8USmHYNSKCiCmXoZKBGJYi7YOgIcuAvmCU9ybSiej+SbeCdrNgQB01d5rq9hJ6P3WEfyXyU6Psrq4dnaDdd3pcFrX0UWph3wyCxbt8CPgc75ifxF4ZEfIL4Jn+xU2i233U2zc/4wl5Rh3iKb/iVeTJNL9yvZDQM1oSLFWtzt6M/UMunNTEjygYP87+KM7Kg2zv4xmOXBef5JNdtQ/R728uqok+3NEwr7LD+3Wa//RBYEggava2VGLIH2ve/1RxTkCFqwbquW/xg3bHHp4o60r7Kh7b6Ljwuk/Tuik78TCAtDEPOLo0gUb3BDRtNqmXoHUbCNrRre8WGmrrafxcNp8EU+Qcb2e8D/n5Q4M0SeeEJSe1B9+U2AQLRoggUAH7g7sdI0o2NabZQi0EAGqMrD4ic0SbOFcarBdXfBwOmrLp/anM6XY6IrW4Evd+wlZn7xjvNq6OVstmY=
