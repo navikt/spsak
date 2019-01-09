@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sÃ
 
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

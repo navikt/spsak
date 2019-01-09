@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -35,7 +36,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
@@ -63,8 +63,6 @@ public class DokumentmottakerEndringssøknadTest {
     private ResultatRepositoryProvider resultatRepositoryProvider;
     @Inject
     private BehandlingRepository behandlingRepository;
-    @Inject
-    private FagsakRepository fagsakRepository;
     @Inject
     private AksjonspunktRepository aksjonspunktRepository;
 
@@ -125,7 +123,7 @@ public class DokumentmottakerEndringssøknadTest {
         //Arrange
         Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
             .lagre(repositoryProvider, resultatRepositoryProvider);
-        BehandlingVedtak vedtak = DokumentmottakTestUtil.oppdaterVedtaksresultat(behandling, VedtakResultatType.INNVILGET);
+        BehandlingVedtak vedtak = oppdaterVedtaksresultat(behandling, VedtakResultatType.INNVILGET);
         repoRule.getRepository().lagre(vedtak.getBehandlingsresultat());
 
         Behandling revurdering = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
@@ -220,5 +218,16 @@ public class DokumentmottakerEndringssøknadTest {
 
     private Fagsak nyMorFødselFagsak() {
         return ScenarioMorSøkerEngangsstønad.forDefaultAktør(false).lagreFagsak(repositoryProvider);
+    }
+    
+    private static BehandlingVedtak oppdaterVedtaksresultat(Behandling origBehandling, VedtakResultatType vedtakResultatType) {
+        BehandlingVedtak vedtak = BehandlingVedtak.builder()
+            .medVedtakResultatType(vedtakResultatType)
+            .medVedtaksdato(LocalDate.now())
+            .medBehandlingsresultat(origBehandling.getBehandlingsresultat())
+            .medAnsvarligSaksbehandler("Severin Saksbehandler")
+            .build();
+
+        return vedtak;
     }
 }

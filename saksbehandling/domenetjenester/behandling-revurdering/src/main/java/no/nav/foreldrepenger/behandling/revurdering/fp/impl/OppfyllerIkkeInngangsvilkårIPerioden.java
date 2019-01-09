@@ -9,9 +9,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.Med
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.MedlemskapsvilkårPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 
-class OppfyllerIkkjeInngangsvilkårIPerioden {
+class OppfyllerIkkeInngangsvilkårIPerioden {
 
-    private OppfyllerIkkjeInngangsvilkårIPerioden() {
+    private OppfyllerIkkeInngangsvilkårIPerioden() {
     }
 
     public static boolean vurder(Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt, LocalDate endringsdato) {

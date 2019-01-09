@@ -93,15 +93,6 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
         }
     }
 
-    @Override
-    void håndterAvslåttBehandling(InngåendeSaksdokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling) {
-        if (erAvslagGrunnetOpplysningsplikt(avsluttetBehandling)) {
-            behandlingsoppretter.opprettNyFørstegangsbehandling(mottattDokument, fagsak, avsluttetBehandling);
-        } else {
-            dokumentmottakerFelles.opprettTaskForÅVurdereDokument(fagsak, avsluttetBehandling, mottattDokument);
-        }
-    }
-
     private boolean harMottattSøknadTidligere(Behandling behandling) {
         return søknadRepository.hentSøknadHvisEksisterer(behandling.getId()).isPresent();
     }

@@ -45,7 +45,7 @@ public class ÅpneBehandlingForEndringerTask extends BehandlingskontrollProsessT
 
     @Override
     protected void prosesser(Behandling behandling) {
-        StartpunktType startpunkt = kodeverkTabellRepository.finnStartpunktType(StartpunktType.INNGANGSVILKÅR_OPPLYSNINGSPLIKT.getKode());
+        StartpunktType startpunkt = kodeverkTabellRepository.finnStartpunktType(StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP.getKode());
         reaktiverAksjonspunkter(behandling, startpunkt);
         behandling.setÅpnetForEndring(true);
         BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(behandling);

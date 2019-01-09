@@ -15,7 +15,7 @@ public class ByEnvironmentStrategyTest {
 
     @Before
     public void setUp() {
-      System.setProperty(EnvironmentProperty.FASIT_ENVIRONMENT_NAME, "t10");
+      System.setProperty(EnvironmentProperty.APP_ENVIRONMENT_NAME, "t10");
     }
 
     @Test

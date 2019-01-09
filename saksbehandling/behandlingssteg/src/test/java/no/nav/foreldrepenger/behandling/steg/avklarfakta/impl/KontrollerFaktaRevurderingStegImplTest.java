@@ -192,7 +192,7 @@ public class KontrollerFaktaRevurderingStegImplTest {
         // Assert
         assertThat(aksjonspunkter).contains(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
         // Må verifisere at startpunkt er før aksjonpunktet for at assert ovenfor skal ha mening
-        assertThat(behandling.getStartpunkt()).isEqualTo(StartpunktType.INNGANGSVILKÅR_OPPLYSNINGSPLIKT);
+        assertThat(behandling.getStartpunkt()).isEqualTo(StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP);
     }
     
 }    

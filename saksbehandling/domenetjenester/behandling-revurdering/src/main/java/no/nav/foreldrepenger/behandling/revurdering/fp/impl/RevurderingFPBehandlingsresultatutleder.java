@@ -50,8 +50,8 @@ public class RevurderingFPBehandlingsresultatutleder {
         }
 
         Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering.getBehandlingsresultat());
-        if (OppfyllerIkkjeInngangsvilkårIPerioden.vurder(medlemskapsvilkårPeriodeGrunnlag, endringsdato)) {
-            return OppfyllerIkkjeInngangsvilkårIPerioden.fastsett(revurdering);
+        if (OppfyllerIkkeInngangsvilkårIPerioden.vurder(medlemskapsvilkårPeriodeGrunnlag, endringsdato)) {
+            return OppfyllerIkkeInngangsvilkårIPerioden.fastsett(revurdering);
         }
         Optional<Beregningsgrunnlag> revurderingsGrunnlagOpt = beregningsgrunnlagRepository.hentBeregningsgrunnlag(revurdering);
         Optional<Beregningsgrunnlag> originalGrunnlagOpt = beregningsgrunnlagRepository.hentBeregningsgrunnlag(originalBehandling);

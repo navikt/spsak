@@ -6,7 +6,6 @@ public enum DokumentGruppe {
     INNTEKTSMELDING("INNTEKTSMELDING"),
     ENDRINGSSØKNAD("ENDRINGSSØKNAD"), // TODO SP: Trenger vi denne lenger? Eller er dette korreksjon av søknad?
     KLAGE("KLAGE"),
-    VEDLEGG("VEDLEGG"), // TODO SP : Trenger vi denne lenger?
     UDEFINERT("-"); //$NON-NLS-1$
 
     private final String kode;

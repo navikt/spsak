@@ -163,24 +163,12 @@ public class Behandlingsresultat extends BaseEntitet {
         this.avslagarsakFritekst = avslagarsakFritekst;
     }
 
-    public String getOverskrift() {
-        return overskrift;
-    }
-
-    public String getFritekstbrev() {
-        return fritekstbrev;
-    }
-
     public RettenTil getRettenTil() {
         return rettenTil;
     }
 
     public List<KonsekvensForYtelsen> getKonsekvenserForYtelsen() {
         return konsekvenserForYtelsen.stream().map(BehandlingsresultatKonsekvensForYtelsen::getKonsekvensForYtelsen).collect(Collectors.toList());
-    }
-
-    public Vedtaksbrev getVedtaksbrev() {
-        return vedtaksbrev;
     }
 
     public void leggTilUttaksperiodegrense(Uttaksperiodegrense uttaksperiodegrense) {

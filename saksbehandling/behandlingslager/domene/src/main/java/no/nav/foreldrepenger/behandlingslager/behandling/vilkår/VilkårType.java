@@ -26,7 +26,6 @@ public class VilkårType extends Kodeliste {
     public static final VilkårType MEDLEMSKAPSVILKÅRET = new VilkårType(FP_VK_2);
 
     public static final VilkårType SØKNADSFRISTVILKÅRET = new VilkårType(FP_VK_3);
-    public static final VilkårType SØKERSOPPLYSNINGSPLIKT = new VilkårType(FP_VK_34);
     public static final VilkårType OPPTJENINGSPERIODEVILKÅR = new VilkårType(FP_VK_21);
     public static final VilkårType OPPTJENINGSVILKÅRET = new VilkårType(FP_VK_23);
     public static final VilkårType BEREGNINGSGRUNNLAGVILKÅR = new VilkårType(FP_VK_41);

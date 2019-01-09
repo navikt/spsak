@@ -36,7 +36,6 @@ public class VilkårKodeverkRepositoryImplTest {
     @Test
     public void skal_hente_alle_avslagsårsaker_gruppert_på_vilkårstype() {
         Map<VilkårType, List<Avslagsårsak>> map = repo.finnAvslagårsakerGruppertPåVilkårType();
-        assertThat(map.get(VilkårType.SØKERSOPPLYSNINGSPLIKT)).containsOnly(Avslagsårsak.MANGLENDE_DOKUMENTASJON);
         assertThat(map.get(VilkårType.OPPTJENINGSPERIODEVILKÅR))
             .containsOnly(Avslagsårsak.IKKE_TILSTREKKELIG_OPPTJENING);
     }

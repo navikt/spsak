@@ -94,7 +94,7 @@ public class FagsakRevurderingTest {
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.HENLAGT_FEILOPPRETTET).buildFor(nyesteBehandling);
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(eldreBehandling);
 
-        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.SØKERSOPPLYSNINGSPLIKT,
+        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET,
             VilkårUtfallType.OPPFYLT, null, null,
             null, false, false, null, null).buildFor(eldreBehandling);
 
@@ -113,12 +113,12 @@ public class FagsakRevurderingTest {
         avsluttBehandling(eldreBehandling);
         avsluttBehandling(nyesteBehandling);
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.AVSLÅTT).buildFor(eldreBehandling);
-        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.SØKERSOPPLYSNINGSPLIKT,
+        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET,
             VilkårUtfallType.IKKE_OPPFYLT, null, null,
             null, false, false, null, null).buildFor(eldreBehandling);
 
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.AVSLÅTT).buildFor(nyesteBehandling);
-        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.SØKERSOPPLYSNINGSPLIKT,
+        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET,
             VilkårUtfallType.OPPFYLT, null, null,
             null, false, false, null, null).buildFor(nyesteBehandling);
 
@@ -131,12 +131,12 @@ public class FagsakRevurderingTest {
     @Test
     public void kanIkkeOppretteRevurderingNårFlereBehandlingerErVedtattOgSisteIkkeKanRevurderes() {
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.AVSLÅTT).buildFor(nyesteBehandling);
-        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.SØKERSOPPLYSNINGSPLIKT,
+        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET,
             VilkårUtfallType.IKKE_OPPFYLT, null, null,
             null, false, false, null, null).buildFor(nyesteBehandling);
 
         Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.AVSLÅTT).buildFor(eldreBehandling);
-        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.SØKERSOPPLYSNINGSPLIKT,
+        VilkårResultat.builder().leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET,
             VilkårUtfallType.OPPFYLT, null, null,
             null, false, false, null, null).buildFor(eldreBehandling);
 

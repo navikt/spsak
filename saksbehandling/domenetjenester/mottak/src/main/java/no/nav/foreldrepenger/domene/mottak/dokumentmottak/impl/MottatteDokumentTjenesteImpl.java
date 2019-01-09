@@ -13,7 +13,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
@@ -54,17 +53,6 @@ public class MottatteDokumentTjenesteImpl implements MottatteDokumentTjeneste {
         }
     }
 
-    @Override
-    public boolean erSisteYtelsesbehandlingAvslåttPgaManglendeDokumentasjon(Fagsak sak) {
-        Objects.requireNonNull(sak, "Fagsak");
-
-        Optional<Behandling> behandling = behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(sak.getId());
-        if (behandling.isPresent()) {
-            return erAvsluttetPgaManglendeDokumentasjon(behandling.get());
-        }
-        return false;
-    }
-
     /**
      * Beregnes fra vedtaksdato
      */
@@ -76,15 +64,6 @@ public class MottatteDokumentTjenesteImpl implements MottatteDokumentTjeneste {
         Optional<BehandlingVedtak> behandlingVedtak = vedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
         if (behandlingVedtak.isPresent()) {
             return behandlingVedtak.get().getVedtaksdato().isBefore(LocalDate.now().minusWeeks(fristForInnsendingAvDokumentasjon));
-        }
-        return false;
-    }
-
-    private boolean erAvsluttetPgaManglendeDokumentasjon(Behandling behandling) {
-        Objects.requireNonNull(behandling, "Behandling");
-        Optional<BehandlingVedtak> behandlingVedtak = vedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
-        if (behandlingVedtak.isPresent()) {
-            return Avslagsårsak.MANGLENDE_DOKUMENTASJON.equals(behandlingVedtak.get().getBehandlingsresultat().getAvslagsårsak());
         }
         return false;
     }

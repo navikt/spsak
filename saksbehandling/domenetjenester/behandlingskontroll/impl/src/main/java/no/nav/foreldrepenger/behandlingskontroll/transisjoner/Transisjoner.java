@@ -15,10 +15,8 @@ public class Transisjoner {
         new TilbakeføringTransisjon(),
         new FremoverhoppTransisjon(FellesTransisjoner.FREMHOPP_TIL_FATTE_VEDTAK.getId(), BehandlingStegType.FATTE_VEDTAK),
         new FremoverhoppTransisjon(FellesTransisjoner.FREMHOPP_TIL_FORESLÅ_VEDTAK.getId(), BehandlingStegType.FORESLÅ_VEDTAK),
-        new FremoverhoppTransisjon(FellesTransisjoner.FREMHOPP_TIL_KONTROLLERER_SØKERS_OPPLYSNINGSPLIKT.getId(), BehandlingStegType.KONTROLLERER_SØKERS_OPPLYSNINGSPLIKT),
         new FremoverhoppTransisjon(FellesTransisjoner.FREMHOPP_TIL_IVERKSETT_VEDTAK.getId(), BehandlingStegType.IVERKSETT_VEDTAK),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.KONTROLLER_FAKTA_BEREGNING),
-        new RevurderingFremoverhoppTransisjon(BehandlingStegType.KONTROLLERER_SØKERS_OPPLYSNINGSPLIKT),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.VURDER_MEDLEMSKAPVILKÅR),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.KONTROLLER_LØPENDE_MEDLEMSKAP),
         new RevurderingFremoverhoppTransisjon(BehandlingStegType.FASTSETT_OPPTJENINGSPERIODE)

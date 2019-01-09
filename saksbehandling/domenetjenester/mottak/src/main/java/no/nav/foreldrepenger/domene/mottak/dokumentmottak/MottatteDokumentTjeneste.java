@@ -10,8 +10,6 @@ public interface MottatteDokumentTjeneste {
 
     void persisterDokumentinnhold(Behandling behandling, InngåendeSaksdokument mottattDokument, Optional<LocalDate> gjelderFra);
 
-    boolean erSisteYtelsesbehandlingAvslåttPgaManglendeDokumentasjon(Fagsak sak);
-
     /**
      * Beregnes fra og med vedtaksdato
      */

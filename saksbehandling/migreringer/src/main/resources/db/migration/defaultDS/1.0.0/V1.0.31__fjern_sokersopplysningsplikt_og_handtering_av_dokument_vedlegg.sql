@@ -1,0 +1,23 @@
+delete from kodeliste_navn_i18n where kl_kodeverk='AVSLAGSARSAK' and kl_kode='1019';
+delete from kodeliste_relasjon where kodeverk2='AVSLAGSARSAK' and kode2='1019';
+delete from kodeliste where kodeverk='AVSLAGSARSAK' and kode='1019';
+
+delete from behandling_type_steg_sekv where behandling_steg_type in ('VURDEROP');
+delete from aksjonspunkt_def where vurderingspunkt like 'VURDEROP%';
+delete from vurderingspunkt_def where kode  like 'VURDEROP%';
+delete from startpunkt_type where kode='INNGANGSVILKÅR_OPPL';
+update startpunkt_type set behandling_steg='VURDERMV' where kode='-';
+DELETE FROM BEHANDLING_STEG_TYPE WHERE kode = 'VURDEROP';
+
+DELETE FROM KODELISTE_RELASJON WHERE KODEVERK1='VILKAR_TYPE' and kode1 = 'FP_VK_34';
+DELETE FROM KODELISTE_RELASJON WHERE KODEVERK2='VILKAR_TYPE' and kode2 = 'FP_VK_34';
+DELETE FROM KODELISTE_NAVN_I18N WHERE KL_KODEVERK = 'VILKAR_TYPE' AND KL_KODE = 'FP_VK_34';
+DELETE FROM KODELISTE WHERE KODEVERK = 'VILKAR_TYPE' and kode = 'FP_VK_34';
+
+DELETE FROM KODELISTE_RELASJON WHERE KODEVERK1='HISTORIKK_ENDRET_FELT_TYPE' and kode1 ='SOKERSOPPLYSNINGSPLIKT';
+DELETE FROM KODELISTE_RELASJON WHERE KODEVERK2='HISTORIKK_ENDRET_FELT_TYPE' and kode2 ='SOKERSOPPLYSNINGSPLIKT';
+DELETE FROM KODELISTE_NAVN_I18N WHERE KL_KODEVERK = 'HISTORIKK_ENDRET_FELT_TYPE' AND KL_KODE ='SOKERSOPPLYSNINGSPLIKT';
+DELETE FROM KODELISTE WHERE KODEVERK = 'HISTORIKK_ENDRET_FELT_TYPE' and kode ='SOKERSOPPLYSNINGSPLIKT';
+
+
+

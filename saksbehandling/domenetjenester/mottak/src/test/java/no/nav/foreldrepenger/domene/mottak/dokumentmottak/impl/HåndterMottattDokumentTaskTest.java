@@ -28,8 +28,6 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InnhentDokumentTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.PayloadType;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.json.JacksonJsonConfig;
-import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentPersistererTjeneste;
-import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.impl.DokumentPersistererTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
@@ -48,11 +46,9 @@ public class HåndterMottattDokumentTaskTest {
     private HåndterMottattDokumentTask håndterMottattDokumentTask;
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
     private KodeverkRepository kodeverkRepository = new KodeverkRepositoryImpl(repoRule.getEntityManager());
-    private DokumentPersistererTjeneste dokumentPersistererTjeneste = new DokumentPersistererTjenesteImpl();
 
     @Before
     public void before() {
-        final Integer FRIST_INNSENDING_DOK = 6;
         innhentDokumentTjeneste = mock(InnhentDokumentTjeneste.class);
         håndterMottattDokumentTask = new HåndterMottattDokumentTask(innhentDokumentTjeneste, repositoryProvider);
         final Personinfo personinfo = new Personinfo.Builder()

@@ -66,19 +66,4 @@ class DokumentmottakerInntektsmelding extends DokumentmottakerYtelsesesrelatertD
         kompletthetskontroller.persisterKøetDokumentOgVurderKompletthet(køetBehandling, mottattDokument, Optional.empty());
     }
 
-    @Override
-    void håndterAvslåttBehandling(InngåendeSaksdokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling) {
-        if (erAvslagGrunnetOpplysningsplikt(avsluttetBehandling) && skalOppretteNyFørstegangsbehandling(avsluttetBehandling)) {
-            behandlingsoppretter.opprettNyFørstegangsbehandling(mottattDokument, fagsak, avsluttetBehandling);
-        } else {
-            dokumentmottakerFelles.opprettTaskForÅVurdereDokument(fagsak, avsluttetBehandling, mottattDokument);
-        }
-    }
-
-    private boolean skalOppretteNyFørstegangsbehandling(Behandling avslåttBehandling) {
-        if (mottatteDokumentTjeneste.erSisteYtelsesbehandlingAvslåttPgaManglendeDokumentasjon(avslåttBehandling.getFagsak())) {
-            return !mottatteDokumentTjeneste.harFristForInnsendingAvDokGåttUt(avslåttBehandling.getFagsak());
-        }
-        return false;
-    }
 }

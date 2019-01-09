@@ -20,26 +20,26 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabell;
 
+/** 
+ * @deprecated FIXME Dette er fjernet i FPSAK, bør kunne fjernes fra SPSAK også.  
+ */
+@Deprecated
 @Entity(name = "StartpunktType")
 @Table(name = "STARTPUNKT_TYPE")
 public class StartpunktType extends KodeverkTabell {
 
     public static final StartpunktType UDEFINERT = new StartpunktType("-"); //$NON-NLS-1$
     public static final StartpunktType KONTROLLER_ARBEIDSFORHOLD = new StartpunktType("KONTROLLER_ARBEIDSFORHOLD"); //$NON-NLS-1$
-    public static final StartpunktType INNGANGSVILKÅR_OPPLYSNINGSPLIKT = new StartpunktType("INNGANGSVILKÅR_OPPL"); //$NON-NLS-1$
     public static final StartpunktType INNGANGSVILKÅR_MEDLEMSKAP = new StartpunktType("INNGANGSVILKÅR_MEDL"); //$NON-NLS-1$
     public static final StartpunktType OPPTJENING = new StartpunktType("OPPTJENING"); //$NON-NLS-1$
     public static final StartpunktType BEREGNING = new StartpunktType("BEREGNING"); //$NON-NLS-1$
     public static final StartpunktType UTTAKSVILKÅR = new StartpunktType("UTTAKSVILKÅR"); //$NON-NLS-1$
 
+    // FIXME (FC): dette bør avledes fra konfig av aksjonspunkt/behandling_steg i stedet for her
     private static Map<StartpunktType, Set<VilkårType>> VILKÅR_HÅNDTERT_INNEN_STARTPUNKT = new HashMap<>();
     static {
         // Kontroller arbeidsforhold - ingen vilkår håndter før dette startpunktet
         VILKÅR_HÅNDTERT_INNEN_STARTPUNKT.put(StartpunktType.KONTROLLER_ARBEIDSFORHOLD,
-            new HashSet<>());
-
-        // Opplysningsplikt - ingen vilkår håndter før dette startpunktet
-        VILKÅR_HÅNDTERT_INNEN_STARTPUNKT.put(StartpunktType.INNGANGSVILKÅR_OPPLYSNINGSPLIKT,
             new HashSet<>());
 
         // Medlemskap

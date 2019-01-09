@@ -16,9 +16,6 @@ public interface InngangsvilkårTjeneste {
     /** Finn {@link Inngangsvilkår} for angitt {@link VilkårType}. Husk at denne må closes når du er ferdig med den. */
     Inngangsvilkår finnVilkår(VilkårType vilkårType);
 
-    /** Overstyr søkers opplysningsplikt. */
-    void overstyrAksjonspunktForSøkersopplysningsplikt(Long behandlingId, VilkårUtfallType utfall, BehandlingskontrollKontekst kontekst);
-
     /** Overstyr gitt aksjonspunkt på Inngangsvilkår. */
     void overstyrAksjonspunkt(Long behandlingId, VilkårType vilkårType, VilkårUtfallType utfall, String avslagskode, BehandlingskontrollKontekst kontekst);
 

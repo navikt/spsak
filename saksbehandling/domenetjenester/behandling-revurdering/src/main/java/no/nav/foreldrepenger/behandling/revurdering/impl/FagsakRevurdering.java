@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 
 class FagsakRevurdering {
@@ -37,17 +34,7 @@ class FagsakRevurdering {
         if (!gjeldendeBehandling.isPresent()) {
             return false;
         }
-        return kanVilkårRevurderes(gjeldendeBehandling.get());
-    }
-
-    private boolean kanVilkårRevurderes(Behandling behandling) {
-        return behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene()
-            .stream().noneMatch(this::erAvslagPåManglendeDokumentasjon);
-    }
-
-    private boolean erAvslagPåManglendeDokumentasjon(Vilkår vilkår) {
-        return vilkår.getVilkårType().equals(VilkårType.SØKERSOPPLYSNINGSPLIKT)
-            && vilkår.getGjeldendeVilkårUtfall().equals(VilkårUtfallType.IKKE_OPPFYLT);
+        return true;
     }
 
     private Optional<Behandling> hentBehandlingMedVedtak(List<Behandling> behandlinger) {

@@ -1,13 +1,11 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktApplikasjonFeil.FACTORY;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -170,9 +168,7 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
 
         OverhoppResultat overhoppForOverstyring = overstyrVilkårEllerBeregning(overstyrteAksjonspunkter, behandling, kontekst);
 
-        List<Aksjonspunkt> utførteAksjonspunkter = lagreHistorikkInnslag(behandling);
-
-        behandlingskontrollTjeneste.aksjonspunkterUtført(kontekst, utførteAksjonspunkter, behandling.getAktivtBehandlingSteg());
+        lagreHistorikkInnslag(behandling);
 
         // Fremoverhopp hvis vilkår settes til AVSLÅTT
         håndterOverhopp(overhoppForOverstyring, kontekst);
@@ -219,24 +215,8 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
         return overhoppResultat;
     }
 
-    private List<Aksjonspunkt> lagreHistorikkInnslag(Behandling behandling) {
-
-        // TODO(FC): Kan vi flytte spesielhåndtering av SØKERS_OPPLYSNINGSPLIKT_OVST ned til
-        // SøkersOpplysningspliktOverstyringshåndterer?
-        // vis vi aldri sender inn mer enn en overstyring kan historikk opprettes også der.
-
-        List<Aksjonspunkt> utførteAksjonspunkter = behandling
-            .getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.SØKERS_OPPLYSNINGSPLIKT_OVST)
-            .map(Collections::singletonList)
-            .orElse(emptyList());
-        if (utførteAksjonspunkter.isEmpty()) {
-            historikkTjenesteAdapter.opprettHistorikkInnslag(behandling, HistorikkinnslagType.OVERSTYRT);
-        } else {
-            // SØKERS_OPPLYSNINGSPLIKT_OVST skal gi et "vanlig" historikkinnslag
-            historikkTjenesteAdapter.opprettHistorikkInnslag(behandling, HistorikkinnslagType.FAKTA_ENDRET);
-        }
-
-        return utførteAksjonspunkter;
+    private void lagreHistorikkInnslag(Behandling behandling) {
+        historikkTjenesteAdapter.opprettHistorikkInnslag(behandling, HistorikkinnslagType.OVERSTYRT);
     }
 
     private OverhoppResultat bekreftAksjonspunkter(BehandlingskontrollKontekst kontekst,

@@ -15,7 +15,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRe
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
@@ -60,8 +59,6 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
             vilkårAvslått(behandling, behandlingsresultat, erVarselOmRevurderingSendt);
         } else {
             Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
-            // Må nullstille avslagårsak (for symmetri med setting avslagsårsak ovenfor, hvor avslagårsak kopieres fra et vilkår)
-            Optional.ofNullable(behandlingsresultat.getAvslagsårsak()).ifPresent(ufjernetÅrsak -> behandlingsresultat.setAvslagsårsak(Avslagsårsak.UDEFINERT));
             if (behandling.erRevurdering()) {
                 revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(behandling, erVarselOmRevurderingSendt);
             }

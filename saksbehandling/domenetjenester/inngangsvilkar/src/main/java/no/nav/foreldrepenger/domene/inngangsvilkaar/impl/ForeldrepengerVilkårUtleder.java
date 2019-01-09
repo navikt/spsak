@@ -5,7 +5,6 @@ import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårT
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.MEDLEMSKAPSVILKÅRET;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.OPPTJENINGSPERIODEVILKÅR;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.OPPTJENINGSVILKÅRET;
-import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.SØKERSOPPLYSNINGSPLIKT;
 import static no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType.SØKNADSFRISTVILKÅRET;
 import static no.nav.foreldrepenger.domene.inngangsvilkaar.impl.UtledeteVilkår.forAvklartRelasjonsvilkårTilBarn;
 
@@ -21,7 +20,6 @@ public class ForeldrepengerVilkårUtleder implements VilkårUtleder {
 
     private static  final List<VilkårType> STANDARDVILKÅR = asList(
         MEDLEMSKAPSVILKÅRET,
-        SØKERSOPPLYSNINGSPLIKT,
         OPPTJENINGSPERIODEVILKÅR,
         OPPTJENINGSVILKÅRET,
         BEREGNINGSGRUNNLAGVILKÅR,

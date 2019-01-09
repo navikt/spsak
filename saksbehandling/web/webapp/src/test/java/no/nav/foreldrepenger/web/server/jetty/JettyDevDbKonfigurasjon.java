@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 import org.eclipse.jetty.plus.jndi.EnvEntry;
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.FlywayException;
+import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,7 +116,6 @@ public class JettyDevDbKonfigurasjon {
                 }
                 return placeholders;
             }
-            
 
             String getMigrationScriptLocation(JettyDevDbKonfigurasjon connectionProperties) {
                 String relativePath = connectionProperties.getMigrationScriptsFilesystemRoot() + connectionProperties.getDatasource();
@@ -133,24 +132,24 @@ public class JettyDevDbKonfigurasjon {
                 return "filesystem:" + location.getPath();
             }
         }
-        Flyway flyway = new Flyway();
-        flyway.setBaselineOnMigrate(true);
-        flyway.setDataSource(dataSource);
+        FluentConfiguration configuration = Flyway.configure()
+            .dataSource(dataSource)
+            .baselineOnMigrate(true);
 
         FlywayKonfig flywayKonfig = new FlywayKonfig();
         final String scriptLocation = flywayKonfig.getMigrationScriptLocation(connectionProperties);
         if (scriptLocation != null) {
-            flyway.setLocations(scriptLocation);
+            configuration.locations(scriptLocation);
         } else {
             /**
              * Default leter flyway etter classpath:db/migration.
              * Her vet vi at vi ikke skal lete i classpath
              */
-            flyway.setLocations("denne/stien/finnes/ikke");
+            configuration.locations("denne/stien/finnes/ikke");
         }
-        flyway.configure(flywayKonfig.lesFlywayPlaceholders());
+        configuration.configuration(flywayKonfig.lesFlywayPlaceholders());
 
-        flyway.migrate();
+        new Flyway(configuration).migrate();
     }
 
     /** Håndter oppsett av datasource. */

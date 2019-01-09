@@ -200,13 +200,6 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
             BehandlingsresultatDto dto = new BehandlingsresultatDto();
             dto.setId(behandlingsresultat.getId());
             dto.setType(behandlingsresultat.getBehandlingResultatType());
-            dto.setAvslagsarsak(behandlingsresultat.getAvslagsårsak());
-            dto.setAvslagsarsakFritekst(behandlingsresultat.getAvslagarsakFritekst());
-            dto.setKonsekvenserForYtelsen(behandlingsresultat.getKonsekvenserForYtelsen());
-            dto.setRettenTil(behandlingsresultat.getRettenTil());
-            dto.setVedtaksbrev(behandlingsresultat.getVedtaksbrev());
-            dto.setOverskrift(behandlingsresultat.getOverskrift());
-            dto.setFritekstbrev(behandlingsresultat.getFritekstbrev());
             dto.setSkjaeringstidspunktForeldrepenger(finnSkjæringstidspunktForSøknad(behandling));
             return Optional.of(dto);
         }

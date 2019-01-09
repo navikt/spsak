@@ -57,15 +57,6 @@ class DokumentmottakerEndringssøknad extends DokumentmottakerYtelsesesrelatertD
         kompletthetskontroller.persisterKøetDokumentOgVurderKompletthet(nyKøetBehandling, mottattDokument, søknadsdato);
     }
 
-    @Override
-    void håndterAvslåttBehandling(InngåendeSaksdokument mottattDokument, Fagsak fagsak, Behandling avsluttetBehandling) {
-        if (erAvslagGrunnetOpplysningsplikt(avsluttetBehandling)) {
-            behandlingsoppretter.opprettNyFørstegangsbehandling(mottattDokument, fagsak, avsluttetBehandling);
-        } else {
-            dokumentmottakerFelles.opprettTaskForÅVurdereDokument(fagsak, avsluttetBehandling, mottattDokument);
-        }
-    }
-
     private Behandling oppdatereViaHenleggelse(Behandling behandling, InngåendeSaksdokument mottattDokument, BehandlingÅrsakType behandlingÅrsak) {
         Behandling nyBehandling = behandlingsoppretter.oppdaterBehandlingViaHenleggelse(behandling, behandlingÅrsak);
         Optional<LocalDate> søknadsdato = revurderingRepository.finnSøknadsdatoFraHenlagtBehandling(nyBehandling);

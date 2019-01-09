@@ -56,15 +56,11 @@ public class AksjonspunktDefinisjon extends KodeverkTabell {
     public static final AksjonspunktDefinisjon FORESLÅ_VEDTAK = new AksjonspunktDefinisjon("5015"); // $NON-NL //$NON-NLS-1$
     public static final AksjonspunktDefinisjon FORESLÅ_VEDTAK_MANUELT = new AksjonspunktDefinisjon("5028");
 
-
     public static final AksjonspunktDefinisjon MANUELL_VURDERING_AV_MEDLEMSKAP = new AksjonspunktDefinisjon("5010"); //$NON-NLS-1$
 
     public static final AksjonspunktDefinisjon OVERSTYRING_AV_BEREGNING = new AksjonspunktDefinisjon("6007"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon OVERSTYRING_AV_MEDLEMSKAPSVILKÅRET = new AksjonspunktDefinisjon("6005"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon OVERSTYRING_AV_OPPTJENINGSVILKÅRET = new AksjonspunktDefinisjon("6011"); //$NON-NLS-1$
-
-    public static final AksjonspunktDefinisjon SØKERS_OPPLYSNINGSPLIKT_MANU = new AksjonspunktDefinisjon("5017"); //$NON-NLS-1$
-    public static final AksjonspunktDefinisjon SØKERS_OPPLYSNINGSPLIKT_OVST = new AksjonspunktDefinisjon("6002"); //$NON-NLS-1$
 
     public static final AksjonspunktDefinisjon VARSEL_REVURDERING_ETTERKONTROLL = new AksjonspunktDefinisjon("5025"); //$NON-NLS-1$
     public static final AksjonspunktDefinisjon VARSEL_REVURDERING_MANUELL = new AksjonspunktDefinisjon("5026"); //$NON-NLS-1$

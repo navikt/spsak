@@ -1,20 +1,9 @@
 package no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.fagsak.FagsakBuilder;
@@ -26,39 +15,9 @@ import no.nav.foreldrepenger.domene.typer.Saksnummer;
 
 public class DokumentmottakTestUtil {
 
-    public static BehandlingskontrollTjeneste lagBehandlingskontrollTjenesteMock(GrunnlagRepositoryProvider repositoryProvider, BehandlingModellRepository behandlingModellRepository) {
-        BehandlingskontrollTjeneste behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository,
-            null) {
-            @Override
-            protected void fireEventBehandlingStatus(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> forrigeTilstand,
-                                                           Optional<StegTilstand> nyTilstand) {
-                // NOOP
-            }
-            @Override
-            public StegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst) {
-                // NOOP
-                return null;
-            }
-        };
-        return behandlingskontrollTjeneste;
-    }
-
     static InngåendeSaksdokument byggMottattDokument(DokumentTypeId dokumentTypeId, Long fagsakId, String xml, LocalDate mottattDato, boolean elektroniskRegistrert, String journalpostId) {
         InngåendeSaksdokument.Builder builder = new InngåendeSaksdokument.Builder();
         builder.medDokumentTypeId(dokumentTypeId);
-        builder.medMottattDato(mottattDato);
-        builder.medPayload(PayloadType.XML, xml);
-        builder.medFagsakId(fagsakId);
-        if (journalpostId != null) {
-            builder.medJournalpostId(new JournalpostId(journalpostId));
-        }
-        return builder.build();
-    }
-
-    static InngåendeSaksdokument byggMottattPapirsøknad(DokumentTypeId dokumentTypeId, Long fagsakId, String xml, LocalDate mottattDato, boolean elektroniskRegistrert, String journalpostId) {
-        InngåendeSaksdokument.Builder builder = new InngåendeSaksdokument.Builder();
-        builder.medDokumentTypeId(dokumentTypeId);
-        builder.medDokumentKategori(DokumentKategori.SØKNAD);
         builder.medMottattDato(mottattDato);
         builder.medPayload(PayloadType.XML, xml);
         builder.medFagsakId(fagsakId);
@@ -77,14 +36,4 @@ public class DokumentmottakTestUtil {
         return fagsak;
     }
 
-    public static BehandlingVedtak oppdaterVedtaksresultat(Behandling origBehandling, VedtakResultatType vedtakResultatType) {
-        BehandlingVedtak vedtak = BehandlingVedtak.builder()
-            .medVedtakResultatType(vedtakResultatType)
-            .medVedtaksdato(LocalDate.now())
-            .medBehandlingsresultat(origBehandling.getBehandlingsresultat())
-            .medAnsvarligSaksbehandler("Severin Saksbehandler")
-            .build();
-
-        return vedtak;
-    }
 }

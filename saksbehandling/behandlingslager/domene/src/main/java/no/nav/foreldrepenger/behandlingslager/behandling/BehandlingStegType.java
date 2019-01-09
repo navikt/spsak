@@ -36,7 +36,6 @@ public class BehandlingStegType extends KodeverkTabell {
     public static final BehandlingStegType FATTE_VEDTAK = new BehandlingStegType("FVEDSTEG"); //$NON-NLS-1$
     public static final BehandlingStegType IVERKSETT_VEDTAK = new BehandlingStegType("IVEDSTEG"); //$NON-NLS-1$
     public static final BehandlingStegType FORESLÅ_VEDTAK = new BehandlingStegType("FORVEDSTEG"); //$NON-NLS-1$
-    public static final BehandlingStegType KONTROLLERER_SØKERS_OPPLYSNINGSPLIKT = new BehandlingStegType("VURDEROP"); //$NON-NLS-1$
     public static final BehandlingStegType KLAGE_NFP = new BehandlingStegType("KLAGEUI"); //$NON-NLS-1$
     public static final BehandlingStegType KLAGE_NK = new BehandlingStegType("KLAGEOI"); //$NON-NLS-1$
     public static final BehandlingStegType REGISTRER_SØKNAD = new BehandlingStegType("REGSØK"); //$NON-NLS-1$

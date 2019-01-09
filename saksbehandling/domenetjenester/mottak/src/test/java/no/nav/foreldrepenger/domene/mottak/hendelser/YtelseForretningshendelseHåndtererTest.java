@@ -18,9 +18,12 @@ import org.mockito.Mock;
 
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFeltType;
@@ -40,7 +43,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
-import no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl.DokumentmottakTestUtil;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl.Kompletthetskontroller;
 import no.nav.foreldrepenger.domene.mottak.ytelse.YtelseForretningshendelse;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
@@ -85,7 +87,7 @@ public class YtelseForretningshendelseHåndtererTest {
 
     @Before
     public void setUp() {
-        BehandlingskontrollTjeneste behandlingskontrollTjeneste = DokumentmottakTestUtil.lagBehandlingskontrollTjenesteMock(repositoryProvider, behandlingModellRepository);
+        BehandlingskontrollTjeneste behandlingskontrollTjeneste = lagBehandlingskontrollTjenesteMock(repositoryProvider, behandlingModellRepository);
         Behandlingsoppretter behandlingsoppretter = new BehandlingsoppretterImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingTjenesteProvider, null, prosessTaskRepository, mottatteDokumentTjeneste, behandlendeEnhetTjeneste, historikkinnslagTjeneste, iayTjeneste);
         håndterer = new YtelseForretningshendelseHåndterer(repositoryProvider, behandlingsoppretter, kompletthetskontroller, endringskontroller, behandlingskontrollTjeneste, historikkinnslagTjeneste);
     }
@@ -160,5 +162,22 @@ public class YtelseForretningshendelseHåndtererTest {
         assertThat(historikkinnslag.isEmpty()).isFalse();
         List<HistorikkinnslagFelt> historikkinnslagFelter = historikkinnslag.get(0).getHistorikkinnslagDeler().get(0).getHistorikkinnslagFelt();
         assertThat(historikkinnslagFelter.stream().filter(historikkinnslagFelt -> HistorikkinnslagFeltType.BEGRUNNELSE.equals(historikkinnslagFelt.getFeltType())).findFirst().get().getTilVerdi()).isEqualTo("RE-TILST-YT-INNVIL");
+    }
+    
+    private static BehandlingskontrollTjeneste lagBehandlingskontrollTjenesteMock(GrunnlagRepositoryProvider repositoryProvider, BehandlingModellRepository behandlingModellRepository) {
+        BehandlingskontrollTjeneste behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository,
+            null) {
+            @Override
+            protected void fireEventBehandlingStatus(BehandlingskontrollKontekst kontekst, Optional<StegTilstand> forrigeTilstand,
+                                                           Optional<StegTilstand> nyTilstand) {
+                // NOOP
+            }
+            @Override
+            public StegTilstand prosesserBehandling(BehandlingskontrollKontekst kontekst) {
+                // NOOP
+                return null;
+            }
+        };
+        return behandlingskontrollTjeneste;
     }
 }

@@ -36,7 +36,6 @@ public class HistorikkEndretFeltType extends Kodeliste {
     public static final HistorikkEndretFeltType OVERSTYRT_BEREGNING = new HistorikkEndretFeltType("OVERSTYRT_BEREGNING");
     public static final HistorikkEndretFeltType OVERSTYRT_VURDERING = new HistorikkEndretFeltType("OVERSTYRT_VURDERING");
     public static final HistorikkEndretFeltType SELVSTENDIG_NÆRINGSDRIVENDE = new HistorikkEndretFeltType("SELVSTENDIG_NAERINGSDRIVENDE");
-    public static final HistorikkEndretFeltType SOKERSOPPLYSNINGSPLIKT = new HistorikkEndretFeltType("SOKERSOPPLYSNINGSPLIKT");
     public static final HistorikkEndretFeltType SOKNADSFRIST = new HistorikkEndretFeltType("SOKNADSFRIST");
     public static final HistorikkEndretFeltType SOKNADSFRISTVILKARET = new HistorikkEndretFeltType("SOKNADSFRISTVILKARET");
     public static final HistorikkEndretFeltType STARTDATO_FRA_SOKNAD = new HistorikkEndretFeltType("STARTDATO_FRA_SOKNAD");

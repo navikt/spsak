@@ -60,8 +60,8 @@ public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
         DokumentTypeId dokumentTypeId = mottattDokument.getDokumentTypeId();
 
         DokumentGruppe dokumentGruppe = DokumentTypeId.UDEFINERT.equals(dokumentTypeId) ?
-            DOKUMENTKATEGORI_TIL_GRUPPE.getOrDefault(mottattDokument.getDokumentKategori(), DokumentGruppe.VEDLEGG) :
-            DOKUMENTTYPE_TIL_GRUPPE.getOrDefault(dokumentTypeId, DokumentGruppe.VEDLEGG);
+            DOKUMENTKATEGORI_TIL_GRUPPE.get(mottattDokument.getDokumentKategori()) :
+            DOKUMENTTYPE_TIL_GRUPPE.get(dokumentTypeId);
 
         Dokumentmottaker dokumentmottaker = finnMottaker(dokumentGruppe);
         if (finnesÅpenBehandlingSomErBerørt(fagsak)) {

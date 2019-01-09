@@ -56,7 +56,7 @@ import no.nav.foreldrepenger.domene.kontrollerfakta.StartpunktTjeneste;
 public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements KontrollerFaktaSteg {
     private static final Logger LOGGER = LoggerFactory.getLogger(KontrollerFaktaRevurderingStegForeldrepengerImpl.class);
 
-    private static final StartpunktType DEFAULT_STARTPUNKT = StartpunktType.INNGANGSVILKÅR_OPPLYSNINGSPLIKT;
+    private static final StartpunktType DEFAULT_STARTPUNKT = StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP;
 
     private BehandlingRepository behandlingRepository;
 

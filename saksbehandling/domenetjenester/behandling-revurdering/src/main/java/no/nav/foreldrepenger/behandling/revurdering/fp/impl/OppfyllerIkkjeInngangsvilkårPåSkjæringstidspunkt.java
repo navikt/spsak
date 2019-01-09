@@ -21,7 +21,6 @@ class OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt {
     static {
         Set<VilkårType> set = new HashSet<>();
         set.add(VilkårType.OPPTJENINGSVILKÅRET);
-        set.add(VilkårType.SØKERSOPPLYSNINGSPLIKT);
         set.add(VilkårType.BEREGNINGSGRUNNLAGVILKÅR);
         set.add(VilkårType.MEDLEMSKAPSVILKÅRET);
         VILKÅR_SOM_MÅ_VÆRE_OPPFYLT = Collections.unmodifiableSet(set);
