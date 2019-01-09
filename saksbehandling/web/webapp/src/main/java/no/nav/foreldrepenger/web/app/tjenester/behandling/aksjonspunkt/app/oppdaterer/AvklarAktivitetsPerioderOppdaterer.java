@@ -36,7 +36,7 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.Oppda
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.AvklarAktivitetsPerioderDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.OpptjeningAktivitetDto;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.konfig.Tid;
 

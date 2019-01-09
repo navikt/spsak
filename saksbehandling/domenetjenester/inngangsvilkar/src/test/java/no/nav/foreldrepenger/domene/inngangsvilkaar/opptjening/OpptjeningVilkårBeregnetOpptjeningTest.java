@@ -14,8 +14,8 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Opptj
 import no.nav.fpsak.nare.evaluation.Evaluation;
 import no.nav.fpsak.nare.evaluation.Resultat;
 import no.nav.fpsak.nare.evaluation.summary.EvaluationSummary;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 
 public class OpptjeningVilkårBeregnetOpptjeningTest {
 

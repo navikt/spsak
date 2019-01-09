@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.domene.inngangsvilkaar.opptjening;
 
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Aktivitet;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
-import no.nav.fpsak.tidsserie.StandardCombinators;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.StandardCombinators;
 
 /**
  * Mellomregning per aktivitet.

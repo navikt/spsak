@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.VilkårGrunnlag;
 import no.nav.fpsak.nare.doc.RuleDocumentationGrunnlag;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 /**
  * Input for vurdering av opptjeningsvilkår. Består av sett av AktivitetPeriodeInput for ulike aktivitetet og eventuelt

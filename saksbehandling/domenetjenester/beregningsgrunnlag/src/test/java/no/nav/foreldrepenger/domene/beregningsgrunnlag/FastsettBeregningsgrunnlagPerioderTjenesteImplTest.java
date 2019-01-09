@@ -50,7 +50,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAY
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningInntektsmeldingTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningOpptjeningTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningsgrunnlagTestUtil;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 import no.nav.vedtak.exception.TekniskException;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;

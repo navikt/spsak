@@ -6,7 +6,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 /** Beskriver aktivitet for en angitt periode. */
 public class AktivitetPeriode implements Comparable<AktivitetPeriode> {

@@ -43,7 +43,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningArb
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningInntektsmeldingTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningsgrunnlagTestUtil;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)

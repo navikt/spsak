@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
-import no.nav.fpsak.tidsserie.LocalDateSegment;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateSegment;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 
 public class MergeOverlappendePeriodeHjelp {
     private MergeOverlappendePeriodeHjelp() {

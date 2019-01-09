@@ -10,8 +10,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.Opptj
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Aktivitet;
-import no.nav.fpsak.tidsserie.LocalDateSegment;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateSegment;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 
 class MapTilOpptjeningAktiviteter {
 

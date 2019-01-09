@@ -28,7 +28,7 @@ import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Ber
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.BeregningsgrunnlagPrArbeidsforhold;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.BeregningsgrunnlagPrStatus;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Periode;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 public class RegelFastsettBeregningsresultatTest {
     private static final LocalDate TRE_UKER_FØR_FØDSEL_DT = LocalDate.now().minusWeeks(3);

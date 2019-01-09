@@ -34,8 +34,8 @@
 			<artifactId>felles-util</artifactId>
 		</dependency>
         <dependency>
-            <groupId>no.nav.fpsak.tidsserie</groupId>
-            <artifactId>fpsak-tidsserie</artifactId>
+            <groupId>no.nav.spsak.tidsserie</groupId>
+            <artifactId>spsak-tidsserie</artifactId>
         </dependency>
 		
 		<!-- Test -->

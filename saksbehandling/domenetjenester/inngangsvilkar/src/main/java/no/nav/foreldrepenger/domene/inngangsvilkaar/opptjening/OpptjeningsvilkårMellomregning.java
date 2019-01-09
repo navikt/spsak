@@ -19,11 +19,11 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Innte
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Opptjeningsgrunnlag;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsvilkårResultat;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjentTidslinje;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
-import no.nav.fpsak.tidsserie.LocalDateSegment;
-import no.nav.fpsak.tidsserie.LocalDateSegmentCombinator;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
-import no.nav.fpsak.tidsserie.StandardCombinators;
+import no.nav.spsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateSegment;
+import no.nav.spsak.tidsserie.LocalDateSegmentCombinator;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.StandardCombinators;
 
 /**
  * Data underlag inkludert mellomregning og mellomresultater brukt i vilkårsvurderingen.

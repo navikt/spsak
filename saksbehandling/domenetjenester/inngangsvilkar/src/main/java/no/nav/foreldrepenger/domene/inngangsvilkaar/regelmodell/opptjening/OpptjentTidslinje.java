@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening;
 
 import java.time.Period;
 
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 
 /** Beskriver opptjente dager og totalt beregnet periode opptjent. */
 public class OpptjentTidslinje {

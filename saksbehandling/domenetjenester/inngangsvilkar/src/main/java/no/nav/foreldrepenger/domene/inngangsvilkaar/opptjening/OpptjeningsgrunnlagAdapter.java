@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Aktiv
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.AktivitetPeriode;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Opptjeningsgrunnlag;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Aktivitet.ReferanseType;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 class OpptjeningsgrunnlagAdapter {
     private LocalDate behandlingstidspunkt;

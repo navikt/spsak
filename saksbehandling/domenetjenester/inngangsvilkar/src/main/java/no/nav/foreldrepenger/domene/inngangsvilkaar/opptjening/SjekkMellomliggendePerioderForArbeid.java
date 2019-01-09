@@ -11,9 +11,9 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Opptj
 import no.nav.fpsak.nare.doc.RuleDocumentation;
 import no.nav.fpsak.nare.evaluation.Evaluation;
 import no.nav.fpsak.nare.specification.LeafSpecification;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
-import no.nav.fpsak.tidsserie.LocalDateSegment;
-import no.nav.fpsak.tidsserie.LocalDateTimeline;
+import no.nav.spsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateSegment;
+import no.nav.spsak.tidsserie.LocalDateTimeline;
 
 /**
  * Regel som sjekker om mellomliggende perioder i en aktivitet av type Arbeid for samme arbeidsgiver kan aksepteres som

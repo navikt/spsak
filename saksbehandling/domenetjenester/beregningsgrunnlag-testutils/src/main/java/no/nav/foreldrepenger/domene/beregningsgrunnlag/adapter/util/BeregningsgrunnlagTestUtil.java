@@ -39,7 +39,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrun
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.PeriodeÅrsak;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 @ApplicationScoped
 public class BeregningsgrunnlagTestUtil {

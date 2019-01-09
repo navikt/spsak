@@ -11,7 +11,7 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.opptjening.Opptjeningsvilkå
 import no.nav.foreldrepenger.domene.inngangsvilkaar.opptjening.OpptjeningsvilkårMellomregning;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Aktivitet;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.Opptjeningsgrunnlag;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 public class OpptjeningsvilkårMellomregningTest {
 

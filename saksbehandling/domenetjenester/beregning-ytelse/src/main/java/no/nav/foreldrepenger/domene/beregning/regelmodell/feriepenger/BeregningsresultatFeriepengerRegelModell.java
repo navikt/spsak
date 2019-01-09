@@ -8,7 +8,7 @@ import no.nav.foreldrepenger.domene.beregning.regelmodell.BeregningsresultatPeri
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Dekningsgrad;
 import no.nav.foreldrepenger.domene.beregning.regelmodell.beregningsgrunnlag.Inntektskategori;
 import no.nav.fpsak.nare.doc.RuleDocumentationGrunnlag;
-import no.nav.fpsak.tidsserie.LocalDateInterval;
+import no.nav.spsak.tidsserie.LocalDateInterval;
 
 @RuleDocumentationGrunnlag
 public class BeregningsresultatFeriepengerRegelModell {
