@@ -4,6 +4,8 @@ jdk:
 - openjdk11
 services:
 - postgresql
+addons:
+  postgresql: "9.5"
 before_install:
 - export COMMIT_SHORT=$(git rev-parse --short HEAD)
 before_script:
