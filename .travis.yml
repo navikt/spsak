@@ -34,7 +34,8 @@ script:
 - cd saksbehandling; mvn install
 - docker build --pull -t navikt/spsak:$COMMIT_SHORT .
 - cd ..
-#- cd vtp-mock && mvn install && cd ..
+- cd vtp-mock; mvn install
+- cd ..
 - |
   set -e
   if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then

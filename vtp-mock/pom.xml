@@ -32,7 +32,7 @@
         <cxf.version>3.2.5</cxf.version>
         <jetty.version>9.4.13.v20181111</jetty.version>
 
-        <tjenestespesifikasjoner.version>1.2019.01.08-11.12-8f0e87a6bdb3</tjenestespesifikasjoner.version>
+        <tjenestespesifikasjoner.version>1.2019.01.09-11.55-84c21cab82d3</tjenestespesifikasjoner.version>
 
     </properties>
 
