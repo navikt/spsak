@@ -4,9 +4,11 @@ jdk:
 - openjdk11
 services:
 - postgresql
-addons:
-  postgresql: "9.5"
 before_install:
+- sudo apt-get update
+- sudo apt-get install language-pack-no
+- sudo /etc/init.d/postgresql stop
+- sudo /etc/init.d/postgresql start 9.5
 - export COMMIT_SHORT=$(git rev-parse --short HEAD)
 before_script:
 - psql -c "CREATE DATABASE fpsak_unit;" -U postgres
