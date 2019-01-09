@@ -9,17 +9,6 @@ before_install:
 - sudo apt-get install language-pack-nb
 - sudo /etc/init.d/postgresql stop
 - sudo /etc/init.d/postgresql start 9.5
-- export COMMIT_SHORT=$(git rev-parse --short HEAD)
-install:
-- cd felles; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-- cd ..
-- cd kontrakter; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-- cd ..
-- cd saksbehandling; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-- cd ..
-- cd vtp-mock; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-- cd ..
-before_script:
 - psql -c "CREATE DATABASE fpsak_unit;" -U postgres
 - psql -c "CREATE USER fpsak_unit PASSWORD 'fpsak_unit';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE fpsak_unit TO fpsak_unit;" -U postgres
@@ -35,6 +24,16 @@ before_script:
 - psql -c "CREATE DATABASE fpfordel;" -U postgres
 - psql -c "CREATE USER fpfordel PASSWORD 'fpfordel';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE fpfordel TO fpfordel;" -U postgres
+- export COMMIT_SHORT=$(git rev-parse --short HEAD)
+install:
+- cd felles; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+- cd ..
+- cd kontrakter; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+- cd ..
+- cd saksbehandling; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+- cd ..
+- cd vtp-mock; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+- cd ..
 script:
 - cd felles; mvn install
 - cd ..
