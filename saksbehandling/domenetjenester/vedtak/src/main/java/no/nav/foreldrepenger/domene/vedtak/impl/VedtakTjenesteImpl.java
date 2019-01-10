@@ -17,11 +17,14 @@ import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInnslagTekstBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagTotrinnsvurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
@@ -40,6 +43,7 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
     private LagretVedtakRepository lagretVedtakRepository;
     private RevurderingTjenesteProvider revurderingTjenesteProvider;
     private TotrinnTjeneste totrinnTjeneste;
+    private BehandlingRepository behandlingRepository;
 
     VedtakTjenesteImpl() {
         // CDI
@@ -47,9 +51,10 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
 
     @Inject
     public VedtakTjenesteImpl(LagretVedtakRepository lagretVedtakRepository,
-                              HistorikkRepository historikkRepository,
+                              GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                               RevurderingTjenesteProvider revurderingTjenesteProvider, TotrinnTjeneste totrinnTjeneste) {
-        this.historikkRepository = historikkRepository;
+        this.historikkRepository = grunnlagRepositoryProvider.getHistorikkRepository();
+        this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
         this.lagretVedtakRepository = lagretVedtakRepository;
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
         this.totrinnTjeneste = totrinnTjeneste;
@@ -150,14 +155,15 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
 
     @Override
     public VedtakResultatType utledVedtakResultatType(Behandling behandling) {
-        BehandlingResultatType resultatType = behandling.getBehandlingsresultat().getBehandlingResultatType();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        BehandlingResultatType resultatType = behandlingsresultat.getBehandlingResultatType();
         return utledVedtakResultatType(behandling, resultatType);
     }
 
     private VedtakResultatType utledVedtakResultatType(Behandling behandling, BehandlingResultatType resultatType) {
         if (BehandlingResultatType.INGEN_ENDRING.equals(resultatType)) {
             Optional<Behandling> originalBehandlingOpt = behandling.getOriginalBehandling();
-            if (originalBehandlingOpt.isPresent() && originalBehandlingOpt.get().getBehandlingsresultat() != null) {
+            if (originalBehandlingOpt.isPresent() && behandlingRepository.hentResultatHvisEksisterer(originalBehandlingOpt.get().getId()).isPresent()) {
                 return utledVedtakResultatType(originalBehandlingOpt.get());
             }
         }

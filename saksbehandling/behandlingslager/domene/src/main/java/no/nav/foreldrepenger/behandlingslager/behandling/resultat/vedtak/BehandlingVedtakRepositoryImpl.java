@@ -60,7 +60,7 @@ public class BehandlingVedtakRepositoryImpl implements BehandlingVedtakRepositor
         if (!behandling.erRevurdering()) {
             throw new IllegalStateException("Utviklerfeil: Metoden skal bare kalles for revurderinger");
         }
-        Behandlingsresultat originaltResultat = behandling.getOriginalBehandling().map(Behandling::getBehandlingsresultat)
+        Behandlingsresultat originaltResultat = behandling.getOriginalBehandling().map(org -> behandlingRepository.hentResultat(org.getId()))
             .orElseThrow(() -> new IllegalStateException("Utviklerfeil: Original behandling mangler på revurdering - skal ikke skje"));
         return hentVedtakFor(originaltResultat.getId())
             .orElseThrow(() -> new IllegalStateException("Utviklerfeil: Original behandling har ikke behandlingsvedtak - skal ikke skje"));
@@ -71,6 +71,7 @@ public class BehandlingVedtakRepositoryImpl implements BehandlingVedtakRepositor
         getEntityManager().persist(vedtak);
         verifiserBehandlingLås(lås);
         getEntityManager().flush();
+        getEntityManager().refresh(vedtak.getBehandlingsresultat());
         return vedtak.getId();
     }
 

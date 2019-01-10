@@ -15,13 +15,12 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.diff.ChangeTracked;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "MedlemskapVilkårPeriodeGrunnlag")
-@Table(name = "GR_MEDLEMSKAP_VILKAR_PERIODE")
+@Table(name = "res_medlemskap_perioder")
 public class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet implements MedlemskapVilkårPeriodeGrunnlag {
 
     @Id
@@ -29,8 +28,8 @@ public class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet impleme
     private Long id;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "vilkar_resultat_id", nullable = false, updatable = false)
-    private VilkårResultat vilkårResultat;
+    @JoinColumn(name = "behandling_resultat_id", nullable = false, updatable = false)
+    private Behandlingsresultat behandlingsresultat;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "medlemskap_vilkar_periode_id", nullable = false, updatable = false, unique = true)
@@ -48,23 +47,23 @@ public class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet impleme
     MedlemskapVilkårPeriodeGrunnlagEntitet() {
     }
 
-    private MedlemskapVilkårPeriodeGrunnlagEntitet(VilkårResultat vilkårResultat) {
-        this.vilkårResultat = vilkårResultat;
+    private MedlemskapVilkårPeriodeGrunnlagEntitet(Behandlingsresultat behandlingsresultat) {
+        this.behandlingsresultat = behandlingsresultat;
     }
 
     MedlemskapVilkårPeriodeGrunnlagEntitet(MedlemskapVilkårPeriodeGrunnlagEntitet entitet) {
-        this.vilkårResultat = entitet.vilkårResultat;
+        this.behandlingsresultat = entitet.behandlingsresultat;
         this.medlemskapsvilkårPeriode = entitet.medlemskapsvilkårPeriode;
     }
 
-    public static MedlemskapVilkårPeriodeGrunnlagEntitet fra(Optional<MedlemskapVilkårPeriodeGrunnlagEntitet> eksisterendeGrunnlag, Behandling nyBehandling) {
-        return kopierTidligerGrunnlag(eksisterendeGrunnlag, nyBehandling);
+    public static MedlemskapVilkårPeriodeGrunnlagEntitet fra(Optional<MedlemskapVilkårPeriodeGrunnlagEntitet> eksisterendeGrunnlag, Behandlingsresultat nyttResultat) {
+        return kopierTidligerGrunnlag(eksisterendeGrunnlag, nyttResultat);
     }
 
     private static MedlemskapVilkårPeriodeGrunnlagEntitet kopierTidligerGrunnlag(
-        Optional<MedlemskapVilkårPeriodeGrunnlagEntitet> tidligereGrunnlagOpt, Behandling nyBehandling) {
-        VilkårResultat vilkårResultat = nyBehandling.getBehandlingsresultat().getVilkårResultat();
-        MedlemskapVilkårPeriodeGrunnlagEntitet nyttGrunnlag = new MedlemskapVilkårPeriodeGrunnlagEntitet(vilkårResultat);
+        Optional<MedlemskapVilkårPeriodeGrunnlagEntitet> tidligereGrunnlagOpt, Behandlingsresultat behandlingsresultat1) {
+        Behandlingsresultat behandlingsresultat = behandlingsresultat1;
+        MedlemskapVilkårPeriodeGrunnlagEntitet nyttGrunnlag = new MedlemskapVilkårPeriodeGrunnlagEntitet(behandlingsresultat);
 
         if (tidligereGrunnlagOpt.isPresent()) {
             MedlemskapVilkårPeriodeGrunnlagEntitet tidligereGrunnlag = tidligereGrunnlagOpt.get();
@@ -86,12 +85,12 @@ public class MedlemskapVilkårPeriodeGrunnlagEntitet extends BaseEntitet impleme
         this.aktiv = aktiv;
     }
 
-    public VilkårResultat getVilkårResultat() {
-        return vilkårResultat;
+    public Behandlingsresultat getBehandlingsresultat() {
+        return behandlingsresultat;
     }
 
-    void setVilkårResultat(VilkårResultat vilkårResultat) {
-        this.vilkårResultat = vilkårResultat;
+    void setBehandlingsresultat(Behandlingsresultat behandlingsresultat) {
+        this.behandlingsresultat = behandlingsresultat;
     }
 
     @Override

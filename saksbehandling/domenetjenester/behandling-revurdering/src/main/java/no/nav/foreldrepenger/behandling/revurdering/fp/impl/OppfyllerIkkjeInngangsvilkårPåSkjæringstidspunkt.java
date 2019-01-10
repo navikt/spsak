@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,19 +13,15 @@ class OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt {
 
     private static final Set<VilkårType> VILKÅR_SOM_MÅ_VÆRE_OPPFYLT;
 
+    static {
+        VILKÅR_SOM_MÅ_VÆRE_OPPFYLT = Set.of(VilkårType.OPPTJENINGSVILKÅRET, VilkårType.BEREGNINGSGRUNNLAGVILKÅR, VilkårType.MEDLEMSKAPSVILKÅRET);
+    }
+
     private OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt() {
     }
 
-    static {
-        Set<VilkårType> set = new HashSet<>();
-        set.add(VilkårType.OPPTJENINGSVILKÅRET);
-        set.add(VilkårType.BEREGNINGSGRUNNLAGVILKÅR);
-        set.add(VilkårType.MEDLEMSKAPSVILKÅRET);
-        VILKÅR_SOM_MÅ_VÆRE_OPPFYLT = Collections.unmodifiableSet(set);
-    }
-
-    public static boolean vurder(Behandling revurdering) {
-        List<Vilkår> vilkårene = revurdering.getBehandlingsresultat().getVilkårResultat().getVilkårene();
+    public static boolean vurder(Behandlingsresultat behandlingsresultat) {
+        List<Vilkår> vilkårene = behandlingsresultat.getVilkårResultat().getVilkårene();
 
         return !vilkårene
             .stream()
@@ -36,7 +30,7 @@ class OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt {
             .allMatch(VilkårUtfallType.OPPFYLT::equals);
     }
 
-    public static Behandlingsresultat fastsett(Behandling revurdering) {
-        return SettOpphørOgIkkeRett.fastsett(revurdering);
+    public static Behandlingsresultat fastsett(Behandling revurdering, Behandlingsresultat behandlingsresultat) {
+        return SettOpphørOgIkkeRett.fastsett(revurdering, behandlingsresultat);
     }
 }

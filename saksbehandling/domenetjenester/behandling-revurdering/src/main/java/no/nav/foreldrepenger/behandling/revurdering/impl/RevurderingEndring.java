@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.behandling.revurdering.impl;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 
 public interface RevurderingEndring {
     /**
@@ -8,5 +9,5 @@ public interface RevurderingEndring {
      * @param behandling
      * @return
      */
-    boolean erRevurderingMedUendretUtfall(Behandling behandling);
+    boolean erRevurderingMedUendretUtfall(Behandling behandling, Behandlingsresultat orginaltResultat);
 }

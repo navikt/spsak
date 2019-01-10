@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
@@ -57,8 +58,8 @@ public class InngangsvilkårTjenesteImpl implements InngangsvilkårTjeneste {
     @Override
     public void overstyrAksjonspunkt(Long behandlingId, VilkårType vilkårType, VilkårUtfallType utfall, String avslagsårsakKode, BehandlingskontrollKontekst kontekst) {
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-
-        VilkårResultat vilkårResultat = behandling.getBehandlingsresultat().getVilkårResultat();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandlingId);
+        VilkårResultat vilkårResultat = behandlingsresultat.getVilkårResultat();
         VilkårResultat.Builder builder = VilkårResultat.builderFraEksisterende(vilkårResultat);
 
         Avslagsårsak avslagsårsak = finnAvslagsårsak(avslagsårsakKode, utfall);
@@ -70,15 +71,20 @@ public class InngangsvilkårTjenesteImpl implements InngangsvilkårTjeneste {
                 builder.medVilkårResultatType(VilkårResultatType.IKKE_FASTSATT);
             }
         }
-        builder.buildFor(behandling);
-        behandlingRepository.lagre(behandling.getBehandlingsresultat().getVilkårResultat(), kontekst.getSkriveLås());
+        lagre(kontekst, behandling, behandlingsresultat, builder);
+    }
+
+    private void lagre(BehandlingskontrollKontekst kontekst, Behandling behandling, Behandlingsresultat behandlingsresultat, VilkårResultat.Builder builder) {
+        builder.buildFor(behandlingsresultat);
+        behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), kontekst.getSkriveLås());
+        behandlingRepository.lagre(behandlingsresultat, kontekst.getSkriveLås());
         behandlingRepository.lagre(behandling, kontekst.getSkriveLås());
     }
 
     private boolean finnesOverstyrteAvviste(VilkårResultat vilkårResultat, VilkårType vilkårType) {
         return vilkårResultat.getVilkårene().stream()
-                .filter(vilkår -> !vilkår.getVilkårType().equals(vilkårType))
-                .anyMatch(vilkår -> vilkår.erOverstyrt() && vilkår.erIkkeOppfylt());
+            .filter(vilkår -> !vilkår.getVilkårType().equals(vilkårType))
+            .anyMatch(vilkår -> vilkår.erOverstyrt() && vilkår.erIkkeOppfylt());
     }
 
     private Avslagsårsak finnAvslagsårsak(String avslagsÅrsakKode, VilkårUtfallType utfall) {

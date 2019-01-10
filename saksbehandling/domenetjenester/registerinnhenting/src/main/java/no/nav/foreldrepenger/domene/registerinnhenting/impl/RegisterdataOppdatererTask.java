@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.domene.registerinnhenting.impl;
 
+import java.util.Optional;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -10,6 +12,8 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.task.BehandlingProsessTask;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingUtil;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakProsesstaskRekkefølge;
@@ -25,10 +29,8 @@ import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 @FagsakProsesstaskRekkefølge(gruppeSekvens = true)
 public class RegisterdataOppdatererTask extends BehandlingProsessTask {
 
-    private static final Logger log = LoggerFactory.getLogger(RegisterdataOppdatererTask.class);
-
     public static final String TASKTYPE = "behandlingskontroll.registerdataOppdaterBehandling";
-
+    private static final Logger log = LoggerFactory.getLogger(RegisterdataOppdatererTask.class);
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private RegisterdataEndringshåndterer registerdataOppdaterer;
     private BehandlingRepository behandlingRepository;
@@ -36,7 +38,7 @@ public class RegisterdataOppdatererTask extends BehandlingProsessTask {
     RegisterdataOppdatererTask() {
         // for CDI proxy
     }
-    
+
     @Inject
     public RegisterdataOppdatererTask(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                                       BehandlingskontrollTjeneste behandlingskontrollTjeneste,
@@ -53,9 +55,10 @@ public class RegisterdataOppdatererTask extends BehandlingProsessTask {
         // NB lås før hent behandling
         BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(behandlingsId);
         Behandling behandling = behandlingRepository.hentBehandling(behandlingsId);
+        Optional<Behandlingsresultat> resultat = behandlingRepository.hentResultatHvisEksisterer(behandlingsId);
 
         // sjekk forhåndsbetingelser for å innhente registerdata
-        if (behandling.erSaksbehandlingAvsluttet()) {
+        if (BehandlingUtil.erSaksbehandlingAvsluttet(behandling, resultat.orElse(null))) {
             throw new IllegalStateException("Utvikler-feil: Behandling er avsluttet, kan ikke innhente registerdata: " + behandling.getStatus());
         }
 

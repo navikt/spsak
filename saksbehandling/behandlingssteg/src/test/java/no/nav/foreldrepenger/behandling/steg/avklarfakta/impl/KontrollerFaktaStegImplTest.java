@@ -23,10 +23,12 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -101,7 +103,9 @@ public class KontrollerFaktaStegImplTest {
         assertThat(medlemskapAggregat).isPresent();
         assertThat(medlemskapAggregat.flatMap(MedlemskapAggregat::getVurdertMedlemskap)).isNotPresent();
         behandling = behandlingRepository.hentBehandling(behandling.getId());
-        Optional<BeregningsResultat> beregningsResultat = resultatRepositoryProvider.getBeregningsresultatRepository().hentHvisEksistererFor(behandling.getBehandlingsresultat());
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        BeregningsresultatRepository beregningsresultatRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
+        Optional<BeregningsResultat> beregningsResultat = beregningsresultatRepository.hentHvisEksistererFor(behandlingsresultat);
 
         assertThat(beregningsResultat).isNotPresent();
     }

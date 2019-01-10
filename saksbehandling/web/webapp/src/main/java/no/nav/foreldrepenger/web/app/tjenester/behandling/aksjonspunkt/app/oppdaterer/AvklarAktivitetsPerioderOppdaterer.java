@@ -16,6 +16,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkInnslagTekstBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
@@ -55,6 +56,7 @@ public class AvklarAktivitetsPerioderOppdaterer implements AksjonspunktOppdatere
     private VirksomhetTjeneste virksomhetTjeneste;
     private TpsTjeneste tpsTjeneste;
     private OpptjeningRepository opptjeningRepository;
+    private BehandlingRepository behandlingRepository;
 
     AvklarAktivitetsPerioderOppdaterer() {
         // for CDI proxy
@@ -69,6 +71,7 @@ public class AvklarAktivitetsPerioderOppdaterer implements AksjonspunktOppdatere
                                               TpsTjeneste tpsTjeneste) {
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
         this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
+        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.historikkAdapter = historikkAdapter;
         this.virksomhetTjeneste = virksomhetTjeneste;
@@ -111,7 +114,7 @@ public class AvklarAktivitetsPerioderOppdaterer implements AksjonspunktOppdatere
     }
 
     private void lagUtfallHistorikk(OpptjeningAktivitetDto oaDto, Behandling behandling, LocalDateInterval tilVerdi, String godkjentForPerioden) {
-        Optional<Opptjening> opptjeningOptional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
+        Optional<Opptjening> opptjeningOptional = opptjeningRepository.finnOpptjening(behandlingRepository.hentResultat(behandling.getId()));
         if (opptjeningOptional.isPresent()) {
             LocalDateInterval opptjentPeriode =
                 new LocalDateInterval(opptjeningOptional.get().getFom(), opptjeningOptional.get().getTom());
@@ -240,7 +243,7 @@ public class AvklarAktivitetsPerioderOppdaterer implements AksjonspunktOppdatere
 
     private List<BekreftOpptjeningPeriodeDto> map(List<OpptjeningAktivitetDto> liste, Behandling behandling) {
         List<BekreftOpptjeningPeriodeDto> list = new ArrayList<>();
-        Opptjening opptjening = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat())
+        Opptjening opptjening = opptjeningRepository.finnOpptjening(behandlingRepository.hentResultat(behandling.getId()))
             .orElseThrow(IllegalArgumentException::new);
 
         liste.forEach(l -> {

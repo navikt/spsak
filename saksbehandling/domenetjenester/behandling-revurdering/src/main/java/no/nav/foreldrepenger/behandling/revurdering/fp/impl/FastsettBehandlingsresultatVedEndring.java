@@ -12,11 +12,11 @@ class FastsettBehandlingsresultatVedEndring {
     private FastsettBehandlingsresultatVedEndring() {}
 
     public static Behandlingsresultat fastsett(Behandling revurdering,
-                                               boolean erEndringIBeregning) {
+                                               boolean erEndringIBeregning, Behandlingsresultat behandlingsresultat) {
         List<KonsekvensForYtelsen> konsekvenserForYtelsen = utledKonsekvensForYtelsen(erEndringIBeregning);
 
         BehandlingResultatType behandlingResultatType = utledBehandlingResultatType(konsekvenserForYtelsen);
-        return buildBehandlingsresultat(revurdering, behandlingResultatType, konsekvenserForYtelsen);
+        return buildBehandlingsresultat(revurdering, behandlingResultatType, konsekvenserForYtelsen, behandlingsresultat);
     }
 
     private static BehandlingResultatType utledBehandlingResultatType(List<KonsekvensForYtelsen> konsekvenserForYtelsen) {
@@ -38,10 +38,9 @@ class FastsettBehandlingsresultatVedEndring {
         return konsekvensForYtelsen;
     }
 
-    private static Behandlingsresultat buildBehandlingsresultat(Behandling revurdering, 
+    private static Behandlingsresultat buildBehandlingsresultat(Behandling revurdering,
                                                                 BehandlingResultatType behandlingResultatType,
-                                                                List<KonsekvensForYtelsen> konsekvenserForYtelsen) {
-        Behandlingsresultat behandlingsresultat = revurdering.getBehandlingsresultat();
+                                                                List<KonsekvensForYtelsen> konsekvenserForYtelsen, Behandlingsresultat behandlingsresultat) {
         Behandlingsresultat.Builder behandlingsresultatBuilder = Behandlingsresultat.builderEndreEksisterende(behandlingsresultat);
         behandlingsresultatBuilder.medBehandlingResultatType(behandlingResultatType);
         konsekvenserForYtelsen.forEach(behandlingsresultatBuilder::leggTilKonsekvensForYtelsen);

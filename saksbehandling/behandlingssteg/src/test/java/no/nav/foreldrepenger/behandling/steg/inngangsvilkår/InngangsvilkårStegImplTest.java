@@ -30,6 +30,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
@@ -71,11 +72,12 @@ public class InngangsvilkårStegImplTest {
         Behandling behandling = scenario.lagMocked();
 
         GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
-        Behandlingsresultat.builderEndreEksisterende(behandling.getBehandlingsresultat()).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
+        Behandlingsresultat behandlingsresultat = repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId());
+        Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
         when(kontekst.getBehandlingId()).thenReturn(behandling.getId());
 
-        RegelResultat val = new RegelResultat(behandling.getBehandlingsresultat().getVilkårResultat(), emptyList(), emptyMap());
-        when(regelOrkestrerer.vurderInngangsvilkår(singletonList(sutVilkårType), behandling)).thenReturn(val);
+        RegelResultat val = new RegelResultat(behandlingsresultat.getVilkårResultat(), emptyList(), emptyMap());
+        when(regelOrkestrerer.vurderInngangsvilkår(singletonList(sutVilkårType), behandling, behandlingsresultat)).thenReturn(val);
 
         // Act
         BehandleStegResultat stegResultat = new SutInngangsvilkårSteg(repositoryProvider).utførSteg(kontekst);
@@ -83,7 +85,7 @@ public class InngangsvilkårStegImplTest {
         // Assert
         assertThat(stegResultat.getTransisjon()).isEqualTo(TransisjonIdentifikator.forId(FREMHOPP_TIL_UTTAKSPLAN.getId()));
 
-        VilkårResultat vilkårResultat = behandling.getBehandlingsresultat().getVilkårResultat();
+        VilkårResultat vilkårResultat = behandlingsresultat.getVilkårResultat();
         assertThat(vilkårResultat.getVilkårResultatType()).isEqualTo(VilkårResultatType.IKKE_FASTSATT);
         assertThat(vilkårResultat.getVilkårene().stream().map(Vilkår::getGjeldendeVilkårUtfall).collect(toList()))
             .containsExactly(VilkårUtfallType.IKKE_OPPFYLT);
@@ -98,18 +100,20 @@ public class InngangsvilkårStegImplTest {
             .leggTilVilkår(sutVilkårType, VilkårUtfallType.OPPFYLT);
         Behandling behandling = scenario.lagMocked();
         GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
-        Behandlingsresultat.builderEndreEksisterende(behandling.getBehandlingsresultat()).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
+        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
 
         // Act
         new SutInngangsvilkårSteg(repositoryProvider)
             .vedTransisjon(kontekst, behandling, modell, BehandlingSteg.TransisjonType.HOPP_OVER_BAKOVER, null, null, BehandlingSteg.TransisjonType.FØR_INNGANG);
 
         // Assert
-        VilkårResultat vilkårResultat = behandling.getBehandlingsresultat().getVilkårResultat();
+        VilkårResultat vilkårResultat = behandlingsresultat.getVilkårResultat();
         assertThat(vilkårResultat.getVilkårResultatType()).isEqualTo(VilkårResultatType.IKKE_FASTSATT);
         assertThat(vilkårResultat.getVilkårene().stream().map(Vilkår::getGjeldendeVilkårUtfall).collect(toList()))
             .containsExactly(VilkårUtfallType.IKKE_VURDERT);
-        assertThat(behandling.getBehandlingsresultat().getBehandlingResultatType())
+        assertThat(behandlingsresultat.getBehandlingResultatType())
             .isEqualTo(BehandlingResultatType.IKKE_FASTSATT);
     }
 
@@ -121,9 +125,11 @@ public class InngangsvilkårStegImplTest {
             .leggTilVilkår(sutVilkårType, VilkårUtfallType.OPPFYLT);
 
         Behandling behandling = scenario.lagMocked();
-        Whitebox.setInternalState(behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().get(0),
-            "vilkårUtfallOverstyrt", VilkårUtfallType.IKKE_VURDERT);
         GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
+        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        Whitebox.setInternalState(behandlingsresultat.getVilkårResultat().getVilkårene().get(0),
+            "vilkårUtfallOverstyrt", VilkårUtfallType.IKKE_VURDERT);
         MedlemskapRepository mockMedlemskapRepository = scenario.mockMedlemskapRepository();
 
         // Act
@@ -133,7 +139,7 @@ public class InngangsvilkårStegImplTest {
         // Assert
         verify(mockMedlemskapRepository).slettAvklarteMedlemskapsdata(eq(behandling), any());
 
-        VilkårResultat vilkårResultat = behandling.getBehandlingsresultat().getVilkårResultat();
+        VilkårResultat vilkårResultat = behandlingsresultat.getVilkårResultat();
         assertThat(vilkårResultat.getVilkårResultatType()).isEqualTo(VilkårResultatType.INNVILGET);
         assertThat(vilkårResultat.getVilkårene().stream().map(Vilkår::getGjeldendeVilkårUtfall).collect(toList()))
             .containsExactly(VilkårUtfallType.IKKE_VURDERT);

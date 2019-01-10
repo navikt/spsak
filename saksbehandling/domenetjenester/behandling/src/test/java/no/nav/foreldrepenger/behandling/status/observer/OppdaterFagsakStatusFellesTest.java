@@ -10,12 +10,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatusEventPubliserer;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.vedtak.felles.testutilities.Whitebox;
 
 public class OppdaterFagsakStatusFellesTest {
 
@@ -46,13 +49,17 @@ public class OppdaterFagsakStatusFellesTest {
 
     private boolean erVedtakDirekteAvsluttbart(VedtakResultatType vedtakResultatType) {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
-        BehandlingVedtak behandlingVedtak = scenario.medBehandlingVedtak().medVedtakResultatType(vedtakResultatType).build();
         Behandling behandling = scenario.lagMocked();
-        Whitebox.setInternalState(behandling.getBehandlingsresultat(), "behandlingVedtak", behandlingVedtak);
-
-        int foreldelsesfristAntallÅr = 100; // Kun for teset
         GrunnlagRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement1();
-
+        ResultatRepositoryProvider resultatRepositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement2();
+        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.opprettFor(behandling);
+        BehandlingVedtak build = BehandlingVedtak.builder().medVedtaksdato(LocalDate.now().minusDays(1))
+            .medAnsvarligSaksbehandler("Nav Navesen").medVedtakResultatType(vedtakResultatType).medBehandlingsresultat(behandlingsresultat).build();
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        resultatRepositoryProvider.getVedtakRepository().lagre(build, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
+        int foreldelsesfristAntallÅr = 100; // Kun for teset
 
         fagsakStatusFelles = new OppdaterFagsakStatusFelles(repositoryProvider, fagsakStatusEventPubliserer, foreldelsesfristAntallÅr);
 

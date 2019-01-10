@@ -118,7 +118,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
 
         Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
-        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
+        lagreOpptjeningsPeriode(tilOgMed, repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId()));
 
         // Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -287,7 +287,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
 
         LocalDate tilOgMed = LocalDate.now().plusMonths(1);
-        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
+        lagreOpptjeningsPeriode(tilOgMed, repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId()));
 
         // Act
         List<AksjonspunktResultat> aksjonspunktResultater = utleder.utledAksjonspunkterFor(behandling);
@@ -310,7 +310,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         scenario.medOppgittOpptjening(oppgittOpptjeningBuilder);
 
         Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
-        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
+        lagreOpptjeningsPeriode(tilOgMed, repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId()));
         return behandling;
     }
 
@@ -348,7 +348,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         }
 
         Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
-        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
+        lagreOpptjeningsPeriode(tilOgMed, repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId()));
         return behandling;
     }
 
@@ -366,7 +366,7 @@ public class AksjonspunktutlederForVurderOpptjeningTest {
         scenario.medOppgittOpptjening(oppgittOpptjeningBuilder);
 
         Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
-        lagreOpptjeningsPeriode(tilOgMed, behandling.getBehandlingsresultat());
+        lagreOpptjeningsPeriode(tilOgMed, repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId()));
         return behandling;
     }
 

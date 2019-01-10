@@ -24,12 +24,15 @@ import org.threeten.extra.Interval;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.OpplysningsPeriodeTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseAggregatBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -60,18 +63,12 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.InnhentingSamletTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.vedtak.felles.testutilities.Whitebox;
-import no.nav.vedtak.felles.testutilities.db.Repository;
 
-@SuppressWarnings("deprecation")
 public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
 
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
-    private GrunnlagRepositoryProvider grunnlagRepositoryProvider;
-    private final Repository repository = repoRule.getRepository();
-
-    private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
+    private final GrunnlagRepositoryProvider grunnlagRepositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     @Mock
@@ -85,11 +82,10 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
     public void before() {
         initMocks(this);
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(any())).thenReturn(LocalDate.now());
-        grunnlagRepositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
         when(innhentingSamletTjeneste.getSammenstiltSakOgGrunnlag(any(), any(), any(), anyBoolean())).thenReturn(Collections.emptyList());
         when(innhentingSamletTjeneste.hentYtelserTjenester(any(), any(), any())).thenReturn(Collections.emptyList());
         InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(grunnlagRepositoryProvider, null, null, null, skjæringstidspunktTjeneste,
-            new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste));
+            new AksjonspunktutlederForVurderOpptjening(grunnlagRepositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste));
         iayRegisterInnhentingTjeneste = new IAYRegisterInnhentingFPTjenesteImpl(inntektArbeidYtelseTjeneste,
             grunnlagRepositoryProvider,
             resultatRepositoryProvider,
@@ -99,8 +95,8 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
             new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste, Period.of(0, 17, 0), Period.of(4, 0, 0)));
     }
 
-    private UttakResultatEntitet opprettUttak(boolean innvilget, Behandling behandling, LocalDate fom, LocalDate tom, Virksomhet virksomhet) {
-        UttakResultatEntitet.Builder uttakResultatPlanBuilder = UttakResultatEntitet.builder(behandling);
+    private UttakResultatEntitet opprettUttak(boolean innvilget, LocalDate fom, LocalDate tom, Virksomhet virksomhet, Behandlingsresultat behandlingsresultat) {
+        UttakResultatEntitet.Builder uttakResultatPlanBuilder = UttakResultatEntitet.builder(behandlingsresultat);
 
         UttakResultatPeriodeEntitet uttakResultatPeriode = new UttakResultatPeriodeEntitet.Builder(fom, tom)
             .medPeriodeResultat(innvilget ? PeriodeResultatType.INNVILGET : PeriodeResultatType.AVSLÅTT, PeriodeResultatÅrsak.UKJENT)
@@ -138,10 +134,10 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         @SuppressWarnings("unused")
         Behandling behandling = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(ytelseHjelper);
 
-        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
+        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(grunnlagRepositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
         scenarioMorSøkerForeldrepenger1.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider, resultatRepositoryProvider);
+        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(grunnlagRepositoryProvider, resultatRepositoryProvider);
 
         Interval periode = iayRegisterInnhentingTjeneste.beregnOpplysningsPeriode(nyBehandling);
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = iayRegisterInnhentingTjeneste.innhentYtelserForInvolverteParter(nyBehandling, periode);
@@ -160,10 +156,10 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         @SuppressWarnings("unused")
         Behandling behandling = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(ytelseHjelper);
 
-        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
+        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(grunnlagRepositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
         scenarioMorSøkerForeldrepenger1.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider, resultatRepositoryProvider);
+        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(grunnlagRepositoryProvider, resultatRepositoryProvider);
 
         Interval periode = iayRegisterInnhentingTjeneste.beregnOpplysningsPeriode(nyBehandling);
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = iayRegisterInnhentingTjeneste.innhentYtelserForInvolverteParter(nyBehandling, periode);
@@ -192,8 +188,8 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         @SuppressWarnings("unused")
         Behandling behandling2 = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(andreYtelseHjelper);
 
-        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository().hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider, resultatRepositoryProvider);
+        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(grunnlagRepositoryProvider.getFagsakRepository().hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
+        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(grunnlagRepositoryProvider, resultatRepositoryProvider);
 
         utførKallForÅHenteYtelse(ytelseHjelperTesterList, nyBehandling, 2);
     }
@@ -210,10 +206,10 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         @SuppressWarnings("unused")
         Behandling behandling = opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(ytelseHjelper);
 
-        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(repositoryProvider.getFagsakRepository()
+        ScenarioMorSøkerForeldrepenger scenarioMorSøkerForeldrepenger1 = ScenarioMorSøkerForeldrepenger.forBruker(grunnlagRepositoryProvider.getFagsakRepository()
             .hentForBrukerAktørId(ytelseHjelper.aktørId).get(0).getNavBruker());
         scenarioMorSøkerForeldrepenger1.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(repositoryProvider, resultatRepositoryProvider);
+        Behandling nyBehandling = scenarioMorSøkerForeldrepenger1.lagre(grunnlagRepositoryProvider, resultatRepositoryProvider);
 
         Interval periode = iayRegisterInnhentingTjeneste.beregnOpplysningsPeriode(nyBehandling);
         InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseAggregatBuilder = iayRegisterInnhentingTjeneste.innhentYtelserForInvolverteParter(nyBehandling, periode);
@@ -227,7 +223,7 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
     private Behandling opprettAvsluttetBehandlingMedVedtakOgUttakOgBeregning(YtelseHjelperTester ytelseHjelper) {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(ytelseHjelper.aktørId).medSaksnummer(ytelseHjelper.saksnummer);
         scenario.removeDodgyDefaultInntektArbeidYTelse();
-        Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
+        Behandling behandling = scenario.lagre(grunnlagRepositoryProvider, resultatRepositoryProvider);
 
         opprettVedtakForBehandling(behandling);
 
@@ -235,28 +231,32 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         resultatRepositoryProvider.getBeregningsgrunnlagRepository().lagre(behandling, beregningsgrunnlag, BeregningsgrunnlagTilstand.OPPRETTET);
 
         Virksomhet virksomhet = opprettOgLagreVirksomhet(ytelseHjelper);
+        BehandlingRepository behandlingRepository = resultatRepositoryProvider.getBehandlingRepository();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        UttakResultatEntitet uttakResultatEntitet = opprettUttak(true, ytelseHjelper.uttakFom, ytelseHjelper.uttakTom, virksomhet, behandlingsresultat);
+        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandlingsresultat, uttakResultatEntitet.getGjeldendePerioder());
 
-        UttakResultatEntitet uttakResultatEntitet = opprettUttak(true, behandling, ytelseHjelper.uttakFom, ytelseHjelper.uttakTom, virksomhet);
-        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, uttakResultatEntitet.getGjeldendePerioder());
-        
-        scenario.avsluttBehandling(repositoryProvider, behandling);
-        
+        scenario.avsluttBehandling(grunnlagRepositoryProvider, behandling);
+
         return behandling;
     }
 
     private void opprettVedtakForBehandling(Behandling gammelBehandling) {
+        BehandlingRepository behandlingRepository = resultatRepositoryProvider.getBehandlingRepository();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(gammelBehandling.getId());
         BehandlingVedtak vedtak = BehandlingVedtak.builder()
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .medVedtaksdato(LocalDate.now().minusWeeks(10))
-            .medBehandlingsresultat(gammelBehandling.getBehandlingsresultat())
+            .medBehandlingsresultat(behandlingsresultat)
             .medAnsvarligSaksbehandler("Severin Saksbehandler")
             .build();
-        Whitebox.setInternalState(gammelBehandling.getBehandlingsresultat(), "behandlingVedtak", vedtak);
-        repository.lagre(gammelBehandling.getBehandlingsresultat());
+        BehandlingLås lås = behandlingRepository.taSkriveLås(gammelBehandling);
+        resultatRepositoryProvider.getVedtakRepository().lagre(vedtak, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
     }
 
     private Virksomhet opprettOgLagreVirksomhet(YtelseHjelperTester ytelseHjelper) {
-        VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
+        VirksomhetRepository virksomhetRepository = grunnlagRepositoryProvider.getVirksomhetRepository();
 
         final Optional<Virksomhet> hent = virksomhetRepository.hent(ytelseHjelper.arbeidsForholdId);
         if (hent.isPresent()) {
@@ -329,7 +329,7 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
     }
 
     private VirksomhetEntitet fraOrgnr(String orgnr) {
-        return (VirksomhetEntitet) repositoryProvider.getVirksomhetRepository().hent(orgnr).orElse(null);
+        return (VirksomhetEntitet) grunnlagRepositoryProvider.getVirksomhetRepository().hent(orgnr).orElse(null);
     }
 
     private BeregningsgrunnlagPeriode buildBeregningsgrunnlagPeriode(Beregningsgrunnlag beregningsgrunnlag) {
@@ -347,6 +347,7 @@ public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
         private String arbeidsForholdId;
         private String kilde;
         private Saksnummer saksnummer;
+
         YtelseHjelperTester medAktørId(AktørId aktørId) {
             this.aktørId = aktørId;
             return this;

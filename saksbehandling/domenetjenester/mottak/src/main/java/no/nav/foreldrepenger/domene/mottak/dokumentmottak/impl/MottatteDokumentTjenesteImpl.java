@@ -61,11 +61,8 @@ public class MottatteDokumentTjenesteImpl implements MottatteDokumentTjeneste {
         Objects.requireNonNull(sak, "Fagsak");
         Optional<Behandling> behandlingOptional = behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(sak.getId());
         Behandling behandling = behandlingOptional.get(); // NOSONAR
-        Optional<BehandlingVedtak> behandlingVedtak = vedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
-        if (behandlingVedtak.isPresent()) {
-            return behandlingVedtak.get().getVedtaksdato().isBefore(LocalDate.now().minusWeeks(fristForInnsendingAvDokumentasjon));
-        }
-        return false;
+        Optional<BehandlingVedtak> behandlingVedtak = vedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(behandling.getId()).getId());
+        return behandlingVedtak.map(behandlingVedtak1 -> behandlingVedtak1.getVedtaksdato().isBefore(LocalDate.now().minusWeeks(fristForInnsendingAvDokumentasjon))).orElse(false);
     }
 
 }

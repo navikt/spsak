@@ -13,6 +13,7 @@ import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteFell
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -103,11 +104,12 @@ public class RevurderingTjenesteImpl implements RevurderingTjeneste {
     }
 
     private Behandling kopierVilkårsresultat(Behandling origBehandling, Behandling revurdering, BehandlingskontrollKontekst kontekst) {
-        VilkårResultat origVilkårResultat = origBehandling.getBehandlingsresultat().getVilkårResultat();
+        Behandlingsresultat originResult = behandlingRepository.hentResultat(origBehandling.getId());
+        VilkårResultat origVilkårResultat = originResult.getVilkårResultat();
         Objects.requireNonNull(origVilkårResultat, "Vilkårsresultat må være satt på revurderingens originale behandling");
 
         VilkårResultat.Builder vilkårBuilder = VilkårResultat.builder();
-        origVilkårResultat.getVilkårene().stream()
+        origVilkårResultat.getVilkårene()
             .forEach(vilkår -> vilkårBuilder
                 .medUtfallManuelt(vilkår.getVilkårUtfallManuelt())
                 .medUtfallOverstyrt(vilkår.getVilkårUtfallOverstyrt())
@@ -115,12 +117,14 @@ public class RevurderingTjenesteImpl implements RevurderingTjeneste {
                     vilkår.getMerknadParametere(), vilkår.getAvslagsårsak(), vilkår.erManueltVurdert(), vilkår.erOverstyrt(), vilkår.getRegelEvaluering(), vilkår.getRegelInput())
             );
         vilkårBuilder.medVilkårResultatType(VilkårResultatType.IKKE_FASTSATT);
-        VilkårResultat vilkårResultat = vilkårBuilder.buildFor(revurdering);
+        Behandlingsresultat revurderingResult = Behandlingsresultat.opprettFor(revurdering);
+        VilkårResultat vilkårResultat = vilkårBuilder.buildFor(revurderingResult);
         behandlingRepository.lagre(vilkårResultat, kontekst.getSkriveLås());
+        behandlingRepository.lagre(revurderingResult, kontekst.getSkriveLås());
         behandlingRepository.lagre(revurdering, kontekst.getSkriveLås());
 
         // MedlemskapsvilkårPerioder er tilknyttet vilkårresultat, ikke behandling
-        medlemskapVilkårPeriodeRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
+        medlemskapVilkårPeriodeRepository.kopierGrunnlagFraEksisterende(originResult, revurderingResult);
 
         return revurdering;
     }
@@ -132,6 +136,9 @@ public class RevurderingTjenesteImpl implements RevurderingTjeneste {
 
     @Override
     public boolean erRevurderingMedUendretUtfall(Behandling behandling) {
-        return revurderingEndring.erRevurderingMedUendretUtfall(behandling);
+        if (behandling.erRevurdering()) {
+            return revurderingEndring.erRevurderingMedUendretUtfall(behandling, behandlingRepository.hentResultat(behandling.getId()));
+        }
+        return false;
     }
 }

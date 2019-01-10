@@ -107,12 +107,11 @@ public class RevurderingBehandlingsresultatutlederTest {
         BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             mock, mock(BehandlingskontrollEventPubliserer.class));
         revurderingTjeneste = new RevurderingTjenesteImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingEndring);
-        revurdering = revurderingTjeneste
-            .opprettAutomatiskRevurdering(behandlingSomSkalRevurderes.getFagsak(), BehandlingÅrsakType.RE_ANNET);
+        revurdering = revurderingTjeneste.opprettAutomatiskRevurdering(behandlingSomSkalRevurderes.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         virksomhet = new VirksomhetEntitet.Builder().medOrgnr(ARBEIDSFORHOLD_ID).medNavn("Virksomheten").oppdatertOpplysningerNå().build();
         repositoryProvider.getVirksomhetRepository().lagre(virksomhet);
         endringsdato = LocalDate.now().minusMonths(3);
-        when(endringsdatoRevurderingUtleder.utledEndringsdato(any(Behandling.class))).thenReturn(endringsdato);
+        when(endringsdatoRevurderingUtleder.utledEndringsdato(any(Behandlingsresultat.class))).thenReturn(endringsdato);
     }
 
     // Case 2
@@ -121,7 +120,7 @@ public class RevurderingBehandlingsresultatutlederTest {
     // Ikkje oppfylt inngangsvilkår i perioden
     @Test
     public void tilfelle_2_behandlingsresultat_lik_opphør_rettentil_lik_nei_foreldrepenger_opphører() {
-
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
         // Arrange
         lagBeregningsresultatperiodeMedEndringstidspunkt(endringsdato);
 
@@ -129,18 +128,17 @@ public class RevurderingBehandlingsresultatutlederTest {
         VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
-            .buildFor(revurdering);
+            .buildFor(revurderingResultat);
 
         // Ikke oppfylt inngangsvilkår i perioden (medlemskap)
-        settVilkårutfallMedlemskapPåDato(VilkårUtfallType.IKKE_OPPFYLT, endringsdato);
+        settVilkårutfallMedlemskapPåDato(revurderingResultat, VilkårUtfallType.IKKE_OPPFYLT, endringsdato);
 
         // Act
         revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(revurdering, erVarselOmRevurderingSendt);
-        Behandlingsresultat bhResultat = revurdering.getBehandlingsresultat();
         boolean uendretUtfall = revurderingTjeneste.erRevurderingMedUendretUtfall(revurdering);
 
         // Assert
-        assertThat(bhResultat.getBehandlingResultatType()).isEqualByComparingTo(BehandlingResultatType.OPPHØR);
+        assertThat(revurderingResultat.getBehandlingResultatType()).isEqualByComparingTo(BehandlingResultatType.OPPHØR);
         assertThat(uendretUtfall).isFalse();
     }
 
@@ -151,7 +149,7 @@ public class RevurderingBehandlingsresultatutlederTest {
     // Endring i beregning: Nei
     @Test
     public void tilfelle_9_behandlingsresultat_lik_ingenEndring_rettentil_lik_ja_foreldrepenger_konsekvens_ingenEndring() {
-
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
         // Arrange
         LocalDate endringsdato = LocalDate.now();
         lagBeregningsresultatperiodeMedEndringstidspunkt(endringsdato);
@@ -162,11 +160,11 @@ public class RevurderingBehandlingsresultatutlederTest {
         VilkårResultat vilkårResultat = VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
-            .buildFor(revurdering);
+            .buildFor(revurderingResultat);
         behandlingRepository.lagre(vilkårResultat, lås);
 
         // Oppfylt inngangsvilkår i perioden (medlemskap)
-        settVilkårutfallMedlemskapPåSkjæringstidspunkt(VilkårUtfallType.OPPFYLT);
+        settVilkårutfallMedlemskapPåSkjæringstidspunkt(VilkårUtfallType.OPPFYLT, revurderingResultat);
 
         // Endring i beregning: Ingen endring
         List<ÅpenDatoIntervallEntitet> bgPeriode = Collections.singletonList(ÅpenDatoIntervallEntitet.fraOgMedTilOgMed(SKJÆRINGSTIDSPUNKT_BEREGNING, null));
@@ -174,12 +172,11 @@ public class RevurderingBehandlingsresultatutlederTest {
         byggBeregningsgrunnlagForBehandling(revurdering, false, false, bgPeriode);
 
         // Act
-        revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(revurdering, erVarselOmRevurderingSendt);
-        Behandlingsresultat bhResultat = revurdering.getBehandlingsresultat();
+        behandlingRepository.lagre(revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(revurdering, erVarselOmRevurderingSendt), lås);
         boolean uendretUtfall = revurderingTjeneste.erRevurderingMedUendretUtfall(revurdering);
 
         // Assert
-        assertThat(bhResultat.getBehandlingResultatType()).isEqualByComparingTo(BehandlingResultatType.INGEN_ENDRING);
+        assertThat(revurderingResultat.getBehandlingResultatType()).isEqualByComparingTo(BehandlingResultatType.INGEN_ENDRING);
         assertThat(uendretUtfall).isTrue();
     }
 
@@ -273,14 +270,15 @@ public class RevurderingBehandlingsresultatutlederTest {
 
     @Test
     public void skal_teste_at_alle_inngangsvilkår_oppfylt_gir_positivt_utfall() {
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
         // Arrange
         VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
-            .buildFor(revurdering);
+            .buildFor(revurderingResultat);
 
         // Act
-        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurdering);
+        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isFalse();
@@ -288,14 +286,16 @@ public class RevurderingBehandlingsresultatutlederTest {
 
     @Test
     public void skal_teste_at_inngangsvilkår_ikke_oppfylt_gir_negativt_utfall() {
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
         // Arrange
         VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.IKKE_OPPFYLT)
-            .buildFor(revurdering);
+            .leggTilVilkår(VilkårType.BEREGNINGSGRUNNLAGVILKÅR, VilkårUtfallType.IKKE_VURDERT)
+            .buildFor(revurderingResultat);
 
         // Act
-        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurdering);
+        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isTrue();
@@ -303,14 +303,15 @@ public class RevurderingBehandlingsresultatutlederTest {
 
     @Test
     public void skal_teste_at_inngangsvilkår_ikke_vurdert_gir_negativt_utfall() {
+        Behandlingsresultat revurderingResultat = Behandlingsresultat.opprettFor(revurdering);
         // Arrange
         VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
-            .buildFor(revurdering);
+            .buildFor(revurderingResultat);
 
         // Act
-        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurdering);
+        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isTrue();
@@ -318,15 +319,16 @@ public class RevurderingBehandlingsresultatutlederTest {
 
     @Test
     public void skal_teste_negativ_medlemsskapsvilkår_gir_negativt_resultat() {
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
         // Arrange
         VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_OPPFYLT)
-            .buildFor(revurdering);
+            .buildFor(revurderingResultat);
 
         // Act
-        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurdering);
+        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isTrue();
@@ -334,48 +336,51 @@ public class RevurderingBehandlingsresultatutlederTest {
 
     @Test
     public void skal_teste_negativ_medlemsskapsvilkår_etter_stp_gir_negativt_resultat() {
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
         // Arrange
         LocalDate endringsdato = SKJÆRINGSTIDSPUNKT_BEREGNING.plusMonths(2);
-        settVilkårutfallMedlemskapPåDato(VilkårUtfallType.IKKE_OPPFYLT, endringsdato);
+        settVilkårutfallMedlemskapPåDato(revurderingResultat, VilkårUtfallType.IKKE_OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering.getBehandlingsresultat());
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentHvisEksisterer(revurderingResultat);
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isTrue();
     }
 
-    private VilkårResultat settVilkårutfallMedlemskapPåSkjæringstidspunkt(VilkårUtfallType utfall) {
-        return settVilkårutfallMedlemskapPåDato(utfall, SKJÆRINGSTIDSPUNKT_BEREGNING);
+    private VilkårResultat settVilkårutfallMedlemskapPåSkjæringstidspunkt(VilkårUtfallType utfall, Behandlingsresultat revurderingResultat) {
+        return settVilkårutfallMedlemskapPåDato(revurderingResultat, utfall, SKJÆRINGSTIDSPUNKT_BEREGNING);
     }
 
-    private VilkårResultat settVilkårutfallMedlemskapPåDato(VilkårUtfallType utfall, LocalDate endringsdato) {
+    private VilkårResultat settVilkårutfallMedlemskapPåDato(Behandlingsresultat revurderingResultat, VilkårUtfallType utfall, LocalDate endringsdato) {
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
-        VilkårResultat vilkårResultat = resultatRepositoryProvider.getVedtakRepository().hentVedtakFor(revurdering.getBehandlingsresultat().getId())
+        VilkårResultat vilkårResultat = resultatRepositoryProvider.getVedtakRepository().hentVedtakFor(revurderingResultat.getId())
             .stream().map(vedtak -> vedtak.getBehandlingsresultat().getVilkårResultat()).findFirst()
-            .orElse(VilkårResultat.builder().buildFor(revurdering));
+            .orElse(VilkårResultat.builder().buildFor(revurderingResultat));
         behandlingRepository.lagre(vilkårResultat, lås);
+        behandlingRepository.lagre(revurderingResultat, lås);
 
-        MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(revurdering.getBehandlingsresultat());
+        MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(revurderingResultat);
         MedlemskapsvilkårPeriodeEntitet.Builder periodeBuilder = builder.getPeriodeBuilder();
         MedlemskapsvilkårPerioderEntitet.Builder periode = periodeBuilder.getBuilderForVurderingsdato(endringsdato);
         periode.medVilkårUtfall(utfall);
         periodeBuilder.leggTil(periode);
         builder.medMedlemskapsvilkårPeriode(periodeBuilder);
-        medlemskapVilkårPeriodeRepository.lagreMedlemskapsvilkår(revurdering, builder);
+        medlemskapVilkårPeriodeRepository.lagre(revurderingResultat, builder);
 
         return vilkårResultat;
     }
 
     @Test
     public void skal_teste_positivt_medlemsskapsvilkår_gir_positivt_resultat() {
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
         // Arrange
         LocalDate endringsdato = SKJÆRINGSTIDSPUNKT_BEREGNING.plusMonths(2);
-        settVilkårutfallMedlemskapPåDato(VilkårUtfallType.OPPFYLT, endringsdato);
+        settVilkårutfallMedlemskapPåDato(revurderingResultat, VilkårUtfallType.OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering.getBehandlingsresultat());
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentHvisEksisterer(revurderingResultat);
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert
@@ -384,16 +389,17 @@ public class RevurderingBehandlingsresultatutlederTest {
 
     @Test
     public void skal_teste_at_andre_vilkår_ikke_påviker_medlemsskapsvilkårsjekk() {
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
         // Arrange
         VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
             .leggTilVilkår(VilkårType.OPPTJENINGSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
-            .buildFor(revurdering);
+            .buildFor(revurderingResultat);
         LocalDate endringsdato = SKJÆRINGSTIDSPUNKT_BEREGNING.plusMonths(2);
-        settVilkårutfallMedlemskapPåDato(VilkårUtfallType.OPPFYLT, endringsdato);
+        settVilkårutfallMedlemskapPåDato(revurderingResultat, VilkårUtfallType.OPPFYLT, endringsdato);
 
         // Act
-        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurdering.getBehandlingsresultat());
+        Optional<MedlemskapVilkårPeriodeGrunnlag> grunnlagOpt = medlemskapVilkårPeriodeRepository.hentHvisEksisterer(revurderingResultat);
         boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkeInngangsvilkårIPerioden.vurder(grunnlagOpt, endringsdato);
 
         // Assert
@@ -425,8 +431,10 @@ public class RevurderingBehandlingsresultatutlederTest {
         buildBeregningsresultatAndel(nyPeriode, true, 1500);
         buildBeregningsresultatAndel(nyPeriode, false, 500);
 
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), nyttResultat);
-        beregningsresultatFPRepository.lagre(behandlingSomSkalRevurderes.getBehandlingsresultat(), brFPOriginal);
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
+        Behandlingsresultat orginaltResultat = behandlingRepository.hentResultat(behandlingSomSkalRevurderes.getId());
+        beregningsresultatFPRepository.lagre(revurderingResultat, nyttResultat);
+        beregningsresultatFPRepository.lagre(orginaltResultat, brFPOriginal);
     }
 
     private void buildBeregningsresultatAndel(BeregningsresultatPeriode beregningsresultatPeriode, Boolean brukerErMottaker, int dagsats) {

@@ -44,7 +44,7 @@ import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 public class VilkårResultat extends BaseEntitet {
 
     @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VILKAR_RESULTAT")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_VILKAR_RESULTAT")
     private Long id;
 
     @Version
@@ -62,7 +62,7 @@ public class VilkårResultat extends BaseEntitet {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "original_behandling_id", updatable = false
-    /* , nullable=false // får ikke satt false pga binary relasjon mellom Behandling og VilkårResultat */
+        /* , nullable=false // får ikke satt false pga binary relasjon mellom Behandling og VilkårResultat */
     )
     private Behandling originalBehandling;
 
@@ -75,6 +75,22 @@ public class VilkårResultat extends BaseEntitet {
 
     private VilkårResultat() {
         // for hibernate
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static Builder builderFraEksisterende(VilkårResultat eksisterendeResultat) {
+        return new Builder(eksisterendeResultat);
+    }
+
+    private static Map<VilkårType, ?> toTuples(Set<Vilkår> vilkårene) {
+        // Mapperut hvert vilkår til en liste av verdier for senere sammenligning (tuples) slik at en hver endring
+        // vil slå ut som forskjell.
+        return vilkårene.stream()
+            .map(v -> new SimpleEntry<>(v.getVilkårType(), v.tuples()))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public Long getId() {
@@ -96,6 +112,12 @@ public class VilkårResultat extends BaseEntitet {
         return Collections.unmodifiableList(new ArrayList<>(vilkårne));
     }
 
+    void setVilkårene(Set<Vilkår> nyeVilkår) {
+        this.vilkårne.clear();
+        nyeVilkår.forEach(v -> v.setVilkårResultat(this));
+        this.vilkårne.addAll(nyeVilkår);
+    }
+
     public boolean erOverstyrt() {
         return erOverstyrt;
     }
@@ -104,18 +126,8 @@ public class VilkårResultat extends BaseEntitet {
         vilkårne.removeAll(fjernede);
     }
 
-    void setVilkårene(Set<Vilkår> nyeVilkår) {
-        this.vilkårne.clear();
-        nyeVilkår.forEach(v -> v.setVilkårResultat(this));
-        this.vilkårne.addAll(nyeVilkår);
-    }
-
     void setOriginalBehandlingsresultat(Behandlingsresultat originalBehandlingsresultat) {
         this.originalBehandling = originalBehandlingsresultat.getBehandling();
-    }
-
-    Behandlingsresultat getOriginalBehandlingsresultat() {
-        return originalBehandling.getBehandlingsresultat();
     }
 
     /**
@@ -155,14 +167,6 @@ public class VilkårResultat extends BaseEntitet {
         return Objects.hash(getVilkårResultatType(), getVilkårene());
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static Builder builderFraEksisterende(VilkårResultat eksisterendeResultat) {
-        return new Builder(eksisterendeResultat);
-    }
-
     public boolean erLik(VilkårResultat annen) {
         // equals for collections out-of-order
         // diff her, baserer oss ikke på equals da den matcher kun på vilkårtype (som den skal)
@@ -173,12 +177,8 @@ public class VilkårResultat extends BaseEntitet {
         return vilkårThis.equals(vilkårAnnen);
     }
 
-    private static Map<VilkårType, ?> toTuples(Set<Vilkår> vilkårene) {
-        // Mapperut hvert vilkår til en liste av verdier for senere sammenligning (tuples) slik at en hver endring
-        // vil slå ut som forskjell.
-        return vilkårene.stream()
-            .map(v -> new SimpleEntry<>(v.getVilkårType(), v.tuples()))
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    public Optional<Vilkår> hentIkkeOppfyltVilkår() {
+        return vilkårne.stream().filter(v -> VilkårUtfallType.IKKE_OPPFYLT.equals(v.getGjeldendeVilkårUtfall())).findFirst();
     }
 
     static class VilkårUtfall {
@@ -328,8 +328,7 @@ public class VilkårResultat extends BaseEntitet {
          * @return Returner nytt resultat HVIS det opprettes.
          */
         public VilkårResultat buildFor(Behandlingsresultat behandlingsresultat) {
-            if (eksisterendeResultat != null
-                && Objects.equals(behandlingsresultat.getId(), eksisterendeResultat.getOriginalBehandlingsresultat().getId())) {
+            if (eksisterendeResultat != null && Objects.equals(behandlingsresultat.getBehandling().getId(), eksisterendeResultat.getOriginalBehandling().getId())) {
                 // samme behandling som originalt, oppdaterer original
                 oppdaterVilkår(eksisterendeResultat);
                 return eksisterendeResultat; // samme som før, så returner null
@@ -341,15 +340,6 @@ public class VilkårResultat extends BaseEntitet {
                 behandlingsresultat.medOppdatertVilkårResultat(resultatKladd);
                 return resultatKladd;
             }
-        }
-
-        public VilkårResultat buildFor(Behandling behandling) {
-            // Må opprette Behandlingsresultat på Behandling hvis det ikke finnes, før man bygger VilkårResultat
-            Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
-            if (behandlingsresultat == null) {
-                behandlingsresultat = Behandlingsresultat.opprettFor(behandling);
-            }
-            return buildFor(behandlingsresultat);
         }
 
         private void oppdaterVilkår(VilkårResultat eksisterende) {
@@ -384,7 +374,7 @@ public class VilkårResultat extends BaseEntitet {
         }
 
         private void mapFraVilkårUtfallTilVilkår(VilkårUtfall vilkårUtfall, Vilkår vilkår) {
-            if (vilkårUtfall.erOverstyrt ) {
+            if (vilkårUtfall.erOverstyrt) {
                 // Sett også samlet inngangsvilkårutfall som overstyrt
                 eksisterendeResultat.erOverstyrt = true;
             }
@@ -420,9 +410,5 @@ public class VilkårResultat extends BaseEntitet {
             }
         }
 
-    }
-
-    public Optional<Vilkår> hentIkkeOppfyltVilkår() {
-        return vilkårne.stream().filter(v -> VilkårUtfallType.IKKE_OPPFYLT.equals(v.getGjeldendeVilkårUtfall())).findFirst();
     }
 }

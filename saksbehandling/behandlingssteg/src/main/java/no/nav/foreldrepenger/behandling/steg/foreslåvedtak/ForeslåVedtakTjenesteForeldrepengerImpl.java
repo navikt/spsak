@@ -53,26 +53,31 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
 
     @Override
     protected void foreslåAutomatisertVedtak(Behandling behandling) {
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
+        final Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
         boolean erVarselOmRevurderingSendt = false; // TODO: Hente ut om varsel er sendt
+        BehandlingLås skriveLås = behandlingRepository.taSkriveLås(behandling);
         if (sjekkVilkårAvslått(behandlingsresultat)) {
-            vilkårAvslått(behandling, behandlingsresultat, erVarselOmRevurderingSendt);
+            vilkårAvslått(behandling, behandlingsresultat, erVarselOmRevurderingSendt, skriveLås);
         } else {
             Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.INNVILGET);
             if (behandling.erRevurdering()) {
-                revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(behandling, erVarselOmRevurderingSendt);
+                Behandlingsresultat endeligResultat = revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(behandling, erVarselOmRevurderingSendt);
+                behandlingRepository.lagre(endeligResultat, skriveLås);
+            } else {
+                behandlingRepository.lagre(behandlingsresultat, skriveLås);
             }
         }
-        BehandlingLås skriveLås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, skriveLås);
     }
 
-    private void vilkårAvslått(Behandling behandling, Behandlingsresultat behandlingsresultat, boolean erVarselOmRevurderingSendt) {
+    private void vilkårAvslått(Behandling behandling, Behandlingsresultat behandlingsresultat, boolean erVarselOmRevurderingSendt, BehandlingLås skriveLås) {
         if (behandling.erRevurdering()) {
-            revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(behandling, erVarselOmRevurderingSendt);
+            Behandlingsresultat endeligResultat = revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(behandling, erVarselOmRevurderingSendt);
+            behandlingRepository.lagre(endeligResultat, skriveLås);
         } else {
             Behandlingsresultat.builderEndreEksisterende(behandlingsresultat)
                 .medBehandlingResultatType(BehandlingResultatType.AVSLÅTT);
+        behandlingRepository.lagre(behandlingsresultat, skriveLås);
         }
     }
 }

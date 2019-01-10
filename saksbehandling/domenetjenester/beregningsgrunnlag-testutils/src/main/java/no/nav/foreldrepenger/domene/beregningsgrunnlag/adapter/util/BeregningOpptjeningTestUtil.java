@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.ReferanseType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
@@ -27,6 +28,7 @@ public class BeregningOpptjeningTestUtil {
     private static final String ORG_NR = "1337";
     private OpptjeningRepository opptjeningRepository;
     private BeregningArbeidsgiverTestUtil virksomhetTestUtil;
+    private BehandlingRepository behandlingRepository;
 
     BeregningOpptjeningTestUtil() {
         // for CDI
@@ -35,6 +37,7 @@ public class BeregningOpptjeningTestUtil {
     @Inject
     public BeregningOpptjeningTestUtil(ResultatRepositoryProvider repositoryProvider, BeregningArbeidsgiverTestUtil beregningArbeidsgiverTestUtil) {
         opptjeningRepository = repositoryProvider.getOpptjeningRepository();
+        behandlingRepository = repositoryProvider.getBehandlingRepository();
         virksomhetTestUtil = beregningArbeidsgiverTestUtil;
     }
 
@@ -49,7 +52,7 @@ public class BeregningOpptjeningTestUtil {
     public void leggTilOpptjening(Behandling behandling, LocalDate skjæringstidspunktOpptjening, Map<String, Periode> perioder) {
         HashMap<String, String> referanseMap = new HashMap<>();
         perioder.keySet().forEach(key -> referanseMap.put(key, key));
-        leggTilOpptjening(skjæringstidspunktOpptjening, perioder, Collections.emptyMap(), Collections.emptyMap(), referanseMap, behandling.getBehandlingsresultat());
+        leggTilOpptjening(skjæringstidspunktOpptjening, perioder, Collections.emptyMap(), Collections.emptyMap(), referanseMap, behandlingRepository.hentResultat(behandling.getId()));
     }
 
     public void leggTilOpptjening(LocalDate skjæringstidspunktOpptjening, Map<String, Periode> perioder, Map<String,
@@ -73,7 +76,7 @@ public class BeregningOpptjeningTestUtil {
             Collections.singletonMap(orgnr, periode),
             Collections.singletonMap(orgnr, opptjeningAktivitet),
             Collections.emptyMap(),
-            Collections.singletonMap(orgnr, orgnr), behandling.getBehandlingsresultat());
+            Collections.singletonMap(orgnr, orgnr), behandlingRepository.hentResultat(behandling.getId()));
     }
 
     private OpptjeningAktivitet getOpptjeningAktivitet(String ref, LocalDate fom, LocalDate tom, OpptjeningAktivitetType opptjeningAktivitetType, ReferanseType referanseType) {

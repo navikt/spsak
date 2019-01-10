@@ -56,7 +56,6 @@ public class BehandlingsresultatTest {
         Behandlingsresultat.Builder behandlingsresultatBuilder = Behandlingsresultat.builderForInngangsvilkår();
         Behandlingsresultat behandlingsresultat = behandlingsresultatBuilder.buildFor(behandling);
 
-        assertThat(behandling.getBehandlingsresultat()).isEqualTo(behandlingsresultat);
         assertThat(behandlingsresultat.getBehandling()).isNotNull();
         assertThat(behandlingsresultat.getVilkårResultat().getVilkårResultatType()).isEqualTo(VilkårResultatType.IKKE_FASTSATT);
 
@@ -69,7 +68,6 @@ public class BehandlingsresultatTest {
 
         Behandling lagretBehandling = repository.hent(Behandling.class, id);
         assertThat(lagretBehandling).isEqualTo(behandling);
-        assertThat(lagretBehandling.getBehandlingsresultat()).isEqualTo(behandlingsresultat);
 
     }
 

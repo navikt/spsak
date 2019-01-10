@@ -5,11 +5,13 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingUtil;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -24,6 +26,7 @@ abstract class DokumentmottakerYtelsesesrelatertDokument implements Dokumentmott
     Behandlingsoppretter behandlingsoppretter;
     Kompletthetskontroller kompletthetskontroller;
     BehandlingRevurderingRepository revurderingRepository;
+    BehandlingRepository behandlingRepository;
 
     DokumentmottakerYtelsesesrelatertDokument() {
         // For CDI proxy
@@ -34,13 +37,13 @@ abstract class DokumentmottakerYtelsesesrelatertDokument implements Dokumentmott
                                                      MottatteDokumentTjeneste mottatteDokumentTjeneste,
                                                      Behandlingsoppretter behandlingsoppretter,
                                                      Kompletthetskontroller kompletthetskontroller,
-                                                     GrunnlagRepositoryProvider repositoryProvider,
-                                                     ResultatRepositoryProvider resultatRepositoryProvider) {
+                                                     GrunnlagRepositoryProvider repositoryProvider) {
         this.dokumentmottakerFelles = dokumentmottakerFelles;
         this.mottatteDokumentTjeneste = mottatteDokumentTjeneste;
         this.behandlingsoppretter = behandlingsoppretter;
         this.kompletthetskontroller = kompletthetskontroller;
         this.revurderingRepository = repositoryProvider.getBehandlingRevurderingRepository();
+        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
     }
 
     /* TEMPLATE-metoder som må håndteres spesifikt for hver type av ytelsesdokumenter - START */
@@ -59,13 +62,14 @@ abstract class DokumentmottakerYtelsesesrelatertDokument implements Dokumentmott
                                     BehandlingÅrsakType behandlingÅrsakType) {
         Optional<Behandling> sisteYtelsesbehandling = revurderingRepository.hentSisteYtelsesbehandling(fagsak.getId());
 
-        if (!sisteYtelsesbehandling.isPresent()) {
+        if (sisteYtelsesbehandling.isEmpty()) {
             håndterIngenTidligereBehandling(fagsak, mottattDokument, behandlingÅrsakType);
             return;
         }
 
         Behandling behandling = sisteYtelsesbehandling.get();
-        boolean sisteYtelseErFerdigbehandlet = sisteYtelsesbehandling.map(Behandling::erSaksbehandlingAvsluttet).orElse(Boolean.FALSE);
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        boolean sisteYtelseErFerdigbehandlet = sisteYtelsesbehandling.map(b -> BehandlingUtil.erSaksbehandlingAvsluttet(b, behandlingsresultat.orElse(null))).orElse(Boolean.FALSE);
         if (sisteYtelseErFerdigbehandlet) {
             håndterAvsluttetTidligereBehandling(mottattDokument, fagsak, behandlingÅrsakType);
         } else {

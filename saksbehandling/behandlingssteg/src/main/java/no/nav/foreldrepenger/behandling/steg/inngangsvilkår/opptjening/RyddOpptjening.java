@@ -35,7 +35,7 @@ class RyddOpptjening {
     void ryddOpp() {
         Optional<Vilkår> vilkår = ryddOppVilkårsvurderinger();
         if (vilkår.isPresent()) {
-            opptjeningRepository.deaktiverOpptjening(behandling.getBehandlingsresultat());
+            opptjeningRepository.deaktiverOpptjening(behandlingRepository.hentResultat(behandling.getId()));
             arbeidYtelseRepository.tilbakestillOverstyring(behandling);
             tilbakestillOpptjenigsperiodevilkår();
         }
@@ -58,16 +58,18 @@ class RyddOpptjening {
             .findFirst();
 
         if (opptjeningVilkår.isPresent()) {
+            Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
             VilkårResultat.Builder builder = VilkårResultat.builderFraEksisterende(vilkårResultat)
                 .leggTilVilkår(opptjeningVilkår.get().getVilkårType(), IKKE_VURDERT);
-            builder.buildFor(behandling);
-            behandlingRepository.lagre(behandling, kontekst.getSkriveLås());
+            builder.buildFor(behandlingsresultat);
+            behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), kontekst.getSkriveLås());
+            behandlingRepository.lagre(behandlingsresultat, kontekst.getSkriveLås());
         }
         return opptjeningVilkår;
     }
 
     private VilkårResultat hentVilkårResultat() {
-        Optional<VilkårResultat> vilkårResultatOpt = Optional.ofNullable(behandling.getBehandlingsresultat())
+        Optional<VilkårResultat> vilkårResultatOpt = behandlingRepository.hentResultatHvisEksisterer(behandling.getId())
             .map(Behandlingsresultat::getVilkårResultat);
         return vilkårResultatOpt.orElse(null);
     }
@@ -81,10 +83,12 @@ class RyddOpptjening {
             .filter(vilkåret -> vilkåret.getVilkårType().equals(VilkårType.OPPTJENINGSPERIODEVILKÅR))
             .findFirst();
         if (opptjeningPeriodeVilkår.isPresent()) {
+            Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
             VilkårResultat.Builder builder = VilkårResultat.builderFraEksisterende(vilkårResultat)
                 .leggTilVilkår(opptjeningPeriodeVilkår.get().getVilkårType(), IKKE_VURDERT);
-            builder.buildFor(behandling);
-            behandlingRepository.lagre(behandling, kontekst.getSkriveLås());
+            builder.buildFor(behandlingsresultat);
+            behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), kontekst.getSkriveLås());
+            behandlingRepository.lagre(behandlingsresultat, kontekst.getSkriveLås());
         }
     }
 

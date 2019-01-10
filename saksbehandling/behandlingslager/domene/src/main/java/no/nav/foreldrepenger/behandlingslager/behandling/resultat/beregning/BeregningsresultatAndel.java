@@ -199,8 +199,8 @@ public class BeregningsresultatAndel extends BaseEntitet {
             return this;
         }
 
-        public Builder medVirksomhet(VirksomhetEntitet virksomhet) {
-            beregningsresultatAndelMal.virksomhet = virksomhet;
+        public Builder medVirksomhet(Virksomhet virksomhet) {
+            beregningsresultatAndelMal.virksomhet = (VirksomhetEntitet) virksomhet;
             return this;
         }
 

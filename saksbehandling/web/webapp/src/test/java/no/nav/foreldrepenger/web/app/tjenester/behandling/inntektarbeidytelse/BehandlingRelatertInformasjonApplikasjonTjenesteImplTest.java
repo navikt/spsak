@@ -20,7 +20,6 @@ import org.mockito.Mockito;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
@@ -56,6 +55,7 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
         resultatRepositoryProvider = mock(ResultatRepositoryProvider.class);
         behandlingRepository = mock(BehandlingRepository.class);
         when(repositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
+        when(resultatRepositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
         fagsakRepositoryMock = mock(FagsakRepository.class);
         behandlingVedtakRepositoryMock = mock(BehandlingVedtakRepository.class);
         when(repositoryProvider.getFagsakRepository()).thenReturn(fagsakRepositoryMock);
@@ -72,36 +72,6 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImplTest {
         final List<TilgrensendeYtelserDto> resultatListe = behandlingRelatertInformasjonApplikasjonTjeneste.hentRelaterteYtelser(lagBehandling(fagsakFødsel), AKTØR_ID_99, false);
 
         assertThat(resultatListe).isEmpty();
-    }
-
-    @Test
-    public void skal_returnere_relatert_ytelser_når_behandling_inn_siste_3_yr() throws Exception {
-        NavBruker navBruker = NavBruker.opprettNy(AKTØR_ID_99);
-        Fagsak fagsakFødsel = lagFagsak(42L, navBruker);
-        Fagsak fagsak66 = lagFagsak(66L);
-        when(fagsakRepositoryMock.hentForBruker(Mockito.any(AktørId.class))).thenReturn(asList(fagsakFødsel, fagsak66));
-        final LocalDate vedtaksdato = LocalDate.now().minusYears(2);
-        Behandling behandling = lagBehandling(fagsakFødsel);
-        Behandlingsresultat.Builder behandlingsresultatBuilder = Behandlingsresultat.builderForInngangsvilkår();
-        BehandlingVedtak.Builder builder = BehandlingVedtak.builder();
-        Behandlingsresultat behandlingsresultat = behandlingsresultatBuilder.buildFor(behandling);
-
-        BehandlingVedtak vedtak = builder
-            .medBehandlingsresultat(behandlingsresultat)
-            .medVedtaksdato(vedtaksdato)
-            .medAnsvarligSaksbehandler("Tester")
-            .medVedtakResultatType(VedtakResultatType.INNVILGET)
-            .medIverksettingStatus(IverksettingStatus.IKKE_IVERKSATT)
-            .build();
-
-        when(behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(fagsak66.getSaksnummer())).thenReturn(asList(behandling));
-        Whitebox.setInternalState(behandlingsresultat, "behandlingVedtak", vedtak);
-
-        final List<TilgrensendeYtelserDto> resultatListe = behandlingRelatertInformasjonApplikasjonTjeneste.hentRelaterteYtelser(lagBehandling(fagsakFødsel), AKTØR_ID_99, false);
-
-        assertThat(resultatListe).hasSize(1);
-        assertThat(resultatListe.get(0).getPeriodeFraDato()).isEqualTo(vedtaksdato);
-        assertThat(resultatListe.get(0).getStatus()).isEqualTo(fagsak66.getStatus().getKode());
     }
 
     @Test

@@ -226,9 +226,9 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
 
     @Override
     public boolean erAvslåttFørstegangsbehandling(Behandling behandling) {
-        Boolean erVedtakAvslag = behandlingVedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId())
+        Boolean erVedtakAvslag = behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(behandling.getId()).getId())
             .map(BehandlingVedtak::getVedtakResultatType)
-            .map(vrt -> VedtakResultatType.AVSLAG.equals(vrt)).orElse(Boolean.FALSE);
+            .map(VedtakResultatType.AVSLAG::equals).orElse(Boolean.FALSE);
         return erVedtakAvslag && behandling.getType().equals(BehandlingType.FØRSTEGANGSSØKNAD);
     }
 

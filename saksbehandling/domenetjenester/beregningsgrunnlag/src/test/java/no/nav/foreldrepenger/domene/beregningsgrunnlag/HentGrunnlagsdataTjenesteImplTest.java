@@ -23,6 +23,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
@@ -478,8 +479,9 @@ public class HentGrunnlagsdataTjenesteImplTest {
         for (OpptjeningAktivitetType aktivitet : Arrays.asList(opptjeningAktivitetTypes)) {
             aktiviteter.add(VerdikjedeTestHjelper.opprettAktivitetFor("111", aktivitet));
         }
-        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), SKJÆRINGSTIDSPUNKT.minusYears(1), SKJÆRINGSTIDSPUNKT.plusYears(10));
-        opptjeningRepository.lagreOpptjeningResultat(behandling.getBehandlingsresultat(), Period.ofDays(100), aktiviteter);
+        Behandlingsresultat behandlingsresultat = repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId());
+        opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, SKJÆRINGSTIDSPUNKT.minusYears(1), SKJÆRINGSTIDSPUNKT.plusYears(10));
+        opptjeningRepository.lagreOpptjeningResultat(behandlingsresultat, Period.ofDays(100), aktiviteter);
     }
 
     private Beregningsgrunnlag opprettBeregninggrunnlag(boolean gjeldende, LocalDate skjæringstidspunkt, boolean harDagpenger, List<BigDecimal> andelBeløpPrÅr, List<String> arbeidsforholdId) {

@@ -24,6 +24,7 @@ import org.mockito.MockitoAnnotations;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
@@ -123,7 +124,7 @@ public class DokumentmottakerEndringssøknadTest {
         //Arrange
         Behandling behandling = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
             .lagre(repositoryProvider, resultatRepositoryProvider);
-        BehandlingVedtak vedtak = oppdaterVedtaksresultat(behandling, VedtakResultatType.INNVILGET);
+        BehandlingVedtak vedtak = oppdaterVedtaksresultat(VedtakResultatType.INNVILGET, behandlingRepository.hentResultat(behandling.getId()));
         repoRule.getRepository().lagre(vedtak.getBehandlingsresultat());
 
         Behandling revurdering = ScenarioMorSøkerEngangsstønad.forDefaultAktør(false)
@@ -219,12 +220,12 @@ public class DokumentmottakerEndringssøknadTest {
     private Fagsak nyMorFødselFagsak() {
         return ScenarioMorSøkerEngangsstønad.forDefaultAktør(false).lagreFagsak(repositoryProvider);
     }
-    
-    private static BehandlingVedtak oppdaterVedtaksresultat(Behandling origBehandling, VedtakResultatType vedtakResultatType) {
+
+    private static BehandlingVedtak oppdaterVedtaksresultat(VedtakResultatType vedtakResultatType, Behandlingsresultat behandlingsresultat) {
         BehandlingVedtak vedtak = BehandlingVedtak.builder()
             .medVedtakResultatType(vedtakResultatType)
             .medVedtaksdato(LocalDate.now())
-            .medBehandlingsresultat(origBehandling.getBehandlingsresultat())
+            .medBehandlingsresultat(behandlingsresultat)
             .medAnsvarligSaksbehandler("Severin Saksbehandler")
             .build();
 

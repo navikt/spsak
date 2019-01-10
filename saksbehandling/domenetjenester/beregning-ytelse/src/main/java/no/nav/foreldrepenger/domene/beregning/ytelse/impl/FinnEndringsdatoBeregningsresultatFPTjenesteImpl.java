@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
@@ -27,6 +28,7 @@ import no.nav.vedtak.feil.FeilFactory;
 public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEndringsdatoBeregningsresultatFPTjeneste {
 
     private BeregningsresultatRepository beregningsresultatFPRepository;
+    private BehandlingRepository behandlingRepository;
 
     FinnEndringsdatoBeregningsresultatFPTjenesteImpl() {
         //NOSONAR
@@ -35,6 +37,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEnd
     @Inject
     public FinnEndringsdatoBeregningsresultatFPTjenesteImpl(ResultatRepositoryProvider repositoryProvider) {
         this.beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatRepository();
+        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
     }
 
     @Override
@@ -49,7 +52,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImpl implements FinnEnd
     private Optional<LocalDate> finnEndringsdatoForRevurdering(Behandling revurdering, BeregningsresultatPerioder revurderingBeregningsresultat) {
         Behandling originalBehandling = revurdering.getOriginalBehandling()
             .orElseThrow(() -> FeilFactory.create(FinnEndringsdatoFeil.class).manglendeOriginalBehandling(revurdering.getId()).toException());
-        BeregningsresultatPerioder beregningsresultatForOriginalBehandling = beregningsresultatFPRepository.hentHvisEksisterer(originalBehandling)
+        BeregningsresultatPerioder beregningsresultatForOriginalBehandling = beregningsresultatFPRepository.hentHvisEksisterer(behandlingRepository.hentResultat(originalBehandling.getId()))
             .orElseThrow(() -> FeilFactory.create(FinnEndringsdatoFeil.class).manglendeBeregningsresultat(originalBehandling.getId()).toException());
         List<BeregningsresultatPeriode> originalePerioder = beregningsresultatForOriginalBehandling.getBeregningsresultatPerioder();
         if (originalePerioder.isEmpty()) {

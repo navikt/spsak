@@ -32,7 +32,6 @@ import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
-import no.nav.vedtak.felles.testutilities.db.Repository;
 
 public class BehandlingRevurderingRepositoryImplTest {
 
@@ -70,7 +69,7 @@ public class BehandlingRevurderingRepositoryImplTest {
         List<Behandling> result = behandlingRevurderingRepository.finnHenlagteBehandlingerEtterSisteInnvilgedeIkkeHenlagteBehandling(behandling.getFagsakId());
         assertThat(result).isNotEmpty();
         assertThat(result).hasSize(2);
-        result.forEach(r -> assertThat(r.getBehandlingsresultat().getBehandlingResultatType()).isEqualTo(BehandlingResultatType.HENLAGT_FEILOPPRETTET));
+        result.forEach(r -> assertThat(behandlingRepository.hentResultat(r.getId()).getBehandlingResultatType()).isEqualTo(BehandlingResultatType.HENLAGT_FEILOPPRETTET));
         assertThat(result).anySatisfy(r -> r.getId().equals(revurderingsBehandling.getId()));
     }
 
@@ -86,6 +85,7 @@ public class BehandlingRevurderingRepositoryImplTest {
             .medVedtakResultatType(VedtakResultatType.INNVILGET).medAnsvarligSaksbehandler("asdf").build();
         avsluttBehandling(behandling);
         behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
+        behandlingRepository.lagre(behandlingsresultat, behandlingRepository.taSkriveLås(behandling));
         behandlingVedtakRepository.lagre(behandlingVedtak, behandlingRepository.taSkriveLås(behandling));
 
         return behandling;
@@ -96,21 +96,20 @@ public class BehandlingRevurderingRepositoryImplTest {
     }
 
     private void oppdaterMedBehandlingsresultatAvslagOgLagre(Behandling behandling) {
+        Behandlingsresultat nyttResultat = Behandlingsresultat.builder()
+            .medBehandlingResultatType(BehandlingResultatType.HENLAGT_FEILOPPRETTET).buildFor(behandling);
+
         VilkårResultat.builder()
             .leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_OPPFYLT,
                 null, new Properties(), null, false, false, null, null)
             .medVilkårResultatType(VilkårResultatType.AVSLÅTT)
-            .buildFor(behandling);
-
-        Behandlingsresultat.builderEndreEksisterende(behandling.getBehandlingsresultat())
-            .medBehandlingResultatType(BehandlingResultatType.HENLAGT_FEILOPPRETTET);
-
-        Repository repository = repoRule.getRepository();
-
-        repository.lagre(behandling);
+            .buildFor(nyttResultat);
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        behandlingRepository.lagre(behandling.getBehandlingsresultat().getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandling, lås);
+
+        behandlingRepository.lagre(nyttResultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(nyttResultat, lås);
     }
 
     private Personinfo lagPerson() {

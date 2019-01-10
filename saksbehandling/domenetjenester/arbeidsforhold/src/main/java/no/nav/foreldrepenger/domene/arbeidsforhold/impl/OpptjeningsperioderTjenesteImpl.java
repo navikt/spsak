@@ -22,6 +22,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
@@ -47,6 +48,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.EgenNæring;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittArbeidsforhold;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
@@ -70,6 +72,7 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
     private OpptjeningRepository opptjeningRepository;
     private OpptjeningAktivitetVurdering vurderForSaksbehandling;
     private OpptjeningAktivitetVurdering vurderForVilkår;
+    private BehandlingRepository behandlingRepository;
 
     OpptjeningsperioderTjenesteImpl() {
         //CDI
@@ -82,6 +85,7 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.kodeverkRepository = provider.getKodeverkRepository();
         this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
+        this.behandlingRepository = resultatRepositoryProvider.getBehandlingRepository();
         this.vurderForSaksbehandling = new OpptjeningAktivitetVurderingAksjonspunkt(vurderOpptjening);
         this.vurderForVilkår = new OpptjeningAktivitetVurderingVilkår(vurderOpptjening);
     }
@@ -146,7 +150,7 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
             });
         }
         Optional<AktørYtelse> aktørYtelse = grunnlag.getAktørYtelseFørStp(behandling.getAktørId());
-        List <OpptjeningsperiodeForSaksbehandling> ytelsePerioder = new ArrayList<>();
+        List<OpptjeningsperiodeForSaksbehandling> ytelsePerioder = new ArrayList<>();
         aktørYtelse.ifPresent(aktørYtelse1 -> aktørYtelse1.getYtelser().stream()
             .filter(ytelse -> !FagsystemUnderkategori.INFOTRYGD_SAK.equals(ytelse.getFagsystemUnderkategori()))
             .filter(ytelse -> !(ytelse.getKilde().equals(Fagsystem.FPSAK) && ytelse.getSaksnummer().equals(behandling.getFagsak().getSaksnummer())))
@@ -213,7 +217,7 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
             builder.medErPeriodenEndret();
         }
 
-        if(overstyrt != null) {
+        if (overstyrt != null) {
             overstyrt.getAktivitetsAvtaler()
                 .stream()
                 .filter(aa -> aa.getPeriode().equals(periode))
@@ -343,7 +347,11 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
 
     @Override
     public Optional<Opptjening> hentOpptjeningHvisFinnes(Behandling behandling) {
-        return opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        if (behandlingsresultat.isEmpty()) {
+            return Optional.empty();
+        }
+        return opptjeningRepository.finnOpptjening(behandlingsresultat.get());
     }
 
     private void mapAnnenAktivitet(List<OpptjeningsperiodeForSaksbehandling> perioder, Map.Entry<ArbeidType, List<AnnenAktivitet>> annenAktivitet,
@@ -510,8 +518,8 @@ public class OpptjeningsperioderTjenesteImpl implements OpptjeningsperioderTjene
             perioder.stream().anyMatch(oaa -> OpptjeningAktivitetType.FRILANS.equals(oaa.getOpptjeningAktivitetType()))) {
             return Optional.empty();
         }
-        Optional<Opptjening> opptjeningOptional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
-        if (!opptjeningOptional.isPresent()) {
+        Optional<Opptjening> opptjeningOptional = hentOpptjeningHvisFinnes(behandling);
+        if (opptjeningOptional.isEmpty()) {
             return Optional.empty();
         }
         Optional<AktørArbeid> aktørArbeid = grunnlag.getAktørArbeidFørStp(behandling.getAktørId());

@@ -321,7 +321,8 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         var behandlingOpt = behandlingRepository.hentSisteBehandlingForFagsakId(fagsak.getId(), behandlingType);
         if (behandlingOpt.isPresent()) {
             Behandling behandling = behandlingOpt.get();
-            if (behandling.erSaksbehandlingAvsluttet()) {
+
+            if (erSaskbehandlingAvsluttet(behandling)) {
                 return opprettNyFraTidligereBehandling(behandling, behandlingType, behandlingOppdaterer);
             } else {
                 oppdaterEksisterendeBehandling(behandling, behandlingOppdaterer);
@@ -330,6 +331,14 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         } else {
             return opprettNyBehandling(fagsak, behandlingType, behandlingOppdaterer);
         }
+    }
+
+    private boolean erSaskbehandlingAvsluttet(Behandling behandling) {
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        if (behandlingsresultat.isEmpty()) {
+            return false;
+        }
+        return behandling.erAvsluttet() || behandling.erUnderIverksettelse() || behandlingsresultat.map(Behandlingsresultat::isBehandlingHenlagt).get();
     }
 
     @Override
@@ -446,7 +455,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     }
 
     private Behandling doHenleggBehandling(Behandling behandling, BehandlingResultatType årsak) {
-        if (behandling.erSaksbehandlingAvsluttet()) {
+        if (erSaskbehandlingAvsluttet(behandling)) {
             throw BehandlingskontrollFeil.FACTORY.kanIkkeHenleggeAvsluttetBehandling(behandling.getId()).toException();
         }
         if (behandling.isBehandlingPåVent()
@@ -456,7 +465,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         }
 
         // sett årsak
-        var eksisterende = behandling.getBehandlingsresultat();
+        var eksisterende = behandlingRepository.hentResultat(behandling.getId());
         if (eksisterende == null) {
             Behandlingsresultat.builder().medBehandlingResultatType(årsak).buildFor(behandling);
         } else {

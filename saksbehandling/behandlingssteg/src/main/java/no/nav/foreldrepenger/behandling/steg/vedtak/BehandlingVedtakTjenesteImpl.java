@@ -11,6 +11,7 @@ import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProv
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEventPubliserer;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtakRepository;
@@ -23,6 +24,7 @@ public class BehandlingVedtakTjenesteImpl implements BehandlingVedtakTjeneste {
     private RevurderingTjenesteProvider revurderingTjenesteProvider;
     private BehandlingVedtakEventPubliserer behandlingVedtakEventPubliserer;
     private BehandlingVedtakRepository behandlingVedtakRepository;
+    private BehandlingRepository behandlingRepository;
 
     BehandlingVedtakTjenesteImpl() {
         // for CDI proxy
@@ -33,13 +35,14 @@ public class BehandlingVedtakTjenesteImpl implements BehandlingVedtakTjeneste {
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
         this.behandlingVedtakEventPubliserer = behandlingVedtakEventPubliserer;
         this.behandlingVedtakRepository = repositoryProvider.getVedtakRepository();
+        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
     }
 
     @Override
     public void opprettBehandlingVedtak(BehandlingskontrollKontekst kontekst, Behandling behandling) {
         RevurderingTjeneste revurderingTjeneste = revurderingTjenesteProvider.finnRevurderingTjenesteFor(behandling.getFagsak());
 
-        VedtakResultatType vedtakResultatType = UtledVedtakResultatType.utled(behandling);
+        VedtakResultatType vedtakResultatType = UtledVedtakResultatType.utled(behandlingRepository, behandling);
         String ansvarligSaksbehandler = FinnAnsvarligSaksbehandler.finn(behandling);
         LocalDate vedtaksdato = LocalDate.now(FPDateUtil.getOffset());
 
@@ -47,7 +50,7 @@ public class BehandlingVedtakTjenesteImpl implements BehandlingVedtakTjeneste {
             .medVedtakResultatType(vedtakResultatType)
             .medAnsvarligSaksbehandler(ansvarligSaksbehandler)
             .medVedtaksdato(vedtaksdato)
-            .medBehandlingsresultat(behandling.getBehandlingsresultat())
+            .medBehandlingsresultat(behandlingRepository.hentResultat(behandling.getId()))
             .medBeslutning(revurderingTjeneste.erRevurderingMedUendretUtfall(behandling))
             .build();
         behandlingVedtakRepository.lagre(behandlingVedtak, kontekst.getSkriveLås());

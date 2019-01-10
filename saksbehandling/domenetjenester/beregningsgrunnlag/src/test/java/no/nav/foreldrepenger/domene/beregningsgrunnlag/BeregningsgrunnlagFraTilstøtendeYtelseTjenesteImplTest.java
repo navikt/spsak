@@ -679,7 +679,7 @@ public class BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImplTest {
         verifiserAndel(periode.getBeregningsgrunnlagPrStatusOgAndelList().get(1), AktivitetStatus.SELVSTENDIG_NÆRINGSDRIVENDE, Inntektskategori.ARBEIDSTAKER, RelatertYtelseType.UDEFINERT, brutto2, null);
 
         // Act 3
-        fullføreBeregningsgrunnlagTjeneste = new FullføreBeregningsgrunnlag(oversetterTilRegel, oversetterFraRegel);
+        fullføreBeregningsgrunnlagTjeneste = new FullføreBeregningsgrunnlag(repositoryProvider.getBehandlingRepository(), oversetterTilRegel, oversetterFraRegel);
         Beregningsgrunnlag fullføreBeregningsgrunnlag = fullføreBeregningsgrunnlagTjeneste.fullføreBeregningsgrunnlag(behandling, beregningsgrunnlag);
         resultat = new BeregningsgrunnlagRegelResultat(fullføreBeregningsgrunnlag, Collections.emptyList());
         beregningsgrunnlag = resultat.getBeregningsgrunnlag();

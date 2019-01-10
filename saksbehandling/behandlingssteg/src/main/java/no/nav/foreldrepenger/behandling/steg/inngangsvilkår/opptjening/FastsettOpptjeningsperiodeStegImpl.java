@@ -55,7 +55,7 @@ public class FastsettOpptjeningsperiodeStegImpl extends InngangsvilkårStegImpl 
             throw new IllegalArgumentException(
                 "Utvikler-feil: finner ikke resultat etter evaluering av Inngangsvilkår/Opptjening:" + behandling.getId());
         }
-        Opptjening opptjening = opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), op.getOpptjeningsperiodeFom(), op.getOpptjeningsperiodeTom());
+        Opptjening opptjening = opptjeningRepository.lagreOpptjeningsperiode(repositoryProvider.getBehandlingRepository().hentResultat(kontekst.getBehandlingId()), op.getOpptjeningsperiodeFom(), op.getOpptjeningsperiodeTom());
         if (opptjening == null) {
             throw new IllegalArgumentException(
                 "Utvikler-feil: får ikke persistert ny opptjeningsperiode:" + behandling.getId());

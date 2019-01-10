@@ -22,11 +22,10 @@ public class DefaultRevurderingEndring implements RevurderingEndring { // NO_UCD
     }
 
     @Override
-    public boolean erRevurderingMedUendretUtfall(Behandling behandling) {
+    public boolean erRevurderingMedUendretUtfall(Behandling behandling, Behandlingsresultat behandlingsresultat) {
         if (!BehandlingType.REVURDERING.equals(behandling.getType())) {
             return false;
         }
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
         List<KonsekvensForYtelsen> konsekvenserForYtelsen = behandlingsresultat.getKonsekvenserForYtelsen();
         boolean ingenKonsekvensForYtelsen = konsekvenserForYtelsen.contains(KonsekvensForYtelsen.INGEN_ENDRING);
         if (ingenKonsekvensForYtelsen && konsekvenserForYtelsen.size() > 1) {

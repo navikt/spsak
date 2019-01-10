@@ -7,6 +7,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
@@ -14,6 +15,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
@@ -46,12 +48,14 @@ public class BehandlingRelatertInformasjonApplikasjonTjenesteImpl implements Beh
     private List<TilgrensendeYtelserDto> hentRelaterteYtelserFraVedtaksløsning(final AktørId aktørId, boolean bareInnvilget) {
         final LocalDate periodeFraRelaterteYtelserSøkesIVL = LocalDate.now(FPDateUtil.getOffset()).minus(relaterteYtelserVLPeriode);
         final List<Fagsak> fagsakListe = repositoryProvider.getFagsakRepository().hentForBruker(aktørId);
+        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
         List<TilgrensendeYtelserDto> relatertYtelser = new ArrayList<>();
 
         for (Fagsak fagsak : fagsakListe) {
-            List<BehandlingVedtak> vedtakene = repositoryProvider.getBehandlingRepository().hentAbsoluttAlleBehandlingerForSaksnummer(fagsak.getSaksnummer()).stream()
-                .map(Behandling::getBehandlingsresultat)
-                .filter(Objects::nonNull)
+            List<BehandlingVedtak> vedtakene = behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(fagsak.getSaksnummer()).stream()
+                .map(b -> behandlingRepository.hentResultatHvisEksisterer(b.getId()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(Behandlingsresultat::getBehandlingVedtak)
                 .filter(Objects::nonNull)
                 .filter(behandlingVedtak -> behandlingVedtak.getVedtaksdato().isAfter(periodeFraRelaterteYtelserSøkesIVL))

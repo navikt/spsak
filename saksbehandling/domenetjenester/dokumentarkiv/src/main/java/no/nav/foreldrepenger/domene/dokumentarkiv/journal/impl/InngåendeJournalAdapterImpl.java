@@ -44,7 +44,7 @@ import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
 import no.nav.vedtak.felles.integrasjon.inngaaendejournal.InngaaendeJournalConsumer;
 
 @ApplicationScoped
-class InngåendeJournalAdapterImpl implements InngåendeJournalAdapter {
+public class InngåendeJournalAdapterImpl implements InngåendeJournalAdapter {
 
     private InngaaendeJournalConsumer consumer;
     private KodeverkRepository kodeverkRepository;
@@ -56,6 +56,10 @@ class InngåendeJournalAdapterImpl implements InngåendeJournalAdapter {
         journaltilstandPrjournaltilstandJaxb.put(Journaltilstand.MIDLERTIDIG, JournalMetadata.Journaltilstand.MIDLERTIDIG);
         journaltilstandPrjournaltilstandJaxb.put(Journaltilstand.UTGAAR, JournalMetadata.Journaltilstand.UTGAAR);
         journaltilstandPrjournaltilstandJaxb.put(Journaltilstand.ENDELIG, JournalMetadata.Journaltilstand.ENDELIG);
+    }
+
+    InngåendeJournalAdapterImpl() {
+        // CDI
     }
 
     @Inject

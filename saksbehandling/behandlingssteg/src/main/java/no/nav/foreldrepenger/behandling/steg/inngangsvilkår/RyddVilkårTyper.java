@@ -20,6 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
@@ -66,14 +67,15 @@ class RyddVilkårTyper {
     }
 
     private void nullstillVedtaksresultat() {
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
-        if (behandlingsresultat == null ||
-            Objects.equals(behandlingsresultat.getBehandlingResultatType(), BehandlingResultatType.IKKE_FASTSATT)) {
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        if (behandlingsresultat.isEmpty() ||
+            Objects.equals(behandlingsresultat.get().getBehandlingResultatType(), BehandlingResultatType.IKKE_FASTSATT)) {
             return;
         }
 
-        Behandlingsresultat.builderEndreEksisterende(behandling.getBehandlingsresultat()).medBehandlingResultatType(BehandlingResultatType.IKKE_FASTSATT);
-        behandlingRepository.lagre(behandling, kontekst.getSkriveLås());
+        Behandlingsresultat behandlingsresultat1 = behandlingsresultat.get();
+        Behandlingsresultat.builderEndreEksisterende(behandlingsresultat1).medBehandlingResultatType(BehandlingResultatType.IKKE_FASTSATT);
+        behandlingRepository.lagre(behandlingsresultat1, kontekst.getSkriveLås());
     }
 
     private void slettAvklarteFakta(List<VilkårType> vilkårTyper) {
@@ -86,25 +88,31 @@ class RyddVilkårTyper {
     }
 
     private void nullstillInngangsvilkår() {
-        Optional<VilkårResultat> vilkårResultatOpt = Optional.ofNullable(behandling.getBehandlingsresultat())
+        Optional<Behandlingsresultat> behandlingsresultatOpt = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        Optional<VilkårResultat> vilkårResultatOpt = behandlingsresultatOpt
             .map(Behandlingsresultat::getVilkårResultat)
             .filter(inng -> !inng.erOverstyrt());
-        if (!vilkårResultatOpt.isPresent()) {
+        if (vilkårResultatOpt.isEmpty()) {
             return;
         }
 
         VilkårResultat vilkårResultat = vilkårResultatOpt.get();
+        Behandlingsresultat behandlingsresultat = behandlingsresultatOpt.get();
         VilkårResultat.Builder builder = VilkårResultat.builderFraEksisterende(vilkårResultat);
         if (!vilkårResultat.getVilkårResultatType().equals(IKKE_FASTSATT)) {
             builder.medVilkårResultatType(IKKE_FASTSATT);
         }
-        builder.buildFor(behandling);
+        builder.buildFor(behandlingsresultat);
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
     }
 
     private void nullstillVilkår(List<VilkårType> vilkårTyper) {
-        Optional<VilkårResultat> vilkårResultatOpt = Optional.ofNullable(behandling.getBehandlingsresultat())
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        Optional<VilkårResultat> vilkårResultatOpt = behandlingsresultat
             .map(Behandlingsresultat::getVilkårResultat);
-        if (!vilkårResultatOpt.isPresent()) {
+        if (vilkårResultatOpt.isEmpty()) {
             return;
         }
         VilkårResultat vilkårResultat = vilkårResultatOpt.get();
@@ -115,10 +123,13 @@ class RyddVilkårTyper {
         if (vilkårSomSkalNullstilles.isEmpty()) {
             return;
         }
-
+        Behandlingsresultat behandlingsresultatet = behandlingsresultat.get();
         VilkårResultat.Builder builder = VilkårResultat.builderFraEksisterende(vilkårResultat);
         vilkårSomSkalNullstilles.forEach(vilkår -> builder.nullstillVilkår(vilkår.getVilkårType(), vilkår.getVilkårUtfallOverstyrt()));
-        builder.buildFor(behandling);
+        builder.buildFor(behandlingsresultatet);
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandlingsresultatet.getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultatet, lås);
     }
 
     private void spesialhåndterSøknadsfrist() {

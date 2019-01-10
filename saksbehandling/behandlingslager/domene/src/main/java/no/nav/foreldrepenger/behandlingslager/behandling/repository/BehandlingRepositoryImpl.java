@@ -69,6 +69,22 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
     }
 
     @Override
+    public Optional<Behandlingsresultat> hentResultatHvisEksisterer(Long behandlingId) {
+        Objects.requireNonNull(behandlingId, "behandlingId"); // NOSONAR //$NON-NLS-1$
+        TypedQuery<Behandlingsresultat> query = getEntityManager().createQuery("from Behandlingsresultat where behandling.id=:behandlingId", Behandlingsresultat.class); //$NON-NLS-1$
+        query.setParameter("behandlingId", behandlingId); //$NON-NLS-1$
+        return HibernateVerktøy.hentUniktResultat(query);
+    }
+
+    @Override
+    public Behandlingsresultat hentResultat(Long behandlingId) {
+        Objects.requireNonNull(behandlingId, "behandlingId"); // NOSONAR //$NON-NLS-1$
+        TypedQuery<Behandlingsresultat> query = getEntityManager().createQuery("from Behandlingsresultat where behandling.id=:behandlingId", Behandlingsresultat.class); //$NON-NLS-1$
+        query.setParameter("behandlingId", behandlingId); //$NON-NLS-1$
+        return HibernateVerktøy.hentEksaktResultat(query);
+    }
+
+    @Override
     public List<Behandling> hentAbsoluttAlleBehandlingerForSaksnummer(Saksnummer saksnummer) {
         Objects.requireNonNull(saksnummer, "saksnummer"); //$NON-NLS-1$
 
@@ -180,6 +196,14 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
     }
 
     @Override
+    public Long lagre(Behandlingsresultat behandlingsresultats, BehandlingLås lås) {
+        Long id = lagre(behandlingsresultats);
+        verifiserBehandlingLås(lås);
+        getEntityManager().flush();
+        return id;
+    }
+
+    @Override
     public BehandlingLås taSkriveLås(Behandling behandling) {
         Objects.requireNonNull(behandling, "behandling"); //$NON-NLS-1$
         BehandlingLåsRepositoryImpl låsRepo = new BehandlingLåsRepositoryImpl(getEntityManager());
@@ -283,21 +307,23 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
     Long lagre(Behandling behandling) {
         getEntityManager().persist(behandling);
 
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
-        if (behandlingsresultat != null) {
-            getEntityManager().persist(behandlingsresultat);
-
-            VilkårResultat vilkårResultat = behandlingsresultat.getVilkårResultat();
-            if (vilkårResultat != null && vilkårResultat.getId() == null) {
-                throw flereAggregatOpprettelserISammeLagringException(VilkårResultat.class);
-            }
-        }
         List<BehandlingÅrsak> behandlingÅrsak = behandling.getBehandlingÅrsaker();
         behandlingÅrsak.forEach(getEntityManager()::persist);
 
         getEntityManager().flush();
 
         return behandling.getId();
+    }
+
+    Long lagre(Behandlingsresultat behandlingsresultat) {
+        getEntityManager().persist(behandlingsresultat);
+
+        VilkårResultat vilkårResultat = behandlingsresultat.getVilkårResultat();
+        if (vilkårResultat != null && vilkårResultat.getId() == null) {
+            throw flereAggregatOpprettelserISammeLagringException(VilkårResultat.class);
+        }
+        getEntityManager().flush();
+        return behandlingsresultat.getId();
     }
 
     @Override

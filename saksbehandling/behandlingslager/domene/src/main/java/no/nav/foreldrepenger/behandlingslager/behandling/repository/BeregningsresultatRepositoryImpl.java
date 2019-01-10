@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
@@ -35,8 +34,8 @@ public class BeregningsresultatRepositoryImpl implements BeregningsresultatRepos
     }
 
     @Override
-    public Optional<BeregningsresultatPerioder> hentHvisEksisterer(Behandling behandling) {
-        return hentHvisEksistererFor(behandling.getBehandlingsresultat()).map(BeregningsResultat::getBeregningsresultat);
+    public Optional<BeregningsresultatPerioder> hentHvisEksisterer(Behandlingsresultat behandlingsresultat) {
+        return hentHvisEksistererFor(behandlingsresultat).map(BeregningsResultat::getBeregningsresultat);
     }
 
     @Override
@@ -50,6 +49,7 @@ public class BeregningsresultatRepositoryImpl implements BeregningsresultatRepos
 
     @Override
     public long lagre(Behandlingsresultat behandlingsresultat, BeregningsresultatPerioder beregningsresultat) {
+        Objects.requireNonNull(behandlingsresultat, "behandlingsresultat");
         entityManager.persist(beregningsresultat);
         Optional<BeregningsResultat> beregningsresultatFPKoblingOptional = hentHvisEksistererFor(behandlingsresultat);
         if (!beregningsresultatFPKoblingOptional.isPresent()) {
@@ -71,8 +71,8 @@ public class BeregningsresultatRepositoryImpl implements BeregningsresultatRepos
     }
 
     @Override
-    public void deaktiverBeregningsresultat(Behandling behandling, BehandlingLås skriveLås) {
-        Optional<BeregningsResultat> koblingOpt = hentHvisEksistererFor(behandling.getBehandlingsresultat());
+    public void deaktiverBeregningsresultat(Behandlingsresultat behandlingsresultat, BehandlingLås skriveLås) {
+        Optional<BeregningsResultat> koblingOpt = hentHvisEksistererFor(behandlingsresultat);
         koblingOpt.ifPresent(kobling -> setAktivOgLagre(kobling, false));
         verifiserBehandlingLås(skriveLås);
         entityManager.flush();

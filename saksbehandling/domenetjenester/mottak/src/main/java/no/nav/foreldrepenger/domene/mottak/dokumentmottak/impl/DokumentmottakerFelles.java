@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl;
 
 import java.time.LocalDateTime;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingskontroll.task.StartBehandlingTask;
@@ -21,7 +21,7 @@ import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 
-@Dependent
+@ApplicationScoped
 class DokumentmottakerFelles {
 
     private ProsessTaskRepository prosessTaskRepository;
@@ -29,7 +29,7 @@ class DokumentmottakerFelles {
     private HistorikkinnslagTjeneste historikkinnslagTjeneste;
 
     @SuppressWarnings("unused")
-    private DokumentmottakerFelles() { // NOSONAR
+    DokumentmottakerFelles() { // NOSONAR
         // For CDI
     }
 

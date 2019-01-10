@@ -16,6 +16,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapsho
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjon;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -40,6 +41,7 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private UttakRepository uttakRepository;
     private BeregningsresultatRepository beregningsresultatRepository;
+    private BehandlingRepository behandlingRepository;
 
     EndringsresultatSjekkerImpl() {
         // For CDI
@@ -57,6 +59,7 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
         this.beregningsgrunnlagRepository = resultatProvider.getBeregningsgrunnlagRepository();
         this.uttakRepository = resultatProvider.getUttakRepository();
         this.beregningsresultatRepository = resultatProvider.getBeregningsresultatRepository();
+        this.behandlingRepository = resultatProvider.getBehandlingRepository();
     }
 
     static Long mapFraLocalDateTimeTilLong(LocalDateTime ldt) {
@@ -98,10 +101,11 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     public EndringsresultatSnapshot opprettEndringsresultatIdPåBehandlingSnapshot(Behandling behandling) {
         EndringsresultatSnapshot snapshot = opprettEndringsresultatPåBehandlingsgrunnlagSnapshot(behandling);
 
-        snapshot.leggTil(opptjeningRepository.finnAktivGrunnlagId(behandling));
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        snapshot.leggTil(opptjeningRepository.finnAktivGrunnlagId(behandlingsresultat.orElse(null)));
         snapshot.leggTil(beregningsgrunnlagRepository.finnAktivAggregatId(behandling));
         snapshot.leggTil(uttakRepository.finnAktivAggregatId(behandling));
-        snapshot.leggTil(uttakRepository.finnAktivUttakPeriodeGrenseAggregatId(behandling));
+        snapshot.leggTil(uttakRepository.finnAktivUttakPeriodeGrenseAggregatId(behandlingsresultat.orElse(null)));
 
         // Resultatstrukturene nedenfor støtter ikke paradigme med "aktivt" grunnlag som kan identifisere med id
         // Aksepterer her at endringssjekk heller utledes av deres tidsstempel forutsatt at metoden ikke brukes i
@@ -119,7 +123,7 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     }
 
     private EndringsresultatSnapshot lagVilkårResultatIdSnapshotAvTidsstempel(Behandling behandling) {
-        return Optional.ofNullable(behandling.getBehandlingsresultat())
+        return behandlingRepository.hentResultatHvisEksisterer(behandling.getId())
             .map(Behandlingsresultat::getVilkårResultat)
             .map(vilkårResultat ->
                 EndringsresultatSnapshot.medSnapshot(VilkårResultat.class, hentLongVerdiAvEndretTid(vilkårResultat)))
@@ -127,7 +131,8 @@ class EndringsresultatSjekkerImpl implements EndringsresultatSjekker {
     }
 
     private EndringsresultatSnapshot lagBeregningResultatIdSnapshotAvTidsstempel(Behandling behandling) {
-        return beregningsresultatRepository.hentHvisEksistererFor(behandling.getBehandlingsresultat())
+        return behandlingRepository.hentResultatHvisEksisterer(behandling.getId())
+            .flatMap(br -> beregningsresultatRepository.hentHvisEksistererFor(br))
             .map(beregningResultat ->
                 EndringsresultatSnapshot.medSnapshot(BeregningsResultat.class, hentLongVerdiAvEndretTid(beregningResultat)))
             .orElse(EndringsresultatSnapshot.utenSnapshot(BeregningsResultat.class));

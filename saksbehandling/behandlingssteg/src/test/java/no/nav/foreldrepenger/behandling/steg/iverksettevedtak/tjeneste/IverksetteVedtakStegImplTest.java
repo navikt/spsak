@@ -80,7 +80,7 @@ public class IverksetteVedtakStegImplTest {
         Tuple<GrunnlagRepositoryProvider, ResultatRepositoryProvider> providerTuple = scenario.mockBehandlingRepositoryProvider();
         this.repositoryProvider = providerTuple.getElement1();
         this.behandlingRepository = this.repositoryProvider.getBehandlingRepository();
-        resultatRepositoryProvider = providerTuple.getElement2();
+        this.resultatRepositoryProvider = providerTuple.getElement2();
         this.behandlingVedtakRepository = resultatRepositoryProvider.getVedtakRepository();
         iverksetteVedtakSteg = new IverksetteVedtakStegImpl(this.repositoryProvider, resultatRepositoryProvider, prosessTaskRepository,
             behandlingVedtakEventPubliserer, iverksetteVedtakHistorikkTjeneste, kanVedtaketIverksettesTjeneste);
@@ -94,7 +94,7 @@ public class IverksetteVedtakStegImplTest {
 
         opprettSteg(scenario);
 
-        when(behandlingVedtakRepository.hentVedtakFor(behandling.getId())).thenReturn(Optional.of(vedtak));
+        when(behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(behandling.getId()).getId())).thenReturn(Optional.of(vedtak));
 
         List<ProsessTaskData> resultat = prosessTaskRepository.finnAlle(ProsessTaskStatus.KLAR);
         assertThat(resultat).isEmpty();
@@ -116,7 +116,7 @@ public class IverksetteVedtakStegImplTest {
         opprettSteg(scenario);
 
         when(vedtak.getIverksettingStatus()).thenReturn(IverksettingStatus.IKKE_IVERKSATT);
-        when(behandlingVedtakRepository.hentVedtakFor(behandling.getId())).thenReturn(Optional.of(vedtak));
+        when(behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(behandling.getId()).getId())).thenReturn(Optional.of(vedtak));
 
         List<ProsessTaskData> resultat = prosessTaskRepository.finnAlle(ProsessTaskStatus.KLAR);
         assertThat(resultat).isEmpty();
@@ -137,7 +137,7 @@ public class IverksetteVedtakStegImplTest {
         opprettSteg(scenario);
 
         when(vedtak.getIverksettingStatus()).thenReturn(IverksettingStatus.UNDER_IVERKSETTING);
-        when(behandlingVedtakRepository.hentVedtakFor(behandling.getId())).thenReturn(Optional.of(vedtak));
+        when(behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(behandling.getId()).getId())).thenReturn(Optional.of(vedtak));
         Fagsak fagsak = behandling.getFagsak();
         // Act
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
@@ -154,7 +154,7 @@ public class IverksetteVedtakStegImplTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         opprettSteg(scenario);
 
-        when(behandlingVedtakRepository.hentVedtakFor(behandling.getId())).thenReturn(Optional.of(vedtak));
+        when(behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(behandling.getId()).getId())).thenReturn(Optional.of(vedtak));
         Fagsak fagsak = behandling.getFagsak();
         // Act
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
@@ -171,7 +171,7 @@ public class IverksetteVedtakStegImplTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
         opprettSteg(scenario);
 
-        when(behandlingVedtakRepository.hentVedtakFor(behandling.getId())).thenReturn(Optional.of(vedtak));
+        when(behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(behandling.getId()).getId())).thenReturn(Optional.of(vedtak));
         when(behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(behandling.getFagsak().getSaksnummer()))
             .thenReturn(Collections.singletonList(behandling));
         when(vedtak.getIverksettingStatus()).thenReturn(IverksettingStatus.IKKE_IVERKSATT);

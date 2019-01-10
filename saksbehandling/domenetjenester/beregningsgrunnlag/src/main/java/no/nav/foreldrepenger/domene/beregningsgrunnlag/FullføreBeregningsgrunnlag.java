@@ -13,6 +13,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
@@ -38,6 +40,7 @@ import no.nav.vedtak.feil.deklarasjon.TekniskFeil;
 @ApplicationScoped
 public class FullføreBeregningsgrunnlag {
 
+    private BehandlingRepository behandlingRepository;
     private MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel;
     private MapBeregningsgrunnlagFraRegelTilVL oversetterFraRegel;
 
@@ -48,8 +51,9 @@ public class FullføreBeregningsgrunnlag {
     }
 
     @Inject
-    public FullføreBeregningsgrunnlag(MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel,
+    public FullføreBeregningsgrunnlag(BehandlingRepository behandlingRepository, MapBeregningsgrunnlagFraVLTilRegel oversetterTilRegel,
                                       MapBeregningsgrunnlagFraRegelTilVL oversetterFraRegel) {
+        this.behandlingRepository = behandlingRepository;
         this.oversetterTilRegel = oversetterTilRegel;
         this.oversetterFraRegel = oversetterFraRegel;
     }
@@ -80,8 +84,9 @@ public class FullføreBeregningsgrunnlag {
         opprettVilkårsResultat(behandling, input, regelResultater.get(0), vilkårOppfylt);
 
         if (!vilkårOppfylt) {
-            Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
+            Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
             Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.AVSLÅTT);
+            behandlingRepository.lagre(behandlingsresultat, behandlingRepository.taSkriveLås(behandling));
         }
     }
 
@@ -104,8 +109,9 @@ public class FullføreBeregningsgrunnlag {
     private void opprettVilkårsResultat(Behandling behandling, String input,
                                         RegelResultat regelResultat, boolean oppfylt) {
         Properties props = new Properties();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
         VilkårResultat.Builder builder = VilkårResultat
-            .builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat())
+            .builderFraEksisterende(behandlingsresultat.getVilkårResultat())
             .medVilkårResultatType(oppfylt ? VilkårResultatType.INNVILGET : VilkårResultatType.AVSLÅTT)
             .leggTilVilkårResultat(
                 VilkårType.BEREGNINGSGRUNNLAGVILKÅR,
@@ -117,7 +123,10 @@ public class FullføreBeregningsgrunnlag {
                 false,
                 regelResultat.getRegelSporing(),
                 input);
-        builder.buildFor(behandling);
+        builder.buildFor(behandlingsresultat);
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
     }
 
     private String toJson(no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag beregningsgrunnlagRegel) {

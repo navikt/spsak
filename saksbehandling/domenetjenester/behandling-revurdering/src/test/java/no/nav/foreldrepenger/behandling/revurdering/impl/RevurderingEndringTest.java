@@ -50,21 +50,22 @@ public class RevurderingEndringTest {
 
     @Test
     public void jaHvisRevurderingMedUendretUtfall() {
-        Behandlingsresultat.builder()
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET)
             .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.INGEN_ENDRING)
             .buildFor(revurdering);
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
         behandlingRepository.lagre(revurdering, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
 
-        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(revurdering)).isTrue();
+        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(revurdering, behandlingsresultat)).isTrue();
     }
 
     @Test
     public void kasterFeilHvisRevurderingMedUendretUtfallOgOpphørAvYtelsen() {
         // Arrange
-        Behandlingsresultat.builder()
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET)
             .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.INGEN_ENDRING)
             .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.YTELSE_OPPHØRER)
@@ -77,40 +78,44 @@ public class RevurderingEndringTest {
         // Act
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
         behandlingRepository.lagre(revurdering, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
 
         // Assert
-        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(revurdering)).isFalse();
+        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(revurdering, behandlingsresultat)).isFalse();
     }
 
     @Test
     public void neiHvisRevurderingMedEndring() {
-        Behandlingsresultat.builder()
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()
             .medBehandlingResultatType(BehandlingResultatType.FORELDREPENGER_ENDRET)
             .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.ENDRING_I_BEREGNING)
             .buildFor(revurdering);
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
         behandlingRepository.lagre(revurdering, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
 
-        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(revurdering)).isFalse();
+        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(revurdering, behandlingsresultat)).isFalse();
     }
 
     @Test
     public void neiHvisRevurderingMedOpphør() {
-        Behandlingsresultat.builder()
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()
             .medBehandlingResultatType(BehandlingResultatType.OPPHØR)
             .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.YTELSE_OPPHØRER)
             .buildFor(revurdering);
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
         behandlingRepository.lagre(revurdering, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
 
-        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(revurdering)).isFalse();
+        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(revurdering, behandlingsresultat)).isFalse();
     }
 
     @Test
     public void neiHvisFørstegangsbehandling() {
-        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(originalBehandling)).isFalse();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(originalBehandling.getId());
+        assertThat(revurderingEndringFP.erRevurderingMedUendretUtfall(originalBehandling, behandlingsresultat)).isFalse();
     }
 
     private Behandling opprettOriginalBehandling() {

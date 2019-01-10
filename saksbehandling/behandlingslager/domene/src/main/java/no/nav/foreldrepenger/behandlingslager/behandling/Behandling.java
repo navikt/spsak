@@ -96,12 +96,6 @@ public class Behandling extends BaseEntitet {
     @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + BehandlingType.DISCRIMINATOR + "'"))
     private BehandlingType behandlingType = BehandlingType.UDEFINERT;
 
-    /**
-     * Er egentlig OneToOne, men må mappes slik da JPA/Hibernate ikke støtter OneToOne på annet enn shared PK.
-     */
-    @OneToMany(mappedBy = "behandling")
-    private Set<Behandlingsresultat> behandlingsresultat = new HashSet<>(1);
-
     // CascadeType.ALL + orphanRemoval=true må til for at aksjonspunkter skal bli slettet fra databasen ved fjerning fra HashSet
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "behandling", orphanRemoval = true, cascade = CascadeType.ALL, targetEntity = Aksjonspunkt.class)
     private Set<Aksjonspunkt> aksjonspunkter = new HashSet<>();
@@ -408,6 +402,13 @@ public class Behandling extends BaseEntitet {
             .filter(Aksjonspunkt::erÅpentAksjonspunkt);
     }
 
+
+    private void guardTilstandPåBehandling() {
+        if (erAvsluttet()) {
+            throw new IllegalStateException("Utvikler-feil: kan ikke endre tilstand på en behandling som er avsluttet.");
+        }
+    }
+
     public Long getVersjon() {
         return versjon;
     }
@@ -444,21 +445,6 @@ public class Behandling extends BaseEntitet {
         this.ansvarligBeslutter = ansvarligBeslutter;
     }
 
-    public boolean isBehandlingHenlagt() {
-        if (behandlingsresultat == null || behandlingsresultat.isEmpty()) {
-            return false;
-        }
-        return getBehandlingsresultat().isBehandlingHenlagt();
-    }
-
-    public LocalDate getOriginalVedtaksDato() {
-        Behandlingsresultat originaltBehandlingsResultat = getBehandlingsresultat();
-        if (originaltBehandlingsResultat == null || originaltBehandlingsResultat.getBehandlingVedtak() == null) {
-            return null;
-        }
-        return getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato();
-    }
-
     public FagsakYtelseType getFagsakYtelseType() {
         return getFagsak().getYtelseType();
     }
@@ -488,17 +474,6 @@ public class Behandling extends BaseEntitet {
         return null;
     }
 
-    public boolean erSaksbehandlingAvsluttet() {
-        if (behandlingsresultat == null || behandlingsresultat.isEmpty()) {
-            return false;
-        }
-        return erAvsluttet() || erUnderIverksettelse() || erHenlagt();
-    }
-
-    private boolean erHenlagt() {
-        return getBehandlingsresultat().isBehandlingHenlagt();
-    }
-
     public boolean erUnderIverksettelse() {
         return Objects.equals(BehandlingStatus.IVERKSETTER_VEDTAK, getStatus());
     }
@@ -516,14 +491,7 @@ public class Behandling extends BaseEntitet {
     }
 
     public void setÅpnetForEndring(boolean åpnetForEndring) {
-        guardTilstandPåBehandling();
         this.åpnetForEndring = åpnetForEndring;
-    }
-
-    private void guardTilstandPåBehandling() {
-        if (erSaksbehandlingAvsluttet()) {
-            throw new IllegalStateException("Utvikler-feil: kan ikke endre tilstand på en behandling som er avsluttet.");
-        }
     }
 
     @PreRemove
@@ -532,25 +500,11 @@ public class Behandling extends BaseEntitet {
     }
 
     /**
-     * @deprecated FIXME SP: Skal fjerne herfra.
-     *             PFP-1131 Fjern direkte kobling Behandling->Behandlingsresultat fra entiteter/jpa modell
-     */
-    @Deprecated(forRemoval = true)
-    // (FC) støtter bare ett Behandlingsresultat for en Behandling - JPA har ikke støtte for OneToOne på non-PK
-    // kolonne, så emuleres her ved å tømme listen.
-    public Behandlingsresultat getBehandlingsresultat() {
-        if (this.behandlingsresultat.size() > 1) {
-            throw FeilFactory.create(BehandlingFeil.class).merEnnEttBehandlingsresultat(behandlingsresultat.size()).toException();
-        }
-        return this.behandlingsresultat.isEmpty() ? null : this.behandlingsresultat.iterator().next();
-    }
-
-    /**
      * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
      */
     @Deprecated(forRemoval = true)
     void leggTilBehandlingÅrsaker(List<BehandlingÅrsak> behandlingÅrsaker) {
-        if (erAvsluttet() && erHenlagt()) {
+        if (erAvsluttet()) {
             throw new IllegalStateException("Utvikler-feil: kan ikke legge til årsaker på en behandling som er avsluttet.");
         }
         behandlingÅrsaker.forEach(bå -> {
@@ -691,20 +645,6 @@ public class Behandling extends BaseEntitet {
     }
 
     /**
-     * @deprecated FIXME skal ikke ha setter for behandlingsresultat her. Bør gå via repository.
-     */
-    @Deprecated
-    void setBehandlingresultat(Behandlingsresultat behandlingsresultat) {
-        // (FC) støtter bare ett Behandlingsresultat for en Behandling - JPA har ikke støtte for OneToOne på non-PK
-        // kolonne, så emuleres her ved å tømme listen.
-
-        this.behandlingsresultat.clear();
-        behandlingsresultat.setBehandling(this);
-        // kun ett om gangen, mappet på annet enn pk
-        this.behandlingsresultat.add(behandlingsresultat);
-    }
-
-    /**
      * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
      */
     @Deprecated(forRemoval = true)
@@ -766,10 +706,6 @@ public class Behandling extends BaseEntitet {
         private final BehandlingType behandlingType;
         private Fagsak fagsak;
         private Behandling forrigeBehandling;
-        /**
-         * optional
-         */
-        private Behandlingsresultat.Builder resultatBuilder;
 
         private LocalDateTime opprettetDato;
         private LocalDateTime avsluttetDato;
@@ -796,12 +732,6 @@ public class Behandling extends BaseEntitet {
         private Builder(BehandlingType behandlingType) {
             Objects.requireNonNull(behandlingType, "behandlingType"); //$NON-NLS-1$
             this.behandlingType = behandlingType;
-        }
-
-        public Builder medKopiAvForrigeBehandlingsresultat() {
-            Behandlingsresultat behandlingsresultatForrige = forrigeBehandling.getBehandlingsresultat();
-            this.resultatBuilder = Behandlingsresultat.builderFraEksisterende(behandlingsresultatForrige);
-            return this;
         }
 
         /**
@@ -878,10 +808,6 @@ public class Behandling extends BaseEntitet {
             }
             if (avsluttetDato != null) {
                 behandling.avsluttetDato = avsluttetDato;
-            }
-            if (resultatBuilder != null) {
-                Behandlingsresultat behandlingsresultat = resultatBuilder.buildFor(behandling);
-                behandling.setBehandlingresultat(behandlingsresultat);
             }
 
             if (behandlingÅrsakBuilder != null) {

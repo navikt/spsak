@@ -29,7 +29,7 @@ class OppfyllerIkkeInngangsvilkårIPerioden {
             !periode.getVilkårUtfall().equals(VilkårUtfallType.OPPFYLT);
     }
 
-    public static Behandlingsresultat fastsett(Behandling revurdering) {
-        return SettOpphørOgIkkeRett.fastsett(revurdering);
+    public static Behandlingsresultat fastsett(Behandling revurdering, Behandlingsresultat behandlingsresultat) {
+        return SettOpphørOgIkkeRett.fastsett(revurdering, behandlingsresultat);
     }
 }

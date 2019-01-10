@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
@@ -81,8 +80,8 @@ public class UttakResultatEntitet extends BaseEntitet {
         aktiv = false;
     }
 
-    public static Builder builder(Behandling behandling) {
-        return new Builder(behandling.getBehandlingsresultat());
+    public static Builder builder(Behandlingsresultat behandlingsresultat) {
+        return new Builder(behandlingsresultat);
     }
 
     public static class Builder {

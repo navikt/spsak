@@ -74,26 +74,15 @@ public class OpptjeningRepositoryImpl implements OpptjeningRepository {
             return Optional.empty();
         } else {
 
-            VilkårResultat vilkårResultat = behandlingresultat.getVilkårResultat();
-            if (vilkårResultat == null) {
-                return Optional.empty();
-            }
-
-            return finnOpptjening(vilkårResultat);
+            return hentTidligereOpptjening(behandlingresultat, true);
         }
 
     }
 
-    @Override
-    public Optional<Opptjening> finnOpptjening(VilkårResultat vilkårResultat) {
-
-        return hentTidligereOpptjening(vilkårResultat, true);
-    }
-
-    private Optional<Opptjening> hentTidligereOpptjening(VilkårResultat vilkårResultat, boolean readOnly) {
+    private Optional<Opptjening> hentTidligereOpptjening(Behandlingsresultat behandlingsresultat, boolean readOnly) {
         // slår opp med HQL istedf. å traverse grafen
-        TypedQuery<Opptjening> query = em.createQuery("from Opptjening o where o.vilkårResultat.id=:id and o.aktiv = true", Opptjening.class); //$NON-NLS-1$
-        query.setParameter("id", vilkårResultat.getId()); //$NON-NLS-1$
+        TypedQuery<Opptjening> query = em.createQuery("from Opptjening o where o.behandlingsresultat.id=:id and o.aktiv = true", Opptjening.class); //$NON-NLS-1$
+        query.setParameter("id", behandlingsresultat.getId()); //$NON-NLS-1$
 
         if (readOnly) {
             // returneres read-only, kan kun legge til nye ved skriving uten å oppdatere
@@ -102,8 +91,8 @@ public class OpptjeningRepositoryImpl implements OpptjeningRepository {
         return HibernateVerktøy.hentUniktResultat(query);
     }
 
-    private Optional<Opptjening> deaktivereTidligereOpptjening(VilkårResultat vilkårResultat, boolean readOnly) {
-        Optional<Opptjening> opptjening = hentTidligereOpptjening(vilkårResultat, readOnly);
+    private Optional<Opptjening> deaktivereTidligereOpptjening(Behandlingsresultat behandlingsresultat, boolean readOnly) {
+        Optional<Opptjening> opptjening = hentTidligereOpptjening(behandlingsresultat, readOnly);
         if (opptjening.isPresent()) {
             Query query = em.createNativeQuery("UPDATE RES_OPPTJENING SET AKTIV = 'N' WHERE ID=:id"); //$NON-NLS-1$
             query.setParameter("id", opptjening.get().getId()); //$NON-NLS-1$
@@ -127,30 +116,30 @@ public class OpptjeningRepositoryImpl implements OpptjeningRepository {
 
     @Override
     public void deaktiverOpptjening(Behandlingsresultat behandlingresultat) {
-        VilkårResultat vilkårResultat = validerRiktigBehandling(behandlingresultat);
+        validerRiktigBehandling(behandlingresultat);
 
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandlingresultat.getBehandling());
-        deaktivereTidligereOpptjening(vilkårResultat, false);
+        deaktivereTidligereOpptjening(behandlingresultat, false);
         em.flush();
 
         behandlingRepository.verifiserBehandlingLås(behandlingLås);
     }
 
     private Opptjening lagre(Behandlingsresultat behandlingresultat, Function<Opptjening, Opptjening> oppdateringsfunksjon) {
-        VilkårResultat vilkårResultat = validerRiktigBehandling(behandlingresultat);
+        validerRiktigBehandling(behandlingresultat);
 
         BehandlingLås behandlingLås = behandlingRepository.taSkriveLås(behandlingresultat.getBehandling());
 
 
         Opptjening tidligereOpptjening = null;
         Opptjening opptjening;
-        Optional<Opptjening> optTidligereOpptjening = deaktivereTidligereOpptjening(vilkårResultat, false);
+        Optional<Opptjening> optTidligereOpptjening = deaktivereTidligereOpptjening(behandlingresultat, false);
         if (optTidligereOpptjening.isPresent()) {
             tidligereOpptjening = optTidligereOpptjening.get();
         }
         opptjening = oppdateringsfunksjon.apply(tidligereOpptjening);
 
-        opptjening.setVilkårResultat(behandlingresultat.getVilkårResultat());
+        opptjening.setBehandlingsresultat(behandlingresultat);
 
         em.persist(opptjening);
         em.flush();
@@ -178,13 +167,13 @@ public class OpptjeningRepositoryImpl implements OpptjeningRepository {
     }
 
     @Override
-    public void kopierGrunnlagFraEksisterendeBehandling(Behandling origBehandling, Behandling nyBehandling) {
+    public void kopierGrunnlagFraEksisterendeBehandling(Behandling nyBehandling, Behandlingsresultat eksisterende, Behandlingsresultat nytt) {
         // Opptjening er ikke koblet til Behandling gjennom aggregatreferanse. Må derfor kopieres som deep copy
-        Opptjening origOpptjening = hentTidligereOpptjening(origBehandling.getBehandlingsresultat().getVilkårResultat(), true)
+        Opptjening origOpptjening = hentTidligereOpptjening(eksisterende, true)
             .orElseThrow(() -> new IllegalStateException("Original behandling har ikke opptjening."));
 
-        lagreOpptjeningsperiode(nyBehandling.getBehandlingsresultat(), origOpptjening.getFom(), origOpptjening.getTom());
-        lagreOpptjeningResultat(nyBehandling.getBehandlingsresultat(), origOpptjening.getOpptjentPeriode(), origOpptjening.getOpptjeningAktivitet());
+        lagreOpptjeningsperiode(nytt, origOpptjening.getFom(), origOpptjening.getTom());
+        lagreOpptjeningResultat(nytt, origOpptjening.getOpptjentPeriode(), origOpptjening.getOpptjeningAktivitet());
     }
 
     private Set<OpptjeningAktivitet> duplikatSjekk(Collection<OpptjeningAktivitet> opptjeningAktiviteter) {
@@ -192,7 +181,7 @@ public class OpptjeningRepositoryImpl implements OpptjeningRepository {
         if (opptjeningAktiviteter == null) {
             return Collections.emptySet();
         }
-        Set<OpptjeningAktivitet> kopiListe = opptjeningAktiviteter.stream().map(oa -> new OpptjeningAktivitet(oa)).collect(Collectors.toCollection(LinkedHashSet::new));
+        Set<OpptjeningAktivitet> kopiListe = opptjeningAktiviteter.stream().map(OpptjeningAktivitet::new).collect(Collectors.toCollection(LinkedHashSet::new));
 
         if (opptjeningAktiviteter.size() > kopiListe.size()) {
             // har duplikater!!
@@ -206,14 +195,14 @@ public class OpptjeningRepositoryImpl implements OpptjeningRepository {
         return kopiListe;
     }
 
-    private Optional<Long> finnAktivOptjeningId(Behandling behandling) {
-        return finnOpptjening(behandling.getBehandlingsresultat()).map(Opptjening::getId);
+    private Optional<Long> finnAktivOptjeningId(Behandlingsresultat behandlingsresultat) {
+        return finnOpptjening(behandlingsresultat).map(Opptjening::getId);
     }
 
     //Denne metoden bør legges i Tjeneste
     @Override
-    public EndringsresultatSnapshot finnAktivGrunnlagId(Behandling behandling) {
-        Optional<Long> funnetId = finnAktivOptjeningId(behandling);
+    public EndringsresultatSnapshot finnAktivGrunnlagId(Behandlingsresultat behandlingsresultat) {
+        Optional<Long> funnetId = Optional.ofNullable(behandlingsresultat).flatMap(this::finnAktivOptjeningId);
         return funnetId
             .map(id -> EndringsresultatSnapshot.medSnapshot(Opptjening.class, id))
             .orElse(EndringsresultatSnapshot.utenSnapshot(Opptjening.class));

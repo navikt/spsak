@@ -2,12 +2,14 @@ package no.nav.foreldrepenger.behandling.steg.avklarfakta.impl;
 
 import static java.util.stream.Collectors.toSet;
 
+import java.util.Optional;
 import java.util.Set;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegModell;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepository;
@@ -52,7 +54,8 @@ class RyddRegisterData {
      */
     @Deprecated
     private void fjernAksjonspunktSomOppstårEtterKontrollerFaktaES() {
-        if (behandling.getBehandlingsresultat() == null) {
+        Optional<Behandlingsresultat> behandlingsresultatOpt = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        if (behandlingsresultatOpt.isEmpty()) {
             return;
         }
         BehandlingStegType førsteSteg = BehandlingStegType.KONTROLLER_FAKTA;

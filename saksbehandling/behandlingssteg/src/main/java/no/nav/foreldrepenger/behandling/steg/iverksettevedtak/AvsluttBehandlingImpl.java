@@ -17,6 +17,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.task.FortsettBehandlingTaskProperties;
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepositoryFeil;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
@@ -63,8 +64,9 @@ public class AvsluttBehandlingImpl implements AvsluttBehandling {
         log.info("Avslutter behandling: {}", behandlingId); //$NON-NLS-1$
         BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(behandlingId);
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandlingId);
 
-        BehandlingVedtak vedtak = behandlingVedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId())
+        BehandlingVedtak vedtak = behandlingVedtakRepository.hentVedtakFor(behandlingsresultat.getId())
             .orElseThrow(() -> BehandlingRepositoryFeil.FACTORY.fantIkkeBehandlingVedtak(behandlingId).toException());
         vedtak.setIverksettingStatus(IverksettingStatus.IVERKSATT);
 
@@ -101,7 +103,7 @@ public class AvsluttBehandlingImpl implements AvsluttBehandling {
         }
         // Finn vedtak i alle behandlinger
         List<Behandling> medVedtak = behandlinger.stream()
-            .filter(b -> b.getBehandlingsresultat() != null)
+            .filter(b -> behandlingRepository.hentResultatHvisEksisterer(b.getId()).isPresent())
             .collect(Collectors.toList());
         // Hvis bare denne behandling har vedtak - ingen venter
         if (medVedtak.size() <= 1) {
@@ -109,7 +111,7 @@ public class AvsluttBehandlingImpl implements AvsluttBehandling {
         }
         // Hvis finnes vedtak i status IKKE_IVERKSATT, returner eldste av disse
         Optional<BehandlingVedtak> vedtak = medVedtak.stream()
-            .map(b -> behandlingVedtakRepository.hentVedtakFor(b.getBehandlingsresultat().getId()))
+            .map(b -> behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(b.getId()).getId()))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .filter(v -> IverksettingStatus.IKKE_IVERKSATT.equals(v.getIverksettingStatus()))

@@ -1,6 +1,8 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.app;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +17,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -33,6 +36,7 @@ public class BeregningsresultatMedUttaksplanTjenesteImplTest {
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository;
     private BeregningsresultatRepository beregningsresultatFPRepository;
     private UttakRepository uttakRepository;
+    private BehandlingRepository behandlingRepository;
 
     private BeregningsresultatTjenesteImpl tjeneste;
 
@@ -43,6 +47,7 @@ public class BeregningsresultatMedUttaksplanTjenesteImplTest {
         inntektArbeidYtelseRepository = mock(InntektArbeidYtelseRepository.class);
         beregningsresultatFPRepository = mock(BeregningsresultatRepository.class);
         uttakRepository = mock(UttakRepository.class);
+        behandlingRepository = mock(BehandlingRepository.class);
 
         GrunnlagRepositoryProvider grunnlagRepositoryProvider = mock(GrunnlagRepositoryProvider.class);
         ResultatRepositoryProvider resultatRepositoryProvider = mock(ResultatRepositoryProvider.class);
@@ -50,6 +55,8 @@ public class BeregningsresultatMedUttaksplanTjenesteImplTest {
         when(resultatRepositoryProvider.getBeregningsresultatRepository()).thenReturn(beregningsresultatFPRepository);
         when(grunnlagRepositoryProvider.getInntektArbeidYtelseRepository()).thenReturn(inntektArbeidYtelseRepository);
         when(resultatRepositoryProvider.getUttakRepository()).thenReturn(uttakRepository);
+        when(resultatRepositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
+        when(grunnlagRepositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
 
         tjeneste = new BeregningsresultatTjenesteImpl(grunnlagRepositoryProvider, resultatRepositoryProvider, mock(SkjæringstidspunktTjeneste.class));
 
@@ -88,7 +95,10 @@ public class BeregningsresultatMedUttaksplanTjenesteImplTest {
         when(behandling.getFagsak()).thenReturn(fagsak);
 
         Behandlingsresultat behandlingsresultat = mock(Behandlingsresultat.class);
-        when(behandling.getBehandlingsresultat())
+
+        when(behandlingRepository.hentResultatHvisEksisterer(anyLong()))
+            .thenReturn(medBehandlingsresultat ? Optional.of(behandlingsresultat) : Optional.empty());
+        when(behandlingRepository.hentResultat(anyLong()))
             .thenReturn(medBehandlingsresultat ? behandlingsresultat : null);
 
         InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag = mock(InntektArbeidYtelseGrunnlag.class);
@@ -96,11 +106,11 @@ public class BeregningsresultatMedUttaksplanTjenesteImplTest {
             .thenReturn(medInntektGrunnlag ? Optional.of(inntektArbeidYtelseGrunnlag) : Optional.empty());
 
         BeregningsresultatPerioder beregningsresultat = mock(BeregningsresultatPerioder.class);
-        when(beregningsresultatFPRepository.hentHvisEksisterer(behandling))
+        when(beregningsresultatFPRepository.hentHvisEksisterer(any(Behandlingsresultat.class)))
             .thenReturn(medBeregningsresultatFP ? Optional.of(beregningsresultat) : Optional.empty());
 
         if (medUttakResultatPlan) {
-            UttakResultatEntitet plan = UttakResultatEntitet.builder(behandling).build();
+            UttakResultatEntitet plan = UttakResultatEntitet.builder(behandlingsresultat).build();
             when(uttakRepository.hentUttakResultatHvisEksisterer(behandling)).thenReturn(Optional.of(plan));
         } else {
             when(uttakRepository.hentUttakResultatHvisEksisterer(behandling)).thenReturn(Optional.empty());
@@ -110,7 +120,7 @@ public class BeregningsresultatMedUttaksplanTjenesteImplTest {
             UttakResultatPeriodeEntitet opprinneligPeriode = minimumPeriode().build();
             perioder.leggTilPeriode(opprinneligPeriode);
 
-            UttakResultatEntitet plan = UttakResultatEntitet.builder(behandling).medOpprinneligPerioder(perioder).build();
+            UttakResultatEntitet plan = UttakResultatEntitet.builder(behandlingsresultat).medOpprinneligPerioder(perioder).build();
             when(uttakRepository.hentUttakResultatHvisEksisterer(behandling)).thenReturn(Optional.of(plan));
         }
     }

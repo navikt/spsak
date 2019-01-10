@@ -106,7 +106,7 @@ public class BeregneYtelseForeldrepengerStegImplTest {
         assertThat(beregningsgrunnlagCaptor.getValue()).isNotNull();
         assertThat(uttakResultatPlanCaptor.getValue()).isNotNull();
 
-        Optional<BeregningsresultatPerioder> beregningsresultatFP = beregningsresultatFPRepository.hentHvisEksisterer(behandling);
+        Optional<BeregningsresultatPerioder> beregningsresultatFP = beregningsresultatFPRepository.hentHvisEksisterer(behandlingRepository.hentResultat(behandling.getId()));
         assertThat(beregningsresultatFP).hasValueSatisfying(resultat -> {
             assertThat(resultat).isNotNull();
             assertThat(resultat.getRegelInput()).as("regelInput").isEqualTo("regelInput");
@@ -120,13 +120,13 @@ public class BeregneYtelseForeldrepengerStegImplTest {
         Tuple<Behandling, BehandlingskontrollKontekst> behandlingKontekst = byggGrunnlag(true, true);
         Behandling behandling = behandlingKontekst.getElement1();
         BehandlingskontrollKontekst kontekst = behandlingKontekst.getElement2();
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(behandling.getId()), beregningsresultat);
 
         // Act
         steg.vedHoppOverBakover(kontekst, behandling, null, null, null);
 
         // Assert
-        Optional<BeregningsresultatPerioder> resultat = beregningsresultatFPRepository.hentHvisEksisterer(behandling);
+        Optional<BeregningsresultatPerioder> resultat = beregningsresultatFPRepository.hentHvisEksisterer(behandlingRepository.hentResultat(behandling.getId()));
         assertThat(resultat).isNotPresent();
     }
 
@@ -202,6 +202,6 @@ public class BeregneYtelseForeldrepengerStegImplTest {
         UttakResultatPerioderEntitet perioder = new UttakResultatPerioderEntitet();
         perioder.leggTilPeriode(periode);
 
-        uttakRepository.lagreOpprinneligUttakResultatPerioder(behandling, perioder);
+        uttakRepository.lagreOpprinneligUttakResultatPerioder(behandlingRepository.hentResultat(behandling.getId()), perioder);
     }
 }

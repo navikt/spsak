@@ -20,7 +20,10 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjenes
 @DokumentGruppeRef("SØKNAD")
 class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument {
 
-    private final SøknadRepository søknadRepository;
+    private SøknadRepository søknadRepository;
+
+    public DokumentmottakerSøknad() {
+    }
 
     @Inject
     public DokumentmottakerSøknad(GrunnlagRepositoryProvider repositoryProvider,
@@ -33,8 +36,8 @@ class DokumentmottakerSøknad extends DokumentmottakerYtelsesesrelatertDokument 
             mottatteDokumentTjeneste,
             behandlingsoppretter,
             kompletthetskontroller,
-            repositoryProvider,
-            resultatRepositoryProvider);
+            repositoryProvider
+        );
         this.søknadRepository = repositoryProvider.getSøknadRepository();
     }
 

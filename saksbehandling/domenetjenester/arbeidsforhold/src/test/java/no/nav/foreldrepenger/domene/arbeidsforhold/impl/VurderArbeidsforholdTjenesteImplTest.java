@@ -35,6 +35,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Yrk
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.InntektsmeldingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
@@ -217,15 +219,18 @@ public class VurderArbeidsforholdTjenesteImplTest {
     }
 
     private void avsluttBehandlingOgFagsak(ScenarioMorSøkerForeldrepenger scenario, Behandling behandling) {
-        Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
         @SuppressWarnings("unused")
         BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder()
-            .medBehandlingsresultat(behandling.getBehandlingsresultat())
+            .medBehandlingsresultat(behandlingsresultat)
             .medVedtaksdato(LocalDate.now().minusDays(1))
             .medAnsvarligSaksbehandler("Nav Navesen")
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .build();
-        
+        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandlingsresultat, lås);
+        resultatRepositoryProvider.getVedtakRepository().lagre(behandlingVedtak, lås);
         scenario.avsluttBehandling(repositoryProvider, behandling);
     }
 
@@ -245,7 +250,7 @@ public class VurderArbeidsforholdTjenesteImplTest {
         final VirksomhetEntitet.Builder builder = new VirksomhetEntitet.Builder();
         builder.medOrgnr(orgnummer)
             .medNavn("Bedrift " + orgnummer)
-        .oppdatertOpplysningerNå();
+            .oppdatertOpplysningerNå();
         final VirksomhetEntitet build = builder.build();
         repositoryRule.getEntityManager().persist(build);
         when(virksomhetTjeneste.finnOrganisasjon(orgnummer)).thenReturn(Optional.ofNullable(build));

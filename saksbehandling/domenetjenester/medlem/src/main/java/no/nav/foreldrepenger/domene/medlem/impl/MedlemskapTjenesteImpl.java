@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
@@ -242,7 +243,7 @@ public class MedlemskapTjenesteImpl implements MedlemTjeneste {
 
     private LocalDate finnStartdato(Behandling revurderingBehandling) {
 
-        Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = medlemskapVilkårPeriodeRepository.hentAggregatHvisEksisterer(revurderingBehandling.getOriginalBehandling().get().getBehandlingsresultat());
+        Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = getMedlemskapsvilkårPeriodeGrunnlag(revurderingBehandling);
 
         LocalDate startDato = skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(revurderingBehandling);
         if (medlemskapsvilkårPeriodeGrunnlag.isPresent()) {
@@ -259,6 +260,14 @@ public class MedlemskapTjenesteImpl implements MedlemTjeneste {
         }
 
         return startDato.isAfter(LocalDate.now()) ? LocalDate.now() : startDato;
+    }
+
+    private Optional<MedlemskapVilkårPeriodeGrunnlag> getMedlemskapsvilkårPeriodeGrunnlag(Behandling revurderingBehandling) {
+        Optional<Behandlingsresultat> behandlingsresultatOptional = repositoryProvider.getBehandlingRepository().hentResultatHvisEksisterer(revurderingBehandling.getOriginalBehandling().get().getId());
+        if (behandlingsresultatOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        return medlemskapVilkårPeriodeRepository.hentHvisEksisterer(behandlingsresultatOptional.get());
     }
 
     private static final class ElementMedGyldighetsintervallWrapper<T> {

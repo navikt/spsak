@@ -81,7 +81,7 @@ public class AksjonspunktOppdatererTest {
 
         TotrinnTjeneste totrinnTjeneste = new TotrinnTjenesteImpl(repositoryProvider, resultatRepositoryProvider, totrinnRepository);
 
-        VedtakTjeneste vedtakTjeneste = new VedtakTjenesteImpl(lagretVedtakRepository, historikkRepository, revurderingTjenesteProvider, totrinnTjeneste);
+        VedtakTjeneste vedtakTjeneste = new VedtakTjenesteImpl(lagretVedtakRepository, repositoryProvider, revurderingTjenesteProvider, totrinnTjeneste);
         fatterVedtakAksjonspunkt = new FatterVedtakAksjonspunkt(repositoryProvider, vedtakTjeneste, totrinnTjeneste);
     }
 

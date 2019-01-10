@@ -24,6 +24,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
@@ -64,6 +65,7 @@ public class VurderOpptjeningsvilkårStegImpl extends InngangsvilkårStegImpl {
 
     @Override
     protected void utførtRegler(BehandlingskontrollKontekst kontekst, Behandling behandling, RegelResultat regelResultat) {
+        Behandlingsresultat behandlingsresultat = repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId());
         if (vilkårErVurdert(regelResultat)) {
             OpptjeningsvilkårResultat opres = getVilkårresultat(behandling, regelResultat);
 
@@ -77,11 +79,11 @@ public class VurderOpptjeningsvilkårStegImpl extends InngangsvilkårStegImpl {
 
             aktiviteter.addAll(mapper.map(opres.getAkseptertMellomliggendePerioder(), OpptjeningAktivitetKlassifisering.MELLOMLIGGENDE_PERIODE));
 
-            opptjeningRepository.lagreOpptjeningResultat(behandling.getBehandlingsresultat(), totalOpptjeningResultat, aktiviteter);
+            opptjeningRepository.lagreOpptjeningResultat(behandlingsresultat, totalOpptjeningResultat, aktiviteter);
 
         } else {
             // rydd bort tidligere aktiviteter
-            opptjeningRepository.lagreOpptjeningResultat(behandling.getBehandlingsresultat(), null, Collections.emptyList());
+            opptjeningRepository.lagreOpptjeningResultat(behandlingsresultat, null, Collections.emptyList());
         }
     }
 

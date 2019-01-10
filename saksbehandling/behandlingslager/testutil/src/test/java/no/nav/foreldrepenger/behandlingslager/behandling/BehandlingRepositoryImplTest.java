@@ -176,36 +176,39 @@ public class BehandlingRepositoryImplTest {
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandling, lås);
 
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder().buildFor(behandling);
+
         VilkårResultat.builder()
             .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.IKKE_VURDERT)
-            .buildFor(behandling);
+            .buildFor(behandlingsresultat);
 
         // Act
-        behandlingRepository.lagre(behandling.getBehandlingsresultat().getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
 
         // Assert
-        assertThat(behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().size()).isEqualTo(1);
-        assertThat(behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().iterator().next().getVilkårType()).isEqualTo(VilkårType.MEDLEMSKAPSVILKÅRET);
+        assertThat(behandlingsresultat.getVilkårResultat().getVilkårene().size()).isEqualTo(1);
+        assertThat(behandlingsresultat.getVilkårResultat().getVilkårene().iterator().next().getVilkårType()).isEqualTo(VilkårType.MEDLEMSKAPSVILKÅRET);
 
         // Arrange
-        VilkårResultat.builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat())
+        VilkårResultat.builderFraEksisterende(behandlingsresultat.getVilkårResultat())
             .leggTilVilkår(VilkårType.OPPTJENINGSPERIODEVILKÅR, VilkårUtfallType.IKKE_VURDERT)
             .fjernVilkår(VilkårType.MEDLEMSKAPSVILKÅRET)
-            .buildFor(behandling);
+            .buildFor(behandlingsresultat);
 
         // Act
         behandlingRepository.lagre(behandling, lås);
-        behandlingRepository.lagre(behandling.getBehandlingsresultat().getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
         repository.flushAndClear();
 
         // Assert
         Behandling opphentetBehandling = repository.hent(Behandling.class, behandling.getId());
-        assertThat(opphentetBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().size()).isEqualTo(1);
-        assertThat(opphentetBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().iterator().next().getVilkårType())
+        assertThat(behandlingsresultat.getVilkårResultat().getVilkårene().size()).isEqualTo(1);
+        assertThat(behandlingsresultat.getVilkårResultat().getVilkårene().iterator().next().getVilkårType())
             .isEqualTo(VilkårType.OPPTJENINGSPERIODEVILKÅR);
         List<Vilkår> alleVilkår = repository.hentAlle(Vilkår.class);
         assertThat(alleVilkår.size()).isEqualTo(1);
-        assertThat(alleVilkår.get(0)).isEqualTo(opphentetBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().iterator().next());
+        assertThat(alleVilkår.get(0)).isEqualTo(behandlingsresultat.getVilkårResultat().getVilkårene().iterator().next());
     }
 
     @Test
@@ -460,12 +463,13 @@ public class BehandlingRepositoryImplTest {
     private BehandlingVedtak.Builder opprettBuilderForVedtak() {
         behandling = opprettBehandlingMedTermindato();
         oppdaterMedBehandlingsresultatOgLagre(behandling, true, false);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
 
         return BehandlingVedtak.builder().medVedtaksdato(LocalDate.now())
             .medAnsvarligSaksbehandler("Janne Hansen")
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .medIverksettingStatus(IverksettingStatus.IKKE_IVERKSATT)
-            .medBehandlingsresultat(behandling.getBehandlingsresultat());
+            .medBehandlingsresultat(behandlingsresultat);
     }
 
     private Behandling opprettBehandlingMedTermindato() {
@@ -486,23 +490,26 @@ public class BehandlingRepositoryImplTest {
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
         final BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder().medVedtaksdato(LocalDate.now()).medBehandlingsresultat(behandlingsresultat)
             .medVedtakResultatType(VedtakResultatType.INNVILGET).medAnsvarligSaksbehandler("asdf").build();
-        behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
-        
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandling, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
+
         scenario.avsluttBehandling(repositoryProvider, behandling);
-        
-        behandlingVedtakRepository.lagre(behandlingVedtak, behandlingRepository.taSkriveLås(behandling));
+
+        behandlingVedtakRepository.lagre(behandlingVedtak, lås);
 
         return behandling;
     }
 
     private Behandlingsresultat oppdaterMedBehandlingsresultatOgLagre(Behandling behandling, boolean innvilget, boolean henlegg) {
+        Optional<Behandlingsresultat> behandlingsresultat1 = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        Behandlingsresultat behandlingsresultat = behandlingsresultat1.orElse(Behandlingsresultat.builder().buildFor(behandling));
         VilkårResultat.builder()
             .leggTilVilkårResultat(VilkårType.MEDLEMSKAPSVILKÅRET, innvilget ? VilkårUtfallType.OPPFYLT : VilkårUtfallType.IKKE_OPPFYLT,
                 null, new Properties(), null, false, false, null, null)
             .medVilkårResultatType(innvilget ? VilkårResultatType.INNVILGET : VilkårResultatType.AVSLÅTT)
-            .buildFor(behandling);
+            .buildFor(behandlingsresultat);
 
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
         if (henlegg) {
             Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.HENLAGT_FEILOPPRETTET);
         }
@@ -511,6 +518,7 @@ public class BehandlingRepositoryImplTest {
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
         return behandlingsresultat;
     }
 

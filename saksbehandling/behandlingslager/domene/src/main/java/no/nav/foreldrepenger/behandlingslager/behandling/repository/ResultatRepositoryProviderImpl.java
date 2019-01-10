@@ -27,7 +27,6 @@ import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 public class ResultatRepositoryProviderImpl implements ResultatRepositoryProvider {
 
     private BehandlingRepository behandlingRepository;
-
     private KodeverkRepository kodeverkRepository;
     private FraværResultatRepository fraværResultatRepository;
     private OpptjeningRepository opptjeningRepository;

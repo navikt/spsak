@@ -17,6 +17,7 @@ import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -41,6 +42,7 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
     private Unleash unleash;
 
     private BeregningsresultatRepository beregningsresultatRepository;
+    private BehandlingRepository behandlingRepository;
 
     BehandlingDtoTjenesteImpl() {
         // for CDI proxy
@@ -53,6 +55,7 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
 
         this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
         this.beregningsresultatRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
+        this.behandlingRepository = resultatRepositoryProvider.getBehandlingRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.unleash = unleash;
     }
@@ -121,14 +124,14 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
         return dto;
     }
 
-    private void settStandardfelterUtvidet(Behandling behandling, UtvidetBehandlingDto dto) {
+    private void settStandardfelterUtvidet(Behandling behandling, Behandlingsresultat behandlingsresultat, UtvidetBehandlingDto dto) {
         // en til en mapping
         Long behandlingId = behandling.getId();
         setStandardfelter(behandling, dto);
         dto.setBehandlingPåVent(behandling.isBehandlingPåVent());
         dto.setBehandlingKøet(behandling.erKøet());
         dto.setAnsvarligSaksbehandler(behandling.getAnsvarligSaksbehandler());
-        dto.setBehandlingHenlagt(behandling.isBehandlingHenlagt());
+        dto.setBehandlingHenlagt(behandlingsresultat != null && behandlingsresultat.isBehandlingHenlagt());
         dto.setToTrinnsBehandling(behandling.isToTrinnsBehandling());
         BehandlingIdDto idDto = new BehandlingIdDto(Long.parseLong(behandling.getFagsak().getSaksnummer().getVerdi()), behandling.getId());
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/totrinnskontroll/arsaker", "totrinnskontroll-arsaker", idDto));
@@ -148,7 +151,7 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
         dto.setBehandlingArsaker(lagBehandlingÅrsakDto(behandling));
         behandling.getOriginalBehandling().ifPresent(originalBehandling -> dto.setOriginalBehandlingId(originalBehandling.getId()));
 
-        lagBehandlingsresultatDto(behandling).ifPresent(dto::setBehandlingsresultatDto);
+        lagBehandlingsresultatDto(behandling, behandlingsresultat).ifPresent(dto::setBehandlingsresultatDto);
     }
 
     private UtvidetBehandlingDto mapFra(Behandling behandling) {
@@ -159,8 +162,8 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
         BehandlingIdDto idDto = new BehandlingIdDto(Long.parseLong(behandling.getFagsak().getSaksnummer().getVerdi()), behandling.getId());
 
         UtvidetBehandlingDto dto = new UtvidetBehandlingDto();
-
-        settStandardfelterUtvidet(behandling, dto);
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        settStandardfelterUtvidet(behandling, behandlingsresultat.orElse(null), dto);
 
         // mapping ved hjelp av tjenester
         dto.leggTil(ResourceLink.post("/fpsak/api/behandling/soknad", "soknad", idDto));
@@ -186,16 +189,16 @@ public class BehandlingDtoTjenesteImpl implements BehandlingDtoTjeneste {
         if (beregningsgrunnlag.isPresent()) {
             dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsgrunnlag", "beregningsgrunnlag", idDto));
         }
-
-        Optional<BeregningsresultatPerioder> beregningsresultat = beregningsresultatRepository.hentHvisEksisterer(behandling);
-        if (beregningsresultat.isPresent()) {
-            dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsresultat/foreldrepenger", "beregningsresultat-foreldrepenger", idDto));
+        if (behandlingsresultat.isPresent()) {
+            Optional<BeregningsresultatPerioder> beregningsresultat = beregningsresultatRepository.hentHvisEksisterer(behandlingsresultat.get());
+            if (beregningsresultat.isPresent()) {
+                dto.leggTil(ResourceLink.post("/fpsak/api/behandling/beregningsresultat/foreldrepenger", "beregningsresultat-foreldrepenger", idDto));
+            }
         }
         return dto;
     }
 
-    private Optional<BehandlingsresultatDto> lagBehandlingsresultatDto(Behandling behandling) {
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
+    private Optional<BehandlingsresultatDto> lagBehandlingsresultatDto(Behandling behandling, Behandlingsresultat behandlingsresultat) {
         if (behandlingsresultat != null) {
             BehandlingsresultatDto dto = new BehandlingsresultatDto();
             dto.setId(behandlingsresultat.getId());

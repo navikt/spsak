@@ -21,6 +21,10 @@ class DokumentmottakerEndringssøknad extends DokumentmottakerYtelsesesrelatertD
 
     private KøKontroller køKontroller;
 
+    public DokumentmottakerEndringssøknad() {
+        // CDI
+    }
+
     @Inject
     public DokumentmottakerEndringssøknad(GrunnlagRepositoryProvider repositoryProvider,
                                           ResultatRepositoryProvider resultatRepositoryProvider,
@@ -33,7 +37,7 @@ class DokumentmottakerEndringssøknad extends DokumentmottakerYtelsesesrelatertD
             mottatteDokumentTjeneste,
             behandlingsoppretter,
             kompletthetskontroller,
-            repositoryProvider, resultatRepositoryProvider);
+            repositoryProvider);
         this.køKontroller = køKontroller;
     }
 

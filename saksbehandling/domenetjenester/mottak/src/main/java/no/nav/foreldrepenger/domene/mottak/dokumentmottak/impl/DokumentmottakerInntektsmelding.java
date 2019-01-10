@@ -21,6 +21,9 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjenes
 class DokumentmottakerInntektsmelding extends DokumentmottakerYtelsesesrelatertDokument {
 
 
+    public DokumentmottakerInntektsmelding() {
+    }
+
     @Inject
     public DokumentmottakerInntektsmelding(DokumentmottakerFelles dokumentmottakerFelles,
                                            MottatteDokumentTjeneste mottatteDokumentTjeneste,
@@ -32,8 +35,8 @@ class DokumentmottakerInntektsmelding extends DokumentmottakerYtelsesesrelatertD
             mottatteDokumentTjeneste,
             behandlingsoppretter,
             kompletthetskontroller,
-            repositoryProvider,
-            resultatRepositoryProvider);
+            repositoryProvider
+        );
     }
 
     @Override

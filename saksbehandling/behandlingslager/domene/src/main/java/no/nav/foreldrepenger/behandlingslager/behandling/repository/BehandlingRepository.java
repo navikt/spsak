@@ -9,6 +9,7 @@ import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
@@ -21,6 +22,16 @@ public interface BehandlingRepository extends BehandlingslagerRepository {
      * Hent Behandling med angitt id.
      */
     Behandling hentBehandling(Long behandlingId);
+
+    /**
+     * Hent Behandlingsresultat for angitt behandling-id.
+     */
+    Optional<Behandlingsresultat> hentResultatHvisEksisterer(Long behandlingId);
+
+    /**
+     * Hent Behandlingsresultat for angitt behandling-id.
+     */
+    Behandlingsresultat hentResultat(Long behandlingId);
 
     /**
      * Hent Behandling, der det ikke er gitt at behandlingId er korrekt (eks. for validering av innsendte verdier)
@@ -64,6 +75,16 @@ public interface BehandlingRepository extends BehandlingslagerRepository {
      * @see BehandlingLås
      */
     Long lagre(VilkårResultat vilkårResultat, BehandlingLås lås);
+
+    /**
+     * Lagrer behandslingsresultat på en Behandling. Sørger for at samtidige oppdateringer på samme Behandling, eller
+     * andre Behandlinger
+     * på samme Fagsak ikke kan gjøres samtidig.
+     *
+     * @return id for {@link VilkårResultat} opprettet/endret.
+     * @see BehandlingLås
+     */
+    Long lagre(Behandlingsresultat behandlingsresultats, BehandlingLås lås);
 
     /**
      * Ta lås for oppdatering av behandling/fagsak. Påkrevd før lagring.

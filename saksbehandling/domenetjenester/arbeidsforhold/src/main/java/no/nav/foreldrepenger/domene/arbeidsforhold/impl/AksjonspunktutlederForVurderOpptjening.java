@@ -21,6 +21,7 @@ import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktUtleder;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall;
 import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
@@ -36,6 +37,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.sø
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.EgenNæring;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittArbeidsforhold;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.grunnlag.OppgittOpptjening;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
@@ -54,6 +56,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     private OpptjeningRepository opptjeningRepository;
     private KodeverkRepository kodeverkRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
+    private BehandlingRepository behandlingRepository;
 
     AksjonspunktutlederForVurderOpptjening() {
         // CDI
@@ -62,9 +65,10 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     @Inject
     public AksjonspunktutlederForVurderOpptjening(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider,
                                                   SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
-        inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-        opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
-        kodeverkRepository = repositoryProvider.getKodeverkRepository();
+        this.inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
+        this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
+        this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
+        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
     }
 
@@ -72,8 +76,8 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     public List<AksjonspunktResultat> utledAksjonspunkterFor(Behandling behandling) {
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling,
             skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling));
-        Optional<Opptjening> fastsattOpptjeningOptional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
-        if (!inntektArbeidYtelseGrunnlagOptional.isPresent() || !fastsattOpptjeningOptional.isPresent()) {
+        Optional<Opptjening> fastsattOpptjeningOptional = hentOpptjeningHvisEksisterer(behandling);
+        if (inntektArbeidYtelseGrunnlagOptional.isEmpty() || fastsattOpptjeningOptional.isEmpty()) {
             return INGEN_AKSJONSPUNKTER;
         }
         OppgittOpptjening oppgittOpptjening = inntektArbeidYtelseGrunnlagOptional.get().getOppgittOpptjening().orElse(null);
@@ -185,8 +189,8 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     boolean girAksjonspunktForOppgittNæring(Behandling behandling) {
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling,
             skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling));
-        Optional<Opptjening> fastsattOpptjeningOptional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
-        if (!inntektArbeidYtelseGrunnlagOptional.isPresent() || !fastsattOpptjeningOptional.isPresent()) {
+        Optional<Opptjening> fastsattOpptjeningOptional = hentOpptjeningHvisEksisterer(behandling);
+        if (inntektArbeidYtelseGrunnlagOptional.isEmpty() || fastsattOpptjeningOptional.isEmpty()) {
             return false;
         }
         OppgittOpptjening oppgittOpptjening = inntektArbeidYtelseGrunnlagOptional.get().getOppgittOpptjening().orElse(null);
@@ -219,16 +223,13 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     private Utfall inneholderSisteFerdiglignendeÅrNæringsinntekt(Behandling behandling, InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag, int sistFerdiglignetÅr,
                                                                  DatoIntervallEntitet opptjeningPeriode) {
         Optional<AktørInntekt> aktørInntekt = utledAktørInntekt(behandling, inntektArbeidYtelseGrunnlag, opptjeningPeriode, sistFerdiglignetÅr);
-        if (!aktørInntekt.isPresent()) {
-            return NEI;
-        }
-
-        return aktørInntekt.get().getBeregnetSkatt().stream()
+        return aktørInntekt.filter(aktørInntekt1 -> aktørInntekt1.getBeregnetSkatt().stream()
             .map(Inntekt::getInntektspost)
             .flatMap(java.util.Collection::stream)
             .filter(inntektspost -> inntektspost.getInntektspostType().equals(InntektspostType.SELVSTENDIG_NÆRINGSDRIVENDE)
                 || inntektspost.getInntektspostType().equals(InntektspostType.NÆRING_FISKE_FANGST_FAMBARNEHAGE))
-            .anyMatch(harInntektI(sistFerdiglignetÅr)) ? JA : NEI;
+            .anyMatch(harInntektI(sistFerdiglignetÅr))).map(aktørInntekt1 -> JA).orElse(NEI);
+
     }
 
     private Optional<AktørInntekt> utledAktørInntekt(Behandling behandling, InntektArbeidYtelseGrunnlag inntektArbeidYtelseGrunnlag, DatoIntervallEntitet opptjeningPeriode, int sistFerdiglignetÅr) {
@@ -240,7 +241,7 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
 
     private Predicate<Inntektspost> harInntektI(int sistFerdiglignetÅr) {
         return inntektspost -> inntektspost.getTilOgMed().getYear() == sistFerdiglignetÅr &&
-            inntektspost.getBeløp().compareTo(Beløp.ZERO) > 0 ;
+            inntektspost.getBeløp().compareTo(Beløp.ZERO) > 0;
     }
 
     private Utfall erDetRegistrertNæringEtterSisteFerdiglignendeÅr(OppgittOpptjening oppgittOpptjening, int sistFerdiglignetÅr) {
@@ -257,11 +258,19 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
     }
 
     boolean girAksjonspunktForArbeidsforhold(Behandling behandling, Yrkesaktivitet registerAktivitet) {
-        final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
+        final Optional<Opptjening> opptjening = hentOpptjeningHvisEksisterer(behandling);
         if (!opptjening.isPresent() || registerAktivitet == null) {
             return false;
         }
         final DatoIntervallEntitet opptjeningPeriode = DatoIntervallEntitet.fraOgMedTilOgMed(opptjening.get().getFom(), opptjening.get().getTom());
         return girAksjonspunkt(opptjeningPeriode, registerAktivitet);
+    }
+
+    private Optional<Opptjening> hentOpptjeningHvisEksisterer(Behandling behandling) {
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        if (behandlingsresultat.isEmpty()) {
+            return Optional.empty();
+        }
+        return opptjeningRepository.finnOpptjening(behandlingsresultat.get());
     }
 }

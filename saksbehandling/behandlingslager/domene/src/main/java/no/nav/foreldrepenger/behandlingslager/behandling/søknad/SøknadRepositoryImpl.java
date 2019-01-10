@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.vedtak.felles.jpa.HibernateVerktøy;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
@@ -22,7 +23,7 @@ public class SøknadRepositoryImpl implements SøknadRepository {
     private EntityManager entityManager;
     private BehandlingRepository behandlingRepository;
 
-    public SøknadRepositoryImpl() {
+    SøknadRepositoryImpl() {
     }
 
     @Inject
@@ -87,7 +88,7 @@ public class SøknadRepositoryImpl implements SøknadRepository {
         return behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(behandling.getFagsak().getSaksnummer())
             .stream()
             .filter(b -> b.getType().equals(BehandlingType.FØRSTEGANGSSØKNAD))
-            .filter(b -> b.getBehandlingsresultat() != null && !b.getBehandlingsresultat().isBehandlingHenlagt())
+            .filter(b -> !behandlingRepository.hentResultatHvisEksisterer(b.getId()).map(Behandlingsresultat::isBehandlingHenlagt).orElse(true))
             .filter(this::harSøknad)
             .max(Comparator.comparing(Behandling::getOpprettetTidspunkt));
     }

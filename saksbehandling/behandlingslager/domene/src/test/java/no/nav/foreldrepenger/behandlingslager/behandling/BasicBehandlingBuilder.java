@@ -76,8 +76,11 @@ public class BasicBehandlingBuilder {
     }
 
     public VilkårResultat leggTilTomtVilkårResultat(Behandling behandling) {
-        VilkårResultat vilkårResultat = VilkårResultat.builder().buildFor(behandling);
-        behandlingRepository.lagre(vilkårResultat, taSkriveLås(behandling));
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.opprettFor(behandling);
+        BehandlingLås lås = taSkriveLås(behandling);
+        behandlingRepository.lagre(behandlingsresultat, lås);
+        VilkårResultat vilkårResultat = VilkårResultat.builder().buildFor(behandlingsresultat);
+        behandlingRepository.lagre(vilkårResultat, lås);
         lagreBehandling(behandling);
         return vilkårResultat;
     }

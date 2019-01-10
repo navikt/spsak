@@ -14,13 +14,16 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.NaturalYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsmeldingInnsendingsårsak;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
@@ -31,6 +34,7 @@ class StartpunktUtlederInntektsmelding {
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private FørstePermisjonsdagTjeneste førstePermisjonsdagTjeneste;
     private BeregningsresultatRepository beregningsresultatFPRepository;
+    private BehandlingRepository behandlingRepository;
 
     StartpunktUtlederInntektsmelding() {
         // For CDI
@@ -39,10 +43,11 @@ class StartpunktUtlederInntektsmelding {
     @Inject
     StartpunktUtlederInntektsmelding(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
                                      FørstePermisjonsdagTjeneste førstePermisjonsdagTjeneste,
-                                     BeregningsresultatRepository beregningsresultatFPRepository) {
+                                     ResultatRepositoryProvider resultatRepositoryProvider) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.førstePermisjonsdagTjeneste = førstePermisjonsdagTjeneste;
-        this.beregningsresultatFPRepository = beregningsresultatFPRepository;
+        this.beregningsresultatFPRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
+        this.behandlingRepository = resultatRepositoryProvider.getBehandlingRepository();
     }
 
     public StartpunktType utledStartpunkt(Behandling behandling, InntektArbeidYtelseGrunnlag grunnlag1, InntektArbeidYtelseGrunnlag grunnlag2) {
@@ -151,17 +156,15 @@ class StartpunktUtlederInntektsmelding {
             return false;
         }
 
-        if (orgigBehandling.getBehandlingsresultat().isBehandlingsresultatAvslåttOrOpphørt()) {
+        Behandlingsresultat originResultat = behandlingRepository.hentResultat(orgigBehandling.getId());
+        if (originResultat.isBehandlingsresultatAvslåttOrOpphørt()) {
             return false;
         }
 
-        Optional<BeregningsresultatPerioder> origBeregningsresultatFP = beregningsresultatFPRepository.hentHvisEksisterer(orgigBehandling);
+        Optional<BeregningsresultatPerioder> origBeregningsresultatFP = beregningsresultatFPRepository.hentHvisEksisterer(originResultat);
 
-        if (!origBeregningsresultatFP.isPresent()) {
-            return false;
-        }
+        return origBeregningsresultatFP.filter(StartpunktutlederHjelper::finnesAktivitetHvorAlleHarDagsatsNull).isPresent();
 
-        return StartpunktutlederHjelper.finnesAktivitetHvorAlleHarDagsatsNull(origBeregningsresultatFP.get());
     }
 
     private static class ArbeidforholdNøkkel {

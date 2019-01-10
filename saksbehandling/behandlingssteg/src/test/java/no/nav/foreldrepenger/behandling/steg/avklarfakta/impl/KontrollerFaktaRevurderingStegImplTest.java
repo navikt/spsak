@@ -22,6 +22,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.InternalManipulerBehandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
@@ -61,8 +62,8 @@ public class KontrollerFaktaRevurderingStegImplTest {
 
     private Behandling behandling;
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
-    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
     private PersonInformasjon.Builder personopplysningBuilder;
 
     @Inject
@@ -132,13 +133,14 @@ public class KontrollerFaktaRevurderingStegImplTest {
         // Legg til Uttaksperiodegrense -> dessverre ikke tilgjengelig i scenariobygger
         BehandlingLås lås = behandlingRepository.taSkriveLås(originalBehandling);
         behandlingRepository.lagre(originalBehandling, lås);
-        Uttaksperiodegrense uttaksperiodegrense = new Uttaksperiodegrense.Builder(originalBehandling)
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(originalBehandling.getId());
+        Uttaksperiodegrense uttaksperiodegrense = new Uttaksperiodegrense.Builder(behandlingsresultat)
             .medFørsteLovligeUttaksdag(LocalDate.now())
             .medMottattDato(LocalDate.now())
             .build();
-        resultatRepositoryProvider.getUttakRepository().lagreUttaksperiodegrense(originalBehandling, uttaksperiodegrense);
+        resultatRepositoryProvider.getUttakRepository().lagreUttaksperiodegrense(behandlingsresultat, uttaksperiodegrense);
         // Legg til Opptjeningsperidoe -> dessverre ikke tilgjengelig i scenariobygger
-        resultatRepositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(originalBehandling.getBehandlingsresultat(), LocalDate.now().minusYears(1), LocalDate.now());
+        resultatRepositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(behandlingsresultat, LocalDate.now().minusYears(1), LocalDate.now());
         //Legg til fordelingsperiode
 
         ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
@@ -168,7 +170,7 @@ public class KontrollerFaktaRevurderingStegImplTest {
         Fagsak fagsak = behandling.getFagsak();
         // Arrange
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(),fagsak.getAktørId(), lås);
+        BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), lås);
         KodeverkTabellRepository kodeverkTabellRepository = repositoryProvider.getKodeverkRepository().getKodeverkTabellRepository();
         behandling.setStartpunkt(kodeverkTabellRepository.finnStartpunktType(StartpunktType.UTTAKSVILKÅR.getKode()));
 
@@ -184,7 +186,7 @@ public class KontrollerFaktaRevurderingStegImplTest {
         Fagsak fagsak = behandling.getFagsak();
         // Arrange
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(),fagsak.getAktørId(), lås);
+        BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(), fagsak.getAktørId(), lås);
 
         // Act
         List<AksjonspunktDefinisjon> aksjonspunkter = steg.utførSteg(kontekst).getAksjonspunktListe();
@@ -194,6 +196,6 @@ public class KontrollerFaktaRevurderingStegImplTest {
         // Må verifisere at startpunkt er før aksjonpunktet for at assert ovenfor skal ha mening
         assertThat(behandling.getStartpunkt()).isEqualTo(StartpunktType.INNGANGSVILKÅR_MEDLEMSKAP);
     }
-    
+
 }    
 

@@ -19,6 +19,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEventPubliserer
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -72,8 +73,9 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
     public BehandleStegResultat utførSteg(BehandlingskontrollKontekst kontekst) {
         long behandlingId = kontekst.getBehandlingId();
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-        Optional<BehandlingVedtak> fantVedtak = behandlingVedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
-        if (!fantVedtak.isPresent()) {
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandlingId);
+        Optional<BehandlingVedtak> fantVedtak = behandlingVedtakRepository.hentVedtakFor(behandlingsresultat.getId());
+        if (fantVedtak.isEmpty()) {
             log.info("Behandling {}: Kan ikke iverksette, behandling mangler vedtak", behandlingId);
             return BehandleStegResultat.utførtUtenAksjonspunkter();
         }
@@ -131,7 +133,7 @@ public class IverksetteVedtakStegImpl implements IverksetteVedtakSteg {
         Fagsak fagsak = fagsakRepository.finnEksaktFagsak(behandling.getFagsakId());
         List<Behandling> behandlinger = behandlingRepository.hentAbsoluttAlleBehandlingerForSaksnummer(fagsak.getSaksnummer());
         return behandlinger.stream()
-            .map(b -> behandlingVedtakRepository.hentVedtakFor(b.getBehandlingsresultat().getId()))
+            .map(b -> behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(b.getId()).getId()))
             .anyMatch(v -> v.isPresent() && IverksettingStatus.UNDER_IVERKSETTING.equals(v.get().getIverksettingStatus()));
     }
 

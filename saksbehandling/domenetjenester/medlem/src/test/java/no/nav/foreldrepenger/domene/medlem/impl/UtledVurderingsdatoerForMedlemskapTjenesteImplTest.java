@@ -301,8 +301,9 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
         Behandlingsresultat behandlingsresultat = behandlingsresultatBuilder.buildFor(behandling);
 
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
         behandlingRepository.lagre(behandling, lås);
-        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
+        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandlingsresultat, lagUttaksPeriode());
 
         scenario.avsluttBehandling(repositoryProvider, behandling);
     }

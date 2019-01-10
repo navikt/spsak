@@ -17,12 +17,11 @@ class VilkårDtoMapper {
         // SONAR - Utility classes should not have public constructors
     }
 
-    static List<VilkårDto> lagVilkarDto(Behandling behandling, boolean medVilkårkjøring) {
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
+    static List<VilkårDto> lagVilkarDto(Behandling behandling, Behandlingsresultat behandlingsresultat, boolean medVilkårkjøring) {
         if (behandlingsresultat != null) {
             VilkårResultat vilkårResultat = behandlingsresultat.getVilkårResultat();
             if (vilkårResultat != null) {
-                List<VilkårDto> list = vilkårResultat.getVilkårene().stream().map(vilkår -> {
+                return vilkårResultat.getVilkårene().stream().map(vilkår -> {
                     VilkårDto dto = new VilkårDto();
                     dto.setAvslagKode(vilkår.getAvslagsårsak() != null ? vilkår.getAvslagsårsak().getKode() : null);
                     dto.setVilkarType(vilkår.getVilkårType());
@@ -38,7 +37,6 @@ class VilkårDtoMapper {
 
                     return dto;
                 }).collect(Collectors.toList());
-                return list;
             }
         }
         return Collections.emptyList();

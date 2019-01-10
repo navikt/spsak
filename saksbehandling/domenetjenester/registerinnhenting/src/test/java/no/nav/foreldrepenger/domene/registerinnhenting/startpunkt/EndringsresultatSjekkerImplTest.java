@@ -18,6 +18,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapsho
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonInformasjon;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
@@ -64,6 +65,7 @@ public class EndringsresultatSjekkerImplTest {
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
 
     private BeregningsresultatRepository beregningsresultatRepository;
+    private BehandlingRepository behandlingRepository;
 
     private OpptjeningRepository opptjeningRepository;
 
@@ -86,6 +88,7 @@ public class EndringsresultatSjekkerImplTest {
         opptjeningRepository = mock(OpptjeningRepository.class);
         beregningsgrunnlagRepository = mock(BeregningsgrunnlagRepository.class);
         beregningsresultatRepository = mock(BeregningsresultatRepository.class);
+        behandlingRepository = mock(BehandlingRepository.class);
         uttakRepository = mock(UttakRepository.class);
 
         behandling = mock(Behandling.class);
@@ -101,6 +104,8 @@ public class EndringsresultatSjekkerImplTest {
         when(resultatRepositoryProvider.getOpptjeningRepository()).thenReturn(opptjeningRepository);
         when(resultatRepositoryProvider.getUttakRepository()).thenReturn(uttakRepository);
         when(resultatRepositoryProvider.getBeregningsresultatRepository()).thenReturn(beregningsresultatRepository);
+        when(resultatRepositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
+        when(grunnlagRepositoryProvider.getBehandlingRepository()).thenReturn(behandlingRepository);
 
 
         endringsresultatSjekker = new EndringsresultatSjekkerImpl(personopplysningTjeneste, medlemTjeneste, inntektArbeidYtelseTjeneste, resultatRepositoryProvider);
@@ -112,12 +117,13 @@ public class EndringsresultatSjekkerImplTest {
         when(medlemTjeneste.finnAktivGrunnlagId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(MedlemskapAggregat.class, medlemGrunnlagID));
         when(inntektArbeidYtelseTjeneste.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(InntektArbeidYtelseGrunnlag.class, iayGrunnlagID));
 
-        when(opptjeningRepository.finnAktivGrunnlagId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(Opptjening.class, opptjeningGrunnlagID));
+        when(opptjeningRepository.finnAktivGrunnlagId(any(Behandlingsresultat.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(Opptjening.class, opptjeningGrunnlagID));
         when(beregningsgrunnlagRepository.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(Beregningsgrunnlag.class, beregningsGrunnlagID));
         when(uttakRepository.finnAktivAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(UttakResultatEntitet.class, uttakGrunnlagID));
-        when(uttakRepository.finnAktivUttakPeriodeGrenseAggregatId(any(Behandling.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(Uttaksperiodegrense.class, uttakPeriodeGrenseGrunnlagID));
+        when(uttakRepository.finnAktivUttakPeriodeGrenseAggregatId(any(Behandlingsresultat.class))).thenReturn(EndringsresultatSnapshot.medSnapshot(Uttaksperiodegrense.class, uttakPeriodeGrenseGrunnlagID));
 
-        when(behandling.getBehandlingsresultat()).thenReturn(behandlingsresultat);
+        when(behandlingRepository.hentResultat(any())).thenReturn(behandlingsresultat);
+        when(behandlingRepository.hentResultatHvisEksisterer(any())).thenReturn(Optional.of(behandlingsresultat));
         when(behandlingsresultat.getVilkårResultat()).thenReturn(vilkårResultat);
 
         when(beregningsresultatRepository.hentHvisEksistererFor(any(Behandlingsresultat.class))).thenReturn(Optional.of(beregningResultat));

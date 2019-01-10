@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -137,12 +136,17 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
 
     private static final AtomicLong FAKE_ID = new AtomicLong(100999L);
     private final FagsakBuilder fagsakBuilder;
-    private final Map<Behandling, PersonopplysningGrunnlag> personopplysningMap = new IdentityHashMap<>();
-    private final Map<Long, SykefraværGrunnlagEntitet> sykefraværGrunnlagMap = new IdentityHashMap<>();
-    private final Map<Behandling, Verge> vergeMap = new IdentityHashMap<>();
+    private final Map<Behandling, PersonopplysningGrunnlag> personopplysningMap = new HashMap<>();
+    private final Map<Long, SykefraværGrunnlagEntitet> sykefraværGrunnlagMap = new HashMap<>();
+    private final Map<Behandling, Verge> vergeMap = new HashMap<>();
     private final Map<Long, MedlemskapBehandlingsgrunnlagEntitet> medlemskapgrunnlag = new HashMap<>();
+    private final Map<Long, BehandlingVedtak> behandlingvedtakMap = new HashMap<>();
+    private final Map<Long, Behandlingsresultat> behandlingsresultatMap = new HashMap<>();
+    private final Map<Long, Behandling> behandlingMap = new HashMap<>();
     private List<TestScenarioResultatTillegg> testScenarioResultatTilleggListe = new ArrayList<>();
     private ArgumentCaptor<Behandling> behandlingCaptor = ArgumentCaptor.forClass(Behandling.class);
+    private ArgumentCaptor<Behandlingsresultat> behandlingsresultatCaptor = ArgumentCaptor.forClass(Behandlingsresultat.class);
+    private ArgumentCaptor<BehandlingVedtak> behandlingVedtakCaptor = ArgumentCaptor.forClass(BehandlingVedtak.class);
     private ArgumentCaptor<Fagsak> fagsakCaptor = ArgumentCaptor.forClass(Fagsak.class);
     private InntektArbeidYtelseScenario iayScenario;
     private Behandling behandling;
@@ -183,6 +187,7 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
     private GrunnlagRepositoryProvider repositoryProvider;
     private ResultatRepositoryProvider resultatRepositoryProvider;
     private no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon.Builder personInformasjonBuilder;
+    private Behandlingsresultat behandlingsresultat;
 
     protected AbstractTestScenario(NavBrukerKjønn kjønn, AktørId aktørId) {
         this.fagsakBuilder = FagsakBuilder
@@ -359,8 +364,24 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
 
     private BehandlingVedtakRepository mockBehandlingVedtakRepository() {
         BehandlingVedtakRepository behandlingVedtakRepository = mock(BehandlingVedtakRepository.class);
-        BehandlingVedtak behandlingVedtak = mockBehandlingVedtak();
-        when(behandlingVedtakRepository.hentVedtakFor(Mockito.any())).thenReturn(Optional.of(behandlingVedtak));
+        when(behandlingVedtakRepository.hentVedtakFor(Mockito.any())).thenReturn(Optional.ofNullable(behandlingVedtak));
+        when(behandlingVedtakRepository.lagre(behandlingVedtakCaptor.capture(), Mockito.any())).thenAnswer((Answer<Long>) invocation -> {
+            BehandlingVedtak beh = invocation.getArgument(0);
+            Long id = beh.getId();
+            if (id == null) {
+                id = nyId();
+                Whitebox.setInternalState(beh, "id", id);
+            }
+            if (beh.getBehandlingsresultat() == null) {
+                Whitebox.setInternalState(beh, "behandlingsresultat", behandlingsresultat);
+                Whitebox.setInternalState(behandlingsresultat, "behandlingVedtak", beh);
+            } else {
+                Whitebox.setInternalState(beh.getBehandlingsresultat(), "behandlingVedtak", beh);
+            }
+            behandlingVedtak = beh;
+
+            return id;
+        });
 
         return behandlingVedtakRepository;
     }
@@ -437,16 +458,41 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
     private BehandlingRepository lagMockBehandlingRepository() {
         BehandlingRepository behandlingRepository = lagBasicMockBehandlingRepository(repositoryProvider);
 
-        when(behandlingRepository.hentBehandling(Mockito.any())).thenAnswer(a -> {
-            return behandling;
+        when(behandlingRepository.hentResultatHvisEksisterer(Mockito.any())).thenAnswer(a -> {
+            Long argument = a.getArgument(0);
+            if (behandlingsresultatMap.containsKey(argument)) {
+                return Optional.ofNullable(behandlingsresultatMap.get(argument));
+            }
+            return Optional.empty();
         });
-        when(behandlingRepository.finnUnikBehandlingForBehandlingId(Mockito.any())).thenAnswer(a -> Optional.of(behandling));
+        when(behandlingRepository.hentResultat(Mockito.any(Long.class))).thenAnswer(a -> {
+            Long argument = a.getArgument(0);
+            return behandlingsresultatMap.get(argument);
+        });
+        when(behandlingRepository.hentBehandling(Mockito.any())).thenAnswer(a -> {
+            Long id = a.getArgument(0);
+            return behandlingMap.getOrDefault(id, null);
+        });
+        when(behandlingRepository.finnUnikBehandlingForBehandlingId(Mockito.any())).thenAnswer(a -> {
+            Long id = a.getArgument(0);
+            return Optional.ofNullable(behandlingMap.getOrDefault(id, null));
+        });
         when(behandlingRepository.hentSisteBehandlingForFagsakId(Mockito.any(), Mockito.any(BehandlingType.class)))
-            .thenAnswer(a -> Optional.of(behandling));
+            .thenAnswer(a -> {
+                Long id = a.getArgument(0);
+                BehandlingType type = a.getArgument(1);
+                return behandlingMap.values().stream().filter(b -> type.equals(b.getType()) && b.getFagsakId().equals(id)).sorted().findFirst();
+            });
         when(behandlingRepository.hentSisteBehandlingForFagsakId(Mockito.any()))
-            .thenAnswer(a -> Optional.of(behandling));
+            .thenAnswer(a -> {
+                Long id = a.getArgument(0);
+                return behandlingMap.values().stream().filter(b -> b.getFagsakId().equals(id)).sorted().findFirst();
+            });
         when(behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(Mockito.any()))
-            .thenAnswer(a -> Optional.of(behandling));
+            .thenAnswer(a -> {
+                Long id = a.getArgument(0);
+                return behandlingMap.values().stream().filter(b -> b.getFagsakId().equals(id) && behandlingsresultatMap.containsKey(b.getId()) && !behandlingsresultatMap.get(b.getId()).isBehandlingHenlagt()).sorted().findFirst();
+            });
 
         when(behandlingRepository.taSkriveLås(behandlingCaptor.capture())).thenAnswer((Answer<BehandlingLås>) invocation -> {
             Behandling beh = invocation.getArgument(0);
@@ -467,6 +513,22 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
                 }
 
                 beh.getAksjonspunkter().forEach(punkt -> Whitebox.setInternalState(punkt, "id", nyId()));
+                behandlingMap.put(id, beh);
+                return id;
+            });
+
+        when(behandlingRepository.lagre(behandlingsresultatCaptor.capture(), Mockito.any()))
+            .thenAnswer((Answer<Long>) invocation -> {
+                Behandlingsresultat beh = invocation.getArgument(0);
+                Long id = beh.getId();
+                if (id == null) {
+                    id = nyId();
+                    Whitebox.setInternalState(beh, "id", id);
+                } else {
+                    behandlingsresultatMap.remove(beh.getBehandling().getId());
+                }
+                behandlingsresultatMap.put(beh.getBehandling().getId(), beh);
+                behandlingsresultat = beh;
 
                 return id;
             });
@@ -948,9 +1010,10 @@ public abstract class AbstractTestScenario<S extends AbstractTestScenario<S>> im
             .medVilkårResultatType(vilkårResultatType);
 
         vilkårTyper.forEach(inngangsvilkårBuilder::leggTilVilkår);
-        inngangsvilkårBuilder.buildFor(behandling.getBehandlingsresultat());
+        inngangsvilkårBuilder.buildFor(behandlingsresultat);
 
-        repoProvider.getBehandlingRepository().lagre(behandling.getBehandlingsresultat().getVilkårResultat(), lås);
+        repoProvider.getBehandlingRepository().lagre(behandlingsresultat.getVilkårResultat(), lås);
+        repoProvider.getBehandlingRepository().lagre(behandlingsresultat, lås);
 
         if (behandlingVedtakBuilder != null) {
             // Må lagre Behandling for at Behandlingsresultat ikke skal være transient når BehandlingVedtak blir lagret:

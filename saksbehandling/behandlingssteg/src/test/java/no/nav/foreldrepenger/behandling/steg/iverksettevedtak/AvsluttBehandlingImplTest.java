@@ -65,13 +65,13 @@ public class AvsluttBehandlingImplTest {
     public void testAvsluttBehandlingUtenAndreBehandlingerISaken() {
         // Act
         avsluttBehandling.avsluttBehandling(behandling.getId());
-
         // Assert
         verifiserIverksatt(behandling);
     }
 
     private void verifiserIverksatt(Behandling behandling) {
-        Optional<BehandlingVedtak> vedtakOptional = resultatRepositoryProvider.getVedtakRepository().hentVedtakFor(behandling.getBehandlingsresultat().getId());
+        Behandlingsresultat behandlingsresultat = repositoryProvider.getBehandlingRepository().hentResultat(behandling.getId());
+        Optional<BehandlingVedtak> vedtakOptional = resultatRepositoryProvider.getVedtakRepository().hentVedtakFor(behandlingsresultat.getId());
         assertThat(vedtakOptional).isPresent();
         BehandlingVedtak vedtak = vedtakOptional.get();
         assertThat(vedtak.getIverksettingStatus()).isEqualByComparingTo(IverksettingStatus.IVERKSATT);

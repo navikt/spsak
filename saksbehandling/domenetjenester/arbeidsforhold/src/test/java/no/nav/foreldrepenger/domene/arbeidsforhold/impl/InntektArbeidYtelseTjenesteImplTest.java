@@ -132,7 +132,8 @@ public class InntektArbeidYtelseTjenesteImplTest {
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForRegisterInnhenting(any())).thenReturn(I_DAG.toLocalDate());
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(any())).thenReturn(I_DAG.toLocalDate());
         when(skjæringstidspunktTjeneste.utledSkjæringstidspunktForForeldrepenger(any())).thenReturn(I_DAG.toLocalDate());
-        tjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, arbeidsforholTjenesteMock.getMock(), tpsTjeneste, virksomhetTjeneste, skjæringstidspunktTjeneste, new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatProvider, skjæringstidspunktTjeneste));
+        AksjonspunktutlederForVurderOpptjening aksjonspunktutlederForVurderOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatProvider, skjæringstidspunktTjeneste);
+        tjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, arbeidsforholTjenesteMock.getMock(), tpsTjeneste, virksomhetTjeneste, skjæringstidspunktTjeneste, aksjonspunktutlederForVurderOpptjening);
         arbeidsforholdTjeneste = new ArbeidsforholdAdministrasjonTjenesteImpl(repositoryProvider, vurderArbeidsforholdTjeneste, tpsTjeneste, skjæringstidspunktTjeneste);
     }
 
@@ -387,11 +388,12 @@ public class InntektArbeidYtelseTjenesteImplTest {
 
     private void avsluttBehandlingOgFagsak(Behandling behandling) {
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
 
         behandlingRepository.lagre(behandling, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
         BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder()
-            .medBehandlingsresultat(behandling.getBehandlingsresultat())
+            .medBehandlingsresultat(behandlingsresultat)
             .medVedtaksdato(I_DAG.minusDays(1).toLocalDate())
             .medAnsvarligSaksbehandler("Nav Navesen")
             .medVedtakResultatType(VedtakResultatType.INNVILGET)

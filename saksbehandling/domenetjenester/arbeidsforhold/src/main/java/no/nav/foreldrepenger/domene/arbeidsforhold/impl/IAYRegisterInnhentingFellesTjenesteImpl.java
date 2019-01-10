@@ -43,6 +43,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.PermisjonsbeskrivelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -82,9 +83,9 @@ import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInnhentingTjeneste {
 
-    private ResultatRepositoryProvider resultatProvider;
     protected VirksomhetTjeneste virksomhetTjeneste;
     protected SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
+    private ResultatRepositoryProvider resultatProvider;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private InnhentingSamletTjeneste innhentingSamletTjeneste;
     private OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste;
@@ -491,14 +492,15 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
                                                            InntektArbeidYtelseAggregatBuilder.AktørYtelseBuilder aktørYtelseBuilder,
                                                            boolean medDenneFagsaken) {
         final List<Fagsak> fagsakListe = grunnlagRepositoryProvider.getFagsakRepository().hentForBruker(aktørId);
+        BehandlingRepository behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
 
         for (Fagsak fagsak : fagsakListe) {
             if (!medDenneFagsaken && fagsak.equals(behandling.getFagsak())) {
                 continue;
             }
             // TODO (DIAMANT): Avklar hvilke(n) behandling man skal ta med. For FP siste revurdering. OBS: Ikke avsluttet behandling - for 5031!
-            grunnlagRepositoryProvider.getBehandlingRepository().finnSisteAvsluttedeIkkeHenlagteBehandling(fagsak.getId())
-                .map(Behandling::getBehandlingsresultat)
+            behandlingRepository.finnSisteAvsluttedeIkkeHenlagteBehandling(fagsak.getId())
+                .map(b -> behandlingRepository.hentResultat(b.getId()))
                 .map(Behandlingsresultat::getBehandlingVedtak)
                 .filter(behandlingVedtak -> behandlingVedtak.getVedtakResultatType().equals(VedtakResultatType.INNVILGET))
                 .map(
@@ -532,8 +534,9 @@ abstract class IAYRegisterInnhentingFellesTjenesteImpl implements IAYRegisterInn
         if (uttakResultat.isPresent()) {
             ytelseBuilder.medPeriode(hentPeriodeFraUttak(uttakResultat.get()));
         } else {
-            ytelseBuilder.medPeriode(DatoIntervallEntitet.fraOgMedTilOgMed(behandling.getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato(),
-                behandling.getBehandlingsresultat().getBehandlingVedtak().getVedtaksdato()));
+            Behandlingsresultat behandlingsresultat = grunnlagRepositoryProvider.getBehandlingRepository().hentResultat(behandling.getId());
+            ytelseBuilder.medPeriode(DatoIntervallEntitet.fraOgMedTilOgMed(behandlingsresultat.getBehandlingVedtak().getVedtaksdato(),
+                behandlingsresultat.getBehandlingVedtak().getVedtaksdato()));
         }
         // Sjekker om perioden for uttak faktisk er utenfor innhentingsintervalet
         if (!periodeFraRelaterteYtelserSøkesIVL.overlaps(IntervallUtil.tilIntervall(ytelseBuilder.getPeriode().getTomDato()))) {

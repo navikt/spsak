@@ -41,6 +41,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -91,7 +92,7 @@ public class KontrollerFaktaBeregningStegImplTest {
     private Behandling behandling;
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
-
+    private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
 
     private KontrollerFaktaBeregningStegImpl steg;
 
@@ -200,7 +201,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4, OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
         String ref5 = "5";
         leggTilOpptjening(orgnr3, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref5, OpptjeningAktivitetType.ARBEID, ReferanseType.ORG_NR);
-        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandlingRepository.hentResultat(behandling.getId()));
         iayTestUtil.leggTilOppgittOpptjeningForFL(behandling, true);
         leggTilAT(arbId, orgnr);
         leggTilTidsbegrenset(arbId2, orgnr2);
@@ -247,7 +248,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         leggTilOpptjening(orgnr, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref1, OpptjeningAktivitetType.ARBEID, ReferanseType.ORG_NR);
         String ref4 = "4";
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4, OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
-        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandlingRepository.hentResultat(behandling.getId()));
         leggTilAT(arbId, orgnr);
         List<YtelseStørrelse> ytelseStørrelseList = Arrays.asList(lagYtelseStørrelseForVirksomhet(BigDecimal.valueOf(23131), orgnr2));
         leggTilTilstøtendeYtelse(ytelseStørrelseList, behandling, Arbeidskategori.ARBEIDSTAKER);
@@ -282,7 +283,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         String ref4 = "4";
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4,
             OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
-        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandlingRepository.hentResultat(behandling.getId()));
         leggTilAT(arbId, orgnr);
         List<YtelseStørrelse> ytelseStørrelseList = Arrays.asList(lagYtelseStørrelseUtenVirksomhet(BigDecimal.valueOf(23131)));
         leggTilTilstøtendeYtelse(ytelseStørrelseList, behandling, Arbeidskategori.JORDBRUKER);
@@ -326,7 +327,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         String ref4 = "4";
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4,
             OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
-        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandlingRepository.hentResultat(behandling.getId()));
         leggTilAT(arbId, orgnr);
         iayTestUtil.leggTilOppgittOpptjeningForFLOgSN(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, true, true);
         List<YtelseStørrelse> ytelseStørrelseList = Arrays.asList(lagYtelseStørrelseUtenVirksomhet(BigDecimal.valueOf(23131)));
@@ -362,7 +363,7 @@ public class KontrollerFaktaBeregningStegImplTest {
         String ref4 = "4";
         leggTilOpptjening(AKTØR_ID.getId(), opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, ref4,
             OpptjeningAktivitetType.SYKEPENGER, ReferanseType.AKTØR_ID);
-        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandling.getBehandlingsresultat());
+        opptjeningTestUtil.leggTilOpptjening(SKJÆRINGSTIDSPUNKT_OPPTJENING, opptjeningMap, aktivitetTypeMap, referansetypeMap, referanseMap, behandlingRepository.hentResultat(behandling.getId()));
         iayTestUtil.lagOppgittOpptjeningForSN(behandling, SKJÆRINGSTIDSPUNKT_OPPTJENING, true, VirksomhetType.FISKE);
         List<YtelseStørrelse> ytelseStørrelseList = Arrays.asList(lagYtelseStørrelseUtenVirksomhet(BigDecimal.valueOf(23131)));
         leggTilTilstøtendeYtelse(ytelseStørrelseList, behandling, Arbeidskategori.JORDBRUKER);

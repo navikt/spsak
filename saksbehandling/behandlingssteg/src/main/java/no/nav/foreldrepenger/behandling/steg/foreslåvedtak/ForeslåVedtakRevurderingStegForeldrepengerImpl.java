@@ -50,11 +50,12 @@ public class ForeslåVedtakRevurderingStegForeldrepengerImpl implements Foreslå
     @Override
     public BehandleStegResultat utførSteg(BehandlingskontrollKontekst kontekst){
         Behandling revurdering = behandlingRepository.hentBehandling(kontekst.getBehandlingId());
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(kontekst.getBehandlingId());
         Behandling orginalBehandling = revurdering.getOriginalBehandling()
             .orElseThrow(() -> new IllegalStateException("Utviklerfeil: Revurdering skal alltid ha orginal behandling"));
         BehandleStegResultat behandleStegResultat = foreslåVedtakTjeneste.foreslåVedtak(revurdering);
 
-        if (!beregningsgrunnlagEksisterer(revurdering) || orginalBehandling.getBehandlingsresultat().isBehandlingsresultatAvslått()) {
+        if (!beregningsgrunnlagEksisterer(revurdering) || behandlingsresultat.isBehandlingsresultatAvslått()) {
             return behandleStegResultat;
         }
         //Oppretter aksjonspunkt dersom revurdering har mindre beregningsgrunnlag enn orginal
@@ -87,7 +88,7 @@ public class ForeslåVedtakRevurderingStegForeldrepengerImpl implements Foreslå
 
     @Override
     public void vedHoppOverBakover(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, BehandlingStegType tilSteg, BehandlingStegType fraSteg) {
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(kontekst.getBehandlingId());
         Behandlingsresultat.builderEndreEksisterende(behandlingsresultat)
             .fjernKonsekvenserForYtelsen()
             .buildFor(behandling);

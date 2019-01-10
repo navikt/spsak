@@ -17,6 +17,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
@@ -26,6 +27,7 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.InngangsvilkårTjeneste;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.RegelResultat;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
 import no.nav.vedtak.exception.TekniskException;
+import no.nav.vedtak.util.Tuple;
 
 public class RegelOrkestrererImplTest {
 
@@ -51,16 +53,16 @@ public class RegelOrkestrererImplTest {
         VilkårType vilkårType = VilkårType.MEDLEMSKAPSVILKÅRET;
         VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, emptyList());
         when(inngangsvilkårTjeneste.finnVilkår(vilkårType)).thenReturn((b) -> vilkårData);
-        Behandling behandling = byggBehandlingMedVilkårresultat(VilkårResultatType.IKKE_FASTSATT, vilkårType);
+        Tuple<Behandling, Behandlingsresultat> tuple = byggBehandlingMedVilkårresultat(VilkårResultatType.IKKE_FASTSATT, vilkårType);
 
         // Act
         RegelResultat regelResultat = orkestrerer.vurderInngangsvilkår(
-                singletonList(vilkårType), behandling);
+            singletonList(vilkårType), tuple.getElement1(), tuple.getElement2());
 
         // Assert
         assertThat(regelResultat.getVilkårResultat().getVilkårene()).hasSize(1);
         assertThat(regelResultat.getVilkårResultat().getVilkårene().iterator().next().getVilkårType())
-                .isEqualTo(vilkårType);
+            .isEqualTo(vilkårType);
     }
 
 
@@ -68,19 +70,20 @@ public class RegelOrkestrererImplTest {
     public void skal_ikke_returnere_aksjonspunkter_fra_regelmotor_dersom_allerede_overstyrt() {
         // Arrange
         Behandling behandling = Behandling.forFørstegangssøknad(fagsak).build();
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.opprettFor(behandling);
         VilkårType vilkårType = VilkårType.MEDLEMSKAPSVILKÅRET;
 
         boolean erOverstyrt = true;
         VilkårResultat.builder()
-                .leggTilVilkårResultat(vilkårType, OPPFYLT, null, null, null, false, erOverstyrt, null, null)
-                .buildFor(behandling);
+            .leggTilVilkårResultat(vilkårType, OPPFYLT, null, null, null, false, erOverstyrt, null, null)
+            .buildFor(behandlingsresultat);
 
         VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, singletonList(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD));
         when(inngangsvilkårTjeneste.finnVilkår(vilkårType)).thenReturn((b) -> vilkårData);
 
         // Act
         RegelResultat regelResultat = orkestrerer.vurderInngangsvilkår(
-                singletonList(vilkårType), behandling);
+            singletonList(vilkårType), behandling, behandlingsresultat);
 
         // Assert
         assertThat(regelResultat.getAksjonspunktDefinisjoner()).hasSize(0);
@@ -90,19 +93,20 @@ public class RegelOrkestrererImplTest {
     public void skal_returnere_aksjonspunkter_fra_regelmotor_dersom_allerede_manuelt_vurdert() {
         // Arrange
         Behandling behandling = Behandling.forFørstegangssøknad(fagsak).build();
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.opprettFor(behandling);
         VilkårType vilkårType = VilkårType.MEDLEMSKAPSVILKÅRET;
 
         boolean manueltVurdert = true;
         VilkårResultat.builder()
             .leggTilVilkårResultat(vilkårType, OPPFYLT, null, null, null, manueltVurdert, false, null, null)
-            .buildFor(behandling);
+            .buildFor(behandlingsresultat);
 
         VilkårData vilkårData = new VilkårData(vilkårType, OPPFYLT, singletonList(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD));
         when(inngangsvilkårTjeneste.finnVilkår(vilkårType)).thenReturn((b) -> vilkårData);
 
         // Act
         RegelResultat regelResultat = orkestrerer.vurderInngangsvilkår(
-            singletonList(vilkårType), behandling);
+            singletonList(vilkårType), behandling, behandlingsresultat);
 
         // Assert
         assertThat(regelResultat.getAksjonspunktDefinisjoner()).containsExactly(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
@@ -129,11 +133,12 @@ public class RegelOrkestrererImplTest {
         orkestrerer.utledInngangsvilkårUtfall(emptyList());
     }
 
-    private Behandling byggBehandlingMedVilkårresultat(VilkårResultatType vilkårResultatType, VilkårType vilkårType) {
+    private Tuple<Behandling, Behandlingsresultat> byggBehandlingMedVilkårresultat(VilkårResultatType vilkårResultatType, VilkårType vilkårType) {
         Behandling.Builder behandlingBuilder = Behandling.forFørstegangssøknad(fagsak);
         Behandling behandling = behandlingBuilder.build();
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.opprettFor(behandling);
         VilkårResultat.builder().medVilkårResultatType(vilkårResultatType)
-            .leggTilVilkår(vilkårType, IKKE_VURDERT).buildFor(behandling);
-        return behandling;
+            .leggTilVilkår(vilkårType, IKKE_VURDERT).buildFor(behandlingsresultat);
+        return new Tuple<>(behandling, behandlingsresultat);
     }
 }

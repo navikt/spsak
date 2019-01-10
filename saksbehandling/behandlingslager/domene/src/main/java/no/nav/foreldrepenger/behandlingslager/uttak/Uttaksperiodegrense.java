@@ -17,9 +17,8 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.Type;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity
@@ -77,7 +76,7 @@ public class Uttaksperiodegrense extends BaseEntitet {
     }
 
     public static Builder fraEksisterende(Uttaksperiodegrense uttaksperiodegrense) {
-        return new Builder(uttaksperiodegrense.behandlingsresultat.getBehandling())
+        return new Builder(uttaksperiodegrense.behandlingsresultat)
             .medMottattDato(uttaksperiodegrense.getMottattDato())
             .medFørsteLovligeUttaksdag(uttaksperiodegrense.getFørsteLovligeUttaksdag())
             .medSporingInput(uttaksperiodegrense.sporingInput)
@@ -87,9 +86,9 @@ public class Uttaksperiodegrense extends BaseEntitet {
     public static class Builder {
         Uttaksperiodegrense kladd;
 
-        public Builder(Behandling behandling) {
+        public Builder(Behandlingsresultat behandlingsresultat) {
             kladd = new Uttaksperiodegrense();
-            kladd.behandlingsresultat = behandling.getBehandlingsresultat();
+            kladd.behandlingsresultat = behandlingsresultat;
         }
 
         public Builder medSporingInput(String sporingInput) {

@@ -40,6 +40,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kod
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
@@ -216,7 +217,8 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             RelatertYtelseTilstand.LØPENDE, "1222433", RelatertYtelseType.SYKEPENGER));
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, skjæring.minusDays(30), skjæring);
 
         // Act
         Optional<Ytelse> sisteYtelseOpt = opptjeningTjeneste.hentSisteInfotrygdYtelseFørSkjæringstidspunktForOpptjening(behandling);
@@ -258,7 +260,8 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             RelatertYtelseTilstand.AVSLUTTET, "123253254", RelatertYtelseType.SYKEPENGER));
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -301,7 +304,8 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             leggTilYtelse(builder.getAktørYtelseBuilder(søkerAktørId), skjæring.minusDays(9), skjæring.minusDays(1), RelatertYtelseTilstand.AVSLUTTET, "123253254", RelatertYtelseType.SYKEPENGER));
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -339,7 +343,8 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             leggTilYtelse(builder.getAktørYtelseBuilder(søkerAktørId), skjæring.minusDays(20), skjæring.minusDays(10), RelatertYtelseTilstand.AVSLUTTET, "1222433", RelatertYtelseType.SYKEPENGER));
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -376,7 +381,8 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
             leggTilYtelse(builder.getAktørYtelseBuilder(søkerAktørId), skjæring.minusDays(20), skjæring.minusDays(12), RelatertYtelseTilstand.AVSLUTTET, "1222433", RelatertYtelseType.SYKEPENGER));
 
         tjeneste.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -418,7 +424,8 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
         tjeneste.lagre(behandling, saksbehandling);
 
         inntektArbeidYtelseRepository.lagre(behandling, builder);
-        opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusDays(30), skjæring);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, skjæring.minusDays(30), skjæring);
 
         // Act
         Collection<Ytelse> sammenhengendeYtelser = opptjeningTjeneste.hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(behandling);
@@ -461,12 +468,14 @@ public class OpptjeningInntektArbeidYtelseTjenesteImplTest {
         fagsakRepository.opprettNy(fagsak);
         final Behandling.Builder builder = Behandling.forFørstegangssøknad(fagsak);
         final Behandling behandling = builder.build();
-        Behandlingsresultat.opprettFor(behandling);
-        behandlingRepository.lagre(behandling, behandlingRepository.taSkriveLås(behandling));
-        final VilkårResultat nyttResultat = VilkårResultat.builder().buildFor(behandling);
-        behandlingRepository.lagre(nyttResultat, behandlingRepository.taSkriveLås(behandling));
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.opprettFor(behandling);
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandling, lås);
+        final VilkårResultat nyttResultat = VilkårResultat.builder().buildFor(behandlingsresultat);
+        behandlingRepository.lagre(nyttResultat, lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
 
-        resultatRepositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), skjæring.minusMonths(10), skjæring);
+        resultatRepositoryProvider.getOpptjeningRepository().lagreOpptjeningsperiode(behandlingsresultat, skjæring.minusMonths(10), skjæring);
         return behandling;
     }
 }

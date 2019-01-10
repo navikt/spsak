@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.BehandlingslagerRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallMerknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
@@ -22,13 +21,13 @@ import no.nav.vedtak.util.Tuple;
  */
 public interface MedlemskapVilkårPeriodeRepository extends BehandlingslagerRepository {
 
-    Optional<MedlemskapVilkårPeriodeGrunnlag> hentAggregatHvisEksisterer(Behandlingsresultat behandlingsresultat);
+    Optional<MedlemskapVilkårPeriodeGrunnlag> hentHvisEksisterer(Behandlingsresultat behandlingsresultat);
 
-    void kopierGrunnlagFraEksisterendeBehandling(Behandling eksisterendeBehandling, Behandling nyBehandling);
+    void kopierGrunnlagFraEksisterende(Behandlingsresultat behandlingsresultat, Behandlingsresultat nytt);
 
     MedlemskapVilkårPeriodeGrunnlagEntitet.Builder hentBuilderFor(Behandlingsresultat behandlingsresultat);
 
-    void lagreMedlemskapsvilkår(Behandling behandling, MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder);
+    void lagre(Behandlingsresultat behandlingsresultat, MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder);
 
     Tuple<VilkårUtfallType, VilkårUtfallMerknad> utledeVilkårStatus(Behandlingsresultat behandlingsresultat);
 

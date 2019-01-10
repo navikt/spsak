@@ -32,7 +32,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
@@ -79,12 +78,8 @@ public class VurderLøpendeMedlemskapStegImplTest {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         RegistrertMedlemskapPerioder periode = opprettPeriode(ettÅrSiden, iDag, MedlemskapDekningType.FTL_2_6);
         scenario.leggTilMedlemskapPeriode(periode);
+        scenario.leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT);
         Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
-        VilkårResultat vilkårResultat = VilkårResultat.builder()
-            .leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, VilkårUtfallType.OPPFYLT)
-            .buildFor(behandling);
-
-        behandlingRepository.lagre(vilkårResultat, behandlingRepository.taSkriveLås(behandling));
 
         avslutterBehandlingOgFagsak(behandling);
 
@@ -122,13 +117,12 @@ public class VurderLøpendeMedlemskapStegImplTest {
 
         Behandling revudering = Behandling.fraTidligereBehandling(behandling, BehandlingType.REVURDERING)
             .medBehandlingÅrsak(revurderingÅrsak).build();
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        Behandlingsresultat revurderingResultat = Behandlingsresultat.builderFraEksisterende(behandlingsresultat).buildFor(revudering);
         BehandlingLås lås = behandlingRepository.taSkriveLås(revudering);
         behandlingRepository.lagre(revudering, lås);
-
-        Behandlingsresultat.Builder builder = Behandlingsresultat.builderForInngangsvilkår();
-        Behandlingsresultat behandlingsresultat = builder.buildFor(revudering);
-
-        behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(revurderingResultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(revurderingResultat, lås);
 
         medlemskapRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revudering);
         inntektArbeidYtelseRepository.kopierGrunnlagFraEksisterendeBehandling(behandling, revudering);
@@ -149,11 +143,6 @@ public class VurderLøpendeMedlemskapStegImplTest {
 
     private void avslutterBehandlingOgFagsak(Behandling behandling) {
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        Behandlingsresultat.Builder behandlingsresultatBuilder = Behandlingsresultat.builderForInngangsvilkår();
-        Behandlingsresultat behandlingsresultat = behandlingsresultatBuilder.buildFor(behandling);
-
-        behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
-        behandlingRepository.lagre(behandling, lås);
 
         repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandling.getId());
         behandlingRepository.lagre(behandling, lås);

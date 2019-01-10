@@ -126,10 +126,10 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
     private StartpunktType utledStartpunkt(Behandling revurdering) {
         StartpunktType startpunkt;
         StartpunktType startpunktForGrunnlagsendringer = startpunktTjeneste.utledStartpunktMotOriginalBehandling(revurdering);
-        Behandlingsresultat behandlingsresultatOrginalBehandling = revurdering.getOriginalBehandling().get().getBehandlingsresultat();
+        Optional<Behandlingsresultat> behandlingsresultatOrginalBehandling = behandlingRepository.hentResultatHvisEksisterer(revurdering.getOriginalBehandling().get().getId());
         if (revurdering.erManueltOpprettet()) {
             startpunkt = DEFAULT_STARTPUNKT;
-        } else if (behandlingsresultatOrginalBehandling != null && behandlingsresultatOrginalBehandling.isVilkårAvslått()) {
+        } else if (behandlingsresultatOrginalBehandling.isPresent() && behandlingsresultatOrginalBehandling.get().isVilkårAvslått()) {
             startpunkt = DEFAULT_STARTPUNKT;
         } else {
             startpunkt = startpunktForGrunnlagsendringer.equals(StartpunktType.UDEFINERT) ? DEFAULT_STARTPUNKT : startpunktForGrunnlagsendringer;
@@ -188,12 +188,15 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
         revurdering = kopierVilkår(origBehandling, revurdering, kontekst);
         revurdering = kopierUttaksperiodegrense(revurdering, origBehandling);
 
+        Behandlingsresultat originaltResultat = behandlingRepository.hentResultat(origBehandling.getId());
+        Behandlingsresultat revurderingResultat = behandlingRepository.hentResultat(revurdering.getId());
+
         if (StartpunktType.BEREGNING.equals(revurdering.getStartpunkt())) {
-            opptjeningRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
+            opptjeningRepository.kopierGrunnlagFraEksisterendeBehandling(revurdering, originaltResultat, revurderingResultat);
         }
 
         if (StartpunktType.UTTAKSVILKÅR.equals(revurdering.getStartpunkt())) {
-            opptjeningRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering);
+            opptjeningRepository.kopierGrunnlagFraEksisterendeBehandling(revurdering, originaltResultat, revurderingResultat);
             beregningsgrunnlagRepository.kopierGrunnlagFraEksisterendeBehandling(origBehandling, revurdering, BeregningsgrunnlagTilstand.OPPRETTET);
         }
 
@@ -203,19 +206,21 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
         // Kopier Uttaksperiodegrense - må alltid ha en søknadsfrist angitt
         Optional<Uttaksperiodegrense> funnetUttaksperiodegrense = uttakRepository.hentUttaksperiodegrenseHvisEksisterer(origBehandling.getId());
         if (funnetUttaksperiodegrense.isPresent()) {
+            Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(revurdering.getId());
             Uttaksperiodegrense origGrense = funnetUttaksperiodegrense.get();
-            Uttaksperiodegrense uttaksperiodegrense = new Uttaksperiodegrense.Builder(revurdering)
+            Uttaksperiodegrense uttaksperiodegrense = new Uttaksperiodegrense.Builder(behandlingsresultat)
                 .medFørsteLovligeUttaksdag(origGrense.getFørsteLovligeUttaksdag())
                 .medMottattDato(origGrense.getMottattDato())
                 .build();
-            uttakRepository.lagreUttaksperiodegrense(revurdering, uttaksperiodegrense);
+            uttakRepository.lagreUttaksperiodegrense(behandlingsresultat, uttaksperiodegrense);
             return behandlingRepository.hentBehandling(revurdering.getId());
         }
         return revurdering;
     }
 
     private Behandling kopierVilkår(Behandling origBehandling, Behandling revurdering, BehandlingskontrollKontekst kontekst) {
-        VilkårResultat vilkårResultat = Optional.ofNullable(revurdering.getBehandlingsresultat())
+        Optional<Behandlingsresultat> resultatOpt = behandlingRepository.hentResultatHvisEksisterer(revurdering.getId());
+        VilkårResultat vilkårResultat = resultatOpt
             .map(Behandlingsresultat::getVilkårResultat)
             .orElseThrow(() -> new IllegalStateException("VilkårResultat skal alltid være opprettet ved revurdering"));
         VilkårResultat.Builder vilkårBuilder = VilkårResultat.builderFraEksisterende(vilkårResultat);
@@ -225,15 +230,17 @@ public class KontrollerFaktaRevurderingStegForeldrepengerImpl implements Kontrol
         Objects.requireNonNull(vilkårtyperFørStartpunkt, "Startpunkt " + startpunkt.getKode() +
             " støttes ikke for kopiering av vilkår ved revurdering");
 
-        Set<Vilkår> vilkårFørStartpunkt = origBehandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().stream()
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(origBehandling.getId());
+        Behandlingsresultat revurderingsResultat = resultatOpt.orElse(Behandlingsresultat.opprettFor(revurdering));
+        Set<Vilkår> vilkårFørStartpunkt = behandlingsresultat.getVilkårResultat().getVilkårene().stream()
             .filter(vilkår -> vilkårtyperFørStartpunkt.contains(vilkår.getVilkårType()))
             .collect(Collectors.toSet());
         kopierVilkår(vilkårBuilder, vilkårFørStartpunkt);
-        vilkårBuilder.buildFor(revurdering);
+        vilkårBuilder.buildFor(revurderingsResultat);
 
-        behandlingRepository.lagre(revurdering.getBehandlingsresultat().getVilkårResultat(), kontekst.getSkriveLås());
-        behandlingRepository.lagre(revurdering, kontekst.getSkriveLås());
-        return behandlingRepository.hentBehandling(revurdering.getId());
+        behandlingRepository.lagre(revurderingsResultat.getVilkårResultat(), kontekst.getSkriveLås());
+        behandlingRepository.lagre(revurderingsResultat, kontekst.getSkriveLås());
+        return revurdering;
     }
 
     private void kopierVilkår(VilkårResultat.Builder vilkårBuilder, Set<Vilkår> vilkårne) {

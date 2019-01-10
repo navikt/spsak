@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -23,6 +24,7 @@ public class BeregningsresultatTjenesteImpl implements BeregningsresultatTjenest
     private BeregningsresultatRepository beregningsresultatFPRepository;
     private UttakRepository uttakRepository;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste;
+    private BehandlingRepository behandlingRepository;
 
     public BeregningsresultatTjenesteImpl() {
         // For CDI
@@ -34,6 +36,7 @@ public class BeregningsresultatTjenesteImpl implements BeregningsresultatTjenest
                                           SkjæringstidspunktTjeneste skjæringstidspunktTjeneste) {
         this.inntektArbeidYtelseRepository = grunnlagRepositoryProvider.getInntektArbeidYtelseRepository();
         this.beregningsresultatFPRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
+        this.behandlingRepository = resultatRepositoryProvider.getBehandlingRepository();
         this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
     }
@@ -42,7 +45,7 @@ public class BeregningsresultatTjenesteImpl implements BeregningsresultatTjenest
     public Optional<BeregningsresultatMedUttaksplanDto> lagBeregningsresultatMedUttaksplan(Behandling behandling) {
         Optional<UttakResultatEntitet> uttakResultat = uttakRepository.hentUttakResultatHvisEksisterer(behandling);
         return uttakResultat
-            .flatMap(uttakResultatPlan -> beregningsresultatFPRepository.hentHvisEksisterer(behandling)
+            .flatMap(uttakResultatPlan -> beregningsresultatFPRepository.hentHvisEksisterer(behandlingRepository.hentResultat(behandling.getId()))
                 .flatMap(beregningsresultatFP -> inntektArbeidYtelseRepository.hentAggregatHvisEksisterer(behandling, skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling))
                     .map(inntektArbeidYtelseGrunnlag -> BeregningsresultatMedUttaksplanMapper.lagBeregningsresultatMedUttaksplan(behandling, beregningsresultatFP))));
     }

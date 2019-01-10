@@ -11,6 +11,8 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.BasicBehandlingBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
@@ -26,7 +28,8 @@ public class OpptjeningRepositoryTest {
     private final EntityManager em = repoRule.getEntityManager();
     private final BasicBehandlingBuilder basicBehandlingBuilder = new BasicBehandlingBuilder(repoRule.getEntityManager());
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(em);
-    private final OpptjeningRepository opptjeningRepository = new OpptjeningRepositoryImpl(em, repositoryProvider.getBehandlingRepository(), repositoryProvider.getKodeverkRepository());
+    private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+    private final OpptjeningRepository opptjeningRepository = new OpptjeningRepositoryImpl(em, behandlingRepository, repositoryProvider.getKodeverkRepository());
 
     @Test
     public void skal_lagre_opptjeningsperiode() throws Exception {
@@ -37,8 +40,9 @@ public class OpptjeningRepositoryTest {
 
         @SuppressWarnings("unused")
         VilkårResultat vilkårResultat = basicBehandlingBuilder.leggTilTomtVilkårResultat(behandling);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
 
-        Opptjening opptjeningsperiode = opptjeningRepository.lagreOpptjeningsperiode(behandling.getBehandlingsresultat(), today, tomorrow);
+        Opptjening opptjeningsperiode = opptjeningRepository.lagreOpptjeningsperiode(behandlingsresultat, today, tomorrow);
 
         assertThat(opptjeningsperiode.getFom()).isEqualTo(today);
         assertThat(opptjeningsperiode.getTom()).isEqualTo(tomorrow);
@@ -46,7 +50,7 @@ public class OpptjeningRepositoryTest {
         assertThat(opptjeningsperiode.getOpptjeningAktivitet()).isEmpty();
         assertThat(opptjeningsperiode.getOpptjentPeriode()).isNull();
 
-        Opptjening funnet = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat()).orElseThrow(IllegalArgumentException::new);
+        Opptjening funnet = opptjeningRepository.finnOpptjening(behandlingsresultat).orElseThrow(IllegalArgumentException::new);
 
         assertThat(funnet).isEqualTo(opptjeningsperiode);
     }

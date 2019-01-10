@@ -170,8 +170,8 @@ public class KontrollerFaktaLøpendeMedlemskapStegImplTest {
         Behandlingsresultat behandlingsresultat = behandlingsresultatBuilder.buildFor(behandling);
 
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
-        behandlingRepository.lagre(behandling, lås);
-        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandling, lagUttaksPeriode());
+        behandlingRepository.lagre(behandlingsresultat, lås);
+        resultatRepositoryProvider.getUttakRepository().lagreOpprinneligUttakResultatPerioder(behandlingsresultat, lagUttaksPeriode());
 
         repositoryProvider.getBehandlingskontrollRepository().avsluttBehandling(behandling.getId());
     }

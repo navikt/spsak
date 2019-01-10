@@ -16,6 +16,7 @@ import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
@@ -70,14 +71,17 @@ public class KontrollerFaktaStegForeldrepengerImpl implements KontrollerFaktaSte
     }
 
     private void opprettVilkår(UtledeteVilkår utledeteVilkår, Behandling behandling, BehandlingLås skriveLås) {
+        Behandlingsresultat resultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId())
+            .orElse(Behandlingsresultat.opprettFor(behandling));
         // Opprett Vilkårsresultat med vilkårne som som skal vurderes, og sett dem som ikke vurdert
-        VilkårResultat.Builder vilkårBuilder = behandling.getBehandlingsresultat() != null
-            ? VilkårResultat.builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat())
+        VilkårResultat.Builder vilkårBuilder = resultat.getVilkårResultat() != null
+            ? VilkårResultat.builderFraEksisterende(resultat.getVilkårResultat())
             : VilkårResultat.builder();
         utledeteVilkår.getAlleAvklarte()
             .forEach(vilkårType -> vilkårBuilder.leggTilVilkår(vilkårType, VilkårUtfallType.IKKE_VURDERT));
-        vilkårBuilder.buildFor(behandling);
-        behandlingRepository.lagre(behandling.getBehandlingsresultat().getVilkårResultat(), skriveLås);
+        vilkårBuilder.buildFor(resultat);
+        behandlingRepository.lagre(resultat.getVilkårResultat(), skriveLås);
+        behandlingRepository.lagre(resultat, skriveLås);
     }
 
 }

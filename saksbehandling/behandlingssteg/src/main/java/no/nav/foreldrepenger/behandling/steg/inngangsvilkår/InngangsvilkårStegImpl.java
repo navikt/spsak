@@ -13,6 +13,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegModell;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
@@ -43,8 +44,9 @@ public abstract class InngangsvilkårStegImpl implements InngangsvilkårSteg {
     public BehandleStegResultat utførSteg(BehandlingskontrollKontekst kontekst) {
         // Hent behandlingsgrunnlag og vilkårtyper
         Behandling behandling = behandlingRepository.hentBehandling(kontekst.getBehandlingId());
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
         List<VilkårType> vilkårHåndtertAvSteg = vilkårHåndtertAvSteg();
-        List<VilkårType> vilkårTyper = behandling.getBehandlingsresultat().getVilkårResultat().getVilkårene().stream()
+        List<VilkårType> vilkårTyper = behandlingsresultat.getVilkårResultat().getVilkårene().stream()
             .map(Vilkår::getVilkårType)
             .filter(vilkårType -> vilkårHåndtertAvSteg.contains(vilkårType))
             .collect(Collectors.toList());
@@ -53,7 +55,7 @@ public abstract class InngangsvilkårStegImpl implements InngangsvilkårSteg {
         }
 
         // Kall regelmotor
-        RegelResultat regelResultat = regelOrkestrerer.vurderInngangsvilkår(vilkårTyper, behandling);
+        RegelResultat regelResultat = regelOrkestrerer.vurderInngangsvilkår(vilkårTyper, behandling, behandlingsresultat);
 
         // Oppdater behandling
         behandlingRepository.lagre(regelResultat.getVilkårResultat(), kontekst.getSkriveLås());

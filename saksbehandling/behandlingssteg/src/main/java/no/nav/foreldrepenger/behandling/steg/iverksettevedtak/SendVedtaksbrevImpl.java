@@ -38,8 +38,8 @@ public class SendVedtaksbrevImpl implements SendVedtaksbrev {
     @Override
     public void sendVedtaksbrev(Long behandlingId) {
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-        Optional<BehandlingVedtak> behandlingVedtakOpt = behandlingVedtakRepository.hentVedtakFor(behandling.getBehandlingsresultat().getId());
-        if (!behandlingVedtakOpt.isPresent()) {
+        Optional<BehandlingVedtak> behandlingVedtakOpt = behandlingVedtakRepository.hentVedtakFor(behandlingRepository.hentResultat(behandling.getId()).getId());
+        if (behandlingVedtakOpt.isEmpty()) {
             log.info("Det foreligger ikke vedtak i behandling: {}, kan ikke sende vedtaksbrev", behandlingId); //$NON-NLS-1$
             return;
         }

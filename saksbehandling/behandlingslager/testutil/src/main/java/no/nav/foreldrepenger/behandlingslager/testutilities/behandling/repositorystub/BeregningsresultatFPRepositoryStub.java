@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
@@ -17,8 +16,8 @@ public class BeregningsresultatFPRepositoryStub implements BeregningsresultatRep
     private Map<Behandlingsresultat, BeregningsresultatPerioder> map = new HashMap<>();
 
     @Override
-    public Optional<BeregningsresultatPerioder> hentHvisEksisterer(Behandling behandling) {
-        return map.containsKey(behandling.getBehandlingsresultat()) ? Optional.of(map.get(behandling.getBehandlingsresultat())) : Optional.empty();
+    public Optional<BeregningsresultatPerioder> hentHvisEksisterer(Behandlingsresultat behandlingsresultat) {
+        return map.containsKey(behandlingsresultat) ? Optional.of(map.get(behandlingsresultat)) : Optional.empty();
     }
 
     @Override
@@ -33,7 +32,7 @@ public class BeregningsresultatFPRepositoryStub implements BeregningsresultatRep
     }
 
     @Override
-    public void deaktiverBeregningsresultat(Behandling behandling, BehandlingLås skriveLås) {
+    public void deaktiverBeregningsresultat(Behandlingsresultat behandlingsresultat, BehandlingLås skriveLås) {
         throw new UnsupportedOperationException(IKKE_STOTTET);
     }
 

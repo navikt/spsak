@@ -4,6 +4,7 @@ import static no.nav.vedtak.sikkerhet.abac.BeskyttetRessursActionAttributt.READ;
 import static no.nav.vedtak.sikkerhet.abac.BeskyttetRessursResourceAttributt.FAGSAK;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingIdDto;
@@ -57,7 +59,8 @@ public class VilkårRestTjeneste {
     public Response getVilkår(@NotNull @QueryParam("behandlingId") @Valid BehandlingIdDto behandlingIdDto) {
         Long behandlingId = behandlingIdDto.getBehandlingId();
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-        List<VilkårDto> dto = VilkårDtoMapper.lagVilkarDto(behandling, false);
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandlingId);
+        List<VilkårDto> dto = VilkårDtoMapper.lagVilkarDto(behandling, behandlingsresultat.orElse(null), false);
         CacheControl cc = new CacheControl();
         cc.setNoCache(true);
         cc.setNoStore(true);
@@ -77,7 +80,8 @@ public class VilkårRestTjeneste {
     public Response getVilkårFull(@NotNull @QueryParam("behandlingId") @Valid BehandlingIdDto behandlingIdDto) {
         Long behandlingId = behandlingIdDto.getBehandlingId();
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-        List<VilkårDto> dto = VilkårDtoMapper.lagVilkarDto(behandling, true);
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandlingId);
+        List<VilkårDto> dto = VilkårDtoMapper.lagVilkarDto(behandling, behandlingsresultat.orElse(null), true);
         CacheControl cc = new CacheControl();
         cc.setNoCache(true);
         cc.setNoStore(true);

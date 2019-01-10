@@ -43,6 +43,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinnslag;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingskontrollRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRepository;
@@ -207,7 +208,8 @@ public class HenleggBehandlingTjenesteImplTest {
     @Test
     public void kan_henlegge_behandling_der_vedtak_er_foreslått() throws Exception {
         // Arrange
-        Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
+        BehandlingRepository behandlingRepository = repositoryProviderMock.getBehandlingRepository();
+        behandlingRepository.lagre(Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling), behandlingRepository.taSkriveLås(behandling));
         BehandlingResultatType behandlingsresultat = BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET;
 
         // Act
@@ -217,7 +219,8 @@ public class HenleggBehandlingTjenesteImplTest {
     @Test
     public void kan_ikke_henlegge_behandling_der_vedtak_er_fattet() throws Exception {
         // Arrange
-        Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
+        BehandlingRepository behandlingRepository = repositoryProviderMock.getBehandlingRepository();
+        behandlingRepository.lagre(Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling), behandlingRepository.taSkriveLås(behandling));
         BehandlingResultatType behandlingsresultat = BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET;
         manipulerInternBehandling.forceOppdaterBehandlingSteg(behandling, IVERKSETT_VEDTAK);
 
@@ -233,7 +236,8 @@ public class HenleggBehandlingTjenesteImplTest {
     @Test
     public void kan_ikke_henlegge_behandling_som_allerede_er_henlagt() throws Exception {
         // Arrange
-        Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.HENLAGT_FEILOPPRETTET).buildFor(behandling);
+        BehandlingRepository behandlingRepository = repositoryProviderMock.getBehandlingRepository();
+        behandlingRepository.lagre(Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.HENLAGT_FEILOPPRETTET).buildFor(behandling), behandlingRepository.taSkriveLås(behandling));
         BehandlingResultatType behandlingsresultat = BehandlingResultatType.HENLAGT_SØKNAD_TRUKKET;
 
         // Act

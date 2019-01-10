@@ -14,6 +14,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
@@ -61,8 +62,9 @@ public class VurderLøpendeMedlemskapStegImpl implements VurderLøpendeMedlemska
             Long behandlingId = kontekst.getBehandlingId();
             Map<LocalDate, VilkårData> localDateVilkårDataMap = vurderLøpendeMedlemskap.vurderLøpendeMedlemskap(behandlingId);
             Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
+            Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandlingId);
 
-            MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(behandling.getBehandlingsresultat());
+            MedlemskapVilkårPeriodeGrunnlagEntitet.Builder builder = medlemskapVilkårPeriodeRepository.hentBuilderFor(behandlingsresultat);
             MedlemskapsvilkårPeriodeEntitet.Builder perioderBuilder = builder.getPeriodeBuilder();
 
             localDateVilkårDataMap.forEach((vurderingsdato, value) -> {
@@ -72,14 +74,15 @@ public class VurderLøpendeMedlemskapStegImpl implements VurderLøpendeMedlemska
                 perioderBuilder.leggTil(periodeBuilder);
             });
             builder.medMedlemskapsvilkårPeriode(perioderBuilder);
-            medlemskapVilkårPeriodeRepository.lagreMedlemskapsvilkår(behandling, builder);
+            medlemskapVilkårPeriodeRepository.lagre(behandlingsresultat, builder);
 
-            Tuple<VilkårUtfallType, VilkårUtfallMerknad> utfall = medlemskapVilkårPeriodeRepository.utledeVilkårStatus(behandling.getBehandlingsresultat());
-            VilkårResultat.Builder vilkårBuilder = VilkårResultat.builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat());
+            Tuple<VilkårUtfallType, VilkårUtfallMerknad> utfall = medlemskapVilkårPeriodeRepository.utledeVilkårStatus(behandlingsresultat);
+            VilkårResultat.Builder vilkårBuilder = VilkårResultat.builderFraEksisterende(behandlingsresultat.getVilkårResultat());
             vilkårBuilder.leggTilVilkår(VilkårType.MEDLEMSKAPSVILKÅRET, utfall.getElement1());
 
             BehandlingLås lås = kontekst.getSkriveLås();
-            behandlingRepository.lagre(vilkårBuilder.buildFor(behandling), lås);
+            behandlingRepository.lagre(vilkårBuilder.buildFor(behandlingsresultat), lås);
+            behandlingRepository.lagre(behandlingsresultat, lås);
         }
         return BehandleStegResultat.utførtUtenAksjonspunkter();
     }

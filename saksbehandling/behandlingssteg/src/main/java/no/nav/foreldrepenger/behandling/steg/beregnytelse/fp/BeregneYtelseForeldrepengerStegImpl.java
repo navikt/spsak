@@ -17,6 +17,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
@@ -87,10 +88,11 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
     public BehandleStegResultat utførSteg(BehandlingskontrollKontekst kontekst) {
 
         Behandling behandling = behandlingRepository.hentBehandling(kontekst.getBehandlingId());
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(kontekst.getBehandlingId());
         Beregningsgrunnlag beregningsgrunnlag = beregningsgrunnlagRepository.hentAggregat(behandling);
 
         // FIXME SP : Gjør dette midlertidig for å få til et vedtak..
-        lagreNedPerioderFraSøknaden(behandling);
+        lagreNedPerioderFraSøknaden(behandling, behandlingsresultat);
 
         UttakResultatEntitet uttakResultat = uttakRepository.hentUttakResultat(behandling);
 
@@ -107,12 +109,12 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
         }
 
         // Lagre beregningsresultat
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        beregningsresultatFPRepository.lagre(behandlingsresultat, beregningsresultat);
 
         return BehandleStegResultat.utførtUtenAksjonspunkter();
     }
 
-    private void lagreNedPerioderFraSøknaden(Behandling behandling) {
+    private void lagreNedPerioderFraSøknaden(Behandling behandling, Behandlingsresultat behandlingsresultat) {
         Optional<UttakResultatEntitet> uttakResultatEntitet = uttakRepository.hentUttakResultatHvisEksisterer(behandling);
         if (uttakResultatEntitet.isPresent()) {
             return;
@@ -141,7 +143,7 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
             periode.leggTilAktivitet(periodeAktivitet);
             resultatPerioder.leggTilPeriode(periode);
         });
-        uttakRepository.lagreOpprinneligUttakResultatPerioder(behandling, resultatPerioder);
+        uttakRepository.lagreOpprinneligUttakResultatPerioder(behandlingsresultat, resultatPerioder);
     }
 
     private long utledTrekkDager(DatoIntervallEntitet periode) {
@@ -150,6 +152,6 @@ public class BeregneYtelseForeldrepengerStegImpl implements BeregneYtelseSteg {
 
     @Override
     public void vedHoppOverBakover(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingStegModell modell, BehandlingStegType tilSteg, BehandlingStegType fraSteg) {
-        beregningsresultatFPRepository.deaktiverBeregningsresultat(behandling, kontekst.getSkriveLås());
+        beregningsresultatFPRepository.deaktiverBeregningsresultat(behandlingRepository.hentResultat(kontekst.getBehandlingId()), kontekst.getSkriveLås());
     }
 }

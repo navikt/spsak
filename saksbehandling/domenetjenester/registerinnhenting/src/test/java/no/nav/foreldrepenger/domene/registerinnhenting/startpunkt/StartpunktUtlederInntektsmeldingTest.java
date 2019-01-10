@@ -85,7 +85,7 @@ public class StartpunktUtlederInntektsmeldingTest {
     @Before
     public void oppsett() {
         initMocks(this);
-        utleder = new StartpunktUtlederInntektsmelding(inntektArbeidYtelseTjeneste, førstePermisjonsdagTjeneste, beregningsresultatFPRepository);
+        utleder = new StartpunktUtlederInntektsmelding(inntektArbeidYtelseTjeneste, førstePermisjonsdagTjeneste, resultatRepositoryProvider);
     }
 
     @Test
@@ -213,7 +213,7 @@ public class StartpunktUtlederInntektsmeldingTest {
         BeregningsresultatPeriode brPeriode = lagBeregningsresultatPeriode(beregningsresultat);
         buildBeregningsresultatAndel(brPeriode,lagVirksomhet("123")  ,1000);
         buildBeregningsresultatAndel(brPeriode,lagVirksomhet("345"),  0);
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(behandling.getId()), beregningsresultat);
 
         LocalDate førsteUttaksdato = LocalDate.now();
         when(førstePermisjonsdagTjeneste.henteFørstePermisjonsdag(behandling)).thenReturn(Optional.of(førsteUttaksdato));
@@ -243,7 +243,7 @@ public class StartpunktUtlederInntektsmeldingTest {
         BeregningsresultatPerioder beregningsresultat = lagBeregningsresultatFP();
         BeregningsresultatPeriode brPeriode = lagBeregningsresultatPeriode(beregningsresultat);
         buildBeregningsresultatAndel(brPeriode,lagVirksomhet("123")  ,1000);
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(behandling.getId()), beregningsresultat);
 
         LocalDate førsteUttaksdato = LocalDate.now();
         when(førstePermisjonsdagTjeneste.henteFørstePermisjonsdag(behandling)).thenReturn(Optional.of(førsteUttaksdato));
@@ -326,7 +326,7 @@ public class StartpunktUtlederInntektsmeldingTest {
         inntektsmeldingerGrunnlag.add(inntektsmelding);
         return inntektsmeldingerGrunnlag;
     }
-    private BeregningsresultatAndel buildBeregningsresultatAndel(BeregningsresultatPeriode beregningsresultatPeriode,VirksomhetEntitet virksomhetEntitet ,int dagsats) {
+    private BeregningsresultatAndel buildBeregningsresultatAndel(BeregningsresultatPeriode beregningsresultatPeriode,Virksomhet virksomhetEntitet ,int dagsats) {
         return BeregningsresultatAndel.builder()
             .medBrukerErMottaker(true)
             .medVirksomhet(virksomhetEntitet)
@@ -346,7 +346,7 @@ public class StartpunktUtlederInntektsmeldingTest {
             .build(beregningsresultat);
     }
 
-    private VirksomhetEntitet lagVirksomhet(String orgnr) {
+    private Virksomhet lagVirksomhet(String orgnr) {
         Optional<Virksomhet> virksomhetOpt = virksomhetRepository.hent(orgnr);
         if (!virksomhetOpt.isPresent()) {
             VirksomhetEntitet virksomhet = new VirksomhetEntitet.Builder()
@@ -357,7 +357,7 @@ public class StartpunktUtlederInntektsmeldingTest {
             virksomhetRepository.lagre(virksomhet);
             return virksomhet;
         } else {
-            return (VirksomhetEntitet) virksomhetOpt.get();
+            return virksomhetOpt.get();
         }
     }
     private BeregningsresultatPerioder lagBeregningsresultatFP() {

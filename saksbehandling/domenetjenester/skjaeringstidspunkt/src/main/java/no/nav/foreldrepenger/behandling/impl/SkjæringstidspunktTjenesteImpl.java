@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening;
@@ -40,6 +42,7 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
     private OpptjeningRepository opptjeningRepository;
     private SøknadRepository søknadRepository;
     private SykefraværRepository sykefraværRepository;
+    private BehandlingRepository behandlingRepository;
 
     SkjæringstidspunktTjenesteImpl() {
         // CDI
@@ -47,6 +50,7 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Inject
     public SkjæringstidspunktTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider) {
+        this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
         this.opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
         this.sykefraværRepository = repositoryProvider.getSykefraværRepository();
@@ -55,9 +59,12 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Override
     public LocalDate utledSkjæringstidspunktForForeldrepenger(Behandling behandling) {
-        final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
-        if (opptjening.isPresent()) {
-            return opptjening.get().getTom().plusDays(1);
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        if (behandlingsresultat.isPresent()) {
+            final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandlingsresultat.get());
+            if (opptjening.isPresent()) {
+                return opptjening.get().getTom().plusDays(1);
+            }
         }
 
         return førsteSykefraværsDag(behandling);

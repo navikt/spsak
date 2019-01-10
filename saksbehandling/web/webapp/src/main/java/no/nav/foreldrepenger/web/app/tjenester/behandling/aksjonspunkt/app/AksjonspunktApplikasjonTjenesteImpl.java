@@ -25,6 +25,7 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.TransisjonIdentifikator;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatDiff;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
@@ -96,7 +97,6 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
 
         historikkTjenesteAdapter.opprettHistorikkInnslag(behandling, HistorikkinnslagType.FAKTA_ENDRET);
 
-        behandlingRepository.lagre(behandling.getBehandlingsresultat().getVilkårResultat(), kontekst.getSkriveLås());
         behandlingRepository.lagre(behandling, kontekst.getSkriveLås());
 
         håndterOverhopp(overhoppResultat, kontekst);
@@ -177,9 +177,8 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
         behandlingsprosessApplikasjonTjeneste.asynkKjørProsess(behandling);// skal ikke reinnhente her, avgjøres i steg?
     }
 
-    private boolean harVilkårResultat(Behandling behandling) {
-        return behandling.getBehandlingsresultat() != null &&
-            behandling.getBehandlingsresultat().getVilkårResultat() != null;
+    private boolean harVilkårResultat(Optional<Behandlingsresultat> behandlingsresultat) {
+        return behandlingsresultat.map(Behandlingsresultat::getVilkårResultat).isPresent();
     }
 
     @SuppressWarnings("unchecked")
@@ -221,15 +220,17 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
 
         List<Aksjonspunkt> utførteAksjonspunkter = new ArrayList<>();
         OverhoppResultat overhoppResultat = OverhoppResultat.tomtResultat();
-
-        VilkårResultat.Builder vilkårBuilder = harVilkårResultat(behandling)
-            ? VilkårResultat.builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat())
+        Optional<Behandlingsresultat> behandlingsresultatOpt = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        Behandlingsresultat behandlingsresultat = behandlingsresultatOpt.orElse(Behandlingsresultat.opprettFor(behandling));
+        VilkårResultat.Builder vilkårBuilder = harVilkårResultat(behandlingsresultatOpt)
+            ? VilkårResultat.builderFraEksisterende(behandlingsresultat.getVilkårResultat())
             : VilkårResultat.builder();
 
         bekreftedeAksjonspunktDtoer.forEach(dto -> bekreftAksjonspunkt(behandling, vilkårBuilder, utførteAksjonspunkter, overhoppResultat, dto));
 
-        VilkårResultat vilkårResultat = vilkårBuilder.buildFor(behandling);
+        VilkårResultat vilkårResultat = vilkårBuilder.buildFor(behandlingsresultat);
         behandlingRepository.lagre(vilkårResultat, kontekst.getSkriveLås());
+        behandlingRepository.lagre(behandlingsresultat, kontekst.getSkriveLås());
 
         behandlingskontrollTjeneste.oppdaterBehandling(behandling, kontekst);
 

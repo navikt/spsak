@@ -18,7 +18,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.EndringsresultatSnapshot;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLåsRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLåsRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.diff.DiffEntity;
 import no.nav.foreldrepenger.behandlingslager.diff.TraverseEntityGraph;
 import no.nav.vedtak.felles.jpa.HibernateVerktøy;
@@ -42,25 +41,20 @@ public class UttakRepositoryImpl implements UttakRepository {
 
     }
 
-    public UttakRepositoryImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        if (entityManager != null) {
-            this.behandlingLåsRepository = new BehandlingLåsRepositoryImpl(entityManager);
-        }
-    }
 
     @Override
-    public void lagreOpprinneligUttakResultatPerioder(Behandling behandling, UttakResultatPerioderEntitet opprinneligPerioder) {
-        lagreUttaksresultat(behandling, builder -> builder.nullstill().medOpprinneligPerioder(opprinneligPerioder));
+    public void lagreOpprinneligUttakResultatPerioder(Behandlingsresultat behandlingsresultat, UttakResultatPerioderEntitet opprinneligPerioder) {
+        lagreUttaksresultat(behandlingsresultat, builder -> builder.nullstill().medOpprinneligPerioder(opprinneligPerioder));
     }
 
-    private void lagreUttaksresultat(Behandling behandling, Function<UttakResultatEntitet.Builder, UttakResultatEntitet.Builder> resultatTransformator) {
-        verify(behandling);
+    private void lagreUttaksresultat(Behandlingsresultat behandlingsresultat, Function<UttakResultatEntitet.Builder, UttakResultatEntitet.Builder> resultatTransformator) {
+        Behandling behandling = behandlingsresultat.getBehandling();
+        verify(behandling, behandlingsresultat);
         final BehandlingLås lås = behandlingLåsRepository.taLås(behandling.getId());
 
         Optional<UttakResultatEntitet> eksistrendeResultat = hentUttakResultatHvisEksisterer(behandling);
 
-        UttakResultatEntitet.Builder builder = UttakResultatEntitet.builder(behandling);
+        UttakResultatEntitet.Builder builder = UttakResultatEntitet.builder(behandlingsresultat);
         if (eksistrendeResultat.isPresent()) {
             UttakResultatEntitet eksisterende = eksistrendeResultat.get();
             if (eksisterende.getOpprinneligPerioder() != null) {
@@ -133,9 +127,9 @@ public class UttakRepositoryImpl implements UttakRepository {
         entityManager.flush();
     }
 
-    private void verify(Behandling behandling) {
+    private void verify(Behandling behandling, Behandlingsresultat behandlingsresultat) {
         Objects.requireNonNull(behandling, "behandling"); // NOSONAR $NON-NLS-1$
-        Objects.requireNonNull(behandling.getBehandlingsresultat(), "behandling.behandlingsresultat"); // NOSONAR $NON-NLS-1$
+        Objects.requireNonNull(behandlingsresultat, "behandlingsresultat"); // NOSONAR $NON-NLS-1$
     }
 
     @Override
@@ -164,16 +158,13 @@ public class UttakRepositoryImpl implements UttakRepository {
     }
 
     @Override
-    public void lagreUttaksperiodegrense(Behandling behandling, Uttaksperiodegrense uttaksperiodegrense) {
-        Objects.requireNonNull(behandling, "behandling"); // NOSONAR $NON-NLS-1$
+    public void lagreUttaksperiodegrense(Behandlingsresultat behandlingsresultat, Uttaksperiodegrense uttaksperiodegrense) {
+        Objects.requireNonNull(behandlingsresultat, "behandlingsresultat"); // NOSONAR $NON-NLS-1$
         if (uttaksperiodegrense == null) {
             return;
         }
-        final BehandlingLås lås = behandlingLåsRepository.taLås(behandling.getId());
-        Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
-        if (behandlingsresultat == null) {
-            throw new IllegalStateException("Finner ingen behandlingsresultat for behandling " + behandling.getId());
-        }
+        final BehandlingLås lås = behandlingLåsRepository.taLås(behandlingsresultat.getBehandling().getId());
+
         final Optional<Uttaksperiodegrense> tidligereAggregat = getAktivtUttaksperiodegrense(behandlingsresultat);
         if (tidligereAggregat.isPresent()) {
             final Uttaksperiodegrense aggregat = tidligereAggregat.get();
@@ -204,18 +195,18 @@ public class UttakRepositoryImpl implements UttakRepository {
     }
 
 
-    private Optional<Long> finnAktivUttakPeriodeGrenseId(Behandling behandling){
-        if(behandling.getBehandlingsresultat() == null){
+    private Optional<Long> finnAktivUttakPeriodeGrenseId(Behandlingsresultat behandlingsresultat){
+        if(behandlingsresultat == null){
             return Optional.empty();
         }
-        return getAktivtUttaksperiodegrense(behandling.getBehandlingsresultat())
+        return getAktivtUttaksperiodegrense(behandlingsresultat)
             .map(Uttaksperiodegrense::getId);
     }
 
     //Denne metoden bør legges i Tjeneste
     @Override
-    public EndringsresultatSnapshot finnAktivUttakPeriodeGrenseAggregatId(Behandling behandling){
-        Optional<Long> funnetId = finnAktivUttakPeriodeGrenseId(behandling);
+    public EndringsresultatSnapshot finnAktivUttakPeriodeGrenseAggregatId(Behandlingsresultat behandlingsresultat){
+        Optional<Long> funnetId = finnAktivUttakPeriodeGrenseId(behandlingsresultat);
         return funnetId
             .map(id-> EndringsresultatSnapshot.medSnapshot(Uttaksperiodegrense.class,id))
             .orElse(EndringsresultatSnapshot.utenSnapshot(Uttaksperiodegrense.class));

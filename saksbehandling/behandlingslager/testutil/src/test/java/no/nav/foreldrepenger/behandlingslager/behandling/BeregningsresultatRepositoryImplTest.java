@@ -80,10 +80,11 @@ public class BeregningsresultatRepositoryImplTest {
         BeregningsresultatPerioder beregningsresultat = buildBeregningsresultatFP(Optional.of(dagensDato));
 
         // Act
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        beregningsresultatFPRepository.lagre(behandlingsresultat, beregningsresultat);
 
         // Assert
-        Optional<BeregningsResultat> BeregningsresultatFPKoblingOptional = beregningsresultatFPRepository.hentHvisEksistererFor(behandling.getBehandlingsresultat());
+        Optional<BeregningsResultat> BeregningsresultatFPKoblingOptional = beregningsresultatFPRepository.hentHvisEksistererFor(behandlingsresultat);
         assertThat(BeregningsresultatFPKoblingOptional).isPresent();
     }
 
@@ -93,14 +94,15 @@ public class BeregningsresultatRepositoryImplTest {
         BeregningsresultatPerioder beregningsresultat = buildBeregningsresultatFP(Optional.of(dagensDato));
 
         // Act
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        beregningsresultatFPRepository.lagre(behandlingsresultat, beregningsresultat);
 
         // Assert
         Long id = beregningsresultat.getId();
         assertThat(id).isNotNull();
 
         repository.flushAndClear();
-        Optional<BeregningsresultatPerioder> beregningsresultatFPLest = beregningsresultatFPRepository.hentHvisEksisterer(behandling);
+        Optional<BeregningsresultatPerioder> beregningsresultatFPLest = beregningsresultatFPRepository.hentHvisEksisterer(behandlingsresultat);
 
         assertThat(beregningsresultatFPLest).isEqualTo(Optional.of(beregningsresultat));
     }
@@ -111,7 +113,8 @@ public class BeregningsresultatRepositoryImplTest {
         BeregningsresultatPerioder beregningsresultat = buildBeregningsresultatFP(Optional.of(dagensDato));
 
         // Act
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        beregningsresultatFPRepository.lagre(behandlingsresultat, beregningsresultat);
 
         // Assert
         Long brId = beregningsresultat.getId();
@@ -140,7 +143,8 @@ public class BeregningsresultatRepositoryImplTest {
         BeregningsresultatPerioder beregningsresultat = buildBeregningsresultatFP(Optional.empty());
 
         // Act
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        beregningsresultatFPRepository.lagre(behandlingsresultat, beregningsresultat);
 
         // Assert
         Long brId = beregningsresultat.getId();
@@ -181,7 +185,8 @@ public class BeregningsresultatRepositoryImplTest {
             .build(feriepenger, andel);
 
         // Act
-        long id = beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        long id = beregningsresultatFPRepository.lagre(behandlingsresultat, beregningsresultat);
 
         // Assert
         repository.flushAndClear();
@@ -216,12 +221,14 @@ public class BeregningsresultatRepositoryImplTest {
         BeregningsresultatPerioder Beregningsresultat = buildBeregningsresultatFP(Optional.of(dagensDato));
 
         // Act
-        beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), Beregningsresultat);
-        beregningsresultatFPRepository.lagre(behandling2.getBehandlingsresultat(), Beregningsresultat);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        beregningsresultatFPRepository.lagre(behandlingsresultat, Beregningsresultat);
+        Behandlingsresultat behandlingsresultat2 = behandlingRepository.hentResultat(behandling2.getId());
+        beregningsresultatFPRepository.lagre(behandlingsresultat2, Beregningsresultat);
 
         // Assert
-        Optional<BeregningsresultatPerioder> beregningsresultatFP1 = beregningsresultatFPRepository.hentHvisEksisterer(behandling);
-        Optional<BeregningsresultatPerioder> beregningsresultatFP2 = beregningsresultatFPRepository.hentHvisEksisterer(behandling2);
+        Optional<BeregningsresultatPerioder> beregningsresultatFP1 = beregningsresultatFPRepository.hentHvisEksisterer(behandlingsresultat);
+        Optional<BeregningsresultatPerioder> beregningsresultatFP2 = beregningsresultatFPRepository.hentHvisEksisterer(behandlingsresultat2);
         assertThat(beregningsresultatFP1).isPresent();
         assertThat(beregningsresultatFP2).isPresent();
         assertThat(beregningsresultatFP1).hasValueSatisfying(b -> assertThat(b).isSameAs(beregningsresultatFP2.get())); //NOSONAR
@@ -231,12 +238,13 @@ public class BeregningsresultatRepositoryImplTest {
     public void slettBeregningsresultatFPOgKobling() {
         // Arrange
         BeregningsresultatPerioder beregningsresultat = buildBeregningsresultatFP(Optional.of(dagensDato));
-        Long beregningsresultatFPId = beregningsresultatFPRepository.lagre(behandling.getBehandlingsresultat(), beregningsresultat);
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
+        Long beregningsresultatFPId = beregningsresultatFPRepository.lagre(behandlingsresultat, beregningsresultat);
 
-        Optional<BeregningsResultat> koblingOpt = beregningsresultatFPRepository.hentHvisEksistererFor(behandling.getBehandlingsresultat());
+        Optional<BeregningsResultat> koblingOpt = beregningsresultatFPRepository.hentHvisEksistererFor(behandlingsresultat);
 
         // Act
-        beregningsresultatFPRepository.deaktiverBeregningsresultat(behandling, behandlingRepository.taSkriveLås(behandling));
+        beregningsresultatFPRepository.deaktiverBeregningsresultat(behandlingsresultat, behandlingRepository.taSkriveLås(behandling));
 
         //Assert
         BeregningsresultatPerioder hentetBG = repoRule.getEntityManager().find(BeregningsresultatPerioder.class, beregningsresultatFPId);
@@ -250,8 +258,8 @@ public class BeregningsresultatRepositoryImplTest {
         BeregningsresultatAndel hentetBRAndel = repoRule.getEntityManager().find(BeregningsresultatAndel.class, beregningsresultatAndel.getId());
         assertThat(hentetBRAndel).isNotNull();
 
-        Optional<BeregningsresultatPerioder> deaktivertBeregningsresultatFP = beregningsresultatFPRepository.hentHvisEksisterer(behandling);
-        Optional<BeregningsResultat> deaktivertKobling = beregningsresultatFPRepository.hentHvisEksistererFor(behandling.getBehandlingsresultat());
+        Optional<BeregningsresultatPerioder> deaktivertBeregningsresultatFP = beregningsresultatFPRepository.hentHvisEksisterer(behandlingsresultat);
+        Optional<BeregningsResultat> deaktivertKobling = beregningsresultatFPRepository.hentHvisEksistererFor(behandlingsresultat);
         assertThat(deaktivertBeregningsresultatFP).isNotPresent();
         assertThat(deaktivertKobling).isNotPresent();
         assertThat(koblingOpt).hasValueSatisfying(kobling ->

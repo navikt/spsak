@@ -14,13 +14,13 @@ import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.FullføreBeregningsgrunnlag;
 
@@ -52,10 +52,9 @@ public class FastsettBeregningsgrunnlagStegImpl implements BeregningsgrunnlagSte
 
         Beregningsgrunnlag fullførtBeregningsgrunnlag = fullføreBeregningsgrunnlag.fullføreBeregningsgrunnlag(behandling, beregningsgrunnlag);
         beregningsgrunnlagRepository.lagre(behandling, fullførtBeregningsgrunnlag, BeregningsgrunnlagTilstand.FASTSATT);
-        VilkårResultat vilkårResultat = behandling.getBehandlingsresultat().getVilkårResultat();
-        behandlingRepository.lagre(vilkårResultat, kontekst.getSkriveLås());
+        Behandlingsresultat behandlingsresultat = behandlingRepository.hentResultat(behandling.getId());
 
-        if (VilkårResultatType.INNVILGET.equals(vilkårResultat.getVilkårResultatType())) {
+        if (VilkårResultatType.INNVILGET.equals(behandlingsresultat.getVilkårResultat().getVilkårResultatType())) {
             return BehandleStegResultat.utførtUtenAksjonspunkter();
         } else {
             return BehandleStegResultat.fremoverført(FREMHOPP_TIL_FORESLÅ_VEDTAK);

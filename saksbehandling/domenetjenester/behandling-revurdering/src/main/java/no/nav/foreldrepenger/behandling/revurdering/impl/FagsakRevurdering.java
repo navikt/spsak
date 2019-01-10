@@ -31,7 +31,7 @@ class FagsakRevurdering {
 
     private boolean kanRevurderingOpprettes(List<Behandling> behandlinger) {
         Optional<Behandling> gjeldendeBehandling = hentBehandlingMedVedtak(behandlinger);
-        if (!gjeldendeBehandling.isPresent()) {
+        if (gjeldendeBehandling.isEmpty()) {
             return false;
         }
         return true;
@@ -40,7 +40,7 @@ class FagsakRevurdering {
     private Optional<Behandling> hentBehandlingMedVedtak(List<Behandling> behandlinger) {
         List<Behandling> behandlingerMedVedtak = behandlinger.stream()
             .filter(behandling -> asList(BehandlingStatus.AVSLUTTET, BehandlingStatus.IVERKSETTER_VEDTAK).contains(behandling.getStatus()))
-            .filter(behandling -> !behandling.isBehandlingHenlagt())
+            .filter(behandling -> !behandlingRepository.hentResultat(behandling.getId()).isBehandlingHenlagt())
             .collect(Collectors.toList());
         List<Behandling> sorterteBehandlinger = behandlingerMedVedtak.stream().sorted(new BehandlingAvsluttetDatoComparator()).collect(Collectors.toList());
         return sorterteBehandlinger.isEmpty() ? Optional.empty() : Optional.of(sorterteBehandlinger.get(0));

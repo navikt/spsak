@@ -18,6 +18,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Fagsystem;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektArbeidYtelseGrunnlag;
@@ -29,6 +30,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gru
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Inntekt;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
@@ -51,6 +53,7 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private OpptjeningRepository opptjeningRepository;
     private OpptjeningsperioderTjeneste opptjeningsperioderTjeneste;
+    private BehandlingRepository behandlingRepository;
 
     OpptjeningInntektArbeidYtelseTjenesteImpl() {
         // for CDI proxy
@@ -61,19 +64,24 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
                                                      ResultatRepositoryProvider provider, OpptjeningsperioderTjeneste opptjeningsperioderTjeneste) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.opptjeningRepository = provider.getOpptjeningRepository();
+        this.behandlingRepository = provider.getBehandlingRepository();
         this.opptjeningsperioderTjeneste = opptjeningsperioderTjeneste;
     }
 
     @Override
     public Opptjening hentOpptjening(Behandling behandling) {
-        Optional<Opptjening> optional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
+        Optional<Opptjening> optional = hentOpptjeningHvisEksisterer(behandling);
         return optional
             .orElseThrow(() -> new IllegalStateException("Utvikler-feil: Mangler Opptjening for Behandling: " + behandling.getId()));
     }
 
     @Override
     public Optional<Opptjening> hentOpptjeningHvisEksisterer(Behandling behandling) {
-        return opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        if (behandlingsresultat.isEmpty()) {
+            return Optional.empty();
+        }
+        return opptjeningRepository.finnOpptjening(behandlingsresultat.get());
     }
 
     @Override
@@ -99,11 +107,11 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
     @Override
     public Optional<Ytelse> hentSisteInfotrygdYtelseFørSkjæringstidspunktForOpptjening(Behandling behandling) {
         Optional<InntektArbeidYtelseGrunnlag> grunnlagOpt = inntektArbeidYtelseTjeneste.hentAggregatHvisEksisterer(behandling);
-        if (!grunnlagOpt.isPresent()) {
+        if (grunnlagOpt.isEmpty()) {
             return Optional.empty();
         }
-        Optional<Opptjening> opptjeningOpt = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
-        if (!opptjeningOpt.isPresent()) {
+        Optional<Opptjening> opptjeningOpt = hentOpptjeningHvisEksisterer(behandling);
+        if (opptjeningOpt.isEmpty()) {
             return Optional.empty();
         }
 
@@ -121,11 +129,11 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
     @Override
     public List<Ytelse> hentSammenhengendeInfotrygdYtelserFørSkjæringstidspunktForOppjening(Behandling behandling) {
         Optional<InntektArbeidYtelseGrunnlag> grunnlagOpt = inntektArbeidYtelseTjeneste.hentAggregatHvisEksisterer(behandling);
-        if (!grunnlagOpt.isPresent()) {
+        if (grunnlagOpt.isEmpty()) {
             return Collections.emptyList();
         }
-        Optional<Opptjening> opptjeningOpt = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
-        if (!opptjeningOpt.isPresent()) {
+        Optional<Opptjening> opptjeningOpt = hentOpptjeningHvisEksisterer(behandling);
+        if (opptjeningOpt.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -168,9 +176,9 @@ public class OpptjeningInntektArbeidYtelseTjenesteImpl implements OpptjeningInnt
 
     @Override
     public List<OpptjeningAktivitet> hentGodkjentAktivitetTyper(Behandling behandling, LocalDate dato) {
-        Optional<Opptjening> optional = opptjeningRepository.finnOpptjening(behandling.getBehandlingsresultat());
+        Optional<Opptjening> optional = hentOpptjeningHvisEksisterer(behandling);
 
-        if (!optional.isPresent()) {
+        if (optional.isEmpty()) {
             return Collections.emptyList();
         } else {
             Opptjening opptjening = optional.get();

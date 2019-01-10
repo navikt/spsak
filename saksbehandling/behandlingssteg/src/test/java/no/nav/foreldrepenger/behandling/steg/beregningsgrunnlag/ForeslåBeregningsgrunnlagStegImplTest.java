@@ -20,6 +20,8 @@ import no.nav.foreldrepenger.behandlingskontroll.transisjoner.FellesTransisjoner
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
@@ -81,9 +83,13 @@ public class ForeslåBeregningsgrunnlagStegImplTest {
     }
 
     private void opprettVilkårResultatForBehandling(VilkårResultatType resultatType) {
-        VilkårResultat vilkårResultat = VilkårResultat.builder().medVilkårResultatType(resultatType)
-            .buildFor(behandling);
+        BehandlingRepository behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
         Behandlingsresultat behandlingsresultat = Behandlingsresultat.opprettFor(behandling);
+        VilkårResultat vilkårResultat = VilkårResultat.builder().medVilkårResultatType(resultatType)
+            .buildFor(behandlingsresultat);
         behandlingsresultat.medOppdatertVilkårResultat(vilkårResultat);
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);
+        behandlingRepository.lagre(behandlingsresultat, lås);
     }
 }

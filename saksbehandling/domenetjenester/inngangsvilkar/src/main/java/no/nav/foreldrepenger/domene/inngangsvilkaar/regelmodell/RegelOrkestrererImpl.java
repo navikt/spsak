@@ -20,6 +20,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
@@ -49,8 +50,8 @@ class RegelOrkestrererImpl implements RegelOrkestrerer {
     }
 
     @Override
-    public RegelResultat vurderInngangsvilkår(List<VilkårType> vilkårHåndtertAvSteg, Behandling behandling) {
-        VilkårResultat vilkårResultat = behandling.getBehandlingsresultat().getVilkårResultat();
+    public RegelResultat vurderInngangsvilkår(List<VilkårType> vilkårHåndtertAvSteg, Behandling behandling, Behandlingsresultat behandlingsresultat) {
+        VilkårResultat vilkårResultat = behandlingsresultat.getVilkårResultat();
         List<Vilkår> matchendeVilkårPåBehandling = vilkårResultat.getVilkårene().stream()
             .filter(v -> vilkårHåndtertAvSteg.contains(v.getVilkårType()))
             .collect(toList());
@@ -62,7 +63,7 @@ class RegelOrkestrererImpl implements RegelOrkestrerer {
             // ved å utlede det fra alle vilkårsutfallene
             Set<VilkårUtfallType> alleUtfall = hentAlleVilkårsutfall(vilkårResultat);
             VilkårResultatType inngangsvilkårUtfall = utledInngangsvilkårUtfall(alleUtfall);
-            oppdaterBehandlingMedVilkårresultat(behandling, inngangsvilkårUtfall);
+            oppdaterBehandlingMedVilkårresultat(behandlingsresultat, inngangsvilkårUtfall);
             return new RegelResultat(vilkårResultat, emptyList(), emptyMap());
         }
 
@@ -77,7 +78,7 @@ class RegelOrkestrererImpl implements RegelOrkestrerer {
         // Inngangsvilkårutfall utledet fra alle vilkårsutfallene
         Set<VilkårUtfallType> alleUtfall = sammenslåVilkårUtfall(vilkårResultat, vilkårDataResultat);
         VilkårResultatType inngangsvilkårUtfall = utledInngangsvilkårUtfall(alleUtfall);
-        oppdaterBehandlingMedVilkårresultat(behandling, vilkårDataResultat, inngangsvilkårUtfall);
+        oppdaterBehandlingMedVilkårresultat(behandlingsresultat, vilkårDataResultat, inngangsvilkårUtfall);
 
         // Aksjonspunkter
         List<AksjonspunktDefinisjon> aksjonspunktDefinisjoner = new ArrayList<>();
@@ -150,24 +151,24 @@ class RegelOrkestrererImpl implements RegelOrkestrerer {
         return vilkårResultatType;
     }
 
-    private void oppdaterBehandlingMedVilkårresultat(Behandling behandling, VilkårResultatType inngangsvilkårUtfall) {
+    private void oppdaterBehandlingMedVilkårresultat(Behandlingsresultat behandlingsresultat, VilkårResultatType inngangsvilkårUtfall) {
         VilkårResultat.Builder builder = VilkårResultat
-            .builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat())
+            .builderFraEksisterende(behandlingsresultat.getVilkårResultat())
             .medVilkårResultatType(inngangsvilkårUtfall);
-        builder.buildFor(behandling);
+        builder.buildFor(behandlingsresultat);
     }
 
-    private void oppdaterBehandlingMedVilkårresultat(Behandling behandling,
+    private void oppdaterBehandlingMedVilkårresultat(Behandlingsresultat behandlingsresultat,
                                                      VilkårData vilkårData, VilkårResultatType inngangsvilkårUtfall) {
 
         VilkårResultat.Builder builder = VilkårResultat
-            .builderFraEksisterende(behandling.getBehandlingsresultat().getVilkårResultat())
+            .builderFraEksisterende(behandlingsresultat.getVilkårResultat())
             .medVilkårResultatType(inngangsvilkårUtfall);
         builder.leggTilVilkårResultat(vilkårData.getVilkårType(),
             vilkårData.getUtfallType(), vilkårData.getVilkårUtfallMerknad(), vilkårData.getMerknadParametere(),
             vilkårData.getAvslagsårsak(), false, vilkårData.erOverstyrt(),
             vilkårData.getRegelEvaluering(), vilkårData.getRegelInput());
 
-        builder.buildFor(behandling);
+        builder.buildFor(behandlingsresultat);
     }
 }

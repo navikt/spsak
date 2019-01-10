@@ -15,17 +15,25 @@ import org.junit.rules.ExpectedException;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
+import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsresultatRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.beregning.ytelse.FinnEndringsdatoBeregningsresultatFPTjeneste;
 import no.nav.vedtak.exception.TekniskException;
 
@@ -34,20 +42,27 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
     @Rule
     public final ExpectedException expectedException = ExpectedException.none();
 
+    @Rule
+    public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
+    private GrunnlagRepositoryProvider grunnlagRepositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
+    private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
+
     private FinnEndringsdatoBeregningsresultatFPTjeneste finnEndringsdatoBeregningsresultatFPTjeneste;
     private BeregningsresultatRepository beregningsresultatFPRepository;
     private Behandling originalBehandling;
     private Behandling revurdering;
+    private BehandlingRepository behandlingRepository;
+    private Virksomhet virksomhet;
 
     @Before
     public void oppsett() {
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør();
         scenario.medBehandlingType(BehandlingType.FØRSTEGANGSSØKNAD);
-        originalBehandling = scenario.lagMocked();
+        originalBehandling = scenario.lagre(grunnlagRepositoryProvider, resultatRepositoryProvider);
+        behandlingRepository = resultatRepositoryProvider.getBehandlingRepository();
         revurdering = opprettRevurdering(originalBehandling);
-        ResultatRepositoryProvider repositoryProvider = scenario.mockBehandlingRepositoryProvider().getElement2();
-        beregningsresultatFPRepository = repositoryProvider.getBeregningsresultatRepository();
-        finnEndringsdatoBeregningsresultatFPTjeneste = new FinnEndringsdatoBeregningsresultatFPTjenesteImpl(repositoryProvider);
+        beregningsresultatFPRepository = resultatRepositoryProvider.getBeregningsresultatRepository();
+        finnEndringsdatoBeregningsresultatFPTjeneste = new FinnEndringsdatoBeregningsresultatFPTjenesteImpl(resultatRepositoryProvider);
     }
 
     // ---------------------------- //
@@ -66,13 +81,13 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         opprettBeregningsresultatAndel(originalPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(revurderingPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -96,13 +111,13 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         opprettBeregningsresultatAndel(originalPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -124,7 +139,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(originalPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -134,7 +149,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -156,7 +171,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
@@ -166,7 +181,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
 
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -192,7 +207,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, datoForEndring, datoForEndring.plusDays(6));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -204,7 +219,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "2", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "2", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -229,7 +244,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -239,7 +254,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(revurderingPeriode2, false, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -261,14 +276,14 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(originalPeriode, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode, true, "2", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -290,52 +305,14 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(originalPeriode, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode, true, "1", AktivitetStatus.FRILANSER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
-
-        // Act
-        Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
-
-        // Assert
-        assertThat(endringsdato).isPresent();
-        assertThat(endringsdato.get()).isEqualTo(førsteAugust);
-
-    }
-
-    @Test
-    public void skal_finne_endringsdato_for_revurdering_hvor_VirksomhetOrgNr_i_revurdering_andel_er_endret_fra_andel_i_original_behandling() {
-
-        // Arrange
-        LocalDate førsteAugust = LocalDate.of(2018, 8, 1);
-        boolean erBrukerMottaker = true;
-        String arbeidsforholdId = "1";
-        int dagsats = 1000;
-        BigDecimal stillingsprosent = BigDecimal.valueOf(100);
-        BigDecimal utbetalingsgrad = BigDecimal.valueOf(100);
-        AktivitetStatus aktivitetStatus = AktivitetStatus.ARBEIDSTAKER;
-        Inntektskategori inntektskategori = Inntektskategori.ARBEIDSTAKER;
-        String originalBehandlingOrgNr = "1";
-        String revurderingOrgNr = "2";
-
-        // Førstegangsbehandling
-        BeregningsresultatPerioder beregningsresultatForOriginalBehandling = opprettBeregningsresultat();
-        BeregningsresultatPeriode originalPeriode = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
-        opprettBeregningsresultatAndel(originalPeriode, erBrukerMottaker, arbeidsforholdId, aktivitetStatus, inntektskategori, originalBehandlingOrgNr,
-            dagsats, stillingsprosent, utbetalingsgrad);
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
-
-        // Revurdering
-        BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
-        BeregningsresultatPeriode revurderingPeriode = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
-        opprettBeregningsresultatAndel(revurderingPeriode, erBrukerMottaker, arbeidsforholdId, aktivitetStatus, inntektskategori, revurderingOrgNr,
-            dagsats, stillingsprosent, utbetalingsgrad);
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -357,7 +334,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(originalPeriode, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -365,7 +342,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.FISKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -390,7 +367,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -400,7 +377,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 2000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -422,14 +399,14 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode beregningsresultatPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(beregningsresultatPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode beregningsresultatPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(beregningsresultatPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -455,7 +432,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
             Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER,
             Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(50), BigDecimal.valueOf(80));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -466,7 +443,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatAndel andel = opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(50), BigDecimal.valueOf(80));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Expect
         expectedException.expect(TekniskException.class);
@@ -490,7 +467,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         finnEndringsdatoBeregningsresultatFPTjeneste = new FinnEndringsdatoBeregningsresultatFPTjenesteImpl(repositoryProvider);
 
         BeregningsresultatPerioder beregningsresultatForOriginalBehandling = opprettBeregningsresultat();
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(repositoryProvider.getBehandlingRepository().hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Expect
         expectedException.expect(TekniskException.class);
@@ -515,11 +492,10 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         finnEndringsdatoBeregningsresultatFPTjeneste = new FinnEndringsdatoBeregningsresultatFPTjenesteImpl(repositoryProvider);
 
         LocalDate førsteAugust = LocalDate.of(2018, 8, 1);
-
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(repositoryProvider.getBehandlingRepository().hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Expect
         expectedException.expect(TekniskException.class);
@@ -540,7 +516,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Expect
         expectedException.expect(TekniskException.class);
@@ -560,13 +536,13 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
 
         // Førstegangsbehandling
         BeregningsresultatPerioder beregningsresultatForOriginalBehandling = opprettBeregningsresultat();
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Expect
         expectedException.expect(TekniskException.class);
@@ -588,11 +564,11 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPerioder beregningsresultatForOriginalBehandling = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode1 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode1, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Expect
         expectedException.expect(TekniskException.class);
@@ -614,12 +590,12 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPerioder beregningsresultatForOriginalBehandling = opprettBeregningsresultat();
         BeregningsresultatPeriode originalPeriode = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(originalPeriode, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Expect
         expectedException.expect(TekniskException.class);
@@ -640,13 +616,13 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         // Førstegangsbehandling
         BeregningsresultatPerioder beregningsresultatForOriginalBehandling = opprettBeregningsresultat();
         BeregningsresultatPeriode originalPeriode = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust, førsteAugust.plusDays(6));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
         BeregningsresultatPeriode revurderingPeriode = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust, førsteAugust.plusDays(6));
         opprettBeregningsresultatAndel(revurderingPeriode, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Expect
         expectedException.expect(TekniskException.class);
@@ -673,7 +649,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -683,7 +659,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(7), førsteAugust.plusDays(10));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -708,7 +684,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -718,7 +694,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(4), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -743,7 +719,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1",
             1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -757,7 +733,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         opprettBeregningsresultatAndel(revurderingPeriode3, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER, "1",
             1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
 
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -783,7 +759,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -793,7 +769,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(7), førsteAugust.plusDays(21));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -819,7 +795,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(7), førsteAugust.plusDays(13));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -829,7 +805,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(10), førsteAugust.plusDays(16));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -854,7 +830,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode originalPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForOriginalBehandling, førsteAugust.plusDays(14), førsteAugust.plusDays(21));
         opprettBeregningsresultatAndel(originalPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(originalBehandling.getBehandlingsresultat(), beregningsresultatForOriginalBehandling);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(originalBehandling.getId()), beregningsresultatForOriginalBehandling);
 
         // Revurdering
         BeregningsresultatPerioder beregningsresultatForRevurdering = opprettBeregningsresultat();
@@ -864,7 +840,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
         BeregningsresultatPeriode revurderingPeriode2 = opprettBeregningsresultatPeriode(beregningsresultatForRevurdering, førsteAugust.plusDays(14), førsteAugust.plusDays(21));
         opprettBeregningsresultatAndel(revurderingPeriode2, true, "1", AktivitetStatus.ARBEIDSTAKER, Inntektskategori.ARBEIDSTAKER,
             "1", 1000, BigDecimal.valueOf(100), BigDecimal.valueOf(100));
-        beregningsresultatFPRepository.lagre(revurdering.getBehandlingsresultat(), beregningsresultatForRevurdering);
+        beregningsresultatFPRepository.lagre(behandlingRepository.hentResultat(revurdering.getId()), beregningsresultatForRevurdering);
 
         // Act
         Optional<LocalDate> endringsdato = finnEndringsdatoBeregningsresultatFPTjeneste.finnEndringsdato(revurdering, beregningsresultatForRevurdering);
@@ -880,11 +856,15 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
     // ---------------------------- //
 
     private Behandling opprettRevurdering(Behandling originalBehandling) {
-        return Behandling.fraTidligereBehandling(originalBehandling, BehandlingType.REVURDERING)
+        Behandling behandling = Behandling.fraTidligereBehandling(originalBehandling, BehandlingType.REVURDERING)
             .medBehandlingÅrsak(
                 BehandlingÅrsak.builder(BehandlingÅrsakType.RE_ANNET)
                     .medOriginalBehandling(originalBehandling))
             .build();
+        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
+        behandlingRepository.lagre(behandling, lås);
+        behandlingRepository.lagre(Behandlingsresultat.builderFraEksisterende(behandlingRepository.hentResultat(originalBehandling.getId())).buildFor(behandling), lås);
+        return behandling;
     }
 
     private BeregningsresultatPerioder opprettBeregningsresultat() {
@@ -902,10 +882,14 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
 
     private BeregningsresultatAndel opprettBeregningsresultatAndel(BeregningsresultatPeriode beregningsresultatPeriode, boolean erBrukerMottaker, String arbeidsforholdId, AktivitetStatus aktivitetStatus,
                                                                    Inntektskategori inntektskategori, String orgNr, int dagsats, BigDecimal stillingsprosent, BigDecimal utbetalingsgrad) {
-        VirksomhetEntitet virksomhet = new VirksomhetEntitet.Builder()
-            .medOrgnr(orgNr)
-            .oppdatertOpplysningerNå()
-            .build();
+        if (virksomhet == null) {
+            Virksomhet virksomheten = new VirksomhetEntitet.Builder()
+                .medOrgnr(orgNr)
+                .oppdatertOpplysningerNå()
+                .build();
+            grunnlagRepositoryProvider.getVirksomhetRepository().lagre(virksomheten);
+            virksomhet = virksomheten;
+        }
         return BeregningsresultatAndel.builder()
             .medBrukerErMottaker(erBrukerMottaker)
             .medVirksomhet(virksomhet)

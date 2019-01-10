@@ -73,7 +73,7 @@ public class OppdaterFagsakStatusFelles {
     }
 
     private boolean erVedtakResultat(Behandling behandling, VedtakResultatType vedtakResultat) {
-        return Optional.ofNullable(behandling.getBehandlingsresultat())
+        return behandlingRepository.hentResultatHvisEksisterer(behandling.getId())
             .map(Behandlingsresultat::getBehandlingVedtak)
             .map(vedtak -> vedtak.getVedtakResultatType().equals(vedtakResultat))
             .orElse(Boolean.FALSE);
