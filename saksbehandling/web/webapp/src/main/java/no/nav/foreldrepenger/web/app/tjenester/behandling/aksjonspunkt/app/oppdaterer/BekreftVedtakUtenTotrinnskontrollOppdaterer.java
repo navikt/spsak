@@ -35,7 +35,6 @@ class BekreftVedtakUtenTotrinnskontrollOppdaterer extends AbstractVedtaksbrevOve
     public OppdateringResultat oppdater(BekreftVedtakUtenTotrinnskontrollDto dto, Behandling behandling) {
         if (dto.isSkalBrukeOverstyrendeFritekstBrev()) {
             avbrytVedtakUtenTotrinnskontroll(dto, behandling);
-            settFritekstBrev(behandling, dto.getOverskrift(), dto.getFritekstBrev());
             setToTrinnskontroll(behandling);
             opprettAksjonspunktForFatterVedtak(behandling);
             totrinnTjeneste.settNyttTotrinnsgrunnlag(behandling);

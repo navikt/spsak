@@ -65,6 +65,5 @@ public class FagsakEntityTest {
         assertThat(sammeFagsak.getYtelseType().getNavn()).isEqualTo(FagsakYtelseType.UDEFINERT.getNavn());
         assertThat(sammeFagsak.getNavBruker()).isNotNull();
         assertThat(sammeFagsak.getNavBruker().getAktørId()).isEqualTo(new AktørId("123"));
-        assertThat(sammeFagsak.getSkalTilInfotrygd()).isEqualTo(false);
     }
 }

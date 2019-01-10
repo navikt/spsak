@@ -43,7 +43,7 @@ public class RevurderingEndringTest {
     public void setup() {
         originalBehandling = opprettOriginalBehandling();
         revurdering = Behandling.fraTidligereBehandling(originalBehandling, BehandlingType.REVURDERING)
-            .medBehandlingÅrsak(BehandlingÅrsak.builder(BehandlingÅrsakType.RE_MANGLER_FØDSEL).medOriginalBehandling(originalBehandling)).build();
+            .medBehandlingÅrsak(BehandlingÅrsak.builder(BehandlingÅrsakType.RE_ANNET).medOriginalBehandling(originalBehandling)).build();
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
         behandlingRepository.lagre(revurdering, lås);
     }
@@ -67,7 +67,7 @@ public class RevurderingEndringTest {
         Behandlingsresultat.builder()
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET)
             .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.INGEN_ENDRING)
-            .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.FORELDREPENGER_OPPHØRER)
+            .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.YTELSE_OPPHØRER)
             .buildFor(revurdering);
 
         // Assert
@@ -87,7 +87,6 @@ public class RevurderingEndringTest {
         Behandlingsresultat.builder()
             .medBehandlingResultatType(BehandlingResultatType.FORELDREPENGER_ENDRET)
             .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.ENDRING_I_BEREGNING)
-            .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.ENDRING_I_UTTAK)
             .buildFor(revurdering);
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);
@@ -100,7 +99,7 @@ public class RevurderingEndringTest {
     public void neiHvisRevurderingMedOpphør() {
         Behandlingsresultat.builder()
             .medBehandlingResultatType(BehandlingResultatType.OPPHØR)
-            .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.FORELDREPENGER_OPPHØRER)
+            .leggTilKonsekvensForYtelsen(KonsekvensForYtelsen.YTELSE_OPPHØRER)
             .buildFor(revurdering);
 
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);

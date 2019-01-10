@@ -4,11 +4,8 @@ import javax.sql.DataSource;
 
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.ClassicConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class DatabaseScript {
-    private static final Logger log = LoggerFactory.getLogger(DatabaseScript.class);
 
     private final MigrationDataSource migrationDataSource;
     private final String locations;

@@ -29,24 +29,15 @@ public class ForeslåVedtakAksjonspunktOppdaterer extends AbstractVedtaksbrevOve
 
     @Override
     public OppdateringResultat oppdater(ForeslaVedtakAksjonspunktDto dto, Behandling behandling) {
-        String begrunnelse = dto.getBegrunnelse();
-        oppdaterBegrunnelse(behandling, begrunnelse);
+        behandling.setAnsvarligSaksbehandler(getCurrentUserId());
 
         if (dto.isSkalBrukeOverstyrendeFritekstBrev()) {
-            settFritekstBrev(behandling, dto.getOverskrift(), dto.getFritekstBrev());
             setToTrinnskontroll(behandling);
         }
         opprettAksjonspunktForFatterVedtak(behandling);
         totrinnTjeneste.settNyttTotrinnsgrunnlag(behandling);
         opprettHistorikkinnslag(behandling);
         return OppdateringResultat.utenOveropp();
-    }
-
-    private void oppdaterBegrunnelse(Behandling behandling, String begrunnelse) {
-        if (behandling.getBehandlingsresultat().isBehandlingsresultatAvslåttOrOpphørt() || begrunnelse != null) {
-            behandling.getBehandlingsresultat().setAvslagarsakFritekst(begrunnelse);
-        }
-        behandling.setAnsvarligSaksbehandler(getCurrentUserId());
     }
 
     protected String getCurrentUserId() {

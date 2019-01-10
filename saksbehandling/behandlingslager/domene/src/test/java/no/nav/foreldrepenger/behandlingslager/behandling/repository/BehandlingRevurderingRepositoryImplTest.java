@@ -52,7 +52,7 @@ public class BehandlingRevurderingRepositoryImplTest {
         behandling = opprettRevurderingsKandidat();
 
         Behandling revurderingsBehandling = Behandling.fraTidligereBehandling(behandling, BehandlingType.REVURDERING)
-            .medBehandlingÅrsak(BehandlingÅrsak.builder(BehandlingÅrsakType.RE_AVVIK_ANTALL_BARN)).build();
+            .medBehandlingÅrsak(BehandlingÅrsak.builder(BehandlingÅrsakType.RE_ANNET)).build();
         behandlingRepository.lagre(revurderingsBehandling, behandlingRepository.taSkriveLås(revurderingsBehandling));
 
         oppdaterMedBehandlingsresultatAvslagOgLagre(revurderingsBehandling);

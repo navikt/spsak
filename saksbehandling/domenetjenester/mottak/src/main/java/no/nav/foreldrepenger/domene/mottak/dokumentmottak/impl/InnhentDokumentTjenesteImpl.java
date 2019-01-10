@@ -2,19 +2,16 @@ package no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentGruppe;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
-import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRevurderingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
@@ -43,15 +40,12 @@ public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
     private Instance<Dokumentmottaker> mottakere;
 
     private FagsakRepository fagsakRepository;
-    private BehandlingRevurderingRepository revurderingRepository;
 
     @Inject
     public InnhentDokumentTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
-                                       @Any Instance<Dokumentmottaker> mottakere,
-                                       BehandlingRevurderingRepository revurderingRepository) {
+                                       @Any Instance<Dokumentmottaker> mottakere) {
         this.fagsakRepository = repositoryProvider.getFagsakRepository();
         this.mottakere = mottakere;
-        this.revurderingRepository = revurderingRepository;
     }
 
     @Override
@@ -64,22 +58,7 @@ public class InnhentDokumentTjenesteImpl implements InnhentDokumentTjeneste {
             DOKUMENTTYPE_TIL_GRUPPE.get(dokumentTypeId);
 
         Dokumentmottaker dokumentmottaker = finnMottaker(dokumentGruppe);
-        if (finnesÅpenBehandlingSomErBerørt(fagsak)) {
-            dokumentmottaker.mottaDokumentForKøetBehandling(mottattDokument, fagsak, dokumentTypeId, behandlingÅrsakType);
-            return;
-        }
         dokumentmottaker.mottaDokument(mottattDokument, fagsak, dokumentTypeId, behandlingÅrsakType);
-    }
-
-    private boolean finnesÅpenBehandlingSomErBerørt(Fagsak fagsak) {
-        Optional<Behandling> åpenBehandling = revurderingRepository.finnÅpenYtelsesbehandling(fagsak.getId());
-        if (åpenBehandling.isPresent()) {
-            return åpenBehandling
-                .filter(beh -> beh.getBehandlingÅrsaker().stream()
-                    .anyMatch(bå -> BehandlingÅrsakType.BERØRT_BEHANDLING.equals(bå.getBehandlingÅrsakType())))
-                .isPresent();
-        }
-        return false;
     }
 
     private Dokumentmottaker finnMottaker(DokumentGruppe dokumentGruppe) {

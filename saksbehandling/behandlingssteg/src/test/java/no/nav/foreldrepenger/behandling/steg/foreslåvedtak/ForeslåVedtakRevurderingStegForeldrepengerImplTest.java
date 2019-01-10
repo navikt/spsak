@@ -104,22 +104,6 @@ public class ForeslåVedtakRevurderingStegForeldrepengerImplTest {
         assertThat(behandleStegResultat.getAksjonspunktListe().get(0)).isEqualTo(AksjonspunktDefinisjon.KONTROLLER_REVURDERINGSBEHANDLING);
     }
 
-    @Test
-    public void testTilbakehopp() {
-        // Arrange
-        BehandlingLås behandlingLås = repositoryProvider.getBehandlingLåsRepository().taLås(revurdering.getId());
-        BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(revurdering.getFagsakId(), revurdering.getAktørId(), behandlingLås);
-
-        // Act
-        foreslåVedtakRevurderingStegForeldrepenger.vedHoppOverBakover(kontekst, revurdering, null, null, null);
-        entityManager.flush();
-        entityManager.clear();
-
-        // Assert
-        revurdering = behandlingRepository.hentBehandling(revurdering.getId());
-        assertThat(revurdering.getBehandlingsresultat().getKonsekvenserForYtelsen()).isEmpty();
-    }
-
     private Beregningsgrunnlag buildBeregningsgrunnlag(Long bruttoPerÅr){
         Beregningsgrunnlag beregningsgrunnlag = Beregningsgrunnlag.builder()
             .medSkjæringstidspunkt(LocalDate.now())

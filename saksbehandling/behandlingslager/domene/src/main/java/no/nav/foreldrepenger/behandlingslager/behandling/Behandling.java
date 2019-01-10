@@ -583,17 +583,6 @@ public class Behandling extends BaseEntitet {
             .findFirst();
     }
 
-    /** 
-     * @deprecated FIXME PFP-1131 Fjern direkte kobling Behandling->Berørt Behandling
-     */
-    @Deprecated
-    public boolean erBerørtBehandling() {
-        return getBehandlingÅrsaker().stream()
-            .map(BehandlingÅrsak::getBehandlingÅrsakType)
-            .collect(Collectors.toList())
-            .contains(BehandlingÅrsakType.BERØRT_BEHANDLING);
-    }
-
     /**
      * @deprecated FIXME SP : Flytt til BehandlingskontrollRepository
      */

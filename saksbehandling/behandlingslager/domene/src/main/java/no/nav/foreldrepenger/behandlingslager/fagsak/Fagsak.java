@@ -5,7 +5,6 @@ import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +23,6 @@ import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBruker;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
-import no.nav.vedtak.felles.jpa.converters.BooleanToStringConverter;
 
 @Entity(name = "Fagsak")
 @Table(name = "FAGSAK")
@@ -54,10 +52,6 @@ public class Fagsak extends BaseEntitet {
     @Embedded
     @AttributeOverrides(@AttributeOverride(name = "saksnummer", column = @Column(name = "saksnummer", unique = true)))
     private Saksnummer saksnummer;
-
-    @Convert(converter = BooleanToStringConverter.class)
-    @Column(name = "til_infotrygd", nullable = false)
-    private boolean skalTilInfotrygd = false;
 
     @Version
     @Column(name = "versjon", nullable = false)
@@ -169,14 +163,6 @@ public class Fagsak extends BaseEntitet {
 
     private void setFagsakStatus(FagsakStatus fagsakStatus) {
         this.fagsakStatus = fagsakStatus;
-    }
-
-    public boolean getSkalTilInfotrygd() {
-        return skalTilInfotrygd;
-    }
-
-    public void setSkalTilInfotrygd(boolean tilInfotrygd) {
-        this.skalTilInfotrygd = tilInfotrygd;
     }
 
     public long getVersjon() {

@@ -2,6 +2,8 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.BekreftetAksjonspunktDto;
+
 public abstract class BekreftOppholdVurderingDto extends BekreftetAksjonspunktDto {
 
     private Boolean oppholdsrettVurdering;

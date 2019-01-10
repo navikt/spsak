@@ -58,8 +58,6 @@ public class RevurderingFPBehandlingsresultatutleder {
 
         boolean erEndringIBeregning = ErEndringIBeregning.vurder(revurderingsGrunnlagOpt, originalGrunnlagOpt);
         return FastsettBehandlingsresultatVedEndring.fastsett(revurdering,
-            erEndringIBeregning,
-            erVarselOmRevurderingSendt,
-            endringsdato);
+            erEndringIBeregning);
     }
 }

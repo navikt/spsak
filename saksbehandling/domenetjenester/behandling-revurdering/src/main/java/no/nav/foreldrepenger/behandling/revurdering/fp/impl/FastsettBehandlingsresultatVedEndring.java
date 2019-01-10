@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,28 +7,16 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.KonsekvensForYtelsen;
-import no.nav.foreldrepenger.behandlingslager.behandling.RettenTil;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev;
 
 class FastsettBehandlingsresultatVedEndring {
     private FastsettBehandlingsresultatVedEndring() {}
 
     public static Behandlingsresultat fastsett(Behandling revurdering,
-                                               boolean erEndringIBeregning,
-                                               boolean erVarselOmRevurderingSendt,
-                                               LocalDate endringsdato) {
+                                               boolean erEndringIBeregning) {
         List<KonsekvensForYtelsen> konsekvenserForYtelsen = utledKonsekvensForYtelsen(erEndringIBeregning);
 
-        Vedtaksbrev vedtaksbrev = utledVedtaksbrev(konsekvenserForYtelsen, erVarselOmRevurderingSendt);
         BehandlingResultatType behandlingResultatType = utledBehandlingResultatType(konsekvenserForYtelsen);
-        return buildBehandlingsresultat(revurdering, behandlingResultatType, konsekvenserForYtelsen, vedtaksbrev);
-    }
-
-    private static Vedtaksbrev utledVedtaksbrev(List<KonsekvensForYtelsen> konsekvenserForYtelsen, boolean erVarselOmRevurderingSendt) {
-        if (!erVarselOmRevurderingSendt && konsekvenserForYtelsen.contains(KonsekvensForYtelsen.INGEN_ENDRING)) {
-            return Vedtaksbrev.INGEN;
-        }
-        return Vedtaksbrev.AUTOMATISK;
+        return buildBehandlingsresultat(revurdering, behandlingResultatType, konsekvenserForYtelsen);
     }
 
     private static BehandlingResultatType utledBehandlingResultatType(List<KonsekvensForYtelsen> konsekvenserForYtelsen) {
@@ -51,13 +38,12 @@ class FastsettBehandlingsresultatVedEndring {
         return konsekvensForYtelsen;
     }
 
-    private static Behandlingsresultat buildBehandlingsresultat(Behandling revurdering, BehandlingResultatType behandlingResultatType,
-                                                                List<KonsekvensForYtelsen> konsekvenserForYtelsen, Vedtaksbrev vedtaksbrev) {
+    private static Behandlingsresultat buildBehandlingsresultat(Behandling revurdering, 
+                                                                BehandlingResultatType behandlingResultatType,
+                                                                List<KonsekvensForYtelsen> konsekvenserForYtelsen) {
         Behandlingsresultat behandlingsresultat = revurdering.getBehandlingsresultat();
         Behandlingsresultat.Builder behandlingsresultatBuilder = Behandlingsresultat.builderEndreEksisterende(behandlingsresultat);
         behandlingsresultatBuilder.medBehandlingResultatType(behandlingResultatType);
-        behandlingsresultatBuilder.medVedtaksbrev(vedtaksbrev);
-        behandlingsresultatBuilder.medRettenTil(RettenTil.HAR_RETT_TIL_FP);
         konsekvenserForYtelsen.forEach(behandlingsresultatBuilder::leggTilKonsekvensForYtelsen);
         return behandlingsresultatBuilder.buildFor(revurdering);
     }

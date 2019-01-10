@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
-import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
@@ -14,7 +13,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.historikk.Historikkinns
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
@@ -49,14 +47,6 @@ public abstract class AbstractVedtaksbrevOverstyringshåndterer {
         } else {
             aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.FATTER_VEDTAK, BehandlingStegType.FORESLÅ_VEDTAK);
         }
-    }
-
-    void settFritekstBrev(Behandling behandling, String overskrift, String fritekst) {
-        Behandlingsresultat.builderEndreEksisterende(behandling.getBehandlingsresultat())
-            .medOverskrift(overskrift)
-            .medFritekstbrev(fritekst)
-            .medVedtaksbrev(Vedtaksbrev.FRITEKST)
-            .buildFor(behandling);
     }
 
     void setToTrinnskontroll(Behandling behandling) {

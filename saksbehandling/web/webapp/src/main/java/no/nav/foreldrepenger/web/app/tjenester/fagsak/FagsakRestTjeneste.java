@@ -136,7 +136,7 @@ public class FagsakRestTjeneste {
         for (FagsakSamlingForBruker.FagsakRad info : fagsakInfoer) {
             Fagsak fagsak = info.getFagsak();
             Boolean kanRevurderingOpprettes = fagsakRevurderingTjenesteProvider.finnRevurderingTjenesteFor(fagsak).kanRevurderingOpprettes(fagsak);
-            dtoer.add(new FagsakDto(fagsak, personDto, kanRevurderingOpprettes, fagsak.getSkalTilInfotrygd()));
+            dtoer.add(new FagsakDto(fagsak, personDto, kanRevurderingOpprettes));
         }
         return dtoer;
     }

@@ -56,7 +56,7 @@ class DokumentmottakerFelles {
     }
 
     void opprettTaskForÅVurdereDokument(Fagsak fagsak, Behandling behandling, InngåendeSaksdokument mottattDokument) {
-        // FIXME : Si ifra om at noen må se på dokumentet
+        // FIXME (SP): MariusGlittum: Si ifra om at noen må se på dokumentet
     }
 
     void opprettKøetHistorikk(Behandling køetBehandling, boolean fantesFraFør) {

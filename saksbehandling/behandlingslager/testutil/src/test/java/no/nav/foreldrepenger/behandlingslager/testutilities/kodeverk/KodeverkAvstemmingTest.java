@@ -72,7 +72,7 @@ public class KodeverkAvstemmingTest {
 
         Map<Class<?>, List<Kodeliste>> gruppert = resultList.stream().collect(Collectors.groupingBy(Object::getClass));
 
-        assertThat(gruppert).isNotEmpty();
+        assertThat(gruppert).describedAs(kodeverk).isNotEmpty();
 
         for (Map.Entry<Class<?>, List<Kodeliste>> entry : gruppert.entrySet()) {
             Map<String, Kodeliste> koder = entry.getValue().stream()
@@ -90,7 +90,7 @@ public class KodeverkAvstemmingTest {
                     } catch (IllegalArgumentException | IllegalAccessException e) {
                         throw new AssertionError(feilFantIkke + f, e);
                     }
-                    assertThat(koder).containsKey(k.getKode());
+                    assertThat(koder).describedAs(kodeverk).containsKey(k.getKode());
                 });
         }
     }

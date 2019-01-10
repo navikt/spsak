@@ -88,7 +88,7 @@ public class YtelseForretningshendelseHåndtererTest {
     @Before
     public void setUp() {
         BehandlingskontrollTjeneste behandlingskontrollTjeneste = lagBehandlingskontrollTjenesteMock(repositoryProvider, behandlingModellRepository);
-        Behandlingsoppretter behandlingsoppretter = new BehandlingsoppretterImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingTjenesteProvider, null, prosessTaskRepository, mottatteDokumentTjeneste, behandlendeEnhetTjeneste, historikkinnslagTjeneste, iayTjeneste);
+        Behandlingsoppretter behandlingsoppretter = new BehandlingsoppretterImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingTjenesteProvider, prosessTaskRepository, mottatteDokumentTjeneste, behandlendeEnhetTjeneste, historikkinnslagTjeneste, iayTjeneste);
         håndterer = new YtelseForretningshendelseHåndterer(repositoryProvider, behandlingsoppretter, kompletthetskontroller, endringskontroller, behandlingskontrollTjeneste, historikkinnslagTjeneste);
     }
 

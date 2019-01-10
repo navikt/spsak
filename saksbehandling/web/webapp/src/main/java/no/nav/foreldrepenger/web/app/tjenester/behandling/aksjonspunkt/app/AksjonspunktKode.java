@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto;
+package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

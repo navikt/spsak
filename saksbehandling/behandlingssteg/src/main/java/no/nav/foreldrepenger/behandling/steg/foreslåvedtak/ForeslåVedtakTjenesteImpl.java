@@ -13,7 +13,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
-import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.vedtak.feil.Feil;
 import no.nav.vedtak.feil.FeilFactory;
 import no.nav.vedtak.feil.LogLevel;
@@ -24,7 +23,6 @@ abstract class ForeslåVedtakTjenesteImpl implements ForeslåVedtakTjeneste {
 
     private VilkårKodeverkRepository vilkårKodeverkRepository;
     private SjekkMotEksisterendeOppgaverTjeneste sjekkMotEksisterendeOppgaverTjeneste;
-    private FagsakRepository fagsakRepository;
 
     protected ForeslåVedtakTjenesteImpl() {
         //CDI proxy
@@ -33,16 +31,12 @@ abstract class ForeslåVedtakTjenesteImpl implements ForeslåVedtakTjeneste {
     ForeslåVedtakTjenesteImpl(GrunnlagRepositoryProvider provider, SjekkMotEksisterendeOppgaverTjeneste sjekkMotEksisterendeOppgaverTjeneste) {
         this.vilkårKodeverkRepository = provider.getVilkårKodeverkRepository();
         this.sjekkMotEksisterendeOppgaverTjeneste = sjekkMotEksisterendeOppgaverTjeneste;
-        this.fagsakRepository = provider.getFagsakRepository();
     }
 
     @Override
     public BehandleStegResultat foreslåVedtak(Behandling behandling) {
         foreslåAutomatisertVedtak(behandling);
 
-        if (fagsakRepository.finnEksaktFagsak(behandling.getFagsakId()).getSkalTilInfotrygd()) {
-            return BehandleStegResultat.utførtUtenAksjonspunkter();
-        }
         List<AksjonspunktDefinisjon> aksjonspunktDefinisjoner = sjekkMotEksisterendeOppgaverTjeneste.sjekkMotEksisterendeGsakOppgaver(behandling.getAktørId(), behandling);
 
         Optional<Aksjonspunkt> vedtakUtenTotrinnskontroll = behandling.getAksjonspunktMedDefinisjonOptional(AksjonspunktDefinisjon.VEDTAK_UTEN_TOTRINNSKONTROLL);

@@ -1,11 +1,9 @@
 package no.nav.foreldrepenger.behandlingslager.behandling;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -26,12 +23,9 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinFormula;
-import org.hibernate.annotations.Type;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Avslagsårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense;
@@ -52,8 +46,8 @@ public class Behandlingsresultat extends BaseEntitet {
 
     @ManyToOne
     @JoinColumn(name = "inngangsvilkar_resultat_id"
-        /* , updatable = false // får ikke satt denne til false, men skal aldri kunne endres dersom satt tidligere */
-        /* , nullable=false // kan være null, men når den er satt kan ikke oppdateres */
+    /* , updatable = false // får ikke satt denne til false, men skal aldri kunne endres dersom satt tidligere */
+    /* , nullable=false // kan være null, men når den er satt kan ikke oppdateres */
     )
     private VilkårResultat vilkårResultat;
 
@@ -62,7 +56,7 @@ public class Behandlingsresultat extends BaseEntitet {
     @JoinColumn(name = "behandling_id", nullable = false, updatable = false)
     private Behandling behandling;
 
-    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "behandlingsresultat")
+    @OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "behandlingsresultat")
     private BehandlingVedtak behandlingVedtak;
 
     @ManyToOne(optional = false)
@@ -71,39 +65,11 @@ public class Behandlingsresultat extends BaseEntitet {
         + BehandlingResultatType.DISCRIMINATOR + "'"))
     private BehandlingResultatType behandlingResultatType = BehandlingResultatType.IKKE_FASTSATT;
 
-    @ManyToOne
-    @JoinColumnOrFormula(column = @JoinColumn(name = "avslag_arsak", referencedColumnName = "kode"))
-    @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'" + Avslagsårsak.DISCRIMINATOR + "'"))
-    private Avslagsårsak avslagsårsak = Avslagsårsak.UDEFINERT;
-
-    @ManyToOne
-    @JoinColumnOrFormula(column = @JoinColumn(name = "retten_til", referencedColumnName = "kode", nullable = false))
-    @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'"
-        + RettenTil.DISCRIMINATOR + "'"))
-    private RettenTil rettenTil = RettenTil.UDEFINERT;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "behandlingsresultat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BehandlingsresultatKonsekvensForYtelsen> konsekvenserForYtelsen = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumnOrFormula(column = @JoinColumn(name = "vedtaksbrev", referencedColumnName = "kode", nullable = false))
-    @JoinColumnOrFormula(formula = @JoinFormula(referencedColumnName = "kodeverk", value = "'"
-        + Vedtaksbrev.DISCRIMINATOR + "'"))
-    private Vedtaksbrev vedtaksbrev = Vedtaksbrev.UDEFINERT;
-
-    @Column(name = "avslag_arsak_fritekst")
-    private String avslagarsakFritekst;
-
     @OneToMany(mappedBy = "behandlingsresultat")
     private Set<Uttaksperiodegrense> uttaksperiodegrense = new HashSet<>();
-
-    @Column(name = "overskrift")
-    private String overskrift;
-
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "fritekstbrev")
-    private String fritekstbrev;
 
     protected Behandlingsresultat() {
         // for hibernate
@@ -147,40 +113,12 @@ public class Behandlingsresultat extends BaseEntitet {
         return behandlingResultatType;
     }
 
-    public Avslagsårsak getAvslagsårsak() {
-        return Objects.equals(avslagsårsak, Avslagsårsak.UDEFINERT) ? null : avslagsårsak;
-    }
-
-    public void setAvslagsårsak(Avslagsårsak avslagsårsak) {
-        this.avslagsårsak = Optional.ofNullable(avslagsårsak).orElse(Avslagsårsak.UDEFINERT);
-    }
-
-    public String getAvslagarsakFritekst() {
-        return avslagarsakFritekst;
-    }
-
-    public void setAvslagarsakFritekst(String avslagarsakFritekst) {
-        this.avslagarsakFritekst = avslagarsakFritekst;
-    }
-
-    public RettenTil getRettenTil() {
-        return rettenTil;
-    }
-
     public List<KonsekvensForYtelsen> getKonsekvenserForYtelsen() {
         return konsekvenserForYtelsen.stream().map(BehandlingsresultatKonsekvensForYtelsen::getKonsekvensForYtelsen).collect(Collectors.toList());
     }
 
     public void leggTilUttaksperiodegrense(Uttaksperiodegrense uttaksperiodegrense) {
         this.uttaksperiodegrense.add(uttaksperiodegrense);
-    }
-
-    public Set<Uttaksperiodegrense> getAlleUttaksperiodegrenser() {
-        return Collections.unmodifiableSet(uttaksperiodegrense);
-    }
-
-    public Optional<Uttaksperiodegrense> getGjeldendeUttaksperiodegrense() {
-        return uttaksperiodegrense.stream().filter(Uttaksperiodegrense::getErAktivt).findFirst();
     }
 
     @Override
@@ -256,45 +194,15 @@ public class Behandlingsresultat extends BaseEntitet {
             return this;
         }
 
-        public Builder medRettenTil(RettenTil rettenTil) {
-            this.behandlingsresultat.rettenTil = rettenTil;
-            return this;
-        }
-
         public Builder leggTilKonsekvensForYtelsen(KonsekvensForYtelsen konsekvensForYtelsen) {
-            BehandlingsresultatKonsekvensForYtelsen behandlingsresultatKonsekvensForYtelsen =
-                BehandlingsresultatKonsekvensForYtelsen.builder().medKonsekvensForYtelsen(konsekvensForYtelsen).build(behandlingsresultat);
+            BehandlingsresultatKonsekvensForYtelsen behandlingsresultatKonsekvensForYtelsen = BehandlingsresultatKonsekvensForYtelsen.builder()
+                .medKonsekvensForYtelsen(konsekvensForYtelsen).build(behandlingsresultat);
             this.behandlingsresultat.konsekvenserForYtelsen.add(behandlingsresultatKonsekvensForYtelsen);
             return this;
         }
 
         public Builder fjernKonsekvenserForYtelsen() {
             this.behandlingsresultat.konsekvenserForYtelsen.clear();
-            return this;
-        }
-
-        public Builder medVedtaksbrev(Vedtaksbrev vedtaksbrev) {
-            this.behandlingsresultat.vedtaksbrev = vedtaksbrev;
-            return this;
-        }
-
-        public Builder medAvslagsårsak(Avslagsårsak avslagsårsak) {
-            this.behandlingsresultat.avslagsårsak = Optional.ofNullable(avslagsårsak).orElse(Avslagsårsak.UDEFINERT);
-            return this;
-        }
-
-        public Builder medAvslagarsakFritekst(String avslagarsakFritekst) {
-            this.behandlingsresultat.avslagarsakFritekst = avslagarsakFritekst;
-            return this;
-        }
-
-        public Builder medOverskrift(String overskrift) {
-            this.behandlingsresultat.overskrift = overskrift;
-            return this;
-        }
-
-        public Builder medFritekstbrev(String fritekstbrev) {
-            this.behandlingsresultat.fritekstbrev = fritekstbrev;
             return this;
         }
 
@@ -329,7 +237,7 @@ public class Behandlingsresultat extends BaseEntitet {
         return BehandlingResultatType.INNVILGET.equals(behandlingResultatType);
     }
 
-    public boolean isBehandlingsresultatForeldrepengerEndret() {
+    public boolean isBehandlingsresultatEndret() {
         return BehandlingResultatType.FORELDREPENGER_ENDRET.equals(behandlingResultatType);
     }
 

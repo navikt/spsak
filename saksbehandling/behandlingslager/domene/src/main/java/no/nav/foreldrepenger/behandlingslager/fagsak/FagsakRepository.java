@@ -36,8 +36,6 @@ public interface FagsakRepository extends BehandlingslagerRepository {
 
     List<Fagsak> hentForStatus(FagsakStatus fagsakStatus);
 
-    void fagsakSkalBehandlesAvInfotrygd(Long fagsakId);
-
     FagsakLås taSkriveLås(Long fagsakId);
 
     void verifiserLås(FagsakLås lås);

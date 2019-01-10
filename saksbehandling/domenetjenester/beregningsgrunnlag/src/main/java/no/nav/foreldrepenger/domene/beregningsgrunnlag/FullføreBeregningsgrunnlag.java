@@ -82,7 +82,6 @@ public class FullføreBeregningsgrunnlag {
         if (!vilkårOppfylt) {
             Behandlingsresultat behandlingsresultat = behandling.getBehandlingsresultat();
             Behandlingsresultat.builderEndreEksisterende(behandlingsresultat).medBehandlingResultatType(BehandlingResultatType.AVSLÅTT);
-            behandlingsresultat.setAvslagsårsak(Avslagsårsak.FOR_LAVT_BEREGNINGSGRUNNLAG);
         }
     }
 

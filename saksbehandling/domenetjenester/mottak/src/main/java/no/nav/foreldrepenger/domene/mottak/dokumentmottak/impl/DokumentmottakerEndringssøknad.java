@@ -78,7 +78,4 @@ class DokumentmottakerEndringssøknad extends DokumentmottakerYtelsesesrelatertD
         dokumentmottakerFelles.opprettTaskForÅVurdereDokument(fagsak, null, mottattDokument);
     }
 
-    private boolean kompletthetErPassert(Behandling behandling) {
-        return behandlingsoppretter.erKompletthetssjekkPassert(behandling);
-    }
 }

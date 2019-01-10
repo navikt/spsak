@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.BekreftetAksjonspunktDto;
 
 @JsonTypeName(VurderFaktaOmBeregningDto.AKSJONSPUNKT_KODE)
 public class VurderFaktaOmBeregningDto extends BekreftetAksjonspunktDto {

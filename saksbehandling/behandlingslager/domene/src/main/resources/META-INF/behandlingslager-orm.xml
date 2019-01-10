@@ -353,7 +353,6 @@
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.BehandlingVedtak"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakResultatType"/>
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.IverksettingStatus"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkAktør"/>
@@ -422,7 +421,6 @@
     <entity class="no.nav.foreldrepenger.behandlingslager.hendelser.ForretningshendelseType"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType"/>
 
-    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.RettenTil"/>
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.KonsekvensForYtelsen"/>
 
     <entity class="no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnresultatgrunnlag"/>

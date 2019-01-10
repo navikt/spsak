@@ -42,7 +42,6 @@ import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
-import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.DokumentPersistererTjeneste;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
@@ -55,7 +54,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
     private BehandlingRepository behandlingRepository;
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
     private RevurderingTjenesteProvider revurderingTjenesteProvider;
-    private DokumentPersistererTjeneste dokumentPersistererTjeneste;
     private ProsessTaskRepository prosessTaskRepository;
     private MottatteDokumentTjeneste mottatteDokumentTjeneste;
     private SøknadRepository søknadRepository;
@@ -75,7 +73,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
                                     ResultatRepositoryProvider resultatRepositoryProvider,
                                     BehandlingskontrollTjeneste behandlingskontrollTjeneste,
                                     RevurderingTjenesteProvider revurderingTjenesteProvider,
-                                    DokumentPersistererTjeneste dokumentPersistererTjeneste,
                                     ProsessTaskRepository prosessTaskRepository,
                                     MottatteDokumentTjeneste mottatteDokumentTjeneste,
                                     BehandlendeEnhetTjeneste behandlendeEnhetTjeneste,
@@ -83,7 +80,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
                                     InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste) {
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
-        this.dokumentPersistererTjeneste = dokumentPersistererTjeneste;
         this.prosessTaskRepository = prosessTaskRepository;
         this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
         this.mottatteDokumentTjeneste = mottatteDokumentTjeneste;
@@ -196,11 +192,6 @@ public class BehandlingsoppretterImpl implements Behandlingsoppretter {
         }
         settSomKøet(behandling);
         return behandling;
-    }
-
-    @Override
-    public Behandling opprettBerørtBehandling(Fagsak fagsak) {
-        return opprettRevurdering(fagsak, BehandlingÅrsakType.BERØRT_BEHANDLING);
     }
 
     private void opprettTaskForÅStarteBehandling(Behandling behandling) {

@@ -25,8 +25,6 @@ public interface Behandlingsoppretter {
 
     Behandling opprettKøetBehandling(Fagsak fagsak, BehandlingÅrsakType eksternÅrsak);
 
-    Behandling opprettBerørtBehandling(Fagsak fagsak);
-
     Behandling finnEllerOpprettFørstegangsbehandling(Fagsak fagsak);
 
     void settSomKøet(Behandling nyKøetBehandling);

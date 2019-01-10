@@ -148,14 +148,6 @@ public class FagsakRepositoryImpl implements FagsakRepository {
         return query.getResultList();
     }
 
-    @Override
-    public void fagsakSkalBehandlesAvInfotrygd(Long fagsakId) {
-        Fagsak fagsak = finnEksaktFagsak(fagsakId);
-        fagsak.setSkalTilInfotrygd(true);
-        entityManager.persist(fagsak);
-        entityManager.flush();
-    }
-
     /**
      * Oppretter en skrivelås på Fagsak.
      */

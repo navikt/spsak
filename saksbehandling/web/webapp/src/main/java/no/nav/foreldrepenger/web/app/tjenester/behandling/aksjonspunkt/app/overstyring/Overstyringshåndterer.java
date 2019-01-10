@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.over
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OppdateringResultat;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.overstyring.OverstyringAksjonspunktDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OverstyringAksjonspunktDto;
 
 public interface Overstyringshåndterer<T extends OverstyringAksjonspunktDto> {
 

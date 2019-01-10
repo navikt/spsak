@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.BekreftetAksjonspunktDto;
+
 @JsonTypeName(BekreftBosattVurderingDto.AKSJONSPUNKT_KODE)
 public class BekreftBosattVurderingDto extends BekreftetAksjonspunktDto {
 

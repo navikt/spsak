@@ -14,8 +14,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingL�
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Vedtaksbrev;
-import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakRepository;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
@@ -29,11 +27,12 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
     private BehandlingRepository behandlingRepository;
 
     protected ForeslåVedtakTjenesteForeldrepengerImpl() {
-        //CDI proxy
+        // CDI proxy
     }
 
     @Inject
-    ForeslåVedtakTjenesteForeldrepengerImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider, SjekkMotEksisterendeOppgaverTjeneste sjekkMotEksisterendeOppgaverTjeneste,
+    ForeslåVedtakTjenesteForeldrepengerImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider,
+                                            SjekkMotEksisterendeOppgaverTjeneste sjekkMotEksisterendeOppgaverTjeneste,
                                             RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder) {
         super(repositoryProvider, sjekkMotEksisterendeOppgaverTjeneste);
         this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
@@ -48,7 +47,8 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
 
     private boolean minstEnGyldigUttaksPeriode(Behandlingsresultat behandlingsresultat) {
         Optional<UttakResultatEntitet> uttakResultat = uttakRepository.hentUttakResultatHvisEksisterer(behandlingsresultat.getBehandling());
-        return uttakResultat.isPresent() && uttakResultat.get().getGjeldendePerioder().getPerioder().stream().anyMatch(p -> PeriodeResultatType.INNVILGET.equals(p.getPeriodeResultatType()));
+        return uttakResultat.isPresent() && uttakResultat.get().getGjeldendePerioder().getPerioder().stream()
+            .anyMatch(p -> PeriodeResultatType.INNVILGET.equals(p.getPeriodeResultatType()));
     }
 
     @Override
@@ -68,24 +68,11 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
     }
 
     private void vilkårAvslått(Behandling behandling, Behandlingsresultat behandlingsresultat, boolean erVarselOmRevurderingSendt) {
-        Optional<Vilkår> ikkeOppfyltVilkår = behandlingsresultat.getVilkårResultat().hentIkkeOppfyltVilkår();
-        ikkeOppfyltVilkår.ifPresent(vilkår -> behandlingsresultat.setAvslagsårsak(finnAvslagsårsak(vilkår)));
         if (behandling.erRevurdering()) {
-            if (behandling.getFagsak().getSkalTilInfotrygd()) {
-                Behandlingsresultat.builderEndreEksisterende(behandlingsresultat)
-                    .medBehandlingResultatType(BehandlingResultatType.AVSLÅTT);
-            } else {
-                revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(behandling, erVarselOmRevurderingSendt);
-            }
+            revurderingFPBehandlingsresultatutleder.bestemBehandlingsresultatForRevurdering(behandling, erVarselOmRevurderingSendt);
         } else {
-            if (behandling.getFagsak().getSkalTilInfotrygd()) {
-                Behandlingsresultat.builderEndreEksisterende(behandlingsresultat)
-                    .medVedtaksbrev(Vedtaksbrev.INGEN)
-                    .medBehandlingResultatType(BehandlingResultatType.AVSLÅTT);
-            } else {
-                Behandlingsresultat.builderEndreEksisterende(behandlingsresultat)
-                    .medBehandlingResultatType(BehandlingResultatType.AVSLÅTT);
-            }
+            Behandlingsresultat.builderEndreEksisterende(behandlingsresultat)
+                .medBehandlingResultatType(BehandlingResultatType.AVSLÅTT);
         }
     }
 }

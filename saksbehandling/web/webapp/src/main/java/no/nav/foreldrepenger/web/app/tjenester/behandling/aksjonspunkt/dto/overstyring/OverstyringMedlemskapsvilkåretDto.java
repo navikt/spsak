@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OverstyringAksjonspunktDto;
 import no.nav.vedtak.util.InputValideringRegex;
 
 @JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE, fieldVisibility=Visibility.ANY)

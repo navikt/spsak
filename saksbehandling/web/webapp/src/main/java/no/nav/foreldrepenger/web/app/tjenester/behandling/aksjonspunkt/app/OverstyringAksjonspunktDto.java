@@ -1,31 +1,33 @@
-package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto;
+package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 import no.nav.vedtak.sikkerhet.abac.AbacDataAttributter;
 import no.nav.vedtak.sikkerhet.abac.AbacDto;
 import no.nav.vedtak.util.InputValideringRegex;
 
+@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE, fieldVisibility=Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
-/** Husk @JsonTypeName på alle sublasser!! */
-public abstract class BekreftetAksjonspunktDto implements AksjonspunktKode, AbacDto {
+public abstract class OverstyringAksjonspunktDto implements AksjonspunktKode, AbacDto {
 
     @JsonProperty("begrunnelse")
     @Size(max = 4000)
     @Pattern(regexp = InputValideringRegex.FRITEKST)
     private String begrunnelse;
 
-    protected BekreftetAksjonspunktDto() {
-        // For Jackson
+    protected OverstyringAksjonspunktDto() { // NOSONAR
+        //For Jackson
     }
 
-    protected BekreftetAksjonspunktDto(String begrunnelse) {
+    protected OverstyringAksjonspunktDto(String begrunnelse) { // NOSONAR
         this.begrunnelse = begrunnelse;
     }
 
@@ -38,4 +40,9 @@ public abstract class BekreftetAksjonspunktDto implements AksjonspunktKode, Abac
         return AbacDataAttributter.opprett()
             .leggTilAksjonspunktKode(getKode());
     }
+
+    public abstract String getAvslagskode();
+
+    public abstract boolean getErVilkarOk();
+
 }

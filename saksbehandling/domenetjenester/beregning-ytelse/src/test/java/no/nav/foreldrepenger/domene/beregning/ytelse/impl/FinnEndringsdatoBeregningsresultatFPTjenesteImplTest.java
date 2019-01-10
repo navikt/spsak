@@ -882,7 +882,7 @@ public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {
     private Behandling opprettRevurdering(Behandling originalBehandling) {
         return Behandling.fraTidligereBehandling(originalBehandling, BehandlingType.REVURDERING)
             .medBehandlingÅrsak(
-                BehandlingÅrsak.builder(BehandlingÅrsakType.RE_MANGLER_FØDSEL)
+                BehandlingÅrsak.builder(BehandlingÅrsakType.RE_ANNET)
                     .medOriginalBehandling(originalBehandling))
             .build();
     }

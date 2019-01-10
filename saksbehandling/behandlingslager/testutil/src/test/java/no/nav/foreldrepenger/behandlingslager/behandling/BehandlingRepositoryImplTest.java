@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -119,7 +118,7 @@ public class BehandlingRepositoryImplTest {
         Behandling behandling = opprettRevurderingsKandidat(REVURDERING_DAGER_TILBAKE + 2);
 
         Behandling revurderingsBehandling = Behandling.fraTidligereBehandling(behandling, BehandlingType.REVURDERING)
-            .medBehandlingÅrsak(BehandlingÅrsak.builder(BehandlingÅrsakType.RE_AVVIK_ANTALL_BARN)).build();
+            .medBehandlingÅrsak(BehandlingÅrsak.builder(BehandlingÅrsakType.RE_ENDRING_BEREGNINGSGRUNNLAG)).build();
 
         behandlingRepository.lagre(revurderingsBehandling, behandlingRepository.taSkriveLås(revurderingsBehandling));
 
@@ -158,46 +157,6 @@ public class BehandlingRepositoryImplTest {
         BehandlingVedtak vedtakLest = repository.hent(BehandlingVedtak.class, id);
         assertThat(vedtakLest).isNotNull();
 
-    }
-
-    @Test
-    public void skal_kunne_lagre_konsekvens_for_ytelsen() {
-        behandling = opprettBehandlingMedTermindato();
-        Behandlingsresultat behandlingsresultat = oppdaterMedBehandlingsresultatOgLagre(behandling, true, false);
-
-        setKonsekvensForYtelsen(behandlingsresultat, Arrays.asList(KonsekvensForYtelsen.ENDRING_I_BEREGNING, KonsekvensForYtelsen.ENDRING_I_UTTAK));
-        List<BehandlingsresultatKonsekvensForYtelsen> brKonsekvenser = repository.hentAlle(BehandlingsresultatKonsekvensForYtelsen.class);
-        assertThat(brKonsekvenser).hasSize(2);
-        brKonsekvenser.forEach(brk -> assertThat(brk.getBehandlingsresultat()).isNotNull());
-        List<KonsekvensForYtelsen> konsekvenser = brKonsekvenser.stream().map(BehandlingsresultatKonsekvensForYtelsen::getKonsekvensForYtelsen).collect(Collectors.toList());
-        assertThat(konsekvenser).containsExactlyInAnyOrder(KonsekvensForYtelsen.ENDRING_I_BEREGNING, KonsekvensForYtelsen.ENDRING_I_UTTAK);
-    }
-
-    @Test
-    public void dersom_man_lagrer_konsekvens_for_ytelsen_flere_ganger_skal_kun_den_siste_lagringen_gjelde() {
-        behandling = opprettBehandlingMedTermindato();
-        Behandlingsresultat behandlingsresultat = oppdaterMedBehandlingsresultatOgLagre(behandling, true, false);
-
-        setKonsekvensForYtelsen(behandlingsresultat, Arrays.asList(KonsekvensForYtelsen.ENDRING_I_BEREGNING, KonsekvensForYtelsen.ENDRING_I_UTTAK));
-        behandling = behandlingRepository.hentBehandling(behandling.getId());
-        Behandlingsresultat.builderEndreEksisterende(behandling.getBehandlingsresultat()).fjernKonsekvenserForYtelsen();
-        setKonsekvensForYtelsen(behandling.getBehandlingsresultat(), Arrays.asList(KonsekvensForYtelsen.ENDRING_I_FORDELING_AV_YTELSEN));
-
-        List<BehandlingsresultatKonsekvensForYtelsen> brKonsekvenser = repository.hentAlle(BehandlingsresultatKonsekvensForYtelsen.class);
-        assertThat(brKonsekvenser).hasSize(1);
-        brKonsekvenser.forEach(brk -> assertThat(brk.getBehandlingsresultat()).isNotNull());
-        List<KonsekvensForYtelsen> konsekvenser = brKonsekvenser.stream().map(BehandlingsresultatKonsekvensForYtelsen::getKonsekvensForYtelsen).collect(Collectors.toList());
-        assertThat(konsekvenser).containsExactlyInAnyOrder(KonsekvensForYtelsen.ENDRING_I_FORDELING_AV_YTELSEN);
-    }
-
-    private void setKonsekvensForYtelsen(Behandlingsresultat behandlingsresultat, List<KonsekvensForYtelsen> konsekvenserForYtelsen) {
-        Behandlingsresultat.Builder builder = Behandlingsresultat.builderEndreEksisterende(behandlingsresultat);
-        konsekvenserForYtelsen.forEach(builder::leggTilKonsekvensForYtelsen);
-        builder.buildFor(behandling);
-
-        BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        behandlingRepository.lagre(behandling, lås);
-        repository.flushAndClear();
     }
 
     @Test

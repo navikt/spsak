@@ -144,7 +144,7 @@ public class KontrollerFaktaRevurderingStegImplTest {
         ScenarioMorSøkerForeldrepenger revurderingScenario = ScenarioMorSøkerForeldrepenger.forDefaultAktør()
             .medBehandlingType(BehandlingType.REVURDERING)
             .medRegisterOpplysninger(personopplysningBuilder.build())
-            .medOriginalBehandling(originalBehandling, BehandlingÅrsakType.RE_MANGLER_FØDSEL);
+            .medOriginalBehandling(originalBehandling, BehandlingÅrsakType.RE_ANNET);
         revurderingScenario.removeDodgyDefaultInntektArbeidYTelse();
         builder = revurderingScenario.getSykemeldingerBuilder();
         sykemeldingBuilder = builder.sykemeldingBuilder("ASDF-ASDF-ASDF");

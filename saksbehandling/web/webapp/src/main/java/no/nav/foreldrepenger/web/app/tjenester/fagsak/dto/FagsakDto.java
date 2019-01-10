@@ -14,13 +14,12 @@ public class FagsakDto {
     private LocalDateTime opprettet;
     private LocalDateTime endret;
     private Boolean kanRevurderingOpprettes;
-    private Boolean skalBehandlesAvInfotrygd;
 
     public FagsakDto() {
         // Injiseres i test
     }
 
-    public FagsakDto(Fagsak fagsak, PersonDto person, Boolean kanRevurderingOpprettes, Boolean skalBehandlesAvInfotrygd) {
+    public FagsakDto(Fagsak fagsak, PersonDto person, Boolean kanRevurderingOpprettes) {
         this.saksnummer = Long.parseLong(fagsak.getSaksnummer().getVerdi());
         this.sakstype = fagsak.getYtelseType();
         this.status = fagsak.getStatus();
@@ -28,7 +27,6 @@ public class FagsakDto {
         this.opprettet = fagsak.getOpprettetTidspunkt();
         this.endret = fagsak.getEndretTidspunkt();
         this.kanRevurderingOpprettes = kanRevurderingOpprettes;
-        this.skalBehandlesAvInfotrygd = skalBehandlesAvInfotrygd;
     }
 
     public Long getSaksnummer() {
@@ -57,10 +55,6 @@ public class FagsakDto {
 
     public Boolean getKanRevurderingOpprettes() {
         return kanRevurderingOpprettes;
-    }
-
-    public Boolean getSkalBehandlesAvInfotrygd() {
-        return skalBehandlesAvInfotrygd;
     }
 
     @Override
