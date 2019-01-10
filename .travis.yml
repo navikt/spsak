@@ -5,6 +5,9 @@ jdk:
 services:
 - postgresql
 before_install:
+- openssl aes-256-cbc -K $encrypted_df199f716f58_key -iv $encrypted_df199f716f58_iv
+  -in travis/helseci.key.enc -out travis/helseci.key -d
+- git clone https://github.com/navikt/github-apps-support.git
 - sudo apt-get update
 - sudo apt-get install language-pack-nb
 - sudo /etc/init.d/postgresql stop
@@ -13,18 +16,25 @@ before_install:
 - psql -c "CREATE USER fpsak_unit PASSWORD 'fpsak_unit';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE fpsak_unit TO fpsak_unit;" -U postgres
 - psql -c "CREATE DATABASE felles_behandlingsprosess_unit;" -U postgres
-- psql -c "CREATE USER felles_behandlingsprosess_unit PASSWORD 'felles_behandlingsprosess_unit';" -U postgres
-- psql -c "GRANT ALL PRIVILEGES ON DATABASE felles_behandlingsprosess_unit TO felles_behandlingsprosess_unit;" -U postgres
+- psql -c "CREATE USER felles_behandlingsprosess_unit PASSWORD 'felles_behandlingsprosess_unit';"
+  -U postgres
+- psql -c "GRANT ALL PRIVILEGES ON DATABASE felles_behandlingsprosess_unit TO felles_behandlingsprosess_unit;"
+  -U postgres
 - psql -c "CREATE DATABASE fpsak;" -U postgres
 - psql -c "CREATE USER fpsak PASSWORD 'fpsak';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE fpsak TO fpsak;" -U postgres
 - psql -c "CREATE DATABASE vl_fordeling_unit;" -U postgres
 - psql -c "CREATE USER vl_fordeling_unit PASSWORD 'vl_fordeling_unit';" -U postgres
-- psql -c "GRANT ALL PRIVILEGES ON DATABASE vl_fordeling_unit TO vl_fordeling_unit;" -U postgres
+- psql -c "GRANT ALL PRIVILEGES ON DATABASE vl_fordeling_unit TO vl_fordeling_unit;"
+  -U postgres
 - psql -c "CREATE DATABASE fpfordel;" -U postgres
 - psql -c "CREATE USER fpfordel PASSWORD 'fpfordel';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE fpfordel TO fpfordel;" -U postgres
+- export PATH=`pwd`/github-apps-support/bin:$PATH
+- export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./travis/helseci.key
+  $GITHUB_APP_ID`)
 - export COMMIT_SHORT=$(git rev-parse --short HEAD)
+- export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>')
 install:
 - cd felles; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 - cd ..
@@ -48,13 +58,50 @@ script:
   set -e
   if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then
     echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-    docker push navikt/spsak:$COMMIT_SHORT
+    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
+
+    git clone https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git
+
+    cd helse-iac
+    ./set-image.sh preprod/$APP_NAME/naiserator.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
+    ./set-image.sh prod/$APP_NAME/naiserator.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
+
+    git config user.name team-helse[bot]
+    git config user.email team-helse[bot]@users.noreply.github.com
+
+    git add preprod/$APP_NAME/naiserator.yaml
+    git add prod/$APP_NAME/naiserator.yaml
+    git commit -m "Bump $APP_NAME" -m "Caused by $TRAVIS_BUILD_WEB_URL" --author "$ORIGINAL_COMMITTER"
+
+    git push https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git master
+
+    cd ..
   fi
+- |
+  set -e
+  if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then
+    echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
+    git clone https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git
+    cd helse-iac
+    ./set-image.sh preprod/$APP_NAME/naiserator.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
+    ./set-image.sh prod/$APP_NAME/naiserator.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
+    git config user.name team-helse[bot]
+    git config user.email team-helse[bot]@users.noreply.github.com
+    git add preprod/$APP_NAME/naiserator.yaml
+    git add prod/$APP_NAME/naiserator.yaml
+    git commit -m "Bump $APP_NAME" -m "Caused by $TRAVIS_BUILD_WEB_URL" --author "$ORIGINAL_COMMITTER"
+    git push https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git master
+    cd ..
+    fi
 cache:
   directories:
-  - $HOME/.m2
+  - "$HOME/.m2"
 env:
   global:
+  - APP_NAME=spsak
+  - DOCKER_IMG_NAME=navikt/spsak
+  - GITHUB_APP_ID=19726
   - secure: oZ1T6ORhEahJC4GEKUMrhkpqHpafIG2zSIpK1dF92DT+iQ8bqkD1ZoznPlqZHLDsusiEaY+YU6KlMqiwG7Xz8DH3m6bM8jpxWjTsyB2NhLYMFi8jMiqc+xmBSqFV6NgUeXGRdpJGVxpK6hPkfWOWRVLW6/9vhRdYlTu4qGq1JxX1gUgUC+1Z6xfPdC7zHnd8hjWCckr+xAsv6y4IDd15RkhNjX9Oq4dw8USmHYNSKCiCmXoZKBGJYi7YOgIcuAvmCU9ybSiej+SbeCdrNgQB01d5rq9hJ6P3WEfyXyU6Psrq4dnaDdd3pcFrX0UWph3wyCxbt8CPgc75ifxF4ZEfIL4Jn+xU2i233U2zc/4wl5Rh3iKb/iVeTJNL9yvZDQM1oSLFWtzt6M/UMunNTEjygYP87+KM7Kg2zv4xmOXBef5JNdtQ/R728uqok+3NEwr7LD+3Wa//RBYEggava2VGLIH2ve/1RxTkCFqwbquW/xg3bHHp4o60r7Kh7b6Ljwuk/Tuik78TCAtDEPOLo0gUb3BDRtNqmXoHUbCNrRre8WGmrrafxcNp8EU+Qcb2e8D/n5Q4M0SeeEJSe1B9+U2AQLRoggUAH7g7sdI0o2NabZQi0EAGqMrD4ic0SbOFcarBdXfBwOmrLp/anM6XY6IrW4Evd+wlZn7xjvNq6OVstmY=
   - secure: r0x2YnpXY2yRiTUnkHKHP6M180Nw0MIY03B/YwMPfeABlJoZpoH+W1OrDlsNqmXAalLHPkBxHDIWvbwcea+WNdkCGoD4K5vyKbPeKBlDDfIKza+YBA5DBHSj4vfFKjrlGdYg2rRSAhcgGY2bAhi4OVIPPDD42F6CmjKKLkZKcLaOUDJCCDMz9TzS+RMtNbF5ds/Wq56lmurTLk7HBrRZQu8Eb/8agtGTjGL0N/DYgnvP4XbaZC8zRxaFSHSEZkxP4qf6mznYFf4wPZdj5vDHJf3xhXfxIAsCyAUIfRPV4jrCF6NkEAW3t3NliWmee3cvYiAQULLmNkt5IbpnUueThWgGKLGY3IYksjmr/kYhuHyqj8oudCW6giEs8Io8y55xFJvWxzfaTjgCuQS0yE4go6MsqPhlz1KQ1gwiZcTK447upc8ZEuvjPSpqCBwFykGYPd6laJH5BclpVGfzYQlx1XR5LDRCQuT4EKO40Y/K5Mkm1BXM8ZQ4HCEmRLoo7X/7t40B4jX5j8ZEnbSRdgPfRQINrTINH1RLoL4QAO3y2PCAmm0s/cCCyn1fSrhwl5hXyO4Wgne4nm1Da+fcI88vpLUXUznJ69Vx0+9v4QfBEEmyVaXF4rbIi4zL8Syj9iDKUPTDaqjPVAA1hkr6lzWET4TUHo48ekmxUnRfzSy8okY=
 notifications:
