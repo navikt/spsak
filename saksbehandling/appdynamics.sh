@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [ -z ${APPDYNAMICS+x} ]; then
-    JAVA_OPTS="${JAVA_OPTS} -javaagent:/app/appdynamics/javaagent.jar "
+if test -f "/opt/appdynamics/javaagent.jar"; then
+    JAVA_OPTS="${JAVA_OPTS} -javaagent:/opt/appdynamics/javaagent.jar "
     JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.agent.applicationName=fpanalytics_${FASIT_ENVIRONMENT_NAME}"
     JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.agent.tierName=${FASIT_ENVIRONMENT_NAME}_${APP_NAME}"
     JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.agent.reuse.nodeName=true"

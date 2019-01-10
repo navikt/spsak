@@ -1,16 +1,18 @@
 FROM navikt/java:11-appdynamics
 
-RUN mkdir /app/lib
-RUN mkdir /app/webapp
-RUN mkdir /app/conf
+RUN mkdir lib
+RUN mkdir webapp
+RUN mkdir conf
+
+COPY appdynamics.sh /init-scripts/10-appdynamics.sh
 
 # Config
-COPY web/webapp/target/classes/logback.xml /app/conf/
-COPY web/webapp/target/classes/jetty/jaspi-conf.xml /app/conf/
+COPY web/webapp/target/classes/logback.xml conf/
+COPY web/webapp/target/classes/jetty/jaspi-conf.xml conf/
 
 # Application Container (Jetty)
-COPY web/webapp/target/app.jar /app/
-COPY web/webapp/target/lib/*.jar /app/lib/
+COPY web/webapp/target/app.jar .
+COPY web/webapp/target/lib/*.jar lib/
 
 # Application Start Command
 COPY run-java.sh /
