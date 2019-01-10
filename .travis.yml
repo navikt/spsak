@@ -8,6 +8,12 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_df199f716f58_key -iv $encrypted_df199f716f58_iv
   -in travis/helseci.key.enc -out travis/helseci.key -d
 - git clone https://github.com/navikt/github-apps-support.git
+- export PATH=`pwd`/github-apps-support/bin:$PATH
+- export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./travis/helseci.key
+  $GITHUB_APP_ID`)
+- export COMMIT_SHORT=$(git rev-parse --short HEAD)
+- export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>')
+before_script:
 - sudo apt-get update
 - sudo apt-get install language-pack-nb
 - sudo /etc/init.d/postgresql stop
@@ -30,20 +36,6 @@ before_install:
 - psql -c "CREATE DATABASE fpfordel;" -U postgres
 - psql -c "CREATE USER fpfordel PASSWORD 'fpfordel';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE fpfordel TO fpfordel;" -U postgres
-- export PATH=`pwd`/github-apps-support/bin:$PATH
-- export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./travis/helseci.key
-  $GITHUB_APP_ID`)
-- export COMMIT_SHORT=$(git rev-parse --short HEAD)
-- export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>')
-install:
-- cd felles; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-- cd ..
-- cd kontrakter; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-- cd ..
-- cd saksbehandling; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-- cd ..
-- cd vtp-mock; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-- cd ..
 script:
 - cd felles; mvn install
 - cd ..
