@@ -1,9 +1,12 @@
 [
     {
       "datasource": "defaultDS",
-      "schema": "fpsak",
+      "user": "fpsak",
+      "password": "fpsak",
       "url": "jdbc:postgresql://localhost:5432/fpsak",
-      "default": true,
-      "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
+
+      "vaultEnable": false,
+      "vaultRoleprefix" : "eksempeldatabase-q1",
+      "vaultMountpath" : "database/integrationtest"
     }
 ]

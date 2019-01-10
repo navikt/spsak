@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.web.server.jetty;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -21,7 +22,6 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
-import no.nav.foreldrepenger.web.server.jetty.JettyDevDbKonfigurasjon.ConnectionHandler;
 
 public class JettyDevServer extends JettyServer {
     private static final String VTP_ARGUMENT = "--vtp";
@@ -74,16 +74,22 @@ public class JettyDevServer extends JettyServer {
         PropertiesUtils.lagPropertiesFilFraTemplate();
         PropertiesUtils.initProperties(JettyDevServer.vtp);
 
-        /*
-
-        // Kommenter INN dette, og UT override'ne av konfigurerJndi() og migrerDatabaser() for å teste mot vault+postgres test-oppsettet fra database-iac-repoet
-
-        System.setProperty("defaultDS.url", "jdbc:postgresql://localhost:5432/eksempeldatabase-q1");
-        System.setProperty("defaultDS.vault.enable", "true");
-        System.setProperty("defaultDS.vault.roleprefix", "eksempeldatabase-q1");
-        System.setProperty("defaultDS.vault.mountpath", "database/integrationtest"); //"postgresql/preprod");
+        List<JettyDevDbKonfigurasjon> konfigs = PropertiesUtils.getDBConnectionProperties()
+            .stream()
+            .filter(jettyDevDbKonfigurasjon -> jettyDevDbKonfigurasjon.getDatasource().equals("defaultDS"))
+            .collect(Collectors.toList());
+        if (konfigs.size() == 1) {
+            final JettyDevDbKonfigurasjon konfig = konfigs.get(0);
+            System.setProperty("defaultDS.url", konfig.getUrl());
+            System.setProperty("defaultDS.username", konfig.getUser()); // benyttes kun hvis vault.enable=false
+            System.setProperty("defaultDS.password", konfig.getPassword()); // benyttes kun hvis vault.enable=false
+            System.setProperty("defaultDS.vault.enable", Boolean.toString(konfig.isVaultEnable()));
+            System.setProperty("defaultDS.vault.roleprefix", konfig.getVaultRoleprefix());
+            System.setProperty("defaultDS.vault.mountpath", konfig.getVaultMountpath());
+        } else {
+            throw new RuntimeException("forventet én datasourc-konfiger med defaultDS, men fant " + konfigs.size());
+        }
         konfigurerDataSourceKonfig();
-        */
     }
 
     @Override
@@ -95,16 +101,6 @@ public class JettyDevServer extends JettyServer {
         System.setProperty("no.nav.modig.security.appcert.keystore", new File(System.getProperty("user.home")+"/spsak/keystore.jks").getAbsolutePath());
         System.setProperty("no.nav.modig.security.appcert.password", "changeit");
 
-    }
-
-    @Override
-    protected void konfigurerJndi() throws Exception {
-        ConnectionHandler.settOppJndiDataSource(PropertiesUtils.getDBConnectionProperties());
-    }
-
-    @Override
-    protected void migrerDatabaser() throws IOException {
-        JettyDevDbKonfigurasjon.kjørMigreringFor(PropertiesUtils.getDBConnectionProperties());
     }
 
     @SuppressWarnings("resource")
@@ -144,5 +140,4 @@ public class JettyDevServer extends JettyServer {
             Resource.newClassPathResource("/web")
         );
     }
-
 }
