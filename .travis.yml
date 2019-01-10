@@ -77,23 +77,6 @@ script:
 
     cd ..
   fi
-- |
-  set -e
-  if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then
-    echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
-    git clone https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git
-    cd helse-iac
-    ./set-image.sh preprod/$APP_NAME/naiserator.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
-    ./set-image.sh prod/$APP_NAME/naiserator.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
-    git config user.name team-helse[bot]
-    git config user.email team-helse[bot]@users.noreply.github.com
-    git add preprod/$APP_NAME/naiserator.yaml
-    git add prod/$APP_NAME/naiserator.yaml
-    git commit -m "Bump $APP_NAME" -m "Caused by $TRAVIS_BUILD_WEB_URL" --author "$ORIGINAL_COMMITTER"
-    git push https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git master
-    cd ..
-    fi
 cache:
   directories:
   - "$HOME/.m2"
