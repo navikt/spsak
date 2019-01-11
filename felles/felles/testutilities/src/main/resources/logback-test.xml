@@ -10,6 +10,7 @@
 
     <logger name="no.nav" level="${log.level.no.nav:-INFO}" />
 	
+	<logger name="jdbc.sql" level="${log.level.jdbc.sql:-WARN}" />
     <logger name="org.hibernate.SQL" level="${org.hibernate.SQL:-WARN}" />
     <logger name="com.zaxxer.hikari" level="${org.zaxxer.hikari:-WARN}" />
     <logger name="org.hibernate.type" level="${org.hibernate.type:-WARN}" />

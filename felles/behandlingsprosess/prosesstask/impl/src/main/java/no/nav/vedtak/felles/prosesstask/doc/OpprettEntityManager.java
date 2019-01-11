@@ -1,9 +1,5 @@
 package no.nav.vedtak.felles.prosesstask.doc;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,9 +13,8 @@ import org.flywaydb.core.api.FlywayException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-/** Oppretter en H2 EntityManager og kjører migreringer mot den. Fordrer at H2 er tilgjengelig på classpath når doc genereres. Skal aldri kjøres mot noe reell db. */
-class OpprettH2EntityManager {
-    private static final String INMEMORY_DB_JDBC_URL = "jdbc:h2:./test;MODE=PostgreSQL";
+public class OpprettEntityManager {
+    private static final String INMEMORY_DB_JDBC_URL = "jdbc:h2:./test;MODE=Oracle";
     private static final String INMEMORY_DB_USER = "sa";
 
     private static final String LOC = System.getProperty("doc.plugin.jdbc.db.migration.defaultDS", "classpath:db/migration");
@@ -38,17 +33,17 @@ class OpprettH2EntityManager {
         }
     }
 
-    EntityManager createEntityManager() {
+    public EntityManager createEntityManager() {
         return createEntityManager(PERSISTENCE_UNIT_NAME);
     }
 
-    EntityManager createEntityManager(String persistenceUnitName) {
+    public EntityManager createEntityManager(String persistenceUnitName) {
         getDataSource();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
         return emf.createEntityManager();
     }
 
-    synchronized DataSource getDataSource() {
+    public synchronized DataSource getDataSource() {
         if (dataSource != null) {
             return dataSource;
         } else {
@@ -67,31 +62,22 @@ class OpprettH2EntityManager {
         config.addDataSourceProperty("remarksReporting", true);
 
         DataSource dataSource = new HikariDataSource(config);
-        initMigrations(dataSource, config.getUsername());
+        initMigrations(dataSource);
 
         registerDataSource(dataSource);
 
         return dataSource;
     }
 
-    protected void initMigrations(DataSource dataSource, String username) {
+    protected void initMigrations(DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
         flyway.setLocations(LOC);
         try {
             flyway.migrate();
         } catch (FlywayException e) {
-            clean(dataSource, username);
+            flyway.clean();
             flyway.migrate();
-        }
-    }
-
-    private void clean(DataSource dataSource, String username) {
-        try (Connection c = dataSource.getConnection();
-                Statement stmt = c.createStatement()) {
-            stmt.execute("drop owned by " + username.replaceAll("[^a-zA-Z0-9_-]", "_"));
-        } catch (SQLException e) {
-            throw new IllegalStateException("Kunne ikke kjøre clean på db", e);
         }
     }
 

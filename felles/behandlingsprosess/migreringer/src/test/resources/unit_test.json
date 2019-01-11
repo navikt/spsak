@@ -7,7 +7,8 @@
       "password": "felles_behandlingsprosess_unit",
       "url": "jdbc:postgresql://localhost:5432/felles_behandlingsprosess_unit",
       "default": true,
-      "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
+      "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/",
+      "sqlLoggable": true
     }
   ]
 }

@@ -23,10 +23,10 @@ import no.nav.vedtak.felles.testutilities.VariablePlaceholderReplacer;
  * 
  * <pre>
  * {
- *  "datasource" : "spsak",
- *  "schema": "spsak",
- *  "url": "jdbc:postgresql://localhost:5432/spsak",
- *  "migrationScriptsClasspathRoot": "database/migration/defaultDS",
+ *  "datasource" : "vl_dba",
+ *  "schema": "vl_dba",
+ *  "url": "jdbc:oracle:thin:@localhost:1521:XE",
+ *  "migrationScriptsClasspathRoot": "database/migration/foreldrepenger",
  *  "migrateClean": true
  * }
  * </pre>
@@ -56,6 +56,7 @@ public final class DBConnectionProperties {
 
     private String versjonstabell;
     private boolean defaultDataSource;
+    private boolean sqlLoggable;
     private boolean migrateClean;
 
     private DBConnectionProperties() {
@@ -72,6 +73,7 @@ public final class DBConnectionProperties {
         this.migrationScriptsClasspathRoot = builder.migrationScriptsClasspathRoot;
         this.versjonstabell = builder.versjonstabell;
         this.defaultDataSource = builder.defaultDataSource;
+        this.sqlLoggable = builder.sqlLoggable;
         this.migrateClean = builder.migrateClean;
     }
 
@@ -171,6 +173,7 @@ public final class DBConnectionProperties {
             .versjonstabell(tabell)
             .url(db.getString("url"))
             .defaultDataSource(db.getBoolean("default", false))
+            .sqlLoggable(db.getBoolean("sqlLoggable", false))
             .migrateClean(db.getBoolean("migrateClean", false))
             .build();
     }
@@ -211,6 +214,10 @@ public final class DBConnectionProperties {
         return defaultDataSource;
     }
 
+    public boolean isSqlLoggable() {
+        return sqlLoggable;
+    }
+
     public boolean isMigrateClean() {
         return migrateClean;
     }
@@ -230,6 +237,7 @@ public final class DBConnectionProperties {
         private String migrationScriptsClasspathRoot;
         private String versjonstabell;
         private boolean defaultDataSource;
+        private boolean sqlLoggable;
         private boolean migrateClean;
 
         public Builder datasource(String datasource) {
@@ -282,6 +290,11 @@ public final class DBConnectionProperties {
             return this;
         }
 
+        public Builder sqlLoggable(boolean sqlLoggable) {
+            this.sqlLoggable = sqlLoggable;
+            return this;
+        }
+
         public Builder migrateClean(boolean migrateClean) {
             this.migrateClean = migrateClean;
             return this;
@@ -298,6 +311,7 @@ public final class DBConnectionProperties {
             migrationScriptsClasspathRoot = prototype.migrationScriptsClasspathRoot;
             versjonstabell = prototype.versjonstabell;
             defaultDataSource = prototype.defaultDataSource;
+            sqlLoggable = prototype.sqlLoggable;
             migrateClean = prototype.migrateClean;
             return this;
         }

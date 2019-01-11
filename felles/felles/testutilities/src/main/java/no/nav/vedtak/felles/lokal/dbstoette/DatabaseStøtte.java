@@ -75,7 +75,7 @@ public final class DatabaseStøtte {
 
         boolean migreringOk = FlywayKonfig.lagKonfig(dataSource)
             .medSqlLokasjon(scriptLocation)
-            .medCleanup(cleanup, connectionProperties.getUser())
+            .medCleanup(cleanup)
             .medMetadataTabell(connectionProperties.getVersjonstabell())
             .migrerDb();
 
@@ -84,7 +84,7 @@ public final class DatabaseStøtte {
                 "\n\nKunne ikke starte inkrementell oppdatering av databasen. Det finnes trolig endringer i allerede kjørte script.\nKjører full migrering...");
 
             migreringOk = FlywayKonfig.lagKonfig(dataSource)
-                .medCleanup(true, connectionProperties.getUser())
+                .medCleanup(true)
                 .medSqlLokasjon(scriptLocation)
                 .medMetadataTabell(connectionProperties.getVersjonstabell())
                 .migrerDb();

@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import no.nav.vedtak.felles.db.log.FastDataSourceSpy;
+
 public class ConnectionHandler {
 
     private static Map<String, DataSource> cache = new ConcurrentHashMap<>();
@@ -51,6 +53,6 @@ public class ConnectionHandler {
             }
         }));
         
-        return hikariDataSource;
+        return dbProperties.isSqlLoggable() ? new FastDataSourceSpy(hikariDataSource) : hikariDataSource;
     }
 }

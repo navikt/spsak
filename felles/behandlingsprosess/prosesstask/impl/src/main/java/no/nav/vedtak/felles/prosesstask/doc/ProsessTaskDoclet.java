@@ -74,7 +74,7 @@ public class ProsessTaskDoclet implements Doclet {
             resultat.leggTil(kode, qualifiedName, comment);
         });
 
-        EntityManager em = new OpprettH2EntityManager().createEntityManager();
+        EntityManager em = new OpprettEntityManager().createEntityManager();
         resultat.getEntries().forEach(e -> {
             try {
                 ProsessTaskType ptt = em.find(ProsessTaskType.class, e.getKode());

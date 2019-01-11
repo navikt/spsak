@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,10 +31,9 @@ import no.nav.vedtak.felles.db.doc.model.JdbcModel;
 import no.nav.vedtak.felles.db.doc.model.Kodeverk;
 import no.nav.vedtak.felles.db.doc.model.Table;
 
-/** Migrer mot en H2 db (hvis tilgjengelig på classpath), og dokumenterer struktur. */
 public class JdbcDoclet implements Doclet {
 
-    private static final String INMEMORY_DB_JDBC_URL = "jdbc:h2:./TEST;MODE=PostgreSQL";
+    private static final String INMEMORY_DB_JDBC_URL = "jdbc:h2:./TEST;MODE=Oracle";
     private static final String INMEMORY_DB_USER = "sa";
 
     private static final String dsNames = System.getProperty("doc.plugin.jdbc.dslist", "defaultDS");
@@ -105,7 +103,7 @@ public class JdbcDoclet implements Doclet {
         if (dbDriver != null)
             config.setDriverClassName(dbDriver);
         HikariDataSource dataSource = new HikariDataSource(config);
-        initMigrations(dataSource, dsName, config.getUsername());
+        initMigrations(dataSource, dsName);
         return dataSource;
 
     }
@@ -118,24 +116,15 @@ public class JdbcDoclet implements Doclet {
         return getEnvOrDefaultValue("doc.plugin.jdbc.db.migration." + dsName, "classpath:db/migration");
     }
 
-    void initMigrations(HikariDataSource dataSource, String dsName, String username) {
+    void initMigrations(HikariDataSource dataSource, String dsName) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
         flyway.setLocations(getDSmappe(dsName));
         try {
             flyway.migrate();
         } catch (FlywayException e) {
-            clean(dataSource, username);
+            flyway.clean();
             flyway.migrate();
-        }
-    }
-    
-    private void clean(DataSource dataSource, String username) {
-        try (Connection c = dataSource.getConnection();
-                Statement stmt = c.createStatement()) {
-            stmt.execute("drop owned by " + username.replaceAll("[^a-zA-Z0-9_-]", "_"));
-        } catch (SQLException e) {
-            throw new IllegalStateException("Kunne ikke kjøre clean på db", e);
         }
     }
 
