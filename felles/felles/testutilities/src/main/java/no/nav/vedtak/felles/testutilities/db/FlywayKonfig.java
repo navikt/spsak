@@ -1,5 +1,8 @@
 package no.nav.vedtak.felles.testutilities.db;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import javax.persistence.EntityManager;
@@ -25,6 +28,9 @@ public class FlywayKonfig {
     private EntityManager entityManager = null;
     private String tabellnavn = null;
 
+    /** Username i db. Brukes til å rense alle tilhørende objekter (KUN FOR TEST!!). */
+    private String username;
+
     private FlywayKonfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -33,8 +39,9 @@ public class FlywayKonfig {
         return new FlywayKonfig(dataSource);
     }
 
-    public FlywayKonfig medCleanup(boolean utførFullMigrering) {
+    public FlywayKonfig medCleanup(boolean utførFullMigrering, String username) {
         this.cleanup = utførFullMigrering;
+        this.username = username;
         return this;
     }
 
@@ -69,7 +76,7 @@ public class FlywayKonfig {
         }
 
         if (cleanup) {
-            flyway.clean();
+            clean(dataSource, username);
         }
 
         flyway.configure(lesFlywayPlaceholders());
@@ -96,5 +103,15 @@ public class FlywayKonfig {
         }
         return placeholders;
     }
+    
+    private void clean(DataSource dataSource, String username) {
+        try (Connection c = dataSource.getConnection();
+                Statement stmt = c.createStatement()) {
+            stmt.execute("drop owned by " + username.replaceAll("[^a-zA-Z0-9_-]", "_"));
+        } catch (SQLException e) {
+            throw new IllegalStateException("Kunne ikke kjøre clean på db", e);
+        }
+    }
+
 
 }
