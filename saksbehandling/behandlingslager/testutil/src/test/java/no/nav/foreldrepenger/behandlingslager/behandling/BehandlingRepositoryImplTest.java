@@ -486,7 +486,7 @@ public class BehandlingRepositoryImplTest {
         ScenarioMorSøkerEngangsstønad scenario = ScenarioMorSøkerEngangsstønad.forDefaultAktør();
 
         behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
-        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder()
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builderEndreEksisterende(behandlingRepository.hentResultat(behandling.getId()))
             .medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
         final BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder().medVedtaksdato(LocalDate.now()).medBehandlingsresultat(behandlingsresultat)
             .medVedtakResultatType(VedtakResultatType.INNVILGET).medAnsvarligSaksbehandler("asdf").build();

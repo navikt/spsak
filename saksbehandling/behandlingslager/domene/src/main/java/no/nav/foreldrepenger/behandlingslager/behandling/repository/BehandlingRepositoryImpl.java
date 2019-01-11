@@ -197,6 +197,12 @@ public class BehandlingRepositoryImpl implements BehandlingRepository {
 
     @Override
     public Long lagre(Behandlingsresultat behandlingsresultats, BehandlingLås lås) {
+        if (behandlingsresultats.getId() == null) {
+            Optional<Behandlingsresultat> behandlingsresultat = hentResultatHvisEksisterer(behandlingsresultats.getBehandling().getId());
+            if (behandlingsresultat.isPresent()) {
+                throw new IllegalStateException("Behandlingen har allerede et aktivt resultat. Behandlingsresultat=" + behandlingsresultat.get());
+            }
+        }
         Long id = lagre(behandlingsresultats);
         verifiserBehandlingLås(lås);
         getEntityManager().flush();

@@ -297,7 +297,7 @@ public class UtledVurderingsdatoerForMedlemskapTjenesteImplTest {
 
     private void avslutterBehandlingOgFagsak(AbstractTestScenario<?> scenario, Behandling behandling) {
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
-        Behandlingsresultat.Builder behandlingsresultatBuilder = Behandlingsresultat.builderForInngangsvilkår();
+        Behandlingsresultat.Builder behandlingsresultatBuilder = Behandlingsresultat.builderEndreEksisterende(behandlingRepository.hentResultat(behandling.getId()));
         Behandlingsresultat behandlingsresultat = behandlingsresultatBuilder.buildFor(behandling);
 
         behandlingRepository.lagre(behandlingsresultat.getVilkårResultat(), lås);

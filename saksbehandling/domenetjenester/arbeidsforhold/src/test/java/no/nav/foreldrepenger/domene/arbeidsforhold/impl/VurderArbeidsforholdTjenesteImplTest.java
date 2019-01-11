@@ -219,7 +219,9 @@ public class VurderArbeidsforholdTjenesteImplTest {
     }
 
     private void avsluttBehandlingOgFagsak(ScenarioMorSøkerForeldrepenger scenario, Behandling behandling) {
-        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builder().medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
+        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
+        Behandlingsresultat behandlingsresultat = Behandlingsresultat.builderEndreEksisterende(behandlingRepository.hentResultat(behandling.getId()))
+            .medBehandlingResultatType(BehandlingResultatType.INNVILGET).buildFor(behandling);
         @SuppressWarnings("unused")
         BehandlingVedtak behandlingVedtak = BehandlingVedtak.builder()
             .medBehandlingsresultat(behandlingsresultat)
@@ -227,7 +229,6 @@ public class VurderArbeidsforholdTjenesteImplTest {
             .medAnsvarligSaksbehandler("Nav Navesen")
             .medVedtakResultatType(VedtakResultatType.INNVILGET)
             .build();
-        BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
         BehandlingLås lås = behandlingRepository.taSkriveLås(behandling);
         behandlingRepository.lagre(behandlingsresultat, lås);
         resultatRepositoryProvider.getVedtakRepository().lagre(behandlingVedtak, lås);
