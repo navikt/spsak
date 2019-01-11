@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.web.app.tjenester;
+package no.nav.sykepenger.kafka;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;

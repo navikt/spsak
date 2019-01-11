@@ -5,15 +5,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.persistence.DiscriminatorValue;
-
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagFelt;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
-import no.nav.foreldrepenger.web.app.tjenester.kodeverk.app.HentKodeverkTjeneste;
 
 public class HistorikkinnslagDelDto {
     private Kodeliste begrunnelse;
@@ -180,14 +177,8 @@ public class HistorikkinnslagDelDto {
         if (Objects.equals("-", aarsakVerdi)) {
             return Optional.empty();
         }
-        Optional<Class<? extends Kodeliste>> aarsakClass = finnKodelisteClassBasertPåNavn(aarsak.getKlTilVerdi());
+        Optional<Class<Kodeliste>> aarsakClass = kodeverkRepository.finnKodelisteForKodeverk(aarsak.getKlTilVerdi());
         return aarsakClass.map(aClass -> kodeverkRepository.finn(aClass, aarsakVerdi));
     }
 
-    private static Optional<Class<? extends Kodeliste>> finnKodelisteClassBasertPåNavn(String kodeverkNavn) {
-        return HentKodeverkTjeneste.KODEVERK_SOM_BRUKES_PÅ_KLIENT.stream().filter(klasseDefinisjon -> {
-            DiscriminatorValue dv = klasseDefinisjon.getDeclaredAnnotation(DiscriminatorValue.class);
-            return (dv != null && dv.value().equals(kodeverkNavn));
-        }).findFirst();
-    }
 }

@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 import io.swagger.annotations.ApiParam;
-import no.nav.foreldrepenger.web.app.util.StringUtils;
 import no.nav.vedtak.sikkerhet.abac.AbacDataAttributter;
 import no.nav.vedtak.sikkerhet.abac.AbacDto;
 
@@ -33,7 +32,7 @@ public class BatchArgumentsDto implements AbacDto {
     }
 
     private void parseJobParams(Map<String, String> arguments) {
-        if (StringUtils.erIkkeTom(jobParameters)) {
+        if ((jobParameters != null) && (jobParameters.length() > 0)) {
 
             StringTokenizer tokenizer = new StringTokenizer(jobParameters, ",");
             while (tokenizer.hasMoreTokens()) {

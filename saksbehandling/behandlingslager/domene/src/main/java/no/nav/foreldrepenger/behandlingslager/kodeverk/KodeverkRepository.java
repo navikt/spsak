@@ -81,4 +81,7 @@ public interface KodeverkRepository extends BehandlingslagerRepository {
      */
     <V extends Kodeliste> V finnForKodeverkEiersNavn(Class<V> cls, String navn, V defaultValue);
 
+    /** Finner kodeverk klasse for angitt kodeverk kode. */
+    Optional<Class<Kodeliste>> finnKodelisteForKodeverk(String kodeverkKode);
+
 }

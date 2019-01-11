@@ -32,7 +32,7 @@ import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
 
 public interface HentKodeverkTjeneste {
-
+    // TODO: Dette kunne vel heller vært håndtet som konfig per kodeverk?  Eller trenger vi filtrere noe ut i det hele tatt?
     List<Class<? extends Kodeliste>> KODEVERK_SOM_BRUKES_PÅ_KLIENT = List.of(
         RelatertYtelseTilstand.class,
         FagsakStatus.class,

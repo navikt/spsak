@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.overstyring;
+package no.nav.foreldrepenger.web.app.tjenester.behandling.opptjening;
 
 import static no.nav.vedtak.feil.LogLevel.WARN;
 

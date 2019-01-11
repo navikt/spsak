@@ -18,7 +18,7 @@ public abstract class InngangsvilkårOverstyringshåndterer<T extends Overstyrin
     private VilkårType vilkårType;
     private InngangsvilkårTjeneste inngangsvilkårTjeneste;
 
-    InngangsvilkårOverstyringshåndterer() {
+    protected InngangsvilkårOverstyringshåndterer() {
         // for CDI proxy
     }
 

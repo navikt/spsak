@@ -32,6 +32,11 @@
             <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-feil</artifactId>
         </dependency>
+                
+        <dependency>
+        	<groupId>io.swagger</groupId>
+        	<artifactId>swagger-core</artifactId>
+        </dependency>
 
         <!-- Test avhengigheter -->
         <dependency>

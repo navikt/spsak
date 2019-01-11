@@ -30,7 +30,10 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.arkiv.ArkivFilType;
  * Hjelpeverktøy til å lage script for å slette kodeverk (fra kodeliste, kodeliste_relasjon, osv.) basert på deklarerte konstanter. (hvis
  * konstant er deklarert antas det at det må finnes i db, hvis ikke kan det slettes).
  * Håndterer ikke dersom andre referenasedata refereer tilbake til kodeliste (eks. AKSJONSPUNKT_DEF#SKJERMLENKE_TYPE)
+ * 
+ * @deprecated kan fjernes når vi ikke har behov for å fjerne mer kodelister
  */
+ @Deprecated
 public class LagSlettKodelisteScript {
 
     public static void main(String[] args) throws Exception {

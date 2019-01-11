@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.overstyring;
+package no.nav.foreldrepenger.web.app.tjenester.behandling.medlem;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -9,6 +9,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.InngangsvilkårTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.overstyring.InngangsvilkårOverstyringshåndterer;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.overstyring.Overstyringshåndterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.overstyring.OverstyringMedlemskapsvilkåretDto;
 import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
 
@@ -16,7 +18,7 @@ import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAd
 @DtoTilServiceAdapter(dto = OverstyringMedlemskapsvilkåretDto.class, adapter = Overstyringshåndterer.class)
 public class MedlemskapsvilkåretOverstyringshåndterer extends InngangsvilkårOverstyringshåndterer<OverstyringMedlemskapsvilkåretDto> {
 
-    MedlemskapsvilkåretOverstyringshåndterer() {
+    protected MedlemskapsvilkåretOverstyringshåndterer() {
         // for CDI proxy
     }
 

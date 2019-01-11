@@ -259,6 +259,11 @@ public class KodeverkTestHelper {
             lazyLoadKodeliste(cls);
             return kodelistePrKodePrKlasse.get(cls);
         }
+
+        @Override
+        public Optional<Class<Kodeliste>> finnKodelisteForKodeverk(String kodeverkKode) {
+            throw new UnsupportedOperationException("Not implemented");
+        }
     }
 
 }

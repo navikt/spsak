@@ -74,8 +74,6 @@
 
     <logger name="no.nav" level="${log.level.no.nav:-INFO}" />
 
-    <!-- skru paa for aa logge all sql statements med parametere -->
-    <logger name="jdbc.sql" level="${log.level.jdbc.sql:-ERROR}" />
     <logger name="org.hibernate.SQL" level="${log.level.org.hibernate.SQL:-INFO}" />
     <logger name="com.zaxxer.hikari" level="${log.level.com.zaxxer.hikari:-WARN}" />
     <logger name="org.hibernate.type" level="${log.level.org.hibernate.type:-WARN}" />
