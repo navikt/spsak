@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.web.app.tjenester;
+package no.nav.foreldrepenger.web.server.startup;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;

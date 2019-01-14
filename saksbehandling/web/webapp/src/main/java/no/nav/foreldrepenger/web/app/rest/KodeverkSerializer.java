@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.web.app.jackson;
+package no.nav.foreldrepenger.web.app.rest;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

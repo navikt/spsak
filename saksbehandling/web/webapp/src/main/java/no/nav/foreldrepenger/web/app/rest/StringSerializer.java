@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.web.app.jackson;
+package no.nav.foreldrepenger.web.app.rest;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

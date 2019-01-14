@@ -1,5 +1,6 @@
-package no.nav.foreldrepenger.web.app.jackson;
+package no.nav.foreldrepenger.web.app.rest;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -35,7 +36,18 @@ public class JacksonJsonConfig implements ContextResolver<ObjectMapper> {
         // objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objectMapper.registerModule(SER_DESER);
 
-        objectMapper.registerSubtypes(getJsonTypeNameClasses());
+        // registrer jackson JsonTypeName subtypes basert på rest implementasjoner
+        new RestImplementationClasses().getImplementationClasses()
+            .stream()
+            .map(c -> {
+                try {
+                    return c.getProtectionDomain().getCodeSource().getLocation().toURI();
+                } catch (URISyntaxException e) {
+                    throw new IllegalArgumentException("Ikke en URI for klasse: " + c, e);
+                }
+            })
+            .distinct()
+            .forEach(uri -> objectMapper.registerSubtypes(getJsonTypeNameClasses(uri)));
     }
 
     public ObjectMapper getObjectMapper() {
@@ -66,15 +78,10 @@ public class JacksonJsonConfig implements ContextResolver<ObjectMapper> {
     }
 
     /** Scan subtyper dynamisk fra WAR slik at superklasse slipper å deklarere @JsonSubtypes. */
-    private static List<Class<?>> getJsonTypeNameClasses() {
-        Class<JacksonJsonConfig> cls = JacksonJsonConfig.class;
+    private static List<Class<?>> getJsonTypeNameClasses(URI classLocation) {
         IndexClasses indexClasses;
-        try {
-            indexClasses = IndexClasses.getIndexFor(cls.getProtectionDomain().getCodeSource().getLocation().toURI());
-            return indexClasses.getClassesWithAnnotation(JsonTypeName.class);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException("Kunne ikke konvertere CodeSource location til URI", e);
-        }
+        indexClasses = IndexClasses.getIndexFor(classLocation);
+        return indexClasses.getClassesWithAnnotation(JsonTypeName.class);
     }
 
 }

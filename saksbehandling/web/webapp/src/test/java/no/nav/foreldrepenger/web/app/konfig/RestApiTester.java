@@ -12,7 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 
 import io.swagger.jaxrs.listing.ApiListingResource;
-import no.nav.foreldrepenger.web.app.ApplicationConfig;
+import no.nav.foreldrepenger.web.app.rest.ApplicationConfig;
 
 public class RestApiTester {
 

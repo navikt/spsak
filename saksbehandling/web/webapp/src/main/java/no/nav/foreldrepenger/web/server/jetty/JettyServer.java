@@ -11,7 +11,7 @@ import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.MetaData;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import no.nav.foreldrepenger.web.app.ApplicationConfig;
+import no.nav.foreldrepenger.web.app.rest.ApplicationConfig;
 import no.nav.vedtak.isso.IssoApplication;
 
 public class JettyServer extends AbstractJettyServer {
