@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingslager.behandling.verge;
+package no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge;
 
 import static java.time.Month.JANUARY;
 import static no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn.KVINNE;

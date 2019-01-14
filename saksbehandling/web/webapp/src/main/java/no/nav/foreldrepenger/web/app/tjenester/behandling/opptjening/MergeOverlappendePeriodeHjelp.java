@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.NavigableSet;
 import java.util.stream.Collectors;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitetKlassifisering;
 import no.nav.spsak.tidsserie.LocalDateInterval;
 import no.nav.spsak.tidsserie.LocalDateSegment;
 import no.nav.spsak.tidsserie.LocalDateTimeline;

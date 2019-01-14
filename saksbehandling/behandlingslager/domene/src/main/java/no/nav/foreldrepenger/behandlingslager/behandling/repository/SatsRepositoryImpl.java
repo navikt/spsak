@@ -12,8 +12,8 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.jpa.QueryHints;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.Sats;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.SatsType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Sats;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.SatsType;
 import no.nav.vedtak.felles.jpa.VLPersistenceUnit;
 
 @ApplicationScoped

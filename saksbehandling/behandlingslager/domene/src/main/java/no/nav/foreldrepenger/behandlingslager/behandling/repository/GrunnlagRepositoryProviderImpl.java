@@ -15,12 +15,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRe
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepositoryImpl;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.SykefraværRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepositoryImpl;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;

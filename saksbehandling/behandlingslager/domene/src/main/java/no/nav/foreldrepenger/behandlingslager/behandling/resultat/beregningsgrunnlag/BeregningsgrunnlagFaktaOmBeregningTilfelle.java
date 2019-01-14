@@ -18,7 +18,6 @@ import org.hibernate.annotations.JoinFormula;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import no.nav.foreldrepenger.behandlingslager.BaseEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
 
 @Entity(name = "BeregningsgrunnlagFaktaOmBeregningTilfelle")
 @Table(name = "BG_FAKTA_BER_TILFELLE")

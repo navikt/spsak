@@ -60,6 +60,13 @@ import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Person
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.PersonopplysningVersjonType;
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.SivilstandType;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.BrevMottaker;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.Verge;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeAggregat;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeBuilder;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeEntitet;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeRepository;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLåsRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
@@ -82,13 +89,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.BrevMottaker;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.Verge;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeAggregat;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeBuilder;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeEntitet;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårKodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;

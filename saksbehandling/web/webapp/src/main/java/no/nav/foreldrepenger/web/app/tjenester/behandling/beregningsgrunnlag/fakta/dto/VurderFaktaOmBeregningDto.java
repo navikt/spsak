@@ -1,11 +1,21 @@
-package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto;
+package no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.dto;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.FaktaOmBeregningTilfelle;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.BekreftetAksjonspunktDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsettBGTilstøtendeYtelseDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsettEndretBeregningsgrunnlagDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsettMånedsinntektFLDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsettMånedsinntektUtenInntektsmeldingDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.TilstotendeYtelseOgEndretBeregningsgrunnlagDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.VurderATogFLiSammeOrganisasjonDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.VurderLønnsendringDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.VurderNyoppstartetFLDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.VurderSelvstendigNæringsdrivendeNyIArbeidslivetDto;
+import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.VurderTidsbegrensetArbeidsforholdDto;
 
 @JsonTypeName(VurderFaktaOmBeregningDto.AKSJONSPUNKT_KODE)
 public class VurderFaktaOmBeregningDto extends BekreftetAksjonspunktDto {

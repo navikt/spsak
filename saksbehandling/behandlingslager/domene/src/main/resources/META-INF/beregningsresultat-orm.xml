@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+
+    <sequence-generator name="SEQ_BEREGNING_RESULTAT" allocation-size="50" sequence-name="SEQ_BEREGNING_RESULTAT"/>
+    <sequence-generator name="SEQ_BEREGNING" allocation-size="50" sequence-name="SEQ_BEREGNING"/>
+    <sequence-generator name="SEQ_SATS" allocation-size="50" sequence-name="SEQ_SATS"/>
+    
+	<sequence-generator name="SEQ_BEREGNINGSRESULTAT_FP" allocation-size="50" sequence-name="SEQ_BEREGNINGSRESULTAT_FP" />
+	<sequence-generator name="SEQ_BR_PERIODE" allocation-size="50" sequence-name="SEQ_BR_PERIODE" />
+	<sequence-generator name="SEQ_BEREGNINGSRESULTAT_ANDEL" allocation-size="50" sequence-name="SEQ_BEREGNINGSRESULTAT_ANDEL" />
+	<sequence-generator name="SEQ_RES_BEREGNINGSRESULTAT_FP" allocation-size="50" sequence-name="SEQ_RES_BEREGNINGSRESULTAT_FP" />
+	<sequence-generator name="SEQ_BR_FERIEPENGER" allocation-size="50" sequence-name="SEQ_BR_FERIEPENGER" />
+	<sequence-generator name="SEQ_BR_FERIEPENGER_PR_AAR" allocation-size="50" sequence-name="SEQ_BR_FERIEPENGER_PR_AAR" />
+
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPerioder"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatPeriode"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsResultat"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepenger"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatFeriepengerPrÅr"/>
+
+</entity-mappings>
+
+

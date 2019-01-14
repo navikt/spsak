@@ -143,7 +143,15 @@ public class SkjæringstidspunktTjenesteImpl implements SkjæringstidspunktTjene
 
     @Override
     public LocalDate utledSkjæringstidspunktFor(Behandling behandling) {
-        return utledSkjæringstidspunktForForeldrepenger(behandling);
+        Optional<Behandlingsresultat> behandlingsresultat = behandlingRepository.hentResultatHvisEksisterer(behandling.getId());
+        if (behandlingsresultat.isPresent()) {
+            final Optional<Opptjening> opptjening = opptjeningRepository.finnOpptjening(behandlingsresultat.get());
+            if (opptjening.isPresent()) {
+                return opptjening.get().getTom().plusDays(1);
+            }
+        }
+        
+        return førsteSykefraværsDag(behandling);
     }
 
     private Behandling originalBehandling(Behandling behandling) {

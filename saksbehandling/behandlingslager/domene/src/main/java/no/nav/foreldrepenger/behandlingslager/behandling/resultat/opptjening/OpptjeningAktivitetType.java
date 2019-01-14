@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk;
+package no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
-      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
-    version="2.1">
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
 
-    <sequence-generator name="SEQ_KODELISTE_RELASJON" allocation-size="50" sequence-name="SEQ_KODELISTE_RELASJON" />
+	<sequence-generator name="SEQ_KODELISTE_NAVN_I18N" allocation-size="50" sequence-name="SEQ_KODELISTE_NAVN_I18N" />
+	<sequence-generator name="SEQ_KODELISTE_RELASJON" allocation-size="50" sequence-name="SEQ_KODELISTE_RELASJON" />
 
-    <entity class="no.nav.foreldrepenger.behandlingslager.kodeverk.KodelisteRelasjon" />
+	<!-- Kodeliste tabeller -->
+	<entity class="no.nav.foreldrepenger.behandlingslager.kodeverk.KodelisteRelasjon" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.kodeverk.KodelisteNavnI18N" />
+
+	<!-- Basis kodeverk -->
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.AdresseType" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.VariantFormat" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.MottakKanal" />
+
+	<entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Geopolitisk" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.geografisk.LandkodeISO2" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Poststed" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.geografisk.Region" />
+
+	<!-- Dokumentbestilling (brev etc) -->
+	<entity class="no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalType" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.dokumentbestiller.DokumentMalRestriksjon" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentKategori" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId" />
+
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.Innsendingsvalg" />
 
 </entity-mappings>

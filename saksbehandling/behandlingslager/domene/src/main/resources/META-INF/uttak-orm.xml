@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+
+	<sequence-generator name="SEQ_UTTAK_RESULTAT" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT" />
+	<sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODE" />
+	<sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODER" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODER" />
+	<sequence-generator name="SEQ_UTTAKSPERIODEGRENSE" allocation-size="50" sequence-name="SEQ_UTTAKSPERIODEGRENSE" />
+	<sequence-generator name="SEQ_UTTAK_RESULTAT_PERIODE_AKT" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_PERIODE_AKT" />
+	<sequence-generator name="SEQ_UTTAK_AKTIVITET" allocation-size="50" sequence-name="SEQ_UTTAK_AKTIVITET" />
+	<sequence-generator name="SEQ_UTTAK_RESULTAT_DOK_REGEL" allocation-size="50" sequence-name="SEQ_UTTAK_RESULTAT_DOK_REGEL" />
+	<sequence-generator name="SEQ_UTTAK_RES_PER_SOKNAD" allocation-size="50" sequence-name="SEQ_UTTAK_RES_PER_SOKNAD" />
+
+    <!-- Uttak av stønad -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.PeriodeResultatÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.ManuellBehandlingÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.GraderingAvslagÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.IkkeOppfyltÅrsak"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakArbeidType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivitetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakAktivitetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeSøknadEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatDokRegelEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.UttakUtsettelseType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.uttak.OrgManuellÅrsakEntitet"/>
+    
+</entity-mappings>
+
+

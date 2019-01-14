@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+
+	<sequence-generator name="SEQ_OPPTJENING" allocation-size="50" sequence-name="SEQ_OPPTJENING" />
+	<sequence-generator name="SEQ_OPPTJENING_AKTIVITET" allocation-size="50" sequence-name="SEQ_OPPTJENING_AKTIVITET" />
+
+	<!-- Oppgitt opptjening fra søknad -->
+	<sequence-generator name="SEQ_SO_OPPGITT_OPPTJENING" allocation-size="50" sequence-name="SEQ_SO_OPPGITT_OPPTJENING" />
+	<sequence-generator name="SEQ_OPPGITT_ARBEIDSFORHOLD" allocation-size="50" sequence-name="SEQ_OPPGITT_ARBEIDSFORHOLD" />
+	<sequence-generator name="SEQ_EGEN_NAERING" allocation-size="50" sequence-name="SEQ_EGEN_NAERING" />
+	<sequence-generator name="SEQ_ANNEN_AKTIVITET" allocation-size="50" sequence-name="SEQ_ANNEN_AKTIVITET" />
+	
+    <!-- Opptjening -->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opptjening"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitetType"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitetKlassifisering"/>
+
+    <!-- Oppgitt opptjening fra søknad-->
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittOpptjeningEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.OppgittArbeidsforholdEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.EgenNæringEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.AnnenAktivitetEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.FrilansEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.FrilansoppdragEntitet"/>
+    <entity class="no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.søknad.kodeverk.VirksomhetType"/>
+
+</entity-mappings>
+
+
+

@@ -12,10 +12,17 @@
         <mapping-file>META-INF/felles-kodeverk-orm.xml</mapping-file>
         <mapping-file>META-INF/kodeverk-orm.xml</mapping-file>
         <mapping-file>META-INF/prosesstask-orm.xml</mapping-file>
-        
+		
+		<mapping-file>META-INF/iay-orm.xml</mapping-file>
+		<mapping-file>META-INF/beregningsgrunnlag-orm.xml</mapping-file>
+		<mapping-file>META-INF/beregningsresultat-orm.xml</mapping-file>
+		<mapping-file>META-INF/opptjening-orm.xml</mapping-file>
+		
+		<mapping-file>META-INF/uttak-orm.xml</mapping-file>
+		        
         <mapping-file>META-INF/fagsak-orm.xml</mapping-file>
         <mapping-file>META-INF/behandlingslager-orm.xml</mapping-file>
-
+        
         <!-- Skilt ut mapping for vedtak (jmf. 'Vedtakslageret') -->
         <mapping-file>META-INF/vedtakslager-orm.xml</mapping-file>
 

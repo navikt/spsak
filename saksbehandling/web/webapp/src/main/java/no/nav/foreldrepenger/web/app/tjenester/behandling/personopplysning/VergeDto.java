@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.personopplysning;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeType;
-
 import java.time.LocalDate;
+
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeType;
 
 public class VergeDto {
 

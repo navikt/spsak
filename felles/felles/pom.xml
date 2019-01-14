@@ -101,6 +101,15 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
+				<!-- jaxb coordinater for java11 -->
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-bom</artifactId>
+                <version>2.4.0-b180830.0438</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+			<dependency>
 				<!-- er ikke i resteasy-bom, så må defineres separat -->
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-cdi</artifactId>
@@ -398,20 +407,10 @@
 				<version>1.4.0</version>
 			</dependency>
 			<dependency>
-				<groupId>javax.xml.bind</groupId>
-				<artifactId>jaxb-api</artifactId>
-				<version>2.4.0-b180830.0359</version>
-			</dependency>
-			<dependency>
 				<groupId>javax.jws</groupId>
 				<artifactId>jsr181-api</artifactId>
 				<version>1.0-MR1</version>
 			</dependency>
-			<dependency>
-                <groupId>org.glassfish.jaxb</groupId>
-                <artifactId>jaxb-runtime</artifactId>
-                <version>2.4.0-b180830.0438</version>
-            </dependency>
 			<dependency>
 				<groupId>javax.xml.ws</groupId>
 				<artifactId>jaxws-api</artifactId>
@@ -444,13 +443,7 @@
 			</dependency>
 
 			<dependency>
-				<!-- kun javax.activation api klasser -->
-				<groupId>javax.activation</groupId>
-				<artifactId>javax.activation-api</artifactId>
-				<version>1.2.0</version>
-			</dependency>
-			<dependency>
-				<!-- trenger denne også. inneholder gamle com.sun.activation.registries klasser som er nødvendig-->
+				<!-- trenger denne . inneholder gamle com.sun.activation.registries klasser som er nødvendig -->
 				<groupId>javax.activation</groupId>
 				<artifactId>activation</artifactId>
 				<version>1.1.1</version>
@@ -509,6 +502,12 @@
 				<artifactId>mockito-core</artifactId>
 				<version>2.23.0</version>
 			</dependency>
+			<dependency>
+	            <groupId>com.h2database</groupId>
+	            <artifactId>h2</artifactId>
+	            <version>1.4.194</version>
+	            <scope>test</scope>
+	        </dependency>
 
 			<dependency>
 				<!-- fjernet fra SE i Java11 -->

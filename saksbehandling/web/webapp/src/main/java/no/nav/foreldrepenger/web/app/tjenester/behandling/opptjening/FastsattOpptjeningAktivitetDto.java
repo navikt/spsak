@@ -3,8 +3,8 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.opptjening;
 
 import java.time.LocalDate;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetKlassifisering;
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.kodeverk.OpptjeningAktivitetType;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitetKlassifisering;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitetType;
 
 public class FastsattOpptjeningAktivitetDto {
     private LocalDate fom;

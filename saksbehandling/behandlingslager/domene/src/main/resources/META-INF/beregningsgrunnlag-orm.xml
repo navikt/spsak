@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+
+	<sequence-generator name="SEQ_BEREGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_BEREGNINGSGRUNNLAG" />
+	<sequence-generator name="SEQ_BG_AKTIVITET_STATUS" allocation-size="50" sequence-name="SEQ_BG_AKTIVITET_STATUS" />
+	<sequence-generator name="SEQ_BG_PERIODE" allocation-size="50" sequence-name="SEQ_BG_PERIODE" />
+	<sequence-generator name="SEQ_BG_PERIODE_AARSAK" allocation-size="50" sequence-name="SEQ_BG_PERIODE_AARSAK" />
+	<sequence-generator name="SEQ_BG_ANDEL_ARBEIDSFORHOLD" allocation-size="50" sequence-name="SEQ_BG_ANDEL_ARBEIDSFORHOLD" />
+	<sequence-generator name="SEQ_BG_PR_STATUS_OG_ANDEL" allocation-size="50" sequence-name="SEQ_BG_PR_STATUS_OG_ANDEL" />
+	<sequence-generator name="SEQ_SAMMENLIGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_SAMMENLIGNINGSGRUNNLAG" />
+	<sequence-generator name="SEQ_BG_FAKTA_BER_TILFELLE" allocation-size="50" sequence-name="SEQ_BG_FAKTA_BER_TILFELLE" />
+	<sequence-generator name="SEQ_GR_BEREGNINGSGRUNNLAG" allocation-size="50" sequence-name="SEQ_GR_BEREGNINGSGRUNNLAG" />
+
+
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAndeltype" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.PeriodeÅrsak" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagAktivitetStatus" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagGrunnlagEntitet" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriode" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPeriodeÅrsak" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Hjemmel" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Sammenligningsgrunnlag" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagFaktaOmBeregningTilfelle" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.FaktaOmBeregningTilfelle" />
+
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Sats" />
+	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.SatsType" />
+
+</entity-mappings>

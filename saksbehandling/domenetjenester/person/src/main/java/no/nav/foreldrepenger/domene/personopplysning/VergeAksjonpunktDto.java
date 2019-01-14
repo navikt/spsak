@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.domene.personopplysning;
 
 import java.time.LocalDate;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.BrevMottaker;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.BrevMottaker;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 
 public class VergeAksjonpunktDto {

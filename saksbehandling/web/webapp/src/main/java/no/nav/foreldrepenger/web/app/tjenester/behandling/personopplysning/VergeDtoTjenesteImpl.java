@@ -8,9 +8,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.BrevMottaker;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.Verge;
-import no.nav.foreldrepenger.behandlingslager.behandling.verge.VergeAggregat;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.BrevMottaker;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.Verge;
+import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge.VergeAggregat;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 
 @ApplicationScoped

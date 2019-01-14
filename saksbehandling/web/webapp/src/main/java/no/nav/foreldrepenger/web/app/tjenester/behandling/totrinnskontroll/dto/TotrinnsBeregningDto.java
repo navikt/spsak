@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.dto;
 
 import java.util.List;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.FaktaOmBeregningTilfelle;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.FaktaOmBeregningTilfelle;
 
 public class TotrinnsBeregningDto {
 

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingslager.behandling;
+package no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

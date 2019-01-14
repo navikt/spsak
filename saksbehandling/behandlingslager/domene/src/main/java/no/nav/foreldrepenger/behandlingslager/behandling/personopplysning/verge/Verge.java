@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingslager.behandling.verge;
+package no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.verge;
 
 import java.time.LocalDate;
 

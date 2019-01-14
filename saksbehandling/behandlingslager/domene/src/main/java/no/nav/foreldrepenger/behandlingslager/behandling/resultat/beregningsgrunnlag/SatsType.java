@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning;
+package no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
