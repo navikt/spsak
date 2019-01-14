@@ -99,7 +99,7 @@ public class JettyServer extends AbstractJettyServer {
     protected void migrerDatabaser() throws IOException {
         new DatabaseScript(dataSourceKonfig.getMigrationDatasource(), dataSourceKonfig.getMigrationScripts()).migrate();
     }
-    
+
     @Override
     protected WebAppContext createContext(AppKonfigurasjon appKonfigurasjon) throws IOException {
         WebAppContext webAppContext = super.createContext(appKonfigurasjon);
@@ -111,17 +111,15 @@ public class JettyServer extends AbstractJettyServer {
     private void updateMetaData(MetaData metaData) {
         // Find path to class-files while starting jetty from development environment.
         List<Class<?>> appClasses = Arrays.asList((Class<?>)ApplicationConfig.class, (Class<?>)IssoApplication.class);
-        
+
         List<Resource> resources = appClasses.stream().map(c -> Resource.newResource(c.getProtectionDomain().getCodeSource().getLocation())).collect(Collectors.toList());
-        
+
         metaData.setWebInfClassesDirs(resources);
     }
 
     @Override
     protected ResourceCollection createResourceCollection() throws IOException {
-        return new ResourceCollection(
-            Resource.newResource(System.getProperty("klient", "./klient")), /* klient flyttes ut, så kan slettes etter hvert.*/
-            Resource.newClassPathResource("/web"));
+        return new ResourceCollection(Resource.newClassPathResource("/web"));
     }
 
 }
