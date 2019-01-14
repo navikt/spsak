@@ -8,7 +8,5 @@ exec java -cp app.jar:lib/* \
     -Djava.security.egd=file:/dev/urandom \
     -Dlogback.configurationFile=conf/logback.xml \
     -Dconf="conf" \
-    -Dwebapp="webapp" \
-    -Dklient="klient" \
     -Di18n="i18n" \
     -Dapplication.name=spsak no.nav.foreldrepenger.web.server.jetty.JettyServer $@

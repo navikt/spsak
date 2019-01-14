@@ -1,7 +1,6 @@
 FROM navikt/java:11-appdynamics
 
 RUN mkdir lib
-RUN mkdir webapp
 RUN mkdir conf
 
 COPY appdynamics.sh /init-scripts/10-appdynamics.sh
