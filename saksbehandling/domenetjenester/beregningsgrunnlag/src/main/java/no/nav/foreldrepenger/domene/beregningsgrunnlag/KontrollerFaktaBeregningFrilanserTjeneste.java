@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.domene.beregningsgrunnlag;
 import java.util.Set;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 
 public interface KontrollerFaktaBeregningFrilanserTjeneste {
 

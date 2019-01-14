@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.BekreftetAksjonspunktDto;
+import no.nav.foreldrepenger.behandling.aksjonspunkt.BekreftetAksjonspunktDto;
 import no.nav.vedtak.util.InputValideringRegex;
 
 abstract class VedtaksbrevOverstyringDto extends BekreftetAksjonspunktDto {

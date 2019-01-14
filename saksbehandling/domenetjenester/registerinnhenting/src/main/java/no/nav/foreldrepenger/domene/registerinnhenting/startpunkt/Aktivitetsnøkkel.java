@@ -2,10 +2,10 @@ package no.nav.foreldrepenger.domene.registerinnhenting.startpunkt;
 
 import java.util.Objects;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregning.BeregningsresultatAndel;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.AktivitetStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 
 // Aktivitetsnøkkel er en gjengivelse av hvordan BeregningsresultatAndel identifiserer en unik godkjent aktivitet

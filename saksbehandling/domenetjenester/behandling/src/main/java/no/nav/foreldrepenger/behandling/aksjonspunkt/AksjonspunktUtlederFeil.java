@@ -1,11 +1,11 @@
 package no.nav.foreldrepenger.behandling.aksjonspunkt;
 
+import static no.nav.vedtak.feil.LogLevel.WARN;
+
 import no.nav.vedtak.feil.Feil;
 import no.nav.vedtak.feil.FeilFactory;
 import no.nav.vedtak.feil.deklarasjon.DeklarerteFeil;
 import no.nav.vedtak.feil.deklarasjon.TekniskFeil;
-
-import static no.nav.vedtak.feil.LogLevel.WARN;
 
 public interface AksjonspunktUtlederFeil extends DeklarerteFeil {
 

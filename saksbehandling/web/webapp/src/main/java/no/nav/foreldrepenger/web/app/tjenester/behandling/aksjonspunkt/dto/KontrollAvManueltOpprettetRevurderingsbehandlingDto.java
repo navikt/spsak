@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.BekreftetAksjonspunktDto;
+import no.nav.foreldrepenger.behandling.aksjonspunkt.BekreftetAksjonspunktDto;
 
 @JsonTypeName(KontrollAvManueltOpprettetRevurderingsbehandlingDto.AKSJONSPUNKT_KODE)
 public class KontrollAvManueltOpprettetRevurderingsbehandlingDto  extends BekreftetAksjonspunktDto {

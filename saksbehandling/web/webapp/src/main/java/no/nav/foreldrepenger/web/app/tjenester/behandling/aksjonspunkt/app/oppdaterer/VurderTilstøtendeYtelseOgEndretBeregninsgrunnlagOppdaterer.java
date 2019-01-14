@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import no.nav.foreldrepenger.behandlingslager.Kopimaskin;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
@@ -31,7 +32,6 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.MatchBeregningsgrunnlagTj
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.FastsattBeløpTilstøtendeYtelseAndelDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.TilstotendeYtelseOgEndretBeregningsgrunnlagDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.TilstotendeYtelseOgEndretBeregningsgrunnlagPeriodeDto;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
 
 @ApplicationScoped
 public class VurderTilstøtendeYtelseOgEndretBeregninsgrunnlagOppdaterer {

@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.web.app.exceptions;
 
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktKode;
+import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktKode;
 import no.nav.vedtak.feil.Feil;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.jboss.resteasy.api.validation.ResteasyViolationException;

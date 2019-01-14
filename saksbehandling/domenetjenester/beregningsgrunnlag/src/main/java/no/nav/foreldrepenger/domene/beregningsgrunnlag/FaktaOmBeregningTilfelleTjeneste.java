@@ -69,11 +69,11 @@ public class FaktaOmBeregningTilfelleTjeneste {
         if (kontrollerFaktaBeregningFrilanserTjeneste.harOverstyrtFrilans(behandling)) {
             tilfeller.add(FaktaOmBeregningTilfelle.FASTSETT_MAANEDSINNTEKT_FL);
         }
-        settTilfellerForIkkjeBestebergning(behandling, tilfeller);
+        settTilfellerForIkkeBesteberegning(behandling, tilfeller);
         return tilfeller;
     }
 
-    private void settTilfellerForIkkjeBestebergning(Behandling behandling, List<FaktaOmBeregningTilfelle> tilfeller) {
+    private void settTilfellerForIkkeBesteberegning(Behandling behandling, List<FaktaOmBeregningTilfelle> tilfeller) {
         if (kontrollerFaktaBeregningFrilanserTjeneste.erBrukerArbeidstakerOgFrilanserISammeOrganisasjon(behandling)) {
             tilfeller.add(FaktaOmBeregningTilfelle.VURDER_AT_OG_FL_I_SAMME_ORGANISASJON);
         }

@@ -2,10 +2,10 @@ package no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.oppd
 
 import javax.enterprise.context.ApplicationScoped;
 
+import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktOppdaterer;
+import no.nav.foreldrepenger.behandling.aksjonspunkt.DtoTilServiceAdapter;
+import no.nav.foreldrepenger.behandling.aksjonspunkt.OppdateringResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.AksjonspunktOppdaterer;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.DtoTilServiceAdapter;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.OppdateringResultat;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.AvklarTilleggsopplysningerDto;
 
 @ApplicationScoped

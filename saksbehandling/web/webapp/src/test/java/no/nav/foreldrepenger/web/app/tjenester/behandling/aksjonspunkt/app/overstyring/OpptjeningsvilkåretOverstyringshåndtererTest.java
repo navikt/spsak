@@ -10,6 +10,9 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
+import no.nav.foreldrepenger.behandling.historikk.HistorikkInnslagKonverter;
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapterImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -37,9 +40,6 @@ import no.nav.foreldrepenger.domene.inngangsvilkaar.InngangsvilkårTjeneste;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.InngangsvilkårTjenesteImpl;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.dto.overstyring.OverstyringOpptjeningsvilkåretDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.opptjening.OpptjeningsvilkåretOverstyringshåndterer;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapterImpl;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.dto.HistorikkInnslagKonverter;
 import no.nav.vedtak.exception.FunksjonellException;
 
 // Gaar amok paa CPUen.. så ignorerer inntil videre

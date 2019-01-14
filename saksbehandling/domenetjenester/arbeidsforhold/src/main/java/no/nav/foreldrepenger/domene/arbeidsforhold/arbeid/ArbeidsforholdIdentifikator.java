@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.domene.arbeidsforhold.arbeid;
 
 import java.util.Objects;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.ArbeidsforholdRef;
 
 public class ArbeidsforholdIdentifikator {
     private Arbeidsgiver arbeidsgiver;

@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import no.nav.foreldrepenger.behandling.aksjonspunkt.BekreftetAksjonspunktDto;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.BekreftetAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.validering.ValidKodeverk;
 import no.nav.vedtak.util.InputValideringRegex;
 

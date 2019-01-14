@@ -2,8 +2,8 @@ package no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.in
 
 import java.util.Objects;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.ArbeidsforholdRef;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 
 public class InntektsmeldingSomIkkeKommer {
 

@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.app.BekreftetAksjonspunktDto;
+import no.nav.foreldrepenger.behandling.aksjonspunkt.BekreftetAksjonspunktDto;
 
 @JsonTypeName(AvklarAktivitetsPerioderDto.AKSJONSPUNKT_KODE)
 public class AvklarAktivitetsPerioderDto extends BekreftetAksjonspunktDto  {

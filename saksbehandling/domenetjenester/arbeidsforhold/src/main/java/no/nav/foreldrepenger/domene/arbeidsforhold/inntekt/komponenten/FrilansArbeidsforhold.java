@@ -3,8 +3,8 @@ package no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.komponenten;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.ArbeidsforholdRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.ArbeidType;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.ArbeidsforholdRef;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsforholdIdentifikator;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.Arbeidsgiver;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.Organisasjon;

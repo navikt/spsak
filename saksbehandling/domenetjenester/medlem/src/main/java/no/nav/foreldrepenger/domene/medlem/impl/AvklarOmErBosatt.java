@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.domene.medlem.impl;
 
-import static no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall.JA;
-import static no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall.NEI;
+import static no.nav.foreldrepenger.domene.medlem.impl.Utfall.JA;
+import static no.nav.foreldrepenger.domene.medlem.impl.Utfall.NEI;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall;
 import no.nav.foreldrepenger.behandlingslager.behandling.AdresseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.medlemskap.MedlemskapAggregat;

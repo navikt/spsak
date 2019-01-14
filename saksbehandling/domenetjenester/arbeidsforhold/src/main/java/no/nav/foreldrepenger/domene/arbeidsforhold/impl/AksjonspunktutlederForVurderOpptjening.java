@@ -1,9 +1,9 @@
 package no.nav.foreldrepenger.domene.arbeidsforhold.impl;
 
 import static java.util.Collections.emptyList;
-import static no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall.JA;
-import static no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall.NEI;
 import static no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat.opprettListeForAksjonspunkt;
+import static no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening.Utfall.JA;
+import static no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening.Utfall.NEI;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,7 +18,6 @@ import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktUtleder;
-import no.nav.foreldrepenger.behandling.aksjonspunkt.Utfall;
 import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktResultat;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
@@ -273,4 +272,10 @@ public class AksjonspunktutlederForVurderOpptjening implements AksjonspunktUtled
         }
         return opptjeningRepository.finnOpptjening(behandlingsresultat.get());
     }
+    
+    enum Utfall {
+        JA,
+        NEI
+    }
+
 }

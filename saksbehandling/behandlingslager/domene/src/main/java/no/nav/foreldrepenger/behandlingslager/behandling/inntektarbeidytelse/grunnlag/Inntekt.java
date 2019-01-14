@@ -2,8 +2,8 @@ package no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.gr
 
 import java.util.Collection;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 
 public interface Inntekt {
 

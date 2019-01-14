@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.behandlingslager.behandling.resultat.fravær;
 import java.util.Objects;
 import java.util.Optional;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 public class FraværPerioderBuilder {

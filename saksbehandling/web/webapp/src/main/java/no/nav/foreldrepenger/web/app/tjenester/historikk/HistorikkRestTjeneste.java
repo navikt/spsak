@@ -22,11 +22,11 @@ import javax.ws.rs.core.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import no.nav.foreldrepenger.behandling.historikk.HistorikkInnslagDokumentLinkDto;
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
+import no.nav.foreldrepenger.behandling.historikk.HistorikkinnslagDto;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.foreldrepenger.web.app.tjenester.fagsak.dto.SaksnummerDto;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.dto.HistorikkInnslagDokumentLinkDto;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.dto.HistorikkinnslagDto;
 import no.nav.vedtak.felles.jpa.Transaction;
 import no.nav.vedtak.sikkerhet.abac.BeskyttetRessurs;
 

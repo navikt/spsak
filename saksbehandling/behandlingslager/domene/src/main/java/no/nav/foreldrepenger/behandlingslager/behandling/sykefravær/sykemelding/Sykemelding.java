@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding;
 
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Arbeidsgiver;
+import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 import no.nav.foreldrepenger.domene.typer.Prosentsats;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 

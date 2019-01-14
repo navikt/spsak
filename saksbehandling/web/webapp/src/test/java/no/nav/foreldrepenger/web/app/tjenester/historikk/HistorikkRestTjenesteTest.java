@@ -10,13 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
+import no.nav.foreldrepenger.behandling.historikk.HistorikkinnslagDelDto;
+import no.nav.foreldrepenger.behandling.historikk.HistorikkinnslagDto;
+import no.nav.foreldrepenger.behandling.historikk.HistorikkinnslagHendelseDto;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
 import no.nav.foreldrepenger.web.app.tjenester.fagsak.dto.SaksnummerDto;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.app.HistorikkTjenesteAdapter;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.dto.HistorikkinnslagDelDto;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.dto.HistorikkinnslagDto;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.dto.HistorikkinnslagHendelseDto;
 
 public class HistorikkRestTjenesteTest {
 
