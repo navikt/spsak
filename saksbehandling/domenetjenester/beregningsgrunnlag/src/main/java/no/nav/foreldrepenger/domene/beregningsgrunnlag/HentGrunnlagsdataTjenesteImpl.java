@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -25,10 +24,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Inn
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.InntektsmeldingAggregat;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktørYtelse;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Ytelse;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.YtelseAnvist;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
-import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.RelatertYtelseType;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BeregningsgrunnlagRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag;
@@ -72,7 +69,7 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
         Optional<Beregningsgrunnlag> forrigeBGOpt = forrigeBehandlingOpt.flatMap(beregningsgrunnlagRepository::hentBeregningsgrunnlag);
 
         Optional<Beregningsgrunnlag> gjeldendeBeregningsgrunnlag = hentGjeldendeBeregningsgrunnlag(fastsattBG, forrigeBGOpt);
-        if (!gjeldendeBeregningsgrunnlag.isPresent()) {
+        if (gjeldendeBeregningsgrunnlag.isEmpty()) {
             return true;
         }
         Beregningsgrunnlag gjeldendeBG = gjeldendeBeregningsgrunnlag.get();
@@ -131,10 +128,10 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
     private boolean erEndringIInntekt(InntektArbeidYtelseGrunnlag sisteGrunnlagIOrginalBehandling, InntektArbeidYtelseGrunnlag nyIAY) {
         Optional<InntektsmeldingAggregat> originaleInntektsmeldingOpt = sisteGrunnlagIOrginalBehandling.getInntektsmeldinger();
         Optional<InntektsmeldingAggregat> inntektsmeldingOpt = nyIAY.getInntektsmeldinger();
-        if (!inntektsmeldingOpt.isPresent()) {
+        if (inntektsmeldingOpt.isEmpty()) {
             return false;
         }
-        if (!originaleInntektsmeldingOpt.isPresent()) {
+        if (originaleInntektsmeldingOpt.isEmpty()) {
             return true;
         }
 
@@ -202,15 +199,6 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
         return Fagsystem.FPSAK.equals(ytelse.getKilde()) && Objects.equals(ytelse.getSaksnummer(), behandling.getFagsak().getSaksnummer());
     }
 
-    private boolean erEndringerIDagpengerSiste10Mnd(List<Ytelse> ytelser, List<Ytelse> forrigeYtelser) {
-        Function<List<Ytelse>, List<YtelseAnvist>> hentRelevanteMeldekort = ytelseListe -> ytelseListe.stream()
-            .filter(ytelse -> ytelse.getRelatertYtelseType().equals(RelatertYtelseType.DAGPENGER))
-            .flatMap(ytelse -> ytelse.getYtelseAnvist().stream())
-            .sorted(Comparator.comparing(YtelseAnvist::getAnvistFOM))
-            .collect(Collectors.toList());
-        return !hentRelevanteMeldekort.apply(ytelser).equals(hentRelevanteMeldekort.apply(forrigeYtelser));
-    }
-
     private boolean erEndringISkjæringstidspunktForBeregning(Beregningsgrunnlag nyttBG, Optional<Beregningsgrunnlag> forrigeBGOpt) {
         return forrigeBGOpt.filter(forrigeBG -> !Objects.equals(nyttBG.getSkjæringstidspunkt(), forrigeBG.getSkjæringstidspunkt())).isPresent();
     }
@@ -248,7 +236,7 @@ public class HentGrunnlagsdataTjenesteImpl implements HentGrunnlagsdataTjeneste 
     }
 
     private Optional<Beregningsgrunnlag> hentGjeldendeBeregningsgrunnlag(Optional<Beregningsgrunnlag> nyttBG, Optional<Beregningsgrunnlag> forrigeBGOpt) {
-        if (nyttBG.filter(this::beregningsgrunnlagErGjeldende).isPresent()) {
+        if (nyttBG.map(this::beregningsgrunnlagErGjeldende).orElse(false)) {
             return nyttBG;
         }
         return forrigeBGOpt.filter(this::beregningsgrunnlagErGjeldende);

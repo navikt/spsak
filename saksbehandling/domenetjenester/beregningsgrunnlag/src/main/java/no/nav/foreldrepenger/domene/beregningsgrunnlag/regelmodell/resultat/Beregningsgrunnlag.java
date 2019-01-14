@@ -60,9 +60,9 @@ public class Beregningsgrunnlag {
     }
 
     public List<BeregningsgrunnlagPeriode> getBeregningsgrunnlagPerioder() {
-        return Collections.unmodifiableList(beregningsgrunnlagPerioder.stream()
+        return beregningsgrunnlagPerioder.stream()
             .sorted(Comparator.comparing(bg -> bg.getBeregningsgrunnlagPeriode().getFom()))
-            .collect(Collectors.toList()));
+            .collect(Collectors.toUnmodifiableList());
     }
 
     public Dekningsgrad getDekningsgrad() {

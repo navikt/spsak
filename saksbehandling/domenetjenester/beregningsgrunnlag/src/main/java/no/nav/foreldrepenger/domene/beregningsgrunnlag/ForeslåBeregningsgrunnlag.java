@@ -19,6 +19,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.AktivitetsAvtale;
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.grunnlag.Yrkesaktivitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
+import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BGAndelArbeidsforhold;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagPrStatusOgAndel;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.KopierBeregningsgrunnlagUtil;
@@ -95,7 +96,7 @@ public class ForeslåBeregningsgrunnlag {
     private void opprettPerioderForKortvarigeArbeidsforhold(Behandling behandling, Beregningsgrunnlag grunnlag) {
         Map<BeregningsgrunnlagPrStatusOgAndel, Yrkesaktivitet> kortvarigeAktiviteter = kontrollerFaktaBeregningTjeneste.hentAndelerForKortvarigeArbeidsforhold(behandling);
         kortvarigeAktiviteter.entrySet().stream()
-            .filter(entry -> entry.getKey().getBgAndelArbeidsforhold().filter(a -> Boolean.TRUE.equals(a.getErTidsbegrensetArbeidsforhold())).isPresent())
+            .filter(entry -> entry.getKey().getBgAndelArbeidsforhold().filter(BGAndelArbeidsforhold::getErTidsbegrensetArbeidsforhold).isPresent())
             .map(Map.Entry::getValue)
             .forEach(yrkesaktivitet -> {
                 Optional<AktivitetsAvtale> aktivitetsAvtale = yrkesaktivitet.getAnsettelsesPeriode();
