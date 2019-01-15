@@ -4,8 +4,6 @@ RUN mkdir lib
 RUN mkdir webapp
 RUN mkdir conf
 
-COPY appdynamics.sh /init-scripts/10-appdynamics.sh
-
 # Config
 COPY webapp/target/classes/logback.xml conf/
 COPY webapp/target/classes/jetty/jaspi-conf.xml conf/
