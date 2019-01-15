@@ -9,7 +9,7 @@
 
     <artifactId>kontrollerfakta</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Domenetjenester - Kontroller Fakta</name>
+    <name>SPSAK :: Domenetjenester - Kontroller Fakta</name>
 
     <dependencies>
         <!-- Modul domenetjenester interne avhengigheter -->

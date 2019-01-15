@@ -20,7 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 public class AbstractOverstyringshåndtererTest {
 

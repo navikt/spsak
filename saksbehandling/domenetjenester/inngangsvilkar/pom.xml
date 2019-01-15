@@ -6,7 +6,7 @@
         <version>${revision}${sha1}${changelist}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>FPSAK :: Domenetjenester - Inngangsvilkår Regelmodell Tjeneste</name>
+    <name>SPSAK :: Domenetjenester - Inngangsvilkår Regelmodell Tjeneste</name>
     <artifactId>inngangsvilkar</artifactId>
     <packaging>jar</packaging>
 

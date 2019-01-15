@@ -43,8 +43,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEn
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.hendelser.StartpunktType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 
 public class StartpunktUtlederInntektsmeldingTest {

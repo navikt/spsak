@@ -19,7 +19,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding
 import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.sykemelding.SykemeldingerBuilder;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.VilkårData;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.InngangsvilkårOversetter;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.opptjening.OpptjeningsPeriode;
@@ -28,6 +27,7 @@ import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjenes
 import no.nav.foreldrepenger.domene.personopplysning.impl.BasisPersonopplysningTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Prosentsats;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 @Ignore("FIXME SP: skriv om vilkår til sykepenger regler")
 public class OpptjeningsperiodeVilkårTest {

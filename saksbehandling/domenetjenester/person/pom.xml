@@ -10,7 +10,7 @@
 
 	<artifactId>person</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Domenetjenester - Person</name>
+	<name>SPSAK :: Domenetjenester - Person</name>
 
 	<dependencies>
 		<!-- Modulinterne avhengigheter -->

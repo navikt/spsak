@@ -8,7 +8,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>FPSAK :: Domenetjenester - Beregningsgrunnlag Testutils</name>
+    <name>SPSAK :: Domenetjenester - Beregningsgrunnlag Testutils</name>
     <artifactId>beregningsgrunnlag-testutils</artifactId>
     <packaging>jar</packaging>
 

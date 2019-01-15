@@ -10,7 +10,7 @@
 
 	<artifactId>arbeidsforhold</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Domenetjenester - Arbeidsforhold</name>
+	<name>SPSAK :: Domenetjenester - Arbeidsforhold</name>
 
 	<dependencies>
 		<!-- Modul interne avhengigheter -->

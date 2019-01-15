@@ -8,7 +8,7 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<name>FPSAK :: Domenetjenester - Beregningsgrunnlag Regelmodell Tjeneste</name>
+	<name>SPSAK :: Domenetjenester - Beregningsgrunnlag Regelmodell Tjeneste</name>
 	<artifactId>beregningsgrunnlag</artifactId>
 	<packaging>jar</packaging>
 

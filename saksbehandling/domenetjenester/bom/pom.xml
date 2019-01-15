@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>domenetjenester-bom</artifactId>
-	<name>FPSAK :: Domenetjenester - Bill Of Material</name>
+	<name>SPSAK :: Domenetjenester - Bill Of Material</name>
 	<packaging>jar</packaging>
 
 	<dependencies>

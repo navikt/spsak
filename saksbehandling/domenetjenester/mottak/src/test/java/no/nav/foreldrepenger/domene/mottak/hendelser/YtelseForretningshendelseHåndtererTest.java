@@ -38,7 +38,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakR
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.hendelser.ForretningshendelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
@@ -47,6 +46,7 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.impl.Kompletthetskontr
 import no.nav.foreldrepenger.domene.mottak.ytelse.YtelseForretningshendelse;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.Endringskontroller;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 import no.nav.vedtak.util.FPDateUtil;

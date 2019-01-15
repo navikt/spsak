@@ -10,7 +10,7 @@
 
 	<artifactId>behandling</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Domenetjenester - Behandling</name>
+	<name>SPSAK :: Domenetjenester - Behandling</name>
 
 	<!-- Eksterne -->
 	<dependencies>

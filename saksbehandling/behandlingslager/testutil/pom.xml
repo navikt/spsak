@@ -10,7 +10,7 @@
 
     <artifactId>behandlingslager-testutilities</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Behandlingslager - Testutilities</name>
+    <name>SPSAK :: Behandlingslager - Testutilities</name>
 
     <dependencies>
 

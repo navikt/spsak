@@ -9,7 +9,7 @@
     </parent>
 	<artifactId>behandlingslager-domene</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Behandlingslager - Domene</name>
+	<name>SPSAK :: Behandlingslager - Domene</name>
 
 	<dependencies>
         <dependency>

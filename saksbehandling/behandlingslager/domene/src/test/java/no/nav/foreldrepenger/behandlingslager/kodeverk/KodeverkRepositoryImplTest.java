@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.Pen
 import no.nav.foreldrepenger.behandlingslager.behandling.personopplysning.Diskresjonskode;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Landkoder;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Poststed;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.exception.TekniskException;
 
 public class KodeverkRepositoryImplTest {

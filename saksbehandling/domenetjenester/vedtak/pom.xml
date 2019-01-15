@@ -10,7 +10,7 @@
 
 	<artifactId>vedtak</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Domenetjenester - Ytelsesvedtak</name>
+	<name>SPSAK :: Domenetjenester - Ytelsesvedtak</name>
 
 	<!-- Eksterne -->
 

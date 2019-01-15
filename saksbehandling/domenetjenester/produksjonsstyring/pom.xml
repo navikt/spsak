@@ -9,7 +9,7 @@
 
     <artifactId>produksjonsstyring</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Domenetjenester - Produksjonsstyring</name>
+    <name>SPSAK :: Domenetjenester - Produksjonsstyring</name>
 
     <dependencies>
         <!-- Domenetjenester avhengigheter -->

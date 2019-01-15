@@ -10,7 +10,7 @@
 
 	<artifactId>behandlingskontroll-api</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Domenetjenester - Behandlingskontroll Api</name>
+	<name>SPSAK :: Domenetjenester - Behandlingskontroll Api</name>
 
     <dependencies>
         <!-- Felles/integrasjon -->

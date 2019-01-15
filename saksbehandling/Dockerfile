@@ -7,12 +7,12 @@ RUN mkdir conf
 COPY appdynamics.sh /init-scripts/10-appdynamics.sh
 
 # Config
-COPY web/webapp/target/classes/logback.xml conf/
-COPY web/webapp/target/classes/jetty/jaspi-conf.xml conf/
+COPY webapp/target/classes/logback.xml conf/
+COPY webapp/target/classes/jetty/jaspi-conf.xml conf/
 
 # Application Container (Jetty)
-COPY web/webapp/target/app.jar .
-COPY web/webapp/target/lib/*.jar lib/
+COPY webapp/target/app.jar .
+COPY webapp/target/lib/*.jar lib/
 
 # Application Start Command
 COPY run-java.sh /
