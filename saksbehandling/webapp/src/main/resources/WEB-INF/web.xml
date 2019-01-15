@@ -46,6 +46,7 @@
         <web-resource-collection>
             <web-resource-name>Ubeskyttet</web-resource-name>
             <url-pattern>/cb</url-pattern>
+            <url-pattern>/internal/isAlive</url-pattern>
             <url-pattern>/internal/selftest</url-pattern>
             <url-pattern>/internal/metrics</url-pattern>
             <url-pattern>/api/swagger.json</url-pattern>
