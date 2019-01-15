@@ -1,20 +1,19 @@
 package no.nav.vedtak.felles.integrasjon.oppgave;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.xml.namespace.QName;
-
+import no.nav.tjeneste.virksomhet.oppgave.v3.binding.OppgaveV3;
+import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
+import no.nav.vedtak.konfig.KonfigVerdi;
 import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 
-import no.nav.tjeneste.virksomhet.oppgave.v3.binding.OppgaveV3;
-import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
-import no.nav.vedtak.konfig.KonfigVerdi;
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 @Dependent
 public class OppgaveConsumerConfig {
-    private static final String WSDL = "wsdl/no/nav/tjeneste/virksomhet/oppgave/v3/Binding.wsdl";
+    private static final String WSDL = "nav-fim-oppgave-v3-tjenestespesifikasjon/wsdl/Binding.wsdl";
     private static final String NAMESPACE = "http://nav.no/tjeneste/virksomhet/oppgave/v3/Binding";
     private static final QName SERVICE = new QName(NAMESPACE, "Oppgave_v3");
     private static final QName PORT = new QName(NAMESPACE, "Oppgave_v3Port");

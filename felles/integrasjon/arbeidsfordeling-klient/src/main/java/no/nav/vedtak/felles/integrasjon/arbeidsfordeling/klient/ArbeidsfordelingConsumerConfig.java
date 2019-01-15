@@ -1,20 +1,19 @@
 package no.nav.vedtak.felles.integrasjon.arbeidsfordeling.klient;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.xml.namespace.QName;
-
+import no.nav.tjeneste.virksomhet.arbeidsfordeling.v1.binding.ArbeidsfordelingV1;
+import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
+import no.nav.vedtak.konfig.KonfigVerdi;
 import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 
-import no.nav.tjeneste.virksomhet.arbeidsfordeling.v1.binding.ArbeidsfordelingV1;
-import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
-import no.nav.vedtak.konfig.KonfigVerdi;
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 @Dependent
 public class ArbeidsfordelingConsumerConfig {
-    private static final String ARBEIDSFORDELING_V_1_WSDL = "wsdl/no/nav/tjeneste/virksomhet/arbeidsfordeling/v1/Binding.wsdl";
+    private static final String ARBEIDSFORDELING_V_1_WSDL = "arbeidsfordeling-v1-tjenestespesifikasjon/wsdl/Binding.wsdl";
     private static final String ARBEIDSFORDELING_V_1_NAMESPACE = "http://nav.no/tjeneste/virksomhet/arbeidsfordeling/v1/Binding";
     private static final QName ARBEIDSFORDELING_V_1_SERVICE = new QName(ARBEIDSFORDELING_V_1_NAMESPACE, "Arbeidsfordeling_v1");
     private static final QName ARBEIDSFORDELING_V_1_PORT = new QName(ARBEIDSFORDELING_V_1_NAMESPACE, "Arbeidsfordeling_v1Port");

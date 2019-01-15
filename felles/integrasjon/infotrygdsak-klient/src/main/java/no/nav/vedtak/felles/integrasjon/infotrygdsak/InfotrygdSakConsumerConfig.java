@@ -1,20 +1,19 @@
 package no.nav.vedtak.felles.integrasjon.infotrygdsak;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.xml.namespace.QName;
-
+import no.nav.tjeneste.virksomhet.infotrygdsak.v1.binding.InfotrygdSakV1;
+import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
+import no.nav.vedtak.konfig.KonfigVerdi;
 import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 
-import no.nav.tjeneste.virksomhet.infotrygdsak.v1.binding.InfotrygdSakV1;
-import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
-import no.nav.vedtak.konfig.KonfigVerdi;
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 @Dependent
 public class InfotrygdSakConsumerConfig {
-    private static final String WSDL = "wsdl/no/nav/tjeneste/virksomhet/infotrygdSak/v1/Binding.wsdl";
+    private static final String WSDL = "nav-infotrygdSak-v1-tjenestespesifikasjon/wsdl/Binding.wsdl";
     private static final String NAMESPACE = "http://nav.no/tjeneste/virksomhet/infotrygdSak/v1/Binding";
     private static final QName SERVICE = new QName(NAMESPACE, "InfotrygdSak_v1");
     private static final QName PORT = new QName(NAMESPACE, "infotrygdSak_v1Port");
