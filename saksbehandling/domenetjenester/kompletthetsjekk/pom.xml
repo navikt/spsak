@@ -9,7 +9,7 @@
 
     <artifactId>kompletthetsjekk</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Domenetjenester - Kompletthetsjekk</name>
+    <name>SPSAK :: Domenetjenester - Kompletthetsjekk</name>
 
     <dependencies>
         <!-- Modul interne avhengigheter -->

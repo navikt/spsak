@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>fpsak</artifactId>
+        <artifactId>spsak</artifactId>
         <groupId>no.nav.sykepenger</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>migreringer</artifactId>
-    <name>FPSAK :: Migreringer</name>
+    <name>SPSAK :: Migreringer</name>
     <description>Inneholder migreringsfiler for alle datasources brukt i VL</description>
 	<packaging>jar</packaging>
 
@@ -36,7 +36,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>no.nav.foreldrepenger.dbstoette.Databaseskjemainitialisering</mainClass>
+                    <mainClass>no.nav.sykepenger.spsak.dbstoette.Databaseskjemainitialisering</mainClass>
                     <classpathScope>test</classpathScope>
                     <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>

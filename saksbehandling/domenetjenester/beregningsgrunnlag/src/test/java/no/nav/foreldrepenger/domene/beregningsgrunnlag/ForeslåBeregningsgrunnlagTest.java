@@ -50,7 +50,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opp
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
@@ -62,6 +61,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.verdikjede.VerdikjedeTestHjelper;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.wrapper.BeregningsgrunnlagRegelResultat;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 public class ForeslåBeregningsgrunnlagTest {

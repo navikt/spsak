@@ -10,7 +10,7 @@
 
     <artifactId>behandlingskontroll</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Domenetjenester - Behandlingskontroll</name>
+    <name>SPSAK :: Domenetjenester - Behandlingskontroll</name>
 
 
     <dependencies>

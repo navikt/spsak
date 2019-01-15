@@ -12,7 +12,7 @@
         Kodeverk skal skilles ut i egen modul, da vil denne modulen slettes.
     </description>
 
-     <name>FPSAK :: Behandlingslager - Felles kodeverk</name>
+     <name>SPSAK :: Behandlingslager - Felles kodeverk</name>
     <artifactId>felles-kodeverk</artifactId>
     <packaging>jar</packaging>
 

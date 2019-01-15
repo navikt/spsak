@@ -29,9 +29,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrun
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.BeregningsgrunnlagTilstand;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.FaktaOmBeregningTilfelle;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Beløp;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 public class FaktaOmBeregningTilfelleTjenesteTest {
 

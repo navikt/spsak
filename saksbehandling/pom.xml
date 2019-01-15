@@ -5,9 +5,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>no.nav.sykepenger</groupId>
-	<artifactId>fpsak</artifactId>
+	<artifactId>spsak</artifactId>
 	<packaging>pom</packaging>
-	<name>FPSAK :: Root</name>
+	<name>SPSAK :: Root</name>
 	<version>${revision}${sha1}${changelist}</version>
 
 	<modules>
@@ -17,9 +17,7 @@
 		<module>infrastrukturtjenester</module>
 		<module>domenetjenester</module>
 		<module>behandlingssteg</module>
-
-		<!-- Web klient og server -->
-		<module>web</module>
+		<module>webapp</module>
 
 	</modules>
 
@@ -243,17 +241,6 @@
 
 			<!-- Prosjektets egne TEST AVHENGIGHETER -->
 			<!-- NB: Definer scope der det brukes, ikke her. -->
-
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>web-apidoc</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.sykepenger</groupId>
-				<artifactId>web-klient</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>no.nav.sykepenger</groupId>
 				<artifactId>web-webapp</artifactId>

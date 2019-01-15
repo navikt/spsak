@@ -32,8 +32,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.Behandl
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.IverksettingStatus;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.vedtak.KanVedtaketIverksettesTjeneste;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskStatus;

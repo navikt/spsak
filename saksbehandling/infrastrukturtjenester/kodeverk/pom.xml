@@ -10,7 +10,7 @@
 
 	<artifactId>kodeverk</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Infrastrukturtjenester - Kodeverk</name>
+	<name>SPSAK :: Infrastrukturtjenester - Kodeverk</name>
 
 	<dependencies>
 		<!-- Prosjekt interne avhengigheter -->

@@ -18,7 +18,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 public class HistorikkInnslagTekstBuilderTest {
 

@@ -33,8 +33,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrun
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.beregning.ytelse.FinnEndringsdatoBeregningsresultatFPTjeneste;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.exception.TekniskException;
 
 public class FinnEndringsdatoBeregningsresultatFPTjenesteImplTest {

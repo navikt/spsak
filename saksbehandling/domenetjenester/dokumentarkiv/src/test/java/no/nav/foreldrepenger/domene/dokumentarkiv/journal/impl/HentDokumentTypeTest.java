@@ -8,7 +8,7 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 public class HentDokumentTypeTest {
 

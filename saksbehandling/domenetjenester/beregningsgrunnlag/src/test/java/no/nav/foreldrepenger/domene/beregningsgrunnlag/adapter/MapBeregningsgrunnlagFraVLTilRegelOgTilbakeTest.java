@@ -47,7 +47,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
@@ -59,6 +58,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.RegelResultat
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.ResultatBeregningType;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.verdikjede.VerdikjedeTestHjelper;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.util.Tuple;
 
 public class MapBeregningsgrunnlagFraVLTilRegelOgTilbakeTest {

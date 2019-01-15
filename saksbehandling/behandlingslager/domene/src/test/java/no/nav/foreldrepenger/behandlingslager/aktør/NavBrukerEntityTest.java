@@ -13,8 +13,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.db.Repository;
 
 public class NavBrukerEntityTest {

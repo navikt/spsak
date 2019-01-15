@@ -34,10 +34,10 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.diff.DiffResult;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.kontrollerfakta.BehandlingÅrsakTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)

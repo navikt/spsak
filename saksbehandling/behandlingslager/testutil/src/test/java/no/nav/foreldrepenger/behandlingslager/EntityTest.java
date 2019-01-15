@@ -38,8 +38,8 @@ import org.junit.runners.Parameterized;
 
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.testutilities.kodeverk.IndexClasses;
-import no.nav.foreldrepenger.dbstoette.DatasourceConfiguration;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.DatasourceConfiguration;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.lokal.dbstoette.DBConnectionProperties;
 import no.nav.vedtak.felles.lokal.dbstoette.DatabaseStøtte;
 

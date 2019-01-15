@@ -10,7 +10,7 @@
 
     <artifactId>mottak</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Domenetjenester - Mottak</name>
+    <name>SPSAK :: Domenetjenester - Mottak</name>
 
     <dependencies>
         <!-- Modul interne avhengigheter -->

@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandlingslager.aktør.PersonstatusType;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Region;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 public class BehandlingsgrunnlagKodeverkRepositoryImplTest {
 

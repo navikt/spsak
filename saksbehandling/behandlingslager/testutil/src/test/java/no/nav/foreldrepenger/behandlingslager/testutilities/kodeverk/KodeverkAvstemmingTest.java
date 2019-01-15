@@ -24,8 +24,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
-import no.nav.foreldrepenger.dbstoette.DatasourceConfiguration;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.DatasourceConfiguration;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.lokal.dbstoette.ConnectionHandler;
 import no.nav.vedtak.felles.lokal.dbstoette.DBConnectionProperties;
 

@@ -6,7 +6,7 @@
         <version>${revision}${sha1}${changelist}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>FPSAK :: Domenetjenester - Beregning Ytelse Regelmodell Tjeneste</name>
+    <name>SPSAK :: Domenetjenester - Beregning Ytelse Regelmodell Tjeneste</name>
     <artifactId>beregning-ytelse</artifactId>
 	<packaging>jar</packaging>
 

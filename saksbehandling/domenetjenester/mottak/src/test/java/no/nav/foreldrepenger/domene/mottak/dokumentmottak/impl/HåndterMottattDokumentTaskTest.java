@@ -23,7 +23,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.geografisk.Språkkode;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InnhentDokumentTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.PayloadType;
@@ -31,6 +30,7 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.json.JacksonJsonConfig
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 
 public class HåndterMottattDokumentTaskTest {

@@ -16,7 +16,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.db.Repository;
 
 public class BehandlingEntitetTest {

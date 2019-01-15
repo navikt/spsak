@@ -52,12 +52,12 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.PersonInformasjon;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.regelmodell.grunnlag.MedlemskapsvilkårGrunnlag;
 import no.nav.foreldrepenger.domene.medlem.impl.MedlemskapPerioderTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.personopplysning.impl.BasisPersonopplysningTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 public class InngangsvilkårOversetterTest {

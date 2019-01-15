@@ -48,10 +48,10 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopp
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.Personstatus;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.personopplysning.Statsborgerskap;
 import no.nav.foreldrepenger.behandlingslager.uttak.Uttaksperiodegrense;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.kontrollerfakta.KontrollerFaktaTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Prosentsats;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)

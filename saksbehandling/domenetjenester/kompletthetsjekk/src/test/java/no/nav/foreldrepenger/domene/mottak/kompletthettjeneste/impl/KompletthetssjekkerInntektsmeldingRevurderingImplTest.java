@@ -29,9 +29,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 @Ignore("FIXME SP: trengs tilsvarende kompletthetssjekk i sykepenger avh. av hva bruker oppgir?")
 public class KompletthetssjekkerInntektsmeldingRevurderingImplTest {

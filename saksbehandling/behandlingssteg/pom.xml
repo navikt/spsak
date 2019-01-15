@@ -5,13 +5,13 @@
 
     <parent>
         <groupId>no.nav.sykepenger</groupId>
-        <artifactId>fpsak</artifactId>
+        <artifactId>spsak</artifactId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
 
     <artifactId>behandlingssteg</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Behandlingsprosess - Steg</name>
+    <name>SPSAK :: Behandlingsprosess - Steg</name>
 
     <dependencies>
         <!-- Domenetjenester avhengigheter -->

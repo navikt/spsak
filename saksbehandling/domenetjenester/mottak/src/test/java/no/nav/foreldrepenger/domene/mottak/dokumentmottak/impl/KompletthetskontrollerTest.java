@@ -33,7 +33,6 @@ import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabellRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetModell;
@@ -43,6 +42,7 @@ import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.Kompletthetsjekke
 import no.nav.foreldrepenger.domene.registerinnhenting.Endringskontroller;
 import no.nav.foreldrepenger.domene.registerinnhenting.EndringsresultatSjekker;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataEndringshåndterer;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)

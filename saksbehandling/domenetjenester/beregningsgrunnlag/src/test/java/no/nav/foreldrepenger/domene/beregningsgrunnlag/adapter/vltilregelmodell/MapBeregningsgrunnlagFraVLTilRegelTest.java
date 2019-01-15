@@ -84,7 +84,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRe
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakStatus;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Periode;
@@ -95,6 +94,7 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.I
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.grunnlag.inntekt.Periodeinntekt;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
 

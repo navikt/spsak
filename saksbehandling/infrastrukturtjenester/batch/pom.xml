@@ -10,7 +10,7 @@
 
 	<artifactId>batch</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Infrastrukturtjenester - Batch</name>
+	<name>SPSAK :: Infrastrukturtjenester - Batch</name>
 
 	<dependencies>
 		<dependency>

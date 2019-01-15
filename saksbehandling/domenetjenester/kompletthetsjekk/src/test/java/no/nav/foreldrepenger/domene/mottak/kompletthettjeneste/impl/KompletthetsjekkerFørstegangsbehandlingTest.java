@@ -33,12 +33,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.dokumentarkiv.DokumentArkivTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResultat;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetssjekkerInntektsmelding;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 public class KompletthetsjekkerFørstegangsbehandlingTest {
 

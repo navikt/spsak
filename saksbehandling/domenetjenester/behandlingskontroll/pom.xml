@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>behandlingskontroll-pom</artifactId>
-    <name>FPSAK :: Domenetjenester - Behandlingskontroll Pom</name>
+    <name>SPSAK :: Domenetjenester - Behandlingskontroll Pom</name>
     <packaging>pom</packaging>
 
     <modules>

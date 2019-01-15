@@ -36,8 +36,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingTypeStegSekvens;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.Kodeliste;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkTabell;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 /** Genererer kodeverk til bruk i enhetstester ved bruk av AbstractTestScenario. */
 public class KodeverkTilJsonProducerTest {

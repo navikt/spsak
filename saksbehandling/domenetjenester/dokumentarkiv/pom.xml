@@ -12,7 +12,7 @@
 
 	<artifactId>dokumentarkiv</artifactId>
 	<packaging>jar</packaging>
-	<name>FPSAK :: Domenetjenester - Dokumentarkiv</name>
+	<name>SPSAK :: Domenetjenester - Dokumentarkiv</name>
 
 	<dependencies>
 

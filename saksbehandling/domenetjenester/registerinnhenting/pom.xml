@@ -9,7 +9,7 @@
 
     <artifactId>registerinnhenting</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Domenetjenester - Registerinnhenting</name>
+    <name>SPSAK :: Domenetjenester - Registerinnhenting</name>
 
     <dependencies>
         <!-- Domenetjeneste avhengigheter -->

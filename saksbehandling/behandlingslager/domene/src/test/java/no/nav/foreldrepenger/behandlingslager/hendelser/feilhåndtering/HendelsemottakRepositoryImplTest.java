@@ -10,7 +10,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Rule;
 import org.junit.Test;
 
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 public class HendelsemottakRepositoryImplTest {
 

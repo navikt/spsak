@@ -45,11 +45,11 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.beregning.ytelse.BeregnFeriepengerTjeneste;
 import no.nav.foreldrepenger.domene.beregning.ytelse.FastsettBeregningsresultatTjeneste;
 import no.nav.foreldrepenger.domene.beregning.ytelse.FinnEndringsdatoBeregningsresultatFPTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 import no.nav.vedtak.util.Tuple;
 

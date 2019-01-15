@@ -10,7 +10,7 @@
 
     <artifactId>skjaeringstidspunkt</artifactId>
     <packaging>jar</packaging>
-    <name>FPSAK :: Domenetjenester - Skjæringstidspunkt</name>
+    <name>SPSAK :: Domenetjenester - Skjæringstidspunkt</name>
 
     <!-- Eksterne -->
     <dependencies>

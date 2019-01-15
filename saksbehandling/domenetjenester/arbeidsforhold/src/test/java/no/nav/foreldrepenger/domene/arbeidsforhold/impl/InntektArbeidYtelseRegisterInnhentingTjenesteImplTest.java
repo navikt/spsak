@@ -57,12 +57,12 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeAktivitetEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPeriodeEntitet;
 import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatPerioderEntitet;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InnhentingSamletTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 
 public class InntektArbeidYtelseRegisterInnhentingTjenesteImplTest {
 

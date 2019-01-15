@@ -41,7 +41,6 @@ import no.nav.foreldrepenger.behandlingslager.fagsak.FagsakRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepositoryImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.InngåendeSaksdokument;
@@ -49,6 +48,7 @@ import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjenes
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 

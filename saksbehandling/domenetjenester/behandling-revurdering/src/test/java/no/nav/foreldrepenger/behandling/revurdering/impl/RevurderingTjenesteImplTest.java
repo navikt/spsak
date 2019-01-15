@@ -26,7 +26,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.HistorikkRep
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
 

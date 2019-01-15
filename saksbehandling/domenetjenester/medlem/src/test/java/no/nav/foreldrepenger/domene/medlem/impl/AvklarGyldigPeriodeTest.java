@@ -27,8 +27,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepo
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepositoryProviderImpl;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.medlem.api.MedlemskapPerioderTjeneste;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
