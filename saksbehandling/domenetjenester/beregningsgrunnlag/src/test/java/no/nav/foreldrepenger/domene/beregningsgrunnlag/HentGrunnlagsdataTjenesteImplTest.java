@@ -90,7 +90,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
     private OpptjeningRepository opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
     private VirksomhetRepository virksomhetRepository = repositoryProvider.getVirksomhetRepository();
-    private HentGrunnlagsdataTjenesteImpl hentGrunnlagsdataTjeneste;
+    private HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste;
 
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
         mock(BehandlingModellRepository.class), null);
@@ -108,7 +108,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
         scenario.avsluttBehandling(repositoryProvider, forrigeBehandling);
 
         virksomhet = hentVirksomhet();
-        hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjenesteImpl(resultatRepositoryProvider, opptjeningTjeneste, inntektArbeidYtelseTjeneste, null);
+        hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjeneste(resultatRepositoryProvider, opptjeningTjeneste, inntektArbeidYtelseTjeneste, null);
     }
 
     @Test

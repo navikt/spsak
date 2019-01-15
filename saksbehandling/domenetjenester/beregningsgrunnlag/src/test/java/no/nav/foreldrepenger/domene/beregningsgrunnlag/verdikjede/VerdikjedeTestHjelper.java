@@ -51,7 +51,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettBeregningsgrunnlagPeriodeTjeneste;
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettBeregningsgrunnlagPerioderTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettSkjæringstidspunktOgStatuser;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.wrapper.BeregningsgrunnlagRegelResultat;
 import no.nav.foreldrepenger.domene.typer.AktørId;
@@ -587,7 +587,7 @@ public class VerdikjedeTestHjelper {
 
     public static Beregningsgrunnlag kjørStegOgLagreGrunnlag(Behandling behandling,
                                                              FastsettSkjæringstidspunktOgStatuser fastsettSkjæringstidspunktOgStatuser,
-                                                             FastsettBeregningsgrunnlagPeriodeTjeneste fastsettBeregningsgrunnlagPeriodeTjeneste,
+                                                             FastsettBeregningsgrunnlagPerioderTjeneste fastsettBeregningsgrunnlagPeriodeTjeneste,
                                                              BeregningsgrunnlagRepository beregningsgrunnlagRepository) {
         Beregningsgrunnlag beregningsgrunnlag = fastsettSkjæringstidspunktOgStatuser.fastsettSkjæringstidspunktOgStatuser(behandling);
         fastsettBeregningsgrunnlagPeriodeTjeneste.fastsettPerioder(behandling, beregningsgrunnlag);

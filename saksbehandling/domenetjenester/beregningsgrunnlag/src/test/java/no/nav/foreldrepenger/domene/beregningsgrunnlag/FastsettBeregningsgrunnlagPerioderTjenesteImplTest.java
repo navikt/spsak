@@ -70,7 +70,7 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImplTest {
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(entityManager);
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     @Inject
-    private FastsettBeregningsgrunnlagPerioderTjenesteImpl tjeneste;
+    private FastsettBeregningsgrunnlagPerioderTjeneste tjeneste;
 
     @Inject
     private BeregningIAYTestUtil iayTestUtil;

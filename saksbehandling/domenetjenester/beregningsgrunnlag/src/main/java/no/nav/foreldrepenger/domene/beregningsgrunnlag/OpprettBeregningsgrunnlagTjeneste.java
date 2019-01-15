@@ -18,7 +18,7 @@ public class OpprettBeregningsgrunnlagTjeneste {
     private FastsettInntektskategoriFraSøknadTjeneste fastsettInntektskategoriFraSøknadTjeneste;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
     private BeregningsgrunnlagFraTilstøtendeYtelseTjeneste beregningsgrunnlagFraTilstøtendeYtelseTjeneste;
-    private FastsettBeregningsgrunnlagPeriodeTjeneste fastsettBeregningsgrunnlagPerioderTjeneste;
+    private FastsettBeregningsgrunnlagPerioderTjeneste fastsettBeregningsgrunnlagPerioderTjeneste;
     private HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste;
 
     protected OpprettBeregningsgrunnlagTjeneste() {
@@ -31,7 +31,7 @@ public class OpprettBeregningsgrunnlagTjeneste {
                                              FastsettSkjæringstidspunktOgStatuser fastsettSkjæringstidspunktOgStatuser,
                                              FastsettInntektskategoriFraSøknadTjeneste fastsettInntektskategoriFraSøknadTjeneste,
                                              BeregningsgrunnlagFraTilstøtendeYtelseTjeneste beregningsgrunnlagFraTilstøtendeYtelseTjeneste,
-                                             FastsettBeregningsgrunnlagPeriodeTjeneste fastsettBeregningsgrunnlagPerioderTjeneste,
+                                             FastsettBeregningsgrunnlagPerioderTjeneste fastsettBeregningsgrunnlagPerioderTjeneste,
                                              HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste) {
         this.beregningsgrunnlagRepository = repositoryProvider.getBeregningsgrunnlagRepository();
         this.fastsettSkjæringstidspunktOgStatuser = fastsettSkjæringstidspunktOgStatuser;

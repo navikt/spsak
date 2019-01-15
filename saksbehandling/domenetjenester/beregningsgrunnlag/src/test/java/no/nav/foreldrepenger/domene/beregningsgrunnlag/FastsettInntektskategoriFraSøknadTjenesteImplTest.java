@@ -61,7 +61,7 @@ public class FastsettInntektskategoriFraSøknadTjenesteImplTest {
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
     private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
-    private FastsettInntektskategoriFraSøknadTjeneste fastsettInntektskategoriFraSøknadTjeneste = new FastsettInntektskategoriFraSøknadTjenesteImpl(repositoryProvider, inntektArbeidYtelseTjeneste);
+    private FastsettInntektskategoriFraSøknadTjeneste fastsettInntektskategoriFraSøknadTjeneste = new FastsettInntektskategoriFraSøknadTjeneste(repositoryProvider, inntektArbeidYtelseTjeneste);
     private ScenarioMorSøkerForeldrepenger scenario;
     private VirksomhetEntitet beregningVirksomhet;
 

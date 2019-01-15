@@ -46,23 +46,22 @@ import no.nav.vedtak.feil.deklarasjon.TekniskFeil;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 
 @ApplicationScoped
-public class FastsettBeregningsgrunnlagPerioderTjenesteImpl implements FastsettBeregningsgrunnlagPeriodeTjeneste {
+public class FastsettBeregningsgrunnlagPerioderTjeneste {
     public static final int MÅNEDER_I_1_ÅR = 12;
     private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste;
     private BeregningInntektsmeldingTjeneste beregningInntektsmeldingTjeneste;
 
-    FastsettBeregningsgrunnlagPerioderTjenesteImpl() {
+    FastsettBeregningsgrunnlagPerioderTjeneste() {
         // For CDI
     }
 
     @Inject
-    public FastsettBeregningsgrunnlagPerioderTjenesteImpl(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
-                                                          BeregningInntektsmeldingTjeneste beregningInntektsmeldingTjeneste) {
+    public FastsettBeregningsgrunnlagPerioderTjeneste(InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste,
+                                                      BeregningInntektsmeldingTjeneste beregningInntektsmeldingTjeneste) {
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;
         this.beregningInntektsmeldingTjeneste = beregningInntektsmeldingTjeneste;
     }
 
-    @Override
     public void fastsettPerioder(Behandling behandling, Beregningsgrunnlag beregningsgrunnlag) {
         List<BeregningsgrunnlagPeriode> beregningsgrunnlagPerioder = beregningsgrunnlag.getBeregningsgrunnlagPerioder();
         int antallPerioder = beregningsgrunnlagPerioder.size();
@@ -175,7 +174,6 @@ public class FastsettBeregningsgrunnlagPerioderTjenesteImpl implements FastsettB
             .build(periode);
     }
 
-    @Override
     public IdentifisertePeriodeÅrsaker identifiserPeriodeÅrsaker(Behandling behandling, Beregningsgrunnlag beregningsgrunnlag) {
         LocalDate skjæringstidspunkt = beregningsgrunnlag.getSkjæringstidspunkt();
         List<Inntektsmelding> inntektsmeldinger = inntektArbeidYtelseTjeneste.hentAlleInntektsmeldinger(behandling);

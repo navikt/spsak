@@ -27,7 +27,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrun
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsgiverHistorikkinnslagTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.MatchBeregningsgrunnlagTjeneste;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.MatchBeregningsgrunnlagTjenesteImpl;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsettEndretBeregningsgrunnlagAndelDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsettEndretBeregningsgrunnlagDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsettEndretBeregningsgrunnlagPeriodeDto;
@@ -59,7 +58,7 @@ public class FastsettEndretBeregningsgrunnlagOppdaterer {
         this.historikkAdapter = historikkAdapter;
         this.kodeverkRepository = repositoryProvider.getKodeverkRepository();
         this.aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
-        this.matchBeregningsgrunnlagTjeneste = new MatchBeregningsgrunnlagTjenesteImpl(resultatRepositoryProvider);
+        this.matchBeregningsgrunnlagTjeneste = new MatchBeregningsgrunnlagTjeneste(resultatRepositoryProvider);
         this.arbeidsgiverHistorikkinnslagTjeneste = arbeidsgiverHistorikkinnslagTjeneste;
     }
 

@@ -44,7 +44,7 @@ public class MatchBeregningsgrunnlagTjenesteImplTest {
 
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
-    private MatchBeregningsgrunnlagTjeneste matchBeregningsgrunnlagTjeneste = new MatchBeregningsgrunnlagTjenesteImpl(resultatRepositoryProvider);
+    private MatchBeregningsgrunnlagTjeneste matchBeregningsgrunnlagTjeneste = new MatchBeregningsgrunnlagTjeneste(resultatRepositoryProvider);
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
     public ScenarioMorSøkerForeldrepenger scenario;
     public Behandling behandling;

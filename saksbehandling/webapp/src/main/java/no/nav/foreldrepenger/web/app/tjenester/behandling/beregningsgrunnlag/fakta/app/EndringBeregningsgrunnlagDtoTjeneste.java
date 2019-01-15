@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.fakta.app;
 
 import static java.util.stream.Collectors.toList;
-import static no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettBeregningsgrunnlagPerioderTjenesteImpl.MÅNEDER_I_1_ÅR;
+import static no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettBeregningsgrunnlagPerioderTjeneste.MÅNEDER_I_1_ÅR;
 import static no.nav.vedtak.konfig.Tid.TIDENES_ENDE;
 
 import java.math.BigDecimal;

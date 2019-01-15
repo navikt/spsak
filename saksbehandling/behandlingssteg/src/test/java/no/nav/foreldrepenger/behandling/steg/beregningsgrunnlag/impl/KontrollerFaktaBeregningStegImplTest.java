@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.domene.beregningsgrunnlag.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -60,14 +61,6 @@ import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl;
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.komponenten.InntektsInformasjon;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.AksjonspunktUtlederForBeregning;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.BeregningsgrunnlagFraTilstøtendeYtelseTjeneste;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettBeregningsgrunnlagPeriodeTjeneste;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettInntektskategoriFraSøknadTjeneste;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.FastsettSkjæringstidspunktOgStatuser;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjeneste;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjenesteImpl;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.OpprettBeregningsgrunnlagTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningArbeidsgiverTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningInntektsmeldingTestUtil;
@@ -118,7 +111,7 @@ public class KontrollerFaktaBeregningStegImplTest {
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
 
     @Inject
-    private FastsettBeregningsgrunnlagPeriodeTjeneste fastsettBeregningsgrunnlagPerioderTjeneste;
+    private FastsettBeregningsgrunnlagPerioderTjeneste fastsettBeregningsgrunnlagPerioderTjeneste;
 
     private BehandlingskontrollKontekst kontekst = mock(BehandlingskontrollKontekst.class);
     private OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste;
@@ -160,7 +153,7 @@ public class KontrollerFaktaBeregningStegImplTest {
 
     private HentGrunnlagsdataTjeneste lagHentGrunnlagsdataTjeneste() {
         IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste = lagIAYRegisterInnhentingTjeneste();
-        return new HentGrunnlagsdataTjenesteImpl(resultatRepositoryProvider, opptjeningInntektArbeidYtelseTjeneste,
+        return new HentGrunnlagsdataTjeneste(resultatRepositoryProvider, opptjeningInntektArbeidYtelseTjeneste,
             inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);
     }
 

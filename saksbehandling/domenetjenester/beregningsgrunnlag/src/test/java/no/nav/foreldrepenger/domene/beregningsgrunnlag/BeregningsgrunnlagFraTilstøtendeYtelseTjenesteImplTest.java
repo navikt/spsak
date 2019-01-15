@@ -173,8 +173,8 @@ public class BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImplTest {
         iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingFPTjenesteImpl.class);
         OpptjeningsperioderTjeneste periodeTjeneste = mock(OpptjeningsperioderTjeneste.class);
         opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, element2, periodeTjeneste);
-        beregningsgrunnlagFraTilstøtendeYtelseTjeneste = new BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImpl(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, mapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel, mapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL, skjæringstidspunktTjeneste);
-        hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjenesteImpl(resultatRepositoryProvider, opptjeningInntektArbeidYtelseTjeneste, inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);
+        beregningsgrunnlagFraTilstøtendeYtelseTjeneste = new BeregningsgrunnlagFraTilstøtendeYtelseTjeneste(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, mapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel, mapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL, skjæringstidspunktTjeneste);
+        hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjeneste(resultatRepositoryProvider, opptjeningInntektArbeidYtelseTjeneste, inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);
     }
 
     private void mockTidligereYtelse(ScenarioMorSøkerForeldrepenger scenario, RelatertYtelseType relatertYtelseType, int dekningsgrad, Arbeidskategori arbeidskategori, VirksomhetEntitet virksomhet, boolean medEkstraAndel, Virksomhet virksomhet2) {

@@ -65,7 +65,7 @@ public class KontrollerFaktaBeregningTjenesteImplTest {
     private KontrollerFaktaBeregningFrilanserTjeneste kontrollerFaktaBeregningFrilanserTjeneste;
 
     @Inject
-    private FastsettBeregningsgrunnlagPeriodeTjeneste fastsettBeregningsgrunnlagPeriodeTjeneste;
+    private FastsettBeregningsgrunnlagPerioderTjeneste fastsettBeregningsgrunnlagPeriodeTjeneste;
     @Inject
     private BeregningIAYTestUtil iayTestUtil;
     @Inject
