@@ -20,7 +20,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.medlemskap.Med
 import no.nav.vedtak.feil.FeilFactory;
 
 @Dependent
-public class RevurderingFPBehandlingsresultatutleder {
+public class RevurderingBehandlingsresultatutleder {
 
     private BehandlingRepository behandlingRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository;
@@ -28,7 +28,7 @@ public class RevurderingFPBehandlingsresultatutleder {
     private MedlemskapVilkårPeriodeRepository medlemskapVilkårPeriodeRepository;
 
     @Inject
-    public RevurderingFPBehandlingsresultatutleder(ResultatRepositoryProvider resultatRepositoryProvider,
+    public RevurderingBehandlingsresultatutleder(ResultatRepositoryProvider resultatRepositoryProvider,
                                                    EndringsdatoRevurderingUtleder endringsdatoRevurderingUtleder) {
         this.beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
         this.endringsdatoRevurderingUtleder = endringsdatoRevurderingUtleder;
@@ -49,8 +49,8 @@ public class RevurderingFPBehandlingsresultatutleder {
         Behandlingsresultat revurderingsResultat = behandlingRepository.hentResultat(revurdering.getId());
         LocalDate endringsdato = endringsdatoRevurderingUtleder.utledEndringsdato(revurderingsResultat);
 
-        if (OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingsResultat)) {
-            return OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.fastsett(revurdering, revurderingsResultat);
+        if (OppfyllerIkkeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingsResultat)) {
+            return OppfyllerIkkeInngangsvilkårPåSkjæringstidspunkt.fastsett(revurdering, revurderingsResultat);
         }
 
         Optional<MedlemskapVilkårPeriodeGrunnlag> medlemskapsvilkårPeriodeGrunnlag = medlemskapVilkårPeriodeRepository.hentHvisEksisterer(revurderingsResultat);

@@ -9,7 +9,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.Vilkår;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårType;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallType;
 
-class OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt {
+class OppfyllerIkkeInngangsvilkårPåSkjæringstidspunkt {
 
     private static final Set<VilkårType> VILKÅR_SOM_MÅ_VÆRE_OPPFYLT;
 
@@ -17,7 +17,7 @@ class OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt {
         VILKÅR_SOM_MÅ_VÆRE_OPPFYLT = Set.of(VilkårType.OPPTJENINGSVILKÅRET, VilkårType.BEREGNINGSGRUNNLAGVILKÅR, VilkårType.MEDLEMSKAPSVILKÅRET);
     }
 
-    private OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt() {
+    private OppfyllerIkkeInngangsvilkårPåSkjæringstidspunkt() {
     }
 
     public static boolean vurder(Behandlingsresultat behandlingsresultat) {

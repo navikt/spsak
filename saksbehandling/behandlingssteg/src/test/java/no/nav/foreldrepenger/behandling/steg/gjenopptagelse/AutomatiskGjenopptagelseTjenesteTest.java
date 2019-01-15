@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse.tjeneste;
+package no.nav.foreldrepenger.behandling.steg.gjenopptagelse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,6 +18,8 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import no.nav.foreldrepenger.behandling.steg.gjenopptagelse.tjeneste.AutomatiskGjenopptagelseTjeneste;
+import no.nav.foreldrepenger.behandling.steg.gjenopptagelse.tjeneste.GjenopptaBehandlingTask;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingKandidaterRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;

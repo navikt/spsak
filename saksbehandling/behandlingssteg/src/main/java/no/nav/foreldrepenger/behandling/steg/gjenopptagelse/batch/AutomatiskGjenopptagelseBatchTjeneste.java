@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse.batch;
+package no.nav.foreldrepenger.behandling.steg.gjenopptagelse.batch;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import no.nav.foreldrepenger.batch.BatchArguments;
 import no.nav.foreldrepenger.batch.BatchStatus;
 import no.nav.foreldrepenger.batch.BatchTjeneste;
-import no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse.tjeneste.AutomatiskGjenopptagelseTjeneste;
+import no.nav.foreldrepenger.behandling.steg.gjenopptagelse.tjeneste.AutomatiskGjenopptagelseTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskStatus;
 import no.nav.vedtak.felles.prosesstask.api.TaskStatus;
 
@@ -20,7 +20,7 @@ import no.nav.vedtak.felles.prosesstask.api.TaskStatus;
 @ApplicationScoped
 public class AutomatiskGjenopptagelseBatchTjeneste implements BatchTjeneste {
 
-    static final String BATCHNAME = "BVL004";
+    public static final String BATCHNAME = "BVL004";
     private static final String EXECUTION_ID_SEPARATOR = "-";
 
     private AutomatiskGjenopptagelseTjeneste automatiskGjenopptagelseTjeneste;

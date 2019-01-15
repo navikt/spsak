@@ -82,7 +82,7 @@ public class RevurderingBehandlingsresultatutlederTest {
     private BeregningsresultatRepository beregningsresultatFPRepository;
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
     private EndringsdatoRevurderingUtleder endringsdatoRevurderingUtleder = mock(EndringsdatoRevurderingUtleder.class);
-    private RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder;
+    private RevurderingBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder;
     private boolean erVarselOmRevurderingSendt = true;
 
     private Behandling behandlingSomSkalRevurderes;
@@ -101,7 +101,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         scenario.leggTilAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_FAKTA_FOR_PERSONSTATUS, BehandlingStegType.KONTROLLER_FAKTA);
         behandlingSomSkalRevurderes = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         scenario.avsluttBehandling(repositoryProvider, behandlingSomSkalRevurderes);
-        revurderingFPBehandlingsresultatutleder = new RevurderingFPBehandlingsresultatutleder(resultatRepositoryProvider, endringsdatoRevurderingUtleder);
+        revurderingFPBehandlingsresultatutleder = new RevurderingBehandlingsresultatutleder(resultatRepositoryProvider, endringsdatoRevurderingUtleder);
         BehandlingModellRepository mock = mock(BehandlingModellRepository.class);
         when(mock.getModell(any(), any())).thenReturn(mock(BehandlingModell.class));
         BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
@@ -278,7 +278,7 @@ public class RevurderingBehandlingsresultatutlederTest {
             .buildFor(revurderingResultat);
 
         // Act
-        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
+        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isFalse();
@@ -295,7 +295,7 @@ public class RevurderingBehandlingsresultatutlederTest {
             .buildFor(revurderingResultat);
 
         // Act
-        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
+        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isTrue();
@@ -311,7 +311,7 @@ public class RevurderingBehandlingsresultatutlederTest {
             .buildFor(revurderingResultat);
 
         // Act
-        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
+        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isTrue();
@@ -328,7 +328,7 @@ public class RevurderingBehandlingsresultatutlederTest {
             .buildFor(revurderingResultat);
 
         // Act
-        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkjeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
+        boolean oppfyllerIkkjeInngangsvilkår = OppfyllerIkkeInngangsvilkårPåSkjæringstidspunkt.vurder(revurderingResultat);
 
         // Assert
         assertThat(oppfyllerIkkjeInngangsvilkår).isTrue();

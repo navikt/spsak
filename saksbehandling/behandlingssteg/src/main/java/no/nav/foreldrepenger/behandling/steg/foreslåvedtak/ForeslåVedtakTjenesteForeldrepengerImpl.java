@@ -5,7 +5,7 @@ import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingFPBehandlingsresultatutleder;
+import no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingBehandlingsresultatutleder;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
@@ -23,7 +23,7 @@ import no.nav.foreldrepenger.behandlingslager.uttak.UttakResultatEntitet;
 class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImpl {
 
     private UttakRepository uttakRepository;
-    private RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder;
+    private RevurderingBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder;
     private BehandlingRepository behandlingRepository;
 
     protected ForeslåVedtakTjenesteForeldrepengerImpl() {
@@ -33,7 +33,7 @@ class ForeslåVedtakTjenesteForeldrepengerImpl extends ForeslåVedtakTjenesteImp
     @Inject
     ForeslåVedtakTjenesteForeldrepengerImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider,
                                             SjekkMotEksisterendeOppgaverTjeneste sjekkMotEksisterendeOppgaverTjeneste,
-                                            RevurderingFPBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder) {
+                                            RevurderingBehandlingsresultatutleder revurderingFPBehandlingsresultatutleder) {
         super(repositoryProvider, sjekkMotEksisterendeOppgaverTjeneste);
         this.uttakRepository = resultatRepositoryProvider.getUttakRepository();
         this.revurderingFPBehandlingsresultatutleder = revurderingFPBehandlingsresultatutleder;

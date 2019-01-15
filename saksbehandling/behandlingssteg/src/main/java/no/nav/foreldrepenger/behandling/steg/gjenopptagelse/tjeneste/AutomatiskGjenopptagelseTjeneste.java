@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse.tjeneste;
+package no.nav.foreldrepenger.behandling.steg.gjenopptagelse.tjeneste;
 
 import java.util.List;
 

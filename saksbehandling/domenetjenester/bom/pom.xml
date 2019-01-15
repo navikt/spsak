@@ -65,10 +65,6 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling</artifactId>
         </dependency>
-		<dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandling-gjenopptagelse</artifactId>
-        </dependency>
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandling-revurdering</artifactId>

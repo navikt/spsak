@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse;
+package no.nav.foreldrepenger.behandling.steg.gjenopptagelse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import no.nav.foreldrepenger.behandling.steg.gjenopptagelse.tjeneste.GjenopptaBehandlingTask;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;
@@ -20,7 +21,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingLås;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.BehandlingRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
-import no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse.tjeneste.GjenopptaBehandlingTask;
 import no.nav.foreldrepenger.domene.produksjonsstyring.oppgavebehandling.BehandlendeEnhetTjeneste;
 import no.nav.foreldrepenger.domene.registerinnhenting.RegisterdataEndringshåndterer;
 import no.nav.foreldrepenger.domene.typer.AktørId;

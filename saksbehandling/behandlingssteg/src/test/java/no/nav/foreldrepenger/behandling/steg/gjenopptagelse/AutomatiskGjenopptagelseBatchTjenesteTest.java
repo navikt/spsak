@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse.batch;
+package no.nav.foreldrepenger.behandling.steg.gjenopptagelse;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,7 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.batch.BatchStatus;
-import no.nav.foreldrepenger.behandlingsprosess.automatiskgjenopptagelse.tjeneste.AutomatiskGjenopptagelseTjeneste;
+import no.nav.foreldrepenger.behandling.steg.gjenopptagelse.batch.AutomatiskGjenopptagelseBatchTjeneste;
+import no.nav.foreldrepenger.behandling.steg.gjenopptagelse.tjeneste.AutomatiskGjenopptagelseTjeneste;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskStatus;
 import no.nav.vedtak.felles.prosesstask.api.TaskStatus;
 

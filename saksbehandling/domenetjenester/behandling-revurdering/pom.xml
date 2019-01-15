@@ -27,6 +27,11 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>produksjonsstyring</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>batch</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>no.nav.spvedtak.felles</groupId>
