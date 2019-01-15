@@ -1,69 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>no.nav.sykepenger</groupId>
-        <artifactId>domenetjenester-pom</artifactId>
-        <version>${revision}${sha1}${changelist}</version>
-    </parent>
-	
-    <modelVersion>4.0.0</modelVersion>
-    <name>FPSAK :: Domenetjenester - Beregningsgrunnlag Regelmodell Tjeneste</name>
-    <artifactId>beregningsgrunnlag</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>no.nav.sykepenger</groupId>
+		<artifactId>domenetjenester-pom</artifactId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<name>FPSAK :: Domenetjenester - Beregningsgrunnlag Regelmodell Tjeneste</name>
+	<artifactId>beregningsgrunnlag</artifactId>
 	<packaging>jar</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles</groupId>
-            <artifactId>felles-feil</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles</groupId>
-            <artifactId>felles-db</artifactId>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles</groupId>
+			<artifactId>felles-feil</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles</groupId>
+			<artifactId>felles-db</artifactId>
+		</dependency>
 
 		<!-- Domenetjenester avhengigheter -->
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>produksjonsstyring</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>produksjonsstyring</artifactId>
+		</dependency>
 
-        <!-- Prosjekt avhengigheter -->
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingslager-domene</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>arbeidsforhold</artifactId>
-        </dependency>
+		<!-- Prosjekt avhengigheter -->
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>behandlingslager-domene</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>arbeidsforhold</artifactId>
+		</dependency>
 
-        <!-- NARE: Java regelmodell -->
-        <dependency>
-            <groupId>no.nav.fpsak.nare</groupId>
-            <artifactId>fpsak-nare-core</artifactId>
-        </dependency>
+		<!-- NARE: Java regelmodell -->
+		<dependency>
+			<groupId>no.nav.fpsak.nare</groupId>
+			<artifactId>fpsak-nare-core</artifactId>
+		</dependency>
 
-        <!-- Test avhengigheter -->
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingslager-testutilities</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandling</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandling-revurdering</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>beregningsgrunnlag-testutils</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Test avhengigheter -->
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>behandlingslager-testutilities</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>behandling</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>behandling-revurdering</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>beregningsgrunnlag-testutils</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 
 </project>

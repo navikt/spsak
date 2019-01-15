@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>domenetjenester-pom</artifactId>
-        <groupId>no.nav.sykepenger</groupId>
-        <version>${revision}${sha1}${changelist}</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>domenetjenester-pom</artifactId>
+		<groupId>no.nav.sykepenger</groupId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>vedtak</artifactId>
 	<packaging>jar</packaging>
@@ -17,14 +18,14 @@
 	<dependencies>
 
 		<!-- Modul interne avhengigheter -->
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandling-revurdering</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>arbeidsforhold</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>behandling-revurdering</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>arbeidsforhold</artifactId>
+		</dependency>
 
 		<!-- Prosjektinterne avhengigheter -->
 		<dependency>
@@ -33,26 +34,38 @@
 		</dependency>
 
 		<dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>vedtakslager-domene</artifactId>
-        </dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>vedtakslager-domene</artifactId>
+		</dependency>
 
 		<dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>felles-integrasjon-webservice</artifactId>
-        </dependency>
-       
-       <!-- Test avhengigheter -->
-       <dependency>
-            <groupId>no.nav.spvedtak.felles</groupId>
-            <artifactId>felles-testutilities</artifactId>
-			<scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingslager-testutilities</artifactId>
-            <scope>test</scope>
-        </dependency>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+			<artifactId>felles-integrasjon-webservice</artifactId>
+		</dependency>
 
-    </dependencies>
+		<!-- Eksterne avhengigheter -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Test avhengigheter -->
+		<dependency>
+			<groupId>no.nav.spvedtak.felles</groupId>
+			<artifactId>felles-testutilities</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.sykepenger</groupId>
+			<artifactId>behandlingslager-testutilities</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
 </project>

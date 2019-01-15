@@ -12,28 +12,6 @@ import no.nav.foreldrepenger.web.app.exceptions.ConstraintViolationMapper;
 import no.nav.foreldrepenger.web.app.exceptions.GeneralRestExceptionMapper;
 import no.nav.foreldrepenger.web.app.exceptions.JsonMappingExceptionMapper;
 import no.nav.foreldrepenger.web.app.exceptions.JsonParseExceptionMapper;
-import no.nav.foreldrepenger.web.app.tjenester.batch.BatchRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.BehandlingRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.AksjonspunktRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.BeregningsgrunnlagRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsresultat.BeregningsresultatRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.inntektarbeidytelse.InntektArbeidYtelseRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.opptjening.OpptjeningRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.personopplysning.PersonRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.søknad.SøknadRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.totrinnskontroll.TotrinnskontrollRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.vilkår.VilkårRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.brev.BrevRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.dokument.DokumentRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.fagsak.FagsakRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.fordeling.FordelRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.historikk.HistorikkRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.integrasjonstatus.IntegrasjonstatusRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.kodeverk.KodeverkRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.konfig.KonfigRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.saksbehandler.FeatureToggleRestTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.saksbehandler.NavAnsattRestTjeneste;
-import no.nav.vedtak.felles.prosesstask.rest.ProsessTaskRestTjeneste;
 
 
 @ApplicationPath(ApplicationConfig.API_URI)

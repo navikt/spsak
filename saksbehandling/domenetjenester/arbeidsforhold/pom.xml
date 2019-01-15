@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>domenetjenester-pom</artifactId>
-        <groupId>no.nav.sykepenger</groupId>
-        <version>${revision}${sha1}${changelist}</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>domenetjenester-pom</artifactId>
+		<groupId>no.nav.sykepenger</groupId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>arbeidsforhold</artifactId>
 	<packaging>jar</packaging>
@@ -34,26 +35,37 @@
 			<artifactId>arbeidsforhold-klient</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>organisasjon-klient</artifactId>
-        </dependency>
-		
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+			<artifactId>organisasjon-klient</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 			<artifactId>infotrygdsak-klient</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>infotrygdberegningsgrunnlag-klient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>meldekortutbetalingsgrunnlag-klient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>sigrun-klient</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+			<artifactId>infotrygdberegningsgrunnlag-klient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+			<artifactId>meldekortutbetalingsgrunnlag-klient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+			<artifactId>sigrun-klient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- Test -->
 		<dependency>

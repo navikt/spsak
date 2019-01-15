@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.web.app.tjenester.behandling.søknad;
 
-import no.nav.foreldrepenger.web.app.tjenester.behandling.SøknadType;
-
 public class SoknadSykepengerDto extends SoknadDto {
 
     private String sykemeldingReferanse;

@@ -17,6 +17,7 @@ import no.finn.unleash.FakeUnleash;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.FagsakTjenesteImpl;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
+import no.nav.foreldrepenger.behandling.rest.SaksnummerDto;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
@@ -38,7 +39,6 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.app.Behandlingsprosess
 import no.nav.foreldrepenger.web.app.tjenester.behandling.app.BehandlingsutredningApplikasjonTjeneste;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.behandling.BehandlingDtoTjenesteImpl;
-import no.nav.foreldrepenger.web.app.tjenester.fagsak.dto.SaksnummerDto;
 
 public class BehandlingRestTjenesteTest {
 
