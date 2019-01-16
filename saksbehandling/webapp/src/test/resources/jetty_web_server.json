@@ -1,9 +1,9 @@
 [
     {
       "datasource": "defaultDS",
-      "user": "fpsak",
-      "password": "fpsak",
-      "url": "jdbc:postgresql://localhost:5432/fpsak",
+      "user": "spsak",
+      "password": "spsak",
+      "url": "jdbc:postgresql://localhost:5432/spsak",
 
       "vaultEnable": false,
       "vaultRoleprefix" : "eksempeldatabase-q1",

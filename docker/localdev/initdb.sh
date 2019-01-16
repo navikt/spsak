@@ -4,9 +4,9 @@ set -e
 export POSTGRES_USER=${POSTGRES_USER:-postgres}
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-    CREATE DATABASE fpsak_unit;
-	CREATE USER fpsak_unit PASSWORD '${POSTGRES_PASSWORD_FPSAK_UNIT:-fpsak_unit}';
-	GRANT ALL PRIVILEGES ON DATABASE fpsak_unit TO fpsak_unit;
+    CREATE DATABASE spsak_unit;
+	CREATE USER spsak_unit PASSWORD '${POSTGRES_PASSWORD_FPSAK_UNIT:-spsak_unit}';
+	GRANT ALL PRIVILEGES ON DATABASE spsak_unit TO spsak_unit;
 EOSQL
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
@@ -16,9 +16,9 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 EOSQL
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-    CREATE DATABASE fpsak;
-	CREATE USER fpsak PASSWORD '${POSTGRES_PASSWORD_FPSAK:-fpsak}';
-	GRANT ALL PRIVILEGES ON DATABASE fpsak TO fpsak;
+    CREATE DATABASE spsak;
+	CREATE USER spsak PASSWORD '${POSTGRES_PASSWORD_FPSAK:-spsak}';
+	GRANT ALL PRIVILEGES ON DATABASE spsak TO spsak;
 EOSQL
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
