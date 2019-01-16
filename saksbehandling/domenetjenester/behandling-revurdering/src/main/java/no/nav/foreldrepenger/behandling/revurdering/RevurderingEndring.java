@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.impl;
+package no.nav.foreldrepenger.behandling.revurdering;
 
 import java.util.List;
 
@@ -13,15 +13,19 @@ import no.nav.foreldrepenger.behandlingslager.behandling.KonsekvensForYtelsen;
  * Sjekk om revurdering endrer utfall.
  */
 @ApplicationScoped
-public class DefaultRevurderingEndring implements RevurderingEndring { // NO_UCD (test only)
+public class RevurderingEndring { // NO_UCD (test only)
 
     static final String UTVIKLERFEIL_INGEN_ENDRING_SAMMEN = "Utviklerfeil: Det skal ikke være mulig å ha INGEN_ENDRING sammen med andre konsekvenser. BehandlingId: ";
 
-    DefaultRevurderingEndring() {
+    RevurderingEndring() {
         // for CDI proxy
     }
 
-    @Override
+    /**
+         * Tjeneste som vurderer om revurderingen har endret utrfall i forhold til original behandling
+         * @param behandling
+         * @return
+         */
     public boolean erRevurderingMedUendretUtfall(Behandling behandling, Behandlingsresultat behandlingsresultat) {
         if (!BehandlingType.REVURDERING.equals(behandling.getType())) {
             return false;

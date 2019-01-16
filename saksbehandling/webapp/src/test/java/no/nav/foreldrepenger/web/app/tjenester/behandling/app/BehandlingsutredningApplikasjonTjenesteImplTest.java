@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
+import no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingTjeneste;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,8 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
+import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.aktør.OrganisasjonsEnhet;

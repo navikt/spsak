@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.impl;
+package no.nav.foreldrepenger.behandling.revurdering;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import no.nav.foreldrepenger.behandling.revurdering.FagsakRevurdering;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

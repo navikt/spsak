@@ -1,11 +1,11 @@
-package no.nav.foreldrepenger.behandling.revurdering.impl;
+package no.nav.foreldrepenger.behandling.revurdering;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 
-import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
+import no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 

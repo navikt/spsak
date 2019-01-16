@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
 import no.nav.foreldrepenger.behandling.rest.SaksnummerDto;
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
+import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;

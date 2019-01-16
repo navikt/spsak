@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.impl;
+package no.nav.foreldrepenger.behandling.revurdering;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingÅrsakType;

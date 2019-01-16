@@ -1,15 +1,11 @@
-package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
+package no.nav.foreldrepenger.behandling.revurdering.fp;
 
 import java.util.Objects;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingEndring;
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingFeil;
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingHistorikk;
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteFelles;
+import no.nav.foreldrepenger.behandling.revurdering.*;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -31,7 +27,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårUtfallTy
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 
 @ApplicationScoped
-public class RevurderingTjenesteImpl implements RevurderingTjeneste {
+public class RevurderingTjeneste {
 
     private BehandlingRepository behandlingRepository;
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste;
@@ -45,13 +41,13 @@ public class RevurderingTjenesteImpl implements RevurderingTjeneste {
     private RevurderingEndring revurderingEndring;
     private SykefraværRepository sykefraværRepository;
 
-    public RevurderingTjenesteImpl() {
+    public RevurderingTjeneste() {
         // for CDI proxy
     }
 
     @Inject
-    public RevurderingTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider,
-                                   BehandlingskontrollTjeneste behandlingskontrollTjeneste, RevurderingEndring revurderingEndring) {
+    public RevurderingTjeneste(GrunnlagRepositoryProvider repositoryProvider, ResultatRepositoryProvider resultatRepositoryProvider,
+                               BehandlingskontrollTjeneste behandlingskontrollTjeneste, RevurderingEndring revurderingEndring) {
         this.behandlingRepository = repositoryProvider.getBehandlingRepository();
         this.behandlingskontrollTjeneste = behandlingskontrollTjeneste;
         this.revurderingHistorikk = new RevurderingHistorikk(repositoryProvider.getHistorikkRepository());
@@ -65,14 +61,12 @@ public class RevurderingTjenesteImpl implements RevurderingTjeneste {
         this.sykefraværRepository = repositoryProvider.getSykefraværRepository();
     }
 
-    @Override
     public Behandling opprettManuellRevurdering(Fagsak fagsak, BehandlingÅrsakType revurderingsÅrsak) {
         Behandling behandling = opprettRevurdering(fagsak, revurderingsÅrsak, true);
         aksjonspunktRepository.leggTilAksjonspunkt(behandling, AksjonspunktDefinisjon.KONTROLL_AV_MANUELT_OPPRETTET_REVURDERINGSBEHANDLING);
         return behandling;
     }
 
-    @Override
     public Behandling opprettAutomatiskRevurdering(Fagsak fagsak, BehandlingÅrsakType revurderingsÅrsak) {
         return opprettRevurdering(fagsak, revurderingsÅrsak, false);
     }
@@ -129,12 +123,10 @@ public class RevurderingTjenesteImpl implements RevurderingTjeneste {
         return revurdering;
     }
 
-    @Override
     public Boolean kanRevurderingOpprettes(Fagsak fagsak) {
         return revurderingTjenesteFelles.kanRevurderingOpprettes(fagsak);
     }
 
-    @Override
     public boolean erRevurderingMedUendretUtfall(Behandling behandling) {
         if (behandling.erRevurdering()) {
             return revurderingEndring.erRevurderingMedUendretUtfall(behandling, behandlingRepository.hentResultat(behandling.getId()));

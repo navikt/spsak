@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
+package no.nav.foreldrepenger.behandling.revurdering.fp;
 
 import java.util.ArrayList;
 import java.util.List;

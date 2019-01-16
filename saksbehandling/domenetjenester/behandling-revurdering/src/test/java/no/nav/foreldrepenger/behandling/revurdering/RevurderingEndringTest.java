@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.impl;
+package no.nav.foreldrepenger.behandling.revurdering;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,7 +35,7 @@ public class RevurderingEndringTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private RevurderingEndring revurderingEndringFP = new DefaultRevurderingEndring();
+    private RevurderingEndring revurderingEndringFP = new RevurderingEndring();
     private Behandling originalBehandling;
     private Behandling revurdering;
 
@@ -73,7 +73,7 @@ public class RevurderingEndringTest {
 
         // Assert
         expectedException.expect(IllegalStateException.class);
-        expectedException.expectMessage(DefaultRevurderingEndring.UTVIKLERFEIL_INGEN_ENDRING_SAMMEN);
+        expectedException.expectMessage(RevurderingEndring.UTVIKLERFEIL_INGEN_ENDRING_SAMMEN);
 
         // Act
         BehandlingLås lås = behandlingRepository.taSkriveLås(revurdering);

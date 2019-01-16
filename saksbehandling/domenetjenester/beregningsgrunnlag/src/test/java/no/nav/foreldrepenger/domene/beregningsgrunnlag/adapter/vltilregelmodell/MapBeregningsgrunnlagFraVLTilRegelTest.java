@@ -39,7 +39,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
-import no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingTjenesteImpl;
+import no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
@@ -133,7 +133,7 @@ public class MapBeregningsgrunnlagFraVLTilRegelTest {
     private InntektArbeidYtelseAggregatBuilder inntektArbeidYtelseBuilder;
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
         mock(BehandlingModellRepository.class), null);
-    private RevurderingTjenesteImpl revurderingTjeneste = new RevurderingTjenesteImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, null);
+    private RevurderingTjeneste revurderingTjeneste = new RevurderingTjeneste(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, null);
 
     @Before
     public void setup() {

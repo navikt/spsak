@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
+package no.nav.foreldrepenger.behandling.revurdering.fp;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;

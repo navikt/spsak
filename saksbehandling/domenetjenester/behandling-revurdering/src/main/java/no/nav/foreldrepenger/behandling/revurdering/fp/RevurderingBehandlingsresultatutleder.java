@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
+package no.nav.foreldrepenger.behandling.revurdering.fp;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.revurdering.EndringsdatoRevurderingUtleder;
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingFeil;
+import no.nav.foreldrepenger.behandling.revurdering.RevurderingFeil;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingType;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;

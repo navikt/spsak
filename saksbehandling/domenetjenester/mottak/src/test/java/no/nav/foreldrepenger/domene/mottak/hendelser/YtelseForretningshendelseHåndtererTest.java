@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
+import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.impl;
+package no.nav.foreldrepenger.behandling.revurdering;
 
 import javax.inject.Inject;
 

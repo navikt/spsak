@@ -5,7 +5,7 @@ import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingBehandlingsresultatutleder;
+import no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingBehandlingsresultatutleder;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
+package no.nav.foreldrepenger.behandling.revurdering.fp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -14,14 +14,13 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandling.revurdering.RevurderingEndring;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandling.revurdering.EndringsdatoRevurderingUtleder;
-import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
-import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingEndring;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollEventPubliserer;
@@ -106,7 +105,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         when(mock.getModell(any(), any())).thenReturn(mock(BehandlingModell.class));
         BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             mock, mock(BehandlingskontrollEventPubliserer.class));
-        revurderingTjeneste = new RevurderingTjenesteImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingEndring);
+        revurderingTjeneste = new RevurderingTjeneste(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingEndring);
         revurdering = revurderingTjeneste.opprettAutomatiskRevurdering(behandlingSomSkalRevurderes.getFagsak(), BehandlingÅrsakType.RE_ANNET);
         virksomhet = new VirksomhetEntitet.Builder().medOrgnr(ARBEIDSFORHOLD_ID).medNavn("Virksomheten").oppdatertOpplysningerNå().build();
         repositoryProvider.getVirksomhetRepository().lagre(virksomhet);

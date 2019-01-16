@@ -19,7 +19,7 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
-import no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingTjenesteImpl;
+import no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
@@ -92,7 +92,7 @@ public class HentGrunnlagsdataTjenesteImplTest {
 
     private BehandlingskontrollTjeneste behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
         mock(BehandlingModellRepository.class), null);
-    private RevurderingTjenesteImpl revurderingTjeneste = new RevurderingTjenesteImpl(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, null);
+    private RevurderingTjeneste revurderingTjeneste = new RevurderingTjeneste(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, null);
 
     private Behandling behandling;
     private Behandling forrigeBehandling;

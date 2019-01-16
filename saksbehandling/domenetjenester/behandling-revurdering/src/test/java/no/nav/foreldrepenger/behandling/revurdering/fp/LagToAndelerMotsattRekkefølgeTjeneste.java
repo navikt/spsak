@@ -1,6 +1,4 @@
-package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
-
-import static no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingBehandlingsresultatutlederTest.ARBEIDSFORHOLDLISTE;
+package no.nav.foreldrepenger.behandling.revurdering.fp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,7 +18,7 @@ class LagToAndelerMotsattRekkefølgeTjeneste implements LagAndelTjeneste {
             new Dagsatser(false, skalDeleAndelMellomArbeidsgiverOgBruker));
         BGAndelArbeidsforhold.Builder bga = BGAndelArbeidsforhold
             .builder()
-            .medArbforholdRef(ARBEIDSFORHOLDLISTE.get(1))
+            .medArbforholdRef(RevurderingBehandlingsresultatutlederTest.ARBEIDSFORHOLDLISTE.get(1))
             .medArbeidsperiodeFom(LocalDate.now().minusYears(1))
             .medArbeidsperiodeTom(LocalDate.now().plusYears(2));
         BeregningsgrunnlagPrStatusOgAndel.builder()
@@ -32,7 +30,7 @@ class LagToAndelerMotsattRekkefølgeTjeneste implements LagAndelTjeneste {
             .build(periode);
         BGAndelArbeidsforhold.Builder bga2 = BGAndelArbeidsforhold
             .builder()
-            .medArbforholdRef(ARBEIDSFORHOLDLISTE.get(0))
+            .medArbforholdRef(RevurderingBehandlingsresultatutlederTest.ARBEIDSFORHOLDLISTE.get(0))
             .medArbeidsperiodeFom(LocalDate.now().minusYears(1))
             .medArbeidsperiodeTom(LocalDate.now().plusYears(2));
         BeregningsgrunnlagPrStatusOgAndel.builder()

@@ -1,7 +1,7 @@
-package no.nav.foreldrepenger.behandling.revurdering.fp.impl;
+package no.nav.foreldrepenger.behandling.revurdering.fp;
 
-import static no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingBehandlingsresultatutlederTest.TOTAL_ANDEL_NORMAL;
-import static no.nav.foreldrepenger.behandling.revurdering.fp.impl.RevurderingBehandlingsresultatutlederTest.TOTAL_ANDEL_OPPJUSTERT;
+import static no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingBehandlingsresultatutlederTest.TOTAL_ANDEL_NORMAL;
+import static no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingBehandlingsresultatutlederTest.TOTAL_ANDEL_OPPJUSTERT;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
