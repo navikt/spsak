@@ -1,20 +1,21 @@
 package no.nav.vedtak.felles.integrasjon.medl;
 
-import no.nav.tjeneste.virksomhet.medlemskap.v2.MedlemskapV2;
-import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
-import no.nav.vedtak.konfig.KonfigVerdi;
-import org.apache.cxf.feature.LoggingFeature;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.ws.addressing.WSAddressingFeature;
-
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.feature.LoggingFeature;
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.ws.addressing.WSAddressingFeature;
+
+import no.nav.tjeneste.virksomhet.medlemskap.v2.MedlemskapV2;
+import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
+import no.nav.vedtak.konfig.KonfigVerdi;
+
 @Dependent
 public class MedlemConsumerConfig {
 
-    private static final String WSDL = "nav-medlemskap-v2-tjenestespesifikasjon/wsdl/MedlemskapV2.wsdl";
+    private static final String WSDL = "wsdl/no/nav/tjeneste/virksomhet/medlemskap/v2/MedlemskapV2.wsdl";
     private static final String NAMESPACE = "http://nav.no/tjeneste/virksomhet/medlemskap/v2";
     private static final QName SERVICE = new QName(NAMESPACE, "Medlemskap_v2");
     private static final QName PORT = new QName(NAMESPACE, "Medlemskap_v2Port");

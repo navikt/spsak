@@ -1,19 +1,20 @@
 package no.nav.vedtak.felles.integrasjon.behandlesak.klient;
 
-import no.nav.tjeneste.virksomhet.behandlesak.v2.BehandleSakV2;
-import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
-import no.nav.vedtak.konfig.KonfigVerdi;
-import org.apache.cxf.feature.LoggingFeature;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.ws.addressing.WSAddressingFeature;
-
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.feature.LoggingFeature;
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.ws.addressing.WSAddressingFeature;
+
+import no.nav.tjeneste.virksomhet.behandlesak.v2.BehandleSakV2;
+import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
+import no.nav.vedtak.konfig.KonfigVerdi;
+
 @Dependent
 public class BehandleSakConsumerConfig {
-    private static final String BEHANDLE_SAK_V_2_WSDL = "behandlesak-v2-tjenestespesifikasjon/wsdl/behandlesak/v2/wsdl/BehandleSakV2.wsdl";
+    private static final String BEHANDLE_SAK_V_2_WSDL = "behandlesak/v2/wsdl/BehandleSakV2.wsdl";
     private static final String BEHANDLE_SAK_V2_NAMESPACE = "http://nav.no/tjeneste/virksomhet/behandlesak/v2";
     private static final QName BEHANDLE_SAK_V_2_SERVICE = new QName(BEHANDLE_SAK_V2_NAMESPACE, "BehandleSak_v2");
     private static final QName BEHANDLE_SAK_V_2_PORT = new QName(BEHANDLE_SAK_V2_NAMESPACE, "BehandleSakV2");

@@ -1,22 +1,24 @@
 package no.nav.vedtak.felles.integrasjon.organisasjon;
 
-import no.nav.tjeneste.virksomhet.organisasjon.v4.binding.OrganisasjonV4;
-import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
-import no.nav.vedtak.konfig.KonfigVerdi;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
+
 import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.xml.namespace.QName;
-import java.util.HashMap;
-import java.util.Map;
+import no.nav.tjeneste.virksomhet.organisasjon.v4.binding.OrganisasjonV4;
+import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
+import no.nav.vedtak.konfig.KonfigVerdi;
 
 @Dependent
 public class OrganisasjonConsumerConfig {
-    private static final String WSDL = "nav-fim-organisasjon-v4-tjenestespesifikasjon/wsdl/Binding.wsdl";
+    private static final String WSDL = "wsdl/no/nav/tjeneste/virksomhet/organisasjon/v4/Binding.wsdl";
     private static final String NAMESPACE = "http://nav.no/tjeneste/virksomhet/organisasjon/v4/Binding";
     private static final QName SERVICE = new QName(NAMESPACE, "Organisasjon_v4");
     private static final QName PORT = new QName(NAMESPACE, "Organisasjon_v4Port");

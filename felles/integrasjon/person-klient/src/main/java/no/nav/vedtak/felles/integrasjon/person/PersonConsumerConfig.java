@@ -1,20 +1,21 @@
 package no.nav.vedtak.felles.integrasjon.person;
 
 
-import no.nav.tjeneste.virksomhet.person.v3.binding.PersonV3;
-import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
-import no.nav.vedtak.konfig.KonfigVerdi;
-import org.apache.cxf.feature.LoggingFeature;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.ws.addressing.WSAddressingFeature;
-
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.feature.LoggingFeature;
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.ws.addressing.WSAddressingFeature;
+
+import no.nav.tjeneste.virksomhet.person.v3.binding.PersonV3;
+import no.nav.vedtak.felles.integrasjon.felles.ws.CallIdOutInterceptor;
+import no.nav.vedtak.konfig.KonfigVerdi;
+
 @Dependent
 public class PersonConsumerConfig {
-    private static final String PERSON_V3_WSDL = "person-v3-tjenestespesifikasjon/wsdl/Binding.wsdl";
+    private static final String PERSON_V3_WSDL = "wsdl/no/nav/tjeneste/virksomhet/person/v3/Binding.wsdl";
     private static final String PERSON_V3_NAMESPACE = "http://nav.no/tjeneste/virksomhet/person/v3/Binding";
     private static final QName PERSON_V3_SERVICE = new QName(PERSON_V3_NAMESPACE, "Person_v3");
     private static final QName PERSON_V3_PORT = new QName(PERSON_V3_NAMESPACE, "Person_v3Port");
