@@ -38,11 +38,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsgiverHistorikkinnslagTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.impl.ArbeidsgiverHistorikkinnslagTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningArbeidsgiverTestUtil;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.Beløp;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.FastsettBGTilstøtendeYtelseOppdaterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsattBeløpTilstøtendeYtelseAndelDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsettBGTilstøtendeYtelseDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.RedigerbarAndelDto;
@@ -64,7 +62,7 @@ public class FastsettBGTilstøtendeYtelseOppdatererTest {
     private HistorikkTjenesteAdapter historikkAdapter = new HistorikkTjenesteAdapterImpl(
         new HistorikkRepositoryImpl(repositoryRule.getEntityManager()), new HistorikkInnslagKonverter(
         repositoryProvider.getKodeverkRepository(), repositoryProvider.getAksjonspunktRepository()));
-    ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjenesteImpl(null);
+    ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjeneste(null);
     private FastsettBGTilstøtendeYtelseOppdaterer fastsettBGTilstøtendeYtelseOppdaterer = new FastsettBGTilstøtendeYtelseOppdaterer(repositoryProvider, resultatRepositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
     public ScenarioMorSøkerForeldrepenger scenario;

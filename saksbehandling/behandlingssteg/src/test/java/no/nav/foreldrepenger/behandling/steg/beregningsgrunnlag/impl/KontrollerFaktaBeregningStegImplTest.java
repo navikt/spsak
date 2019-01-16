@@ -16,7 +16,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.domene.arbeidsforhold.*;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.*;
+import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -55,11 +57,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrun
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Inntektskategori;
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningAktivitetType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.InnhentingSamletTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl;
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.komponenten.InntektsInformasjon;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningArbeidsgiverTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
@@ -68,7 +65,6 @@ import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningOpp
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Periode;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.typer.AktørId;
-import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
@@ -159,7 +155,7 @@ public class KontrollerFaktaBeregningStegImplTest {
 
     private IAYRegisterInnhentingTjeneste lagIAYRegisterInnhentingTjeneste() {
         InnhentingSamletTjeneste innhentingSamletTjeneste = mockInnhentingSamletTjeneste();
-        return new IAYRegisterInnhentingFPTjenesteImpl(inntektArbeidYtelseTjeneste,
+        return new IAYRegisterInnhentingTjeneste(inntektArbeidYtelseTjeneste,
             repositoryProvider, resultatRepositoryProvider, virksomhetTjeneste, skjæringstidspunktTjeneste, innhentingSamletTjeneste, opplysningsPeriodeTjeneste);
     }
 

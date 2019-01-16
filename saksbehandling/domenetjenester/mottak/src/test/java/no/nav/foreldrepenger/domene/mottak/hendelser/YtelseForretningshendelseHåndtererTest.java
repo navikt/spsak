@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,7 +39,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakR
 import no.nav.foreldrepenger.behandlingslager.fagsak.Fagsak;
 import no.nav.foreldrepenger.behandlingslager.hendelser.ForretningshendelseType;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.Behandlingsoppretter;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.HistorikkinnslagTjeneste;
 import no.nav.foreldrepenger.domene.mottak.dokumentmottak.MottatteDokumentTjeneste;

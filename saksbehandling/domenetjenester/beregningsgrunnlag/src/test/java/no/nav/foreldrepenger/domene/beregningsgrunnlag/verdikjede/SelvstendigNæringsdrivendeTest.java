@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import no.nav.foreldrepenger.domene.arbeidsforhold.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -46,12 +47,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opp
 import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.OpptjeningRepository;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningsperioderTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.OpptjeningInntektArbeidYtelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.AksjonspunktUtlederForBeregning;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.BeregningInntektsmeldingTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.BeregningsperiodeTjeneste;
@@ -94,7 +89,7 @@ public class SelvstendigNæringsdrivendeTest {
     private FastsettSkjæringstidspunktOgStatuser fastsettSkjæringstidspunktOgStatuser;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
     private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
-    private InntektArbeidYtelseTjenesteImpl inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
+    private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjeneste(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
     private BeregningsgrunnlagRepository beregningsgrunnlagRepository = resultatRepositoryProvider.getBeregningsgrunnlagRepository();
     private OpptjeningRepository opptjeningRepository = resultatRepositoryProvider.getOpptjeningRepository();
     private FastsettBeregningsgrunnlagPerioderTjeneste fastsettBeregningsgrunnlagPeriodeTjeneste;
@@ -102,7 +97,7 @@ public class SelvstendigNæringsdrivendeTest {
     private HentGrunnlagsdataTjeneste hentGrunnlagsdataTjeneste;
 
     private OpptjeningsperioderTjeneste periodeTjeneste = mock(OpptjeningsperioderTjeneste.class);
-    private OpptjeningInntektArbeidYtelseTjenesteImpl opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, resultatRepositoryProvider, periodeTjeneste);
+    private OpptjeningInntektArbeidYtelseTjeneste opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjeneste(inntektArbeidYtelseTjeneste, resultatRepositoryProvider, periodeTjeneste);
 
     private ScenarioMorSøkerForeldrepenger scenario;
     private BeregningsperiodeTjeneste beregningsperiodeTjeneste;
@@ -113,7 +108,7 @@ public class SelvstendigNæringsdrivendeTest {
         if (fastsettSkjæringstidspunktOgStatuser != null) {
             return;
         }
-        IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingFPTjenesteImpl.class);
+        IAYRegisterInnhentingTjeneste iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingTjeneste.class);
         when(iayRegisterInnhentingTjeneste.innhentInntekterFor(any(Behandling.class), any(), any(), any()))
             .thenAnswer(a -> repositoryProvider.getInntektArbeidYtelseRepository().opprettBuilderFor(a.getArgument(0), VersjonType.REGISTER));
         hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjeneste(resultatRepositoryProvider, opptjeningInntektArbeidYtelseTjeneste, inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);

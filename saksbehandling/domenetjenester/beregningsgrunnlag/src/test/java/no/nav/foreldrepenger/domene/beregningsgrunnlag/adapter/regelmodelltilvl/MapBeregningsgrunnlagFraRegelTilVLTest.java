@@ -45,9 +45,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.sykefravær.perioder.Sy
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.domene.arbeidsforhold.AksjonspunktutlederForVurderOpptjening;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.RegelMapperTestDataHelper;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningIAYTestUtil;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.jackson.JacksonJsonConfig;
@@ -130,7 +129,7 @@ public class MapBeregningsgrunnlagFraRegelTilVLTest {
 
         final SkjæringstidspunktTjenesteImpl skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
         AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
-        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
+        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjeneste(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         Beregningsgrunnlag resultatGrunnlag = buildRegelBGForAT();
         final no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrunnlag.Beregningsgrunnlag mappedBG = new MapBeregningsgrunnlagFraRegelTilVL(repositoryProvider, inntektArbeidYtelseTjeneste).mapForeslåBeregningsgrunnlag(resultatGrunnlag, "input", regelresultater, vlBG);
 

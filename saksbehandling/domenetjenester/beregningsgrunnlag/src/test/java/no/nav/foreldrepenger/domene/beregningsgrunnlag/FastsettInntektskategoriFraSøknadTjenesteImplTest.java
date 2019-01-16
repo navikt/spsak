@@ -37,9 +37,8 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.beregningsgrun
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.domene.arbeidsforhold.AksjonspunktutlederForVurderOpptjening;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
@@ -60,7 +59,7 @@ public class FastsettInntektskategoriFraSøknadTjenesteImplTest {
     private Behandling behandling;
     private SkjæringstidspunktTjeneste skjæringstidspunktTjeneste = mock(SkjæringstidspunktTjeneste.class);
     private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
-    private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
+    private InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjeneste(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
     private FastsettInntektskategoriFraSøknadTjeneste fastsettInntektskategoriFraSøknadTjeneste = new FastsettInntektskategoriFraSøknadTjeneste(repositoryProvider, inntektArbeidYtelseTjeneste);
     private ScenarioMorSøkerForeldrepenger scenario;
     private VirksomhetEntitet beregningVirksomhet;

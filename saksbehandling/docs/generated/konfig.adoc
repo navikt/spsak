@@ -3,8 +3,8 @@
 |===
 |Konfig-nøkkel|Beskrivelse|Bruk
 |maks.stønadsalder.adopsjon|Maks stønadsalder ved adopsjon|no.nav.foreldrepenger.behandling.steg.beregnytelse.es.BeregneYtelseEngangsstønadStegImpl
-|opplysningsperiode.lengde|Start av periode fram til skjæringstidspunkt for innhenting av Inntekt, Arbeid, Ytelser opplysninger|no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl
-|opplysningsperiode.lengde.etter|Slutt av periode etter skjæringstidspunkt for innhenting av Inntekt, Arbeid, Ytelser opplysninger|no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl
+|opplysningsperiode.lengde|Start av periode fram til skjæringstidspunkt for innhenting av Inntekt, Arbeid, Ytelser opplysninger|no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste
+|opplysningsperiode.lengde.etter|Slutt av periode etter skjæringstidspunkt for innhenting av Inntekt, Arbeid, Ytelser opplysninger|no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste
 |infotrygd.hendelser.api.url|Url - endepunkt for infotrygd hendelser.|no.nav.foreldrepenger.domene.arbeidsforhold.ytelse.infotrygd.hendelse.InfotrygdHendelseTjenesteImpl
 |etterkontroll.tpsregistrering.periode|Periode før termin hvor dødfødsel kan være registrert i TPS|no.nav.foreldrepenger.behandling.revurdering.etterkontroll.task.AutomatiskEtterkontrollTask
 |etterkontroll.tid.tilbake|Tid etter innvilgelsesdato før en fagsak vurderes for etterkontroll|no.nav.foreldrepenger.behandling.revurdering.etterkontroll.tjeneste.AutomatiskEtterkontrollTjeneste

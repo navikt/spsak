@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 
-import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.impl.ArbeidsforholdTjenesteImpl;
 import no.nav.foreldrepenger.domene.person.TpsTjeneste;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.AnsettelsesPeriode;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.Arbeidsforholdstyper;
@@ -31,7 +30,7 @@ public class ArbeidsforholTjenesteMock {
         HentArbeidsforholdHistorikkResponse response1 = new HentArbeidsforholdHistorikkResponse();
         response1.setArbeidsforhold(response.getArbeidsforhold().get(0));
         when(arbeidsforholdConsumer.hentArbeidsforholdHistorikk(any())).thenReturn(response1);
-        this.arbeidsforholdTjeneste = new ArbeidsforholdTjenesteImpl(arbeidsforholdConsumer, mock(TpsTjeneste.class));
+        this.arbeidsforholdTjeneste = new ArbeidsforholdTjeneste(arbeidsforholdConsumer, mock(TpsTjeneste.class));
     }
 
     public ArbeidsforholdTjeneste getMock() {

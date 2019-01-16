@@ -36,8 +36,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEn
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsgiverHistorikkinnslagTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.impl.ArbeidsgiverHistorikkinnslagTjenesteImpl;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.VurderFaktaOmBeregningOppdaterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.VurderFaktaOmBeregningDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.VurderTidsbegrensetArbeidsforholdDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.VurderteArbeidsforholdDto;
@@ -83,7 +81,7 @@ public class VurderTidsbegrensetArbeidsforholdOppdatererTest {
                 .oppdatertOpplysningerNå()
                 .build());
         virksomheter.forEach(v -> repositoryProvider.getVirksomhetRepository().lagre(v));
-        ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjenesteImpl(null);
+        ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjeneste(null);
         vurderFaktaOmBeregningOppdaterer = new VurderFaktaOmBeregningOppdaterer(lagMockHistory(), repositoryProvider, resultatRepositoryProvider, arbeidsgiverHistorikkinnslagTjeneste);
         tidsbestemteArbeidsforhold = lagFastsatteAndelerListe();
     }

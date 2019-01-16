@@ -17,7 +17,6 @@ import org.mockito.ArgumentCaptor;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.kodeverk.InntektsKilde;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
-import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.komponenten.impl.InntektTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.PersonIdent;
 import no.nav.tjeneste.virksomhet.inntekt.v3.binding.HentInntektListeBolkUgyldigInput;
 import no.nav.tjeneste.virksomhet.inntekt.v3.feil.UgyldigInput;
@@ -54,7 +53,7 @@ public class InntektTjenesteImplTest {
 
     @Before
     public void before() {
-        inntektTjeneste = new InntektTjenesteImpl(inntektConsumer, kodeverkRepository, null);
+        inntektTjeneste = new InntektTjeneste(inntektConsumer, kodeverkRepository, null);
     }
 
     @Test

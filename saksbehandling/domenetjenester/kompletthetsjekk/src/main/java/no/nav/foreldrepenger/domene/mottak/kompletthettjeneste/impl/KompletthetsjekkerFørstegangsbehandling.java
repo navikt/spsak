@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Venteårsak;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetResultat;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.Kompletthetsjekker;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetssjekkerInntektsmelding;
@@ -48,9 +48,9 @@ public class KompletthetsjekkerFørstegangsbehandling implements Kompletthetsjek
 
     @Inject
     public KompletthetsjekkerFørstegangsbehandling(@FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-002") KompletthetssjekkerSøknad kompletthetssjekkerSøknad,
-                                @FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-002") KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding,
-                                InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, KompletthetsjekkerFelles fellesUtil,
-                                SkjæringstidspunktTjeneste skjæringstidspunktTjeneste, SøknadRepository søknadRepository) {
+                                                   @FagsakYtelseTypeRef("FP") @BehandlingTypeRef("BT-002") KompletthetssjekkerInntektsmelding kompletthetssjekkerInntektsmelding,
+                                                   InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste, KompletthetsjekkerFelles fellesUtil,
+                                                   SkjæringstidspunktTjeneste skjæringstidspunktTjeneste, SøknadRepository søknadRepository) {
         this.kompletthetssjekkerSøknad = kompletthetssjekkerSøknad;
         this.kompletthetssjekkerInntektsmelding = kompletthetssjekkerInntektsmelding;
         this.inntektArbeidYtelseTjeneste = inntektArbeidYtelseTjeneste;

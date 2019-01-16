@@ -44,15 +44,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetRepository;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.domene.arbeidsforhold.AksjonspunktutlederForVurderOpptjening;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.VurderArbeidsforholdTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.VurderArbeidsforholdTjenesteImpl;
 import no.nav.foreldrepenger.domene.typer.AktørId;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
-import no.nav.foreldrepenger.domene.virksomhet.impl.VirksomhetTjenesteImpl;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.jpa.tid.DatoIntervallEntitet;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
@@ -66,11 +63,11 @@ public class AksjonspunktUtlederForVurderArbeidsforholdTest {
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
     private InntektArbeidYtelseRepository inntektArbeidYtelseRepository = repositoryProvider.getInntektArbeidYtelseRepository();
-    private VirksomhetTjeneste virksomhetTjeneste = new VirksomhetTjenesteImpl(null, repositoryProvider.getVirksomhetRepository());
+    private VirksomhetTjeneste virksomhetTjeneste = new VirksomhetTjeneste(null, repositoryProvider.getVirksomhetRepository());
     private AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, resultatRepositoryProvider, mock);
-    private InntektArbeidYtelseTjeneste iayTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, virksomhetTjeneste, mock, apOpptjening);
+    private InntektArbeidYtelseTjeneste iayTjeneste = new InntektArbeidYtelseTjeneste(repositoryProvider, null, null, virksomhetTjeneste, mock, apOpptjening);
     private BehandlingskontrollRepository behandlingskontrollRepository = new BehandlingskontrollRepositoryImpl(repositoryProvider, repoRule.getEntityManager());
-    private VurderArbeidsforholdTjeneste tjeneste = new VurderArbeidsforholdTjenesteImpl(iayTjeneste, virksomhetTjeneste, behandlingskontrollRepository);
+    private VurderArbeidsforholdTjeneste tjeneste = new VurderArbeidsforholdTjeneste(iayTjeneste, virksomhetTjeneste, behandlingskontrollRepository);
 
     
     @Spy

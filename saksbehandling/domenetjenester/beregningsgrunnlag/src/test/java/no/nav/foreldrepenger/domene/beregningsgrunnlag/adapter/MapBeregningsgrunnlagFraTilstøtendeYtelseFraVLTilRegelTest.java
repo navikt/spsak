@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningsperioderTjeneste;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,12 +46,9 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opp
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
+import no.nav.foreldrepenger.domene.arbeidsforhold.AksjonspunktutlederForVurderOpptjening;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningsperioderTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.OpptjeningInntektArbeidYtelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Dekningsgrad;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagFraTilstøtendeYtelse;
@@ -191,9 +189,9 @@ public class MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegelTest {
         mockOpptjeningRepository(resultatRepositoryProvider, SKJÆRINGSTIDSPUNKT);
         behandling = scenario.lagMocked();
         AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(this.repositoryProvider, resultatRepositoryProvider, skjæringstidspunktTjeneste);
-        inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(this.repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
+        inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjeneste(this.repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
         OpptjeningsperioderTjeneste periodeTjeneste = mock(OpptjeningsperioderTjeneste.class);
-        opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, resultatRepositoryProvider, periodeTjeneste);
+        opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjeneste(inntektArbeidYtelseTjeneste, resultatRepositoryProvider, periodeTjeneste);
     }
 
     private void mockTidligereYtelse(ScenarioMorSøkerForeldrepenger scenario, RelatertYtelseType relatertYtelseType,

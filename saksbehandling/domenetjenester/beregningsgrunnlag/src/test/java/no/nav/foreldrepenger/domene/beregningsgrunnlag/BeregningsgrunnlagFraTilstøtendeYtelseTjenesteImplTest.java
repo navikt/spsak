@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.domene.arbeidsforhold.*;
 import org.assertj.core.data.Offset;
 import org.junit.Before;
 import org.junit.Rule;
@@ -53,14 +54,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.opptjening.Opp
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEntitet;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningsperioderTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.AksjonspunktutlederForVurderOpptjening;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.IAYRegisterInnhentingFPTjenesteImpl;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.InntektArbeidYtelseTjenesteImpl;
-import no.nav.foreldrepenger.domene.arbeidsforhold.impl.OpptjeningInntektArbeidYtelseTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.regelmodelltilvl.MapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.vltilregelmodell.MapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel;
@@ -169,10 +162,10 @@ public class BeregningsgrunnlagFraTilstøtendeYtelseTjenesteImplTest {
         mockOpptjeningRepository(element2, SKJÆRINGSTIDSPUNKT);
         behandling = scenario.lagMocked();
         AksjonspunktutlederForVurderOpptjening apOpptjening = new AksjonspunktutlederForVurderOpptjening(repositoryProvider, element2, skjæringstidspunktTjeneste);
-        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjenesteImpl(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
-        iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingFPTjenesteImpl.class);
+        InntektArbeidYtelseTjeneste inntektArbeidYtelseTjeneste = new InntektArbeidYtelseTjeneste(repositoryProvider, null, null, null, skjæringstidspunktTjeneste, apOpptjening);
+        iayRegisterInnhentingTjeneste = mock(IAYRegisterInnhentingTjeneste.class);
         OpptjeningsperioderTjeneste periodeTjeneste = mock(OpptjeningsperioderTjeneste.class);
-        opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjenesteImpl(inntektArbeidYtelseTjeneste, element2, periodeTjeneste);
+        opptjeningInntektArbeidYtelseTjeneste = new OpptjeningInntektArbeidYtelseTjeneste(inntektArbeidYtelseTjeneste, element2, periodeTjeneste);
         beregningsgrunnlagFraTilstøtendeYtelseTjeneste = new BeregningsgrunnlagFraTilstøtendeYtelseTjeneste(repositoryProvider, opptjeningInntektArbeidYtelseTjeneste, mapBeregningsgrunnlagFraTilstøtendeYtelseFraVLTilRegel, mapBeregningsgrunnlagFraTilstøtendeYtelseFraRegelTilVL, skjæringstidspunktTjeneste);
         hentGrunnlagsdataTjeneste = new HentGrunnlagsdataTjeneste(resultatRepositoryProvider, opptjeningInntektArbeidYtelseTjeneste, inntektArbeidYtelseTjeneste, iayRegisterInnhentingTjeneste);
     }

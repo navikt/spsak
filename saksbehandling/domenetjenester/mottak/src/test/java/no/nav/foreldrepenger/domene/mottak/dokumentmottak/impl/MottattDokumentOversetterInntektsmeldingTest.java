@@ -48,7 +48,6 @@ import no.nav.foreldrepenger.domene.mottak.dokumentpersiterer.xml.MottattDokumen
 import no.nav.foreldrepenger.domene.typer.Beløp;
 import no.nav.foreldrepenger.domene.typer.JournalpostId;
 import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
-import no.nav.foreldrepenger.domene.virksomhet.impl.VirksomhetTjenesteImpl;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.Organisasjon;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.OrganisasjonsDetaljer;
@@ -83,7 +82,7 @@ public class MottattDokumentOversetterInntektsmeldingTest {
         value.setOrganisasjonDetaljer(detaljer);
         hentOrganisasjonResponse.setOrganisasjon(value);
         when(organisasjonConsumer.hentOrganisasjon(any())).thenReturn(hentOrganisasjonResponse);
-        VirksomhetTjeneste virksomhetTjeneste = new VirksomhetTjenesteImpl(organisasjonConsumer, new VirksomhetRepositoryImpl(repositoryRule.getEntityManager()));
+        VirksomhetTjeneste virksomhetTjeneste = new VirksomhetTjeneste(organisasjonConsumer, new VirksomhetRepositoryImpl(repositoryRule.getEntityManager()));
 
         oversetter = new MottattDokumentOversetterInntektsmelding(repositoryProvider, virksomhetTjeneste);
     }

@@ -36,8 +36,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.VirksomhetEn
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsgiverHistorikkinnslagTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.impl.ArbeidsgiverHistorikkinnslagTjenesteImpl;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.FastsettBGTidsbegrensetArbeidsforholdOppdaterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsatteAndelerTidsbegrensetDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsattePerioderTidsbegrensetDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsettBGTidsbegrensetArbeidsforholdDto;
@@ -75,7 +73,7 @@ public class FastsettBGTidsbegrensetArbeidsforholdOppdatererTest {
 
     @Before
     public void setup() {
-        ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjenesteImpl(null);
+        ArbeidsgiverHistorikkinnslagTjeneste arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjeneste(null);
         fastsettBGTidsbegrensetArbeidsforholdOppdaterer = new FastsettBGTidsbegrensetArbeidsforholdOppdaterer(resultatRepositoryProvider, lagMockHistory(), aksjonspunktRepository, arbeidsgiverHistorikkinnslagTjeneste);
         fastsatteInnteker = lagFastsatteAndelerListe();
         virksomhet1 = new VirksomhetEntitet.Builder()

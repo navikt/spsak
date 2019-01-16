@@ -43,7 +43,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.ArbeidsgiverHistorikkinnslagTjeneste;
-import no.nav.foreldrepenger.domene.arbeidsforhold.arbeid.impl.ArbeidsgiverHistorikkinnslagTjenesteImpl;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.adapter.util.BeregningArbeidsgiverTestUtil;
 import no.nav.foreldrepenger.domene.typer.Beløp;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.beregningsgrunnlag.aksjonspunkt.dto.FastsattBeløpTilstøtendeYtelseAndelDto;
@@ -82,7 +81,7 @@ public class VurderTilstøtendeYtelseOgEndretBeregninsgrunnlagOppdatererTest {
         this.virksomheten = virksomhetTestUtil.forArbeidsgiverVirksomhet(ORGNR);
         this.scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
         this.behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
-        this.arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjenesteImpl(null);
+        this.arbeidsgiverHistorikkinnslagTjeneste = new ArbeidsgiverHistorikkinnslagTjeneste(null);
         this.oppdaterer = new VurderTilstøtendeYtelseOgEndretBeregninsgrunnlagOppdaterer(repositoryProvider, resultatRepositoryProvider, historikkAdapter, arbeidsgiverHistorikkinnslagTjeneste);
     }
 
