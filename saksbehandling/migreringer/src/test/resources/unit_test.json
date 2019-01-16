@@ -3,9 +3,9 @@
     {
       "datasource": "defaultDS",
       "schema": "public",
-      "user": "fpsak_unit",
-      "password": "fpsak_unit",
-      "url": "jdbc:postgresql://localhost:5432/fpsak_unit",
+      "user": "spsak_unit",
+      "password": "spsak_unit",
+      "url": "jdbc:postgresql://localhost:5432/spsak_unit",
       "default": true,
       "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
     }

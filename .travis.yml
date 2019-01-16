@@ -18,17 +18,17 @@ before_script:
 - sudo apt-get install language-pack-nb
 - sudo /etc/init.d/postgresql stop
 - sudo /etc/init.d/postgresql start 9.5
-- psql -c "CREATE DATABASE fpsak_unit;" -U postgres
-- psql -c "CREATE USER fpsak_unit PASSWORD 'fpsak_unit';" -U postgres
-- psql -c "GRANT ALL PRIVILEGES ON DATABASE fpsak_unit TO fpsak_unit;" -U postgres
+- psql -c "CREATE DATABASE spsak_unit;" -U postgres
+- psql -c "CREATE USER spsak_unit PASSWORD 'spsak_unit';" -U postgres
+- psql -c "GRANT ALL PRIVILEGES ON DATABASE spsak_unit TO spsak_unit;" -U postgres
 - psql -c "CREATE DATABASE felles_behandlingsprosess_unit;" -U postgres
 - psql -c "CREATE USER felles_behandlingsprosess_unit PASSWORD 'felles_behandlingsprosess_unit';"
   -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE felles_behandlingsprosess_unit TO felles_behandlingsprosess_unit;"
   -U postgres
-- psql -c "CREATE DATABASE fpsak;" -U postgres
-- psql -c "CREATE USER fpsak PASSWORD 'fpsak';" -U postgres
-- psql -c "GRANT ALL PRIVILEGES ON DATABASE fpsak TO fpsak;" -U postgres
+- psql -c "CREATE DATABASE spsak;" -U postgres
+- psql -c "CREATE USER spsak PASSWORD 'spsak';" -U postgres
+- psql -c "GRANT ALL PRIVILEGES ON DATABASE spsak TO spsak;" -U postgres
 - psql -c "CREATE DATABASE vl_fordeling_unit;" -U postgres
 - psql -c "CREATE USER vl_fordeling_unit PASSWORD 'vl_fordeling_unit';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE vl_fordeling_unit TO vl_fordeling_unit;"

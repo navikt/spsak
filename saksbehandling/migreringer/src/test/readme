@@ -5,18 +5,18 @@
 
 --Denne må kjøres før unittester:
 
-CREATE DATABASE fpsak_unit;
+CREATE DATABASE spsak_unit;
 
-CREATE USER fpsak_unit PASSWORD 'fpsak_unit';
+CREATE USER spsak_unit PASSWORD 'spsak_unit';
 
-GRANT ALL PRIVILEGES ON DATABASE fpsak_unit TO fpsak_unit;
+GRANT ALL PRIVILEGES ON DATABASE spsak_unit TO spsak_unit;
 
 
 
 -- og denne før spsak startes:
 
-CREATE DATABASE fpsak;
+CREATE DATABASE spsak;
 
-CREATE USER fpsak PASSWORD 'fpsak'; -- annet passord hvis ikke lokalt da
+CREATE USER spsak PASSWORD 'spsak'; -- annet passord hvis ikke lokalt da
 
-GRANT ALL PRIVILEGES ON DATABASE fpsak TO fpsak;
+GRANT ALL PRIVILEGES ON DATABASE spsak TO spsak;
