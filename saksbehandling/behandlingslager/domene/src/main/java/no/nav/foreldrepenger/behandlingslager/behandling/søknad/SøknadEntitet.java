@@ -1,11 +1,7 @@
 package no.nav.foreldrepenger.behandlingslager.behandling.søknad;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -13,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -60,9 +55,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
     @Column(name = "tilleggsopplysninger")
     private String tilleggsopplysninger;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "søknad")
-    private Set<SøknadVedleggEntitet> søknadVedlegg = new HashSet<>(2);
-
     @Version
     @Column(name = "versjon", nullable = false)
     private long versjon;
@@ -84,11 +76,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
         // TODO SP : Trenger vi disse?
         this.tilleggsopplysninger = søknadMal.getTilleggsopplysninger();
-        for (SøknadVedlegg aSøknadVedlegg : søknadMal.getSøknadVedlegg()) {
-            SøknadVedleggEntitet kopi = new SøknadVedleggEntitet(aSøknadVedlegg);
-            kopi.setSøknad(this);
-            this.søknadVedlegg.add(kopi);
-        }
     }
 
     public Long getId() {
@@ -120,11 +107,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
     void setTilleggsopplysninger(String tilleggsopplysninger) {
         this.tilleggsopplysninger = tilleggsopplysninger;
-    }
-
-    @Override
-    public Set<SøknadVedlegg> getSøknadVedlegg() {
-        return Collections.unmodifiableSet(søknadVedlegg);
     }
 
     @Override
@@ -236,13 +218,6 @@ public class SøknadEntitet extends BaseEntitet implements Søknad {
 
         public Builder medTilleggsopplysninger(String tilleggsopplysninger) {
             søknadMal.setTilleggsopplysninger(tilleggsopplysninger);
-            return this;
-        }
-
-        public Builder leggTilVedlegg(SøknadVedlegg søknadVedlegg) {
-            SøknadVedleggEntitet sve = new SøknadVedleggEntitet(søknadVedlegg);
-            søknadMal.søknadVedlegg.add(sve);
-            sve.setSøknad(søknadMal);
             return this;
         }
 

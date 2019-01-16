@@ -98,7 +98,7 @@ public class DokumentmottakerEndringssøknadTest {
             enhetsTjeneste, historikkinnslagTjeneste);
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
-        dokumentmottaker = new DokumentmottakerEndringssøknad(repositoryProvider, resultatRepositoryProvider, dokumentmottakerFelles,
+        dokumentmottaker = new DokumentmottakerEndringssøknad(repositoryProvider, dokumentmottakerFelles,
             mottatteDokumentTjeneste, behandlingsoppretter, kompletthetskontroller, køKontroller);
         dokumentmottaker = Mockito.spy(dokumentmottaker);
     }

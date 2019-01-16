@@ -96,7 +96,7 @@ public class DokumentmottakerInntektsmeldingTest {
         dokumentmottakerFelles = Mockito.spy(dokumentmottakerFelles);
 
         dokumentmottaker = new DokumentmottakerInntektsmelding(dokumentmottakerFelles, mottatteDokumentTjeneste, behandlingsoppretter,
-            kompletthetskontroller, repositoryProvider, resultatRepositoryProvider);
+            kompletthetskontroller, repositoryProvider);
         dokumentmottaker = Mockito.spy(dokumentmottaker);
 
         OrganisasjonsEnhet enhet = new OrganisasjonsEnhet("0312", "enhetNavn");

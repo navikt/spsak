@@ -33,10 +33,6 @@
 			<artifactId>behandlingslager-domene</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>no.nav.sykepenger</groupId>
-			<artifactId>vedtakslager-domene</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>

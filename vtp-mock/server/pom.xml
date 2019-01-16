@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>no.nav.vedtak.fpmock2</groupId>
 			<artifactId>kafka-embedded</artifactId>
-			<version>${revision}${sha1}${changelist}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- Tester -->

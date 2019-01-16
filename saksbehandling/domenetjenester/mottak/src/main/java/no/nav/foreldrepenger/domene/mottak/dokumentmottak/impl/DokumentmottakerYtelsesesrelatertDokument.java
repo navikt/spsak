@@ -26,7 +26,7 @@ abstract class DokumentmottakerYtelsesesrelatertDokument implements Dokumentmott
     Behandlingsoppretter behandlingsoppretter;
     Kompletthetskontroller kompletthetskontroller;
     BehandlingRevurderingRepository revurderingRepository;
-    BehandlingRepository behandlingRepository;
+    private BehandlingRepository behandlingRepository;
 
     DokumentmottakerYtelsesesrelatertDokument() {
         // For CDI proxy

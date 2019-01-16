@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +44,7 @@ import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Arbeidsgiver
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.OrganisasjonsNummerValidator;
 import no.nav.foreldrepenger.behandlingslager.behandling.virksomhet.Virksomhet;
 import no.nav.foreldrepenger.domene.typer.AktørId;
+import no.nav.foreldrepenger.domene.virksomhet.VirksomhetTjeneste;
 import no.nav.vedtak.util.Tuple;
 
 @ApplicationScoped
@@ -71,20 +71,20 @@ public class VurderArbeidsforholdTjeneste {
     }
 
     /**
-         * Vurderer alle arbeidsforhold innhentet i en behandling.
-         * <p>
-         * Gjør vurderinger for å se om saksbehandler må ta stilling til enkelte av disse og returener sett med hvilke
-         * saksbehandler må ta stilling til.
-         * <p>
-         *
-         * @param behandling behandlingen
-         * @return Arbeidsforholdene det må tas stilling til
-         */
+     * Vurderer alle arbeidsforhold innhentet i en behandling.
+     * <p>
+     * Gjør vurderinger for å se om saksbehandler må ta stilling til enkelte av disse og returener sett med hvilke
+     * saksbehandler må ta stilling til.
+     * <p>
+     *
+     * @param behandling behandlingen
+     * @return Arbeidsforholdene det må tas stilling til
+     */
     public Map<Arbeidsgiver, Set<ArbeidsforholdRef>> vurder(Behandling behandling) {
         Map<Arbeidsgiver, Set<ArbeidsforholdRef>> result = new HashMap<>();
 
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseTjeneste.hentAggregatHvisEksisterer(behandling);
-        if (!inntektArbeidYtelseGrunnlagOptional.isPresent()) {
+        if (inntektArbeidYtelseGrunnlagOptional.isEmpty()) {
             return result;
         }
 
@@ -99,17 +99,17 @@ public class VurderArbeidsforholdTjeneste {
     }
 
     /**
-         * Gir forskjellen i inntektsmeldinger mellom to versjoner av inntektsmeldinger.
-         * Benyttes for å markere arbeidsforhold det må tas stilling til å hva saksbehandler skal gjøre.
-         *
-         * @param behandling behandlingen
-         * @return Endringene i inntektsmeldinger
-         */
+     * Gir forskjellen i inntektsmeldinger mellom to versjoner av inntektsmeldinger.
+     * Benyttes for å markere arbeidsforhold det må tas stilling til å hva saksbehandler skal gjøre.
+     *
+     * @param behandling behandlingen
+     * @return Endringene i inntektsmeldinger
+     */
     public Map<Arbeidsgiver, Set<ArbeidsforholdRef>> endringerIInntektsmelding(Behandling behandling) {
         Map<Arbeidsgiver, Set<ArbeidsforholdRef>> result = new HashMap<>();
 
         Optional<InntektArbeidYtelseGrunnlag> inntektArbeidYtelseGrunnlagOptional = inntektArbeidYtelseTjeneste.hentAggregatHvisEksisterer(behandling);
-        if (!inntektArbeidYtelseGrunnlagOptional.isPresent()) {
+        if (inntektArbeidYtelseGrunnlagOptional.isEmpty()) {
             return result;
         }
         final InntektArbeidYtelseGrunnlag grunnlag = inntektArbeidYtelseGrunnlagOptional.get();
@@ -158,7 +158,7 @@ public class VurderArbeidsforholdTjeneste {
         final Map<String, Set<String>> manglendeInntektsmeldinger = inntektArbeidYtelseTjeneste.utledManglendeInntektsmeldingerFraGrunnlag(behandling);
         if (Objects.equals(behandling.getType(), BehandlingType.FØRSTEGANGSSØKNAD) && !manglendeInntektsmeldinger.keySet().isEmpty()) {
             for (Map.Entry<String, Set<String>> entry : manglendeInntektsmeldinger.entrySet()) {
-                if(OrganisasjonsNummerValidator.erGyldig(entry.getKey())) {
+                if (OrganisasjonsNummerValidator.erGyldig(entry.getKey())) {
                     final Optional<Virksomhet> optionalVirksomhet = virksomhetTjeneste.finnOrganisasjon(entry.getKey());
                     optionalVirksomhet.ifPresent(virksomhet -> {
                         final Arbeidsgiver arbeidsgiver = Arbeidsgiver.virksomhet(virksomhet);
@@ -372,5 +372,4 @@ public class VurderArbeidsforholdTjeneste {
             .noneMatch(it -> Objects.equals(it.getArbeidsgiver(), inntekt.getArbeidsgiver())
                 && Objects.equals(it.getHandling(), ArbeidsforholdHandlingType.IKKE_BRUK));
     }
-
 }

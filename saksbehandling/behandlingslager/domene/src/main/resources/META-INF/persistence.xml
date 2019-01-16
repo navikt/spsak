@@ -22,9 +22,6 @@
 		        
         <mapping-file>META-INF/fagsak-orm.xml</mapping-file>
         <mapping-file>META-INF/behandlingslager-orm.xml</mapping-file>
-        
-        <!-- Skilt ut mapping for vedtak (jmf. 'Vedtakslageret') -->
-        <mapping-file>META-INF/vedtakslager-orm.xml</mapping-file>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>

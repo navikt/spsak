@@ -2,11 +2,9 @@ package no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
 
@@ -15,7 +13,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.DokumentTypeId;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.Søknad;
 import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadRepository;
-import no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedlegg;
 import no.nav.foreldrepenger.behandlingslager.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.KompletthetssjekkerSøknad;
 import no.nav.foreldrepenger.domene.mottak.kompletthettjeneste.ManglendeVedlegg;
@@ -33,9 +30,9 @@ public abstract class AbstractKompletthetssjekkerSøknad implements Kompletthets
     }
 
     AbstractKompletthetssjekkerSøknad(KodeverkRepository kodeverkRepository,
-                                SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
-                                Integer antallUkerVentefristVedForTidligSøknad,
-                                SøknadRepository søknadRepository) {
+                                      SkjæringstidspunktTjeneste skjæringstidspunktTjeneste,
+                                      Integer antallUkerVentefristVedForTidligSøknad,
+                                      SøknadRepository søknadRepository) {
         this.kodeverkRepository = kodeverkRepository;
         this.skjæringstidspunktTjeneste = skjæringstidspunktTjeneste;
         this.antallUkerVentefristVedForTidligSøknad = antallUkerVentefristVedForTidligSøknad;
@@ -59,20 +56,7 @@ public abstract class AbstractKompletthetssjekkerSøknad implements Kompletthets
     }
 
     protected List<ManglendeVedlegg> identifiserManglendeVedlegg(Optional<Søknad> søknad, Set<DokumentTypeId> dokumentTypeIdSet) {
-
-        return getSøknadVedleggListe(søknad)
-            .stream()
-            .filter(SøknadVedlegg::isErPåkrevdISøknadsdialog)
-            .map(SøknadVedlegg::getSkjemanummer)
-            .map(this::finnDokumentTypeId)
-            .filter(doc -> !dokumentTypeIdSet.contains(doc))
-            .map(ManglendeVedlegg::new)
-            .collect(Collectors.toList());
-    }
-
-    private Set<SøknadVedlegg> getSøknadVedleggListe(Optional<Søknad> søknad) {
-        return søknad.map(Søknad::getSøknadVedlegg)
-            .orElse(Collections.emptySet());
+        return List.of();
     }
 
     private DokumentTypeId finnDokumentTypeId(String dokumentTypeIdKode) {

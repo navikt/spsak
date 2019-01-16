@@ -30,17 +30,12 @@ import no.nav.foreldrepenger.behandlingslager.behandling.resultat.vedtak.VedtakR
 import no.nav.foreldrepenger.behandlingslager.behandling.skjermlenke.SkjermlenkeType;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.TotrinnTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurdering;
-import no.nav.foreldrepenger.behandlingslager.lagretvedtak.LagretVedtak;
-import no.nav.foreldrepenger.behandlingslager.lagretvedtak.LagretVedtakMedBehandlingType;
-import no.nav.foreldrepenger.behandlingslager.lagretvedtak.LagretVedtakType;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
-import no.nav.foreldrepenger.vedtakslager.LagretVedtakRepository;
 
 @ApplicationScoped
 public class VedtakTjenesteImpl implements VedtakTjeneste {
 
     private HistorikkRepository historikkRepository;
-    private LagretVedtakRepository lagretVedtakRepository;
     private RevurderingTjenesteProvider revurderingTjenesteProvider;
     private TotrinnTjeneste totrinnTjeneste;
     private BehandlingRepository behandlingRepository;
@@ -50,24 +45,12 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
     }
 
     @Inject
-    public VedtakTjenesteImpl(LagretVedtakRepository lagretVedtakRepository,
-                              GrunnlagRepositoryProvider grunnlagRepositoryProvider,
+    public VedtakTjenesteImpl(GrunnlagRepositoryProvider grunnlagRepositoryProvider,
                               RevurderingTjenesteProvider revurderingTjenesteProvider, TotrinnTjeneste totrinnTjeneste) {
         this.historikkRepository = grunnlagRepositoryProvider.getHistorikkRepository();
         this.behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
-        this.lagretVedtakRepository = lagretVedtakRepository;
         this.revurderingTjenesteProvider = revurderingTjenesteProvider;
         this.totrinnTjeneste = totrinnTjeneste;
-    }
-
-    @Override
-    public List<LagretVedtakMedBehandlingType> hentLagreteVedtakPåFagsak(Long fagsakId) {
-        return lagretVedtakRepository.hentLagreteVedtakPåFagsak(fagsakId);
-    }
-
-    @Override
-    public LagretVedtak hentLagretVedtak(Long lagretVedtakId) {
-        return lagretVedtakRepository.hentLagretVedtak(lagretVedtakId);
     }
 
     @Override
@@ -82,11 +65,6 @@ public class VedtakTjenesteImpl implements VedtakTjeneste {
         lagHistorikkInnslagVedtakFattet(behandling);
     }
 
-    @Override
-    public LagretVedtakType finnLagretVedtakType(Behandling behandling) {
-        // FIXME SP - Trenger noe annet?
-        return LagretVedtakType.FODSEL;
-    }
 
     private boolean sendesTilbakeTilSaksbehandler(Collection<Totrinnsvurdering> medTotrinnskontroll) {
         return medTotrinnskontroll.stream()

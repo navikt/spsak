@@ -37,7 +37,6 @@ public class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
     private static final Set<BehandlingResultatType> VEDTAKSTILSTANDER = new HashSet<>(
         Arrays.asList(BehandlingResultatType.AVSLÅTT, BehandlingResultatType.INNVILGET));
     private BehandlingRepository behandlingRepository;
-    private VedtakTjeneste vedtakTjeneste;
     private TotrinnTjeneste totrinnTjeneste;
     private BehandlingVedtakTjeneste behandlingVedtakTjeneste;
 
@@ -50,7 +49,6 @@ public class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
                             TotrinnTjeneste totrinnTjeneste,
                             BehandlingVedtakTjeneste behandlingVedtakTjeneste) {
         this.behandlingRepository = behandlingRepository;
-        this.vedtakTjeneste = vedtakTjeneste;
         this.totrinnTjeneste = totrinnTjeneste;
         this.behandlingVedtakTjeneste = behandlingVedtakTjeneste;
     }
@@ -68,8 +66,6 @@ public class FatteVedtakTjenesteImpl implements FatteVedtakTjeneste {
 
                 return BehandleStegResultat.tilbakeførtMedAksjonspunkter(aksjonspunktDefinisjoner);
             }
-        } else {
-            vedtakTjeneste.lagHistorikkinnslagFattVedtak(behandling);
         }
 
         behandlingVedtakTjeneste.opprettBehandlingVedtak(kontekst, behandling);

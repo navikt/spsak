@@ -78,9 +78,8 @@ public class Kompletthetskontroller {
         } else {
             if (kompletthetModell.erKompletthetssjekkPassert(behandling)) {
                 spolKomplettBehandlingTilStartpunkt(behandling, grunnlagSnapshot);
-            } else {
-                endringskontroller.gjenoppta(behandling);
             }
+            endringskontroller.gjenoppta(behandling);
         }
     }
 

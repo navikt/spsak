@@ -9,7 +9,6 @@
 	<sequence-generator name="SEQ_BEHANDLING_ARSAK" allocation-size="50" sequence-name="SEQ_BEHANDLING_ARSAK" />
 	<sequence-generator name="SEQ_GR_SOEKNAD" allocation-size="50" sequence-name="SEQ_GR_SOEKNAD" />
 	<sequence-generator name="SEQ_SOEKNAD" allocation-size="50" sequence-name="SEQ_SOEKNAD" />
-	<sequence-generator name="SEQ_SOEKNAD_VEDLEGG" allocation-size="50" sequence-name="SEQ_SOEKNAD_VEDLEGG" />
 
 	<sequence-generator name="SEQ_BEHANDLING_RESULTAT" allocation-size="50" sequence-name="SEQ_BEHANDLING_RESULTAT" />
 	<sequence-generator name="SEQ_BR_KONSEKVENS_YTELSE" allocation-size="50" sequence-name="SEQ_BR_KONSEKVENS_YTELSE" />
@@ -74,7 +73,6 @@
 	<!-- Søknad -->
 	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadGrunnlagEntitet" />
 	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadEntitet" />
-	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.søknad.SøknadVedleggEntitet" />
 
 	<!-- Sykefravær resultat -->
 	<entity class="no.nav.foreldrepenger.behandlingslager.behandling.resultat.fravær.FraværResultatEntitet" />

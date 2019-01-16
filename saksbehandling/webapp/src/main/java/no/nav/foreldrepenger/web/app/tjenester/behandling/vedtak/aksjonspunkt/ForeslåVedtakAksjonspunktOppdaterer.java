@@ -23,7 +23,10 @@ public class ForeslåVedtakAksjonspunktOppdaterer extends AbstractVedtaksbrevOve
     }
 
     @Inject
-    public ForeslåVedtakAksjonspunktOppdaterer(GrunnlagRepositoryProvider repositoryProvider, HistorikkTjenesteAdapter historikkApplikasjonTjeneste, TotrinnTjeneste totrinnTjeneste, VedtakTjeneste vedtakTjeneste) {
+    public ForeslåVedtakAksjonspunktOppdaterer(GrunnlagRepositoryProvider repositoryProvider,
+                                               HistorikkTjenesteAdapter historikkApplikasjonTjeneste,
+                                               TotrinnTjeneste totrinnTjeneste,
+                                               VedtakTjeneste vedtakTjeneste) {
         super(repositoryProvider, historikkApplikasjonTjeneste, totrinnTjeneste, vedtakTjeneste);
     }
 

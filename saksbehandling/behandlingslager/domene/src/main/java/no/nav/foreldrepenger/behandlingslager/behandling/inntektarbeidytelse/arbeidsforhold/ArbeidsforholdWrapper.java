@@ -202,7 +202,6 @@ public class ArbeidsforholdWrapper {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(arbeidsgiverIdentifikator, arbeidsforholdId);
     }
 }

@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.domene.arbeidsforhold;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.nonNull;
 import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdHandlingType.BRUK;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -319,7 +317,7 @@ public class ArbeidsforholdAdministrasjonTjeneste {
     private LocalDate mottattInntektsmelding(ArbeidsforholdOverstyringEntitet a, List<Inntektsmelding> alleInntektsmeldinger) {
         final Optional<LocalDate> mottattTidspunkt = alleInntektsmeldinger.stream().filter(im -> a.getArbeidsgiver().getErVirksomhet()
             && a.getArbeidsgiver().getVirksomhet().equals(im.getVirksomhet())
-            && a.getArbeidsforholdRef() == null || (!im.gjelderForEtSpesifiktArbeidsforhold() || im.getArbeidsforholdRef().equals(a.getArbeidsforholdRef()))).findFirst()
+            && a.getArbeidsforholdRef().gjelderFor(im.getArbeidsforholdRef())).findFirst()
             .map(Inntektsmelding::getInnsendingstidspunkt).map(LocalDateTime::toLocalDate);
         return mottattTidspunkt.orElse(null);
     }

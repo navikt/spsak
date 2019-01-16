@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -38,18 +38,16 @@ import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.Totrinnsvurderi
 import no.nav.foreldrepenger.behandlingslager.behandling.totrinn.VurderÅrsakTotrinnsvurdering;
 import no.nav.foreldrepenger.behandlingslager.behandling.vilkår.VilkårResultat;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
-import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.personopplysning.BasisPersonopplysningTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.VedtakTjeneste;
 import no.nav.foreldrepenger.domene.vedtak.impl.FatterVedtakAksjonspunkt;
 import no.nav.foreldrepenger.domene.vedtak.impl.VedtakTjenesteImpl;
-import no.nav.foreldrepenger.vedtakslager.LagretVedtakRepository;
-import no.nav.foreldrepenger.vedtakslager.LagretVedtakRepositoryImpl;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vedtak.aksjonspunkt.FatterVedtakAksjonspunktOppdaterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vedtak.aksjonspunkt.ForeslåVedtakAksjonspunktOppdaterer;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vedtak.aksjonspunkt.dto.AksjonspunktGodkjenningDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vedtak.aksjonspunkt.dto.FatterVedtakAksjonspunktDto;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vedtak.aksjonspunkt.dto.ForeslaVedtakAksjonspunktDto;
+import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 
 @RunWith(CdiRunner.class)
@@ -62,7 +60,6 @@ public class AksjonspunktOppdatererTest {
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
 
     private AksjonspunktRepository aksjonspunktRepository = repositoryProvider.getAksjonspunktRepository();
-    private LagretVedtakRepository lagretVedtakRepository = new LagretVedtakRepositoryImpl(repoRule.getEntityManager());
 
     private FatterVedtakAksjonspunkt fatterVedtakAksjonspunkt;
     private HistorikkRepository historikkRepository = new HistorikkRepositoryImpl(repoRule.getEntityManager());
@@ -81,7 +78,7 @@ public class AksjonspunktOppdatererTest {
 
         TotrinnTjeneste totrinnTjeneste = new TotrinnTjenesteImpl(repositoryProvider, resultatRepositoryProvider, totrinnRepository);
 
-        VedtakTjeneste vedtakTjeneste = new VedtakTjenesteImpl(lagretVedtakRepository, repositoryProvider, revurderingTjenesteProvider, totrinnTjeneste);
+        VedtakTjeneste vedtakTjeneste = new VedtakTjenesteImpl(repositoryProvider, revurderingTjenesteProvider, totrinnTjeneste);
         fatterVedtakAksjonspunkt = new FatterVedtakAksjonspunkt(repositoryProvider, vedtakTjeneste, totrinnTjeneste);
     }
 
