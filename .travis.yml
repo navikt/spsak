@@ -13,6 +13,7 @@ before_install:
   $GITHUB_APP_ID`)
 - export COMMIT_SHORT=$(git rev-parse --short HEAD)
 - export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>')
+install: true # skips the Travis dependency install step
 before_script:
 - sudo apt-get update
 - sudo apt-get install language-pack-nb
