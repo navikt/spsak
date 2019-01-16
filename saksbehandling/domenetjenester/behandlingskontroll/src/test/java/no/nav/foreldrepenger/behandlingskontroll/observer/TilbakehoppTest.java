@@ -12,22 +12,13 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import no.nav.foreldrepenger.behandlingskontroll.*;
 import org.assertj.core.api.AbstractComparableAssert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepositoryImpl;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingSteg;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegModell;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegOvergangEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegRef;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
-import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -71,7 +62,7 @@ public class TilbakehoppTest {
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(em);
     private final BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();
 
-    private BehandlingModellRepository behandlingModellRepository = new BehandlingModellRepositoryImpl(em);
+    private BehandlingModellRepository behandlingModellRepository = new BehandlingModellRepository(em);
 
     private BehandlingskontrollTransisjonTilbakeføringEventObserver observer =
         new BehandlingskontrollTransisjonTilbakeføringEventObserver(repositoryProvider, behandlingModellRepository, null);

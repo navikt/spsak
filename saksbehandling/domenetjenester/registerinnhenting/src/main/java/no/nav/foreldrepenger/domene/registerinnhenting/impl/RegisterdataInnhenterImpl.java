@@ -10,6 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.IAYRegisterInnhentingTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.arbeidsforhold.inntekt.sigrun.SigrunTjeneste;
@@ -19,7 +20,6 @@ import org.threeten.extra.Interval;
 
 import no.nav.foreldrepenger.behandling.OpplysningsPeriodeTjeneste;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
 import no.nav.foreldrepenger.behandlingslager.InstantUtil;
 import no.nav.foreldrepenger.behandlingslager.aktør.Adresseinfo;

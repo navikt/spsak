@@ -15,14 +15,11 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.List;
 
+import no.nav.foreldrepenger.behandlingskontroll.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandleStegResultat;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingSteg;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegModell;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.transisjoner.TransisjonIdentifikator;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;

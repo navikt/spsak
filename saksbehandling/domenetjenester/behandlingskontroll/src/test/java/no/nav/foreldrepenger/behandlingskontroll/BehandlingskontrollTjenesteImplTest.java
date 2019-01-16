@@ -275,7 +275,7 @@ public class BehandlingskontrollTjenesteImplTest {
         this.kontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider, behandlingModellRepository,
             eventPubliserer) {
             @Override
-            protected BehandlingStegUtfall doProsesserBehandling(BehandlingskontrollKontekst kontekst, BehandlingModell modell,
+            protected BehandlingStegUtfall doProsesserBehandling(BehandlingskontrollKontekst kontekst, BehandlingModellImpl modell,
                                                                  Behandling behandling, BehandlingStegType startFraBehandlingStegType) {
 
                 kontrollTjeneste.prosesserBehandling(kontekst);

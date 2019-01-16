@@ -5,12 +5,12 @@ import static no.nav.foreldrepenger.domene.registerinnhenting.impl.InnhentRelate
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollProsessTask;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;

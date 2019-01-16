@@ -17,7 +17,6 @@ import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjenesteImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingslager.aktør.Personinfo;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -62,7 +61,7 @@ public class InnhentRelaterteYtelserTaskTest {
 
     private void setupMocks() {
         prosessTaskRepository = mock(ProsessTaskRepository.class);
-        behandlingskontrollTaskTjeneste = new BehandlingskontrollTaskTjenesteImpl(prosessTaskRepository);
+        behandlingskontrollTaskTjeneste = new BehandlingskontrollTaskTjeneste(prosessTaskRepository);
         when(behandlingskontrollTjeneste.initBehandlingskontroll(Mockito.anyLong())).thenReturn(new BehandlingskontrollKontekst(null, null, lås));
         when(periodeInstance.get()).thenReturn(PERIODE);
 

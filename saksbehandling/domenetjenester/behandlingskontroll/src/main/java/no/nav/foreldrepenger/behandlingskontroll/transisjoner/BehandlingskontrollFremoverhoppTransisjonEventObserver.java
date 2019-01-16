@@ -9,7 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingSteg.TransisjonType;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingTransisjonEvent;
@@ -44,7 +44,7 @@ public class BehandlingskontrollFremoverhoppTransisjonEventObserver {
 
     public void observerBehandlingSteg(@Observes BehandlingTransisjonEvent transisjonEvent) {
         Behandling behandling = behandlingRepository.hentBehandling(transisjonEvent.getBehandlingId());
-        BehandlingModell modell = modellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
+        BehandlingModellImpl modell = modellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
         StegTransisjon transisjon = modell.finnTransisjon(transisjonEvent.getTransisjonIdentifikator());
         if (!(transisjon.getClass().equals(FremoverhoppTransisjon.class)) || !transisjonEvent.erOverhopp()) {
             return;

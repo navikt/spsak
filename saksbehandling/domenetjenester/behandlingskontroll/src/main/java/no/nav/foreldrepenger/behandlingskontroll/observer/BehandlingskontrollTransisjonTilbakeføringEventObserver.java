@@ -11,13 +11,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingskontroll.AksjonspunktTilbakeførtEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingSteg;
+import no.nav.foreldrepenger.behandlingskontroll.*;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegOvergangEvent.BehandlingStegTilbakeføringEvent;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollEventPubliserer;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegStatus;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -56,7 +51,7 @@ public class BehandlingskontrollTransisjonTilbakeføringEventObserver {
     public void observerBehandlingSteg(@Observes BehandlingStegTilbakeføringEvent event) {
         Long behandlingId = event.getBehandlingId();
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
-        BehandlingModell modell = modellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
+        BehandlingModellImpl modell = modellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
         guardIngenÅpneAutopunkter(behandling);
 
         BehandlingStegType førsteSteg = event.getFørsteSteg();

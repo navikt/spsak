@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollAsynkTjeneste;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollAsynkTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerForeldrepenger;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.dto.AsyncPollingStatus;

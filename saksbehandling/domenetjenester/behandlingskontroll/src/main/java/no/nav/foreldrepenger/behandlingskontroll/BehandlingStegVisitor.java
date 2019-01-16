@@ -40,7 +40,7 @@ class BehandlingStegVisitor {
     private final BehandlingRepository behandlingRepository;
     private final BehandlingskontrollTjeneste kontrollTjeneste;
     private final BehandlingskontrollKontekst kontekst;
-    private final BehandlingModell behandlingModell;
+    private final BehandlingModellImpl behandlingModell;
     private final BehandlingStegKonfigurasjon behandlingStegKonfigurasjon;
 
     private final BehandlingskontrollEventPubliserer eventPubliserer;
@@ -58,7 +58,7 @@ class BehandlingStegVisitor {
 
     BehandlingStegVisitor(GrunnlagRepositoryProvider repositoryProvider, Behandling behandling,
                           BehandlingskontrollTjeneste behandlingskontrollTjeneste,
-                          BehandlingModell behandlingModell, BehandlingskontrollKontekst kontekst,
+                          BehandlingModellImpl behandlingModell, BehandlingskontrollKontekst kontekst,
                           BehandlingskontrollEventPubliserer eventPubliserer,
                           BehandlingskontrollTilstand sisteTilstand) {
 

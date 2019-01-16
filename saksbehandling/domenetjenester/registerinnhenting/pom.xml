@@ -46,7 +46,7 @@
                 
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingskontroll-api</artifactId>
+            <artifactId>behandlingskontroll</artifactId>
         </dependency>
 
         <!-- Test avhengigheter -->
@@ -55,12 +55,7 @@
             <artifactId>behandlingslager-testutilities</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingskontroll</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
+
     </dependencies>
 
 </project>

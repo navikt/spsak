@@ -15,16 +15,13 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingEndring;
+import no.nav.foreldrepenger.behandlingskontroll.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandling.revurdering.EndringsdatoRevurderingUtleder;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollEventPubliserer;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -102,7 +99,7 @@ public class RevurderingBehandlingsresultatutlederTest {
         scenario.avsluttBehandling(repositoryProvider, behandlingSomSkalRevurderes);
         revurderingFPBehandlingsresultatutleder = new RevurderingBehandlingsresultatutleder(resultatRepositoryProvider, endringsdatoRevurderingUtleder);
         BehandlingModellRepository mock = mock(BehandlingModellRepository.class);
-        when(mock.getModell(any(), any())).thenReturn(mock(BehandlingModell.class));
+        when(mock.getModell(any(), any())).thenReturn(mock(BehandlingModellImpl.class));
         BehandlingskontrollTjenesteImpl behandlingskontrollTjeneste = new BehandlingskontrollTjenesteImpl(repositoryProvider,
             mock, mock(BehandlingskontrollEventPubliserer.class));
         revurderingTjeneste = new RevurderingTjeneste(repositoryProvider, resultatRepositoryProvider, behandlingskontrollTjeneste, revurderingEndring);

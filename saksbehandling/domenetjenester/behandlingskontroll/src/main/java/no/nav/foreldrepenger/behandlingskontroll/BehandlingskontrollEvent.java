@@ -20,17 +20,17 @@ import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspun
 public abstract class BehandlingskontrollEvent implements BehandlingEvent {
 
     private Behandling behandling;
-    private BehandlingModell behandlingModell;
+    private BehandlingModellImpl behandlingModell;
     private BehandlingStegType stegType;
     private BehandlingStegStatus stegStatus;
     private BehandlingskontrollKontekst kontekst;
 
-    public BehandlingskontrollEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell) {
+    public BehandlingskontrollEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell) {
         this(kontekst, behandling, behandlingModell, behandling.getAktivtBehandlingSteg(), behandling.getBehandlingStegStatus());
     }
 
-    public BehandlingskontrollEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell,
-            BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
+    public BehandlingskontrollEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell,
+                                    BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
         this.kontekst = kontekst;
         this.behandling = behandling;
         this.behandlingModell = behandlingModell;
@@ -73,7 +73,7 @@ public abstract class BehandlingskontrollEvent implements BehandlingEvent {
         return behandling;
     }
 
-    public BehandlingModell getBehandlingModell() {
+    public BehandlingModellImpl getBehandlingModell() {
         return behandlingModell;
     }
 
@@ -90,12 +90,12 @@ public abstract class BehandlingskontrollEvent implements BehandlingEvent {
      */
     public static class StartetEvent extends BehandlingskontrollEvent {
 
-        public StartetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell) {
+        public StartetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell) {
             super(kontekst, behandling, behandlingModell);
         }
 
-        public StartetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell,
-                BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
+        public StartetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell,
+                            BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
             super(kontekst, behandling, behandlingModell, stegType, stegStatus);
         }
         
@@ -107,12 +107,12 @@ public abstract class BehandlingskontrollEvent implements BehandlingEvent {
      */
     public static class StoppetEvent extends BehandlingskontrollEvent {
 
-        public StoppetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell) {
+        public StoppetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell) {
             super(kontekst, behandling, behandlingModell);
         }
 
-        public StoppetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell,
-                BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
+        public StoppetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell,
+                            BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
             super(kontekst, behandling, behandlingModell, stegType, stegStatus);
         }
 
@@ -126,12 +126,12 @@ public abstract class BehandlingskontrollEvent implements BehandlingEvent {
      */
     public static class AvsluttetEvent extends BehandlingskontrollEvent {
 
-        public AvsluttetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell) {
+        public AvsluttetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell) {
             super(kontekst, behandling, behandlingModell);
         }
 
-        public AvsluttetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell,
-                BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
+        public AvsluttetEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell,
+                              BehandlingStegType stegType, BehandlingStegStatus stegStatus) {
             super(kontekst, behandling, behandlingModell, stegType, stegStatus);
         }
 
@@ -144,14 +144,14 @@ public abstract class BehandlingskontrollEvent implements BehandlingEvent {
 
         private RuntimeException exception;
 
-        public ExceptionEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell,
-                RuntimeException exception) {
+        public ExceptionEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell,
+                              RuntimeException exception) {
             super(kontekst, behandling, behandlingModell);
             this.exception = exception;
         }
 
-        public ExceptionEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModell behandlingModell,
-                BehandlingStegType stegType, BehandlingStegStatus stegStatus, RuntimeException exception) {
+        public ExceptionEvent(BehandlingskontrollKontekst kontekst, Behandling behandling, BehandlingModellImpl behandlingModell,
+                              BehandlingStegType stegType, BehandlingStegStatus stegStatus, RuntimeException exception) {
             super(kontekst, behandling, behandlingModell, stegType, stegStatus);
             this.exception = exception;
         }

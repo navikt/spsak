@@ -29,6 +29,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningInntektArbeidYtelseTjeneste;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.HentGrunnlagsdataTjeneste;
 import org.junit.Before;
@@ -40,7 +41,6 @@ import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;

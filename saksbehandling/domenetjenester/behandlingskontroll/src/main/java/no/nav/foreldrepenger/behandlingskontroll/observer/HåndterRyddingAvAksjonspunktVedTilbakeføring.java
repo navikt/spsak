@@ -3,17 +3,17 @@ package no.nav.foreldrepenger.behandlingskontroll.observer;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktRepository;
 
 final class HåndterRyddingAvAksjonspunktVedTilbakeføring implements Consumer<Aksjonspunkt> {
     private final BehandlingStegType førsteSteg;
-    private final BehandlingModell modell;
+    private final BehandlingModellImpl modell;
     private AksjonspunktRepository aksjonspunktRepository;
 
-    HåndterRyddingAvAksjonspunktVedTilbakeføring(AksjonspunktRepository aksjonspunktRepository, BehandlingStegType førsteSteg, BehandlingModell modell) {
+    HåndterRyddingAvAksjonspunktVedTilbakeføring(AksjonspunktRepository aksjonspunktRepository, BehandlingStegType førsteSteg, BehandlingModellImpl modell) {
         this.aksjonspunktRepository = aksjonspunktRepository;
         this.førsteSteg = førsteSteg;
         this.modell = modell;

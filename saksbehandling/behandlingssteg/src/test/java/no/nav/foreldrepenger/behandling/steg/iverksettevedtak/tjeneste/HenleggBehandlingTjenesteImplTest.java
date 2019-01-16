@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandlingskontroll.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,10 +27,6 @@ import org.mockito.junit.MockitoRule;
 
 import no.nav.foreldrepenger.behandling.brev.SendVarselTjeneste;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegKonfigurasjon;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingResultatType;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStatus;
@@ -82,7 +79,7 @@ public class HenleggBehandlingTjenesteImplTest {
     private BehandlingStegType behandlingStegType;
 
     @Mock
-    private BehandlingModell modell;
+    private BehandlingModellImpl modell;
 
     @Inject
     private AksjonspunktRepository aksjonspunktRepository;

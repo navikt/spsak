@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.domene.arbeidsforhold.OpptjeningsperioderTjeneste;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,7 +21,6 @@ import org.junit.Test;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;

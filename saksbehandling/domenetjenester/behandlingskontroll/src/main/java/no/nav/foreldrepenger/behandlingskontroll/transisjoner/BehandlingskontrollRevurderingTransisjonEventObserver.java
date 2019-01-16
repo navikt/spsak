@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingTransisjonEvent;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -39,7 +39,7 @@ class BehandlingskontrollRevurderingTransisjonEventObserver {
 
     public void observerBehandlingSteg(@Observes BehandlingTransisjonEvent event) {
         Behandling behandling = behandlingRepository.hentBehandling(event.getBehandlingId());
-        BehandlingModell behandlingModell = behandlingModellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
+        BehandlingModellImpl behandlingModell = behandlingModellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
         StegTransisjon transisjon = behandlingModell.finnTransisjon(event.getTransisjonIdentifikator());
 
         if (transisjon instanceof RevurderingFremoverhoppTransisjon) {
@@ -48,13 +48,13 @@ class BehandlingskontrollRevurderingTransisjonEventObserver {
         }
     }
 
-    private void håndterFremtidigeAksjonspunkter(Behandling behandling, BehandlingModell behandlingModell, RevurderingFremoverhoppTransisjon revurderingTransisjon) {
+    private void håndterFremtidigeAksjonspunkter(Behandling behandling, BehandlingModellImpl behandlingModell, RevurderingFremoverhoppTransisjon revurderingTransisjon) {
         List<Aksjonspunkt> fremtidigeAksjonspunkter = hentFremtidigeAksjonspunkter(behandling, behandlingModell, revurderingTransisjon);
         reaktiverManueltOpprettedeInaktiveAksjonspunkter(fremtidigeAksjonspunkter);
         markerIkkeManueltOpprettedeInaktiveAksjonspunkterSomSlettet(fremtidigeAksjonspunkter);
     }
 
-    private List<Aksjonspunkt> hentFremtidigeAksjonspunkter(Behandling behandling, BehandlingModell behandlingModell, RevurderingFremoverhoppTransisjon revurderingTransisjon) {
+    private List<Aksjonspunkt> hentFremtidigeAksjonspunkter(Behandling behandling, BehandlingModellImpl behandlingModell, RevurderingFremoverhoppTransisjon revurderingTransisjon) {
         BehandlingStegType målsteg = revurderingTransisjon.getMålsteg();
         Set<String> definisjoner = behandlingModell.finnAksjonspunktDefinisjonerFraOgMed(målsteg, true);
         return behandling.getAlleAksjonspunkterInklInaktive().stream()

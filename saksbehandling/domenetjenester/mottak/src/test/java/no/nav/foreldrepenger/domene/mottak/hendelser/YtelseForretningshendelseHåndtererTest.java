@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandlingskontroll.*;
 import no.nav.foreldrepenger.domene.arbeidsforhold.InntektArbeidYtelseTjeneste;
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,10 +19,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjenesteProvider;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.StegTilstand;

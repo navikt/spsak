@@ -32,10 +32,6 @@
             <artifactId>felles-testutilities</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingskontroll-api</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>no.nav.sykepenger</groupId>

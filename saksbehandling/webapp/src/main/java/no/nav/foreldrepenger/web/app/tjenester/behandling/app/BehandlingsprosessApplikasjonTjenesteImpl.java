@@ -55,12 +55,12 @@ public class BehandlingsprosessApplikasjonTjenesteImpl implements Behandlingspro
 
     @Inject
     public BehandlingsprosessApplikasjonTjenesteImpl(
-                                                     BehandlingRepository behandlingRepository,
-                                                     VilkårKodeverkRepository vilkårKodeverkRepository,
-                                                     BehandlingskontrollAsynkTjeneste behandlingskontrollAsynkTjeneste,
-                                                     RegisterdataEndringshåndterer registerdataEndringshåndterer,
-                                                     @KonfigVerdi(value = "bruker.gruppenavn.saksbehandler") String gruppenavnSaksbehandler,
-                                                     HistorikkRepository historikkRepository) {
+        BehandlingRepository behandlingRepository,
+        VilkårKodeverkRepository vilkårKodeverkRepository,
+        BehandlingskontrollAsynkTjeneste behandlingskontrollAsynkTjeneste,
+        RegisterdataEndringshåndterer registerdataEndringshåndterer,
+        @KonfigVerdi(value = "bruker.gruppenavn.saksbehandler") String gruppenavnSaksbehandler,
+        HistorikkRepository historikkRepository) {
 
         Objects.requireNonNull(behandlingRepository, "behandlingRepository");
         Objects.requireNonNull(vilkårKodeverkRepository, "vilkårKodeverkRepository");

@@ -8,19 +8,13 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandlingskontroll.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandling.steg.avklarfakta.api.KontrollerFaktaSteg;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModell;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingSteg;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingStegModell;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingTypeRef;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
-import no.nav.foreldrepenger.behandlingskontroll.FagsakYtelseTypeRef;
-import no.nav.foreldrepenger.behandlingskontroll.StartpunktRef;
 import no.nav.foreldrepenger.behandlingslager.aktør.NavBrukerKjønn;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandlingsresultat;
@@ -92,7 +86,7 @@ public class KontrollerFaktaStegImplTest {
         BehandlingskontrollKontekst kontekst = new BehandlingskontrollKontekst(fagsak.getId(),fagsak.getAktørId(), lås);
 
         BehandlingStegModell stegModellMock = mock(BehandlingStegModell.class);
-        BehandlingModell modellmock = mock(BehandlingModell.class);
+        BehandlingModellImpl modellmock = mock(BehandlingModellImpl.class);
         when(stegModellMock.getBehandlingModell()).thenReturn(modellmock);
 
         // Act

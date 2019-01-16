@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import org.junit.Rule;
 import org.junit.Test;
 
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepositoryImpl;
+import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingTransisjonEvent;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
@@ -45,7 +45,7 @@ public class BehandlingskontrollRevurderingTransisjonEventObserverTest {
     ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(entityManager);
     AksjonspunktRepository aksjonspunktRepository = grunnlagRepositoryProvider.getAksjonspunktRepository();
     BehandlingRepository behandlingRepository = grunnlagRepositoryProvider.getBehandlingRepository();
-    BehandlingModellRepositoryImpl behandlingModellRepository = new BehandlingModellRepositoryImpl(entityManager);
+    BehandlingModellRepository behandlingModellRepository = new BehandlingModellRepository(entityManager);
 
     BehandlingskontrollRevurderingTransisjonEventObserver transisjonEventObserver = new BehandlingskontrollRevurderingTransisjonEventObserver(aksjonspunktRepository, behandlingRepository, behandlingModellRepository);
 

@@ -17,11 +17,11 @@
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>person</artifactId>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>no.nav.sykepenger</groupId>
-            <artifactId>behandlingskontroll-api</artifactId>
+            <artifactId>behandlingskontroll</artifactId>
         </dependency>
-		        
+
         <!-- Integrasjon klient avhengigheter -->
         <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
@@ -48,7 +48,7 @@
             <artifactId>felles-behandlingsprosess-prosesstask-api</artifactId>
         </dependency>
                   
-		<!-- Test avhengigheter -->
+        <!-- Test avhengigheter -->
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingslager-testutilities</artifactId>

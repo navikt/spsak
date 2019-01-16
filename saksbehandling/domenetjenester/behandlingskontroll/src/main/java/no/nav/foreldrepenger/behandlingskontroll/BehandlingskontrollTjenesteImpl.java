@@ -105,7 +105,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         }
     }
 
-    private static void postconditionUtfallLagret(Long behandlingId, StegTilstand tilstand, BehandlingStegUtfall utfall, BehandlingModell modell) {
+    private static void postconditionUtfallLagret(Long behandlingId, StegTilstand tilstand, BehandlingStegUtfall utfall, BehandlingModellImpl modell) {
         if (utfall == null) {
             if (tilstand != null && erIkkeSisteSteg(tilstand, modell)) {
                 throw new IllegalStateException("Fant tilstand " + tilstand + ", men har utfall null, på behandlingId=" + behandlingId);
@@ -124,7 +124,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         }
     }
 
-    private static boolean erIkkeSisteSteg(StegTilstand tilstand, BehandlingModell modell) {
+    private static boolean erIkkeSisteSteg(StegTilstand tilstand, BehandlingModellImpl modell) {
         return modell.finnNesteSteg(tilstand.getStegType()) != null;
     }
 
@@ -141,7 +141,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         // post-condition sjekk tilstand oppdatert
         var tilstand = behandlingskontrollRepository.getBehandlingskontrollTilstand(behandlingId);
         var stegTilstand = StegTilstand.fra(tilstand).orElse(null);
-        BehandlingModell modell = behandlingModellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
+        BehandlingModellImpl modell = behandlingModellRepository.getModell(behandling.getType(), behandling.getFagsakYtelseType());
         postconditionUtfallLagret(behandlingId, stegTilstand, utfall, modell);
 
         return stegTilstand;
@@ -500,7 +500,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     public boolean skalAksjonspunktReaktiveresIEllerEtterSteg(Behandling behandling, BehandlingStegType behandlingSteg,
                                                               AksjonspunktDefinisjon apDef) {
 
-        BehandlingModell modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
+        BehandlingModellImpl modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
         BehandlingStegType apLøsesteg = Optional.ofNullable(modell
             .finnTidligsteStegForAksjonspunktDefinisjon(singletonList(apDef.getKode())))
             .map(BehandlingStegModell::getBehandlingStegType)
@@ -534,7 +534,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         return erSenereSteg(modell, aktivtBehandlingSteg, tidligereStegType);
     }
 
-    protected BehandlingStegUtfall doProsesserBehandling(BehandlingskontrollKontekst kontekst, BehandlingModell modell,
+    protected BehandlingStegUtfall doProsesserBehandling(BehandlingskontrollKontekst kontekst, BehandlingModellImpl modell,
                                                          Behandling behandling,
                                                          BehandlingStegType startFraBehandlingStegType) {
         if (Objects.equals(BehandlingStatus.AVSLUTTET.getKode(), behandling.getStatus().getKode())) {
@@ -552,14 +552,14 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         return behandlingStegUtfall;
     }
 
-    private BehandlingModellVisitor nyStegVisitor(BehandlingskontrollKontekst kontekst, BehandlingModell modell, Behandling behandling,
+    private BehandlingModellVisitor nyStegVisitor(BehandlingskontrollKontekst kontekst, BehandlingModellImpl modell, Behandling behandling,
                                                   BehandlingskontrollTilstand tilstand) {
         BehandlingStegVisitor visitor = new BehandlingStegVisitor(repositoryProvider, behandling, this, modell, kontekst, eventPubliserer, tilstand);
         return new TekniskBehandlingStegVisitor(repositoryProvider, visitor, kontekst);
     }
 
     protected void doFramføringTilSenereBehandlingSteg(BehandlingStegType senereSteg, final BehandlingStegStatus startStatusForNyttSteg,
-                                                       Behandling behandling, BehandlingStegType inneværendeSteg, BehandlingModell modell) {
+                                                       Behandling behandling, BehandlingStegType inneværendeSteg, BehandlingModellImpl modell) {
         if (!erSenereSteg(modell, inneværendeSteg, senereSteg)) {
             throw new IllegalStateException(
                 "Kan ikke angi steg [" + senereSteg + "] som er før eller lik inneværende steg [" + inneværendeSteg + "]" + "for behandlingId " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -570,7 +570,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     }
 
     protected void doTilbakeføringTilTidligereBehandlingSteg(Behandling behandling,
-                                                             BehandlingModell modell,
+                                                             BehandlingModellImpl modell,
                                                              final BehandlingStegType tidligereSteg,
                                                              final BehandlingStegType stegType,
                                                              final BehandlingStegStatus startStatusForNyttSteg) {
@@ -590,7 +590,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
             BehandlingStegStatus.TILBAKEFØRT);
     }
 
-    protected void doTilbakeføringTilTidligsteAksjonspunkt(Behandling behandling, BehandlingStegType stegType, BehandlingModell modell,
+    protected void doTilbakeføringTilTidligsteAksjonspunkt(Behandling behandling, BehandlingStegType stegType, BehandlingModellImpl modell,
                                                            Collection<String> oppdaterteAksjonspunkter) {
         Consumer<BehandlingStegType> oppdaterBehandlingStegStatus = (bst) -> {
             var stegStatus = modell.finnStegStatusFor(bst, oppdaterteAksjonspunkter);
@@ -658,18 +658,18 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         return eventPubliserer;
     }
 
-    protected BehandlingModell getModell(BehandlingType behandlingType, FagsakYtelseType ytelseType) {
+    protected BehandlingModellImpl getModell(BehandlingType behandlingType, FagsakYtelseType ytelseType) {
         return behandlingModellRepository.getModell(behandlingType, ytelseType);
     }
 
     private void fyrEventBehandlingskontrollException(BehandlingskontrollKontekst kontekst, Behandling behandling,
-                                                      BehandlingModell modell, RuntimeException e) {
+                                                      BehandlingModellImpl modell, RuntimeException e) {
         BehandlingskontrollEvent.ExceptionEvent stoppetEvent = new ExceptionEvent(kontekst, behandling, modell, e);
         eventPubliserer.fireEvent(stoppetEvent);
     }
 
     private void fyrEventBehandlingskontrollStoppet(BehandlingskontrollKontekst kontekst, Behandling behandling,
-                                                    BehandlingModell modell) {
+                                                    BehandlingModellImpl modell) {
         BehandlingskontrollEvent event;
         if (behandling.erAvsluttet()) {
             event = new AvsluttetEvent(kontekst, behandling, modell);
@@ -680,7 +680,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
     }
 
     private void fyrEventBehandlingskontrollStartet(BehandlingskontrollKontekst kontekst, Behandling behandling,
-                                                    BehandlingModell modell) {
+                                                    BehandlingModellImpl modell) {
         BehandlingskontrollEvent.StartetEvent startetEvent = new StartetEvent(kontekst, behandling, modell);
         eventPubliserer.fireEvent(startetEvent);
     }
@@ -714,7 +714,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         BehandlingStegType fraSteg = stegTilstandFør.isPresent() ? stegTilstandFør.get().getStegType() : null;
 
         // Flytt behandlingssteg-peker fremover
-        BehandlingModell modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
+        BehandlingModellImpl modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
         StegTransisjon transisjon = modell.finnTransisjon(transisjonId);
         BehandlingStegModell fraStegModell = modell.finnSteg(fraSteg);
         BehandlingStegModell tilStegModell = transisjon.nesteSteg(fraStegModell);
@@ -729,7 +729,7 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
 
     @Override
     public boolean inneholderSteg(Behandling behandling, BehandlingStegType behandlingStegType) {
-        BehandlingModell modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
+        BehandlingModellImpl modell = getModell(behandling.getType(), behandling.getFagsakYtelseType());
         return modell.hvertSteg()
             .anyMatch(steg -> steg.getBehandlingStegType().equals(behandlingStegType));
     }
@@ -741,12 +741,12 @@ public class BehandlingskontrollTjenesteImpl implements BehandlingskontrollTjene
         return behandlingStegKonfigurasjon;
     }
 
-    private boolean erSenereSteg(BehandlingModell modell, BehandlingStegType inneværendeSteg,
+    private boolean erSenereSteg(BehandlingModellImpl modell, BehandlingStegType inneværendeSteg,
                                  BehandlingStegType forventetSenereSteg) {
         return modell.erStegAFørStegB(inneværendeSteg, forventetSenereSteg);
     }
 
-    private boolean erLikEllerTidligereSteg(BehandlingModell modell, BehandlingStegType inneværendeSteg,
+    private boolean erLikEllerTidligereSteg(BehandlingModellImpl modell, BehandlingStegType inneværendeSteg,
                                             BehandlingStegType forventetTidligereSteg) {
         // TODO (BIXBITE) skal fjernes når innlegging av papirsøknad er inn i et steg
         if (inneværendeSteg == null) {

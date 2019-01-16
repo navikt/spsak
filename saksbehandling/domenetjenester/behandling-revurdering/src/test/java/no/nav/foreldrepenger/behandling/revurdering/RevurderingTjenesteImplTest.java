@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 
 import no.nav.foreldrepenger.behandling.revurdering.fp.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepository;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingModellRepositoryImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -37,7 +36,7 @@ public class RevurderingTjenesteImplTest {
 
     private final GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
-    private BehandlingModellRepository behandlingModellRepository = new BehandlingModellRepositoryImpl(repoRule.getEntityManager());
+    private BehandlingModellRepository behandlingModellRepository = new BehandlingModellRepository(repoRule.getEntityManager());
     private HistorikkRepository historikkRepository = spy(repositoryProvider.getHistorikkRepository());
 
     @Inject

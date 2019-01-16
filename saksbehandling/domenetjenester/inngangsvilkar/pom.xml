@@ -72,7 +72,6 @@
         <dependency>
             <groupId>no.nav.sykepenger</groupId>
             <artifactId>behandlingskontroll</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

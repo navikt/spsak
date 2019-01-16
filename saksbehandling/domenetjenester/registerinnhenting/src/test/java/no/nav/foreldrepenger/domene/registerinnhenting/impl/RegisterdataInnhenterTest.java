@@ -21,7 +21,6 @@ import no.nav.foreldrepenger.behandling.OpplysningsPeriodeTjeneste;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
 import no.nav.foreldrepenger.behandling.impl.OpplysningsPeriodeTjenesteImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjeneste;
-import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTaskTjenesteImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.repository.GrunnlagRepositoryProvider;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
@@ -186,7 +185,7 @@ public class RegisterdataInnhenterTest {
         ProsessTaskRepository prosessTaskRepository = mock(ProsessTaskRepository.class);
         OpplysningsPeriodeTjeneste opplysningsPeriodeTjeneste = new OpplysningsPeriodeTjenesteImpl(skjæringstidspunktTjeneste,
             Period.of(0, 4, 0), Period.of(1, 0, 0));
-        BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste = new BehandlingskontrollTaskTjenesteImpl(prosessTaskRepository);
+        BehandlingskontrollTaskTjeneste behandlingskontrollTaskTjeneste = new BehandlingskontrollTaskTjeneste(prosessTaskRepository);
 
         return new RegisterdataInnhenterImpl(personinfoAdapter, medlemTjeneste,
             skjæringstidspunktTjeneste, behandlingskontrollTaskTjeneste, repositoryProvider, null, null,
