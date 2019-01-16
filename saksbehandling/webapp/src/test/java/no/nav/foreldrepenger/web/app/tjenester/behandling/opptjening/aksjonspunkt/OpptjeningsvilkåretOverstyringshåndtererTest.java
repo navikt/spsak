@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandling.historikk.HistorikkInnslagKonverter;
 import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
-import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapterImpl;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
@@ -38,8 +37,6 @@ import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioM
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.InngangsvilkårTjeneste;
 import no.nav.foreldrepenger.domene.inngangsvilkaar.impl.InngangsvilkårTjenesteImpl;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.opptjening.aksjonspunkt.OpptjeningsvilkåretOverstyringshåndterer;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.opptjening.aksjonspunkt.OverstyringOpptjeningsvilkåretDto;
 import no.nav.vedtak.exception.FunksjonellException;
 
 // Gaar amok paa CPUen.. så ignorerer inntil videre
@@ -50,7 +47,7 @@ public class OpptjeningsvilkåretOverstyringshåndtererTest {
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repoRule.getEntityManager());
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repoRule.getEntityManager());
-    private HistorikkTjenesteAdapter historikkAdapter = new HistorikkTjenesteAdapterImpl(
+    private HistorikkTjenesteAdapter historikkAdapter = new HistorikkTjenesteAdapter(
         new HistorikkRepositoryImpl(repoRule.getEntityManager()), new HistorikkInnslagKonverter(
         repositoryProvider.getKodeverkRepository(), repositoryProvider.getAksjonspunktRepository()));
     private BehandlingRepository behandlingRepository = repositoryProvider.getBehandlingRepository();

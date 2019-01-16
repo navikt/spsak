@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 
 import no.finn.unleash.FakeUnleash;
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
-import no.nav.foreldrepenger.behandling.impl.FagsakTjenesteImpl;
+import no.nav.foreldrepenger.behandling.FagsakTjeneste;
 import no.nav.foreldrepenger.behandling.impl.SkjæringstidspunktTjenesteImpl;
 import no.nav.foreldrepenger.behandling.rest.SaksnummerDto;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingTjeneste;
@@ -57,7 +57,7 @@ public class BehandlingRestTjenesteTest {
     public void setUp() {
         unleash.disableAll();
 
-        FagsakTjenesteImpl fagsakTjeneste = new FagsakTjenesteImpl(repositoryProvider, null);
+        FagsakTjeneste fagsakTjeneste = new FagsakTjeneste(repositoryProvider, null);
         skjæringstidspunktTjeneste = new SkjæringstidspunktTjenesteImpl(repositoryProvider, resultatRepositoryProvider);
         BehandlingDtoTjenesteImpl behandlingDtoTjeneste = new BehandlingDtoTjenesteImpl(resultatRepositoryProvider, skjæringstidspunktTjeneste, unleash);
 

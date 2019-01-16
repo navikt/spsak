@@ -1,7 +1,8 @@
-package no.nav.foreldrepenger.behandling.impl;
+package no.nav.foreldrepenger.behandling;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import no.nav.foreldrepenger.behandling.FinnAnsvarligSaksbehandler;
 import org.junit.Before;
 import org.junit.Test;
 

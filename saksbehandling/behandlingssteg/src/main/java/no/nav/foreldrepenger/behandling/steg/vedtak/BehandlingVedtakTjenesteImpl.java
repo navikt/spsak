@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import no.nav.foreldrepenger.behandling.impl.FinnAnsvarligSaksbehandler;
+import no.nav.foreldrepenger.behandling.FinnAnsvarligSaksbehandler;
 import no.nav.foreldrepenger.behandling.revurdering.RevurderingTjeneste;
 import no.nav.foreldrepenger.behandling.revurdering.impl.RevurderingTjenesteProvider;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingVedtakEventPubliserer;

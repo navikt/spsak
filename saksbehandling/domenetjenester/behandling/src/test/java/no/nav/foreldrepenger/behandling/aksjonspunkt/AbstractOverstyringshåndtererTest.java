@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.persistence.EntityManager;
 
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;

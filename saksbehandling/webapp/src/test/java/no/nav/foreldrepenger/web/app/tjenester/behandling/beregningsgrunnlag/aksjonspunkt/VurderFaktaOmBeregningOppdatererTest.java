@@ -9,12 +9,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.Aksjonspunkt;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;

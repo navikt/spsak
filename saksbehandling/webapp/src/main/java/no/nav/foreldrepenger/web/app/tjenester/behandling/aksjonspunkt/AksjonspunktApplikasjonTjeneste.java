@@ -16,10 +16,10 @@ import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktApplikasjonTjeneste;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktKode;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktOppdaterer;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.BekreftetAksjonspunktDto;
@@ -28,7 +28,6 @@ import no.nav.foreldrepenger.behandling.aksjonspunkt.OppdateringResultat;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.OverhoppResultat;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.OverstyringAksjonspunktDto;
 import no.nav.foreldrepenger.behandling.aksjonspunkt.Overstyringshåndterer;
-import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import no.nav.foreldrepenger.behandling.steg.iverksettevedtak.HenleggBehandlingTjeneste;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollKontekst;
 import no.nav.foreldrepenger.behandlingskontroll.BehandlingskontrollTjeneste;
@@ -52,8 +51,8 @@ import no.nav.foreldrepenger.web.app.tjenester.behandling.vedtak.aksjonspunkt.dt
 import no.nav.vedtak.sikkerhet.context.SubjectHandler;
 
 @ApplicationScoped
-public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikasjonTjeneste {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AksjonspunktApplikasjonTjenesteImpl.class);
+public class AksjonspunktApplikasjonTjeneste {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AksjonspunktApplikasjonTjeneste.class);
 
     private BehandlingRepository behandlingRepository;
 
@@ -69,17 +68,17 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
 
     private EndringsresultatSjekker endringsresultatSjekker;
 
-    public AksjonspunktApplikasjonTjenesteImpl() {
+    public AksjonspunktApplikasjonTjeneste() {
         // CDI proxy
     }
 
     @Inject
-    public AksjonspunktApplikasjonTjenesteImpl(GrunnlagRepositoryProvider repositoryProvider,
-                                               BehandlingskontrollTjeneste behandlingskontrollTjeneste,
-                                               BehandlingsprosessApplikasjonTjeneste behandlingsprosessApplikasjonTjeneste,
-                                               HistorikkTjenesteAdapter historikkTjenesteAdapter,
-                                               HenleggBehandlingTjeneste henleggBehandlingTjeneste,
-                                               EndringsresultatSjekker endringsresultatSjekker) {
+    public AksjonspunktApplikasjonTjeneste(GrunnlagRepositoryProvider repositoryProvider,
+                                           BehandlingskontrollTjeneste behandlingskontrollTjeneste,
+                                           BehandlingsprosessApplikasjonTjeneste behandlingsprosessApplikasjonTjeneste,
+                                           HistorikkTjenesteAdapter historikkTjenesteAdapter,
+                                           HenleggBehandlingTjeneste henleggBehandlingTjeneste,
+                                           EndringsresultatSjekker endringsresultatSjekker) {
 
         this.behandlingsprosessApplikasjonTjeneste = behandlingsprosessApplikasjonTjeneste;
         this.historikkTjenesteAdapter = historikkTjenesteAdapter;
@@ -92,7 +91,6 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
 
     }
 
-    @Override
     public void bekreftAksjonspunkter(Collection<BekreftetAksjonspunktDto> bekreftedeAksjonspunktDtoer, Long behandlingId) {
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
 
@@ -166,7 +164,6 @@ public class AksjonspunktApplikasjonTjenesteImpl implements AksjonspunktApplikas
         }
     }
 
-    @Override
     public void overstyrAksjonspunkter(Collection<OverstyringAksjonspunktDto> overstyrteAksjonspunkter, Long behandlingId) {
         Behandling behandling = behandlingRepository.hentBehandling(behandlingId);
         BehandlingskontrollKontekst kontekst = behandlingskontrollTjeneste.initBehandlingskontroll(behandlingId);

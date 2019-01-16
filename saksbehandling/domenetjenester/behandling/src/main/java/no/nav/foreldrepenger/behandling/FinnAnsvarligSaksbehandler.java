@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.impl;
+package no.nav.foreldrepenger.behandling;
 
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.vedtak.util.StringUtils;

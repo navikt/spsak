@@ -20,7 +20,6 @@ import org.junit.Test;
 
 import no.nav.foreldrepenger.behandling.historikk.HistorikkInnslagKonverter;
 import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
-import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapterImpl;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkEndretFeltType;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagDel;
@@ -64,7 +63,7 @@ public class VurderTilstøtendeYtelseOgEndretBeregninsgrunnlagOppdatererTest {
     public UnittestRepositoryRule repositoryRule = new UnittestRepositoryRule();
     private GrunnlagRepositoryProvider repositoryProvider = new GrunnlagRepositoryProviderImpl(repositoryRule.getEntityManager());
     private ResultatRepositoryProvider resultatRepositoryProvider = new ResultatRepositoryProviderImpl(repositoryRule.getEntityManager());
-    private HistorikkTjenesteAdapter historikkAdapter = new HistorikkTjenesteAdapterImpl(
+    private HistorikkTjenesteAdapter historikkAdapter = new HistorikkTjenesteAdapter(
         new HistorikkRepositoryImpl(repositoryRule.getEntityManager()), new HistorikkInnslagKonverter(
         repositoryProvider.getKodeverkRepository(), repositoryProvider.getAksjonspunktRepository()));
     private ScenarioMorSøkerForeldrepenger scenario;

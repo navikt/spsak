@@ -6,15 +6,11 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
+import no.nav.foreldrepenger.behandling.historikk.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
-import no.nav.foreldrepenger.behandling.historikk.HistorikkinnslagDelDto;
-import no.nav.foreldrepenger.behandling.historikk.HistorikkinnslagDto;
-import no.nav.foreldrepenger.behandling.historikk.HistorikkinnslagHendelseDto;
-import no.nav.foreldrepenger.behandling.historikk.rest.HistorikkRestTjeneste;
 import no.nav.foreldrepenger.behandling.rest.SaksnummerDto;
 import no.nav.foreldrepenger.behandlingslager.behandling.historikk.HistorikkinnslagType;
 import no.nav.foreldrepenger.domene.typer.Saksnummer;

@@ -5,12 +5,12 @@ import static org.mockito.Mockito.mock;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import no.nav.foreldrepenger.behandling.SkjæringstidspunktTjeneste;
-import no.nav.foreldrepenger.behandling.historikk.HistorikkTjenesteAdapter;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
@@ -30,7 +30,6 @@ import no.nav.foreldrepenger.domene.medlem.impl.HentMedlemskapFraRegister;
 import no.nav.foreldrepenger.domene.medlem.impl.MedlemEndringssjekkerProvider;
 import no.nav.foreldrepenger.domene.medlem.impl.MedlemskapTjenesteImpl;
 import no.nav.foreldrepenger.domene.personopplysning.PersonopplysningTjeneste;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.medlem.aksjonspunkt.AvklarFortsattMedlemskapOppdaterer;
 
 public class AvklarFortsattMedlemskapOppdatererTest {
 

@@ -14,7 +14,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import no.nav.foreldrepenger.behandling.aksjonspunkt.AksjonspunktApplikasjonTjeneste;
 import no.nav.foreldrepenger.behandlingslager.behandling.Behandling;
 import no.nav.foreldrepenger.behandlingslager.behandling.BehandlingStegType;
 import no.nav.foreldrepenger.behandlingslager.behandling.aksjonspunkt.AksjonspunktDefinisjon;
@@ -23,7 +22,6 @@ import no.nav.foreldrepenger.behandlingslager.behandling.repository.ResultatRepo
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.AbstractTestScenario;
 import no.nav.foreldrepenger.behandlingslager.testutilities.behandling.ScenarioMorSøkerEngangsstønad;
 import no.nav.sykepenger.spsak.dbstoette.UnittestRepositoryRule;
-import no.nav.foreldrepenger.web.app.tjenester.behandling.aksjonspunkt.AksjonspunktApplikasjonTjenesteImpl;
 import no.nav.foreldrepenger.web.app.tjenester.behandling.vedtak.aksjonspunkt.dto.FatterVedtakAksjonspunktDto;
 import no.nav.vedtak.felles.testutilities.cdi.CdiRunner;
 import no.nav.vedtak.felles.testutilities.db.RepositoryRule;
@@ -55,7 +53,7 @@ public class AksjonspunktApplikasjonTjenesteImplTest {
     public void skal_ikke_sette_ansvarlig_saksbehandler_hvis_bekreftet_aksjonspunkt_er_fatter_vedtak() {
         // Arrange
         // Bruker BekreftTerminbekreftelseAksjonspunktDto som konkret case
-        AksjonspunktApplikasjonTjenesteImpl aksjonspunktApplikasjonTjenesteImpl = (AksjonspunktApplikasjonTjenesteImpl) aksjonspunktApplikasjonTjeneste;
+        AksjonspunktApplikasjonTjeneste aksjonspunktApplikasjonTjeneste = (AksjonspunktApplikasjonTjeneste) this.aksjonspunktApplikasjonTjeneste;
         AbstractTestScenario<?> scenario = lagScenarioMedAksjonspunkt(AksjonspunktDefinisjon.AVKLAR_LOVLIG_OPPHOLD);
         Behandling behandling = scenario.lagre(repositoryProvider, resultatRepositoryProvider);
         Behandling behandlingSpy = spy(behandling);
@@ -63,7 +61,7 @@ public class AksjonspunktApplikasjonTjenesteImplTest {
         FatterVedtakAksjonspunktDto dto = new FatterVedtakAksjonspunktDto(BEGRUNNELSE, Collections.emptyList());
 
         // Act
-        aksjonspunktApplikasjonTjenesteImpl.setAnsvarligSaksbehandler(singletonList(dto), behandlingSpy);
+        aksjonspunktApplikasjonTjeneste.setAnsvarligSaksbehandler(singletonList(dto), behandlingSpy);
 
         // Assert
         verify(behandlingSpy, never()).setAnsvarligSaksbehandler(any());

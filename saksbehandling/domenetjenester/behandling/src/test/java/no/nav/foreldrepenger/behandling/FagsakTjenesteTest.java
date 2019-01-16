@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.behandling.impl;
+package no.nav.foreldrepenger.behandling;
 
 import static java.time.Month.JANUARY;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 import javax.persistence.EntityManager;
 
+import no.nav.foreldrepenger.behandling.FagsakTjeneste;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class FagsakTjenesteTest {
     @Rule
     public UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
     private final EntityManager entityManager = repoRule.getEntityManager();
-    private FagsakTjenesteImpl tjeneste;
+    private FagsakTjeneste tjeneste;
     private BrukerTjeneste brukerTjeneste;
 
     @Mock
@@ -51,7 +52,7 @@ public class FagsakTjenesteTest {
 
     @Before
     public void oppsett() {
-        tjeneste = new FagsakTjenesteImpl(new GrunnlagRepositoryProviderImpl(entityManager), null);
+        tjeneste = new FagsakTjeneste(new GrunnlagRepositoryProviderImpl(entityManager), null);
 
         brukerTjeneste = new BrukerTjeneste(new NavBrukerRepositoryImpl(entityManager));
 
