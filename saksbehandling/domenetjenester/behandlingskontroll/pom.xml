@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -8,12 +8,41 @@
         <version>${revision}${sha1}${changelist}</version>
     </parent>
 
-    <artifactId>behandlingskontroll-pom</artifactId>
-    <name>SPSAK :: Domenetjenester - Behandlingskontroll Pom</name>
-    <packaging>pom</packaging>
+    <artifactId>behandlingskontroll</artifactId>
+    <packaging>jar</packaging>
+    <name>SPSAK :: Domenetjenester - Behandlingskontroll</name>
 
-    <modules>
-        <module>impl</module>
-    </modules>
+
+    <dependencies>
+
+        <!-- Felles/integrasjon -->
+        <dependency>
+            <groupId>no.nav.spvedtak.felles</groupId>
+            <artifactId>felles-behandlingsprosess-prosesstask-api</artifactId>
+        </dependency>
+
+        <!-- Interne avhengigheter -->
+        <dependency>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>behandlingslager-domene</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.nav.spvedtak.felles</groupId>
+            <artifactId>felles-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>behandlingskontroll-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>behandlingslager-testutilities</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
 </project>
