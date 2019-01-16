@@ -23,6 +23,8 @@ public class BehandlingskontrollAsynkTjeneste {
     private ProsessTaskRepository prosessTaskRepository;
     private FagsakProsessTaskRepository fagsakProsessTaskRepository;
 
+    BehandlingskontrollAsynkTjeneste() {}
+
     @Inject
     public BehandlingskontrollAsynkTjeneste(ProsessTaskRepository prosessTaskRepository, FagsakProsessTaskRepository fagsakProsessTaskRepository) {
         this.prosessTaskRepository = prosessTaskRepository;
