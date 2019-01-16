@@ -46,7 +46,7 @@
 		<swagger.version>1.5.13</swagger.version>
 
 		<!-- NAV tjenestespesifikasjon versjoner -->
-		<tjenestespesifikasjoner.version>1.2019.01.09-11.55-84c21cab82d3</tjenestespesifikasjoner.version>
+		<tjenestespesifikasjoner.version>1.2019.01.16-07.28-b15ecbd7e114</tjenestespesifikasjoner.version>
 
 		<abac-attribute-constants.version>3.3.13</abac-attribute-constants.version>
 
@@ -108,7 +108,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
+
 			<dependency>
 				<!-- er ikke i resteasy-bom, så må defineres separat -->
 				<groupId>org.jboss.resteasy</groupId>
