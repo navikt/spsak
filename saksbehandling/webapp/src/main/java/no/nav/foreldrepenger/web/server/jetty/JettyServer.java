@@ -1,24 +1,12 @@
 package no.nav.foreldrepenger.web.server.jetty;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.jetty.plus.jndi.EnvEntry;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
-import org.eclipse.jetty.webapp.MetaData;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.eclipse.jetty.webapp.WebInfConfiguration;
-
-import no.nav.foreldrepenger.web.app.rest.ApplicationConfig;
-import no.nav.vedtak.isso.IssoApplication;
 
 public class JettyServer extends AbstractJettyServer {
 
@@ -59,7 +47,6 @@ public class JettyServer extends AbstractJettyServer {
 
     private void hacks4Nais() {
         loadBalancerFqdnTilLoadBalancerUrl();
-        wsMedLTPAmåIgjennomServiceGateway();
         temporært();
     }
 
@@ -68,12 +55,6 @@ public class JettyServer extends AbstractJettyServer {
             String loadbalancerFqdn = System.getenv("LOADBALANCER_FQDN");
             String protocol = (loadbalancerFqdn.startsWith("localhost")) ? "http" : "https";
             System.setProperty("loadbalancer.url", protocol + "://" + loadbalancerFqdn);
-        }
-    }
-
-    private void wsMedLTPAmåIgjennomServiceGateway() {
-        if (System.getenv("SERVICEGATEWAY_URL") != null) {
-            System.setProperty("Oppgave_v3.url", System.getenv("SERVICEGATEWAY_URL"));
         }
     }
 
@@ -106,17 +87,8 @@ public class JettyServer extends AbstractJettyServer {
     protected WebAppContext createContext(AppKonfigurasjon appKonfigurasjon) throws IOException {
         WebAppContext webAppContext = super.createContext(appKonfigurasjon);
         webAppContext.setParentLoaderPriority(true);
-        updateMetaData(webAppContext.getMetaData());
+        webAppContext.getMetaData().setWebInfClassesDirs(List.of(Resource.newResource(this.getClass().getProtectionDomain().getCodeSource().getLocation())));
         return webAppContext;
-    }
-
-    private void updateMetaData(MetaData metaData) {
-        // Find path to class-files while starting jetty from development environment.
-        List<Class<?>> appClasses = Arrays.asList((Class<?>)ApplicationConfig.class);
-
-        Set<URL> urls = appClasses.stream().map(c -> c.getProtectionDomain().getCodeSource().getLocation()).distinct().collect(Collectors.toSet());
-        List<Resource> resources = urls.stream().map(u -> Resource.newResource(u)).collect(Collectors.toList());
-        metaData.setWebInfClassesDirs(resources);
     }
 
     @Override

@@ -96,9 +96,9 @@ public class JettyDevServer extends JettyServer {
     protected void konfigurerSikkerhet() {
         System.setProperty("conf", "src/main/resources/jetty/");
         super.konfigurerSikkerhet();
-        System.setProperty("javax.net.ssl.trustStore", new File(System.getProperty("user.home")+"/spsak/truststore.jks").getAbsolutePath());
+        System.setProperty("javax.net.ssl.trustStore", new File(System.getProperty("user.home") + "/spsak/truststore.jks").getAbsolutePath());
         System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
-        System.setProperty("no.nav.modig.security.appcert.keystore", new File(System.getProperty("user.home")+"/spsak/keystore.jks").getAbsolutePath());
+        System.setProperty("no.nav.modig.security.appcert.keystore", new File(System.getProperty("user.home") + "/spsak/keystore.jks").getAbsolutePath());
         System.setProperty("no.nav.modig.security.appcert.password", "changeit");
 
     }
@@ -137,7 +137,6 @@ public class JettyDevServer extends JettyServer {
     @Override
     protected ResourceCollection createResourceCollection() throws IOException {
         return new ResourceCollection(
-            Resource.newClassPathResource("/web")
-        );
+            Resource.newClassPathResource("/web"));
     }
 }
