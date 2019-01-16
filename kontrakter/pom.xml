@@ -1,21 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>no.nav</groupId>
+		<artifactId>spsak-root</artifactId>
+		<version>${revision}${sha1}${changelist}</version>
+	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>no.nav.sykepenger.kontrakter</groupId>
 	<artifactId>sykepenger-kontrakter-root</artifactId>
-	<version>${revision}${sha1}${changelist}</version>
 	<packaging>pom</packaging>
-	<name>(SPSAK) - Root</name>
+	<name>(SPSAK) Kontrakter - Root</name>
 
 	<properties>
-		<revision>0.0.1</revision>
-		<sha1></sha1>
-		<changelist>-SNAPSHOT</changelist>
-		<java.version>11</java.version>
-		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
@@ -39,7 +38,7 @@
 				<artifactId>junit</artifactId>
 				<version>4.12</version>
 			</dependency>
-			
+
 			<!-- eksterne avhengigheter -->
 			<dependency>
                 <groupId>org.glassfish.jaxb</groupId>
@@ -51,7 +50,7 @@
 				<artifactId>validation-api</artifactId>
 				<version>1.1.0.Final</version>
 			</dependency>
-			
+
 			<dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>

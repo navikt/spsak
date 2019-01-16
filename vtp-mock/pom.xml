@@ -4,11 +4,16 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>no.nav</groupId>
+        <artifactId>spsak-root</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
     <groupId>no.nav.vedtak.fpmock2</groupId>
     <artifactId>fpmock2</artifactId>
     <packaging>pom</packaging>
     <name>FPMock2 :: Root</name>
-    <version>${revision}${sha1}${changelist}</version>
 
     <modules>
         <module>core</module>
@@ -20,20 +25,9 @@
     </modules>
 
     <properties>
-        <revision>0.0.1</revision>
-        <sha1></sha1>
-        <changelist>-SNAPSHOT</changelist>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <java.version>11</java.version>
-
         <junit.jupiter.version>5.3.1</junit.jupiter.version>
         <cxf.version>3.2.5</cxf.version>
         <jetty.version>9.4.13.v20181111</jetty.version>
-
-        <tjenestespesifikasjoner.version>1.2019.01.16-07.28-b15ecbd7e114</tjenestespesifikasjoner.version>
-
     </properties>
 
     <dependencyManagement>

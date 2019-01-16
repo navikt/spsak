@@ -42,7 +42,7 @@
         <postgres.version>42.2.5</postgres.version>
         <prometheus.version>0.0.23</prometheus.version>
 
-        <tjenestespesifikasjoner.version>1.2019.01.16-07.28-b15ecbd7e114</tjenestespesifikasjoner.version>
+        <tjenestespesifikasjoner.version>1.2019.01.16-10.26-afc54bed6f85</tjenestespesifikasjoner.version>
 
         <!-- Transitive avh. versjoner for å sikre unikhet (enforcer dependencyConvergence).  Skal ikke benyttes direkte av vår egen kode. -->
         <wss4j-version>2.2.2</wss4j-version>

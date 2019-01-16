@@ -37,15 +37,8 @@ before_script:
 - psql -c "CREATE USER fpfordel PASSWORD 'fpfordel';" -U postgres
 - psql -c "GRANT ALL PRIVILEGES ON DATABASE fpfordel TO fpfordel;" -U postgres
 script:
-- cd felles; mvn install -Dsha1=-$COMMIT_SHORT -Dchangelist=""
-- cd ..
-- cd kontrakter; mvn install -Dsha1=-$COMMIT_SHORT -Dchangelist=""
-- cd ..
-- cd saksbehandling; mvn install -Dsha1=-$COMMIT_SHORT -Dchangelist=""
-- docker build --pull -t navikt/spsak:$COMMIT_SHORT .
-- cd ..
-- cd vtp-mock; mvn install -Dsha1=-$COMMIT_SHORT -Dchangelist=""
-- cd ..
+- mvn install -Dsha1=-$COMMIT_SHORT -Dchangelist=""
+- docker build --pull -t navikt/spsak:$COMMIT_SHORT saksbehandling
 - |
   set -e
   if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then

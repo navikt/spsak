@@ -1,28 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<parent>
-		<groupId>no.nav</groupId>
-		<artifactId>spsak-root</artifactId>
-		<version>${revision}${sha1}${changelist}</version>
-	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>no.nav.spvedtak.felles</groupId>
-	<artifactId>felles-root</artifactId>
+
+	<groupId>no.nav</groupId>
+	<artifactId>spsak-root</artifactId>
+	<version>${revision}${sha1}${changelist}</version>
 	<packaging>pom</packaging>
-	<name>Felles</name>
+	<name>SPSAK ROOT</name>
 
 	<modules>
 		<module>felles</module>
-		<module>behandlingsprosess</module>
-		<module>integrasjon</module>
+		<module>kontrakter</module>
+		<module>saksbehandling</module>
+		<module>vtp-mock</module>
 	</modules>
 
 	<properties>
-		<!-- Marker Junit Category interface for End2End tester -->
-		<additionalparam>-Xdoclint:none</additionalparam> <!-- TODO: Skru på doclint igjen... -->
+		<revision>0.0.1</revision>
+		<sha1></sha1>
+		<changelist>-SNAPSHOT</changelist>
+		<java.version>11</java.version>
+
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<tjenestespesifikasjoner.version>1.2019.01.16-10.26-afc54bed6f85</tjenestespesifikasjoner.version>
 	</properties>
 
 	<build>

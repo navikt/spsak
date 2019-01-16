@@ -4,11 +4,16 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>no.nav</groupId>
+        <artifactId>spsak-root</artifactId>
+        <version>${revision}${sha1}${changelist}</version>
+    </parent>
+
     <groupId>no.nav.sykepenger</groupId>
     <artifactId>spsak</artifactId>
     <packaging>pom</packaging>
     <name>SPSAK :: Root</name>
-    <version>${revision}${sha1}${changelist}</version>
 
     <modules>
         <module>migreringer</module>
@@ -22,18 +27,10 @@
     </modules>
 
     <properties>
-        <java.version>11</java.version> <!--Brukes av jenkins -->
         <argLine>-Xms256m -Dfile.encoding=UTF-8 -Dlog.level.no.nav=WARN
         </argLine> <!-- default argLine for surefire-plugin -->
         <jacoco.skip>true</jacoco.skip> <!-- default skip coverage -->
 
-        <revision>0.0.1</revision>
-        <sha1></sha1>
-        <changelist>-SNAPSHOT</changelist>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <tjenestespesifikasjoner.version>1.2019.01.16-07.28-b15ecbd7e114</tjenestespesifikasjoner.version>
         <meldingspesifikasjoner.version>1.2019.01.08-09.21</meldingspesifikasjoner.version>
     </properties>
 
