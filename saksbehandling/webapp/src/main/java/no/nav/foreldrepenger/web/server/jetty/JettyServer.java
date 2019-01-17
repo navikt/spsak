@@ -1,10 +1,12 @@
 package no.nav.foreldrepenger.web.server.jetty;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.eclipse.jetty.plus.jndi.EnvEntry;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
-
-import java.io.IOException;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 public class JettyServer extends AbstractJettyServer {
 

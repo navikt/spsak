@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
-                 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+                 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1"
+                  metadata-complete="false">
 
     <session-config>
         <cookie-config>
@@ -37,6 +38,9 @@
     </listener>
     <listener>
         <listener-class>no.nav.foreldrepenger.web.app.startupinfo.AppStartupServletContextListener</listener-class>
+    </listener>
+    <listener>
+    	<listener-class>no.nav.vedtak.sikkerhet.jaspic.SamAutoRegistration</listener-class>
     </listener>
 
     <security-constraint>
