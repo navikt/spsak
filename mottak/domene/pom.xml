@@ -57,16 +57,6 @@
         </dependency>
         <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>behandleoppgave-klient</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jvnet.jaxb2_commons</groupId>
-                    <artifactId>jaxb2-basics-runtime</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>person-klient</artifactId>
         </dependency>
         <dependency>

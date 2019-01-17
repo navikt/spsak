@@ -28,10 +28,6 @@
         </dependency>
         <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>dokumentproduksjon-klient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>behandlesak-klient</artifactId>
         </dependency>
         <dependency>
