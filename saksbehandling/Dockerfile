@@ -10,8 +10,8 @@ COPY webapp/target/classes/jetty/jaspi-conf.xml conf/
 
 # Application Container (Jetty)
 COPY webapp/target/app.jar .
-COPY webapp/target/lib/*.jar lib/
+COPY webapp/target/lib/*.jar ./
 
-# Application Start Command
-COPY run-java.sh /
-RUN chmod +x /run-java.sh
+ENV JAVA_OPTS="-Xmx1024m -Xms128m \
+    -Djava.security.egd=file:/dev/urandom \
+    -Dlogback.configurationFile=conf/logback.xml"
