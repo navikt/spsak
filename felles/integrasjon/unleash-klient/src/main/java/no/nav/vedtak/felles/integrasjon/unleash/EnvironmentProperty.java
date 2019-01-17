@@ -1,12 +1,12 @@
 package no.nav.vedtak.felles.integrasjon.unleash;
-import java.util.Optional;
-
 import no.nav.vedtak.konfig.PropertyUtil;
+
+import java.util.Optional;
 
 public class EnvironmentProperty {
 
-    public static final String APP_ENVIRONMENT_NAME = "ENVIRONMENT_NAME";
-    public static final String APP_NAME = "APP_NAME";
+    public static final String APP_ENVIRONMENT_NAME = "NAIS_CLUSTER_NAME";
+    public static final String APP_NAME = "NAIS_APP_NAME";
 
     private EnvironmentProperty() {}
 

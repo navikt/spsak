@@ -1,26 +1,23 @@
 package no.nav.foreldrepenger.web.app.selftest;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import com.codahale.metrics.health.HealthCheck;
+import com.codahale.metrics.health.HealthCheckRegistry;
+import no.nav.foreldrepenger.web.app.selftest.checks.ExtHealthCheck;
+import no.nav.vedtak.konfig.KonfigVerdi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.codahale.metrics.health.HealthCheck;
-import com.codahale.metrics.health.HealthCheckRegistry;
-
-import no.nav.foreldrepenger.web.app.selftest.checks.ExtHealthCheck;
-import no.nav.vedtak.konfig.KonfigVerdi;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @ApplicationScoped
 public class Selftests {
@@ -45,7 +42,7 @@ public class Selftests {
     public Selftests(
                      HealthCheckRegistry registry,
                      @Any Instance<ExtHealthCheck> healthChecks,
-                     @KonfigVerdi(value = "application.name") String applicationName) {
+                     @KonfigVerdi(value = "nais.app.name") String applicationName) {
 
         this.registry = registry;
         this.healthChecks = healthChecks;
