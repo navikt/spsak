@@ -285,11 +285,6 @@
                 <artifactId>nav-behandleForeldrepengesak-v1-tjenestespesifikasjon</artifactId>
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
-            <dependency>
-                <groupId>no.nav.meldinger.virksomhet</groupId>
-                <artifactId>nav-virksomhet-dokumentnotifikasjon-v1-meldingsdefinisjon</artifactId>
-                <version>${meldingspesifikasjoner.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>no.nav.sykepenger.kontrakter</groupId>
