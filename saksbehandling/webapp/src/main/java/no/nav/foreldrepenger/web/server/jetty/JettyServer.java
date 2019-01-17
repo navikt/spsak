@@ -1,12 +1,10 @@
 package no.nav.foreldrepenger.web.server.jetty;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.eclipse.jetty.plus.jndi.EnvEntry;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
-import org.eclipse.jetty.webapp.WebAppContext;
+
+import java.io.IOException;
 
 public class JettyServer extends AbstractJettyServer {
 
@@ -81,14 +79,6 @@ public class JettyServer extends AbstractJettyServer {
     @Override
     protected void migrerDatabaser() throws IOException {
         new DatabaseScript(dataSourceKonfig.getMigrationDatasource(), dataSourceKonfig.getMigrationScripts()).migrate();
-    }
-
-    @Override
-    protected WebAppContext createContext(AppKonfigurasjon appKonfigurasjon) throws IOException {
-        WebAppContext webAppContext = super.createContext(appKonfigurasjon);
-        webAppContext.setParentLoaderPriority(true);
-        webAppContext.getMetaData().setWebInfClassesDirs(List.of(Resource.newResource(this.getClass().getProtectionDomain().getCodeSource().getLocation())));
-        return webAppContext;
     }
 
     @Override
