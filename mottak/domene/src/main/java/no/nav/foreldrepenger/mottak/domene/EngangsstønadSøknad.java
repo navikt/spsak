@@ -1,24 +1,7 @@
 package no.nav.foreldrepenger.mottak.domene;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import no.nav.foreldrepenger.fordel.kodeverk.BehandlingTema;
-import no.nav.foreldrepenger.mottak.felles.MottakMeldingDataWrapper;
-import no.nav.foreldrepenger.mottak.felles.MottakMeldingFeil;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.Bruker;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.FoedselEllerAdopsjon;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.SoeknadsskjemaEngangsstoenad;
-import no.nav.vedtak.felles.integrasjon.felles.ws.DateUtil;
-
-public class EngangsstønadSøknad extends MottattStrukturertDokument<SoeknadsskjemaEngangsstoenad> {
+public class EngangsstønadSøknad { /*extends MottattStrukturertDokument<SoeknadsskjemaEngangsstoenad> {
 
     EngangsstønadSøknad(SoeknadsskjemaEngangsstoenad skjema) {
         super(skjema); // NOSONAR
@@ -101,5 +84,5 @@ public class EngangsstønadSøknad extends MottattStrukturertDokument<Soeknadssk
 
     private Optional<Integer> getAntallBarn() {
         return Optional.of(getSkjema().getOpplysningerOmBarn().getAntallBarn());
-    }
+    }*/
 }

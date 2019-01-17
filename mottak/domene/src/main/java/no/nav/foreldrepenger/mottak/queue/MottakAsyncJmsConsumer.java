@@ -1,35 +1,9 @@
 package no.nav.foreldrepenger.mottak.queue;
 
-import static no.nav.vedtak.feil.LogLevel.WARN;
-
-import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Queue;
-import javax.jms.TextMessage;
-import javax.xml.bind.JAXBException;
-import javax.xml.stream.XMLStreamException;
-
-import org.xml.sax.SAXException;
-
-import no.nav.foreldrepenger.mottak.felles.MottakMeldingFeil;
-import no.nav.melding.virksomhet.dokumentnotifikasjon.v1.Forsendelsesinformasjon;
-import no.nav.vedtak.feil.Feil;
-import no.nav.vedtak.feil.FeilFactory;
-import no.nav.vedtak.feil.deklarasjon.DeklarerteFeil;
-import no.nav.vedtak.feil.deklarasjon.TekniskFeil;
-import no.nav.vedtak.felles.integrasjon.felles.ws.JaxbHelper;
-import no.nav.vedtak.felles.integrasjon.jms.InternalQueueConsumer;
-import no.nav.vedtak.felles.integrasjon.jms.JmsKonfig;
-import no.nav.vedtak.felles.integrasjon.jms.precond.DefaultDatabaseOppePreconditionChecker;
-import no.nav.vedtak.felles.integrasjon.jms.precond.PreconditionChecker;
 
 @ApplicationScoped
-public class MottakAsyncJmsConsumer extends InternalQueueConsumer {
+public class MottakAsyncJmsConsumer { /*extends InternalQueueConsumer {
 
     private MeldingsFordeler meldingsFordeler;
     private DefaultDatabaseOppePreconditionChecker preconditionChecker;
@@ -92,5 +66,5 @@ public class MottakAsyncJmsConsumer extends InternalQueueConsumer {
     @Resource(mappedName = "jms/QueueMottak")
     public void setQueue(Queue queue) {
         super.setQueue(queue);
-    }
+    }*/
 }

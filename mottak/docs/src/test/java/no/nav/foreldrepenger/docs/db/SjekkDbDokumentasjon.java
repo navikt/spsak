@@ -30,7 +30,8 @@ public class SjekkDbDokumentasjon {
         //Databaseskjemainitialisering.settOppSkjemaer();
         List<DBConnectionProperties> connectionProperties = DatasourceConfiguration.UNIT_TEST.get();
         DatabaseStøtte.settOppJndiForDefaultDataSource(connectionProperties);
-        DatabaseStøtte.kjørFullMigreringFor(connectionProperties);
+        //DatabaseStøtte.kjørFullMigreringFor(connectionProperties);
+        DatabaseStøtte.kjørMigreringFor(connectionProperties);
 
         DBConnectionProperties dbconp = DBConnectionProperties.finnDefault(connectionProperties).get();
         ds = ConnectionHandler.opprettFra(dbconp);
@@ -79,3 +80,4 @@ public class SjekkDbDokumentasjon {
         }
     }
 }
+

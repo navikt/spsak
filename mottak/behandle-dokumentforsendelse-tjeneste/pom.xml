@@ -30,12 +30,12 @@
 
         <!-- NAV -->
         <dependency>
-            <groupId>no.nav.tjenester</groupId>
-            <artifactId>nav-behandleDokumentforsendelse-v1-tjenestespesifikasjon</artifactId>
-            <classifier>jaxws</classifier>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
+            <artifactId>behandledokumentforsendelse-v1-tjenestespesifikasjon</artifactId>
+            <!--classifier>jaxws</classifier-->
         </dependency>
         <dependency>
-            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <groupId>no.nav.sykepenger.fordel</groupId>
             <artifactId>fordel-v1</artifactId>
         </dependency>
 

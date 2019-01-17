@@ -8,7 +8,7 @@ import no.nav.foreldrepenger.fordel.kodeverk.KodeverkRepository;
 import no.nav.foreldrepenger.fordel.kodeverk.Tema;
 import no.nav.foreldrepenger.mottak.felles.MottakMeldingDataWrapper;
 import no.nav.foreldrepenger.mottak.task.joark.HentDataFraJoarkTask;
-import no.nav.melding.virksomhet.dokumentnotifikasjon.v1.Forsendelsesinformasjon;
+import no.nav.foreldrepenger.no.nav.spmottak.meldinger.dokumentnotifikasjonv1.Forsendelsesinformasjon;
 import no.nav.vedtak.felles.AktiverContextOgTransaksjon;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskData;
 import no.nav.vedtak.felles.prosesstask.api.ProsessTaskRepository;
