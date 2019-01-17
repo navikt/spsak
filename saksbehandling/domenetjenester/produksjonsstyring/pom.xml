@@ -29,6 +29,10 @@
         </dependency>
         <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>behandleoppgave-klient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>oppgave-klient</artifactId>
         </dependency>
 
