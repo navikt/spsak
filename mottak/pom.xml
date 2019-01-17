@@ -9,6 +9,7 @@
     <name>Mottak :: Root</name>
     <description>Fordeling av mottate dokumenter for SPSAK.</description>
     <modules>
+        <module>vl-kontrakt-fordel</module>
         <module>migreringer</module>
         <module>behandle-dokumentforsendelse-tjeneste</module>
         <module>domene</module>
@@ -19,7 +20,7 @@
     </modules>
 
     <properties>
-        <revision>2.0</revision>
+        <revision>0.0.1</revision>
         <sha1></sha1>
         <changelist>-SNAPSHOT</changelist>
         <java.version>11</java.version>
@@ -43,6 +44,7 @@
         <prometheus.version>0.0.23</prometheus.version>
 
         <tjenestespesifikasjoner.version>1.2019.01.16-10.26-afc54bed6f85</tjenestespesifikasjoner.version>
+        <meldingspesifikasjoner.version>1.2019.01.08-09.21</meldingspesifikasjoner.version>
 
         <!-- Transitive avh. versjoner for å sikre unikhet (enforcer dependencyConvergence).  Skal ikke benyttes direkte av vår egen kode. -->
         <wss4j-version>2.2.2</wss4j-version>
@@ -51,13 +53,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-                <artifactId>felles-integrasjon-jms</artifactId>
-                <version>${vl-felles.version}</version>
-            </dependency>
-
             <!-- Reaktor (TODO ikke komplett liste) -->
             <dependency>
                 <groupId>no.nav.sykepenger.fordel</groupId>
@@ -116,7 +111,7 @@
                 <classifier>jaxb</classifier>
             </dependency>
             <dependency>
-                <groupId>no.nav.sykepenger.kontrakter</groupId>
+                <groupId>no.nav.sykepenger.fordel</groupId>
                 <artifactId>fordel-v1</artifactId>
                 <version>${vl-kontrakt-fordel.version}</version>
             </dependency>
@@ -152,12 +147,12 @@
             <dependency>
                 <groupId>no.nav.meldinger.virksomhet</groupId>
                 <artifactId>nav-virksomhet-dokumentnotifikasjon-v1-meldingsdefinisjon</artifactId>
-                <version>1.0.2</version>
-                <classifier>jaxb</classifier>
+                <version>${meldingspesifikasjoner.version}</version>
+                <!--classifier>jaxb</classifier-->
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenestespesifikasjoner</groupId>
-                <artifactId>nav-behandleDokumentforsendelse-v1-tjenestespesifikasjon</artifactId>
+                <artifactId>behandledokumentforsendelse-v1-tjenestespesifikasjon</artifactId>
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
 

@@ -31,13 +31,13 @@ import no.nav.foreldrepenger.mottak.tjeneste.HentDataFraJoarkTjeneste;
 import no.nav.foreldrepenger.mottak.tjeneste.KlargjørForVLTjeneste;
 import no.nav.foreldrepenger.mottak.tjeneste.KonfigVerdiTjeneste;
 import no.nav.foreldrepenger.mottak.tjeneste.TilJournalføringTjeneste;
-import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.binding.BehandleDokumentforsendelseV1;
-import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.binding.OppdaterOgFerdigstillJournalfoeringJournalpostIkkeFunnet;
-import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.binding.OppdaterOgFerdigstillJournalfoeringSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.binding.OppdaterOgFerdigstillJournalfoeringUgyldigInput;
-import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.feil.JournalpostIkkeFunnet;
-import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.feil.UgyldigInput;
-import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.meldinger.OppdaterOgFerdigstillJournalfoeringRequest;
+import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.BehandleDokumentforsendelseV1;
+import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.OppdaterOgFerdigstillJournalfoeringJournalpostIkkeFunnet;
+import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.OppdaterOgFerdigstillJournalfoeringSikkerhetsbegrensning;
+import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.OppdaterOgFerdigstillJournalfoeringUgyldigInput;
+import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.feil.WSJournalpostIkkeFunnet;
+import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.feil.WSUgyldigInput;
+import no.nav.tjeneste.virksomhet.behandledokumentforsendelse.v1.meldinger.WSOppdaterOgFerdigstillJournalfoeringRequest;
 import no.nav.vedtak.felles.integrasjon.aktør.klient.AktørConsumer;
 import no.nav.vedtak.felles.integrasjon.felles.ws.SoapWebService;
 import no.nav.vedtak.felles.jpa.Transaction;
@@ -106,7 +106,7 @@ public class BehandleDokumentService implements BehandleDokumentforsendelseV1 {
     @BeskyttetRessurs(action = BeskyttetRessursActionAttributt.CREATE, ressurs = BeskyttetRessursResourceAttributt.FAGSAK)
     public void oppdaterOgFerdigstillJournalfoering(
             @TilpassetAbacAttributt(supplierClass = AbacDataSupplier.class)
-                    OppdaterOgFerdigstillJournalfoeringRequest request)
+                    WSOppdaterOgFerdigstillJournalfoeringRequest request)
             throws OppdaterOgFerdigstillJournalfoeringJournalpostIkkeFunnet, OppdaterOgFerdigstillJournalfoeringSikkerhetsbegrensning, OppdaterOgFerdigstillJournalfoeringUgyldigInput {
 
         final String saksnummer = request.getSakId();
@@ -130,7 +130,7 @@ public class BehandleDokumentService implements BehandleDokumentforsendelseV1 {
 
         Optional<JournalMetadata<DokumentTypeId>> optJournalMetadata = hentDataFraJoarkTjeneste.hentHoveddokumentMetadata(arkivId);
         if (!optJournalMetadata.isPresent()) {
-            JournalpostIkkeFunnet journalpostIkkeFunnet = new JournalpostIkkeFunnet();
+            WSJournalpostIkkeFunnet journalpostIkkeFunnet = new WSJournalpostIkkeFunnet();
             journalpostIkkeFunnet.setFeilmelding("Finner ikke journalpost med id " + arkivId);
             journalpostIkkeFunnet.setFeilaarsak("Finner ikke journalpost");
             throw new OppdaterOgFerdigstillJournalfoeringJournalpostIkkeFunnet(journalpostIkkeFunnet.getFeilmelding(), journalpostIkkeFunnet);
@@ -141,7 +141,7 @@ public class BehandleDokumentService implements BehandleDokumentforsendelseV1 {
         behandlingTema = kodeverkRepository.finn(BehandlingTema.class, HentDataFraJoarkTjeneste.korrigerBehandlingTemaFraDokumentType(Tema.FORELDRE_OG_SVANGERSKAPSPENGER, behandlingTema, dokumentTypeId));
 
         if (BehandlingTema.UDEFINERT.equals(behandlingTema) && (DokumentTypeId.KLAGE_DOKUMENT.equals(dokumentTypeId) || DokumentKategori.KLAGE_ELLER_ANKE.equals(dokumentKategori))) {
-            UgyldigInput ugyldigInput = lagUgyldigInput(KLAGE_UTEN_BEHANDLING);
+            WSUgyldigInput ugyldigInput = lagUgyldigInput(KLAGE_UTEN_BEHANDLING);
             throw new OppdaterOgFerdigstillJournalfoeringUgyldigInput(ugyldigInput.getFeilmelding(), ugyldigInput);
         }
 
@@ -168,21 +168,21 @@ public class BehandleDokumentService implements BehandleDokumentforsendelseV1 {
 
     private void validerSaksnummer(String saksnummer) throws OppdaterOgFerdigstillJournalfoeringUgyldigInput {
         if (erNullEllerTom(saksnummer)) {
-            UgyldigInput ugyldigInput = lagUgyldigInput(SAKSNUMMER_UGYLDIG);
+            WSUgyldigInput ugyldigInput = lagUgyldigInput(SAKSNUMMER_UGYLDIG);
             throw new OppdaterOgFerdigstillJournalfoeringUgyldigInput(ugyldigInput.getFeilmelding(), ugyldigInput);
         }
     }
 
     private void validerArkivId(String arkivId) throws OppdaterOgFerdigstillJournalfoeringUgyldigInput {
         if (erNullEllerTom(arkivId)) {
-            UgyldigInput ugyldigInput = lagUgyldigInput(JOURNALPOST_MANGLER);
+            WSUgyldigInput ugyldigInput = lagUgyldigInput(JOURNALPOST_MANGLER);
             throw new OppdaterOgFerdigstillJournalfoeringUgyldigInput(ugyldigInput.getFeilmelding(), ugyldigInput);
         }
     }
 
     private void validerEnhetId(String enhetId) throws OppdaterOgFerdigstillJournalfoeringUgyldigInput {
         if (enhetId == null) {
-            UgyldigInput ugyldigInput = lagUgyldigInput(ENHET_MANGLER);
+            WSUgyldigInput ugyldigInput = lagUgyldigInput(ENHET_MANGLER);
             throw new OppdaterOgFerdigstillJournalfoeringUgyldigInput(ugyldigInput.getFeilmelding(), ugyldigInput);
         }
     }
@@ -200,25 +200,25 @@ public class BehandleDokumentService implements BehandleDokumentforsendelseV1 {
             BehandlingTema behandlingTemaFraIM = kodeverkRepository.finnForKodeverkEiersTermNavn(BehandlingTema.class, imType, BehandlingTema.UDEFINERT);
             if (BehandlingTema.gjelderForeldrepenger(behandlingTemaFraIM)) {
                 if (!dataWrapper.getInntektsmeldingStartDato().isPresent()) { // Kommer ingen vei uten startdato
-                    UgyldigInput ugyldigInput = lagUgyldigInput(INNTEKTSMELDING_MANGLER_STARTDATO);
+                    WSUgyldigInput ugyldigInput = lagUgyldigInput(INNTEKTSMELDING_MANGLER_STARTDATO);
                     throw new OppdaterOgFerdigstillJournalfoeringUgyldigInput(ugyldigInput.getFeilmelding(), ugyldigInput);
                 } else if (!BehandlingTema.gjelderForeldrepenger(behandlingTema)) { // Prøver journalføre på annen fagsak - ytelsetype
-                    UgyldigInput ugyldigInput = lagUgyldigInput(INNTEKTSMELDING_FEIL_YTELSE);
+                    WSUgyldigInput ugyldigInput = lagUgyldigInput(INNTEKTSMELDING_FEIL_YTELSE);
                     throw new OppdaterOgFerdigstillJournalfoeringUgyldigInput(ugyldigInput.getFeilmelding(), ugyldigInput);
                 }
             } else if (!behandlingTemaFraIM.equals(behandlingTema)) { // IM Svangerskapspenger
-                UgyldigInput ugyldigInput = lagUgyldigInput(INNTEKTSMELDING_FEIL_YTELSE);
+                WSUgyldigInput ugyldigInput = lagUgyldigInput(INNTEKTSMELDING_FEIL_YTELSE);
                 throw new OppdaterOgFerdigstillJournalfoeringUgyldigInput(ugyldigInput.getFeilmelding(), ugyldigInput);
             }
         }
         if (dokumentTypeId.erForeldrepengerRelatert() && startDato != null && startDato.isBefore(konfigVerdiTjeneste.getKonfigVerdiStartdatoForeldrepenger())) {
-            UgyldigInput ugyldigInput = lagUgyldigInput(FOR_TIDLIG_UTTAK);
+            WSUgyldigInput ugyldigInput = lagUgyldigInput(FOR_TIDLIG_UTTAK);
             throw new OppdaterOgFerdigstillJournalfoeringUgyldigInput(ugyldigInput.getFeilmelding(), ugyldigInput);
         }
     }
 
-    private UgyldigInput lagUgyldigInput(String melding) {
-        UgyldigInput faultInfo = new UgyldigInput();
+    private WSUgyldigInput lagUgyldigInput(String melding) {
+        WSUgyldigInput faultInfo = new WSUgyldigInput();
         faultInfo.setFeilmelding(melding);
         faultInfo.setFeilaarsak("Ugyldig input");
         return faultInfo;
@@ -228,7 +228,7 @@ public class BehandleDokumentService implements BehandleDokumentforsendelseV1 {
 
         @Override
         public AbacDataAttributter apply(Object obj) {
-            OppdaterOgFerdigstillJournalfoeringRequest req = (OppdaterOgFerdigstillJournalfoeringRequest) obj;
+            WSOppdaterOgFerdigstillJournalfoeringRequest req = (WSOppdaterOgFerdigstillJournalfoeringRequest) obj;
             return AbacDataAttributter.opprett()
                     .leggTilSaksnummer(req.getSakId())
                     .leggTilJournalPostId(req.getJournalpostId(), false);

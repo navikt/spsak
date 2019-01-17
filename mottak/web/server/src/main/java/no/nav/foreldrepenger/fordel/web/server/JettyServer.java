@@ -74,7 +74,6 @@ public class JettyServer {
         migrerDatabaseScript(dataSource);
         hacksForManglendeStøttePåNAIS();
         konfigurerSwaggerHash();
-        konfigurerJms();
     }
 
     /**
@@ -115,14 +114,6 @@ public class JettyServer {
     protected DataSource opprettDataSource() throws NamingException {
         DataSource dataSource = new DataSourceKonfig().konfigurer();
         return dataSource;
-    }
-
-    protected void konfigurerJms() {
-        try {
-            new JmsKonfig().konfigurer();
-        } catch (Exception e) {
-            throw new IllegalStateException("Kunne ikke konfigurere JMS", e);
-        }
     }
 
     protected WebAppContext initContext() {

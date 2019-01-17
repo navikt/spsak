@@ -39,10 +39,6 @@
             <artifactId>felles-behandlingsprosess-prosesstask</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>felles-integrasjon-jms</artifactId>
-        </dependency>
-        <dependency>
             <groupId>no.nav.spvedtak.felles</groupId>
             <artifactId>felles-bom</artifactId>
             <scope>provided</scope>
@@ -78,7 +74,7 @@
             <artifactId>sak-klient</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.sykepenger.kontrakter</groupId>
+            <groupId>no.nav.sykepenger.fordel</groupId>
             <artifactId>fordel-v1</artifactId>
         </dependency>
         <dependency>
@@ -90,7 +86,8 @@
         <dependency>
             <groupId>no.nav.meldinger.virksomhet</groupId>
             <artifactId>nav-virksomhet-dokumentnotifikasjon-v1-meldingsdefinisjon</artifactId>
-            <classifier>jaxb</classifier>
+            <!--classifier>jaxb</classifier-->
+            <version>${meldingspesifikasjoner.version}</version>
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger.kontrakter</groupId>

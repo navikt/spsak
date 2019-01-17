@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import no.nav.foreldrepenger.mottak.domene.v1.Søknad;
 import no.nav.foreldrepenger.mottak.felles.MottakMeldingDataWrapper;
-import no.nav.foreldrepenger.soeknadsskjema.engangsstoenad.v1.SoeknadsskjemaEngangsstoenad;
 import no.nav.vedtak.felles.xml.soeknad.v1.Soeknad;
 import no.seres.xsd.nav.inntektsmelding_m._20180924.InntektsmeldingM;
 
@@ -19,9 +18,6 @@ public abstract class MottattStrukturertDokument<S> {
 
     @SuppressWarnings("rawtypes")
     public static MottattStrukturertDokument toXmlWrapper(Object skjema) {
-        if (skjema instanceof SoeknadsskjemaEngangsstoenad) {
-            return new EngangsstønadSøknad((SoeknadsskjemaEngangsstoenad) skjema);
-        }
         if (skjema instanceof InntektsmeldingM) {
             return new Inntektsmelding((InntektsmeldingM) skjema);
         }

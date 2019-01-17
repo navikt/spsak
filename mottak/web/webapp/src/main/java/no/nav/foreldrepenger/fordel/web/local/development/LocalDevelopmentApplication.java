@@ -12,8 +12,6 @@ public class LocalDevelopmentApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
-        classes.add(FakeQueueMottakRestTjeneste.class);
-
         classes.add(io.swagger.jaxrs.listing.ApiListingResource.class);
         classes.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
         return classes;

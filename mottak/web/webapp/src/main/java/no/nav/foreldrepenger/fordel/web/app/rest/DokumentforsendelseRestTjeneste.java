@@ -76,6 +76,7 @@ import no.nav.vedtak.sikkerhet.abac.TilpassetAbacAttributt;
 @Produces(APPLICATION_JSON)
 @RequestScoped
 @Transaction
+// KILLME
 public class DokumentforsendelseRestTjeneste {
     static final String SERVICE_PATH = "/dokumentforsendelse";
 

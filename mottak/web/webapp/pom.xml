@@ -55,12 +55,7 @@
 			<artifactId>felles-integrasjon-rest</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-			<artifactId>felles-integrasjon-jms</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.sykepenger.kontrakter</groupId>
+			<groupId>no.nav.sykepenger.fordel</groupId>
 			<artifactId>fordel-v1</artifactId>
 		</dependency>
 
@@ -81,6 +76,11 @@
 		<dependency>
 			<groupId>no.nav.spvedtak.felles</groupId>
 			<artifactId>felles-util</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.spvedtak.felles</groupId>
+			<artifactId>felles-kafka</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -179,11 +179,6 @@
 		<dependency>
 			<groupId>org.jboss.spec.javax.ws.rs</groupId>
 			<artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>javax.jms-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -419,22 +414,6 @@
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>create-metadata</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<addOutputDirectoryToResources>true</addOutputDirectoryToResources>
-					<timestampFormat>dd.MM.yyyy HH.mm.ss</timestampFormat>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
 				<executions>
@@ -478,35 +457,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<!--This plugin's configuration is used to store Eclipse m2e settings
-						only. It has no influence on the Maven build itself. -->
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>buildnumber-maven-plugin</artifactId>
-										<versionRange>[1.4,)</versionRange>
-										<goals>
-											<goal>create-metadata</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>

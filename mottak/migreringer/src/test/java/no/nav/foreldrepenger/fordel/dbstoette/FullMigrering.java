@@ -17,7 +17,7 @@ public class FullMigrering {
     public void skal_utføre_full_migrering() throws Exception {
         //Databaseskjemainitialisering.settOppSkjemaer();
         List<DBConnectionProperties> connectionProperties = DatasourceConfiguration.UNIT_TEST.get();
-        DatabaseStøtte.kjørFullMigreringFor(connectionProperties);
-
+        //DatabaseStøtte.kjørFullMigreringFor(connectionProperties);
+        DatabaseStøtte.kjørMigreringFor(connectionProperties);
     }
 }

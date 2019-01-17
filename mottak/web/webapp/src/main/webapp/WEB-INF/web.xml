@@ -21,9 +21,6 @@
         <listener-class>no.nav.foreldrepenger.fordel.web.app.selftest.HealthCheckServletContextListener</listener-class>
     </listener>
     <listener>
-        <listener-class>no.nav.foreldrepenger.fordel.web.app.metrics.MetricsServletContextListener</listener-class>
-    </listener>
-    <listener>
         <listener-class>no.nav.foreldrepenger.fordel.web.app.startupinfo.AppStartupServletContextListener</listener-class>
     </listener>
     <listener>
@@ -33,6 +30,7 @@
         <!-- Ønsker denne _sist_. -->
         <listener-class>no.nav.foreldrepenger.fordel.web.app.tjenester.ApplicationContextListener</listener-class>
     </listener>
+
 
     <servlet>
         <servlet-name>metrics</servlet-name>
