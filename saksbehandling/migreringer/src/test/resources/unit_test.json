@@ -7,7 +7,7 @@
       "password": "spsak_unit",
       "url": "jdbc:postgresql://localhost:5432/spsak_unit",
       "default": true,
-      "migrationScriptsFilesystemRoot": "migreringer/src/main/resources/db/migration/"
+      "migrationScriptsFilesystemRoot": "saksbehandling/migreringer/src/main/resources/db/migration/"
     }
   ]
 }
