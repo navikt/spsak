@@ -131,6 +131,9 @@ public class JettyDevServer extends JettyServer {
         WebAppContext webAppContext = super.createContext(appKonfigurasjon);
         // https://www.eclipse.org/jetty/documentation/9.4.x/troubleshooting-locked-files-on-windows.html
         webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
+        
+        // scanner alle filer i target/classes dirs når vi kjører direkte fra IDE
+        webAppContext.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", "^.*resteasy-.*.jar$|^.*felles-.*.jar$|.*/target/classes/.*");
         return webAppContext;
     }
 
