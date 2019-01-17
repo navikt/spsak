@@ -2,18 +2,18 @@ package no.nav.foreldrepenger.web.server.jetty;
 
 import no.nav.foreldrepenger.web.app.rest.ApplicationConfig;
 import no.nav.vedtak.isso.IssoApplication;
-import org.eclipse.jetty.plus.jndi.EnvEntry;
-import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.util.resource.ResourceCollection;
-import org.eclipse.jetty.webapp.MetaData;
-import org.eclipse.jetty.webapp.WebAppContext;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.eclipse.jetty.plus.jndi.EnvEntry;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceCollection;
+import org.eclipse.jetty.webapp.MetaData;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 public class JettyServer extends AbstractJettyServer {
 
@@ -93,14 +93,13 @@ public class JettyServer extends AbstractJettyServer {
     @Override
     protected WebAppContext createContext(AppKonfigurasjon appKonfigurasjon) throws IOException {
         WebAppContext webAppContext = super.createContext(appKonfigurasjon);
-        webAppContext.setParentLoaderPriority(true);
         updateMetaData(webAppContext.getMetaData());
         return webAppContext;
     }
 
     private void updateMetaData(MetaData metaData) {
         // Find path to class-files while starting jetty from development environment.
-        List<Class<?>> appClasses = Arrays.asList((Class<?>) ApplicationConfig.class, IssoApplication.class);
+        List<Class<?>> appClasses = Arrays.asList((Class<?>)ApplicationConfig.class, (Class<?>)IssoApplication.class);
 
         Set<URL> urls = appClasses.stream().map(c -> c.getProtectionDomain().getCodeSource().getLocation()).distinct().collect(Collectors.toSet());
         List<Resource> resources = urls.stream().map(u -> Resource.newResource(u)).collect(Collectors.toList());
