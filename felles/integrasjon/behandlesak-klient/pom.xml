@@ -34,6 +34,9 @@
 			<groupId>no.nav.tjenestespesifikasjoner</groupId>
 			<artifactId>behandlesak-v2-tjenestespesifikasjon</artifactId>
 		</dependency>
-
+        <dependency>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
+            <artifactId>nav-fim-sak-v1-tjenestespesifikasjon</artifactId>
+        </dependency>
     </dependencies>
 </project>

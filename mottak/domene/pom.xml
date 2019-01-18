@@ -71,7 +71,7 @@
         </dependency>
         <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>sak-klient</artifactId>
+            <artifactId>behandlesak-klient</artifactId>
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger.fordel</groupId>

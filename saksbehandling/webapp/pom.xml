@@ -58,19 +58,22 @@
             <scope>compile</scope>
         </dependency>
 
-
         <dependency>
             <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
             <artifactId>kodeverk-klient</artifactId>
         </dependency>
-        <dependency>
-            <groupId>no.nav.sykepenger</groupId>
-            <artifactId>kodeverk</artifactId>
+		<dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>behandlesak-klient</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
+            <artifactId>ldap-klient</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-            <artifactId>felles-integrasjon-bom</artifactId>
+            <groupId>no.nav.sykepenger</groupId>
+            <artifactId>kodeverk</artifactId>
         </dependency>
 
         <dependency>

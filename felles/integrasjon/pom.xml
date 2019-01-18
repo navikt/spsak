@@ -24,12 +24,10 @@
 		<module>arbeidsfordeling-klient</module>
 		<module>aktoer-klient</module>
 		<module>person-klient</module>
-		<module>dokumentproduksjon-klient</module>
 		<module>journal-klient</module>
 		<module>inngaaendejournal-klient</module>
 		<module>behandleinngaaendejournal-klient</module>
 		<module>behandlesak-klient</module>
-		<module>sak-klient</module>
 		<module>infotrygdberegningsgrunnlag-klient</module>
 		<module>infotrygdsak-klient</module>
 		<module>inntekt-klient</module>
@@ -44,9 +42,6 @@
 		<module>mottainngaaendeforsendelse-klient</module>
 		<module>unleash-klient</module>
 		<module>behandlejournal-klient</module>
-
-		<!-- Bill of Material - klienter -->
-		<module>bom</module>
 
 	</modules>
 
@@ -99,13 +94,6 @@
 				<artifactId>felles-integrasjon-webservice</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
-
-			<dependency>
-				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-				<artifactId>felles-integrasjon-bom</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>ldap-klient</artifactId>
@@ -136,11 +124,6 @@
 				<artifactId>infotrygdsak-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-				<artifactId>dokumentproduksjon-klient</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 
 			<dependency>
 				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
@@ -160,11 +143,6 @@
 			<dependency>
 				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
 				<artifactId>behandleoppgave-klient</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.spvedtak.felles.integrasjon</groupId>
-				<artifactId>sak-klient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -267,11 +245,6 @@
 			<dependency>
 				<groupId>no.nav.tjenestespesifikasjoner</groupId>
 				<artifactId>nav-fim-behandleJournal-v3-tjenestespesifikasjon</artifactId>
-				<version>${tjenestespesifikasjoner.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.tjenestespesifikasjoner</groupId>
-				<artifactId>dokumentproduksjon-v2-tjenestespesifikasjon</artifactId>
 				<version>${tjenestespesifikasjoner.version}</version>
 			</dependency>
 			<dependency>
