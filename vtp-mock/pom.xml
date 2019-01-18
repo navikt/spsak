@@ -92,7 +92,7 @@
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
                 <artifactId>resteasy-bom</artifactId>
-                <version>3.6.1.Final</version>
+                <version>3.6.2.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

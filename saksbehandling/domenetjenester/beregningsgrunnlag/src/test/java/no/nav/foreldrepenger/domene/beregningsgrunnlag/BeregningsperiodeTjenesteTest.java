@@ -46,7 +46,6 @@ public class BeregningsperiodeTjenesteTest {
 
     private static final LocalDate SKJÆRINGSTIDSPUNKT = LocalDate.of(2018, 9, 1);
     private static final String FUNKSJONELT_TIDSOFFSET = FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_PERIODE;
-    private static final String FUNKSJONELT_TIDSOFFSET_AKTIVERT = FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_AKTIVERT;
 
     @Rule
     public final UnittestRepositoryRule repoRule = new UnittestRepositoryRule();
@@ -77,7 +76,6 @@ public class BeregningsperiodeTjenesteTest {
 
     @Before
     public void setup() {
-        System.setProperty(FUNKSJONELT_TIDSOFFSET_AKTIVERT, "true");
         settSimulertNåtidTil(LocalDate.now());
         opprettArbeidsforhold();
         ScenarioMorSøkerForeldrepenger scenario = ScenarioMorSøkerForeldrepenger.forAktør(AKTØR_ID);
@@ -87,7 +85,6 @@ public class BeregningsperiodeTjenesteTest {
 
     @AfterClass
     public static void after() {
-        System.clearProperty(FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_AKTIVERT);
         FPDateUtil.init();
     }
 

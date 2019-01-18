@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.Period;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -21,11 +20,6 @@ public class FPDateUtilTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    @Before
-    public void setup() {
-        setOffsetAktivert(true);
-    }
-
     @After
     public void after() {
         clearOffsetProps();
@@ -33,13 +27,10 @@ public class FPDateUtilTest {
     }
 
     @Test
-    public void test_skal_ikke_bruke_offset_når_offset_aktivert_er_false() {
-        setOffsetAktivert(false);
-        Period period = Period.ofDays(5);
-        setOffset(period);
+    public void test_skal_ikke_bruke_offset_når_offset_ikke_er_satt() {
 
         LocalDateTime kontroll = LocalDateTime.now();
-        LocalDateTime medOffset = LocalDateTime.now(FPDateUtil.getOffset());
+        LocalDateTime medOffset = FPDateUtil.nå();
 
         assertThat(medOffset).isEqualToIgnoringSeconds(kontroll);
     }
@@ -50,7 +41,7 @@ public class FPDateUtilTest {
         setOffset(period);
 
         LocalDateTime kontroll = LocalDateTime.now().plus(period);
-        LocalDateTime medOffset = LocalDateTime.now(FPDateUtil.getOffset());
+        LocalDateTime medOffset = FPDateUtil.nå();
 
         assertThat(medOffset).isEqualToIgnoringHours(kontroll); // ignorerer timer, minutter, sekunder
     }
@@ -61,7 +52,7 @@ public class FPDateUtilTest {
         setOffset(period);
 
         LocalDateTime kontroll = LocalDateTime.now().plus(period);
-        LocalDateTime medOffset = LocalDateTime.now(FPDateUtil.getOffset());
+        LocalDateTime medOffset = FPDateUtil.nå();
 
         assertThat(medOffset).isEqualToIgnoringHours(kontroll); // ignorerer timer, minutter, sekunder
     }
@@ -72,7 +63,7 @@ public class FPDateUtilTest {
         setOffset(period);
 
         LocalDate kontroll = LocalDate.now().plus(period);
-        LocalDate medOffset = LocalDate.now(FPDateUtil.getOffset());
+        LocalDate medOffset = FPDateUtil.iDag();
 
         assertThat(medOffset).isEqualTo(kontroll);
     }
@@ -83,7 +74,7 @@ public class FPDateUtilTest {
         setOffset(period);
 
         LocalDate kontroll = LocalDate.now().plus(period);
-        LocalDate medOffset = LocalDate.now(FPDateUtil.getOffset());
+        LocalDate medOffset = FPDateUtil.iDag();
 
         assertThat(medOffset).isEqualTo(kontroll);
     }
@@ -94,7 +85,7 @@ public class FPDateUtilTest {
         setOffset(period);
 
         LocalDate kontroll = LocalDate.now().plus(period);
-        LocalDate medOffset = LocalDate.now(FPDateUtil.getOffset());
+        LocalDate medOffset = FPDateUtil.iDag();
 
         assertThat(medOffset).isEqualTo(kontroll);
     }
@@ -105,14 +96,9 @@ public class FPDateUtilTest {
         setOffset(period);
 
         LocalDate kontroll = LocalDate.now().plus(period);
-        LocalDate medOffset = LocalDate.now(FPDateUtil.getOffset());
+        LocalDate medOffset = FPDateUtil.iDag();
 
         assertThat(medOffset).isEqualTo(kontroll);
-    }
-
-    private void setOffsetAktivert(Boolean aktivert) {
-        String prop = aktivert != null ? aktivert.toString() : "false";
-        System.setProperty(FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_AKTIVERT, prop);
     }
 
     private void setOffset(Period period) {
@@ -123,7 +109,6 @@ public class FPDateUtilTest {
 
     // kjøres etter hver test
     private void clearOffsetProps() {
-        System.clearProperty(FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_AKTIVERT);
         System.clearProperty(FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_PERIODE);
         FPDateUtil.init(); // Laster inn default offset (0 dager)
     }

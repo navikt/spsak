@@ -13,7 +13,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -23,7 +22,6 @@ import javax.enterprise.inject.spi.CDI;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.Configuration;
 import javax.security.auth.login.CredentialExpiredException;
@@ -48,6 +46,7 @@ import org.slf4j.MDC;
 
 import no.nav.vedtak.feil.FeilFactory;
 import no.nav.vedtak.isso.config.ServerInfo;
+import no.nav.vedtak.isso.ressurs.TokenCallback;
 import no.nav.vedtak.log.mdc.MDCOperations;
 import no.nav.vedtak.sikkerhet.context.SubjectHandler;
 import no.nav.vedtak.sikkerhet.context.ThreadLocalSubjectHandler;
@@ -59,7 +58,7 @@ import no.nav.vedtak.sikkerhet.oidc.IdTokenProvider;
 /**
  * Stjålet mye fra https://github.com/omnifaces/omnisecurity
  * 
- * Klassen er thread-safe og vil brukes til å kalle på subjects samtidig.  Bør derfor ikke inneholde felter som holder Subject el.
+ * Klassen er og må være thread-safe da den vil brukes til å kalle på subjects samtidig. Se {@link ServerAuthModule}.  Skal derfor ikke inneholde felter som holder Subject, token eller andre parametere som kommer med en request eller session.
  */
 public class OidcAuthModule implements ServerAuthModule {
     private static final Logger LOG = LoggerFactory.getLogger(OidcAuthModule.class);
@@ -74,7 +73,7 @@ public class OidcAuthModule implements ServerAuthModule {
     private final TokenLocator tokenLocator;
     private final Configuration loginConfiguration;
     private final WSS4JProtectedServlet wsServlet;
-    private final List<String> wsServletPaths;
+    private final Set<String> wsServletPaths;
 
     private CallbackHandler containerCallbackHandler;
 
@@ -97,11 +96,13 @@ public class OidcAuthModule implements ServerAuthModule {
         wsServletPaths = findWsServletPaths(wsServlet);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler, Map options) throws AuthException {
         this.containerCallbackHandler = handler;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public Class[] getSupportedMessageTypes() {
         return SUPPORTED_MESSAGE_TYPES;
@@ -168,7 +169,7 @@ public class OidcAuthModule implements ServerAuthModule {
     }
 
     private boolean usingSamlForAuthentication(HttpServletRequest request) {
-        return !isGET(request) && wsServletPaths.contains(request.getServletPath());
+        return !isGET(request) && request.getServletPath()!=null && wsServletPaths.contains(request.getServletPath());
     }
 
     /**
@@ -182,27 +183,27 @@ public class OidcAuthModule implements ServerAuthModule {
 
     public AuthStatus oidcLogin(MessageInfo messageInfo, Subject clientSubject, HttpServletRequest request) {
         // Get token
-        Optional<String> oidcToken = tokenLocator.getToken(request);
+        Optional<OidcTokenHolder> oidcToken = tokenLocator.getToken(request);
         Optional<String> refreshToken = tokenLocator.getRefreshToken(request);
 
-        String token;
+        OidcTokenHolder tokenHolder;
         if (oidcToken.isPresent()) {
-            token = oidcToken.get();
+            tokenHolder = oidcToken.get();
         } else {
             return FAILURE;
         }
 
         // Setup login context
-        LoginContext loginContext = createLoginContext(OIDC, clientSubject, token);
+        LoginContext loginContext = createLoginContext(OIDC, clientSubject, tokenHolder);
 
         // Do login
         try {
             try {
                 loginContext.login();
             } catch (CredentialExpiredException cee) { // NOSONAR
-                Optional<String> tokenRefreshed = idTokenRefreshed(token, refreshToken);
+                Optional<OidcTokenHolder> tokenRefreshed = idTokenRefreshed(tokenHolder, refreshToken);
                 if (tokenRefreshed.isPresent()) {
-                    String newToken = tokenRefreshed.get();
+                    OidcTokenHolder newToken = tokenRefreshed.get();
                     LoginContext loginContextRefresh = createLoginContext(OIDC, clientSubject, newToken);
                     loginContextRefresh.login();
                     registerUpdatedTokenAtUserAgent(messageInfo, newToken);
@@ -218,31 +219,30 @@ public class OidcAuthModule implements ServerAuthModule {
         return handleValidatedToken(clientSubject, SubjectHandler.getUid(clientSubject));
     }
 
-    private Optional<String> idTokenRefreshed(String originalToken, Optional<String> refreshToken) {
+    private Optional<OidcTokenHolder> idTokenRefreshed(OidcTokenHolder originalToken, Optional<String> refreshToken) {
         if (refreshToken.isPresent()) {
-            Optional<String> nyttToken = tokenProvider.getToken(originalToken, refreshToken.get());
+            Optional<OidcTokenHolder> nyttToken = tokenProvider.getToken(originalToken, refreshToken.get());
             return nyttToken;
         }
         return Optional.empty();
     }
 
-    private LoginContext createLoginContext(LoginConfigNames loginConfigName, Subject clientSubject, String token) {
-        char[] tokenChars = token.toCharArray();
-        class PasswordCallbackHandler implements CallbackHandler {
+    private LoginContext createLoginContext(LoginConfigNames loginConfigName, Subject clientSubject, OidcTokenHolder tokenHolder) {
+        class TokenCallbackHandler implements CallbackHandler {
             @Override
             public void handle(Callback[] callbacks) throws UnsupportedCallbackException {
                 for (Callback callback : callbacks) {
-                    if (callback instanceof PasswordCallback) {
-                        ((PasswordCallback) callback).setPassword(tokenChars);
+                    if (callback instanceof TokenCallback) {
+                        ((TokenCallback) callback).setToken(tokenHolder);
                     } else {
                         // Should never happen
-                        throw new UnsupportedCallbackException(callback, PasswordCallback.class + " is the only supported Callback");
+                        throw new UnsupportedCallbackException(callback, TokenCallback.class + " is the only supported Callback");
                     }
                 }
             }
         }
         
-        CallbackHandler callbackHandler = new PasswordCallbackHandler();
+        CallbackHandler callbackHandler = new TokenCallbackHandler();
         try {
             return new LoginContext(loginConfigName.name(), clientSubject, callbackHandler, loginConfiguration);
         } catch (LoginException le) {
@@ -257,9 +257,9 @@ public class OidcAuthModule implements ServerAuthModule {
         messageInfo.setRequestMessage(new StatelessHttpServletRequest((HttpServletRequest) messageInfo.getRequestMessage()));
     }
 
-    private void registerUpdatedTokenAtUserAgent(MessageInfo messageInfo, String updatedIdToken) {
+    private void registerUpdatedTokenAtUserAgent(MessageInfo messageInfo, OidcTokenHolder updatedIdToken) {
         HttpServletResponse response = (HttpServletResponse) messageInfo.getResponseMessage();
-        response.addCookie(lagCookie(ID_TOKEN_COOKIE_NAME, updatedIdToken, "/", ServerInfo.instance().getCookieDomain()));
+        response.addCookie(lagCookie(ID_TOKEN_COOKIE_NAME, updatedIdToken.getToken(), "/", ServerInfo.instance().getCookieDomain()));
     }
 
     private Cookie lagCookie(String name, String value, String path, String domain) {
@@ -375,8 +375,8 @@ public class OidcAuthModule implements ServerAuthModule {
         return CDI.current().select(LoginContextConfiguration.class).get();
     }
 
-    private static List<String> findWsServletPaths(WSS4JProtectedServlet wsServlet) {
-        return wsServlet == null ? Collections.emptyList() : wsServlet.getUrlPatterns();
+    private static Set<String> findWsServletPaths(WSS4JProtectedServlet wsServlet) {
+        return wsServlet == null ? Collections.emptySet() : Set.copyOf(wsServlet.getUrlPatterns());
     }
 
     private WSS4JProtectedServlet findWSS4JProtectedServlet() {

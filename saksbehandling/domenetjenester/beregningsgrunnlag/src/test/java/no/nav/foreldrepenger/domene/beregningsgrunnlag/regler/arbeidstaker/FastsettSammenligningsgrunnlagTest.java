@@ -9,14 +9,12 @@ import java.time.LocalDate;
 import java.time.Period;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.Test;
 
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.Periode;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.Beregningsgrunnlag;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.BeregningsgrunnlagPeriode;
 import no.nav.foreldrepenger.domene.beregningsgrunnlag.regelmodell.resultat.SammenligningsGrunnlag;
-import no.nav.foreldrepenger.domene.beregningsgrunnlag.regler.arbeidstaker.FastsettSammenligningsgrunnlag;
 import no.nav.vedtak.util.FPDateUtil;
 
 public class FastsettSammenligningsgrunnlagTest {
@@ -24,18 +22,10 @@ public class FastsettSammenligningsgrunnlagTest {
     /*
     Scenarioer i testene er tatt fra https://confluence.adeo.no/display/MODNAV/3b+Fastsette+sammenligningsgrunnlagsperiode#FunksjonellogUX
      */
-
     private static final String FUNKSJONELT_TIDSOFFSET = FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_PERIODE;
-    private static final String FUNKSJONELT_TIDSOFFSET_AKTIVERT = FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_AKTIVERT;
-
-    @Before
-    public void setup() {
-        System.setProperty(FUNKSJONELT_TIDSOFFSET_AKTIVERT, "true");
-    }
 
     @AfterClass
     public static void after() {
-        System.clearProperty(FPDateUtil.SystemConfiguredClockProvider.PROPERTY_KEY_OFFSET_AKTIVERT);
         FPDateUtil.init();
     }
 

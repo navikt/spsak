@@ -36,13 +36,13 @@ public class BaseEntitet implements Serializable {
     @PrePersist
     protected void onCreate() {
         this.opprettetAv = finnBrukernavn();
-        this.opprettetTidspunkt = LocalDateTime.now(FPDateUtil.getOffset());
+        this.opprettetTidspunkt = FPDateUtil.nå();
     }
 
     @PreUpdate
     protected void onUpdate() {
         endretAv = finnBrukernavn();
-        endretTidspunkt = LocalDateTime.now(FPDateUtil.getOffset());
+        endretTidspunkt = FPDateUtil.nå();
     }
 
     public String getOpprettetAv() {

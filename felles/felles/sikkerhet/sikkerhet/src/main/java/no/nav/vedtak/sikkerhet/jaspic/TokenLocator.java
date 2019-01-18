@@ -1,17 +1,18 @@
 package no.nav.vedtak.sikkerhet.jaspic;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
-
 import static no.nav.vedtak.sikkerhet.Constants.ID_TOKEN_COOKIE_NAME;
 import static no.nav.vedtak.sikkerhet.Constants.REFRESH_TOKEN_COOKIE_NAME;
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
 class TokenLocator {
 
-    public Optional<String> getToken(HttpServletRequest request) {
+    public Optional<OidcTokenHolder> getToken(HttpServletRequest request) {
         Optional<String> tokenFromCookie = getCookie(request, ID_TOKEN_COOKIE_NAME);
         if (tokenFromCookie.isPresent()) {
-            return tokenFromCookie;
+            return Optional.of(new OidcTokenHolder(tokenFromCookie.get(), true));
         }
         return getTokenFromHeader(request);
     }
@@ -32,10 +33,10 @@ class TokenLocator {
         return Optional.empty();
     }
 
-    private Optional<String> getTokenFromHeader(HttpServletRequest request) {
+    private Optional<OidcTokenHolder> getTokenFromHeader(HttpServletRequest request) {
         String headerValue = request.getHeader("Authorization");
         return headerValue != null && !headerValue.isEmpty() && headerValue.startsWith("Bearer ")
-                ? Optional.of(headerValue.substring("Bearer ".length()))
+                ? Optional.of(new OidcTokenHolder(headerValue.substring("Bearer ".length()), false))
                 : Optional.empty();
     }
 

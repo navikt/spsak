@@ -58,6 +58,10 @@ public class AbacAttributtSamling {
         return dataAttributter.getOppgaveIder();
     }
 
+    public Set<String> getOppgavestyringEnhet(){
+        return dataAttributter.getOppgavestyringEnhet();
+    }
+
     public AbacIdToken getIdToken() {
         return idToken;
     }

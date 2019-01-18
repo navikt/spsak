@@ -28,6 +28,14 @@ public class AbacDataAttributter {
         return this;
     }
 
+    public AbacDataAttributter leggTilOppgavestyringEnhet(String enhet) {
+        return leggTil(AbacAttributtType.OPPGAVESTYRING_ENHET, enhet);
+    }
+
+    Set<String> getOppgavestyringEnhet() {
+        return getVerdier(AbacAttributtType.OPPGAVESTYRING_ENHET);
+    }
+
     public AbacDataAttributter leggTilFødselsnummer(String fnr) {
         return leggTil(AbacAttributtType.FNR, fnr);
     }
@@ -146,7 +154,7 @@ public class AbacDataAttributter {
         requireNonNull(verdi, "Attributt av type " + type + " kan ikke være null"); //$NON-NLS-1$ //$NON-NLS-2$
         Set<Object> a = attributter.get(type);
         if (a == null) {
-            a = new HashSet<>(4); //det er vanligvis bare 1 attributt i settet
+            a = new HashSet<>(4); // det er vanligvis bare 1 attributt i settet
             attributter.put(type, a);
         }
         a.add(verdi);
@@ -156,25 +164,26 @@ public class AbacDataAttributter {
     @SuppressWarnings("unchecked")
     private <T> Set<T> getVerdier(AbacAttributtType type) {
         return attributter.containsKey(type)
-                ? (Set<T>) attributter.get(type) // NOSONAR cast fungerer når settere/gettere er symmetriske slik de skal være her
-                : Collections.emptySet();
+            ? (Set<T>) attributter.get(type) // NOSONAR cast fungerer når settere/gettere er symmetriske slik de skal være her
+            : Collections.emptySet();
     }
 
     @Override
     public String toString() {
         return AbacDataAttributter.class.getSimpleName() +
-                "{saksnummre='" + getSaksnummre() + '\'' +
-                ", fnr='" + maskertEllerTom(getFødselsnumre()) + "'" +
-                ", aktørId='" + maskertEllerTom(getAktørIder()) + "'" +
-                ", oppgaveId='" + getOppgaveIder() + "'" +
-                ", fagsakId='" + getFagsakIder() + "'" +
-                ", behandlingId='" + getBehandlingIder() + "'" +
-                ", aksjonspunktKoder='" + getAksjonspunktKode() + "'" +
-                ", journalpostId='" + getJournalpostIder(false) + "'" +
-                ", påkrevdeJournalpostId='" + getJournalpostIder(true) + "'" +
-                ", beregningId='" + getSPBeregningsIder() + "'" +
-                ", dokumentforsendelseId='" + getDokumentforsendelseIder() + "'" +
-                '}';
+            "{saksnummre='" + getSaksnummre() + '\'' +
+            ", fnr='" + maskertEllerTom(getFødselsnumre()) + "'" +
+            ", aktørId='" + maskertEllerTom(getAktørIder()) + "'" +
+            ", oppgaveId='" + getOppgaveIder() + "'" +
+            ", fagsakId='" + getFagsakIder() + "'" +
+            ", behandlingId='" + getBehandlingIder() + "'" +
+            ", aksjonspunktKoder='" + getAksjonspunktKode() + "'" +
+            ", journalpostId='" + getJournalpostIder(false) + "'" +
+            ", påkrevdeJournalpostId='" + getJournalpostIder(true) + "'" +
+            ", beregningId='" + getSPBeregningsIder() + "'" +
+            ", dokumentforsendelseId='" + getDokumentforsendelseIder() + "'" +
+            ", oppgavestyringEnhet='" + getOppgavestyringEnhet() + "'" +
+            '}';
     }
 
     @Override

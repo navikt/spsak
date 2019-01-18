@@ -28,9 +28,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import no.nav.vedtak.sikkerhet.loginmodule.LoginContextConfiguration;
-import no.nav.vedtak.sikkerhet.oidc.OidcTokenGenerator;
-import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidatorProviderForTest;
 import org.jose4j.jwt.NumericDate;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -45,9 +42,12 @@ import no.nav.vedtak.isso.config.ServerInfoTestUtil;
 import no.nav.vedtak.sikkerhet.ContextPathHolder;
 import no.nav.vedtak.sikkerhet.context.StaticSubjectHandler;
 import no.nav.vedtak.sikkerhet.context.SubjectHandlerUtils;
+import no.nav.vedtak.sikkerhet.loginmodule.LoginContextConfiguration;
 import no.nav.vedtak.sikkerhet.oidc.IdTokenProvider;
 import no.nav.vedtak.sikkerhet.oidc.OidcLogin;
+import no.nav.vedtak.sikkerhet.oidc.OidcTokenGenerator;
 import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidator;
+import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidatorProviderForTest;
 import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidatorResult;
 import no.nav.vedtak.sts.client.SecurityConstants;
 
@@ -125,7 +125,7 @@ public class OidcAuthModuleTest {
     @Test
     public void skal_sende_401_for_ugyldig_Authorization_header()
             throws Exception {
-        String utløptIdToken = getUtløptToken();
+        OidcTokenHolder utløptIdToken = getUtløptToken(false);
 
         when(request.getHeader("Accept")).thenReturn(null);
         when(request.getHeader("Authorization")).thenReturn("Bearer "+utløptIdToken);
@@ -173,7 +173,7 @@ public class OidcAuthModuleTest {
             throws Exception {
         MessageInfo request = createRequestForProtectedResource();
 
-        String gyldigIdToken = getGyldigToken();
+        OidcTokenHolder gyldigIdToken = getGyldigToken(true);
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(gyldigIdToken));
         when(tokenLocator.getRefreshToken(any(HttpServletRequest.class))).thenReturn(Optional.empty());
         when(tokenValidator.validate(gyldigIdToken))
@@ -188,7 +188,7 @@ public class OidcAuthModuleTest {
             throws Exception {
         MessageInfo request = createRequestForProtectedResource();
 
-        String ugyldigToken = getUtløptToken();
+        OidcTokenHolder ugyldigToken = getUtløptToken(true);
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(ugyldigToken));
         when(tokenLocator.getRefreshToken(any(HttpServletRequest.class))).thenReturn(Optional.empty());
         when(tokenValidator.validate(ugyldigToken))
@@ -206,7 +206,7 @@ public class OidcAuthModuleTest {
     public void skal_ikke_slippe_gjennom_forespørsel_og_svare_med_redirect_når_det_ikke_er_satt_application_json() throws Exception {
         MessageInfo request = createRequestForProtectedResource();
 
-        String ugyldigToken = getUtløptToken();
+        OidcTokenHolder ugyldigToken = getUtløptToken(true);
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(ugyldigToken));
         when(tokenLocator.getRefreshToken(any(HttpServletRequest.class))).thenReturn(Optional.empty());
         when(tokenValidator.validate(ugyldigToken))
@@ -223,7 +223,7 @@ public class OidcAuthModuleTest {
             throws Exception {
         MessageInfo request = createRequestForProtectedResource();
 
-        String ugyldigIdToken = getUtløptToken();
+        OidcTokenHolder ugyldigIdToken = getUtløptToken(true);
         String ugyldigRefreshToken = "et ugyldig refresh token";
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(ugyldigIdToken));
         when(tokenLocator.getRefreshToken(any(HttpServletRequest.class))).thenReturn(Optional.of(ugyldigRefreshToken));
@@ -242,9 +242,9 @@ public class OidcAuthModuleTest {
             throws Exception {
         MessageInfo request = createRequestForProtectedResource();
 
-        String utløptIdToken = getUtløptToken();
+        OidcTokenHolder utløptIdToken = getUtløptToken(true);
         String gyldigRefreshToken = "et gyldig refresh token";
-        String gyldigIdToken = getGyldigToken();
+        OidcTokenHolder gyldigIdToken = getGyldigToken(true);
         int sekunderGjenståendeGyldigTid = Integer.parseInt(OidcLogin.DEFAULT_REFRESH_TIME) + 60;
 
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(utløptIdToken));
@@ -267,9 +267,9 @@ public class OidcAuthModuleTest {
             throws Exception {
         MessageInfo request = createRequestForProtectedResource();
 
-        String ugyldig = getUtløptToken();
+        OidcTokenHolder ugyldig = getUtløptToken(true);
         String gyldigRefreshToken = "et gyldig refresh token";
-        String gyldigIdToken = getGyldigToken();
+        OidcTokenHolder gyldigIdToken = getGyldigToken(true);
 
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(ugyldig));
         when(tokenLocator.getRefreshToken(any(HttpServletRequest.class))).thenReturn(Optional.of(gyldigRefreshToken));
@@ -288,8 +288,8 @@ public class OidcAuthModuleTest {
     public void skal_sette_nytt_idtoken_i_httponly_cookie_når_det_ble_gjort_refresh_av_token() throws Exception {
         MessageInfo request = createRequestForProtectedResource();
 
-        String utløptIdToken = getUtløptToken();
-        String nyttGyldigIdToken = getGyldigToken();
+        OidcTokenHolder utløptIdToken = getUtløptToken(true);
+        OidcTokenHolder nyttGyldigIdToken = getGyldigToken(true);
         int sekunderGjenståendeGyldigTid = Integer.parseInt(OidcLogin.DEFAULT_REFRESH_TIME) + 60;
         String gyldigRefreshToken = "et gyldig refresh token";
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(utløptIdToken));
@@ -303,7 +303,7 @@ public class OidcAuthModuleTest {
 
         authModule.validateRequest(request, subject, serviceSubject);
 
-        Cookie forventetCookie = new Cookie(ID_TOKEN_COOKIE_NAME, nyttGyldigIdToken);
+        Cookie forventetCookie = new Cookie(ID_TOKEN_COOKIE_NAME, nyttGyldigIdToken.getToken());
         forventetCookie.setSecure(true);
         forventetCookie.setHttpOnly(true);
         forventetCookie.setPath("/");
@@ -318,13 +318,13 @@ public class OidcAuthModuleTest {
 
         int sekunderGjenståendeGyldigTid = Integer.parseInt(OidcLogin.DEFAULT_REFRESH_TIME) + 5;
 
-        String gyldigIdToken = getGyldigToken();
+        OidcTokenHolder gyldigIdToken = getGyldigToken(true);
         String gyldigRefreshToken = "et gyldig refresh token";
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(gyldigIdToken));
         when(tokenLocator.getRefreshToken(any(HttpServletRequest.class))).thenReturn(Optional.of(gyldigRefreshToken));
         when(tokenValidator.validate(gyldigIdToken))
                 .thenReturn(OidcTokenValidatorResult.valid("demo", System.currentTimeMillis() / 1000 + sekunderGjenståendeGyldigTid));
-        when(idTokenProvider.getToken(gyldigIdToken, gyldigRefreshToken)).thenReturn(Optional.of("nok et token som validerer :-)"));
+        when(idTokenProvider.getToken(gyldigIdToken, gyldigRefreshToken)).thenReturn(Optional.of(new OidcTokenHolder("nok et token som validerer :-)", true)));
 
         authModule.validateRequest(request, subject, serviceSubject);
 
@@ -333,14 +333,14 @@ public class OidcAuthModuleTest {
     }
 
     @Test
-    public void skal_gjøre_refresh_av_token_når_det_validerer_og_har_for_kort_levetid_til_å_sikkert_kunne_brukes_til_kall_til_andre_tjenester()
+    public void skal_gjøre_refresh_av_token_fra_cookie_når_det_validerer_og_har_for_kort_levetid_til_å_sikkert_kunne_brukes_til_kall_til_andre_tjenester()
             throws Exception {
         MessageInfo request = createRequestForProtectedResource();
 
         int sekunderGjenståendeGyldigTid = Integer.parseInt(OidcLogin.DEFAULT_REFRESH_TIME) - 5;
 
-        String gyldigIdToken = getGyldigToken();
-        String nyttGyldigIdToken = getGyldigToken();
+        OidcTokenHolder gyldigIdToken = getGyldigToken(true);
+        OidcTokenHolder nyttGyldigIdToken = getGyldigToken(true);
         String gyldigRefreshToken = "et gyldig refresh token";
         when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(gyldigIdToken));
         when(tokenLocator.getRefreshToken(any(HttpServletRequest.class))).thenReturn(Optional.of(gyldigRefreshToken));
@@ -354,7 +354,7 @@ public class OidcAuthModuleTest {
 
         verify(idTokenProvider).getToken(gyldigIdToken, gyldigRefreshToken);
 
-        Cookie forventetCookie = new Cookie(ID_TOKEN_COOKIE_NAME, nyttGyldigIdToken);
+        Cookie forventetCookie = new Cookie(ID_TOKEN_COOKIE_NAME, nyttGyldigIdToken.getToken());
         forventetCookie.setSecure(true);
         forventetCookie.setHttpOnly(true);
         forventetCookie.setPath("/");
@@ -362,7 +362,30 @@ public class OidcAuthModuleTest {
         verify(response).addCookie(Mockito.argThat(new CookieMatcher(forventetCookie)));
     }
 
+    @Test
+    public void skal_ikke_gjøre_refresh_av_token_fra_header_når_det_validerer()
+            throws Exception {
+        MessageInfo request = createRequestForProtectedResource();
 
+        int sekunderGjenståendeGyldigTid = Integer.parseInt(OidcLogin.DEFAULT_REFRESH_TIME) - 5;
+
+        OidcTokenHolder gyldigIdToken = getGyldigToken(false);
+        OidcTokenHolder nyttGyldigIdToken = getGyldigToken(false);
+        String gyldigRefreshToken = "et gyldig refresh token";
+        when(tokenLocator.getToken(any(HttpServletRequest.class))).thenReturn(Optional.of(gyldigIdToken));
+        when(tokenLocator.getRefreshToken(any(HttpServletRequest.class))).thenReturn(Optional.of(gyldigRefreshToken));
+        when(tokenValidator.validate(gyldigIdToken))
+                .thenReturn(OidcTokenValidatorResult.valid("demo", System.currentTimeMillis() / 1000 + sekunderGjenståendeGyldigTid));
+        when(tokenValidator.validate(nyttGyldigIdToken))
+                .thenReturn(OidcTokenValidatorResult.valid("demo", System.currentTimeMillis() / 1000 + 3600));
+        when(idTokenProvider.getToken(gyldigIdToken, gyldigRefreshToken)).thenReturn(Optional.of(nyttGyldigIdToken));
+
+        authModule.validateRequest(request, subject, serviceSubject);
+
+        Mockito.verifyZeroInteractions(idTokenProvider); // skal ikke hente refresh-token
+        Mockito.verifyZeroInteractions(response); // skal ikke sette cookie
+    }
+    
     @Test
     public void skal_ha_korrekt_scheme_selv_om_TLS_termineres_underveis() throws Exception {
         ServerInfoTestUtil.clearServerInfoInstance();
@@ -445,13 +468,20 @@ public class OidcAuthModuleTest {
         return messageInfo;
     }
 
-    private String getGyldigToken() {
-        return new OidcTokenGenerator().create();
-
+    private OidcTokenHolder getGyldigToken(boolean fraCookie) {
+        if (fraCookie) {
+            return new OidcTokenGenerator().createCookieTokenHolder();
+        } else {
+            return new OidcTokenGenerator().createHeaderTokenHolder();
+        }
     }
 
-    private String getUtløptToken() {
-        return new OidcTokenGenerator().withExpiration(NumericDate.fromMilliseconds(System.currentTimeMillis()-1)).create();
+    private OidcTokenHolder getUtløptToken(boolean fraCookie) {
+        if (fraCookie) {
+            return new OidcTokenGenerator().withExpiration(NumericDate.fromMilliseconds(System.currentTimeMillis() - 1)).createCookieTokenHolder();
+        } else {
+            return new OidcTokenGenerator().withExpiration(NumericDate.fromMilliseconds(System.currentTimeMillis() - 1)).createHeaderTokenHolder();
+        }
     }
 
 

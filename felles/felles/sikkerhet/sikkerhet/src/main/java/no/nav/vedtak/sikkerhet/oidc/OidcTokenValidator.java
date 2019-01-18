@@ -1,9 +1,8 @@
 package no.nav.vedtak.sikkerhet.oidc;
 
-import no.nav.vedtak.isso.OpenAMHelper;
-import no.nav.vedtak.sikkerhet.jwks.JwksKeyHandler;
-import no.nav.vedtak.sikkerhet.jwks.JwksKeyHandlerImpl;
-import no.nav.vedtak.sikkerhet.jwks.JwtHeader;
+import java.security.Key;
+import java.util.List;
+
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.MalformedClaimException;
 import org.jose4j.jwt.consumer.InvalidJwtException;
@@ -11,8 +10,11 @@ import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.jwx.JsonWebStructure;
 
-import java.security.Key;
-import java.util.List;
+import no.nav.vedtak.isso.OpenAMHelper;
+import no.nav.vedtak.sikkerhet.jaspic.OidcTokenHolder;
+import no.nav.vedtak.sikkerhet.jwks.JwksKeyHandler;
+import no.nav.vedtak.sikkerhet.jwks.JwksKeyHandlerImpl;
+import no.nav.vedtak.sikkerhet.jwks.JwtHeader;
 
 public class OidcTokenValidator {
 
@@ -47,15 +49,16 @@ public class OidcTokenValidator {
         this.skipAudienceValidation = skipAudienceValidation;
     }
 
-    public OidcTokenValidatorResult validate(String token) {
-        return validate(token, allowedClockSkewInSeconds);
+    public OidcTokenValidatorResult validate(OidcTokenHolder tokenHolder) {
+        return validate(tokenHolder, allowedClockSkewInSeconds);
     }
 
 
-    private OidcTokenValidatorResult validate(String token, int allowedClockSkewInSeconds) {
-        if (token == null) {
+    private OidcTokenValidatorResult validate(OidcTokenHolder tokenHolder, int allowedClockSkewInSeconds) {
+        if (tokenHolder == null) {
             return OidcTokenValidatorResult.invalid("Missing token (token was null)");
         }
+        String token = tokenHolder.getToken();
         JwtHeader header;
         try {
             header = getHeader(token);
@@ -93,8 +96,8 @@ public class OidcTokenValidator {
         }
     }
 
-    public OidcTokenValidatorResult validateWithoutExpirationTime(String token) {
-        return validate(token, Integer.MAX_VALUE);
+    public OidcTokenValidatorResult validateWithoutExpirationTime(OidcTokenHolder tokenHolder) {
+        return validate(tokenHolder, Integer.MAX_VALUE);
     }
 
     //Validates some of the rules set in OpenID Connect Core 1.0 incorporating errata set 1,

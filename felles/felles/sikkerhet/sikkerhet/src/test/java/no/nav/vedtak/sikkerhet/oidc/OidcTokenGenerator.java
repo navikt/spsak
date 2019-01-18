@@ -12,6 +12,8 @@ import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.NumericDate;
 import org.jose4j.lang.JoseException;
 
+import no.nav.vedtak.sikkerhet.jaspic.OidcTokenHolder;
+
 public class OidcTokenGenerator {
     public static final String ISSUER = "https://foo.bar.adeo.no/openam/oauth2";
     private List<String> aud = Collections.singletonList("OIDC");
@@ -69,11 +71,19 @@ public class OidcTokenGenerator {
         return this;
     }
 
+    public OidcTokenHolder createCookieTokenHolder() {
+        return new OidcTokenHolder(create(), true);
+    }
+
+    public OidcTokenHolder createHeaderTokenHolder() {
+        return new OidcTokenHolder(create(), false);
+    }
+
     public String create() {
-    	if(kid==null) {
-    		kid = KeyStoreTool.getJsonWebKey().getKeyId();
-    	}
-    	
+        if (kid == null) {
+            kid = KeyStoreTool.getJsonWebKey().getKeyId();
+        }
+
         JwtClaims claims = new JwtClaims();
         claims.setIssuer(issuer);
         claims.setExpirationTime(expiration);

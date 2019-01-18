@@ -15,15 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import no.nav.vedtak.isso.SystemUserIdTokenProvider;
+import no.nav.vedtak.isso.ressurs.TokenCallback;
 import no.nav.vedtak.log.mdc.MDCOperations;
 import no.nav.vedtak.sikkerhet.context.SubjectHandler;
+import no.nav.vedtak.sikkerhet.jaspic.OidcTokenHolder;
 
 public class ContainerLogin {
     private static final Logger log = LoggerFactory.getLogger(ContainerLogin.class);
 
     private final LoginContext loginContext;
 
-    private String token;
+    private OidcTokenHolder tokenHolder;
 
     public ContainerLogin() {
         // No need for bean.destroy(instance) since it's ApplicationScoped
@@ -57,8 +59,8 @@ public class ContainerLogin {
             @Override
             public void handle(Callback[] callbacks) throws UnsupportedCallbackException {
                 for (Callback callback : callbacks) {
-                    if (callback instanceof PasswordCallback) {
-                        ((PasswordCallback) callback).setPassword(token.toCharArray());
+                    if (callback instanceof TokenCallback) {
+                        ((TokenCallback) callback).setToken(tokenHolder);
                     } else {
                         // Should never happen
                         throw new UnsupportedCallbackException(callback, PasswordCallback.class + " is the only supported Callback");
@@ -74,8 +76,8 @@ public class ContainerLogin {
     }
 
     private void ensureWeHaveTokens() {
-        if (token == null) {
-            token = SystemUserIdTokenProvider.getSystemUserIdToken().getToken();
+        if (tokenHolder == null) {
+            tokenHolder = new OidcTokenHolder(SystemUserIdTokenProvider.getSystemUserIdToken().getToken(), false);
         }
     }
 

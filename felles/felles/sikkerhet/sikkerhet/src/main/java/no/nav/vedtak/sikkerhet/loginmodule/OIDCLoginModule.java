@@ -1,27 +1,30 @@
 package no.nav.vedtak.sikkerhet.loginmodule;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.security.auth.Subject;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.CredentialExpiredException;
+import javax.security.auth.login.LoginException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import no.nav.vedtak.isso.ressurs.TokenCallback;
 import no.nav.vedtak.log.mdc.MDCOperations;
 import no.nav.vedtak.sikkerhet.domene.AuthenticationLevelCredential;
 import no.nav.vedtak.sikkerhet.domene.ConsumerId;
 import no.nav.vedtak.sikkerhet.domene.OidcCredential;
 import no.nav.vedtak.sikkerhet.domene.SluttBruker;
+import no.nav.vedtak.sikkerhet.jaspic.OidcTokenHolder;
 import no.nav.vedtak.sikkerhet.oidc.JwtUtil;
 import no.nav.vedtak.sikkerhet.oidc.OidcLogin;
 import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidator;
 import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidatorProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.security.auth.Subject;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.CredentialExpiredException;
-import javax.security.auth.login.LoginException;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * <p>LoginModule that will use an OIDC ID Token and add NAV Principals and Credentials.</p>
@@ -39,7 +42,7 @@ public class OIDCLoginModule extends LoginModuleBase {
     private CallbackHandler callbackHandler;
 
     // Set during login()
-    private String ssoToken;
+    private OidcTokenHolder ssoToken;
     private SluttBruker sluttBruker;
 
     // Set during commit()
@@ -63,7 +66,7 @@ public class OIDCLoginModule extends LoginModuleBase {
         logger.trace("Enter login method");
         ssoToken = getSSOToken();
 
-        String issuer = JwtUtil.getIssuser(ssoToken);
+        String issuer = JwtUtil.getIssuser(ssoToken.getToken());
         OidcTokenValidator tokenValidator = OidcTokenValidatorProvider.instance().getValidator(issuer);
 
         OidcLogin oidcLogin = new OidcLogin(Optional.of(ssoToken), tokenValidator);
@@ -92,7 +95,7 @@ public class OIDCLoginModule extends LoginModuleBase {
         } else {
             this.consumerId = new ConsumerId();
         }
-        oidcCredential = new OidcCredential(ssoToken);
+        oidcCredential = new OidcCredential(ssoToken.getToken());
 
         subject.getPrincipals().add(sluttBruker);
         subject.getPrincipals().add(this.consumerId);
@@ -144,29 +147,28 @@ public class OIDCLoginModule extends LoginModuleBase {
     /*
      * Called by login() to acquire the ID Token.
      */
-    protected String getSSOToken() throws LoginException {
+    protected OidcTokenHolder getSSOToken() throws LoginException {
         logger.trace("Getting the SSO-token from callback");
 
         if (callbackHandler == null) {
             throw new LoginException("No callbackhandler provided");
         }
 
-        // The prompt will never be seen by the user, we trigger the module by code with "password" set programatically
-        PasswordCallback pc = new PasswordCallback("Input ID token", false);
+        TokenCallback tokenCallback = new TokenCallback();
 
-        Callback[] callbacks = {pc};
+        Callback[] callbacks = {tokenCallback};
 
-        String tokenString;
+        OidcTokenHolder tokenHolder;
         try {
             callbackHandler.handle(callbacks);
-            tokenString = new String(pc.getPassword());
+            tokenHolder = tokenCallback.getToken();
         } catch (IOException | UnsupportedCallbackException e) {
             logger.debug("Error while handling getting token from callbackhandler: ", e);
             LoginException le = new LoginException();
             le.initCause(e);
             throw le;
         }
-        return tokenString;
+        return tokenHolder;
     }
 
 }

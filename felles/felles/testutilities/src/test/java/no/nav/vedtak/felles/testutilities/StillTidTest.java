@@ -22,7 +22,7 @@ public class StillTidTest {
     
     @Test
     public void testName() {
-        LocalDateTime tid = LocalDateTime.now(FPDateUtil.getOffset());
+        LocalDateTime tid = FPDateUtil.nå();
         LocalDateTime comp = LocalDateTime.of(year, month, dayOfMonth, hour, minute);
 
         assertThat(tid).isEqualToIgnoringHours(comp);

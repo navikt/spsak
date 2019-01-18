@@ -109,6 +109,10 @@ public class PdpKlientImpl implements PdpKlient {
         pdpRequest.getXacmlBehandlingStatus().ifPresent(b -> resourceAttributeSet.addAttribute(NavAttributter.RESOURCE_FORELDREPENGER_SAK_BEHANDLINGSSTATUS, b));
         pdpRequest.getAnsvarligSaksbehandler().ifPresent(a -> resourceAttributeSet.addAttribute(NavAttributter.RESOURCE_FORELDREPENGER_SAK_ANSVARLIG_SAKSBEHANDLER, a));
         pdpRequest.getSaksummerForIndex(index).ifPresent(s -> resourceAttributeSet.addAttribute(NavAttributter.RESOURCE_ARKIV_GSAK_SAKSID, s));
+        
+        // FIXME (Sykepenger):
+        //pdpRequest.getOppgavestyringEnhetForIndex(index).ifPresent(a -> resourceAttributeSet.addAttribute(ForeldrepengerAttributter.FORELDREPENGER_OPPGAVESTYRING_AVDELINGSENHET, a));
+        
         return resourceAttributeSet;
     }
 

@@ -1,16 +1,14 @@
 package no.nav.vedtak.isso.ressurs;
 
-import no.nav.vedtak.filter.DoNotCache;
-import no.nav.vedtak.isso.config.ServerInfo;
-import no.nav.vedtak.sikkerhet.domene.IdTokenAndRefreshToken;
-import no.nav.vedtak.sikkerhet.domene.OidcCredential;
-import no.nav.vedtak.sikkerhet.oidc.IdTokenAndRefreshTokenProvider;
-import no.nav.vedtak.sikkerhet.oidc.JwtUtil;
-import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidator;
-import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidatorProvider;
-import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidatorResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.FORBIDDEN;
+import static no.nav.vedtak.sikkerhet.Constants.ID_TOKEN_COOKIE_NAME;
+import static no.nav.vedtak.sikkerhet.Constants.REFRESH_TOKEN_COOKIE_NAME;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,15 +21,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.FORBIDDEN;
-import static no.nav.vedtak.sikkerhet.Constants.ID_TOKEN_COOKIE_NAME;
-import static no.nav.vedtak.sikkerhet.Constants.REFRESH_TOKEN_COOKIE_NAME;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import no.nav.vedtak.filter.DoNotCache;
+import no.nav.vedtak.isso.config.ServerInfo;
+import no.nav.vedtak.sikkerhet.domene.IdTokenAndRefreshToken;
+import no.nav.vedtak.sikkerhet.domene.OidcCredential;
+import no.nav.vedtak.sikkerhet.jaspic.OidcTokenHolder;
+import no.nav.vedtak.sikkerhet.oidc.IdTokenAndRefreshTokenProvider;
+import no.nav.vedtak.sikkerhet.oidc.JwtUtil;
+import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidator;
+import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidatorProvider;
+import no.nav.vedtak.sikkerhet.oidc.OidcTokenValidatorResult;
 
 @Path("")
 @DoNotCache
@@ -64,7 +67,7 @@ public class RelyingPartyCallback {
 
         String issuser = JwtUtil.getIssuser(token.getToken());
         OidcTokenValidator validator = OidcTokenValidatorProvider.instance().getValidator(issuser);
-        OidcTokenValidatorResult result = validator.validate(token.getToken());
+        OidcTokenValidatorResult result = validator.validate(new OidcTokenHolder(token.getToken(), false));
 
         if (!result.isValid()) {
             return Response.status(FORBIDDEN).build();

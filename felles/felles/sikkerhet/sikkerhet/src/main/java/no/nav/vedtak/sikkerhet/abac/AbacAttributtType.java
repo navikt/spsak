@@ -41,5 +41,7 @@ public enum AbacAttributtType {
      */
     SPBEREGNING_ID,
 
-    DOKUMENTFORSENDELSE_ID
+    DOKUMENTFORSENDELSE_ID,
+    
+    OPPGAVESTYRING_ENHET
 }

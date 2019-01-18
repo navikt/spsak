@@ -10,15 +10,17 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.vedtak.isso.OpenAMHelper;
 import no.nav.vedtak.log.util.LoggerUtils;
+import no.nav.vedtak.sikkerhet.jaspic.OidcTokenHolder;
 
 public class IdTokenProvider {
 
     private static final Logger log = LoggerFactory.getLogger(IdTokenProvider.class);
 
-    public Optional<String> getToken(String idToken, String refreshToken) {
-        String oidcClientName = JwtUtil.getClientName(idToken);
+    public Optional<OidcTokenHolder> getToken(OidcTokenHolder idToken, String refreshToken) {
+        String oidcClientName = JwtUtil.getClientName(idToken.getToken());
         log.debug("Refreshing token, using client name {}", LoggerUtils.removeLineBreaks(oidcClientName)); //NOSONAR CRLF håndtert
-        return TokenProviderUtil.getTokenOptional(() -> createTokenRequest(oidcClientName, refreshToken), s -> TokenProviderUtil.findToken(s, "id_token"));
+        Optional<String> newToken = TokenProviderUtil.getTokenOptional(() -> createTokenRequest(oidcClientName, refreshToken), s -> TokenProviderUtil.findToken(s, "id_token"));
+        return newToken.map(s -> new OidcTokenHolder(s, idToken.isFromCookie()));
     }
 
     private HttpRequestBase createTokenRequest(String oidcClientName, String refreshToken) {

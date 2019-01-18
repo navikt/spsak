@@ -22,9 +22,11 @@ import org.apache.http.message.BasicHeader;
 public class RestClientSupportProdusent {
 
     private final OidcRestClient oidcRestClient;
+    private final SystemUserOidcRestClient systemUserOidcRestClient;
 
     public RestClientSupportProdusent() {
         this.oidcRestClient = createOidcRestClient();
+        this.systemUserOidcRestClient = creatSystemUserOidcRestClient();
     }
 
     @Produces
@@ -32,7 +34,22 @@ public class RestClientSupportProdusent {
         return oidcRestClient;
     }
 
+    @Produces
+    public SystemUserOidcRestClient getSystemUserOidcRestClient() {
+        return systemUserOidcRestClient;
+    }
+
     private OidcRestClient createOidcRestClient() {
+        CloseableHttpClient closeableHttpClient = createHttpClient();
+        return new OidcRestClient(closeableHttpClient);
+    }
+
+    private SystemUserOidcRestClient creatSystemUserOidcRestClient() {
+        CloseableHttpClient closeableHttpClient = createHttpClient();
+        return new SystemUserOidcRestClient(closeableHttpClient);
+    }
+
+    private CloseableHttpClient createHttpClient() {
         // Create connection configuration
         ConnectionConfig defaultConnectionConfig = ConnectionConfig.custom()
                 .setCharset(Consts.UTF_8)
@@ -53,13 +70,11 @@ public class RestClientSupportProdusent {
         List<Header> defaultHeaders = Arrays.asList(header);
 
         // Create an HttpClient with the given custom dependencies and configuration.
-        CloseableHttpClient closeableHttpClient = HttpClients.custom()
+        return HttpClients.custom()
                 .setConnectionManager(connManager)
                 .setDefaultHeaders(defaultHeaders)
                 .setDefaultRequestConfig(defaultRequestConfig)
                 .build();
-
-        return new OidcRestClient(closeableHttpClient);
     }
 
 }

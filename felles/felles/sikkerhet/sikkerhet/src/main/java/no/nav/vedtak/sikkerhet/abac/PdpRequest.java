@@ -13,7 +13,8 @@ public class PdpRequest {
     private List<String> saksnummer;
     private AbacIdToken token;
     private String ansvarligSaksbehandler;
-
+    private List<String> oppgavestyringEnhet;
+    
     private String xacmlAction;
     private String xacmlResourceType;
     private String xacmlSakstatus;
@@ -137,6 +138,25 @@ public class PdpRequest {
         return aktørId != null ? aktørId.size() : 0;
     }
 
+    public List<String> getOppgavestyringEnhet() {
+        return oppgavestyringEnhet;
+    }
+
+    public Optional<String> getOppgavestyringEnhetForIndex(int index) {
+        int antallEnheter = antallOppgavestyringEnhet();
+        return antallEnheter == 0
+                ? Optional.empty()
+                : Optional.of(oppgavestyringEnhet.get(index % antallEnheter));
+    }
+
+    private int antallOppgavestyringEnhet() {
+        return oppgavestyringEnhet != null ? oppgavestyringEnhet.size() : 0;
+    }
+
+    public void setOppgavestyringEnhet(List<String> avdelingEnhet) {
+        this.oppgavestyringEnhet = new ArrayList<>(avdelingEnhet);
+    }
+    
     public void setSaksummer(List<String> saksnumer){
         this.saksnummer = saksnumer;
     }

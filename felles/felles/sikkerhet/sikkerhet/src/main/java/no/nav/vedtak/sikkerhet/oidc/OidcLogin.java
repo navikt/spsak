@@ -3,6 +3,8 @@ package no.nav.vedtak.sikkerhet.oidc;
 import java.time.Instant;
 import java.util.Optional;
 
+import no.nav.vedtak.sikkerhet.jaspic.OidcTokenHolder;
+
 public class OidcLogin {
     public enum LoginResult {
         SUCCESS,
@@ -14,13 +16,13 @@ public class OidcLogin {
     private static final String REFRESH_TIME = "no.nav.vedtak.sikkerhet.minimum_time_to_expiry_before_refresh.seconds";
     public static final String DEFAULT_REFRESH_TIME = "120";
 
-    private final Optional<String> idToken;
+    private final Optional<OidcTokenHolder> idToken;
     private final OidcTokenValidator tokenValidator;
 
     private String subject;
     private String errorMessage;
 
-    public OidcLogin(Optional<String> idToken, OidcTokenValidator tokenValidator) {
+    public OidcLogin(Optional<OidcTokenHolder> idToken, OidcTokenValidator tokenValidator) {
         this.idToken = idToken;
         this.tokenValidator = tokenValidator;
     }
@@ -49,9 +51,13 @@ public class OidcLogin {
         return errorMessage;
     }
 
-    private boolean needToRefreshToken(String idToken, OidcTokenValidatorResult validateResult) {
+    private boolean needToRefreshToken(OidcTokenHolder idToken, OidcTokenValidatorResult validateResult) {
         if (validateResult.isValid()) {
-            return tokenIsSoonExpired(validateResult);
+            if(idToken.isFromCookie()) {
+                return tokenIsSoonExpired(validateResult);
+            }else {
+                return false;
+            }
         }
         return tokenValidator.validateWithoutExpirationTime(idToken).isValid();
     }

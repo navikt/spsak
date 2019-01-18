@@ -9,25 +9,38 @@ import java.time.temporal.ChronoUnit;
 
 import no.nav.vedtak.konfig.PropertyUtil;
 
-/** Returner funksjonelt tidsoffset, Brukes med LocalDate og LocalDateTime. eks. LocalDate.now(FPDateUtil.getOffset) */
+/**
+ * Returner funksjonelt tidsoffset, Brukes med LocalDate og LocalDateTime. eks. LocalDate.now(FPDateUtil.getOffset)
+ */
 public class FPDateUtil {
     private static volatile ClockProvider clockProvider;
 
-    /** Bare for enhetstest */
+    /**
+     * Bare for enhetstest
+     */
     public static void init() {
         init(new SystemConfiguredClockProvider());
     }
 
-    /** Bare for enhetstest */
+    /**
+     * Bare for enhetstest
+     */
     public static void init(ClockProvider provider) {
         clockProvider = provider;
     }
 
-    /** Returnerer nåværende ClockProvider, eller null dersom aldri initialisert. */
+    /**
+     * Returnerer nåværende ClockProvider, eller null dersom aldri initialisert.
+     */
     public static ClockProvider getCurrentClockProvider() {
         return clockProvider;
     }
 
+    /**
+     * Ikke bruk denne metoden direkte, kall på iDag() eller nå()
+     * Metoden vil bli private i en fremtidig versjon
+     */
+    @Deprecated
     public static Clock getOffset() {
         if (clockProvider == null) {
             init();
@@ -43,7 +56,9 @@ public class FPDateUtil {
         return LocalDateTime.now(getOffset());
     }
 
-    /** Interface for å kunne tilby en egendefinert Clock. */
+    /**
+     * Interface for å kunne tilby en egendefinert Clock.
+     */
     public interface ClockProvider {
         Clock getClock();
     }
@@ -51,11 +66,10 @@ public class FPDateUtil {
     /**
      * System clock, med optional offset aktivert og duration i tid.
      * Konfigurasjon:
-     *      funksjonelt.tidsoffset.aktivert (boolean) angir om tidsjustering skal brukes - parameter settes i .conf fil
-     *      funksjonelt.tidsoffset.offset (Duration) angir offset i Duration format f.eks. P-2D / P2D (2 dager bakover/frem) - parameter settes i databasen
+     * funksjonelt.tidsoffset.offset (Duration) angir offset i Duration format f.eks. P-2D / P2D (2 dager bakover/frem) - parameter settes i databasen
+     * funksjonell tidsoffset aktiveres kun dersom parameteren er satt
      **/
     public static class SystemConfiguredClockProvider implements ClockProvider {
-        public static final String PROPERTY_KEY_OFFSET_AKTIVERT = "funksjonelt.tidsoffset.aktivert";
         public static final String PROPERTY_KEY_OFFSET_PERIODE = "funksjonelt.tidsoffset.offset";
 
         private final Boolean offsetAktivert;
@@ -63,16 +77,15 @@ public class FPDateUtil {
         private volatile Clock clock;
 
         public SystemConfiguredClockProvider() {
-            String offsetAktivertStr = PropertyUtil.getProperty(PROPERTY_KEY_OFFSET_AKTIVERT);
-            this.offsetAktivert = Boolean.parseBoolean(offsetAktivertStr);
-            if (this.offsetAktivert) {
-                String offsetPeriode = PropertyUtil.getProperty(PROPERTY_KEY_OFFSET_PERIODE);
-                if (offsetAktivertStr == null || offsetPeriode.isEmpty()) {
-                    throw new IllegalStateException("Miljøfeil: tidsoffset er angitt aktivert men mangler offset verdi [" + PROPERTY_KEY_OFFSET_PERIODE + "]");
-                }
+            String offsetPeriode = PropertyUtil.getProperty(PROPERTY_KEY_OFFSET_PERIODE);
+
+            if (offsetPeriode != null && !offsetPeriode.isEmpty()) {
                 this.offsetPeriod = Period.parse(offsetPeriode);
+                this.offsetAktivert = true;
+
             } else {
                 this.offsetPeriod = Period.ofDays(0);
+                this.offsetAktivert=false;
             }
             initClock(offsetPeriod);
         }

@@ -1,14 +1,15 @@
 package no.nav.vedtak.util;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LRUCache<K extends Comparable<?>, V> {
     private final long timeoutMillis;
-    private final LRUCacheMap<K, Item<V>> cacheMap;
+    private final Map<K, Item<V>> cacheMap;
 
     public LRUCache(int cacheSize, long timeoutMillis) {
-        cacheMap = new LRUCacheMap<>(cacheSize);
+        cacheMap = Collections.synchronizedMap(new LRUCacheMap<>(cacheSize));
         this.timeoutMillis = timeoutMillis;
     }
 
