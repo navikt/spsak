@@ -16,7 +16,7 @@
 
 	<modules>
 		<module>felles</module>
-		<module>behandlingsprosess</module>
+		<module>prosesstask</module>
 		<module>integrasjon</module>
 	</modules>
 
@@ -24,6 +24,34 @@
 		<!-- Marker Junit Category interface for End2End tester -->
 		<additionalparam>-Xdoclint:none</additionalparam> <!-- TODO: Skru på doclint igjen... -->
 	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles</artifactId>
+				<type>pom</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles-bom</artifactId>
+				<type>pom</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles-prosesstask</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.spvedtak.felles</groupId>
+				<artifactId>felles-integrasjon-pom</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<pluginManagement>

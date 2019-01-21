@@ -33,7 +33,7 @@
         <!-- Prosjekt avhengigheter -->
         <dependency>
             <groupId>no.nav.spvedtak.felles</groupId>
-            <artifactId>felles-behandlingsprosess-prosesstask-rest-api</artifactId>
+            <artifactId>felles-prosesstask</artifactId>
         </dependency>
         <dependency>
             <groupId>no.nav.sykepenger.kontrakter</groupId>

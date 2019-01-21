@@ -45,7 +45,7 @@
         <!-- Felles avhengigheter -->
         <dependency>
             <groupId>no.nav.spvedtak.felles</groupId>
-            <artifactId>felles-behandlingsprosess-prosesstask-api</artifactId>
+            <artifactId>felles-prosesstask</artifactId>
         </dependency>
                   
         <!-- Test avhengigheter -->

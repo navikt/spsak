@@ -55,10 +55,8 @@
             </dependency>
             <dependency>
                 <groupId>no.nav.spvedtak.felles</groupId>
-                <artifactId>felles-behandlingsprosess</artifactId>
+                <artifactId>felles-prosesstask</artifactId>
                 <version>${project.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>no.nav.spvedtak.felles.integrasjon</groupId>
