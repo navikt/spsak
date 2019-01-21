@@ -6,12 +6,15 @@ import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidyte
 import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdHandlingType.NYTT_ARBEIDSFORHOLD;
 import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdHandlingType.SLÅTT_SAMMEN_MED_ANNET;
 import static no.nav.foreldrepenger.behandlingslager.behandling.inntektarbeidytelse.arbeidsforhold.ArbeidsforholdKilde.INNTEKTSKOMPONENTEN;
+import static no.nav.vedtak.konfig.Tid.TIDENES_ENDE;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -82,21 +86,21 @@ public class ArbeidsforholdAdministrasjonTjeneste {
     }
 
     /**
-         * Oppretter en builder for å lagre ned overstyringen av arbeidsforhold
-         *
-         * @param behandling behandlingen
-         * @return buildern
-         */
+     * Oppretter en builder for å lagre ned overstyringen av arbeidsforhold
+     *
+     * @param behandling behandlingen
+     * @return buildern
+     */
     public ArbeidsforholdInformasjonBuilder opprettBuilderFor(Behandling behandling) {
         return iayRepository.opprettInformasjonBuilderFor(behandling);
     }
 
     /**
-         * Rydder opp i inntektsmeldinger som blir erstattet
-         *
-         * @param behandling behandlingen
-         * @param builder ArbeidsforholdsOverstyringene som skal lagrers
-         */
+     * Rydder opp i inntektsmeldinger som blir erstattet
+     *
+     * @param behandling behandlingen
+     * @param builder    ArbeidsforholdsOverstyringene som skal lagrers
+     */
     public void lagre(Behandling behandling, ArbeidsforholdInformasjonBuilder builder) {
         iayRepository.lagre(behandling, builder);
     }
@@ -104,7 +108,8 @@ public class ArbeidsforholdAdministrasjonTjeneste {
     public Set<ArbeidsforholdWrapper> hentArbeidsforholdFerdigUtledet(Behandling behandling) {
         List<ArbeidsforholdOverstyringEntitet> overstyringer = iayRepository.hentArbeidsforholdInformasjon(behandling)
             .map(ArbeidsforholdInformasjon::getOverstyringer).orElse(emptyList());
-        Optional<InntektArbeidYtelseGrunnlag> grunnlagOptional = iayRepository.hentAggregatHvisEksisterer(behandling, skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling));
+        LocalDate skjæringstidspunkt = skjæringstidspunktTjeneste.utledSkjæringstidspunktFor(behandling);
+        Optional<InntektArbeidYtelseGrunnlag> grunnlagOptional = iayRepository.hentAggregatHvisEksisterer(behandling, skjæringstidspunkt);
         Optional<InntektsmeldingAggregat> inntektsmeldingAggregat = grunnlagOptional.flatMap(InntektArbeidYtelseGrunnlag::getInntektsmeldinger);
 
         Collection<Yrkesaktivitet> yaFør = grunnlagOptional.flatMap(g -> g.getAktørArbeidFørStp(behandling.getAktørId()))
@@ -117,14 +122,14 @@ public class ArbeidsforholdAdministrasjonTjeneste {
         final Map<Arbeidsgiver, Set<ArbeidsforholdRef>> arbeidsgiverSetMap = vurderArbeidsforholdTjeneste.endringerIInntektsmelding(behandling);
         final List<Inntektsmelding> inntektsmeldinger = inntektsmeldingAggregat.map(InntektsmeldingAggregat::getInntektsmeldinger).orElse(emptyList());
         Set<ArbeidsforholdWrapper> arbeidsforhold = new LinkedHashSet<>(
-            utledArbeidsforholdFraInntektsmeldinger(inntektsmeldinger, yaFør, yaEtter, overstyringer, arbeidsgiverSetMap));
+            utledArbeidsforholdFraInntektsmeldinger(inntektsmeldinger, yaFør, yaEtter, overstyringer, arbeidsgiverSetMap, skjæringstidspunkt));
         final Optional<AktørArbeid> aktørArbeid = grunnlagOptional.flatMap(g -> g.getAktørArbeidFørStp(behandling.getAktørId()));
-        aktørArbeid.ifPresent(aa -> arbeidsforhold.addAll(utledArbeidsforholdFraYrkesaktivitet(aa.getYrkesaktiviteter(), overstyringer, inntektsmeldinger)));
+        aktørArbeid.ifPresent(aa -> arbeidsforhold.addAll(utledArbeidsforholdFraYrkesaktivitet(aa.getYrkesaktiviteter(), overstyringer, inntektsmeldinger, skjæringstidspunkt)));
 
         final Optional<AktørArbeid> aktørArbeidEtter = grunnlagOptional.flatMap(g -> g.getAktørArbeidEtterStp(behandling.getAktørId()));
-        aktørArbeidEtter.ifPresent(aa -> arbeidsforhold.addAll(utledArbeidsforholdFraYrkesaktivitet(aa.getYrkesaktiviteter(), overstyringer, inntektsmeldinger)));
+        aktørArbeidEtter.ifPresent(aa -> arbeidsforhold.addAll(utledArbeidsforholdFraYrkesaktivitet(aa.getYrkesaktiviteter(), overstyringer, inntektsmeldinger, skjæringstidspunkt)));
         final List<Inntektsmelding> alleInntektsmeldinger = inntektsmeldingAggregat.map(it -> ((InntektsmeldingAggregatEntitet) it).getAlleInntektsmeldinger()).orElse(emptyList());
-        arbeidsforhold.addAll(utledArbeidsforholdFraArbeidsforholdInformasjon(overstyringer, yaFør, yaEtter, alleInntektsmeldinger));
+        arbeidsforhold.addAll(utledArbeidsforholdFraArbeidsforholdInformasjon(overstyringer, yaFør, yaEtter, alleInntektsmeldinger, skjæringstidspunkt));
         arbeidsforhold.addAll(utledArbeidsforholdFraInntekt(behandling, grunnlagOptional, arbeidsforhold, overstyringer));
 
         if (behandling.harÅpentAksjonspunktMedType(AksjonspunktDefinisjon.VURDER_ARBEIDSFORHOLD)) {
@@ -154,7 +159,7 @@ public class ArbeidsforholdAdministrasjonTjeneste {
     private List<ArbeidsforholdWrapper> utledArbeidsforholdFraInntektsmeldinger(List<Inntektsmelding> inntektsmeldinger,
                                                                                 Collection<Yrkesaktivitet> yaFør, Collection<Yrkesaktivitet> yaEtter,
                                                                                 List<ArbeidsforholdOverstyringEntitet> overstyringer,
-                                                                                Map<Arbeidsgiver, Set<ArbeidsforholdRef>> arbeidsgiverSetMap) {
+                                                                                Map<Arbeidsgiver, Set<ArbeidsforholdRef>> arbeidsgiverSetMap, LocalDate skjæringstidspunkt) {
         return inntektsmeldinger.stream().map(i -> {
             ArbeidsforholdWrapper wrapper = new ArbeidsforholdWrapper();
             wrapper.setNavn(i.getVirksomhet().getNavn());
@@ -163,36 +168,28 @@ public class ArbeidsforholdAdministrasjonTjeneste {
             if (arbeidsforholdRef != null) {
                 wrapper.setArbeidsforholdId(arbeidsforholdRef.getReferanse());
             }
-            DatoIntervallEntitet avtale = mapAvtalerOgKilde(yaFør, yaEtter, i, wrapper, arbeidsforholdRef);
-
+            final Arbeidsgiver arbeidsgiver = Arbeidsgiver.virksomhet(i.getVirksomhet());
+            List<Yrkesaktivitet> yrkesaktiviteter = finnYrkesaktivitet(yaFør, arbeidsgiver, i.getArbeidsforholdRef());
+            if (yrkesaktiviteter.isEmpty()) {
+                yrkesaktiviteter = finnYrkesaktivitet(yaEtter, arbeidsgiver, i.getArbeidsforholdRef());
+            }
+            DatoIntervallEntitet avtale = setAvtalePeriode(wrapper, yrkesaktiviteter);
+            wrapper.setKilde(avtale != null ? ArbeidsforholdKilde.AAREGISTERET : ArbeidsforholdKilde.INNTEKTSMELDING);
             // setter disse
             wrapper.setBrukArbeidsforholdet(true);
-            final Arbeidsgiver arbeidsgiver = Arbeidsgiver.virksomhet(i.getVirksomhet());
             final Boolean erNyttArbeidsforhold = erNyttArbeidsforhold(overstyringer,
                 arbeidsgiver, i.getArbeidsforholdRef());
             wrapper.setErNyttArbeidsforhold(erNyttArbeidsforhold);
             wrapper.setFortsettBehandlingUtenInntektsmelding(false);
             wrapper.setIkkeRegistrertIAaRegister(avtale == null);
             wrapper.setVurderOmSkalErstattes(erNyttOgIkkeTattStillingTil(i.getVirksomhet(), i.getArbeidsforholdRef(), arbeidsgiverSetMap));
-            wrapper.setStillingsprosent(finnStillingsprosent(yaFør, yaEtter, i.getVirksomhet(), arbeidsforholdRef).map(Stillingsprosent::getVerdi).orElse(null));
+            wrapper.setStillingsprosent(finnStillingsprosent(yrkesaktiviteter, skjæringstidspunkt));
             wrapper.setHarErsattetEttEllerFlere(!i.getArbeidsforholdRef().gjelderForSpesifiktArbeidsforhold());
             wrapper.setErstatterArbeidsforhold(harErstattetEtEllerFlereArbeidsforhold(arbeidsgiver, i.getArbeidsforholdRef(), overstyringer));
             wrapper.setErEndret(sjekkOmFinnesIOverstyr(overstyringer, i.getVirksomhet().getOrgnr(), i.getArbeidsforholdRef()));
 
             return wrapper;
         }).collect(Collectors.toList());
-    }
-
-    private DatoIntervallEntitet mapAvtalerOgKilde(Collection<Yrkesaktivitet> yaFør, Collection<Yrkesaktivitet> yaEtter, Inntektsmelding i, ArbeidsforholdWrapper wrapper, ArbeidsforholdRef arbeidsforholdRef) {
-        wrapper.setArbeidsgiverIdentifikator(i.getVirksomhet().getOrgnr());
-        DatoIntervallEntitet avtale = finnAvtale(yaFør, i.getVirksomhet(), arbeidsforholdRef);
-        if (avtale == null) {
-            avtale = finnAvtale(yaEtter, i.getVirksomhet(), i.getArbeidsforholdRef());
-        }
-        wrapper.setFomDato(avtale != null ? avtale.getFomDato() : null);
-        wrapper.setTomDato(avtale != null ? avtale.getTomDato() : null);
-        wrapper.setKilde(avtale != null ? ArbeidsforholdKilde.AAREGISTERET : ArbeidsforholdKilde.INNTEKTSMELDING);
-        return avtale;
     }
 
     private Boolean sjekkOmFinnesIOverstyr(List<ArbeidsforholdOverstyringEntitet> overstyringer, String orgnr, ArbeidsforholdRef arbeidsforholdRef) {
@@ -214,73 +211,49 @@ public class ArbeidsforholdAdministrasjonTjeneste {
             && ov.getArbeidsforholdRef().gjelderFor(arbeidsforholdRef));
     }
 
-    private Optional<Stillingsprosent> finnStillingsprosent(Collection<Yrkesaktivitet> yrkesaktiviteterFør,
-                                                            Collection<Yrkesaktivitet> yaEtter,
-                                                            Virksomhet virksomhet,
-                                                            ArbeidsforholdRef arbeidsforholdRef) {
-        List<AktivitetsAvtale> relevanteArbeidsforholdFør = yrkesaktiviteterFør.stream().filter(yr -> nonNull(yr.getArbeidsgiver())).filter(yr -> yr.getArbeidsgiver().getErVirksomhet()
-            && Objects.equals(yr.getArbeidsgiver().getVirksomhet(), virksomhet)
-            && yr.getArbeidsforholdRef().orElse(ArbeidsforholdRef.ref(null)).gjelderFor(arbeidsforholdRef))
-            .map(Yrkesaktivitet::getAktivitetsAvtaler)
-            .flatMap(Collection::stream)
+    private BigDecimal finnStillingsprosent(List<Yrkesaktivitet> yrkesaktiviteter, LocalDate skjæringstidspunkt) {
+        if (yrkesaktiviteter.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        DatoIntervallEntitet stp = DatoIntervallEntitet.fraOgMedTilOgMed(skjæringstidspunkt, skjæringstidspunkt);
+        List<Yrkesaktivitet> relevanteYA = yrkesaktiviteter.stream()
+            .filter(ya ->
+            {
+                DatoIntervallEntitet datoIntervallEntitet = ya.getAnsettelsesPeriode().map(AktivitetsAvtale::getPeriode).orElse(DatoIntervallEntitet.fraOgMed(TIDENES_ENDE));
+
+                return datoIntervallEntitet
+                    .overlapper(stp);
+            })
             .collect(Collectors.toList());
 
-        if (!relevanteArbeidsforholdFør.isEmpty()) {
-            return Optional.ofNullable(relevanteArbeidsforholdFør.get(0).getProsentsats());
-        }
-        List<AktivitetsAvtale> relevanteArbeidsforholdEtter = yaEtter.stream().filter(yr -> nonNull(yr.getArbeidsgiver())).filter(yr -> yr.getArbeidsgiver().getErVirksomhet()
-            && Objects.equals(yr.getArbeidsgiver().getVirksomhet(), virksomhet)
-            && yr.getArbeidsforholdRef().orElse(ArbeidsforholdRef.ref(null)).gjelderFor(arbeidsforholdRef))
-            .map(Yrkesaktivitet::getAktivitetsAvtaler)
+        return relevanteYA.stream().map(Yrkesaktivitet::getAktivitetsAvtaler)
             .flatMap(Collection::stream)
-            .collect(Collectors.toList());
-
-        if (!relevanteArbeidsforholdEtter.isEmpty()) {
-            return Optional.ofNullable(relevanteArbeidsforholdEtter.get(0).getProsentsats());
-        }
-        return Optional.empty();
+            .filter(aa -> aa.getPeriode().overlapper(stp))
+            .map(AktivitetsAvtale::getProsentsats)
+            .map(Stillingsprosent::getVerdi)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private Optional<Stillingsprosent> finnStillingsprosent(Yrkesaktivitet yrkesaktivitet) {
-        Optional<AktivitetsAvtale> avtaleOptional = yrkesaktivitet.getAktivitetsAvtaler().stream().findFirst();
-        if (avtaleOptional.isPresent()) {
-            return Optional.ofNullable(avtaleOptional.get().getProsentsats());
-        }
-        return Optional.empty();
-    }
-
-    private DatoIntervallEntitet finnAvtale(Collection<Yrkesaktivitet> yrkesaktiviteter, Virksomhet virksomhet, ArbeidsforholdRef arbeidsforholdRef) {
-        List<AktivitetsAvtale> relevanteArbeidsforhold = yrkesaktiviteter
+    private List<Yrkesaktivitet> finnYrkesaktivitet(Collection<Yrkesaktivitet> yrkesaktiviteter, Arbeidsgiver arbeidsgiver, ArbeidsforholdRef arbeidsforholdRef) {
+        return yrkesaktiviteter
             .stream()
-            .filter(yr -> yr.getArbeidsgiver() == null || yr.getArbeidsgiver().getErVirksomhet()
-                && Objects.equals(yr.getArbeidsgiver().getVirksomhet(), virksomhet)
-                && yr.getArbeidsforholdRef().orElse(ArbeidsforholdRef.ref(null)).gjelderFor(arbeidsforholdRef))
-            .map(Yrkesaktivitet::getAktivitetsAvtaler)
-            .flatMap(Collection::stream)
+            .filter(yr -> (Objects.equals(yr.getArbeidsgiver(), arbeidsgiver)
+                && yr.getArbeidsforholdRef().orElse(ArbeidsforholdRef.ref(null)).gjelderFor(arbeidsforholdRef)))
             .collect(Collectors.toList());
-
-        if (relevanteArbeidsforhold.isEmpty()) {
-            return null;
-        }
-
-        return DatoIntervallEntitet.fraOgMedTilOgMed(
-            relevanteArbeidsforhold.stream().map(AktivitetsAvtale::getFraOgMed).max(LocalDate::compareTo).orElse(Tid.TIDENES_ENDE),
-            relevanteArbeidsforhold.stream().map(AktivitetsAvtale::getTilOgMed).max(LocalDate::compareTo).orElse(Tid.TIDENES_BEGYNNELSE));
     }
 
     private List<ArbeidsforholdWrapper> utledArbeidsforholdFraArbeidsforholdInformasjon(List<ArbeidsforholdOverstyringEntitet> overstyringer,
-                                                                                        Collection<Yrkesaktivitet> yaFør, Collection<Yrkesaktivitet> yaEtter, List<Inntektsmelding> alleInntektsmeldinger) {
+                                                                                        Collection<Yrkesaktivitet> yaFør, Collection<Yrkesaktivitet> yaEtter, List<Inntektsmelding> alleInntektsmeldinger, LocalDate skjæringstidspunkt) {
         return overstyringer
             .stream()
             .filter(a -> !a.getHandling().equals(BRUK))
             .map(a -> {
                 ArbeidsforholdWrapper wrapper = new ArbeidsforholdWrapper();
-                DatoIntervallEntitet avtale = finnAvtale(yaFør, a.getArbeidsgiver().getVirksomhet(), a.getArbeidsforholdRef());
-                if (avtale == null) {
-                    avtale = finnAvtale(yaEtter, a.getArbeidsgiver().getVirksomhet(), a.getArbeidsforholdRef());
+                List<Yrkesaktivitet> yrkesaktiviteter = finnYrkesaktivitet(yaFør, a.getArbeidsgiver(), a.getArbeidsforholdRef());
+                if (yrkesaktiviteter.isEmpty()) {
+                    yrkesaktiviteter = finnYrkesaktivitet(yaEtter, a.getArbeidsgiver(), a.getArbeidsforholdRef());
                 }
-                wrapper.setFomDato(avtale != null ? avtale.getFomDato() : null);
-                wrapper.setTomDato(avtale != null ? avtale.getTomDato() : null);
+                DatoIntervallEntitet avtale = setAvtalePeriode(wrapper, yrkesaktiviteter);
                 wrapper.setIkkeRegistrertIAaRegister(avtale == null);
                 mapArbeidsgiver(wrapper, a.getArbeidsgiver());
                 if (a.getHandling().equals(ArbeidsforholdHandlingType.IKKE_BRUK)) {
@@ -296,12 +269,39 @@ public class ArbeidsforholdAdministrasjonTjeneste {
                 wrapper.setArbeidsforholdId(a.getArbeidsforholdRef().getReferanse());
                 wrapper.setBeskrivelse(a.getBegrunnelse());
                 wrapper.setKilde(utledKilde(avtale, mottattDatoInntektsmelding, a.getHandling()));
-                wrapper.setStillingsprosent(finnStillingsprosent(yaFør, yaEtter, a.getArbeidsgiver().getVirksomhet(),
-                    a.getArbeidsforholdRef()).map(Stillingsprosent::getVerdi).orElse(null));
+                wrapper.setStillingsprosent(finnStillingsprosent(yrkesaktiviteter, skjæringstidspunkt));
                 wrapper.setMottattDatoInntektsmelding(mottattDatoInntektsmelding);
                 wrapper.setErEndret(true);
                 return wrapper;
             }).collect(Collectors.toList());
+    }
+
+    private DatoIntervallEntitet setAvtalePeriode(ArbeidsforholdWrapper wrapper, List<Yrkesaktivitet> yrkesaktiviteter) {
+        DatoIntervallEntitet avtale = finnAnsettelsesPeriode(yrkesaktiviteter);
+        wrapper.setFomDato(avtale != null ? avtale.getFomDato() : null);
+        wrapper.setTomDato(avtale != null ? avtale.getTomDato() : null);
+        return avtale;
+    }
+
+    private DatoIntervallEntitet finnAnsettelsesPeriode(List<Yrkesaktivitet> yrkesaktiviteter) {
+        LocalDate min = yrkesaktiviteter.stream()
+            .map(Yrkesaktivitet::getAnsettelsesPeriode)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .map(AktivitetsAvtale::getFraOgMed)
+            .min(Comparator.naturalOrder())
+            .orElse(Tid.TIDENES_BEGYNNELSE);
+        LocalDate max = yrkesaktiviteter.stream()
+            .map(Yrkesaktivitet::getAnsettelsesPeriode)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .map(AktivitetsAvtale::getTilOgMed)
+            .max(Comparator.naturalOrder())
+            .orElse(TIDENES_ENDE);
+        if (min.equals(Tid.TIDENES_BEGYNNELSE) && max.equals(TIDENES_ENDE)) {
+            return null;
+        }
+        return DatoIntervallEntitet.fraOgMedTilOgMed(min, max);
     }
 
     private ArbeidsforholdKilde utledKilde(DatoIntervallEntitet avtale, LocalDate mottattDatoInntektsmelding, ArbeidsforholdHandlingType handling) {
@@ -327,14 +327,14 @@ public class ArbeidsforholdAdministrasjonTjeneste {
         Set<String> orgnummer = arbeidsforhold.stream().map(ArbeidsforholdWrapper::getArbeidsgiverIdentifikator).collect(Collectors.toSet());
         Optional<AktørInntekt> aktørInntekt = grunnlagOptional.flatMap(g -> g.getAktørInntektForFørStp(behandling.getAktørId()));
         List<ArbeidsforholdWrapper> arbeidsforholdWrappers = new ArrayList<>();
-        if (!aktørInntekt.isPresent()) {
+        if (aktørInntekt.isEmpty()) {
             return arbeidsforholdWrappers;
         }
         for (Inntekt inntekt : aktørInntekt.get().getInntektPensjonsgivende()) {
             Collection<Inntektspost> inntektspost = inntekt.getInntektspost();
             if (finnesLønnsInntekt(inntektspost) && finnesKunSporAvInntekter(behandling, orgnummer, grunnlagOptional, inntekt)) {
                 ArbeidsforholdWrapper wrapper = new ArbeidsforholdWrapper();
-                mapArbeidsgiver(inntekt, wrapper);
+                mapArbeidsgiver(wrapper, inntekt.getArbeidsgiver());
                 wrapper.setErEndret(sjekkOmFinnesIOverstyr(overstyringer, inntekt.getArbeidsgiver().getIdentifikator(), null));
                 wrapper.setFomDato(inntektspost.stream().map(Inntektspost::getFraOgMed).min(LocalDate::compareTo).orElse(null));
                 wrapper.setTomDato(inntektspost.stream().map(Inntektspost::getTilOgMed).max(LocalDate::compareTo).orElse(null));
@@ -345,17 +345,6 @@ public class ArbeidsforholdAdministrasjonTjeneste {
             }
         }
         return arbeidsforholdWrappers;
-    }
-
-    private void mapArbeidsgiver(Inntekt inntekt, ArbeidsforholdWrapper wrapper) {
-        if (inntekt.getArbeidsgiver() != null && inntekt.getArbeidsgiver().getErVirksomhet()) {
-            wrapper.setArbeidsgiverIdentifikator(inntekt.getArbeidsgiver().getIdentifikator());
-            Virksomhet virksomhet = inntekt.getArbeidsgiver().getVirksomhet();
-            wrapper.setNavn(virksomhet.getNavn());
-        } else if (inntekt.getArbeidsgiver() != null) {
-            wrapper.setArbeidsgiverIdentifikator(inntekt.getArbeidsgiver().getIdentifikator());
-            wrapper.setNavn(tpsTjeneste.hentBrukerForAktør(inntekt.getArbeidsgiver().getAktørId()).map(Personinfo::getNavn).orElse("Ukjent"));
-        }
     }
 
     private boolean finnesLønnsInntekt(Collection<Inntektspost> inntektspost) {
@@ -370,17 +359,20 @@ public class ArbeidsforholdAdministrasjonTjeneste {
             .map(aa -> ((AktørArbeidEntitet) aa).hentAlleYrkesaktiviter())
             .orElse(emptyList());
 
-        final DatoIntervallEntitet avtaleFør = finnAvtale(yaFør, inntekt.getArbeidsgiver().getVirksomhet(), null);
-        final DatoIntervallEntitet avtaleEtter = finnAvtale(yaEtter, inntekt.getArbeidsgiver().getVirksomhet(), null);
+        List<Yrkesaktivitet> yrkesaktiviteter = finnYrkesaktivitet(yaFør, inntekt.getArbeidsgiver(), null);
+        if (yrkesaktiviteter.isEmpty()) {
+            yrkesaktiviteter = finnYrkesaktivitet(yaEtter, inntekt.getArbeidsgiver(), null);
+        }
+        DatoIntervallEntitet avtale = finnAnsettelsesPeriode(yrkesaktiviteter);
 
-        return avtaleFør == null && avtaleEtter == null &&
+        return avtale == null &&
             inntekt.getArbeidsgiver() != null && inntekt.getArbeidsgiver().getErVirksomhet()
             && !orgnummer.contains(inntekt.getArbeidsgiver().getIdentifikator());
     }
 
     private List<ArbeidsforholdWrapper> utledArbeidsforholdFraYrkesaktivitet(Collection<Yrkesaktivitet> yrkesaktiviteter,
                                                                              List<ArbeidsforholdOverstyringEntitet> overstyringer,
-                                                                             List<Inntektsmelding> inntektsmeldinger) {
+                                                                             List<Inntektsmelding> inntektsmeldinger, LocalDate skjæringstidspunkt) {
         return yrkesaktiviteter.stream()
             .filter(yr -> AA_REG_TYPER.contains(yr.getArbeidType()))
             .filter(yr -> harIkkeFåttInntektsmelding(yr, inntektsmeldinger))
@@ -388,7 +380,7 @@ public class ArbeidsforholdAdministrasjonTjeneste {
                 ArbeidsforholdWrapper wrapper = new ArbeidsforholdWrapper();
                 final ArbeidsforholdRef arbeidsforholdRef = yr.getArbeidsforholdRef().orElse(ArbeidsforholdRef.ref(null));
                 mapArbeidsgiver(wrapper, yr.getArbeidsgiver());
-                wrapper.setStillingsprosent(finnStillingsprosent(yr).map(Stillingsprosent::getVerdi).orElse(null));
+                wrapper.setStillingsprosent(finnStillingsprosent(List.of(yr), skjæringstidspunkt));
                 wrapper.setFomDato(yr.getAnsettelsesPeriode().map(AktivitetsAvtale::getFraOgMed).orElse(null));
                 wrapper.setTomDato(yr.getAnsettelsesPeriode().map(AktivitetsAvtale::getTilOgMed).orElse(null));
                 wrapper.setArbeidsforholdId(arbeidsforholdRef.getReferanse());
@@ -425,7 +417,7 @@ public class ArbeidsforholdAdministrasjonTjeneste {
         return overstyringer.stream()
             .anyMatch(ov -> ov.getHandling().equals(ArbeidsforholdHandlingType.BRUK_UTEN_INNTEKTSMELDING)
                 && ov.getArbeidsgiver().equals(yr.getArbeidsgiver())
-                && (ov.getArbeidsforholdRef() == null || ov.getArbeidsforholdRef().equals(yr.getArbeidsforholdRef().orElse(null))));
+                && (ov.getArbeidsforholdRef().gjelderFor(yr.getArbeidsforholdRef().orElse(null))));
     }
 
     private String harErstattetEtEllerFlereArbeidsforhold(Arbeidsgiver arbeidsgiver, ArbeidsforholdRef ref,
