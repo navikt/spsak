@@ -31,11 +31,13 @@ import no.nav.foreldrepenger.fpmock2.server.api.journalforing.JournalforingRestT
 import no.nav.foreldrepenger.fpmock2.server.api.sak.SakRestTjeneste;
 import no.nav.foreldrepenger.fpmock2.server.api.scenario.TestscenarioRestTjeneste;
 import no.nav.foreldrepenger.fpmock2.server.api.scenario.TestscenarioTemplateRestTjeneste;
+import no.nav.foreldrepenger.fpmock2.server.rest.AktoerRestService;
 import no.nav.foreldrepenger.fpmock2.server.rest.AutotestRestService;
 import no.nav.foreldrepenger.fpmock2.server.rest.IsAliveImpl;
 import no.nav.foreldrepenger.fpmock2.server.rest.IsReadyImpl;
 import no.nav.foreldrepenger.fpmock2.server.rest.Oauth2RestService;
 import no.nav.foreldrepenger.fpmock2.server.rest.PdpRestTjeneste;
+import no.nav.foreldrepenger.fpmock2.server.rest.RestSTSService;
 import no.nav.infotrygdfeed.InfotrygdfeedMock;
 import no.nav.sigrun.SigrunMock;
 
@@ -82,7 +84,9 @@ public class ApplicationConfig extends Application {
 
         // tekniske ting
         classes.add(Oauth2RestService.class);
+        classes.add(RestSTSService.class);
         classes.add(PdpRestTjeneste.class);
+        classes.add(AktoerRestService.class);
 
         classes.add(io.swagger.jaxrs.listing.ApiListingResource.class);
         classes.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);

@@ -6,6 +6,9 @@ public class Oauth2AccessTokenResponse {
     @JsonProperty("id_token")
     private String idToken;
 
+    @JsonProperty("access_token")
+    private String accessToken;
+
     @JsonProperty("refresh_token")
     private String refreshToken;
 
@@ -19,10 +22,17 @@ public class Oauth2AccessTokenResponse {
         this.idToken = idToken;
         this.refreshToken = refreshToken;
     }
-    
+
+    public Oauth2AccessTokenResponse(String idToken, String refreshToken, String accessToken) {
+        this(idToken, refreshToken);
+        this.accessToken = accessToken;
+    }
+
     public String getIdToken() {
         return idToken;
     }
+
+    public String getAccessToken() { return accessToken; }
     
     public String getRefreshToken() {
         return refreshToken;
