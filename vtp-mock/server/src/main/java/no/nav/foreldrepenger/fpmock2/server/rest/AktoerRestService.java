@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.fpmock2.server.rest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.Api;
-import no.nav.foreldrepenger.fpmock2.testmodell.identer.FiktiveFnr;
+import no.nav.foreldrepenger.fpmock2.testmodell.repo.impl.BasisdataProviderFileImpl;
+import no.nav.foreldrepenger.fpmock2.testmodell.repo.impl.DelegatingTestscenarioRepository;
+import no.nav.foreldrepenger.fpmock2.testmodell.repo.impl.TestscenarioRepositoryImpl;
 
 @Api
 @Path("/aktoerrest")
@@ -28,7 +31,12 @@ public class AktoerRestService {
         @Context HttpServletRequest req,
         @QueryParam("gjeldende") String gjeldendeSomTrueFalse,
         @HeaderParam("Nav-Personidenter") String ident
-    ) {
+    ) throws IOException {
+
+
+        DelegatingTestscenarioRepository testScenarioRepository = new DelegatingTestscenarioRepository(TestscenarioRepositoryImpl.getInstance(BasisdataProviderFileImpl.getInstance()));
+        String brukerFnr = testScenarioRepository.getPersonIndeks().finnByAktørIdent(ident).getIdent();
+
         var hovedResp = new HashMap<String,Object>();
         var identInfo = new HashMap<String, Object>();
         var identListe = new ArrayList<Object>();
@@ -38,7 +46,7 @@ public class AktoerRestService {
         aktorId.put("identgruppe", IdentType.AktoerId.name());
 
         var fnr = new HashMap<String,String>();
-        fnr.put("ident", new FiktiveFnr().tilfeldigFnr());
+        fnr.put("ident", brukerFnr); //new FiktiveFnr().tilfeldigFnr());
         fnr.put("identgruppe", IdentType.NorskIdent.name());
 
         identListe.add(aktorId);
