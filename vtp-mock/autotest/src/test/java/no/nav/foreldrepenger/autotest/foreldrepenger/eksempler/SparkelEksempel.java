@@ -19,7 +19,7 @@ public class SparkelEksempel extends FpsakTestBase {
         TestscenarioDto testscenario = opprettScenario("50");
 
         final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
-
+        final String fnr = testscenario.getPersonopplysninger().getSøkerIdent();
         System.out.println(aktørId);
 
         FakeAccessTokenKlient.TokenResponse resp = new FakeAccessTokenKlient().hentTokenForSubject("srvspa");
@@ -30,7 +30,28 @@ public class SparkelEksempel extends FpsakTestBase {
             Date.from(LocalDate.ofYearDay(2017,1).atStartOfDay().toInstant(ZoneOffset.UTC)),
             new Date());
         System.out.println(o);
+
+        o = sparkel.hentInntektsliste(fnr);
+        System.out.println(o);
     }
+
+    @Test
+    public void hentInntektslisteViaSparkel() throws IOException {
+        TestscenarioDto testscenario = opprettScenario("50");
+
+        final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
+        final String fnr = testscenario.getPersonopplysninger().getSøkerIdent();
+        System.out.println(aktørId);
+
+        FakeAccessTokenKlient.TokenResponse resp = new FakeAccessTokenKlient().hentTokenForSubject("srvspa");
+        System.out.println(resp);
+
+        SparkelKlient sparkel = new SparkelKlient(resp.idToken);
+
+        Object o = sparkel.hentInntektsliste(fnr);
+        System.out.println(o);
+    }
+
 
     /*
 

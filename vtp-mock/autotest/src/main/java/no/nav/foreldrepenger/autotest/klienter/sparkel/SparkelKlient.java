@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,6 +31,7 @@ public class SparkelKlient extends JsonRest {
     }
 
     private static String HENT_ARBEIDSFORHOLD_URL_FORMAT = "/api/arbeidsforhold/%s?fom=%tF&tom=%tF";
+    private static String HENT_INNTEKT_LISTE_URL = "/api/inntekt/inntekt-liste";
 
 
     public Object hentArbeidsforhold(String aktørId, Date fom, Date tom) throws IOException {
@@ -37,10 +39,30 @@ public class SparkelKlient extends JsonRest {
         return getOgHentJson(url, Object.class, StatusRange.STATUS_200);
     }
 
+    private static class FnrHolder {
+        @JsonProperty
+        public String fnr;
+
+        public FnrHolder(String fnr) {
+            this.fnr = fnr;
+        }
+    }
+
+    public Object hentInntektsliste(String fnr) throws IOException {
+        final String url = hentRestRotUrl() + HENT_INNTEKT_LISTE_URL;
+        return postOgHentJson(url, new FnrHolder(fnr), Object.class, StatusRange.STATUS_200);
+    }
+
     @Override
     protected HttpResponse getJson(String url, Map<String, String> headers) throws IOException {
         headers.put("Authorization", "Bearer " + accessToken);
         return super.getJson(url, headers);
+    }
+
+    @Override
+    protected HttpResponse postJson(String url, String json, Map<String, String> headers) throws IOException {
+        headers.put("Authorization", "Bearer " + accessToken);
+        return super.postJson(url, json, headers);
     }
 
     @Override
