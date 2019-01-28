@@ -33,6 +33,9 @@ public class SparkelKlient extends JsonRest {
     private static String HENT_ARBEIDSFORHOLD_URL_FORMAT = "/api/arbeidsforhold/%s?fom=%tF&tom=%tF";
     private static String HENT_INNTEKT_LISTE_URL = "/api/inntekt/inntekt-liste";
     private static String HENT_MELDEKORT_URL = "/api/meldekort/?aktorId=%s&fom=%tF&tom=%tF";
+    private static String HENT_ORANISASJON_URL = "/api/organisasjon";
+    private static String HENT_PERSON_URL = "/api/person/%s";
+    private static String HENT_PERSON_HISTORIKK_URL = "/api/person/%s/history";
 
 
     public Object hentArbeidsforhold(String aktørId, Date fom, Date tom) throws IOException {
@@ -56,6 +59,31 @@ public class SparkelKlient extends JsonRest {
 
     public Object hentMeldekortGrunnlag(String aktørId, Date fom, Date tom) throws IOException {
         final String url = hentRestRotUrl() + String.format(HENT_MELDEKORT_URL, aktørId, fom, tom);
+        return getOgHentJson(url, Object.class, StatusRange.STATUS_200);
+    }
+
+
+    private static class OrgNrHolder {
+        @JsonProperty
+        public String orgnr;
+
+        public OrgNrHolder(String orgnr) {
+            this.orgnr = orgnr;
+        }
+    }
+
+    public Object hentOrganisasjon(String orgnr) throws IOException {
+        final String url = hentRestRotUrl() + HENT_ORANISASJON_URL;
+        return postOgHentJson(url, new OrgNrHolder(orgnr), Object.class, StatusRange.STATUS_200);
+    }
+
+    public Object hentPerson(String aktørId) throws IOException {
+        String url = hentRestRotUrl() + String.format(HENT_PERSON_URL, aktørId);
+        return getOgHentJson(url, Object.class, StatusRange.STATUS_200);
+    }
+
+    public Object hentPersonHistorikk(String aktørId) throws IOException {
+        String url = hentRestRotUrl() + String.format(HENT_PERSON_HISTORIKK_URL, aktørId);
         return getOgHentJson(url, Object.class, StatusRange.STATUS_200);
     }
 

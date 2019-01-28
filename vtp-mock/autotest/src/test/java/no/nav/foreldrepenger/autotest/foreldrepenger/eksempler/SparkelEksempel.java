@@ -20,13 +20,8 @@ public class SparkelEksempel extends FpsakTestBase {
 
         final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
         final String fnr = testscenario.getPersonopplysninger().getSøkerIdent();
-        System.out.println(aktørId);
 
-        FakeAccessTokenKlient.TokenResponse resp = new FakeAccessTokenKlient().hentTokenForSubject("srvspa");
-        System.out.println(resp);
-
-        SparkelKlient sparkel = new SparkelKlient(resp.idToken);
-        Object o = sparkel.hentArbeidsforhold(aktørId,
+        Object o = lagSparkelKlient().hentArbeidsforhold(aktørId,
             Date.from(LocalDate.ofYearDay(2017,1).atStartOfDay().toInstant(ZoneOffset.UTC)),
             new Date());
         System.out.println(o);
@@ -38,14 +33,8 @@ public class SparkelEksempel extends FpsakTestBase {
 
         final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
         final String fnr = testscenario.getPersonopplysninger().getSøkerIdent();
-        System.out.println(aktørId);
 
-        FakeAccessTokenKlient.TokenResponse resp = new FakeAccessTokenKlient().hentTokenForSubject("srvspa");
-        System.out.println(resp);
-
-        SparkelKlient sparkel = new SparkelKlient(resp.idToken);
-
-        Object o = sparkel.hentInntektsliste(fnr);
+        Object o = lagSparkelKlient().hentInntektsliste(fnr);
         System.out.println(o);
     }
 
@@ -54,17 +43,53 @@ public class SparkelEksempel extends FpsakTestBase {
         TestscenarioDto testscenario = opprettScenario("50");
 
         final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
-        final String fnr = testscenario.getPersonopplysninger().getSøkerIdent();
-        System.out.println(aktørId);
 
-        FakeAccessTokenKlient.TokenResponse resp = new FakeAccessTokenKlient().hentTokenForSubject("srvspa");
-        System.out.println(resp);
-
-        SparkelKlient sparkel = new SparkelKlient(resp.idToken);
-        Object o = sparkel.hentMeldekortGrunnlag(aktørId,
+        Object o = lagSparkelKlient().hentMeldekortGrunnlag(aktørId,
             Date.from(LocalDate.ofYearDay(2019,1).atStartOfDay().toInstant(ZoneOffset.UTC)),
             new Date());
         System.out.println(o);
+    }
+
+    /*
+    @Test
+    // FIXME: Organisasjon V4 vs V5
+    public void hentOrganisasjonViaSparkel() throws IOException {
+        TestscenarioDto testscenario = opprettScenario("50");
+        final String orgnr = testscenario.getScenariodata().getArbeidsforholdModell().getArbeidsforhold().get(0).getArbeidsgiverOrgnr(); // "979191138";
+        Object o = lagSparkelKlient().hentOrganisasjon(orgnr);
+        System.out.println(o);
+    }
+    */
+
+    @Test
+    public void hentPersonViaSparkel() throws IOException {
+        TestscenarioDto testscenario = opprettScenario("50");
+
+        final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
+
+        Object o = lagSparkelKlient().hentPerson(aktørId);
+        System.out.println(o);
+    }
+
+    @Test
+    public void hentPersonHistorikkViaSparkel() throws IOException {
+        TestscenarioDto testscenario = opprettScenario("50");
+
+        final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
+
+        Object o = lagSparkelKlient().hentPersonHistorikk(aktørId);
+        System.out.println(o);
+    }
+
+
+
+
+
+    private SparkelKlient lagSparkelKlient() throws IOException {
+        FakeAccessTokenKlient.TokenResponse resp = new FakeAccessTokenKlient().hentTokenForSubject("srvspa");
+        System.out.println(resp);
+
+        return new SparkelKlient(resp.idToken);
     }
 
 
@@ -86,6 +111,9 @@ AAREG_ENDPOINTURL	https://localhost:8063/aareg-core/ArbeidsforholdService/v3
 SECURITY_TOKEN_SERVICE_URL	https://localhost:8063/SecurityTokenServiceProvider/
 INNTEKT_ENDPOINTURL    https://localhost:8063/inntektskomponenten-ws/inntekt/v3/Inntekt
 MELDEKORT_UTBETALINGSGRUNNLAG_ENDPOINTURL   https://localhost:8063/ail_ws/MeldekortUtbetalingsgrunnlag_v1
+ORGANISASJON_ENDPOINTURL  https://localhost:8063/ereg/ws/OrganisasjonService/v4   //FIXME: V4 vs V5
+PERSON_ENDPOINTURL  https://localhost:8063/tpsws/ws/Person/v3
+
 
      */
 

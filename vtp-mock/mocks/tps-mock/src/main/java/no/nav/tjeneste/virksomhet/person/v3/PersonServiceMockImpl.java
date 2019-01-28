@@ -89,6 +89,7 @@ public class PersonServiceMockImpl implements PersonV3 {
         familierelasjoner.forEach(fr -> person.getHarFraRolleI().add(fr));
         
         response.setPerson(person);
+        response.getPerson().withAktoer(hentPersonRequest.getAktoer()); // mirror request
 
         return response;
     }
