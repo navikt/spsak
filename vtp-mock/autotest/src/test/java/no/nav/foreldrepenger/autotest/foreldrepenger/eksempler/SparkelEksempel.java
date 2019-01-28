@@ -69,6 +69,7 @@ SECURITY_TOKEN_SERVICE_USERNAME	srvheisann
 SECURITY_TOKEN_SERVICE_PASSWORD	tralalal
 AAREG_ENDPOINTURL	https://localhost:8063/aareg-core/ArbeidsforholdService/v3
 SECURITY_TOKEN_SERVICE_URL	https://localhost:8063/SecurityTokenServiceProvider/
+INNTEKT_ENDPOINTURL    https://localhost:8063/inntektskomponenten-ws/inntekt/v3/Inntekt
 
      */
 
