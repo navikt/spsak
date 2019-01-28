@@ -30,9 +30,6 @@ public class SparkelEksempel extends FpsakTestBase {
             Date.from(LocalDate.ofYearDay(2017,1).atStartOfDay().toInstant(ZoneOffset.UTC)),
             new Date());
         System.out.println(o);
-
-        o = sparkel.hentInntektsliste(fnr);
-        System.out.println(o);
     }
 
     @Test
@@ -49,6 +46,24 @@ public class SparkelEksempel extends FpsakTestBase {
         SparkelKlient sparkel = new SparkelKlient(resp.idToken);
 
         Object o = sparkel.hentInntektsliste(fnr);
+        System.out.println(o);
+    }
+
+    @Test
+    public void hentMeldekortViaSparkel() throws IOException {
+        TestscenarioDto testscenario = opprettScenario("50");
+
+        final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
+        final String fnr = testscenario.getPersonopplysninger().getSøkerIdent();
+        System.out.println(aktørId);
+
+        FakeAccessTokenKlient.TokenResponse resp = new FakeAccessTokenKlient().hentTokenForSubject("srvspa");
+        System.out.println(resp);
+
+        SparkelKlient sparkel = new SparkelKlient(resp.idToken);
+        Object o = sparkel.hentMeldekortGrunnlag(aktørId,
+            Date.from(LocalDate.ofYearDay(2019,1).atStartOfDay().toInstant(ZoneOffset.UTC)),
+            new Date());
         System.out.println(o);
     }
 
@@ -70,6 +85,7 @@ SECURITY_TOKEN_SERVICE_PASSWORD	tralalal
 AAREG_ENDPOINTURL	https://localhost:8063/aareg-core/ArbeidsforholdService/v3
 SECURITY_TOKEN_SERVICE_URL	https://localhost:8063/SecurityTokenServiceProvider/
 INNTEKT_ENDPOINTURL    https://localhost:8063/inntektskomponenten-ws/inntekt/v3/Inntekt
+MELDEKORT_UTBETALINGSGRUNNLAG_ENDPOINTURL   https://localhost:8063/ail_ws/MeldekortUtbetalingsgrunnlag_v1
 
      */
 
