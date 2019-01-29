@@ -32,6 +32,7 @@ import no.nav.tjeneste.virksomhet.organisasjon.v4.OrganisasjonMockImpl;
 import no.nav.tjeneste.virksomhet.person.v3.PersonServiceMockImpl;
 import no.nav.tjeneste.virksomhet.sak.v1.GsakRepo;
 import no.nav.tjeneste.virksomhet.sak.v1.SakServiceMockImpl;
+import no.nav.tjeneste.virksomhet.sykepenger.v2.SykepengerV2MockImpl;
 
 public class SoapWebServiceConfig {
     
@@ -75,6 +76,7 @@ public class SoapWebServiceConfig {
         publishWebService(new OppgaveServiceMockImpl(), "/nav-gsak-ws/OppgaveV3");
         publishWebService(new ArbeidsforholdMockImpl(repo), "/aareg-core/ArbeidsforholdService/v3");
         publishWebService(new OrganisasjonMockImpl(repo), "/ereg/ws/OrganisasjonService/v4");
+        publishWebService(new SykepengerV2MockImpl(repo), "/sykepenger/v2/Sykepenger_v2");
     }
 
     private void publishWebService(Object ws, String path, WebServiceFeature... features ) {

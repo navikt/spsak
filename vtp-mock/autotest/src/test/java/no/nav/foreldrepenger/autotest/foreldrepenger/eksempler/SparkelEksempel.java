@@ -81,8 +81,28 @@ public class SparkelEksempel extends FpsakTestBase {
         System.out.println(o);
     }
 
+    @Test
+    public void hentSykepengelisteViaSparkel() throws IOException {
+        TestscenarioDto testscenario = opprettScenario("50");
+
+        final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
+        final String fnr = testscenario.getPersonopplysninger().getSøkerIdent();
+
+        Object o = lagSparkelKlient().hentSykepengeliste(aktørId,
+            Date.from(LocalDate.ofYearDay(2017,1).atStartOfDay().toInstant(ZoneOffset.UTC)),
+            new Date());
+        System.out.println(o);
+    }
 
 
+    ///////
+    // TODO ? sakOgBehandling
+    ///////
+
+
+    /////
+    // TODO ? no.nav.tjeneste.virksomhet.sykepenger.v2
+    /////
 
 
     private SparkelKlient lagSparkelKlient() throws IOException {
@@ -113,6 +133,7 @@ INNTEKT_ENDPOINTURL    https://localhost:8063/inntektskomponenten-ws/inntekt/v3/
 MELDEKORT_UTBETALINGSGRUNNLAG_ENDPOINTURL   https://localhost:8063/ail_ws/MeldekortUtbetalingsgrunnlag_v1
 ORGANISASJON_ENDPOINTURL  https://localhost:8063/ereg/ws/OrganisasjonService/v4   //FIXME: V4 vs V5
 PERSON_ENDPOINTURL  https://localhost:8063/tpsws/ws/Person/v3
+HENT_SYKEPENGER_ENDPOINTURL   https://localhost:8063/sykepenger/v2/Sykepenger_v2
 
 
      */

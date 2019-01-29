@@ -28,6 +28,7 @@
         <module>sigrun-mock</module>
         <module>kodeverk-mock</module>
         <module>kafka-embedded</module>
+        <module>sykepenger-mock</module>
     </modules>
 
     <dependencies>
