@@ -1,6 +1,8 @@
 package no.nav.foreldrepenger.autotest.klienter.sparkel;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -31,12 +33,13 @@ public class SparkelKlient extends JsonRest {
     }
 
     private static String HENT_ARBEIDSFORHOLD_URL_FORMAT = "/api/arbeidsforhold/%s?fom=%tF&tom=%tF";
-    private static String HENT_INNTEKT_LISTE_URL = "/api/inntekt/inntekt-liste";
+    //private static String HENT_INNTEKT_LISTE_URL = "/api/inntekt/%s?fom=%tF&tom=%tF";
+    private static String HENT_INNTEKT_LISTE_URL = "/api/inntekt/%s?fom=%s&tom=%s";
     private static String HENT_MELDEKORT_URL = "/api/meldekort/?aktorId=%s&fom=%tF&tom=%tF";
     private static String HENT_ORANISASJON_URL = "/api/organisasjon";
     private static String HENT_PERSON_URL = "/api/person/%s";
     private static String HENT_PERSON_HISTORIKK_URL = "/api/person/%s/history";
-    private static String HENT_SYKEPENGELISTE_URL = "/api/sykepengeListe/%s?fom=%tF&tom=%tF";
+    private static String HENT_SYKEPENGELISTE_URL = "/api/sykepengevedtak/%s?fom=%tF&tom=%tF";
 
 
     public Object hentArbeidsforhold(String aktørId, Date fom, Date tom) throws IOException {
@@ -53,9 +56,12 @@ public class SparkelKlient extends JsonRest {
         }
     }
 
-    public Object hentInntektsliste(String fnr) throws IOException {
-        final String url = hentRestRotUrl() + HENT_INNTEKT_LISTE_URL;
-        return postOgHentJson(url, new FnrHolder(fnr), Object.class, StatusRange.STATUS_200);
+    public Object hentInntektsliste(String aktørId, Date fom, Date tom) throws IOException {
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM");
+
+        final String url = hentRestRotUrl() + String.format(HENT_INNTEKT_LISTE_URL, aktørId, df.format(fom), df.format(tom));
+        return getOgHentJson(url, Object.class, StatusRange.STATUS_200);
     }
 
     public Object hentMeldekortGrunnlag(String aktørId, Date fom, Date tom) throws IOException {

@@ -20,7 +20,7 @@ import no.nav.tjeneste.virksomhet.sykepenger.v2.meldinger.HentSykepengerListeReq
 import no.nav.tjeneste.virksomhet.sykepenger.v2.meldinger.HentSykepengerListeResponse;
 
 @Addressing
-@WebService(name = "Arbeidsforhold_v3", targetNamespace = "http://nav.no/tjeneste/virksomhet/sykepenger/v2/Sykepenger_v2")
+@WebService(name = "Sykepenger_v2", targetNamespace = "http://nav.no/tjeneste/virksomhet/sykepenger/v2/Sykepenger_v2")
 @HandlerChain(file="Handler-chain.xml")
 public class SykepengerV2MockImpl implements SykepengerV2 {
 

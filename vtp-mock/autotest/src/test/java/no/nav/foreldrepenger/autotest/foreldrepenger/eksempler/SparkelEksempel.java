@@ -32,9 +32,10 @@ public class SparkelEksempel extends FpsakTestBase {
         TestscenarioDto testscenario = opprettScenario("50");
 
         final String aktørId = testscenario.getPersonopplysninger().getSøkerAktørIdent();
-        final String fnr = testscenario.getPersonopplysninger().getSøkerIdent();
 
-        Object o = lagSparkelKlient().hentInntektsliste(fnr);
+        Object o = lagSparkelKlient().hentInntektsliste(aktørId,
+            Date.from(LocalDate.ofYearDay(2019,1).atStartOfDay().toInstant(ZoneOffset.UTC)),
+            new Date());
         System.out.println(o);
     }
 
@@ -97,11 +98,6 @@ public class SparkelEksempel extends FpsakTestBase {
     ///////
     // TODO ? sakOgBehandling
     ///////
-
-
-    /////
-    // TODO ? no.nav.tjeneste.virksomhet.sykepenger.v2
-    /////
 
 
     private SparkelKlient lagSparkelKlient() throws IOException {
