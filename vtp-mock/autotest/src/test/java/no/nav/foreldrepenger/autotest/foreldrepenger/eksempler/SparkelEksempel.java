@@ -50,16 +50,15 @@ public class SparkelEksempel extends FpsakTestBase {
         System.out.println(o);
     }
 
-    /*
+
     @Test
-    // FIXME: Organisasjon V4 vs V5
     public void hentOrganisasjonViaSparkel() throws IOException {
         TestscenarioDto testscenario = opprettScenario("50");
         final String orgnr = testscenario.getScenariodata().getArbeidsforholdModell().getArbeidsforhold().get(0).getArbeidsgiverOrgnr(); // "979191138";
         Object o = lagSparkelKlient().hentOrganisasjon(orgnr);
         System.out.println(o);
     }
-    */
+
 
     @Test
     public void hentPersonViaSparkel() throws IOException {
@@ -131,7 +130,7 @@ AAREG_ENDPOINTURL	https://localhost:8063/aareg-core/ArbeidsforholdService/v3
 SECURITY_TOKEN_SERVICE_URL	https://localhost:8063/SecurityTokenServiceProvider/
 INNTEKT_ENDPOINTURL    https://localhost:8063/inntektskomponenten-ws/inntekt/v3/Inntekt
 MELDEKORT_UTBETALINGSGRUNNLAG_ENDPOINTURL   https://localhost:8063/ail_ws/MeldekortUtbetalingsgrunnlag_v1
-ORGANISASJON_ENDPOINTURL  https://localhost:8063/ereg/ws/OrganisasjonService/v4   //FIXME: V4 vs V5
+ORGANISASJON_ENDPOINTURL  https://localhost:8063/ereg/ws/OrganisasjonService/v5
 PERSON_ENDPOINTURL  https://localhost:8063/tpsws/ws/Person/v3
 HENT_SYKEPENGER_ENDPOINTURL   https://localhost:8063/sykepenger/v2/Sykepenger_v2
 

@@ -29,6 +29,7 @@ import no.nav.tjeneste.virksomhet.kodeverk.v2.KodeverkServiceMockImpl;
 import no.nav.tjeneste.virksomhet.medlemskap.v2.MedlemServiceMockImpl;
 import no.nav.tjeneste.virksomhet.oppgave.v3.OppgaveServiceMockImpl;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.OrganisasjonMockImpl;
+import no.nav.tjeneste.virksomhet.organisasjon.v5.OrganisasjonV5MockImpl;
 import no.nav.tjeneste.virksomhet.person.v3.PersonServiceMockImpl;
 import no.nav.tjeneste.virksomhet.sak.v1.GsakRepo;
 import no.nav.tjeneste.virksomhet.sak.v1.SakServiceMockImpl;
@@ -76,6 +77,7 @@ public class SoapWebServiceConfig {
         publishWebService(new OppgaveServiceMockImpl(), "/nav-gsak-ws/OppgaveV3");
         publishWebService(new ArbeidsforholdMockImpl(repo), "/aareg-core/ArbeidsforholdService/v3");
         publishWebService(new OrganisasjonMockImpl(repo), "/ereg/ws/OrganisasjonService/v4");
+        publishWebService(new OrganisasjonV5MockImpl(repo), "/ereg/ws/OrganisasjonService/v5");
         publishWebService(new SykepengerV2MockImpl(repo), "/sykepenger/v2/Sykepenger_v2");
     }
 
